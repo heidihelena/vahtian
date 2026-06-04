@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Vahtian — citation-integrity infrastructure</title>
+  <meta name="description" content="Vahtian builds citation-integrity infrastructure: auditable, blinded human → AI → adjudication workflows for research citations. Free and local-first for researchers; paid infrastructure for organizations at publication scale.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232D2440'/%3E%3Cpath d='M16 6 L25 9 V16 C25 21 21 24.5 16 26 C11 24.5 7 21 7 16 V9 Z' fill='none' stroke='%238B6FC9' stroke-width='2'/%3E%3Cpath d='M12 16 l3 3 l5-6' fill='none' stroke='%23C5B8E8' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <style>
+    :root{
+      --navy:#2D2440; --violet:#8B6FC9; --lilac:#C5B8E8;
+      --amber:#C98A00; --teal:#1E9E8A; --rose:#C24D7E;
+      --ink:#1c1830; --muted:#5b5570; --bg:#faf9fc; --card:#fff; --line:#e7e3f0;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+         color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased}
+    a{color:var(--violet)}
+    .wrap{max-width:780px;margin:0 auto;padding:0 22px}
+    header{padding:30px 0 6px}
+    .brand{display:flex;align-items:center;gap:11px;font-weight:700;font-size:19px;letter-spacing:-.01em}
+    .mark{width:32px;height:32px;flex:0 0 32px}
+    .hero{padding:50px 0 14px}
+    .kicker{font:600 13px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--violet);
+            text-transform:uppercase;letter-spacing:.08em;margin:0 0 14px}
+    h1{font-size:clamp(30px,6vw,48px);line-height:1.08;letter-spacing:-.02em;margin:0 0 16px}
+    .lede{font-size:clamp(17px,2.6vw,20px);color:#3a3450;margin:0 0 10px;max-width:62ch}
+    .vahti{color:var(--muted);font-size:14.5px;margin:18px 0 0}
+    section{padding:34px 0;border-top:1px solid var(--line);margin-top:36px}
+    h2{font-size:20px;margin:0 0 16px}
+    .products{display:grid;gap:14px}
+    .p{display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center;
+       background:var(--card);border:1px solid var(--line);border-radius:12px;padding:15px 16px}
+    .p .dot{width:11px;height:11px;border-radius:50%}
+    .p.cite .dot{background:var(--violet)} .p.review .dot{background:var(--teal)}
+    .p.guide .dot{background:var(--amber)} .p.atlas .dot{background:var(--rose)}
+    .p .name{font-weight:700} .p .for{color:var(--muted);font-size:14px;display:block;margin-top:2px}
+    .p .tag{font:600 11px/1 ui-monospace,monospace;padding:5px 9px;border-radius:6px;white-space:nowrap}
+    .tag.live{background:#ECE3FF;border:1px solid var(--violet);color:#432C7A}
+    .tag.soon{background:#f2f0f7;border:1px solid var(--line);color:var(--muted)}
+    .p a.name{text-decoration:none;color:var(--ink)}
+    .p a.name:hover{text-decoration:underline}
+    .principle{display:grid;gap:12px;grid-template-columns:1fr 1fr}
+    @media(max-width:560px){.principle{grid-template-columns:1fr}.p{grid-template-columns:auto 1fr;}.p .tag{grid-column:2;justify-self:start;margin-top:4px}}
+    .principle .box{background:var(--card);border:1px solid var(--line);border-radius:11px;padding:16px}
+    .principle h3{margin:0 0 6px;font-size:15px}
+    .principle p{margin:0;color:var(--muted);font-size:14px}
+    .contact a{font-weight:600}
+    footer{padding:30px 0 50px;color:var(--muted);font-size:13px;border-top:1px solid var(--line);margin-top:36px}
+    footer a{color:var(--muted)}
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="brand">
+      <svg class="mark" viewBox="0 0 32 32" aria-hidden="true">
+        <rect width="32" height="32" rx="7" fill="#2D2440"/>
+        <path d="M16 6 L25 9 V16 C25 21 21 24.5 16 26 C11 24.5 7 21 7 16 V9 Z" fill="none" stroke="#8B6FC9" stroke-width="2"/>
+        <path d="M12 16 l3 3 l5-6" fill="none" stroke="#C5B8E8" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span>Vahtian</span>
+    </div>
+  </header>
+
+  <div class="hero">
+    <p class="kicker">Citation-integrity infrastructure</p>
+    <h1>Auditable citation integrity, at publication scale.</h1>
+    <p class="lede">Vahtian builds the <b>sentinel layer</b> for research citations:
+      a blinded <b>human&nbsp;→&nbsp;AI&nbsp;→&nbsp;adjudication</b> workflow with a
+      decision-gated, undoable write and a hash-chained audit trail. Free and
+      local-first for researchers; paid infrastructure for the organizations that
+      carry citation-risk exposure.</p>
+    <p class="vahti"><b>vahti</b> — Finnish for <i>sentinel / guard</i>. The watch
+      over what gets cited.</p>
+  </div>
+
+  <section>
+    <h2>The Vahtian products</h2>
+    <div class="products">
+      <div class="p cite">
+        <span class="dot"></span>
+        <span><a class="name" href="https://github.com/heidihelena/citevahti">CiteVahti</a>
+          <span class="for">Researchers &amp; labs — verify the claim before you cite it, inline in your manuscript.</span></span>
+        <span class="tag live">live</span>
+      </div>
+      <div class="p review">
+        <span class="dot"></span>
+        <span><span class="name">ReviewVahti</span>
+          <span class="for">Journals &amp; editorial offices — claim-level checks, reviewer oversight, manuscript audit trails.</span></span>
+        <span class="tag soon">roadmap</span>
+      </div>
+      <div class="p guide">
+        <span class="dot"></span>
+        <span><span class="name">GuidelineVahti</span>
+          <span class="for">Guideline groups, societies, institutions &amp; medical-communications teams.</span></span>
+        <span class="tag soon">roadmap</span>
+      </div>
+      <div class="p atlas">
+        <span class="dot"></span>
+        <span><span class="name">AtlasVahti</span>
+          <span class="for">Consented, de-identified evidence-validation patterns — governed analytics &amp; API.</span></span>
+        <span class="tag soon">roadmap</span>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>What every Vahtian product holds to</h2>
+    <div class="principle">
+      <div class="box"><h3>The human decides</h3><p>AI is a blinded, advisory second rater — never decisive, never silently propagated. Disagreements route to a person.</p></div>
+      <div class="box"><h3>No silent writes</h3><p>References enter your library only as the audited, undoable last step of a human decision. Dedupe fails closed.</p></div>
+      <div class="box"><h3>The reasoning is recorded</h3><p>A hash-chained audit trail, so the workflow can be reported transparently in a methods section.</p></div>
+      <div class="box"><h3>Open core, local-first</h3><p>The core is Apache-2.0 and runs on your laptop. We never paywall a researcher’s ability to verify their own work.</p></div>
+    </div>
+  </section>
+
+  <section class="contact">
+    <h2>Contact</h2>
+    <p>General &amp; partnerships: <a href="mailto:hello@vahtian.com">hello@vahtian.com</a><br>
+       Code: <a href="https://github.com/heidihelena/citevahti">github.com/heidihelena/citevahti</a></p>
+  </section>
+
+  <footer>
+    <p>© 2026 Vahtian · Citation-integrity infrastructure · Apache-2.0 core.</p>
+    <p>Vahtian records the blinded human → AI → adjudication workflow with provenance; it does not assert truth.</p>
+  </footer>
+
+</div>
+</body>
+</html>
