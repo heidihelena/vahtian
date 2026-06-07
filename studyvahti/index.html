@@ -1,0 +1,3143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>StudyVahti by Vahtian</title>
+  <meta name="theme-color" content="#2D2440" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232D2440'/%3E%3Cg fill='none' stroke='%235566B5' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 9 H9 V23 H12'/%3E%3Cpath d='M20 9 H23 V23 H20'/%3E%3C/g%3E%3Cg fill='none' stroke='%23C5B8E8' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M14.2 10.5 H17.8'/%3E%3Cpath d='M14.6 10.7 V13.8 L12.3 19.4 L19.7 19.4 L17.4 13.8 V10.7'/%3E%3Cpath d='M13.5 17.1 H18.5'/%3E%3C/g%3E%3C/svg%3E" />
+  <style>
+    :root {
+      /* Vahtian palette (Sentinel Geometry). State hues are a rule: never green,
+         never alarm-red — support/readiness is a measurement, not a verdict. */
+      --sv-ink: #1c1830;
+      --sv-muted: #5b5570;
+      --sv-bg: #faf9fc;
+      --sv-panel: #ffffff;
+      --sv-border: #e7e3f0;
+      --sv-blue: #5566b5;        /* StudyVahti accent (indigo — planning/upstream) */
+      --sv-blue-dark: #2d2440;   /* Vahtian navy */
+      --sv-ready: #c98a00;       /* [oo] amber  — was green */
+      --sv-support: #1e9e8a;     /* [o]  teal */
+      --sv-review: #8b6fc9;      /* [r]  violet */
+      --sv-stop: #c24d7e;        /* [d]  rose   — was red */
+      --sv-amber: #c98a00;
+      --sv-neutral: #5b5570;
+      --sv-code: #2d2440;
+      --sv-shadow: 0 12px 30px rgba(45, 36, 64, 0.10);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--sv-bg);
+      color: var(--sv-ink);
+      /* System fonts only — never a webfont/CDN (no external requests for researchers). */
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, ui-sans-serif, system-ui, sans-serif;
+      line-height: 1.45;
+    }
+
+    button,
+    input,
+    textarea,
+    select {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      border-bottom: 1px solid var(--sv-border);
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(12px);
+    }
+
+    .topbar-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      width: min(1380px, calc(100% - 2rem));
+      margin: 0 auto;
+      padding: 0.8rem 0;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      min-width: 15rem;
+      gap: 0.7rem;
+    }
+
+    .mark {
+      width: 2.25rem;
+      height: 2.25rem;
+    }
+
+    .mark svg {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    .wordmark {
+      display: flex;
+      flex-direction: column;
+      gap: 0.05rem;
+    }
+
+    .wordmark strong {
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 0;
+    }
+
+    .wordmark span {
+      color: var(--sv-muted);
+      font-size: 0.78rem;
+    }
+
+    .safety-strip {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 0.45rem;
+    }
+
+    .pill,
+    .state-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      border: 1px solid var(--sv-border);
+      border-radius: 999px;
+      padding: 0.28rem 0.62rem;
+      background: #fff;
+      color: var(--sv-muted);
+      font-size: 0.78rem;
+      font-weight: 650;
+      line-height: 1.2;
+      white-space: nowrap;
+    }
+
+    .state-ready {
+      color: #166534;
+      background: #dcfce7;
+      border-color: #86efac;
+    }
+
+    .state-support {
+      color: #115e59;
+      background: #ccfbf1;
+      border-color: #5eead4;
+    }
+
+    .state-review {
+      color: #5b21b6;
+      background: #ede9fe;
+      border-color: #c4b5fd;
+    }
+
+    .state-stop {
+      color: #991b1b;
+      background: #fee2e2;
+      border-color: #fca5a5;
+    }
+
+    main {
+      width: min(1380px, calc(100% - 2rem));
+      margin: 0 auto;
+      padding: 1.25rem 0 3rem;
+    }
+
+    .intro-band {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(18rem, 28rem);
+      gap: 1rem;
+      align-items: stretch;
+      margin-bottom: 1rem;
+    }
+
+    .statement,
+    .readiness-panel,
+    .section,
+    .output-panel {
+      border: 1px solid var(--sv-border);
+      border-radius: 0.5rem;
+      background: var(--sv-panel);
+      box-shadow: var(--sv-shadow);
+    }
+
+    .statement {
+      padding: 1.2rem;
+    }
+
+    .eyebrow {
+      margin: 0 0 0.3rem;
+      color: var(--sv-blue-dark);
+      font-size: 0.78rem;
+      font-weight: 750;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(1.7rem, 3vw, 2.6rem);
+      line-height: 1.05;
+      letter-spacing: 0;
+    }
+
+    .statement p {
+      max-width: 68rem;
+      margin: 0.7rem 0 0;
+      color: var(--sv-muted);
+      font-size: 1rem;
+    }
+
+    .readiness-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+      padding: 1rem;
+    }
+
+    .readiness-panel h2,
+    .section h2,
+    .output-panel h2 {
+      margin: 0;
+      font-size: 1rem;
+      letter-spacing: 0;
+    }
+
+    .readiness-state {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.8rem;
+      padding: 0.75rem;
+      border: 1px solid var(--sv-border);
+      border-radius: 0.45rem;
+      background: #f8fafc;
+    }
+
+    .score {
+      color: var(--sv-muted);
+      font-size: 0.82rem;
+      font-weight: 650;
+      white-space: nowrap;
+    }
+
+    .progress {
+      overflow: hidden;
+      width: 100%;
+      height: 0.55rem;
+      border-radius: 999px;
+      background: #e2e8f0;
+    }
+
+    .progress > span {
+      display: block;
+      width: 0%;
+      height: 100%;
+      background: var(--sv-blue);
+      transition: width 160ms ease;
+    }
+
+    .next-step {
+      min-height: 4.2rem;
+      margin: 0;
+      color: var(--sv-ink);
+      font-size: 0.92rem;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(18rem, 24rem);
+      gap: 1rem;
+      align-items: start;
+    }
+
+    .form-stack,
+    .output-stack,
+    .side-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .section {
+      padding: 1rem;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .section-header p {
+      max-width: 50rem;
+      margin: 0.25rem 0 0;
+      color: var(--sv-muted);
+      font-size: 0.9rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 0.75rem;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      grid-column: span 6;
+      gap: 0.35rem;
+      min-width: 0;
+    }
+
+    .field.full {
+      grid-column: 1 / -1;
+    }
+
+    .field.third {
+      grid-column: span 4;
+    }
+
+    label {
+      color: var(--sv-ink);
+      font-size: 0.82rem;
+      font-weight: 700;
+    }
+
+    .hint {
+      margin: 0;
+      color: var(--sv-muted);
+      font-size: 0.78rem;
+    }
+
+    input,
+    textarea,
+    select {
+      width: 100%;
+      min-width: 0;
+      border: 1px solid var(--sv-border);
+      border-radius: 0.4rem;
+      background: #fff;
+      color: var(--sv-ink);
+      padding: 0.58rem 0.68rem;
+      outline: none;
+    }
+
+    textarea {
+      min-height: 5.2rem;
+      resize: vertical;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+      border-color: var(--sv-blue);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+    }
+
+    .segmented,
+    .button-row,
+    .preset-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .segmented button,
+    .preset-row button,
+    .button-row button,
+    .copy-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 2.15rem;
+      border: 1px solid var(--sv-border);
+      border-radius: 0.4rem;
+      background: #fff;
+      color: var(--sv-ink);
+      padding: 0.45rem 0.72rem;
+      font-size: 0.84rem;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    .segmented button.is-active,
+    .preset-row button:hover,
+    .button-row button:hover,
+    .copy-btn:hover {
+      border-color: var(--sv-blue);
+      color: var(--sv-blue-dark);
+      background: #eff6ff;
+    }
+
+    .preset-tools {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 0.75rem;
+      margin-bottom: 0.65rem;
+    }
+
+    .preset-tools > div {
+      display: grid;
+      gap: 0.2rem;
+    }
+
+    .preset-tools button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 2.15rem;
+      border: 1px solid var(--sv-blue);
+      border-radius: 0.4rem;
+      background: #fff;
+      color: var(--sv-blue-dark);
+      padding: 0.45rem 0.72rem;
+      font-size: 0.84rem;
+      font-weight: 700;
+      line-height: 1.2;
+      white-space: nowrap;
+    }
+
+    .preset-row button.is-recommended {
+      border-color: #e6c980;
+      background: #fff7db;
+      color: #7a5200;
+    }
+
+    .preset-row button.is-loaded {
+      border-color: #9de2d8;
+      background: #e7fbf8;
+      color: #0f766e;
+    }
+
+    .variable-audit {
+      display: grid;
+      gap: 0.35rem;
+      margin-top: 0.65rem;
+      border-left: 3px solid #9de2d8;
+      padding-left: 0.75rem;
+      color: var(--sv-muted);
+      font-size: 0.8rem;
+    }
+
+    .variable-audit strong {
+      color: var(--sv-ink);
+    }
+
+    .variable-audit ul {
+      display: grid;
+      gap: 0.22rem;
+      margin: 0.2rem 0 0;
+      padding-left: 1rem;
+    }
+
+    .primary {
+      border-color: var(--sv-blue) !important;
+      background: var(--sv-blue) !important;
+      color: #fff !important;
+    }
+
+    .primary:hover {
+      background: var(--sv-blue-dark) !important;
+    }
+
+    .danger {
+      border-color: #fecaca !important;
+      color: #991b1b !important;
+      background: #fff !important;
+    }
+
+    .check-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.55rem;
+    }
+
+    .check-item {
+      display: grid;
+      grid-template-columns: 1.2rem 1fr;
+      gap: 0.45rem;
+      align-items: start;
+      border: 1px solid var(--sv-border);
+      border-radius: 0.4rem;
+      padding: 0.55rem;
+      background: #fff;
+    }
+
+    .check-item input {
+      width: 1rem;
+      height: 1rem;
+      margin: 0.15rem 0 0;
+    }
+
+    .check-item strong {
+      display: block;
+      font-size: 0.84rem;
+      line-height: 1.25;
+    }
+
+    .check-item span {
+      display: block;
+      margin-top: 0.16rem;
+      color: var(--sv-muted);
+      font-size: 0.76rem;
+    }
+
+    .side-stack {
+      position: sticky;
+      top: 5rem;
+    }
+
+    .compact-list {
+      display: grid;
+      gap: 0.55rem;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .compact-list li {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 0.45rem;
+      align-items: start;
+      color: var(--sv-muted);
+      font-size: 0.86rem;
+    }
+
+    .compact-list b {
+      color: var(--sv-ink);
+    }
+
+    .method-list {
+      display: grid;
+      gap: 0.55rem;
+      margin: 0.75rem 0 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .method-list li {
+      border: 1px solid var(--sv-border);
+      border-radius: 0.45rem;
+      padding: 0.62rem;
+      background: #fff;
+    }
+
+    .method-list strong {
+      display: block;
+      color: var(--sv-ink);
+      font-size: 0.84rem;
+      line-height: 1.25;
+    }
+
+    .method-list span {
+      display: block;
+      margin-top: 0.16rem;
+      color: var(--sv-muted);
+      font-size: 0.76rem;
+      line-height: 1.35;
+    }
+
+    .gate-view {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 0.55rem;
+    }
+
+    .gate-card {
+      display: grid;
+      gap: 0.35rem;
+      min-height: 7.2rem;
+      border: 1px solid var(--sv-border);
+      border-radius: 0.45rem;
+      padding: 0.65rem;
+      background: #fff;
+    }
+
+    .gate-card strong {
+      color: var(--sv-ink);
+      font-size: 0.86rem;
+      line-height: 1.25;
+    }
+
+    .gate-card span {
+      color: var(--sv-muted);
+      font-size: 0.76rem;
+      line-height: 1.35;
+    }
+
+    .gate-status {
+      justify-self: start;
+      border: 1px solid var(--sv-border);
+      border-radius: 999px;
+      padding: 0.18rem 0.45rem;
+      font-size: 0.68rem;
+      font-weight: 800;
+      line-height: 1.15;
+      text-transform: uppercase;
+    }
+
+    .gate-complete {
+      border-color: #e6c980;
+      background: #fff7db;
+      color: #7a5200;
+    }
+
+    .gate-support {
+      border-color: #9de2d8;
+      background: #e7fbf8;
+      color: #0f766e;
+    }
+
+    .gate-review {
+      border-color: #c4b5fd;
+      background: #f2efff;
+      color: #5b21b6;
+    }
+
+    .gate-blocked {
+      border-color: #f2b3cc;
+      background: #fff0f6;
+      color: #9d2457;
+    }
+
+    .ledger-wrap {
+      overflow: auto;
+      border: 1px solid var(--sv-border);
+      border-radius: 0.45rem;
+      background: #fff;
+    }
+
+    .ledger-table {
+      width: 100%;
+      min-width: 52rem;
+      border-collapse: collapse;
+      font-size: 0.8rem;
+    }
+
+    .ledger-table th,
+    .ledger-table td {
+      border-bottom: 1px solid var(--sv-border);
+      padding: 0.55rem;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .ledger-table th {
+      color: var(--sv-muted);
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .ledger-table tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .dot {
+      width: 0.5rem;
+      height: 0.5rem;
+      margin-top: 0.45rem;
+      border-radius: 999px;
+      background: var(--sv-blue);
+    }
+
+    .artifact-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin: 0.75rem 0;
+    }
+
+    .artifact-tabs button {
+      border: 1px solid var(--sv-border);
+      border-radius: 999px;
+      background: #fff;
+      color: var(--sv-muted);
+      padding: 0.32rem 0.62rem;
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+
+    .artifact-tabs button.is-active {
+      border-color: var(--sv-blue);
+      color: var(--sv-blue-dark);
+      background: #eff6ff;
+    }
+
+    .output-panel {
+      overflow: hidden;
+    }
+
+    .output-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 0.9rem 1rem;
+      border-bottom: 1px solid var(--sv-border);
+      background: #fff;
+    }
+
+    .output-body {
+      display: grid;
+      gap: 1rem;
+      padding: 1rem;
+    }
+
+    .report-section {
+      border-left: 3px solid #bfdbfe;
+      padding-left: 0.8rem;
+    }
+
+    .report-section h3 {
+      margin: 0 0 0.35rem;
+      font-size: 0.96rem;
+    }
+
+    .report-section p,
+    .report-section li {
+      color: var(--sv-muted);
+      font-size: 0.9rem;
+    }
+
+    .report-section a {
+      color: var(--sv-blue);
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .report-section a:hover {
+      text-decoration: underline;
+    }
+
+    .report-section ul {
+      margin: 0.4rem 0 0;
+      padding-left: 1rem;
+    }
+
+    pre {
+      overflow: auto;
+      max-height: 24rem;
+      margin: 0;
+      border-radius: 0.45rem;
+      background: var(--sv-code);
+      color: #e5e7eb;
+      padding: 0.9rem;
+      font-size: 0.78rem;
+      line-height: 1.5;
+      white-space: pre;
+    }
+
+    .empty {
+      border: 1px dashed var(--sv-border);
+      border-radius: 0.5rem;
+      padding: 1.2rem;
+      background: #fff;
+      color: var(--sv-muted);
+      text-align: center;
+    }
+
+    .gate-view > .empty {
+      grid-column: 1 / -1;
+    }
+
+    .small-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.82rem;
+    }
+
+    .small-table th,
+    .small-table td {
+      border-bottom: 1px solid var(--sv-border);
+      padding: 0.5rem;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .small-table th {
+      color: var(--sv-muted);
+      font-size: 0.74rem;
+      text-transform: uppercase;
+    }
+
+    .toast {
+      position: fixed;
+      right: 1rem;
+      bottom: 1rem;
+      z-index: 20;
+      display: none;
+      max-width: min(28rem, calc(100% - 2rem));
+      border: 1px solid #93c5fd;
+      border-radius: 0.5rem;
+      background: #eff6ff;
+      color: #1e3a8a;
+      padding: 0.75rem 0.9rem;
+      box-shadow: var(--sv-shadow);
+      font-size: 0.9rem;
+      font-weight: 650;
+    }
+
+    .toast.show {
+      display: block;
+    }
+
+    @media (max-width: 1020px) {
+      .intro-band,
+      .layout {
+        grid-template-columns: 1fr;
+      }
+
+      .gate-view {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .side-stack {
+        position: static;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .topbar-inner,
+      main {
+        width: min(100% - 1rem, 1380px);
+      }
+
+      .topbar-inner,
+      .section-header,
+      .output-head,
+      .preset-tools,
+      .readiness-state {
+        align-items: stretch;
+        flex-direction: column;
+      }
+
+      .safety-strip {
+        justify-content: flex-start;
+      }
+
+      .field,
+      .field.third {
+        grid-column: 1 / -1;
+      }
+
+      .check-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .gate-view {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media print {
+      .topbar,
+      .side-stack,
+      .button-row,
+      .preset-row,
+      .segmented,
+      .artifact-tabs,
+      .copy-btn,
+      .toast {
+        display: none !important;
+      }
+
+      body {
+        background: #fff;
+      }
+
+      main {
+        width: 100%;
+        padding: 0;
+      }
+
+      .intro-band,
+      .layout {
+        display: block;
+      }
+
+      .statement,
+      .readiness-panel,
+      .section,
+      .output-panel {
+        box-shadow: none;
+        break-inside: avoid;
+        margin-bottom: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <div class="mark" aria-hidden="true"><svg viewBox="0 0 32 32"><rect width="32" height="32" rx="7" fill="#2D2440"/><g fill="none" stroke="#5566B5" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9 H9 V23 H12"/><path d="M20 9 H23 V23 H20"/></g><g fill="none" stroke="#C5B8E8" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14.2 10.5 H17.8"/><path d="M14.6 10.7 V13.8 L12.3 19.4 L19.7 19.4 L17.4 13.8 V10.7"/><path d="M13.5 17.1 H18.5"/></g></svg></div>
+        <div class="wordmark">
+          <strong>StudyVahti</strong>
+          <span>by Vahtian</span>
+        </div>
+      </div>
+      <div class="safety-strip" aria-label="Safety boundaries">
+        <span class="pill">Local one-page HTML</span>
+        <span class="pill">No server writes</span>
+        <span class="pill">Does not approve studies</span>
+        <span class="pill">Evidence-mapped</span>
+        <span class="pill">Methods review gated</span>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="intro-band" aria-labelledby="studyvahti-title">
+      <div class="statement">
+        <p class="eyebrow">Research planning and methods-readiness watcher</p>
+        <h1 id="studyvahti-title">Turn a rough clinical study idea into a protocol-ready checklist.</h1>
+        <p>
+          StudyVahti maps early study ideas to PICOTS, protocol/reporting standards, bias domains, estimand logic,
+          feasibility assumptions, and places where statistical or methodological review is needed before protocol drafting.
+        </p>
+      </div>
+
+      <aside class="readiness-panel" aria-live="polite">
+        <h2>Current readiness</h2>
+        <div class="readiness-state">
+          <span id="readinessBadge" class="state-pill state-stop">[d] Not ready</span>
+          <span id="readinessScore" class="score">0 / 100</span>
+        </div>
+        <div class="progress" aria-hidden="true"><span id="progressBar"></span></div>
+        <p id="nextStep" class="next-step">
+          Add a research question, PICOTS, data source, variables, and bias checklist items to generate the first readiness sheet.
+        </p>
+        <div class="button-row">
+          <button class="primary" id="generateBtn" type="button">Generate readiness sheet</button>
+          <button id="printBtn" type="button">Print/save PDF</button>
+          <button class="danger" id="resetBtn" type="button">Reset</button>
+        </div>
+      </aside>
+    </section>
+
+    <div class="layout">
+      <div class="form-stack">
+        <section class="section" aria-labelledby="identity-heading">
+          <div class="section-header">
+            <div>
+              <h2 id="identity-heading">1. Study Identity</h2>
+              <p>Define the clinical question, study pathway, and intended estimand before asking for artifacts.</p>
+            </div>
+            <div id="pathwayButtons" class="segmented" aria-label="Study pathway"></div>
+          </div>
+
+          <div class="grid">
+            <div class="field">
+              <label for="title">Working title</label>
+              <input id="title" type="text" placeholder="Example: Prehabilitation before lung cancer surgery" />
+            </div>
+            <div class="field">
+              <label for="disease">Disease area</label>
+              <input id="disease" type="text" placeholder="Example: Lung cancer, pulmonary medicine" />
+            </div>
+            <div class="field third">
+              <label for="questionType">Question type</label>
+              <select id="questionType">
+                <option value="Comparative effectiveness">Comparative effectiveness</option>
+                <option value="Prognostic">Prognostic</option>
+                <option value="Diagnostic">Diagnostic</option>
+                <option value="Implementation">Implementation</option>
+                <option value="Descriptive">Descriptive</option>
+                <option value="Mixed methods">Mixed methods</option>
+              </select>
+            </div>
+            <div class="field third">
+              <label for="studyDesign">Study design</label>
+              <select id="studyDesign">
+                <option value="Retrospective cohort">Retrospective cohort</option>
+                <option value="Prospective cohort">Prospective cohort</option>
+                <option value="Randomized trial">Randomized trial</option>
+                <option value="Pragmatic trial">Pragmatic trial</option>
+                <option value="Pilot/feasibility trial">Pilot/feasibility trial</option>
+                <option value="Case-control">Case-control</option>
+                <option value="Cross-sectional">Cross-sectional</option>
+                <option value="Case series">Case series</option>
+                <option value="Diagnostic accuracy / test validation">Diagnostic accuracy / test validation</option>
+                <option value="Prediction model development">Prediction model development</option>
+                <option value="Prediction model validation">Prediction model validation</option>
+                <option value="Interrupted time series">Interrupted time series</option>
+                <option value="Before-after">Before-after</option>
+                <option value="Stepped-wedge / cluster rollout">Stepped-wedge / cluster rollout</option>
+                <option value="External comparator">External comparator</option>
+                <option value="Qualitative interview/focus group">Qualitative interview/focus group</option>
+                <option value="Survey validation">Survey validation</option>
+                <option value="Health economic evaluation">Health economic evaluation</option>
+                <option value="Systematic review / meta-analysis">Systematic review / meta-analysis</option>
+              </select>
+            </div>
+            <div class="field third">
+              <label for="analysisTarget">Analysis target</label>
+              <select id="analysisTarget">
+                <option value="Readiness only">Readiness only</option>
+                <option value="Descriptive table">Descriptive table</option>
+                <option value="Regression model">Regression model</option>
+                <option value="Survival model">Survival model</option>
+                <option value="Propensity score / weighting">Propensity score / weighting</option>
+                <option value="Prediction model">Prediction model</option>
+                <option value="Qualitative framework">Qualitative framework</option>
+              </select>
+            </div>
+            <div class="field third">
+              <label for="dataSource">Data source</label>
+              <input id="dataSource" type="text" placeholder="Registry, EHR, survey, trial, interviews" />
+            </div>
+            <div class="field full">
+              <label for="researchQuestion">Research question</label>
+              <textarea id="researchQuestion" placeholder="Among patients with..., does..., compared with..., improve..., over...?"></textarea>
+            </div>
+          </div>
+        </section>
+
+        <section class="section" aria-labelledby="picots-heading">
+          <div class="section-header">
+            <div>
+              <h2 id="picots-heading">2. PICOTS</h2>
+              <p>StudyVahti is strict here because vague populations, comparators, timing, or settings become vague analyses.</p>
+            </div>
+          </div>
+          <div class="grid">
+            <div class="field">
+              <label for="population">Population</label>
+              <textarea id="population" placeholder="Eligibility, setting, inclusion/exclusion criteria"></textarea>
+            </div>
+            <div class="field">
+              <label for="intervention">Exposure or intervention</label>
+              <textarea id="intervention" placeholder="Treatment, exposure, index test, implementation intervention"></textarea>
+            </div>
+            <div class="field">
+              <label for="comparator">Comparator</label>
+              <textarea id="comparator" placeholder="Usual care, no exposure, alternative treatment, historical group"></textarea>
+            </div>
+            <div class="field">
+              <label for="outcome">Primary outcome</label>
+              <textarea id="outcome" placeholder="Outcome definition, timing, measurement source"></textarea>
+            </div>
+            <div class="field">
+              <label for="timeZero">Time zero</label>
+              <input id="timeZero" type="text" placeholder="Index date or start of follow-up" />
+            </div>
+            <div class="field">
+              <label for="followUp">Follow-up</label>
+              <input id="followUp" type="text" placeholder="Minimum/maximum follow-up and censoring rules" />
+            </div>
+          </div>
+        </section>
+
+        <section class="section" aria-labelledby="variables-heading">
+          <div class="section-header">
+            <div>
+              <h2 id="variables-heading">3. Variables And Codebook</h2>
+              <p>Use stable variable names, roles, and coding notes so data provenance and analysis assumptions stay inspectable.</p>
+            </div>
+          </div>
+          <div class="preset-tools">
+            <div>
+              <p id="recommendedPacks" class="hint">Recommended packs update from the current study setup.</p>
+              <p id="variableAuditSummary" class="hint">Variable audit updates as rows are added.</p>
+            </div>
+            <button id="applyRecommendedBtn" type="button">Apply recommended packs</button>
+          </div>
+          <div class="preset-row" id="presetButtons" aria-label="Variable presets"></div>
+          <div id="variableAudit" class="variable-audit" aria-live="polite"></div>
+          <div class="grid" style="margin-top: 0.75rem;">
+            <div class="field full">
+              <label for="variables">Variable coding plan</label>
+              <textarea id="variables" style="min-height: 11rem;" spellcheck="false"></textarea>
+              <p class="hint">Variable packs append modular rows and skip duplicate names. Format: variable_name | label | type | role | allowed values or coding note</p>
+            </div>
+            <div class="field third">
+              <label for="exposureVar">Primary exposure variable</label>
+              <input id="exposureVar" type="text" placeholder="Example: prehab_received" />
+            </div>
+            <div class="field third">
+              <label for="outcomeVar">Primary outcome variable</label>
+              <input id="outcomeVar" type="text" placeholder="Example: postop_complication_30d" />
+            </div>
+            <div class="field third">
+              <label for="timeVar">Survival time variable</label>
+              <input id="timeVar" type="text" placeholder="Example: follow_up_days" />
+            </div>
+            <div class="field full">
+              <label for="adjustmentVars">Planned adjustment variables</label>
+              <input id="adjustmentVars" type="text" placeholder="age, sex, smoking_status, stage, ECOG, comorbidity_index" />
+            </div>
+          </div>
+        </section>
+
+        <section class="section" aria-labelledby="bias-heading">
+          <div class="section-header">
+            <div>
+              <h2 id="bias-heading">4. Bias And Causal Validity</h2>
+              <p>These checks are mapped to target-trial thinking, nonrandomized-study bias domains, and transparent reporting expectations.</p>
+            </div>
+          </div>
+          <div id="biasChecks" class="check-grid"></div>
+        </section>
+
+        <section class="section" aria-labelledby="power-heading">
+          <div class="section-header">
+            <div>
+              <h2 id="power-heading">5. Feasibility And Power Readiness</h2>
+              <p>StudyVahti records sample, event, precision, and governance assumptions. It does not replace a formal sample-size calculation.</p>
+            </div>
+          </div>
+          <div class="grid">
+            <div class="field third">
+              <label for="expectedN">Expected sample size</label>
+              <input id="expectedN" type="number" min="0" placeholder="Example: 420" />
+            </div>
+            <div class="field third">
+              <label for="eventRate">Expected event rate</label>
+              <input id="eventRate" type="text" placeholder="Example: 18% at 30 days" />
+            </div>
+            <div class="field third">
+              <label for="minimumEffect">Minimum useful effect</label>
+              <input id="minimumEffect" type="text" placeholder="Example: OR 0.75 or HR 0.80" />
+            </div>
+            <div class="field full">
+              <label for="feasibilityNotes">Feasibility notes</label>
+              <textarea id="feasibilityNotes" placeholder="Missingness, event count, site access, extraction burden, ethics approvals, linkage feasibility"></textarea>
+            </div>
+          </div>
+        </section>
+
+        <section class="output-panel" aria-labelledby="report-heading">
+          <div class="output-head">
+            <div>
+              <h2 id="report-heading">Readiness Sheet</h2>
+              <p class="hint">Generated locally from the fields above.</p>
+            </div>
+            <button class="copy-btn" id="copyReportBtn" type="button">Copy report</button>
+          </div>
+          <div id="reportOutput" class="output-body">
+            <div class="empty">Generate the readiness sheet to see the protocol-planning output.</div>
+          </div>
+        </section>
+
+        <section class="output-panel" aria-labelledby="planning-heading">
+          <div class="output-head">
+            <div>
+              <h2 id="planning-heading">Planning Cockpit</h2>
+              <p class="hint">Gate status and open planning decisions generated from the same fields.</p>
+            </div>
+            <button class="copy-btn" id="copyPlanBtn" type="button">Copy plan</button>
+          </div>
+          <div class="output-body">
+            <div id="gateView" class="gate-view">
+              <div class="empty">Generate the readiness sheet to see planning gates.</div>
+            </div>
+            <div id="planningLedger" class="empty">Generate the readiness sheet to see the planning ledger.</div>
+          </div>
+        </section>
+
+        <section class="output-panel" aria-labelledby="artifacts-heading">
+          <div class="output-head">
+            <div>
+              <h2 id="artifacts-heading">Local Artifacts</h2>
+              <p class="hint">Scaffolds only. Review before using in a protocol, analysis plan, or repository.</p>
+            </div>
+            <button class="copy-btn" id="copyArtifactBtn" type="button">Copy artifact</button>
+          </div>
+          <div class="artifact-tabs" id="artifactTabs" aria-label="Artifact views"></div>
+          <div class="output-body">
+            <pre id="artifactOutput">Generate the readiness sheet to create local artifacts.</pre>
+          </div>
+        </section>
+      </div>
+
+      <aside class="side-stack" aria-label="StudyVahti guardrails">
+        <section class="section">
+          <h2>Workflow</h2>
+          <ul class="compact-list" style="margin-top: 0.75rem;">
+            <li><span class="dot"></span><span><b>Idea</b> Capture question and PICOTS.</span></li>
+            <li><span class="dot"></span><span><b>Variables</b> Create a codebook-ready skeleton.</span></li>
+            <li><span class="dot"></span><span><b>Bias</b> Flag design and causal risks.</span></li>
+            <li><span class="dot"></span><span><b>Decision</b> Triage readiness for protocol drafting.</span></li>
+            <li><span class="dot"></span><span><b>Artifacts</b> Export local scaffolds only.</span></li>
+          </ul>
+        </section>
+
+        <section class="section">
+          <h2>Scientific Backbone</h2>
+          <ul class="method-list">
+            <li><strong>PICOTS / AHRQ</strong><span>Question structure: population, intervention or exposure, comparator, outcome, timing, and setting.</span></li>
+            <li><strong>SPIRIT 2025 / CONSORT 2025</strong><span>Trial protocol and reporting completeness for randomized or prospective interventional work.</span></li>
+            <li><strong>STROBE / RECORD</strong><span>Observational and routinely collected health-data transparency, including selection, variables, and data linkage.</span></li>
+            <li><strong>Target Trial / ROBINS-I</strong><span>Causal observational studies are treated as attempts to emulate a clearly specified randomized trial.</span></li>
+            <li><strong>STARD / TRIPOD+AI / PROBAST+AI</strong><span>Diagnostic accuracy and prediction-model studies need transparent test, model, validation, bias, and applicability planning.</span></li>
+            <li><strong>SRQR / COREQ / SQUIRE 2.0</strong><span>Qualitative, mixed-methods, and care-improvement pathways need explicit context, theory, reflexivity, and intervention logic.</span></li>
+            <li><strong>PRISMA 2020 / CHEERS 2022</strong><span>Evidence synthesis and health-economic evaluations need search, selection, cost, outcome, uncertainty, and decision-context structure.</span></li>
+          </ul>
+        </section>
+
+        <section class="section">
+          <h2>State Language</h2>
+          <table class="small-table" style="margin-top: 0.75rem;">
+            <thead>
+              <tr><th>State</th><th>Meaning</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>[oo]</td><td>Ready for protocol drafting after human methods review where required.</td></tr>
+              <tr><td>[o]</td><td>Needs support before it is ready to draft.</td></tr>
+              <tr><td>[r]</td><td>Methods review needed due to causal, survival, mixed-methods, or feasibility risk.</td></tr>
+              <tr><td>[d]</td><td>Not ready; the study identity is too incomplete.</td></tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section class="section">
+          <h2>Integrity Boundary</h2>
+          <ul class="compact-list" style="margin-top: 0.75rem;">
+            <li><span class="dot"></span><span>No clinical, ethical, statistical, or funding approval.</span></li>
+            <li><span class="dot"></span><span>No backend, telemetry, credential storage, or hidden writes.</span></li>
+            <li><span class="dot"></span><span>Generated R and CSV files are starting points, not validated analysis code.</span></li>
+            <li><span class="dot"></span><span>Framework mapping is not evidence appraisal, risk-of-bias rating, or checklist completion.</span></li>
+            <li><span class="dot"></span><span>Any causal or inferential study should involve a qualified methodologist.</span></li>
+          </ul>
+        </section>
+      </aside>
+    </div>
+  </main>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    const $ = (id) => document.getElementById(id);
+
+    const pathways = [
+      { id: "registry", label: "Registry" },
+      { id: "prospective", label: "Prospective" },
+      { id: "survey", label: "Survey" },
+      { id: "careQI", label: "Care/QI" },
+      { id: "mixedMethods", label: "Mixed methods" }
+    ];
+
+    const scientificBackbone = [
+      {
+        id: "picots",
+        name: "PICOTS / AHRQ",
+        source: "Population, intervention/exposure, comparator, outcomes, timing, and setting",
+        url: "https://ecqi.healthit.gov/index.php/glossary/population-intervention-comparator-group-outcomes-time-interval-settings-picots",
+        rationale: "Keeps the question answerable and reproducible before analysis choices are made."
+      },
+      {
+        id: "spirit2025",
+        name: "SPIRIT 2025",
+        source: "Minimum protocol items for randomized trials",
+        url: "https://pubmed.ncbi.nlm.nih.gov/40294593/",
+        rationale: "Anchors prospective interventional protocol completeness."
+      },
+      {
+        id: "consort2025",
+        name: "CONSORT 2025",
+        source: "Minimum reporting items for randomized trials",
+        url: "https://pubmed.ncbi.nlm.nih.gov/40228499/",
+        rationale: "Keeps trial reporting requirements visible while the protocol is drafted."
+      },
+      {
+        id: "consortPilot",
+        name: "CONSORT pilot/feasibility extension",
+        source: "Reporting extension for randomized pilot and feasibility trials",
+        url: "https://pubmed.ncbi.nlm.nih.gov/27777223/",
+        rationale: "Separates feasibility objectives from effectiveness claims before a definitive trial."
+      },
+      {
+        id: "strobe",
+        name: "STROBE",
+        source: "Observational-study reporting checklist",
+        url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC2034723/",
+        rationale: "Anchors cohort, case-control, and cross-sectional transparency."
+      },
+      {
+        id: "record",
+        name: "RECORD",
+        source: "Routinely collected health-data extension to STROBE",
+        url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC4595218/",
+        rationale: "Adds code validity, linkage, and database-specific reproducibility expectations."
+      },
+      {
+        id: "targetTrial",
+        name: "Target trial emulation",
+        source: "Causal observational study design framework",
+        url: "https://pubmed.ncbi.nlm.nih.gov/36508210/",
+        rationale: "Forces eligibility, treatment strategies, assignment, follow-up, outcomes, contrast, and analysis to be specified."
+      },
+      {
+        id: "robinsI",
+        name: "ROBINS-I",
+        source: "Risk-of-bias domains for nonrandomized intervention studies",
+        url: "https://pubmed.ncbi.nlm.nih.gov/27733354/",
+        rationale: "Flags confounding, selection, classification, deviations, missing data, measurement, and reporting risks."
+      },
+      {
+        id: "stard",
+        name: "STARD 2015",
+        source: "Diagnostic accuracy reporting checklist",
+        url: "https://pubmed.ncbi.nlm.nih.gov/26511519/",
+        rationale: "Anchors test/index standard, reference standard, flow, accuracy estimates, and applicability."
+      },
+      {
+        id: "tripod",
+        name: "TRIPOD+AI",
+        source: "Prediction-model reporting guidance for regression and machine-learning methods",
+        url: "https://pubmed.ncbi.nlm.nih.gov/38636956/",
+        rationale: "Anchors transparent reporting for diagnostic, prognostic, regression, and AI prediction models."
+      },
+      {
+        id: "probast",
+        name: "PROBAST+AI",
+        source: "Prediction-model quality, risk-of-bias, and applicability tool",
+        url: "https://pubmed.ncbi.nlm.nih.gov/40127903/",
+        rationale: "Separates apparent model performance from quality, bias, and applicability concerns."
+      },
+      {
+        id: "ichE9",
+        name: "ICH E9(R1)",
+        source: "Estimands and sensitivity analysis framework",
+        url: "https://www.ema.europa.eu/en/documents/scientific-guideline/ich-e9-r1-addendum-estimands-and-sensitivity-analysis-clinical-trials-guideline-statistical-principles-clinical-trials-step-5_en.pdf",
+        rationale: "Connects the question, intercurrent events, target effect, estimator, and sensitivity analyses."
+      },
+      {
+        id: "srqrCoreq",
+        name: "SRQR / COREQ",
+        source: "Qualitative research reporting standards",
+        url: "https://pubmed.ncbi.nlm.nih.gov/24979285/",
+        rationale: "Keeps approach, context, sampling, reflexivity, analysis, and interpretation explicit."
+      },
+      {
+        id: "squire",
+        name: "SQUIRE 2.0",
+        source: "Quality-improvement reporting guidelines",
+        url: "https://pubmed.ncbi.nlm.nih.gov/26369893/",
+        rationale: "Adds improvement theory, local context, intervention description, and evaluation logic."
+      },
+      {
+        id: "prisma",
+        name: "PRISMA 2020",
+        source: "Systematic review and meta-analysis reporting guideline",
+        url: "https://pubmed.ncbi.nlm.nih.gov/33782057/",
+        rationale: "Anchors search, screening, eligibility, synthesis, certainty, and flow documentation."
+      },
+      {
+        id: "cheers",
+        name: "CHEERS 2022",
+        source: "Health economic evaluation reporting guidance",
+        url: "https://pubmed.ncbi.nlm.nih.gov/35031088/",
+        rationale: "Adds perspective, time horizon, costs, outcomes, uncertainty, and decision context."
+      }
+    ];
+
+    const scoreWeights = {
+      identity: 16,
+      picots: 20,
+      variables: 16,
+      bias: 18,
+      feasibility: 12,
+      analysis: 12,
+      provenance: 6
+    };
+
+    const planningGateDefinitions = [
+      { id: "idea", label: "Idea", owner: "Clinical lead" },
+      { id: "methods", label: "Methods scaffold", owner: "Methodologist" },
+      { id: "feasibility", label: "Feasibility", owner: "PI / statistician" },
+      { id: "governance", label: "Governance", owner: "PI / data governance" },
+      { id: "protocol", label: "Protocol", owner: "Study lead" },
+      { id: "sap", label: "SAP", owner: "Statistician" },
+      { id: "data", label: "Data extraction", owner: "Data manager" },
+      { id: "analysis", label: "Analysis", owner: "Analyst / statistician" }
+    ];
+
+    const variablePresets = {
+      coreClinical: {
+        label: "Core clinical",
+        rows: [
+          "patient_id | Study identifier | string | id | de-identified stable id",
+          "site_id | Study site | string | cluster | site or hospital identifier",
+          "index_date | Index date/time zero | date | time | ISO date; defines start of follow-up",
+          "eligibility_flag | Eligible for analysis | binary | eligibility | 0 excluded; 1 included",
+          "eligibility_reason | Eligibility or exclusion reason | text | eligibility | record main reason if excluded",
+          "age_at_index | Age at index | numeric | covariate | years",
+          "sex | Sex | categorical | covariate | female; male; other; unknown",
+          "comorbidity_index | Comorbidity index | numeric | covariate | specify index and lookback window",
+          "treatment_group | Primary treatment group | categorical | exposure | define before extraction",
+          "exposure_start_date | Exposure start date | date | exposure | ISO date; relative to index date",
+          "primary_outcome | Primary outcome | binary | outcome | 0 no; 1 yes; define source and window",
+          "outcome_date | Primary outcome date | date | outcome | ISO date if event occurred",
+          "follow_up_days | Follow-up time | numeric | time | days from time zero",
+          "censoring_date | Censoring date | date | censoring | ISO date",
+          "censoring_reason | Censoring reason | categorical | censoring | end of study; death; loss; transfer; other",
+          "missingness_flag | Any key variable missing | binary | data_quality | 0 no; 1 yes"
+        ]
+      },
+      trial: {
+        label: "Trial",
+        rows: [
+          "consent_date | Consent date | date | governance | ISO date; if applicable",
+          "randomization_date | Randomization date | date | time | ISO date",
+          "randomization_arm | Randomized arm | categorical | exposure | intervention; control; other",
+          "allocation_concealed | Allocation concealed | binary | bias | 0 no; 1 yes",
+          "blinding_status | Blinding status | categorical | bias | open_label; single_blind; double_blind; assessor_blind",
+          "intervention_assigned | Assigned intervention | categorical | exposure | define trial arms",
+          "intervention_received | Intervention received | categorical | exposure | as-treated record",
+          "protocol_deviation | Protocol deviation | binary | process | 0 no; 1 yes",
+          "deviation_type | Protocol deviation type | categorical | process | eligibility; intervention; follow_up; outcome; other",
+          "withdrawal_status | Withdrawal status | categorical | process | active; withdrawn; lost; deceased",
+          "adverse_event | Any adverse event | binary | safety | 0 no; 1 yes",
+          "serious_adverse_event | Serious adverse event | binary | safety | 0 no; 1 yes"
+        ]
+      },
+      implementation: {
+        label: "Implementation/QI",
+        rows: [
+          "implementation_site | Implementation site | string | cluster | ward, clinic, hospital, or unit",
+          "implementation_start_date | Implementation start date | date | time | ISO date",
+          "implementation_phase | Implementation phase | categorical | process | baseline; rollout; sustainment; follow_up",
+          "intervention_fidelity | Intervention fidelity | numeric | process | percent or score",
+          "reach_count | Reach count | numeric | process | number exposed or invited",
+          "adoption_status | Adoption status | categorical | process | not_started; partial; adopted; sustained",
+          "context_change | Context change | text | qualitative | staffing, policy, workflow, or external change",
+          "balancing_measure | Balancing measure | numeric | outcome | define possible unintended effect",
+          "process_measure | Process measure | numeric | outcome | implementation/process metric",
+          "run_chart_period | Run chart period | string | time | week/month or other period"
+        ]
+      },
+      lungOncology: {
+        label: "Lung oncology",
+        rows: [
+          "diagnosis_date | Lung cancer diagnosis date | date | time | ISO date",
+          "histology | Histologic subtype | categorical | covariate | adenocarcinoma; squamous; small_cell; other; unknown",
+          "tnm_stage | TNM/stage group | categorical | covariate | I; II; III; IV; unknown",
+          "stage_date | Stage assessment date | date | covariate | ISO date; relative to diagnosis",
+          "ecog | ECOG performance status | ordinal | covariate | 0; 1; 2; 3; 4; unknown",
+          "ecog_date | ECOG assessment date | date | covariate | ISO date",
+          "smoking_status | Smoking status | categorical | covariate | never; former; current; unknown",
+          "pack_years | Smoking pack-years | numeric | covariate | pack-years; missing if unknown",
+          "egfr_status | EGFR alteration status | categorical | covariate | positive; negative; unknown; not_tested",
+          "alk_status | ALK alteration status | categorical | covariate | positive; negative; unknown; not_tested",
+          "ros1_status | ROS1 alteration status | categorical | covariate | positive; negative; unknown; not_tested",
+          "pdl1_percent | PD-L1 tumor proportion score | numeric | covariate | percent; specify assay",
+          "pdl1_assay | PD-L1 assay | categorical | covariate | 22C3; SP263; SP142; other; unknown",
+          "treatment_start_date | First study treatment date | date | exposure | ISO date"
+        ]
+      },
+      registryEhr: {
+        label: "Registry/EHR",
+        rows: [
+          "data_source | Source system | categorical | data_quality | registry; EHR; claims; linkage; other",
+          "record_id | Source record identifier | string | id | stable local source id if retained",
+          "extraction_date | Data extraction date | date | data_quality | ISO date",
+          "definition_version | Phenotype/code definition version | string | data_quality | version or date-stamped definition",
+          "linkage_status | Linkage status | categorical | data_quality | linked; not_linked; partial; unknown",
+          "linkage_key_available | Linkage key available | binary | data_quality | 0 no; 1 yes",
+          "code_list_version | Diagnosis/procedure code list version | string | data_quality | version or URL/reference",
+          "validation_status | Variable/code validation status | categorical | data_quality | validated; face_checked; unvalidated; unknown",
+          "source_missingness_rate | Source missingness rate | numeric | data_quality | percent or proportion for key variables",
+          "duplicate_record_flag | Duplicate source record | binary | data_quality | 0 no; 1 yes"
+        ]
+      },
+      survival: {
+        label: "Survival",
+        rows: [
+          "time_zero_date | Survival time-zero date | date | time | ISO date; must match protocol",
+          "event_date | Event date | date | outcome | ISO date if event occurred",
+          "event_status | Event indicator | binary | outcome | 0 censored; 1 event",
+          "event_type | Event type | categorical | outcome | death; progression; recurrence; composite; other",
+          "last_contact_date | Last known follow-up date | date | censoring | ISO date",
+          "death_date | Death date | date | outcome | ISO date if applicable",
+          "progression_date | Progression date | date | outcome | ISO date if applicable",
+          "competing_event | Competing event indicator | binary | outcome | 0 no; 1 yes",
+          "competing_event_type | Competing event type | categorical | outcome | death_without_event; alternative_event; other",
+          "follow_up_days | Follow-up time | numeric | time | days from time zero"
+        ]
+      },
+      prehab: {
+        label: "Prehabilitation",
+        rows: [
+          "prehab_received | Prehabilitation received | binary | exposure | 0 no; 1 yes",
+          "prehab_start_days | Days from referral to prehab start | numeric | process | days",
+          "prehab_start_date | Prehabilitation start date | date | exposure | ISO date",
+          "prehab_sessions | Completed prehabilitation sessions | numeric | dose | count",
+          "prehab_modality | Prehabilitation modality | categorical | exposure | exercise; nutrition; multimodal; other",
+          "surgery_date | Surgery date | date | time | ISO date if retained",
+          "surgery_type | Surgery type | categorical | covariate | wedge; lobectomy; pneumonectomy; other",
+          "postop_complication_30d | Postoperative complication within 30 days | binary | outcome | 0 no; 1 yes",
+          "length_of_stay_days | Hospital length of stay | numeric | outcome | days",
+          "readmission_30d | Readmission within 30 days | binary | outcome | 0 no; 1 yes"
+        ]
+      },
+      immunotherapy: {
+        label: "Immunotherapy",
+        rows: [
+          "ici_regimen | Immunotherapy regimen | categorical | exposure | define regimen groups",
+          "ici_start_date | Immunotherapy start date | date | exposure | ISO date",
+          "line_of_therapy | Line of therapy | ordinal | covariate | 1; 2; 3+",
+          "prior_platinum | Prior platinum chemotherapy | binary | covariate | 0 no; 1 yes",
+          "driver_mutation | Driver alteration | categorical | covariate | EGFR; ALK; ROS1; MET; RET; NTRK; none; unknown",
+          "response | Best response | categorical | outcome | CR; PR; SD; PD; unknown",
+          "pfs_days | Progression-free survival time | numeric | time | days from treatment start",
+          "progression_event | Progression/death event | binary | outcome | 0 censored; 1 event",
+          "os_days | Overall survival time | numeric | time | days from treatment start",
+          "death_event | Death event | binary | outcome | 0 censored; 1 death",
+          "immune_related_ae | Immune-related adverse event | binary | safety | 0 no; 1 yes",
+          "grade3plus_ae | Grade 3 or higher adverse event | binary | safety | 0 no; 1 yes"
+        ]
+      },
+      survey: {
+        label: "Survey",
+        rows: [
+          "respondent_id | Respondent identifier | string | id | de-identified stable id",
+          "role | Respondent role | categorical | covariate | clinician; nurse; patient; caregiver; other",
+          "site_type | Site type | categorical | covariate | academic; community; rural; other",
+          "literacy_score | Health literacy score | numeric | outcome | specify instrument",
+          "implementation_barrier | Primary implementation barrier | categorical | outcome | coding framework required",
+          "survey_instrument | Survey instrument | string | measurement | validated instrument name or local form",
+          "survey_mode | Survey mode | categorical | process | web; phone; paper; interview; other",
+          "invitation_date | Survey invitation date | date | process | ISO date",
+          "response_date | Survey response date | date | process | ISO date",
+          "completion_status | Survey completion status | categorical | process | complete; partial; excluded",
+          "nonresponse_reason | Nonresponse reason | categorical | process | unavailable; declined; ineligible; unknown"
+        ]
+      },
+      qualitative: {
+        label: "Qualitative",
+        rows: [
+          "participant_id | Participant identifier | string | id | de-identified stable id",
+          "sampling_frame | Sampling frame | text | qualitative | purposive; convenience; theoretical; other",
+          "participant_role | Participant role | categorical | qualitative | patient; clinician; caregiver; manager; other",
+          "interview_completed | Interview completed | binary | process | 0 no; 1 yes",
+          "interview_date | Interview or focus group date | date | process | ISO date",
+          "interview_mode | Interview mode | categorical | qualitative | in_person; video; phone; written",
+          "recording_status | Recording status | categorical | qualitative | audio; video; notes_only; none",
+          "transcript_available | Transcript available | binary | qualitative | 0 no; 1 yes",
+          "theme_code | Qualitative theme code | categorical | qualitative | coding framework required",
+          "coder_id | Qualitative coder | string | qualitative | de-identified coder id",
+          "reflexivity_note | Reflexivity memo | text | qualitative | brief context or positionality note",
+          "integration_note | Integration memo | text | qualitative | joint display or mixed-methods memo"
+        ]
+      },
+      diagnostic: {
+        label: "Diagnostic",
+        rows: [
+          "participant_id | Participant identifier | string | id | de-identified stable id",
+          "index_test | Index test | categorical | exposure | name/version of test under evaluation",
+          "index_test_date | Index test date | date | time | ISO date",
+          "index_test_result | Index test result | categorical | outcome | positive; negative; indeterminate; continuous value if applicable",
+          "reference_standard | Reference standard | categorical | comparator | pathology; imaging; clinical follow-up; other",
+          "reference_standard_date | Reference standard date | date | time | ISO date",
+          "reference_standard_result | Reference standard result | categorical | outcome | disease; no_disease; indeterminate",
+          "reader_blinded | Reader blinded to reference standard | binary | bias | 0 no; 1 yes",
+          "verification_status | Verification status | categorical | bias | complete; partial; missing",
+          "test_interval_days | Index-to-reference interval | numeric | time | days"
+        ]
+      },
+      prediction: {
+        label: "Prediction",
+        rows: [
+          "model_id | Prediction model identifier | string | id | model name/version",
+          "prediction_time | Prediction time point | date | time | ISO date or clinical time point",
+          "candidate_predictor | Candidate predictor name | string | predictor | define measurement window",
+          "predictor_value | Predictor value | text | predictor | raw or coded value",
+          "outcome_for_prediction | Prediction outcome | binary | outcome | 0 no; 1 yes",
+          "outcome_horizon_days | Prediction horizon | numeric | time | days from prediction time",
+          "development_validation_split | Dataset role | categorical | process | development; internal_validation; external_validation",
+          "calibration_group | Calibration assessment group | categorical | validation | overall; subgroup; site",
+          "predicted_risk | Predicted risk | numeric | prediction | probability 0-1",
+          "observed_outcome | Observed outcome | binary | outcome | 0 no; 1 yes"
+        ]
+      },
+      healthEconomics: {
+        label: "Health economics",
+        rows: [
+          "perspective | Economic evaluation perspective | categorical | economic | payer; societal; hospital; patient; other",
+          "time_horizon_months | Time horizon | numeric | economic | months",
+          "cost_currency | Cost currency | string | economic | ISO currency and price year",
+          "intervention_cost | Intervention cost | numeric | economic | per patient or episode",
+          "usual_care_cost | Comparator cost | numeric | economic | per patient or episode",
+          "resource_use_item | Resource use item | string | economic | visit; admission; medication; test; other",
+          "resource_use_count | Resource use count | numeric | economic | count in time horizon",
+          "utility_value | Health utility value | numeric | outcome | 0-1 scale; specify instrument",
+          "qaly | Quality-adjusted life year | numeric | outcome | QALY over horizon",
+          "icer | Incremental cost-effectiveness ratio | numeric | economic | cost per outcome unit"
+        ]
+      },
+      evidenceSynthesis: {
+        label: "Review/meta",
+        rows: [
+          "record_id | Review record identifier | string | id | citation or screening id",
+          "database_source | Search database/source | categorical | source | PubMed; Embase; Cochrane; trial_registry; other",
+          "search_date | Search date | date | source | ISO date",
+          "title_abstract_decision | Title/abstract screening decision | categorical | screening | include; exclude; uncertain",
+          "full_text_decision | Full-text decision | categorical | screening | include; exclude; uncertain",
+          "exclusion_reason | Full-text exclusion reason | text | screening | prespecified reason",
+          "study_design | Included study design | categorical | covariate | RCT; cohort; case-control; cross-sectional; other",
+          "risk_of_bias_tool | Risk-of-bias tool | string | appraisal | RoB2; ROBINS-I; QUADAS-2; PROBAST; other",
+          "effect_estimate | Effect estimate | numeric | outcome | extracted effect",
+          "effect_measure | Effect measure | categorical | outcome | OR; RR; HR; MD; SMD; sensitivity; specificity; other"
+        ]
+      }
+    };
+
+    const biasItems = [
+      {
+        id: "eligibility",
+        label: "Eligibility anchored",
+        hint: "Inclusion and exclusion criteria are concrete enough to reproduce."
+      },
+      {
+        id: "timeZero",
+        label: "Time zero defined",
+        hint: "Follow-up starts at a defensible index date."
+      },
+      {
+        id: "immortalTime",
+        label: "Immortal-time risk considered",
+        hint: "Exposure timing cannot create guaranteed survival time."
+      },
+      {
+        id: "confounding",
+        label: "Confounding plan drafted",
+        hint: "Key causal confounders are named before data inspection."
+      },
+      {
+        id: "estimand",
+        label: "Estimand or contrast stated",
+        hint: "The target effect, comparison, follow-up, and intercurrent events are explicit."
+      },
+      {
+        id: "missingness",
+        label: "Missing-data plan drafted",
+        hint: "Missingness is expected, measured, and handled explicitly."
+      },
+      {
+        id: "outcomeBlind",
+        label: "Outcome ascertainment checked",
+        hint: "Outcome source and possible differential measurement are recorded."
+      },
+      {
+        id: "dataProvenance",
+        label: "Data provenance checked",
+        hint: "Registry, EHR, linkage, extraction, and coding definitions are documented."
+      },
+      {
+        id: "sampleSize",
+        label: "Event/sample feasibility checked",
+        hint: "Expected sample size and event count are plausible."
+      },
+      {
+        id: "sensitivity",
+        label: "Sensitivity analyses named",
+        hint: "Alternative definitions, missing-data assumptions, or unmeasured-confounding checks are planned."
+      },
+      {
+        id: "multiplicity",
+        label: "Multiplicity bounded",
+        hint: "Secondary outcomes, subgroups, and exploratory claims are limited before analysis."
+      },
+      {
+        id: "ethics",
+        label: "Ethics and governance path known",
+        hint: "IRB, DPA, register permission, or consent path is not hand-waved."
+      }
+    ];
+
+    let currentPathway = "registry";
+    let activeArtifact = "concept";
+    let latestBundle = null;
+
+    function renderPathways() {
+      $("pathwayButtons").innerHTML = pathways.map((pathway) => `
+        <button type="button" class="${pathway.id === currentPathway ? "is-active" : ""}" data-pathway="${pathway.id}">
+          ${pathway.label}
+        </button>
+      `).join("");
+    }
+
+    function fieldValue(id) {
+      const node = $(id);
+      return node ? String(node.value || "").trim() : "";
+    }
+
+    function getSelectionContext() {
+      return {
+        title: fieldValue("title"),
+        disease: fieldValue("disease"),
+        questionType: fieldValue("questionType") || "Comparative effectiveness",
+        studyDesign: fieldValue("studyDesign") || "Retrospective cohort",
+        analysisTarget: fieldValue("analysisTarget") || "Readiness only",
+        pathway: currentPathway,
+        dataSource: fieldValue("dataSource"),
+        researchQuestion: fieldValue("researchQuestion"),
+        intervention: fieldValue("intervention"),
+        variables: fieldValue("variables")
+      };
+    }
+
+    function variableNameFromRow(row) {
+      return row.split("|")[0]?.trim() || "";
+    }
+
+    function uniqueIds(ids) {
+      return [...new Set(ids.filter(Boolean))];
+    }
+
+    function recommendedPresetIds(data) {
+      const text = [
+        data.title,
+        data.disease,
+        data.researchQuestion,
+        data.intervention,
+        data.dataSource
+      ].join(" ");
+      if (hasEvidenceSynthesisDesign(data)) return ["evidenceSynthesis"];
+      if (designIncludes(data, /qualitative interview|focus group/i) && data.pathway !== "mixedMethods") return ["qualitative"];
+      if (designIncludes(data, /survey validation/i) && data.pathway !== "mixedMethods") return ["survey"];
+
+      const ids = ["coreClinical"];
+
+      if (/lung|pulmonary|nsclc|sclc/i.test(text)) ids.push("lungOncology");
+      if (/prehab|prehabilitation/i.test(text)) ids.push("prehab");
+      if (/immuno|checkpoint|ici|pdl-?1|nivolumab|pembrolizumab|atezolizumab|durvalumab/i.test(text)) ids.push("immunotherapy");
+      if (hasRandomizedDesign(data)) ids.push("trial");
+      if (hasRoutineDataSignal(data)) ids.push("registryEhr");
+      if (data.analysisTarget.includes("Survival")) ids.push("survival");
+      if (data.pathway === "survey" || designIncludes(data, /survey/i)) ids.push("survey");
+      if (data.pathway === "careQI" || data.questionType === "Implementation" || designIncludes(data, /before-after|interrupted time series|stepped-wedge/i)) ids.push("implementation");
+      if (hasQualitativeIntent(data)) ids.push("qualitative");
+      if (hasDiagnosticAccuracyDesign(data)) ids.push("diagnostic");
+      if (hasPredictionIntent(data)) ids.push("prediction");
+      if (hasHealthEconomicDesign(data)) ids.push("healthEconomics");
+      if (hasEvidenceSynthesisDesign(data)) ids.push("evidenceSynthesis");
+
+      return uniqueIds(ids);
+    }
+
+    function presetRows(ids) {
+      const seenNames = new Set();
+      const rows = [];
+      ids.forEach((id) => {
+        const preset = variablePresets[id];
+        if (!preset) return;
+        preset.rows.forEach((row) => {
+          const name = variableNameFromRow(row);
+          if (name && !seenNames.has(name)) {
+            rows.push({ packId: id, packLabel: preset.label, row, variable: parseVariables(row)[0] });
+            seenNames.add(name);
+          }
+        });
+      });
+      return rows;
+    }
+
+    function loadedPresetIds(variables = parseVariables(fieldValue("variables"))) {
+      const names = new Set(variables.map((row) => row.name));
+      return Object.entries(variablePresets)
+        .filter(([, preset]) => preset.rows.every((row) => names.has(variableNameFromRow(row))))
+        .map(([id]) => id);
+    }
+
+    function buildVariableRecommendations(data) {
+      const variables = parseVariables(data.variables || "");
+      const names = new Set(variables.map((row) => row.name));
+      const recommendedIds = recommendedPresetIds(data);
+      const suggestedRows = presetRows(recommendedIds);
+      const missingRows = suggestedRows.filter((entry) => entry.variable?.name && !names.has(entry.variable.name));
+      return {
+        recommendedIds,
+        recommendedPacks: recommendedIds.map((id) => variablePresets[id]?.label).filter(Boolean),
+        loadedIds: loadedPresetIds(variables),
+        variableCount: variables.length,
+        suggestedRows,
+        missingRows
+      };
+    }
+
+    function renderPresets(context = getSelectionContext()) {
+      const recommendations = buildVariableRecommendations(context);
+      const recommended = new Set(recommendations.recommendedIds);
+      const loaded = new Set(recommendations.loadedIds);
+      $("presetButtons").innerHTML = Object.entries(variablePresets).map(([id, preset]) => {
+        const classes = [
+          recommended.has(id) ? "is-recommended" : "",
+          loaded.has(id) ? "is-loaded" : ""
+        ].filter(Boolean).join(" ");
+        return `
+          <button type="button" class="${classes}" data-preset="${id}" title="${recommended.has(id) ? "Recommended for current setup" : "Optional variable pack"}">
+            ${preset.label}
+          </button>
+        `;
+      }).join("");
+    }
+
+    function renderVariableAudit(data = getSelectionContext()) {
+      const recommendations = buildVariableRecommendations(data);
+      $("recommendedPacks").textContent = `Recommended packs: ${recommendations.recommendedPacks.join(", ") || "none"}.`;
+      $("variableAuditSummary").textContent = `${recommendations.variableCount} variables listed; ${recommendations.missingRows.length} suggested variables not yet added.`;
+
+      if (!recommendations.missingRows.length) {
+        $("variableAudit").innerHTML = "<strong>Variable audit:</strong> all currently suggested variables are present.";
+        return;
+      }
+
+      const missingList = recommendations.missingRows.slice(0, 10).map((entry) => `
+        <li><strong>${escapeHtml(entry.variable.name)}</strong> ${escapeHtml(entry.variable.label || "")} <span>(${escapeHtml(entry.packLabel)})</span></li>
+      `).join("");
+      const more = recommendations.missingRows.length > 10
+        ? `<p class="hint">${recommendations.missingRows.length - 10} more suggested variables are not shown.</p>`
+        : "";
+
+      $("variableAudit").innerHTML = `
+        <strong>Variable audit:</strong>
+        <span>Add the missing suggested rows or keep them out intentionally and document why.</span>
+        <ul>${missingList}</ul>
+        ${more}
+      `;
+    }
+
+    function renderBiasChecks() {
+      $("biasChecks").innerHTML = biasItems.map((item) => `
+        <label class="check-item" for="bias-${item.id}">
+          <input id="bias-${item.id}" type="checkbox" data-bias="${item.id}" />
+          <span><strong>${item.label}</strong><span>${item.hint}</span></span>
+        </label>
+      `).join("");
+    }
+
+    function getFormData() {
+      const bias = biasItems.filter((item) => $(`bias-${item.id}`).checked).map((item) => item.id);
+      return {
+        title: $("title").value.trim(),
+        disease: $("disease").value.trim(),
+        questionType: $("questionType").value,
+        studyDesign: $("studyDesign").value,
+        analysisTarget: $("analysisTarget").value,
+        pathway: currentPathway,
+        dataSource: $("dataSource").value.trim(),
+        researchQuestion: $("researchQuestion").value.trim(),
+        population: $("population").value.trim(),
+        intervention: $("intervention").value.trim(),
+        comparator: $("comparator").value.trim(),
+        outcome: $("outcome").value.trim(),
+        timeZero: $("timeZero").value.trim(),
+        followUp: $("followUp").value.trim(),
+        variables: $("variables").value.trim(),
+        exposureVar: $("exposureVar").value.trim(),
+        outcomeVar: $("outcomeVar").value.trim(),
+        timeVar: $("timeVar").value.trim(),
+        adjustmentVars: $("adjustmentVars").value.trim(),
+        expectedN: $("expectedN").value.trim(),
+        eventRate: $("eventRate").value.trim(),
+        minimumEffect: $("minimumEffect").value.trim(),
+        feasibilityNotes: $("feasibilityNotes").value.trim(),
+        bias
+      };
+    }
+
+    function countWords(value) {
+      return value.trim().split(/\s+/).filter(Boolean).length;
+    }
+
+    function parseVariables(text) {
+      return text.split(/\n+/)
+        .map((row) => row.trim())
+        .filter(Boolean)
+        .map((row) => {
+          const parts = row.split("|").map((part) => part.trim());
+          return {
+            name: parts[0] || "",
+            label: parts[1] || "",
+            type: parts[2] || "",
+            role: parts[3] || "",
+            coding: parts[4] || ""
+          };
+        })
+        .filter((row) => row.name);
+    }
+
+    function escapeHtml(value) {
+      return String(value ?? "").replace(/[&<>"']/g, (char) => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        "\"": "&quot;",
+        "'": "&#039;"
+      }[char]));
+    }
+
+    function getFramework(id) {
+      return scientificBackbone.find((framework) => framework.id === id);
+    }
+
+    function uniqueFrameworks(ids) {
+      return [...new Set(ids)].map(getFramework).filter(Boolean);
+    }
+
+    function hasRoutineDataSignal(data) {
+      return data.pathway === "registry" ||
+        /registry|register|ehr|electronic health|routine|real[- ]?world|claims|database|linkage|administrative/i.test(data.dataSource);
+    }
+
+    function designIncludes(data, pattern) {
+      return pattern.test(data.studyDesign || "");
+    }
+
+    function hasRandomizedDesign(data) {
+      return designIncludes(data, /randomized|pragmatic|pilot\/feasibility|stepped-wedge/i);
+    }
+
+    function hasObservationalDesign(data) {
+      return designIncludes(data, /cohort|case-control|cross-sectional|case series|before-after|interrupted time series|external comparator/i);
+    }
+
+    function hasDiagnosticAccuracyDesign(data) {
+      return designIncludes(data, /diagnostic accuracy|test validation/i);
+    }
+
+    function hasEvidenceSynthesisDesign(data) {
+      return designIncludes(data, /systematic review|meta-analysis/i);
+    }
+
+    function hasHealthEconomicDesign(data) {
+      return designIncludes(data, /health economic/i);
+    }
+
+    function hasCausalIntent(data) {
+      return data.questionType === "Comparative effectiveness" ||
+        data.analysisTarget.includes("Propensity") ||
+        designIncludes(data, /before-after|interrupted time series|external comparator|stepped-wedge/i);
+    }
+
+    function hasPredictionIntent(data) {
+      return data.questionType === "Prognostic" ||
+        data.analysisTarget.includes("Prediction") ||
+        designIncludes(data, /prediction model/i);
+    }
+
+    function hasQualitativeIntent(data) {
+      return data.questionType === "Mixed methods" ||
+        data.pathway === "mixedMethods" ||
+        data.analysisTarget.includes("Qualitative") ||
+        designIncludes(data, /qualitative/i);
+    }
+
+    function recommendedFrameworks(data) {
+      const ids = ["picots", "ichE9"];
+
+      if (hasRandomizedDesign(data) || data.pathway === "prospective") ids.push("spirit2025", "consort2025");
+      if (designIncludes(data, /pilot\/feasibility/i)) ids.push("consortPilot");
+      if (hasObservationalDesign(data) || hasRoutineDataSignal(data)) ids.push("strobe");
+      if (hasRoutineDataSignal(data)) ids.push("record");
+      if (data.pathway === "survey" || designIncludes(data, /survey/i)) ids.push("strobe");
+      if (hasCausalIntent(data)) ids.push("targetTrial", "robinsI");
+      if (hasDiagnosticAccuracyDesign(data)) ids.push("stard");
+      if (hasPredictionIntent(data)) ids.push("tripod", "probast");
+      if (hasQualitativeIntent(data)) ids.push("srqrCoreq");
+      if (data.pathway === "careQI") ids.push("squire");
+      if (hasEvidenceSynthesisDesign(data)) ids.push("prisma");
+      if (hasHealthEconomicDesign(data)) ids.push("cheers");
+
+      return uniqueFrameworks(ids);
+    }
+
+    function buildAnalysisChecks(data, variables) {
+      const checks = [
+        {
+          label: "Primary exposure/intervention variable named",
+          complete: Boolean(data.exposureVar),
+          rationale: "Connects the analysis to the intervention or exposure in PICOTS."
+        },
+        {
+          label: "Primary outcome variable named",
+          complete: Boolean(data.outcomeVar),
+          rationale: "Connects the analysis to the prespecified primary outcome."
+        },
+        {
+          label: "Time zero and follow-up are analysis-ready",
+          complete: countWords(data.timeZero) >= 3 && countWords(data.followUp) >= 3,
+          rationale: "Prevents ambiguous denominators, immortal time, and inconsistent censoring."
+        }
+      ];
+
+      if (data.analysisTarget.includes("Survival")) {
+        checks.push({
+          label: "Survival time variable named",
+          complete: Boolean(data.timeVar),
+          rationale: "Survival models require an explicit time scale and event indicator."
+        });
+      }
+
+      if (hasCausalIntent(data) || data.analysisTarget.includes("Regression") || data.analysisTarget.includes("Survival")) {
+        checks.push({
+          label: "Adjustment variables named before data inspection",
+          complete: Boolean(data.adjustmentVars),
+          rationale: "Confounder selection should be concept-driven rather than outcome-driven."
+        });
+      }
+
+      if (hasCausalIntent(data)) {
+        checks.push({
+          label: "Target contrast or estimand stated",
+          complete: data.bias.includes("estimand"),
+          rationale: "Causal questions need a clear comparison and target effect."
+        });
+      }
+
+      if (hasPredictionIntent(data)) {
+        checks.push({
+          label: "Prediction model needs validation planning",
+          complete: data.bias.includes("sampleSize") && data.bias.includes("sensitivity") && variables.length >= 5,
+          rationale: "Prediction models need adequate events, prespecified predictors, and validation or sensitivity planning."
+        });
+      }
+
+      if (hasDiagnosticAccuracyDesign(data)) {
+        checks.push({
+          label: "Index test and reference standard variables are present",
+          complete: variables.some((row) => row.name === "index_test_result") && variables.some((row) => row.name === "reference_standard_result"),
+          rationale: "Diagnostic accuracy studies need paired index-test and reference-standard definitions."
+        });
+      }
+
+      if (hasHealthEconomicDesign(data)) {
+        checks.push({
+          label: "Economic perspective and time horizon are present",
+          complete: variables.some((row) => row.name === "perspective") && variables.some((row) => row.name === "time_horizon_months"),
+          rationale: "Economic evaluations need perspective, time horizon, costs, outcomes, and uncertainty assumptions."
+        });
+      }
+
+      if (hasEvidenceSynthesisDesign(data)) {
+        checks.push({
+          label: "Review screening and extraction variables are present",
+          complete: variables.some((row) => row.name === "title_abstract_decision") && variables.some((row) => row.name === "full_text_decision"),
+          rationale: "Evidence syntheses need reproducible search, screening, eligibility, appraisal, and extraction records."
+        });
+      }
+
+      if (hasRoutineDataSignal(data)) {
+        checks.push({
+          label: "Routine-data provenance documented",
+          complete: data.bias.includes("dataProvenance"),
+          rationale: "Registry and EHR studies need reproducible code, linkage, and phenotype definitions."
+        });
+      }
+
+      return checks;
+    }
+
+    function buildBackboneChecks(data, variables) {
+      const picotsReady = [
+        data.population,
+        data.intervention,
+        data.comparator,
+        data.outcome,
+        data.timeZero,
+        data.followUp
+      ].filter((value) => countWords(value) >= 3).length;
+      const variableRecommendations = buildVariableRecommendations(data);
+
+      return [
+        {
+          label: "PICOTS structure is reproducible",
+          framework: "PICOTS / AHRQ",
+          complete: picotsReady === 6
+        },
+        {
+          label: "Protocol/reporting framework selected",
+          framework: recommendedFrameworks(data).map((item) => item.name).join("; "),
+          complete: recommendedFrameworks(data).length >= 2
+        },
+        {
+          label: "Bias domains are substantially covered",
+          framework: "ROBINS-I / STROBE / RECORD",
+          complete: data.bias.length >= Math.ceil(biasItems.length * 0.7)
+        },
+        {
+          label: "Estimand or target contrast is explicit",
+          framework: "ICH E9(R1) / target trial emulation",
+          complete: !hasCausalIntent(data) || data.bias.includes("estimand")
+        },
+        {
+          label: "Data provenance is inspectable",
+          framework: "RECORD",
+          complete: !hasRoutineDataSignal(data) || data.bias.includes("dataProvenance")
+        },
+        {
+          label: "Feasibility assumptions are present",
+          framework: "SPIRIT / CONSORT / protocol SAP",
+          complete: Boolean(data.expectedN && data.eventRate && data.minimumEffect)
+        },
+        {
+          label: "Codebook has enough role-coded variables",
+          framework: "STROBE / TRIPOD / analysis plan",
+          complete: variables.filter((row) => row.label && row.type && row.role).length >= 5
+        },
+        {
+          label: "Adaptive variable suggestions addressed",
+          framework: "Study-design variable packs",
+          complete: variableRecommendations.missingRows.length === 0
+        }
+      ];
+    }
+
+    function statusMeta(status) {
+      const meta = {
+        complete: { label: "Set", className: "gate-complete" },
+        support: { label: "Support", className: "gate-support" },
+        review: { label: "Review", className: "gate-review" },
+        blocked: { label: "Blocked", className: "gate-blocked" }
+      };
+      return meta[status] || meta.support;
+    }
+
+    function makeGate(id, status, summary, nextAction) {
+      const definition = planningGateDefinitions.find((gate) => gate.id === id) || {};
+      return {
+        id,
+        label: definition.label || id,
+        owner: definition.owner || "Study team",
+        status,
+        statusLabel: statusMeta(status).label,
+        className: statusMeta(status).className,
+        summary,
+        nextAction
+      };
+    }
+
+    function buildPlanningGates(data, result) {
+      const variables = parseVariables(data.variables);
+      const picotsFields = [
+        data.population,
+        data.intervention,
+        data.comparator,
+        data.outcome,
+        data.timeZero,
+        data.followUp
+      ];
+      const picotsReady = picotsFields.filter((value) => countWords(value) >= 3).length;
+      const identityReady = [data.title, data.disease, data.dataSource, data.researchQuestion]
+        .filter((value) => countWords(value) > 0).length;
+      const feasibilityReady = [data.expectedN, data.eventRate, data.minimumEffect].filter(Boolean).length;
+      const analysisChecks = buildAnalysisChecks(data, variables);
+      const completedAnalysisChecks = analysisChecks.filter((check) => check.complete).length;
+      const requiresAdjustment =
+        hasCausalIntent(data) ||
+        data.analysisTarget.includes("Regression") ||
+        data.analysisTarget.includes("Survival");
+      const sapComplete =
+        data.analysisTarget !== "Readiness only" &&
+        Boolean(data.exposureVar && data.outcomeVar) &&
+        (!requiresAdjustment || Boolean(data.adjustmentVars)) &&
+        (!data.analysisTarget.includes("Survival") || Boolean(data.timeVar));
+      const extractionComplete =
+        variables.length >= 5 &&
+        (!hasRoutineDataSignal(data) || data.bias.includes("dataProvenance"));
+
+      return [
+        makeGate(
+          "idea",
+          identityReady === 4 && countWords(data.researchQuestion) >= 8 ? "complete" : identityReady ? "support" : "blocked",
+          identityReady === 4 ? `Clinical question, disease area, source, and ${data.studyDesign} design are present.` : "Study identity is still forming.",
+          identityReady === 4 ? "Check whether the question wording matches the intended estimand." : "Name the disease area, data source, and research question."
+        ),
+        makeGate(
+          "methods",
+          picotsReady === 6 && variables.length >= 5 ? (result.needsReview ? "review" : "complete") : (picotsReady >= 3 || variables.length >= 3 ? "support" : "blocked"),
+          `${picotsReady} of 6 PICOTS fields are reproducible; ${variables.length} variables are listed.`,
+          picotsReady === 6 && variables.length >= 5 ? "Send the scaffold for methods review where required." : "Complete PICOTS and add a role-coded variable skeleton."
+        ),
+        makeGate(
+          "feasibility",
+          feasibilityReady === 3 ? "complete" : feasibilityReady ? "support" : "blocked",
+          `${feasibilityReady} of 3 core feasibility assumptions are present.`,
+          feasibilityReady === 3 ? "Convert assumptions into a precision or sample-size calculation." : "Add expected N, event rate, and minimum useful effect."
+        ),
+        makeGate(
+          "governance",
+          data.bias.includes("ethics") && (!hasRoutineDataSignal(data) || data.bias.includes("dataProvenance")) ? "complete" : (data.bias.includes("ethics") || data.dataSource ? "review" : "blocked"),
+          data.bias.includes("ethics") ? "Ethics or governance route is named." : "Ethics, permission, consent, or DPA route is unresolved.",
+          data.bias.includes("ethics") ? "Confirm documents, approvals, and data-processing responsibilities." : "Identify the IRB, DPA, registry permission, or consent route."
+        ),
+        makeGate(
+          "protocol",
+          result.code === "[oo]" ? "complete" : (result.code === "[r]" ? "review" : (result.code === "[o]" ? "support" : "blocked")),
+          `${result.code} ${result.label}: ${result.next}`,
+          result.code === "[d]" ? "Do not draft yet; close identity and structure gaps first." : "Use the readiness sheet as the protocol outline input."
+        ),
+        makeGate(
+          "sap",
+          sapComplete ? (result.needsReview ? "review" : "complete") : (data.analysisTarget !== "Readiness only" ? "support" : "blocked"),
+          `Analysis target: ${data.analysisTarget}. ${completedAnalysisChecks} of ${analysisChecks.length} analysis checks are set.`,
+          sapComplete ? "Ask the statistician to convert assumptions into a SAP." : "Name exposure, outcome, adjustment set, and time variable where needed."
+        ),
+        makeGate(
+          "data",
+          extractionComplete ? "complete" : (variables.length >= 5 && hasRoutineDataSignal(data) ? "review" : (variables.length ? "support" : "blocked")),
+          extractionComplete ? "Codebook and extraction assumptions are inspectable." : "Extraction source, codebook, or provenance is incomplete.",
+          extractionComplete ? "Prepare extraction specification and validation checks." : "Add role-coded variables and routine-data provenance where relevant."
+        ),
+        makeGate(
+          "analysis",
+          result.code === "[oo]" && completedAnalysisChecks === analysisChecks.length ? "complete" : (result.needsReview ? "review" : (completedAnalysisChecks ? "support" : "blocked")),
+          `${completedAnalysisChecks} of ${analysisChecks.length} analysis-readiness checks are set.`,
+          result.needsReview ? "Resolve methodologist/statistician review before analysis." : "Keep analysis scoped to prespecified variables and assumptions."
+        )
+      ];
+    }
+
+    function addLedgerRow(rows, domain, decision, owner, status, nextAction, evidence) {
+      rows.push({
+        domain,
+        decision,
+        owner,
+        status,
+        statusLabel: statusMeta(status).label,
+        className: statusMeta(status).className,
+        nextAction,
+        evidence
+      });
+    }
+
+    function buildPlanningLedger(data, result) {
+      const rows = [];
+      const variables = parseVariables(data.variables);
+      const picotsReady = [
+        data.population,
+        data.intervention,
+        data.comparator,
+        data.outcome,
+        data.timeZero,
+        data.followUp
+      ].filter((value) => countWords(value) >= 3).length;
+      const codedVariables = variables.filter((row) => row.label && row.type && row.role).length;
+      const feasibilityReady = [data.expectedN, data.eventRate, data.minimumEffect].filter(Boolean).length;
+      const routineData = hasRoutineDataSignal(data);
+      const causalIntent = hasCausalIntent(data);
+      const needsAdjustment =
+        causalIntent ||
+        data.analysisTarget.includes("Regression") ||
+        data.analysisTarget.includes("Survival");
+      const governanceComplete = data.bias.includes("ethics") && (!routineData || data.bias.includes("dataProvenance"));
+      const sapReady =
+        data.analysisTarget !== "Readiness only" &&
+        Boolean(data.exposureVar && data.outcomeVar) &&
+        (!needsAdjustment || Boolean(data.adjustmentVars)) &&
+        (!data.analysisTarget.includes("Survival") || Boolean(data.timeVar));
+      const variableRecommendations = buildVariableRecommendations(data);
+
+      addLedgerRow(
+        rows,
+        "Question",
+        "Clinical question and intended study type",
+        "Clinical lead",
+        countWords(data.researchQuestion) >= 8 && data.title && data.disease ? "complete" : (data.title || data.researchQuestion ? "support" : "blocked"),
+        "Make the question answerable in one sentence with population, comparison, outcome, and timing.",
+        data.researchQuestion || "missing"
+      );
+
+      addLedgerRow(
+        rows,
+        "Design",
+        "Study design and reporting framework family",
+        "Methodologist",
+        recommendedFrameworks(data).length >= 2 ? "complete" : "support",
+        "Check that the design, question type, data source, and analysis target agree.",
+        `${data.studyDesign}; frameworks: ${recommendedFrameworks(data).map((framework) => framework.name).join("; ")}`
+      );
+
+      addLedgerRow(
+        rows,
+        "PICOTS",
+        "Eligibility, comparator, outcome, time zero, follow-up",
+        "Clinical lead / methodologist",
+        picotsReady === 6 ? "complete" : (picotsReady >= 3 ? "support" : "blocked"),
+        "Close any vague PICOTS fields before protocol drafting.",
+        `${picotsReady} of 6 fields reproducible`
+      );
+
+      addLedgerRow(
+        rows,
+        "Data",
+        "Source, linkage, extraction, and provenance",
+        "Data manager",
+        data.dataSource && (!routineData || data.bias.includes("dataProvenance")) ? "complete" : (data.dataSource ? "review" : "blocked"),
+        routineData ? "Document registry/EHR extraction, linkage, code validity, and phenotype definitions." : "Confirm the source, access route, and extraction owner.",
+        data.dataSource || "missing"
+      );
+
+      addLedgerRow(
+        rows,
+        "Codebook",
+        "Variables have stable names, roles, and coding notes",
+        "Data manager / analyst",
+        codedVariables >= 5 && variableRecommendations.missingRows.length === 0 ? "complete" : (variables.length ? "support" : "blocked"),
+        variableRecommendations.missingRows.length
+          ? "Apply recommended packs or document why the suggested rows are intentionally excluded."
+          : "Keep codebook definitions aligned with the protocol and extraction plan.",
+        `${codedVariables} coded variables; ${variables.length} total variables; ${variableRecommendations.missingRows.length} suggested rows missing`
+      );
+
+      addLedgerRow(
+        rows,
+        "Estimand",
+        "Target contrast and intercurrent-event logic",
+        "Methodologist / statistician",
+        !causalIntent ? "complete" : (data.bias.includes("estimand") ? "review" : "blocked"),
+        causalIntent ? "State the target effect, comparison, follow-up, and sensitivity strategy." : "Keep the analysis target aligned with the descriptive or predictive aim.",
+        causalIntent ? (data.bias.includes("estimand") ? "estimand guardrail checked" : "missing for causal question") : "not a causal-effect target"
+      );
+
+      addLedgerRow(
+        rows,
+        "Bias",
+        "Confounding, missingness, measurement, sensitivity, multiplicity",
+        "Methodologist",
+        data.bias.length >= Math.ceil(biasItems.length * 0.7) ? "complete" : (data.bias.length >= 5 ? "review" : "support"),
+        "Resolve unchecked validity domains and record the assumptions in the protocol.",
+        `${data.bias.length} of ${biasItems.length} guardrails checked`
+      );
+
+      addLedgerRow(
+        rows,
+        "Feasibility",
+        "Sample size, event rate, minimum useful effect",
+        "PI / statistician",
+        feasibilityReady === 3 ? "complete" : (feasibilityReady ? "support" : "blocked"),
+        "Turn assumptions into a formal power, precision, or simulation note.",
+        `${feasibilityReady} of 3 assumptions present`
+      );
+
+      addLedgerRow(
+        rows,
+        "Governance",
+        "Ethics, DPA, registry permission, consent route",
+        "PI / data governance",
+        governanceComplete ? "complete" : (data.bias.includes("ethics") ? "review" : "blocked"),
+        "Confirm approval path and required documents before extraction or recruitment.",
+        governanceComplete ? "governance and provenance checks set" : (data.bias.includes("ethics") ? "governance path known" : "governance path missing")
+      );
+
+      addLedgerRow(
+        rows,
+        "SAP",
+        "Analysis plan variables and adjustment set",
+        "Statistician",
+        sapReady ? "review" : (data.analysisTarget !== "Readiness only" || data.exposureVar || data.outcomeVar ? "support" : "blocked"),
+        "Prepare a SAP from exposure, outcome, adjustment variables, time scale, and sensitivity checks.",
+        `target: ${data.analysisTarget}`
+      );
+
+      addLedgerRow(
+        rows,
+        "Handoff",
+        "Questions for methods/statistical review",
+        "Study lead",
+        result.needsReview ? "review" : (result.code === "[oo]" ? "complete" : "support"),
+        result.needsReview ? "Send the readiness sheet, protocol backbone, and ledger to the reviewer." : "Keep the ledger with the protocol outline.",
+        `${result.code} ${result.label}`
+      );
+
+      return rows;
+    }
+
+    function buildPlanningLayer(data, result) {
+      return {
+        gates: buildPlanningGates(data, result),
+        ledger: buildPlanningLedger(data, result)
+      };
+    }
+
+    function sectionScore(completed, total, points) {
+      if (!total) return 0;
+      return Math.round((completed / total) * points);
+    }
+
+    function compactCheckText(checks) {
+      return checks
+        .map((check) => `${check.complete ? "[set]" : "[gap]"} ${check.label} (${check.framework || check.rationale})`)
+        .join("\n");
+    }
+
+    function classify(data) {
+      const variables = parseVariables(data.variables);
+      const picotsFields = [
+        data.population,
+        data.intervention,
+        data.comparator,
+        data.outcome,
+        data.timeZero,
+        data.followUp
+      ];
+      const identityFields = [
+        data.title,
+        data.disease,
+        data.dataSource,
+        data.researchQuestion
+      ];
+      const requiredFields = [
+        ...identityFields,
+        ...picotsFields,
+        data.variables,
+        data.exposureVar,
+        data.outcomeVar
+      ];
+      const analysisChecks = buildAnalysisChecks(data, variables);
+      const backboneChecks = buildBackboneChecks(data, variables);
+      const variableRecommendations = buildVariableRecommendations(data);
+      const filledRequired = requiredFields.filter((value) => countWords(value) > 0).length;
+      const identityReady = identityFields.filter((value) => countWords(value) > 0).length;
+      const picotsReady = picotsFields.filter((value) => countWords(value) >= 3).length;
+      const biasCount = data.bias.length;
+      const hasFeasibility = Boolean(data.expectedN && data.eventRate && data.minimumEffect);
+      const hasEnoughVariables = variables.length >= 5;
+      const codedVariables = variables.filter((row) => row.label && row.type && row.role).length;
+      const completedAnalysisChecks = analysisChecks.filter((check) => check.complete).length;
+      const completedBackboneChecks = backboneChecks.filter((check) => check.complete).length;
+      const reviewThreshold = Math.ceil(biasItems.length * 0.7);
+      const usesComplexMethod =
+        data.analysisTarget.includes("Survival") ||
+        data.analysisTarget.includes("Propensity") ||
+        data.analysisTarget.includes("Prediction") ||
+        data.analysisTarget.includes("Qualitative") ||
+        data.questionType === "Prognostic" ||
+        data.questionType === "Diagnostic" ||
+        data.questionType === "Mixed methods" ||
+        data.pathway === "mixedMethods" ||
+        hasRandomizedDesign(data) ||
+        hasDiagnosticAccuracyDesign(data) ||
+        hasEvidenceSynthesisDesign(data) ||
+        hasHealthEconomicDesign(data);
+
+      let score = 0;
+      score += sectionScore(identityReady, identityFields.length, scoreWeights.identity);
+      score += sectionScore(picotsReady, picotsFields.length, scoreWeights.picots);
+      score += Math.min(scoreWeights.variables, codedVariables * 2);
+      score += sectionScore(biasCount, biasItems.length, scoreWeights.bias);
+      score += hasFeasibility ? scoreWeights.feasibility : 0;
+      score += sectionScore(completedAnalysisChecks, analysisChecks.length, scoreWeights.analysis);
+      score += sectionScore(completedBackboneChecks, backboneChecks.length, scoreWeights.provenance);
+
+      const gaps = [];
+      if (countWords(data.researchQuestion) < 8) gaps.push("research question too short or missing");
+      if (picotsReady < 5) gaps.push("PICOTS not yet reproducible");
+      if (!hasEnoughVariables) gaps.push("codebook has fewer than five usable variables");
+      if (codedVariables < 5) gaps.push("fewer than five variables have label, type, and role");
+      if (!data.exposureVar) gaps.push("primary exposure variable missing");
+      if (!data.outcomeVar) gaps.push("primary outcome variable missing");
+      if (data.analysisTarget.includes("Survival") && !data.timeVar) gaps.push("survival time variable missing");
+      if ((hasCausalIntent(data) || data.analysisTarget.includes("Regression") || data.analysisTarget.includes("Survival")) && !data.adjustmentVars) {
+        gaps.push("pre-data adjustment variables missing");
+      }
+      if (hasCausalIntent(data) && !data.bias.includes("estimand")) gaps.push("target contrast or estimand not stated");
+      if (hasRoutineDataSignal(data) && !data.bias.includes("dataProvenance")) gaps.push("routine-data provenance not checked");
+      if (hasPredictionIntent(data) && !data.bias.includes("sensitivity")) gaps.push("prediction-model validation or sensitivity plan missing");
+      if (hasDiagnosticAccuracyDesign(data) && !variables.some((row) => row.name === "reference_standard_result")) gaps.push("diagnostic reference-standard result variable missing");
+      if (hasHealthEconomicDesign(data) && !variables.some((row) => row.name === "intervention_cost")) gaps.push("economic cost variables missing");
+      if (hasEvidenceSynthesisDesign(data) && !variables.some((row) => row.name === "full_text_decision")) gaps.push("review screening/extraction variables missing");
+      if (variableRecommendations.missingRows.length) gaps.push(`${variableRecommendations.missingRows.length} suggested variable rows not yet added`);
+      if (biasCount < reviewThreshold) gaps.push("bias and validity checklist below review threshold");
+      if (!hasFeasibility) gaps.push("power/feasibility assumptions incomplete");
+
+      const needsReview =
+        usesComplexMethod ||
+        biasCount < reviewThreshold ||
+        data.pathway === "careQI" ||
+        hasRoutineDataSignal(data) ||
+        hasDiagnosticAccuracyDesign(data) ||
+        hasEvidenceSynthesisDesign(data) ||
+        hasHealthEconomicDesign(data);
+
+      if (filledRequired < 7 || picotsReady < 3 || variables.length < 3) {
+        return {
+          code: "[d]",
+          label: "Not ready",
+          className: "state-stop",
+          score: Math.min(score, 45),
+          next: "Do not draft a protocol yet. Complete the study identity, PICOTS, data source, and a minimal variable plan first.",
+          gaps,
+          needsReview
+        };
+      }
+
+      if (needsReview && score >= 68 && picotsReady >= 5 && hasEnoughVariables) {
+        return {
+          code: "[r]",
+          label: "Methods review needed",
+          className: "state-review",
+          score,
+          next: "The structure is usable, but the design should be reviewed by a qualified methodologist before protocol drafting.",
+          gaps,
+          needsReview
+        };
+      }
+
+      if (score >= 82 && picotsReady === 6 && hasEnoughVariables && biasCount >= reviewThreshold) {
+        return {
+          code: "[oo]",
+          label: "Ready for protocol drafting",
+          className: "state-ready",
+          score: Math.min(score, 100),
+          next: "The study sheet is ready to become a protocol draft. Keep the review and governance requirements visible in the protocol.",
+          gaps,
+          needsReview
+        };
+      }
+
+      return {
+        code: "[o]",
+        label: "Needs support",
+        className: "state-support",
+        score,
+        next: "This is a coherent start, but the study still needs support on missing structure, assumptions, or variable definitions.",
+        gaps,
+        needsReview
+      };
+    }
+
+    function updateReadiness() {
+      const data = getFormData();
+      const result = classify(data);
+      const badge = $("readinessBadge");
+      badge.className = `state-pill ${result.className}`;
+      badge.textContent = `${result.code} ${result.label}`;
+      $("readinessScore").textContent = `${result.score} / 100`;
+      $("progressBar").style.width = `${Math.max(0, Math.min(100, result.score))}%`;
+      $("nextStep").textContent = result.next;
+      renderVariableAudit(data);
+      renderPresets(data);
+      return result;
+    }
+
+    function makeConceptJson(data, result) {
+      const variables = parseVariables(data.variables);
+      const frameworks = recommendedFrameworks(data);
+      const analysisChecks = buildAnalysisChecks(data, variables);
+      const backboneChecks = buildBackboneChecks(data, variables);
+      const variableRecommendations = buildVariableRecommendations(data);
+      const planning = buildPlanningLayer(data, result);
+
+      return {
+        product: "StudyVahti",
+        vahtianBoundary: "Local one-page methods-readiness watcher. Does not approve studies.",
+        generatedAt: new Date().toISOString(),
+        readiness: {
+          state: result.code,
+          label: result.label,
+          score: result.score,
+          nextStep: result.next,
+          gaps: result.gaps,
+          methodsReviewNeeded: result.needsReview
+        },
+        study: {
+          title: data.title,
+          disease: data.disease,
+          questionType: data.questionType,
+          studyDesign: data.studyDesign,
+          pathway: data.pathway,
+          dataSource: data.dataSource,
+          researchQuestion: data.researchQuestion,
+          picots: {
+            population: data.population,
+            interventionOrExposure: data.intervention,
+            comparator: data.comparator,
+            outcome: data.outcome,
+            timeZero: data.timeZero,
+            followUp: data.followUp
+          }
+        },
+        variables: parseVariables(data.variables),
+        analysis: {
+          target: data.analysisTarget,
+          exposureVariable: data.exposureVar,
+          outcomeVariable: data.outcomeVar,
+          survivalTimeVariable: data.timeVar,
+          adjustmentVariables: data.adjustmentVars.split(",").map((item) => item.trim()).filter(Boolean)
+        },
+        feasibility: {
+          expectedN: data.expectedN,
+          eventRate: data.eventRate,
+          minimumUsefulEffect: data.minimumEffect,
+          notes: data.feasibilityNotes
+        },
+        completedBiasChecks: data.bias,
+        variableRecommendations: {
+          recommendedPacks: variableRecommendations.recommendedPacks,
+          variableCount: variableRecommendations.variableCount,
+          missingSuggestedVariables: variableRecommendations.missingRows.map((entry) => ({
+            pack: entry.packLabel,
+            name: entry.variable.name,
+            label: entry.variable.label,
+            type: entry.variable.type,
+            role: entry.variable.role,
+            coding: entry.variable.coding
+          }))
+        },
+        scientificBackbone: {
+          scoreWeights,
+          recommendedFrameworks: frameworks.map((framework) => ({
+            name: framework.name,
+            source: framework.source,
+            url: framework.url,
+            rationale: framework.rationale
+          })),
+          analysisChecks,
+          backboneChecks
+        },
+        planning
+      };
+    }
+
+    function csvEscape(value) {
+      const text = String(value ?? "");
+      if (/[",\n]/.test(text)) return `"${text.replace(/"/g, '""')}"`;
+      return text;
+    }
+
+    function makeCodebookCsv(data) {
+      const rows = parseVariables(data.variables);
+      const header = ["variable_name", "label", "type", "role", "coding_note"];
+      return [
+        header.join(","),
+        ...rows.map((row) => [row.name, row.label, row.type, row.role, row.coding].map(csvEscape).join(","))
+      ].join("\n");
+    }
+
+    function makeSkeletonCsv(data) {
+      const variables = parseVariables(data.variables);
+      const names = variables.map((row) => row.name);
+      return [
+        names.join(","),
+        names.map(() => "").join(",")
+      ].join("\n");
+    }
+
+    function makeSimulatedCsv(data) {
+      const variables = parseVariables(data.variables);
+      const names = variables.map((row) => row.name);
+      const rows = [];
+      for (let i = 1; i <= 12; i += 1) {
+        rows.push(variables.map((variable) => simulateValue(variable, i)).map(csvEscape).join(","));
+      }
+      return [names.join(","), ...rows].join("\n");
+    }
+
+    function simulateValue(variable, index) {
+      const name = variable.name.toLowerCase();
+      const type = variable.type.toLowerCase();
+      if (name.includes("id")) return `sv_${String(index).padStart(3, "0")}`;
+      if (type.includes("date")) return `2026-01-${String((index % 28) + 1).padStart(2, "0")}`;
+      if (type.includes("binary")) return index % 2;
+      if (type.includes("ordinal")) return index % 5;
+      if (type.includes("numeric")) return Math.round((index * 7.4 + 12) * 10) / 10;
+      if (type.includes("categorical")) return "category_a";
+      if (type.includes("text")) return "review_required";
+      return "";
+    }
+
+    function makeRGenerator(data) {
+      const variables = parseVariables(data.variables);
+      const columns = variables.map((variable) => `  ${variable.name} = ${rGeneratorFor(variable)}`).join(",\n");
+      return [
+        "# StudyVahti scaffold only. Review before use.",
+        "set.seed(20260605)",
+        "n <- 100",
+        "study_data <- data.frame(",
+        columns || "  row_id = seq_len(n)",
+        ")",
+        "",
+        "write.csv(study_data, \"studyvahti_simulated_data.csv\", row.names = FALSE)"
+      ].join("\n");
+    }
+
+    function rGeneratorFor(variable) {
+      const name = variable.name.toLowerCase();
+      const type = variable.type.toLowerCase();
+      if (name.includes("id")) return "sprintf(\"sv_%03d\", seq_len(n))";
+      if (type.includes("binary")) return "sample(c(0, 1), n, replace = TRUE)";
+      if (type.includes("ordinal")) return "sample(0:4, n, replace = TRUE)";
+      if (type.includes("numeric")) return "round(rnorm(n, mean = 50, sd = 12), 1)";
+      if (type.includes("date")) return "as.Date(\"2026-01-01\") + sample(0:120, n, replace = TRUE)";
+      if (type.includes("categorical")) return "sample(c(\"category_a\", \"category_b\", \"unknown\"), n, replace = TRUE)";
+      return "NA";
+    }
+
+    function makeRStarter(data) {
+      const adjustment = data.adjustmentVars.split(",").map((item) => item.trim()).filter(Boolean);
+      const covars = adjustment.length ? adjustment.join(" + ") : "covariate_1 + covariate_2";
+      const outcome = data.outcomeVar || "primary_outcome";
+      const exposure = data.exposureVar || "primary_exposure";
+      const time = data.timeVar || "follow_up_days";
+      const isSurvival = data.analysisTarget.includes("Survival");
+      const isPrediction = data.analysisTarget.includes("Prediction");
+
+      if (isSurvival) {
+        return [
+          "# StudyVahti starter code only. Requires methods/statistical review.",
+          "library(survival)",
+          "study_data <- read.csv(\"studyvahti_data.csv\")",
+          "",
+          `fit <- coxph(Surv(${time}, ${outcome}) ~ ${exposure} + ${covars}, data = study_data)`,
+          "summary(fit)"
+        ].join("\n");
+      }
+
+      if (isPrediction) {
+        return [
+          "# StudyVahti prediction-model scaffold only. Requires TRIPOD/PROBAST review.",
+          "study_data <- read.csv(\"studyvahti_data.csv\")",
+          "",
+          `model_formula <- ${outcome} ~ ${covars}`,
+          "fit <- glm(model_formula, data = study_data, family = binomial())",
+          "# Add internal/external validation, calibration, discrimination, and clinical utility assessment before use.",
+          "summary(fit)"
+        ].join("\n");
+      }
+
+      return [
+        "# StudyVahti starter code only. Requires methods/statistical review.",
+        "study_data <- read.csv(\"studyvahti_data.csv\")",
+        "",
+        `fit <- glm(${outcome} ~ ${exposure} + ${covars}, data = study_data, family = binomial())`,
+        "summary(fit)"
+      ].join("\n");
+    }
+
+    function makeProtocolOutline(data, result) {
+      const variables = parseVariables(data.variables);
+      const frameworks = recommendedFrameworks(data);
+      const analysisChecks = buildAnalysisChecks(data, variables);
+      const backboneChecks = buildBackboneChecks(data, variables);
+      const variableRecommendations = buildVariableRecommendations(data);
+
+      return [
+        "# StudyVahti scientific backbone scaffold",
+        "",
+        "Boundary: local planning scaffold only; not a protocol approval, ethics approval, risk-of-bias rating, or validated analysis plan.",
+        `Readiness: ${result.code} ${result.label} (${result.score} / 100)`,
+        `Next step: ${result.next}`,
+        "",
+        "## 1. Recommended frameworks",
+        ...frameworks.map((framework) => `- ${framework.name}: ${framework.source}. ${framework.rationale} ${framework.url}`),
+        "",
+        "## 2. PICOTS",
+        `- Study design: ${data.studyDesign || "missing"}`,
+        `- Question type: ${data.questionType || "missing"}`,
+        `- Population: ${data.population || "missing"}`,
+        `- Intervention/exposure: ${data.intervention || "missing"}`,
+        `- Comparator: ${data.comparator || "missing"}`,
+        `- Primary outcome: ${data.outcome || "missing"}`,
+        `- Time zero: ${data.timeZero || "missing"}`,
+        `- Follow-up: ${data.followUp || "missing"}`,
+        "",
+        "## 3. Adaptive variable audit",
+        `- Recommended packs: ${variableRecommendations.recommendedPacks.join(", ") || "none"}`,
+        `- Variables listed: ${variableRecommendations.variableCount}`,
+        `- Suggested variables missing: ${variableRecommendations.missingRows.length}`,
+        variableRecommendations.missingRows.length
+          ? variableRecommendations.missingRows.slice(0, 12).map((entry) => `- Missing: ${entry.variable.name} (${entry.packLabel})`).join("\n")
+          : "- No suggested variable rows missing.",
+        "",
+        "## 4. Analysis alignment checks",
+        compactCheckText(analysisChecks) || "No analysis checks generated.",
+        "",
+        "## 5. Backbone checks",
+        compactCheckText(backboneChecks),
+        "",
+        "## 6. Bias and validity guardrails completed",
+        data.bias.length ? data.bias.map((id) => `- ${biasItems.find((item) => item.id === id)?.label || id}`).join("\n") : "- none",
+        "",
+        "## 7. Feasibility assumptions",
+        `- Expected sample size: ${data.expectedN || "missing"}`,
+        `- Expected event rate: ${data.eventRate || "missing"}`,
+        `- Minimum useful effect: ${data.minimumEffect || "missing"}`,
+        `- Notes: ${data.feasibilityNotes || "missing"}`,
+        "",
+        "## 8. Open gaps",
+        result.gaps.length ? result.gaps.map((gap) => `- ${gap}`).join("\n") : "- No major structural gaps detected by the one-page checker."
+      ].join("\n");
+    }
+
+    function makePlanningLedgerArtifact(data, result) {
+      const planning = buildPlanningLayer(data, result);
+      return [
+        "# StudyVahti planning ledger",
+        "",
+        `Readiness: ${result.code} ${result.label} (${result.score} / 100)`,
+        `Next step: ${result.next}`,
+        "",
+        "## Gate view",
+        ...planning.gates.map((gate) => [
+          `- ${gate.label}: ${gate.statusLabel}`,
+          `  Owner: ${gate.owner}`,
+          `  Summary: ${gate.summary}`,
+          `  Next action: ${gate.nextAction}`
+        ].join("\n")),
+        "",
+        "## Planning ledger",
+        ...planning.ledger.map((row) => [
+          `- ${row.domain}: ${row.decision}`,
+          `  Owner: ${row.owner}`,
+          `  Status: ${row.statusLabel}`,
+          `  Next action: ${row.nextAction}`,
+          `  Evidence: ${row.evidence}`
+        ].join("\n"))
+      ].join("\n");
+    }
+
+    function buildBundle(data, result) {
+      return {
+        protocolOutline: {
+          label: "Protocol backbone",
+          text: makeProtocolOutline(data, result)
+        },
+        planningLedger: {
+          label: "Planning ledger",
+          text: makePlanningLedgerArtifact(data, result)
+        },
+        concept: {
+          label: "Concept JSON",
+          text: JSON.stringify(makeConceptJson(data, result), null, 2)
+        },
+        codebook: {
+          label: "Codebook CSV",
+          text: makeCodebookCsv(data)
+        },
+        skeleton: {
+          label: "Data CSV skeleton",
+          text: makeSkeletonCsv(data)
+        },
+        simulated: {
+          label: "Simulated CSV",
+          text: makeSimulatedCsv(data)
+        },
+        rGenerator: {
+          label: "R simulator",
+          text: makeRGenerator(data)
+        },
+        rStarter: {
+          label: "R starter",
+          text: makeRStarter(data)
+        }
+      };
+    }
+
+    function renderReport(data, result) {
+      const variables = parseVariables(data.variables);
+      const frameworks = recommendedFrameworks(data);
+      const analysisChecks = buildAnalysisChecks(data, variables);
+      const backboneChecks = buildBackboneChecks(data, variables);
+      const planning = buildPlanningLayer(data, result);
+      const variableRecommendations = buildVariableRecommendations(data);
+      const gaps = result.gaps.length
+        ? result.gaps.map((gap) => `<li>${escapeHtml(gap)}</li>`).join("")
+        : "<li>No major structural gaps detected by the one-page checker.</li>";
+      const reviewText = result.needsReview
+        ? "Methods review is required before protocol drafting or analysis planning."
+        : "Methods review is still recommended, but no automatic high-risk trigger was detected.";
+      const frameworkList = frameworks.map((framework) => `
+        <li>
+          <a href="${escapeHtml(framework.url)}" target="_blank" rel="noopener">${escapeHtml(framework.name)}</a>:
+          ${escapeHtml(framework.source)}. ${escapeHtml(framework.rationale)}
+        </li>
+      `).join("");
+      const analysisList = analysisChecks.map((check) => `
+        <li><strong>${check.complete ? "[set]" : "[gap]"} ${escapeHtml(check.label)}</strong> ${escapeHtml(check.rationale)}</li>
+      `).join("");
+      const backboneList = backboneChecks.map((check) => `
+        <li><strong>${check.complete ? "[set]" : "[gap]"} ${escapeHtml(check.label)}</strong> ${escapeHtml(check.framework)}</li>
+      `).join("");
+      const gateList = planning.gates.map((gate) => `
+        <li><strong>${escapeHtml(gate.label)}: ${escapeHtml(gate.statusLabel)}</strong> ${escapeHtml(gate.nextAction)}</li>
+      `).join("");
+      const missingVariableList = variableRecommendations.missingRows.length
+        ? variableRecommendations.missingRows.slice(0, 8).map((entry) => `<li>${escapeHtml(entry.variable.name)} (${escapeHtml(entry.packLabel)})</li>`).join("")
+        : "<li>No suggested variable rows missing.</li>";
+      const pathwayName = pathways.find((p) => p.id === data.pathway)?.label || data.pathway;
+
+      $("reportOutput").innerHTML = `
+        <div class="readiness-state">
+          <span class="state-pill ${result.className}">${result.code} ${result.label}</span>
+          <span class="score">${result.score} / 100</span>
+        </div>
+        <section class="report-section">
+          <h3>A. Immediate next step</h3>
+          <p>${result.next}</p>
+          <ul>${gaps}</ul>
+        </section>
+        <section class="report-section">
+          <h3>B. Planning gates</h3>
+          <p>The gate view turns scientific readiness into next planning actions.</p>
+          <ul>${gateList}</ul>
+        </section>
+        <section class="report-section">
+          <h3>C. Scientific backbone</h3>
+          <p>Frameworks are selected from the pathway, question type, data source, and analysis target. ${escapeHtml(reviewText)}</p>
+          <ul>${frameworkList}</ul>
+          <ul>${backboneList}</ul>
+        </section>
+        <section class="report-section">
+          <h3>D. Study identity and PICOTS</h3>
+          <p><strong>${escapeHtml(data.title || "Untitled study")}</strong> in ${escapeHtml(data.disease || "unspecified disease area")}.</p>
+          <ul>
+            <li>Question type: ${escapeHtml(data.questionType)}</li>
+            <li>Study design: ${escapeHtml(data.studyDesign)}</li>
+            <li>Pathway: ${escapeHtml(pathwayName)}</li>
+            <li>Research question: ${escapeHtml(data.researchQuestion || "missing")}</li>
+            <li>Population: ${escapeHtml(data.population || "missing")}</li>
+            <li>Exposure/intervention: ${escapeHtml(data.intervention || "missing")}</li>
+            <li>Comparator: ${escapeHtml(data.comparator || "missing")}</li>
+            <li>Primary outcome: ${escapeHtml(data.outcome || "missing")}</li>
+            <li>Time zero: ${escapeHtml(data.timeZero || "missing")}</li>
+            <li>Follow-up: ${escapeHtml(data.followUp || "missing")}</li>
+          </ul>
+        </section>
+        <section class="report-section">
+          <h3>E. Analysis alignment</h3>
+          <p>Analysis target: ${escapeHtml(data.analysisTarget)}. Exposure variable: ${escapeHtml(data.exposureVar || "missing")}. Outcome variable: ${escapeHtml(data.outcomeVar || "missing")}.</p>
+          <ul>${analysisList}</ul>
+        </section>
+        <section class="report-section">
+          <h3>F. Data, registry mapping, feasibility</h3>
+          <p>Data source: ${escapeHtml(data.dataSource || "missing")}. Variables parsed: ${variables.length}.</p>
+          <ul>
+            <li>Recommended variable packs: ${escapeHtml(variableRecommendations.recommendedPacks.join(", ") || "none")}</li>
+            <li>Suggested variable rows missing: ${variableRecommendations.missingRows.length}</li>
+            <li>Expected sample size: ${escapeHtml(data.expectedN || "missing")}</li>
+            <li>Expected event rate: ${escapeHtml(data.eventRate || "missing")}</li>
+            <li>Minimum useful effect: ${escapeHtml(data.minimumEffect || "missing")}</li>
+            <li>Feasibility notes: ${escapeHtml(data.feasibilityNotes || "missing")}</li>
+          </ul>
+          <ul>${missingVariableList}</ul>
+        </section>
+        <section class="report-section">
+          <h3>G. Bias and causal validity</h3>
+          <p>${data.bias.length} of ${biasItems.length} guardrail checks completed. ${escapeHtml(reviewText)}</p>
+        </section>
+        <section class="report-section">
+          <h3>H. Power readiness</h3>
+          <p>StudyVahti records assumptions only. A formal power or precision calculation remains a separate reviewed artifact.</p>
+        </section>
+        <section class="report-section">
+          <h3>I. Artifacts</h3>
+          <p>Protocol backbone, planning ledger, concept JSON, codebook CSV, data skeleton, simulated data, and R starter code are generated locally below. They are scaffolds and require human review.</p>
+        </section>
+      `;
+    }
+
+    function renderPlanning(data, result) {
+      const planning = buildPlanningLayer(data, result);
+      $("gateView").innerHTML = planning.gates.map((gate) => `
+        <article class="gate-card">
+          <span class="gate-status ${gate.className}">${escapeHtml(gate.statusLabel)}</span>
+          <strong>${escapeHtml(gate.label)}</strong>
+          <span>${escapeHtml(gate.summary)}</span>
+          <span><b>Owner:</b> ${escapeHtml(gate.owner)}</span>
+          <span><b>Next:</b> ${escapeHtml(gate.nextAction)}</span>
+        </article>
+      `).join("");
+
+      $("planningLedger").className = "ledger-wrap";
+      $("planningLedger").innerHTML = `
+        <table class="ledger-table">
+          <thead>
+            <tr>
+              <th>Domain</th>
+              <th>Decision</th>
+              <th>Owner</th>
+              <th>Status</th>
+              <th>Next action</th>
+              <th>Evidence</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${planning.ledger.map((row) => `
+              <tr>
+                <td>${escapeHtml(row.domain)}</td>
+                <td>${escapeHtml(row.decision)}</td>
+                <td>${escapeHtml(row.owner)}</td>
+                <td><span class="gate-status ${row.className}">${escapeHtml(row.statusLabel)}</span></td>
+                <td>${escapeHtml(row.nextAction)}</td>
+                <td>${escapeHtml(row.evidence)}</td>
+              </tr>
+            `).join("")}
+          </tbody>
+        </table>
+      `;
+    }
+
+    function renderArtifactTabs() {
+      if (!latestBundle) return;
+      $("artifactTabs").innerHTML = Object.entries(latestBundle).map(([id, artifact]) => `
+        <button type="button" class="${id === activeArtifact ? "is-active" : ""}" data-artifact="${id}">${artifact.label}</button>
+      `).join("");
+    }
+
+    function renderArtifact() {
+      if (!latestBundle) return;
+      $("artifactOutput").textContent = latestBundle[activeArtifact]?.text || "";
+      renderArtifactTabs();
+    }
+
+    function generate() {
+      const data = getFormData();
+      const result = updateReadiness();
+      latestBundle = buildBundle(data, result);
+      renderReport(data, result);
+      renderPlanning(data, result);
+      renderArtifact();
+      showToast("Readiness sheet generated locally. Nothing was sent to a server.");
+    }
+
+    function reset() {
+      document.querySelectorAll("input, textarea").forEach((node) => {
+        if (node.type === "checkbox") node.checked = false;
+        else node.value = "";
+      });
+      $("questionType").value = "Comparative effectiveness";
+      $("studyDesign").value = "Retrospective cohort";
+      $("analysisTarget").value = "Readiness only";
+      currentPathway = "registry";
+      activeArtifact = "concept";
+      latestBundle = null;
+      renderPathways();
+      $("reportOutput").innerHTML = '<div class="empty">Generate the readiness sheet to see the protocol-planning output.</div>';
+      $("gateView").innerHTML = '<div class="empty">Generate the readiness sheet to see planning gates.</div>';
+      $("planningLedger").className = "empty";
+      $("planningLedger").textContent = "Generate the readiness sheet to see the planning ledger.";
+      $("artifactTabs").innerHTML = "";
+      $("artifactOutput").textContent = "Generate the readiness sheet to create local artifacts.";
+      updateReadiness();
+      showToast("StudyVahti fields reset.");
+    }
+
+    async function copyText(text, label) {
+      if (!text) {
+        showToast("Nothing to copy yet.");
+        return;
+      }
+      try {
+        await navigator.clipboard.writeText(text);
+        showToast(`${label} copied.`);
+      } catch (error) {
+        showToast("Clipboard was blocked by the browser. Select and copy manually.");
+      }
+    }
+
+    function reportText() {
+      return $("reportOutput").innerText.trim();
+    }
+
+    function showToast(message) {
+      const toast = $("toast");
+      toast.textContent = message;
+      toast.classList.add("show");
+      clearTimeout(showToast.timer);
+      showToast.timer = setTimeout(() => toast.classList.remove("show"), 2800);
+    }
+
+    function loadPreset(id, refresh = true) {
+      const preset = variablePresets[id];
+      if (!preset) return;
+      const existingRows = $("variables").value.trim() ? $("variables").value.trim().split(/\n+/).map((row) => row.trim()).filter(Boolean) : [];
+      const seenNames = new Set(parseVariables(existingRows.join("\n")).map((row) => row.name));
+      const mergedRows = [...existingRows];
+      preset.rows.forEach((row) => {
+        const variableName = row.split("|")[0]?.trim();
+        if (variableName && !seenNames.has(variableName)) {
+          mergedRows.push(row);
+          seenNames.add(variableName);
+        }
+      });
+      $("variables").value = mergedRows.join("\n");
+      const variables = parseVariables($("variables").value);
+      const exposure = variables.find((row) => row.role.toLowerCase().includes("exposure"));
+      const outcome = variables.find((row) => row.role.toLowerCase().includes("outcome"));
+      const time = variables.find((row) => row.role.toLowerCase().includes("time"));
+      if (exposure) $("exposureVar").value = exposure.name;
+      if (outcome) $("outcomeVar").value = outcome.name;
+      if (time) $("timeVar").value = time.name;
+      if (refresh) {
+        updateReadiness();
+        showToast(`${preset.label} variables merged.`);
+      }
+    }
+
+    function applyRecommendedPresets() {
+      const ids = recommendedPresetIds(getSelectionContext());
+      ids.forEach((id) => loadPreset(id, false));
+      updateReadiness();
+      showToast(`${ids.length} recommended variable packs applied.`);
+    }
+
+    function wireEvents() {
+      document.addEventListener("input", (event) => {
+        if (event.target.matches("input, textarea, select")) updateReadiness();
+      });
+      $("pathwayButtons").addEventListener("click", (event) => {
+        const button = event.target.closest("button[data-pathway]");
+        if (!button) return;
+        currentPathway = button.dataset.pathway;
+        renderPathways();
+        updateReadiness();
+      });
+      $("presetButtons").addEventListener("click", (event) => {
+        const button = event.target.closest("button[data-preset]");
+        if (!button) return;
+        loadPreset(button.dataset.preset);
+      });
+      $("artifactTabs").addEventListener("click", (event) => {
+        const button = event.target.closest("button[data-artifact]");
+        if (!button) return;
+        activeArtifact = button.dataset.artifact;
+        renderArtifact();
+      });
+      $("generateBtn").addEventListener("click", generate);
+      $("applyRecommendedBtn").addEventListener("click", applyRecommendedPresets);
+      $("printBtn").addEventListener("click", () => window.print());
+      $("resetBtn").addEventListener("click", reset);
+      $("copyReportBtn").addEventListener("click", () => copyText(reportText(), "Report"));
+      $("copyPlanBtn").addEventListener("click", () => copyText(latestBundle?.planningLedger?.text, "Planning ledger"));
+      $("copyArtifactBtn").addEventListener("click", () => copyText(latestBundle?.[activeArtifact]?.text, "Artifact"));
+    }
+
+    renderPathways();
+    renderPresets();
+    renderBiasChecks();
+    wireEvents();
+    loadPreset("coreClinical", false);
+    loadPreset("lungOncology", false);
+    updateReadiness();
+  </script>
+</body>
+</html>
