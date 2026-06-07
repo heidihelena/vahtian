@@ -1,0 +1,1516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DictVahti — REDCap Dictionary Linter</title>
+  <style>
+    :root {
+      --sv-ink:       #1c1830;
+      --sv-muted:     #5b5570;
+      --sv-bg:        #faf9fc;
+      --sv-panel:     #ffffff;
+      --sv-border:    #e7e3f0;
+      --sv-blue:      #5566b5;
+      --sv-blue-dark: #2d2440;
+      --sv-shadow:    0 12px 30px rgba(45,36,64,.10);
+      --sev-error:    #c24d7e;
+      --sev-warning:  #c98a00;
+      --sev-info:     #5566b5;
+      --bg-error:     #fff0f6;
+      --bg-warning:   #fffbea;
+      --bg-info:      #eff6ff;
+      --border-error: #f2b3cc;
+      --border-warn:  #e6c980;
+      --border-info:  #93c5fd;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--sv-bg);
+      color: var(--sv-ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, ui-sans-serif, system-ui, sans-serif;
+      line-height: 1.45;
+    }
+    button, input, select, textarea { font: inherit; cursor: pointer; }
+
+    /* ── Topbar ── */
+    .topbar {
+      position: sticky; top: 0; z-index: 10;
+      border-bottom: 1px solid var(--sv-border);
+      background: rgba(255,255,255,.94);
+      backdrop-filter: blur(12px);
+    }
+    .topbar-inner {
+      display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+      width: min(1380px, calc(100% - 2rem)); margin: 0 auto; padding: .8rem 0;
+    }
+    .brand { display: flex; align-items: center; gap: .7rem; min-width: 15rem; }
+    .mark { width: 2.25rem; height: 2.25rem; }
+    .mark svg { display: block; width: 100%; height: 100%; }
+    .wordmark { display: flex; flex-direction: column; gap: .05rem; }
+    .wordmark strong { font-size: 1rem; font-weight: 700; }
+    .wordmark span { color: var(--sv-muted); font-size: .78rem; }
+    .safety-strip { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: .45rem; }
+    .pill {
+      display: inline-flex; align-items: center; gap: .35rem;
+      border: 1px solid var(--sv-border); border-radius: 999px;
+      padding: .28rem .62rem; background: #fff; color: var(--sv-muted);
+      font-size: .78rem; font-weight: 650; white-space: nowrap;
+    }
+
+    /* ── Layout ── */
+    main {
+      width: min(1380px, calc(100% - 2rem));
+      margin: 0 auto; padding: 1.25rem 0 3rem;
+      display: flex; flex-direction: column; gap: 1rem;
+    }
+    .panel {
+      border: 1px solid var(--sv-border); border-radius: .5rem;
+      background: var(--sv-panel); box-shadow: var(--sv-shadow);
+    }
+    .panel-head {
+      display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+      padding: .9rem 1rem; border-bottom: 1px solid var(--sv-border);
+    }
+    .panel-head h2 { margin: 0; font-size: 1rem; }
+    .panel-head p { margin: .2rem 0 0; color: var(--sv-muted); font-size: .85rem; }
+    .panel-body { padding: 1rem; }
+    .eyebrow {
+      margin: 0 0 .3rem; color: var(--sv-blue-dark);
+      font-size: .78rem; font-weight: 750; letter-spacing: .03em; text-transform: uppercase;
+    }
+    h1 { margin: 0; font-size: clamp(1.5rem, 2.5vw, 2.2rem); line-height: 1.05; }
+    .statement p { max-width: 68rem; margin: .6rem 0 0; color: var(--sv-muted); font-size: 1rem; }
+
+    /* ── Drop zone ── */
+    .dropzone {
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: .6rem; min-height: 9rem;
+      border: 2px dashed var(--sv-border); border-radius: .5rem;
+      background: #fff; color: var(--sv-muted); text-align: center;
+      padding: 1.5rem; transition: border-color .15s, background .15s; cursor: pointer;
+    }
+    .dropzone.drag-over { border-color: var(--sv-blue); background: #eff6ff; }
+    .dropzone strong { color: var(--sv-ink); font-size: .95rem; }
+    .dropzone span { font-size: .82rem; }
+    .dropzone input[type="file"] { display: none; }
+
+    /* ── Paste / text areas ── */
+    .paste-area {
+      width: 100%; min-height: 7rem; resize: vertical;
+      border: 1px solid var(--sv-border); border-radius: .4rem;
+      padding: .6rem .7rem; color: var(--sv-ink); background: #fff;
+      font-family: ui-monospace, "Cascadia Code", "Fira Code", monospace;
+      font-size: .78rem; line-height: 1.5; outline: none;
+    }
+    .paste-area:focus { border-color: var(--sv-blue); box-shadow: 0 0 0 3px rgba(85,102,181,.12); }
+    .field-label { font-size: .82rem; font-weight: 700; display: block; margin-bottom: .35rem; }
+    .hint { margin: .25rem 0 0; color: var(--sv-muted); font-size: .78rem; }
+
+    /* ── Buttons ── */
+    .btn-row { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: .75rem; }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      min-height: 2.2rem; border: 1px solid var(--sv-border); border-radius: .4rem;
+      background: #fff; color: var(--sv-ink); padding: .45rem .8rem;
+      font-size: .84rem; font-weight: 700; line-height: 1.2; white-space: nowrap;
+    }
+    .btn:hover { border-color: var(--sv-blue); color: var(--sv-blue-dark); background: #eff6ff; }
+    .btn-primary { border-color: var(--sv-blue); background: var(--sv-blue); color: #fff; }
+    .btn-primary:hover { background: var(--sv-blue-dark); border-color: var(--sv-blue-dark); color: #fff; }
+    .btn-success { border-color: #86efac; background: #dcfce7; color: #166534; }
+    .btn-success:hover { background: #bbf7d0; border-color: #4ade80; color: #14532d; }
+    .btn-danger { border-color: #fecaca; color: #991b1b; }
+
+    /* ── Summary bar ── */
+    .summary-bar {
+      display: flex; flex-wrap: wrap; gap: .5rem;
+      padding: .75rem 1rem; background: #f8fafc;
+      border-bottom: 1px solid var(--sv-border);
+    }
+    .summary-chip {
+      display: inline-flex; align-items: center; gap: .3rem;
+      border: 1px solid; border-radius: 999px;
+      padding: .22rem .55rem; font-size: .78rem; font-weight: 700;
+    }
+    .chip-error   { color: var(--sev-error);  background: var(--bg-error);   border-color: var(--border-error); }
+    .chip-warning { color: var(--sev-warning); background: var(--bg-warning); border-color: var(--border-warn);  }
+    .chip-info    { color: var(--sev-info);    background: var(--bg-info);    border-color: var(--border-info);  }
+    .chip-pass    { color: #166534; background: #dcfce7; border-color: #86efac; }
+
+    /* ── Filter row ── */
+    .filter-row {
+      display: flex; flex-wrap: wrap; gap: .4rem;
+      padding: .6rem 1rem; border-bottom: 1px solid var(--sv-border);
+    }
+    .filter-btn {
+      display: inline-flex; align-items: center; gap: .3rem;
+      border: 1px solid var(--sv-border); border-radius: 999px;
+      background: #fff; color: var(--sv-muted);
+      padding: .22rem .55rem; font-size: .76rem; font-weight: 700;
+    }
+    .filter-btn.active-error   { border-color: var(--border-error); background: var(--bg-error);   color: var(--sev-error);   }
+    .filter-btn.active-warning { border-color: var(--border-warn);  background: var(--bg-warning); color: var(--sev-warning); }
+    .filter-btn.active-info    { border-color: var(--border-info);  background: var(--bg-info);    color: var(--sev-info);    }
+    .filter-btn.active-all     { border-color: var(--sv-blue); background: #eff6ff; color: var(--sv-blue-dark); }
+
+    /* ── Findings table ── */
+    .findings-wrap { overflow-x: auto; }
+    .findings-table {
+      width: 100%; min-width: 52rem; border-collapse: collapse; font-size: .82rem;
+    }
+    .findings-table th {
+      border-bottom: 1px solid var(--sv-border); padding: .5rem .65rem;
+      text-align: left; color: var(--sv-muted); font-size: .72rem;
+      text-transform: uppercase; white-space: nowrap; background: #faf9fc;
+    }
+    .findings-table td {
+      border-bottom: 1px solid var(--sv-border); padding: .55rem .65rem; vertical-align: top;
+    }
+    .findings-table tr:last-child td { border-bottom: none; }
+    .findings-table tr:hover td { background: #faf9fc; }
+
+    /* ── Form summary table ── */
+    .form-table {
+      width: 100%; border-collapse: collapse; font-size: .84rem;
+    }
+    .form-table th {
+      border-bottom: 1px solid var(--sv-border); padding: .5rem .65rem;
+      text-align: left; color: var(--sv-muted); font-size: .72rem;
+      text-transform: uppercase; white-space: nowrap; background: #faf9fc;
+    }
+    .form-table td {
+      border-bottom: 1px solid var(--sv-border); padding: .55rem .65rem; vertical-align: middle;
+    }
+    .form-table tr:last-child td { border-bottom: none; }
+    .form-table .form-name { font-weight: 700; }
+    .form-table .count-cell { text-align: center; }
+    .count-error   { color: var(--sev-error);  font-weight: 700; }
+    .count-warning { color: var(--sev-warning); font-weight: 700; }
+    .count-info    { color: var(--sev-info);    font-weight: 700; }
+    .count-zero    { color: var(--sv-muted); }
+
+    /* ── Severity badges ── */
+    .sev-badge {
+      display: inline-flex; align-items: center;
+      border: 1px solid; border-radius: 999px;
+      padding: .16rem .42rem; font-size: .68rem; font-weight: 800;
+      text-transform: uppercase; white-space: nowrap;
+    }
+    .sev-error   { color: var(--sev-error);  background: var(--bg-error);   border-color: var(--border-error); }
+    .sev-warning { color: var(--sev-warning); background: var(--bg-warning); border-color: var(--border-warn);  }
+    .sev-info    { color: var(--sev-info);    background: var(--bg-info);    border-color: var(--border-info);  }
+    .rule-code  { font-family: ui-monospace, monospace; font-size: .75rem; color: var(--sv-muted); }
+    .field-name { font-family: ui-monospace, monospace; font-size: .78rem; color: var(--sv-ink); font-weight: 600; }
+    .fix-text   { color: var(--sv-muted); font-size: .8rem; }
+
+    /* ── Info box ── */
+    .info-box {
+      border: 1px solid var(--border-info); border-radius: .45rem;
+      background: var(--bg-info); color: #1e3a8a;
+      padding: .65rem .8rem; font-size: .82rem; line-height: 1.5;
+      margin-bottom: .75rem;
+    }
+
+    /* ── Rule reference grid ── */
+    .rule-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(22rem, 1fr));
+      gap: .55rem;
+    }
+    .rule-card {
+      border: 1px solid var(--sv-border); border-radius: .45rem;
+      padding: .65rem; background: #fff;
+    }
+    .rule-card-head { display: flex; align-items: center; gap: .5rem; margin-bottom: .3rem; }
+    .rule-card strong { font-size: .84rem; }
+    .rule-card p { margin: 0; color: var(--sv-muted); font-size: .78rem; line-height: 1.4; }
+
+    /* ── Empty state ── */
+    .empty {
+      border: 1px dashed var(--sv-border); border-radius: .5rem;
+      padding: 1.5rem; color: var(--sv-muted); text-align: center; background: #fff;
+    }
+
+    /* ── Tabs ── */
+    .tabs { display: flex; gap: .4rem; padding: .7rem 1rem; border-bottom: 1px solid var(--sv-border); flex-wrap: wrap; }
+    .tab {
+      border: 1px solid var(--sv-border); border-radius: 999px;
+      background: #fff; color: var(--sv-muted);
+      padding: .28rem .65rem; font-size: .78rem; font-weight: 700;
+    }
+    .tab.is-active { border-color: var(--sv-blue); color: var(--sv-blue-dark); background: #eff6ff; }
+
+    @media (max-width: 720px) {
+      .topbar-inner { flex-direction: column; align-items: flex-start; }
+      .safety-strip { justify-content: flex-start; }
+    }
+    @media print {
+      .topbar, .btn-row, .tabs, .filter-row, .dropzone { display: none !important; }
+      body { background: #fff; }
+      main { width: 100%; padding: 0; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <div class="mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32">
+          <rect width="32" height="32" rx="7" fill="#2D2440"/>
+          <g fill="none" stroke="#5566B5" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 9 H9 V23 H12"/><path d="M20 9 H23 V23 H20"/>
+          </g>
+          <g fill="none" stroke="#C5B8E8" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M13 13 H19"/><path d="M13 16 H19"/><path d="M13 19 H16"/>
+          </g>
+        </svg>
+      </div>
+      <div class="wordmark">
+        <strong>DictVahti</strong>
+        <span>by <a href="/" style="color:var(--sv-blue);font-weight:700;text-decoration:none;">Vahtian</a> — REDCap dictionary linter</span>
+      </div>
+    </div>
+    <div class="safety-strip">
+      <span class="pill">Local — no server</span>
+      <span class="pill">No data leaves browser</span>
+      <span class="pill">Deterministic rules</span>
+      <span class="pill">Does not modify your dictionary</span>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <!-- Statement -->
+  <div class="panel">
+    <div class="panel-body">
+      <p class="eyebrow">REDCap data dictionary heuristic auditor</p>
+      <h1>Find naming, structure, and logic problems before data collection starts.</h1>
+      <p>
+        Upload or paste a REDCap data dictionary CSV. DictVahti runs 26 deterministic
+        heuristic rules across naming, labels, field types, choices, branching logic,
+        and completeness — and proposes specific fixes. Nothing is sent anywhere.
+      </p>
+    </div>
+  </div>
+
+  <!-- Input -->
+  <div class="panel" id="inputPanel">
+    <div class="panel-head">
+      <div>
+        <h2>Input</h2>
+        <p>REDCap: Project Setup → Data Dictionary → Download. Or paste from StudyVahti.</p>
+      </div>
+    </div>
+    <div class="tabs" id="inputTabs">
+      <button class="tab is-active" data-tab="upload">Upload CSV</button>
+      <button class="tab" data-tab="paste">Paste CSV</button>
+      <button class="tab" data-tab="studyvahti">Import from StudyVahti</button>
+    </div>
+    <div class="panel-body">
+
+      <!-- Upload tab -->
+      <div id="tabUpload">
+        <div class="dropzone" id="dropzone" role="button" tabindex="0" aria-label="Upload REDCap data dictionary CSV">
+          <input type="file" id="fileInput" accept=".csv,text/csv" />
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/>
+          </svg>
+          <strong>Drop REDCap data dictionary CSV here</strong>
+          <span>or click to browse</span>
+          <span id="fileLabel" style="color:var(--sv-blue);font-weight:700;"></span>
+        </div>
+      </div>
+
+      <!-- Paste tab -->
+      <div id="tabPaste" style="display:none;">
+        <label class="field-label" for="pasteInput">Paste data dictionary CSV</label>
+        <textarea class="paste-area" id="pasteInput"
+          placeholder="Variable / Field Name,Form Name,Section Header,Field Type,Field Label,Choices / Calculations,Field Note,Text Validation Type,Text Validation Min,Text Validation Max,Identifier?,Branching Logic,Required Field?,..."></textarea>
+      </div>
+
+      <!-- StudyVahti import tab -->
+      <div id="tabStudyvahti" style="display:none;">
+        <div class="info-box">
+          Paste your StudyVahti variable coding plan (pipe-delimited rows).
+          Format: <code>variable_name | label | type | role | coding note</code><br>
+          Supported types: numeric, date, binary, categorical, ordinal, string, text, id.
+          DictVahti converts this to a REDCap data dictionary CSV you can audit or download.
+        </div>
+        <label class="field-label" for="studyvahtiInput">StudyVahti variable plan</label>
+        <textarea class="paste-area" id="studyvahtiInput" style="min-height:10rem;"
+          placeholder="patient_id | Patient identifier | string | id | de-identified stable id&#10;index_date | Index date | date | time | ISO date; start of follow-up&#10;age_at_index | Age at index | numeric | covariate | years&#10;treatment_group | Treatment group | categorical | exposure | 1=Treatment; 2=Control&#10;primary_outcome | Primary outcome | binary | outcome | 0=No; 1=Yes"></textarea>
+        <p class="hint">One variable per line. Lines starting with # are ignored.</p>
+        <div class="btn-row">
+          <button class="btn btn-primary" id="convertSvBtn">Convert and audit</button>
+          <button class="btn" id="downloadSvCsvBtn">Download as REDCap CSV</button>
+        </div>
+        <div id="svConvertStatus" style="margin-top:.5rem;font-size:.82rem;color:var(--sv-muted);"></div>
+      </div>
+
+      <!-- Shared action row for upload + paste tabs -->
+      <div class="btn-row" id="mainBtnRow">
+        <button class="btn btn-primary" id="auditBtn">Run audit</button>
+        <button class="btn" id="clearBtn">Clear</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Results -->
+  <div class="panel" id="resultsPanel" style="display:none;">
+    <div class="panel-head">
+      <div>
+        <h2>Audit results</h2>
+        <p id="resultsMeta"></p>
+      </div>
+      <div style="display:flex;gap:.5rem;flex-wrap:wrap;">
+        <button class="btn btn-success" id="downloadFixedBtn">Download fixed CSV</button>
+        <button class="btn" id="copyBtn">Copy findings CSV</button>
+        <button class="btn" id="printBtn">Print / save PDF</button>
+      </div>
+    </div>
+    <div class="summary-bar" id="summaryBar"></div>
+    <div id="renameNote"></div>
+
+    <!-- Results view tabs -->
+    <div class="tabs" id="resultsTabs">
+      <button class="tab is-active" data-view="findings">All findings</button>
+      <button class="tab" data-view="byform">By form</button>
+    </div>
+
+    <!-- Findings view -->
+    <div id="viewFindings">
+      <div class="filter-row" id="filterRow"></div>
+      <div class="findings-wrap">
+        <table class="findings-table" id="findingsTable">
+          <thead>
+            <tr>
+              <th>Sev.</th><th>Rule</th><th>Category</th>
+              <th>Field</th><th>Form</th><th>Finding</th><th>Suggested fix</th>
+            </tr>
+          </thead>
+          <tbody id="findingsBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- By-form view -->
+    <div id="viewByform" style="display:none;">
+      <div class="panel-body">
+        <div class="findings-wrap">
+          <table class="form-table" id="formTable">
+            <thead>
+              <tr>
+                <th>Form</th><th>Fields</th>
+                <th style="text-align:center;">Errors</th>
+                <th style="text-align:center;">Warnings</th>
+                <th style="text-align:center;">Notes</th>
+                <th style="text-align:center;">Total</th>
+              </tr>
+            </thead>
+            <tbody id="formTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Rule reference -->
+  <div class="panel">
+    <div class="panel-head">
+      <div>
+        <h2>Rule reference</h2>
+        <p>All 26 heuristics DictVahti applies, with rationale.</p>
+      </div>
+    </div>
+    <div class="panel-body">
+      <div class="rule-grid" id="ruleGrid"></div>
+    </div>
+  </div>
+
+</main>
+
+<script>
+// ============================================================
+// Constants
+// ============================================================
+
+const MAX_VAR_LENGTH = 26;
+
+const SQL_RESERVED = new Set([
+  'select','from','where','and','or','not','null','true','false',
+  'date','time','timestamp','year','month','day','order','group',
+  'by','having','limit','offset','join','inner','outer','left',
+  'right','union','all','distinct','count','sum','avg','min','max',
+  'case','when','then','else','end','in','between','like','exists',
+  'index','table','view','create','drop','alter','insert','update',
+  'delete','values','set','column','row','key','primary','foreign',
+  'references','constraint','check','default','unique','type',
+  'name','value','id','label','class','function','return'
+]);
+
+const FIELD_TYPES_REQUIRING_CHOICES = new Set(['dropdown','radio','checkbox']);
+const FIELD_TYPES_DATE_FAMILY = new Set([
+  'date_dmy','date_mdy','date_ymd',
+  'datetime_dmy','datetime_mdy','datetime_ymd',
+  'datetime_seconds_dmy','datetime_seconds_mdy','datetime_seconds_ymd'
+]);
+
+// REDCap CSV column headers (verbatim export)
+const REDCAP_HEADERS = [
+  'Variable / Field Name','Form Name','Section Header','Field Type','Field Label',
+  'Choices, Calculations, OR Slider Labels','Field Note',
+  'Text Validation Type OR Show Slider Number','Text Validation Min','Text Validation Max',
+  'Identifier?','Branching Logic (Show field only if...)','Required Field?',
+  'Custom Alignment','Question Number (surveys only)','Matrix Group Name',
+  'Matrix Ranking?','Field Annotation'
+];
+
+const RULES = [
+  // Naming
+  { id:'N1',  cat:'Naming',      sev:'error',   label:'Uppercase letter in variable name',           why:'REDCap silently lowercases on import. Explicit lowercase avoids surprises and matches R/Stata export.' },
+  { id:'N2',  cat:'Naming',      sev:'error',   label:'Space in variable name',                      why:'Spaces break CSV parsing, R column references, and Stata merge keys.' },
+  { id:'N3',  cat:'Naming',      sev:'error',   label:'Illegal character in variable name',          why:'Only a–z, 0–9, and underscores are safe across REDCap, R, Stata, Python, and SPSS.' },
+  { id:'N4',  cat:'Naming',      sev:'error',   label:'Variable name starts with a digit',           why:'Illegal in R and SAS without backtick/name quoting. REDCap will reject the import.' },
+  { id:'N5',  cat:'Naming',      sev:'error',   label:'Duplicate variable name',                     why:'REDCap rejects dictionaries with duplicate field names. Downstream merge failures guaranteed.' },
+  { id:'N6',  cat:'Naming',      sev:'warning', label:'Variable name exceeds 26 characters',         why:'SPSS truncates to 64 chars, Stata to 32, some export scripts to 26. Shorter is safer.' },
+  { id:'N7',  cat:'Naming',      sev:'warning', label:'Generic numeric suffix without context',      why:'Names like q1, var2, item_3 carry no semantic meaning in the exported dataset.' },
+  { id:'N8',  cat:'Naming',      sev:'warning', label:'SQL / language reserved word',                why:'Reserved words cause silent errors in R data frames and SQL-backed systems.' },
+  // Labels
+  { id:'L1',  cat:'Label',       sev:'error',   label:'Empty field label',                           why:'REDCap renders the label as the question text. An empty label is invisible to participants and reviewers.' },
+  { id:'L2',  cat:'Label',       sev:'warning', label:'Label is identical to variable name',         why:'Labels should be human-readable prose. This is a strong signal the label was never written.' },
+  { id:'L3',  cat:'Label',       sev:'info',    label:'Calculated field has no field note',          why:'Calculations should document their formula in plain language. Silent logic is a maintenance hazard.' },
+  // Field types
+  { id:'T1',  cat:'Field type',  sev:'error',   label:'Calc field has empty calculation',            why:'A calc field with no formula stores nothing and exports as blank. This is always an error.' },
+  { id:'T2',  cat:'Field type',  sev:'warning', label:'Date label without date validation',          why:'Text fields collecting dates without format validation produce inconsistent formats that fail parsing.' },
+  { id:'T3',  cat:'Field type',  sev:'info',    label:'Notes field where label implies categorical', why:'Free-text cannot be directly aggregated. Consider whether a defined choice list is appropriate.' },
+  { id:'T4',  cat:'Field type',  sev:'warning', label:'Date validation min > max',                   why:'Impossible validation range means REDCap will reject every entry. Check the min and max values.' },
+  // Choices
+  { id:'C1',  cat:'Choices',     sev:'error',   label:'Select/radio/checkbox has no choices defined', why:'REDCap will not render a choice field with no options. The field is silently unusable.' },
+  { id:'C2',  cat:'Choices',     sev:'error',   label:'Duplicate choice codes within a field',       why:'Duplicate numeric codes produce ambiguous values in the export dataset.' },
+  { id:'C3',  cat:'Choices',     sev:'warning', label:'Inconsistent yes/no coding across instrument', why:'Mixed coding (0/1 vs 1/2) breaks pooled analysis and confuses analysts.' },
+  { id:'C4',  cat:'Choices',     sev:'info',    label:'"Other" option without a specify text field', why:'An "other" choice without a paired free-text field produces uninterpretable data.' },
+  // Checkbox export
+  { id:'CK1', cat:'Checkbox',    sev:'info',    label:'Checkbox name ends in pattern that mirrors REDCap export suffix', why:'REDCap exports checkbox fields as fieldname___code (triple underscore). A name ending in __N or ___N creates collision risk and confuses analysts reading the exported dataset.' },
+  // Branching logic
+  { id:'B1',  cat:'Branching',   sev:'error',   label:'Branching logic references undefined variable', why:'A broken reference means the field is never shown — or always shown. Silent data loss.' },
+  { id:'B2',  cat:'Branching',   sev:'warning', label:'Required field has branching logic',           why:'A conditionally hidden field cannot be required. REDCap will block submission or silently ignore the requirement.' },
+  { id:'B3',  cat:'Branching',   sev:'warning', label:'Unbalanced brackets in branching logic',      why:'Unbalanced brackets cause logic to be silently misinterpreted.' },
+  { id:'B4',  cat:'Branching',   sev:'info',    label:'Calc field references variable on a different form without event scoping', why:'In longitudinal projects, cross-form calculations require [event_name][variable_name] syntax. Without it the value is undefined at runtime.' },
+  // Completeness
+  { id:'CO1', cat:'Completeness', sev:'warning', label:'No identifier field detected',               why:'Every instrument should have at least one ID field. Without one, linkage is impossible.' },
+  { id:'CO2', cat:'Completeness', sev:'info',    label:'No date or time-zero field detected',        why:'Longitudinal analyses require an anchor date. Its absence is often an oversight.' },
+  { id:'CO3', cat:'Completeness', sev:'info',    label:'No required fields on any form',             why:'An instrument with no required fields will accept completely empty records.' },
+  { id:'CO4', cat:'Completeness', sev:'info',    label:'High proportion of free-text fields (>30%)', why:'Heavy reliance on free text signals a codebook that was not thought through.' },
+];
+
+const RULE_MAP = Object.fromEntries(RULES.map(r => [r.id, r]));
+
+
+// ============================================================
+// CSV Parser — handles quoted fields and escaped quotes
+// ============================================================
+
+function parseCSV(text) {
+  const rows = [];
+  let i = 0;
+  const n = text.length;
+
+  while (i < n) {
+    const row = [];
+    while (i < n) {
+      if (text[i] === '"') {
+        i++;
+        let field = '';
+        while (i < n) {
+          if (text[i] === '"' && text[i + 1] === '"') { field += '"'; i += 2; }
+          else if (text[i] === '"') { i++; break; }
+          else { field += text[i++]; }
+        }
+        row.push(field);
+        if (text[i] === ',') i++;
+        else if (text[i] === '\r') i++;
+        if (text[i] === '\n') { i++; break; }
+      } else {
+        let field = '';
+        while (i < n && text[i] !== ',' && text[i] !== '\n' && text[i] !== '\r') {
+          field += text[i++];
+        }
+        row.push(field.trim());
+        if (text[i] === ',') { i++; }
+        else { if (text[i] === '\r') i++; if (text[i] === '\n') i++; break; }
+      }
+    }
+    if (row.length > 0 && !(row.length === 1 && row[0] === '')) rows.push(row);
+  }
+  return rows;
+}
+
+function csvEscape(val) {
+  const s = String(val ?? '');
+  if (s.includes(',') || s.includes('"') || s.includes('\n')) return `"${s.replace(/"/g, '""')}"`;
+  return s;
+}
+
+function rowToCSV(row) {
+  return row.map(csvEscape).join(',');
+}
+
+
+// ============================================================
+// Column normaliser
+// ============================================================
+
+function normaliseHeaders(headerRow) {
+  const map = {};
+  const patterns = {
+    fieldName:      /field.name|variable/i,
+    formName:       /form.name/i,
+    fieldType:      /field.type/i,
+    fieldLabel:     /field.label/i,
+    choices:        /choices|calculations|slider/i,
+    fieldNote:      /field.note/i,
+    validationType: /text.valid|validation.type/i,
+    validationMin:  /valid.*min|text.*min/i,
+    validationMax:  /valid.*max|text.*max/i,
+    identifier:     /identifier/i,
+    branchingLogic: /branching|show.field/i,
+    required:       /required/i,
+    annotation:     /annotation/i,
+    sectionHeader:   /section.header/i,
+    customAlignment: /custom.align/i,
+    questionNumber:  /question.num/i,
+    matrixGroup:     /matrix.group/i,
+    matrixRanking:   /matrix.rank/i,
+  };
+  headerRow.forEach((h, idx) => {
+    const trimmed = h.trim();
+    for (const [key, pattern] of Object.entries(patterns)) {
+      if (map[key] === undefined && pattern.test(trimmed)) map[key] = idx;
+    }
+  });
+  return map;
+}
+
+
+// ============================================================
+// Field parser
+// ============================================================
+
+function parseField(row, colMap) {
+  const get = (key) => (colMap[key] !== undefined ? (row[colMap[key]] ?? '').trim() : '');
+  return {
+    fieldName:      get('fieldName'),
+    formName:       get('formName'),
+    fieldType:      get('fieldType').toLowerCase(),
+    fieldLabel:     get('fieldLabel'),
+    choices:        get('choices'),
+    fieldNote:      get('fieldNote'),
+    validationType: get('validationType').toLowerCase(),
+    validationMin:  get('validationMin'),
+    validationMax:  get('validationMax'),
+    identifier:     get('identifier').toLowerCase() === 'y',
+    branchingLogic: get('branchingLogic'),
+    required:       get('required').toLowerCase() === 'y',
+    annotation:     get('annotation'),
+    sectionHeader:   get('sectionHeader'),
+    customAlignment: get('customAlignment'),
+    questionNumber:  get('questionNumber'),
+    matrixGroup:     get('matrixGroup'),
+    matrixRanking:   get('matrixRanking'),
+    _raw:           row,           // preserved for fixed-CSV export
+    _colMap:        colMap,
+  };
+}
+
+
+// ============================================================
+// Choice parser
+// ============================================================
+
+function parseChoices(raw) {
+  if (!raw.trim()) return [];
+  return raw.split('|').map(part => {
+    const comma = part.indexOf(',');
+    if (comma === -1) return { code: part.trim(), label: '' };
+    return { code: part.slice(0, comma).trim(), label: part.slice(comma + 1).trim() };
+  }).filter(c => c.code !== '');
+}
+
+
+// ============================================================
+// Heuristic runners
+// ============================================================
+
+function makeFinding(ruleId, field, message, fix) {
+  const rule = RULE_MAP[ruleId];
+  return { ruleId, sev: rule.sev, cat: rule.cat, label: rule.label, fieldName: field.fieldName, formName: field.formName, message, fix };
+}
+
+function runNamingRules(fields) {
+  const findings = [];
+  const seen = new Map();
+
+  fields.forEach(f => {
+    const v = f.fieldName;
+    if (!v) return;
+
+    if (/[A-Z]/.test(v))
+      findings.push(makeFinding('N1', f, `"${v}" contains uppercase.`, `Rename to: ${v.toLowerCase()}`));
+
+    if (/\s/.test(v))
+      findings.push(makeFinding('N2', f, `"${v}" contains a space.`, `Replace spaces with underscores: ${v.replace(/\s+/g,'_')}`));
+
+    if (/[^a-z0-9_]/i.test(v.replace(/[A-Z]/g,'').replace(/\s/g,'')))
+      findings.push(makeFinding('N3', f, `"${v}" contains an illegal character.`, 'Remove or replace with underscore.'));
+
+    if (/^\d/.test(v))
+      findings.push(makeFinding('N4', f, `"${v}" starts with a digit.`, `Add a descriptive prefix, e.g. v_${v}`));
+
+    if (seen.has(v))
+      findings.push(makeFinding('N5', f, `"${v}" is duplicated (also on form "${seen.get(v)}").`, 'Rename one instance; all variable names must be unique across the instrument.'));
+    else
+      seen.set(v, f.formName);
+
+    if (v.length > MAX_VAR_LENGTH)
+      findings.push(makeFinding('N6', f, `"${v}" is ${v.length} characters (limit: ${MAX_VAR_LENGTH}).`, `Shorten to ≤${MAX_VAR_LENGTH} characters.`));
+
+    if (/^(q|item|var|field|v)\d+$/i.test(v))
+      findings.push(makeFinding('N7', f, `"${v}" is a generic numbered name with no semantic content.`, 'Use a name that reflects the construct, e.g. phq9_q1, bmi_kgm2.'));
+
+    if (SQL_RESERVED.has(v.toLowerCase()))
+      findings.push(makeFinding('N8', f, `"${v}" is a SQL / language reserved word.`, `Add a contextual prefix or suffix, e.g. pt_${v} or ${v}_val.`));
+  });
+
+  return findings;
+}
+
+function runLabelRules(fields) {
+  const findings = [];
+  fields.forEach(f => {
+    if (!f.fieldLabel)
+      findings.push(makeFinding('L1', f, 'Field label is empty.', 'Write a human-readable question or description for this field.'));
+
+    if (f.fieldLabel && f.fieldLabel.toLowerCase() === f.fieldName.toLowerCase())
+      findings.push(makeFinding('L2', f, `Label "${f.fieldLabel}" is identical to the variable name.`, 'Replace with a readable question or description.'));
+
+    if (f.fieldType === 'calc' && !f.fieldNote && !f.annotation)
+      findings.push(makeFinding('L3', f, 'Calculated field has no field note or annotation documenting the formula.', 'Add a plain-language description of the calculation in the Field Note column.'));
+  });
+  return findings;
+}
+
+function runFieldTypeRules(fields) {
+  const findings = [];
+  const dateKeywords = /\bdate\b|\btime\b|\bday\b|\bmonth\b|\byear\b|\bdob\b|\bbirthday\b/i;
+  const categoricalKeywords = /\btype\b|\bstatus\b|\bcategory\b|\bclass\b|\bgrade\b|\bstage\b|\bsex\b|\bgender\b|\brace\b|\bethnicity\b/i;
+
+  fields.forEach(f => {
+    if (f.fieldType === 'calc' && !f.choices.trim())
+      findings.push(makeFinding('T1', f, 'Calculated field has an empty calculation.', 'Enter the REDCap calculation expression in the Choices / Calculations column.'));
+
+    if (f.fieldType === 'text' && dateKeywords.test(f.fieldLabel) && !FIELD_TYPES_DATE_FAMILY.has(f.validationType))
+      findings.push(makeFinding('T2', f, `Label "${f.fieldLabel}" implies a date but no date validation is set.`, 'Set Text Validation Type to date_ymd (ISO recommended) or another date format.'));
+
+    if (f.fieldType === 'notes' && categoricalKeywords.test(f.fieldLabel))
+      findings.push(makeFinding('T3', f, `Label "${f.fieldLabel}" implies a categorical value but field type is Notes (free text).`, 'Consider using dropdown or radio with a defined choice list.'));
+
+    // T4: impossible date validation range
+    if (FIELD_TYPES_DATE_FAMILY.has(f.validationType) && f.validationMin && f.validationMax) {
+      const minDate = new Date(f.validationMin);
+      const maxDate = new Date(f.validationMax);
+      if (!isNaN(minDate) && !isNaN(maxDate) && minDate > maxDate)
+        findings.push(makeFinding('T4', f,
+          `Date validation min (${f.validationMin}) is after max (${f.validationMax}).`,
+          'Swap the min and max values, or remove whichever is incorrect.'));
+    }
+  });
+  return findings;
+}
+
+function runChoicesRules(fields) {
+  const findings = [];
+  const yesNoCodes = [];
+
+  fields.forEach(f => {
+    if (FIELD_TYPES_REQUIRING_CHOICES.has(f.fieldType)) {
+      const choices = parseChoices(f.choices);
+
+      if (choices.length === 0) {
+        findings.push(makeFinding('C1', f, `${f.fieldType} field has no choices defined.`, 'Add pipe-delimited choices: 1, Option One | 2, Option Two'));
+        return;
+      }
+
+      const codes = choices.map(c => c.code);
+      const dupCodes = codes.filter((c, i) => codes.indexOf(c) !== i);
+      if (dupCodes.length > 0)
+        findings.push(makeFinding('C2', f, `Duplicate choice codes: ${[...new Set(dupCodes)].join(', ')}.`, 'Assign a unique numeric code to each option.'));
+
+      // C4: "other" without a specify field
+      const hasOther = choices.some(c => /\bother\b/i.test(c.label));
+      if (hasOther) {
+        const hasSpecify = fields.some(ff =>
+          ff.fieldName === `${f.fieldName}_specify` || ff.fieldName === `${f.fieldName}_other`
+        );
+        if (!hasSpecify)
+          findings.push(makeFinding('C4', f, '"Other" choice present but no corresponding specify text field found.',
+            `Add a text field named ${f.fieldName}_specify with branching logic showing when "${f.fieldName}" = other code.`));
+      }
+    }
+
+    // Collect yes/no coding for cross-instrument check
+    if (['yesno','dropdown','radio'].includes(f.fieldType)) {
+      const choices = parseChoices(f.choices);
+      const isYesNo = choices.length === 2 &&
+        choices.some(c => /^yes$/i.test(c.label)) &&
+        choices.some(c => /^no$/i.test(c.label));
+      if (isYesNo) {
+        const yescode = choices.find(c => /^yes$/i.test(c.label))?.code;
+        yesNoCodes.push({ field: f.fieldName, yescode });
+      }
+    }
+  });
+
+  // C3: inconsistent yes/no coding
+  if (yesNoCodes.length > 1) {
+    const uniqueCodes = new Set(yesNoCodes.map(e => e.yescode));
+    if (uniqueCodes.size > 1) {
+      const examples = yesNoCodes.slice(0, 3).map(e => `${e.field} (Yes=${e.yescode})`).join(', ');
+      findings.push(makeFinding('C3',
+        { fieldName: '[instrument-wide]', formName: '' },
+        `Yes/No fields use inconsistent codes: ${examples}${yesNoCodes.length > 3 ? ' …' : ''}.`,
+        'Standardise: use 1=Yes, 0=No throughout, or use the native yesno field type.'
+      ));
+    }
+  }
+
+  return findings;
+}
+
+function runCheckboxRules(fields) {
+  const findings = [];
+  // CK1: checkbox variable name ends with __N or ___N pattern — collides with REDCap export suffix
+  fields.forEach(f => {
+    if (f.fieldType === 'checkbox' && /_{2,}\d+$/.test(f.fieldName))
+      findings.push(makeFinding('CK1', f,
+        `"${f.fieldName}" ends with a pattern that mirrors REDCap's export suffix (___code).`,
+        'Rename to remove the trailing __N or ___N. REDCap appends ___code automatically on export; a conflicting suffix makes the exported column names ambiguous.'
+      ));
+  });
+  return findings;
+}
+
+function runBranchingRules(fields) {
+  const findings = [];
+  const allNames = new Set(fields.map(f => f.fieldName));
+  const formsByField = new Map(fields.map(f => [f.fieldName, f.formName]));
+
+  fields.forEach(f => {
+    if (!f.branchingLogic) return;
+    const logic = f.branchingLogic;
+
+    // B1: references to undefined variables
+    const refs = [...logic.matchAll(/\[([^\]]+)\]/g)].map(m => m[1].split('(')[0].trim());
+    refs.forEach(ref => {
+      if (ref && !allNames.has(ref))
+        findings.push(makeFinding('B1', f, `Branching logic references undefined variable [${ref}].`,
+          'Check spelling. If this variable was renamed, update the branching logic.'));
+    });
+
+    // B2: required + branching conflict
+    if (f.required)
+      findings.push(makeFinding('B2', f, 'Field is both required and conditionally shown via branching logic.',
+        'Remove the required flag, or validate completeness at the form level.'));
+
+    // B3: unbalanced brackets
+    const opens  = (logic.match(/\[/g) || []).length;
+    const closes = (logic.match(/\]/g) || []).length;
+    const parensOpen  = (logic.match(/\(/g) || []).length;
+    const parensClose = (logic.match(/\)/g) || []).length;
+    if (opens !== closes || parensOpen !== parensClose)
+      findings.push(makeFinding('B3', f,
+        `Unbalanced brackets (${opens} [ vs ${closes} ], ${parensOpen} ( vs ${parensClose} )).`,
+        'Check that every opening bracket has a matching closing bracket.'));
+  });
+
+  // B4: calc field referencing a variable on a different form without event scoping
+  const forms = new Set(fields.map(f => f.formName).filter(Boolean));
+  if (forms.size > 1) {
+    fields.forEach(f => {
+      if (f.fieldType !== 'calc' || !f.choices.trim()) return;
+      const calcRefs = [...f.choices.matchAll(/\[([^\]]+)\]/g)].map(m => m[1].trim());
+      calcRefs.forEach(ref => {
+        const refForm = formsByField.get(ref);
+        if (refForm && refForm !== f.formName && !f.choices.includes(`][${ref}]`))
+          findings.push(makeFinding('B4', f,
+            `Calc references [${ref}] which is on a different form ("${refForm}"). No event scoping detected.`,
+            `In longitudinal projects use [event_name][${ref}] syntax. Verify this instrument is not longitudinal, or add event scoping.`
+          ));
+      });
+    });
+  }
+
+  return findings;
+}
+
+function runCompletenessRules(fields) {
+  const findings = [];
+  const idPattern = /\b(record_id|study_id|patient_id|subject_id|participant_id|respondent_id|pt_id|subj_id)\b/i;
+  const datePattern = /\b(index_date|time_zero|baseline_date|enrollment_date|randomization_date|date_of_birth|dob|consent_date)\b/i;
+
+  const hasId     = fields.some(f => f.identifier || idPattern.test(f.fieldName));
+  const hasDate   = fields.some(f => FIELD_TYPES_DATE_FAMILY.has(f.validationType) || datePattern.test(f.fieldName));
+  const hasRequired = fields.some(f => f.required);
+  const noteCount = fields.filter(f => f.fieldType === 'notes').length;
+  const realCount = fields.filter(f => f.fieldType !== 'descriptive').length;
+
+  if (!hasId)
+    findings.push(makeFinding('CO1', { fieldName:'[instrument-wide]', formName:'' },
+      'No identifier field detected.',
+      'Add a record_id or study_id field and mark it as Identifier.'));
+
+  if (!hasDate)
+    findings.push(makeFinding('CO2', { fieldName:'[instrument-wide]', formName:'' },
+      'No date or time-zero field detected.',
+      'Add an index_date or equivalent with date_ymd validation.'));
+
+  if (!hasRequired)
+    findings.push(makeFinding('CO3', { fieldName:'[instrument-wide]', formName:'' },
+      'No required fields on any form.',
+      'Mark at least the identifier and primary outcome fields as required.'));
+
+  if (realCount > 0 && noteCount / realCount > 0.3)
+    findings.push(makeFinding('CO4', { fieldName:'[instrument-wide]', formName:'' },
+      `${Math.round(noteCount / realCount * 100)}% of fields are Notes (free text) — above the 30% threshold.`,
+      'Review whether categorical or numeric field types are appropriate for any of these fields.'));
+
+  return findings;
+}
+
+
+// ============================================================
+// Orchestrator
+// ============================================================
+
+function runAllHeuristics(fields) {
+  return [
+    ...runNamingRules(fields),
+    ...runLabelRules(fields),
+    ...runFieldTypeRules(fields),
+    ...runChoicesRules(fields),
+    ...runCheckboxRules(fields),
+    ...runBranchingRules(fields),
+    ...runCompletenessRules(fields),
+  ].sort((a, b) => ({ error:0, warning:1, info:2 }[a.sev] ?? 3) - ({ error:0, warning:1, info:2 }[b.sev] ?? 3));
+}
+
+
+// ============================================================
+// Ingestion
+// ============================================================
+
+function ingestCSV(text) {
+  if (!text.trim()) throw new Error('Input is empty.');
+  const rows = parseCSV(text);
+  if (rows.length < 2) throw new Error('File appears to have fewer than two rows.');
+  const colMap = normaliseHeaders(rows[0]);
+  if (colMap.fieldName === undefined) throw new Error('Could not find a "Variable / Field Name" column. Is this a REDCap data dictionary export?');
+  const fields = rows.slice(1)
+    .map(row => parseField(row, colMap))
+    .filter(f => f.fieldName);
+  if (fields.length === 0) throw new Error('No field rows found after the header.');
+  return { fields, headerRow: rows[0], dataRows: rows.slice(1), colMap };
+}
+
+
+// ============================================================
+// Auto-fix CSV export
+// Fixes: N1 (lowercase), N2 (spaces→_), N3 (illegal→_), N4 (digit-start → v_)
+// Also collapses consecutive underscores and strips leading/trailing underscores.
+// Skips REDCap reserved fields (redcap_* prefix, _complete suffix).
+// ============================================================
+
+// REDCap auto-generates these — do not rename them.
+function isREDCapReservedField(name) {
+  return name.startsWith('redcap_') || name.endsWith('_complete');
+}
+
+function cleanVarName(v) {
+  let fixed = v
+    .toLowerCase()
+    .replace(/\s+/g, '_')
+    .replace(/[^a-z0-9_]/g, '_')
+    .replace(/_+/g, '_')          // collapse consecutive underscores
+    .replace(/^_+|_+$/g, '');     // strip leading/trailing underscores
+
+  if (/^\d/.test(fixed)) fixed = 'v_' + fixed;
+  // Fallback for names that collapse to nothing (e.g. "@@@"). Parenthesised so the
+  // `|| 'field'` actually applies, and trailing underscore stripped.
+  if (!fixed) fixed = ('field_' + v.replace(/[^a-z0-9]/gi, '').slice(0, 6)).replace(/_+$/, '') || 'field';
+  return fixed;
+}
+
+// Assign a final, globally-unique variable name to EVERY field.
+// Returns { perField: string[] aligned to `fields`, logicMap: Map(oldName -> newName) }.
+//
+// Naming policy:
+//   - REDCap-reserved fields (redcap_*, *_complete) are never renamed.
+//   - An already-clean, unique name is kept verbatim.
+//   - A single dirty name is normalised (e.g. "Age (yrs)" -> "age_yrs").
+//   - When two or more fields collapse to the same base — INCLUDING pre-existing
+//     exact duplicates like two "pfs" — all members are numbered base1..baseN
+//     (pfs -> pfs1, pfs2). This is done per-field, because a name->name map cannot
+//     disambiguate two fields that share the same original name.
+//   - logicMap carries ONLY unambiguous renames (unique original names); a
+//     branching/calc reference to a duplicated name cannot be resolved safely.
+function assignFixedNames(fields) {
+  const nameCounts = new Map();
+  fields.forEach(f => nameCounts.set(f.fieldName, (nameCounts.get(f.fieldName) || 0) + 1));
+
+  // Reserve names that stay verbatim, so a rename/number never lands on them.
+  const used = new Set();
+  fields.forEach(f => {
+    const v = f.fieldName;
+    if (isREDCapReservedField(v)) used.add(v);
+    else if (cleanVarName(v) === v && nameCounts.get(v) === 1) used.add(v);
+  });
+
+  // Group editable fields by cleaned base name, preserving document order.
+  const groups = new Map();
+  fields.forEach(f => {
+    if (isREDCapReservedField(f.fieldName)) return;
+    const base = cleanVarName(f.fieldName);
+    if (!groups.has(base)) groups.set(base, []);
+    groups.get(base).push(f);
+  });
+
+  const claim = (want) => {           // guarantee global uniqueness
+    let c = want, n = 2;
+    while (used.has(c)) c = `${want}_${n++}`;
+    used.add(c);
+    return c;
+  };
+
+  const finalByField = new Map();     // keyed by field object → per-occurrence name
+  groups.forEach((fs, base) => {
+    if (fs.length === 1) {
+      const f = fs[0];
+      finalByField.set(f, f.fieldName === base ? base : claim(base));
+    } else {
+      fs.forEach((f, i) => finalByField.set(f, claim(`${base}${i + 1}`)));
+    }
+  });
+
+  const perField = fields.map(f =>
+    isREDCapReservedField(f.fieldName) ? f.fieldName : finalByField.get(f));
+
+  const logicMap = new Map();
+  fields.forEach((f, i) => {
+    if (perField[i] !== f.fieldName && nameCounts.get(f.fieldName) === 1)
+      logicMap.set(f.fieldName, perField[i]);
+  });
+
+  return { perField, logicMap };
+}
+
+function applyRenameToLogic(logic, renameMap) {
+  if (!logic) return logic;
+  // A bracket token may carry a checkbox-code suffix, e.g. [chk(2)]. Split the
+  // variable name from the "(...)" suffix so the name still maps after a rename,
+  // then re-attach the suffix. Mirrors the parsing in runBranchingRules (B1) so
+  // detection and fixing agree.
+  return logic.replace(/\[([^\]]+)\]/g, (match, body) => {
+    const parts = body.match(/^([^(]+)(\(.*\))?$/);
+    if (!parts) return match;
+    const name = parts[1].trim();
+    const suffix = parts[2] || '';
+    const renamed = renameMap.get(name);
+    return renamed ? `[${renamed}${suffix}]` : match;
+  });
+}
+
+// Rebuild a structurally correct REDCap data dictionary CSV from parsed field objects.
+// Guarantees:
+//   - Exactly the 18 canonical REDCap column headers, properly quoted.
+//   - Every data row has exactly 18 columns.
+//   - All values (especially choices/calculations) go through csvEscape.
+//   - Variable names and logic references use the rename map.
+// This approach deliberately discards the original raw rows to avoid carrying
+// through any structural corruption (unquoted commas, wrong column counts, etc.).
+function generateFixedCSV(fields) {
+  const { perField, logicMap } = assignFixedNames(fields);
+
+  const dataRows = fields.map((f, idx) => {
+    const fixedName    = perField[idx];
+    const fixedBranch  = applyRenameToLogic(f.branchingLogic, logicMap);
+    const fixedChoices = f.fieldType === 'calc'
+      ? applyRenameToLogic(f.choices, logicMap)
+      : f.choices;
+
+    // Column order must match REDCAP_HEADERS exactly (18 columns).
+    return [
+      fixedName,                    // Variable / Field Name
+      f.formName,                   // Form Name
+      f.sectionHeader,              // Section Header (preserved — losing it destroys form structure)
+      f.fieldType,                  // Field Type
+      f.fieldLabel,                 // Field Label
+      fixedChoices,                 // Choices, Calculations, OR Slider Labels
+      f.fieldNote,                  // Field Note
+      f.validationType,             // Text Validation Type OR Show Slider Number
+      f.validationMin,              // Text Validation Min
+      f.validationMax,              // Text Validation Max
+      f.identifier ? 'y' : '',     // Identifier?
+      fixedBranch,                  // Branching Logic (Show field only if...)
+      f.required   ? 'y' : '',     // Required Field?
+      f.customAlignment,            // Custom Alignment
+      f.questionNumber,             // Question Number (surveys only)
+      f.matrixGroup,                // Matrix Group Name (preserved — losing it destroys matrices)
+      f.matrixRanking,              // Matrix Ranking?
+      f.annotation,                 // Field Annotation
+    ];
+  });
+
+  // REDCAP_HEADERS has exactly 18 elements; rowToCSV quotes every value
+  // that contains a comma, double-quote, or newline — including choices.
+  return [REDCAP_HEADERS, ...dataRows].map(rowToCSV).join('\r\n');
+}
+
+function downloadText(filename, content, mimeType = 'text/csv') {
+  const blob = new Blob([content], { type: mimeType });
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href = url; a.download = filename; a.click();
+  URL.revokeObjectURL(url);
+}
+
+
+// ============================================================
+// StudyVahti codebook → REDCap data dictionary converter
+// Input: pipe-delimited rows  variable_name | label | type | role | coding note
+// ============================================================
+
+const SV_TYPE_MAP = {
+  numeric:     { fieldType: 'text', validationType: 'number' },
+  integer:     { fieldType: 'text', validationType: 'integer' },
+  date:        { fieldType: 'text', validationType: 'date_ymd' },
+  datetime:    { fieldType: 'text', validationType: 'datetime_ymd' },
+  binary:      { fieldType: 'radio', choices: '0, No | 1, Yes' },
+  categorical: { fieldType: 'dropdown', choices: '' },
+  ordinal:     { fieldType: 'radio', choices: '' },
+  string:      { fieldType: 'text', validationType: '' },
+  text:        { fieldType: 'notes' },
+  id:          { fieldType: 'text', identifier: 'y' },
+};
+
+// Convert a StudyVahti coding note ("1=Treatment; 2=Control", or "|"-separated)
+// into a REDCap choices string ("1, Treatment | 2, Control"). Returns '' if the
+// note is not a set of code=label pairs, so the caller can fall back to a default.
+function codingToChoices(coding) {
+  if (!coding) return '';
+  const pairs = coding.split(/[;|]/).map(s => s.trim()).filter(Boolean);
+  const out = [];
+  for (const p of pairs) {
+    const eq = p.indexOf('=');
+    if (eq === -1) return '';                 // not code=label form → not codeable
+    const code = p.slice(0, eq).trim();
+    const label = p.slice(eq + 1).trim();
+    if (!code) return '';
+    out.push(`${code}, ${label}`);
+  }
+  return out.join(' | ');
+}
+
+function convertStudyVahtiToREDCap(svText) {
+  const lines = svText.split('\n')
+    .map(l => l.trim())
+    .filter(l => l && !l.startsWith('#'));
+
+  if (lines.length === 0) throw new Error('No variable rows found.');
+
+  const rows = lines.map(line => {
+    const parts = line.split('|').map(p => p.trim());
+    const [name = '', label = '', type = 'string', role = '', coding = ''] = parts;
+
+    const typeKey  = type.toLowerCase().split('/')[0].trim();
+    const mapping  = SV_TYPE_MAP[typeKey] || SV_TYPE_MAP['string'];
+
+    // Derive REDCap choices from the coding note for coded field types.
+    let choices = mapping.choices ?? '';
+    if (typeKey === 'categorical' || typeKey === 'ordinal') {
+      choices = codingToChoices(coding) || choices;          // '' if note isn't code=label pairs
+    } else if (typeKey === 'binary') {
+      choices = codingToChoices(coding) || mapping.choices;  // honour an explicit "1=No; 0=Yes" direction
+    }
+
+    // Build REDCap row (18 columns)
+    return [
+      name,                          // Variable / Field Name
+      'instrument_1',                // Form Name
+      '',                            // Section Header
+      mapping.fieldType || 'text',   // Field Type
+      label || name,                 // Field Label
+      choices,                       // Choices / Calculations
+      coding,                        // Field Note
+      mapping.validationType || '',  // Text Validation Type
+      '',                            // Text Validation Min
+      '',                            // Text Validation Max
+      (role === 'id' || typeKey === 'id') ? 'y' : '',  // Identifier? (PHI flag — from role OR type)
+      '',                            // Branching Logic
+      role === 'id' ? 'y' : '',      // Required Field?
+      '',                            // Custom Alignment
+      '',                            // Question Number
+      '',                            // Matrix Group Name
+      '',                            // Matrix Ranking?
+      `Imported from StudyVahti. Role: ${role}`,  // Field Annotation
+    ];
+  });
+
+  const headerRow = REDCAP_HEADERS;
+  return { csv: [headerRow, ...rows].map(rowToCSV).join('\r\n'), count: rows.length };
+}
+
+
+// ============================================================
+// Rendering
+// ============================================================
+
+let allFindings = [];
+let activeFilter = 'all';
+let lastIngestion = null;   // { fields, headerRow, dataRows, colMap }
+
+function escHtml(str) {
+  return String(str ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
+}
+
+function sevBadge(sev) {
+  return `<span class="sev-badge sev-${sev}">${sev}</span>`;
+}
+
+function renderFindings(findings) {
+  const body = document.getElementById('findingsBody');
+  const display = activeFilter === 'all' ? findings : findings.filter(f => f.sev === activeFilter);
+
+  if (display.length === 0) {
+    body.innerHTML = `<tr><td colspan="7"><div class="empty" style="margin:.5rem;">No findings match the current filter.</div></td></tr>`;
+    return;
+  }
+
+  body.innerHTML = display.map(f => `
+    <tr>
+      <td>${sevBadge(f.sev)}</td>
+      <td><span class="rule-code">${escHtml(f.ruleId)}</span></td>
+      <td style="white-space:nowrap;color:var(--sv-muted);font-size:.78rem;">${escHtml(f.cat)}</td>
+      <td>
+        <span class="field-name">${escHtml(f.fieldName)}</span>
+        ${f.formName ? `<br><span style="font-size:.72rem;color:var(--sv-muted);">${escHtml(f.formName)}</span>` : ''}
+      </td>
+      <td style="color:var(--sv-muted);font-size:.78rem;">${escHtml(f.formName)}</td>
+      <td>${escHtml(f.message)}</td>
+      <td class="fix-text">${escHtml(f.fix)}</td>
+    </tr>
+  `).join('');
+}
+
+function renderFormSummary(findings, fields) {
+  const body = document.getElementById('formTableBody');
+
+  // Build per-form stats
+  const formFields = new Map();
+  fields.forEach(f => {
+    const key = f.formName || '(no form)';
+    formFields.set(key, (formFields.get(key) || 0) + 1);
+  });
+
+  const formCounts = new Map();
+  findings.forEach(f => {
+    const key = f.formName || '[instrument-wide]';
+    if (!formCounts.has(key)) formCounts.set(key, { error:0, warning:0, info:0 });
+    formCounts.get(key)[f.sev] = (formCounts.get(key)[f.sev] || 0) + 1;
+  });
+
+  const allForms = new Set([...formFields.keys(), ...formCounts.keys()]);
+
+  if (allForms.size === 0) {
+    body.innerHTML = `<tr><td colspan="6"><div class="empty">No form data available.</div></td></tr>`;
+    return;
+  }
+
+  body.innerHTML = [...allForms].sort().map(form => {
+    const counts = formCounts.get(form) || { error:0, warning:0, info:0 };
+    const total  = counts.error + counts.warning + counts.info;
+    const fieldCount = formFields.get(form) ?? '—';
+
+    return `<tr>
+      <td class="form-name">${escHtml(form)}</td>
+      <td>${fieldCount}</td>
+      <td class="count-cell ${counts.error   > 0 ? 'count-error'   : 'count-zero'}">${counts.error   || '—'}</td>
+      <td class="count-cell ${counts.warning > 0 ? 'count-warning' : 'count-zero'}">${counts.warning || '—'}</td>
+      <td class="count-cell ${counts.info    > 0 ? 'count-info'    : 'count-zero'}">${counts.info    || '—'}</td>
+      <td class="count-cell" style="font-weight:700;">${total || '—'}</td>
+    </tr>`;
+  }).join('');
+}
+
+function renderSummary(findings, fieldCount) {
+  const counts = { error:0, warning:0, info:0 };
+  findings.forEach(f => { counts[f.sev] = (counts[f.sev] || 0) + 1; });
+
+  if (fieldCount !== null)
+    document.getElementById('resultsMeta').textContent =
+      `${fieldCount} fields audited · ${findings.length} finding${findings.length !== 1 ? 's' : ''}`;
+
+  const bar = document.getElementById('summaryBar');
+  bar.innerHTML = findings.length === 0
+    ? `<span class="summary-chip chip-pass">✓ No findings — dictionary passes all heuristics</span>`
+    : [
+        counts.error   > 0 ? `<span class="summary-chip chip-error">${counts.error} error${counts.error !== 1 ? 's' : ''}</span>` : '',
+        counts.warning > 0 ? `<span class="summary-chip chip-warning">${counts.warning} warning${counts.warning !== 1 ? 's' : ''}</span>` : '',
+        counts.info    > 0 ? `<span class="summary-chip chip-info">${counts.info} note${counts.info !== 1 ? 's' : ''}</span>` : '',
+      ].join('');
+
+  // Filter buttons
+  const filterRow = document.getElementById('filterRow');
+  filterRow.innerHTML = '';
+
+  const allBtn = makeFilterBtn(`All (${findings.length})`, 'all');
+  filterRow.appendChild(allBtn);
+  ['error','warning','info'].forEach(sev => {
+    if (counts[sev] > 0) filterRow.appendChild(makeFilterBtn(`${sev.charAt(0).toUpperCase()+sev.slice(1)} (${counts[sev]})`, sev));
+  });
+}
+
+function makeFilterBtn(text, sev) {
+  const btn = document.createElement('button');
+  btn.className = `filter-btn${activeFilter === sev ? ` active-${sev}` : ''}`;
+  btn.textContent = text;
+  btn.addEventListener('click', () => {
+    activeFilter = sev;
+    document.querySelectorAll('.filter-btn').forEach(b => {
+      b.className = 'filter-btn';
+      const t = b.textContent.toLowerCase();
+      if (sev === 'all' && t.startsWith('all')) b.className += ' active-all';
+      if (sev !== 'all' && t.startsWith(sev))   b.className += ` active-${sev}`;
+    });
+    renderFindings(allFindings);
+  });
+  return btn;
+}
+
+function renderRuleGrid() {
+  document.getElementById('ruleGrid').innerHTML = RULES.map(r => `
+    <div class="rule-card">
+      <div class="rule-card-head">
+        <span class="sev-badge sev-${r.sev}">${r.sev}</span>
+        <span class="rule-code">${r.id}</span>
+        <strong>${escHtml(r.label)}</strong>
+      </div>
+      <p>${escHtml(r.why)}</p>
+    </div>
+  `).join('');
+}
+
+// Surface duplicate-name auto-numbering so the student is never silently
+// handed a renamed field. Only fires for genuine duplicates (count > 1).
+function renderRenameNote(fields) {
+  const el = document.getElementById('renameNote');
+  if (!el) return;
+  const { perField } = assignFixedNames(fields);
+  const counts = new Map();
+  fields.forEach(f => counts.set(f.fieldName, (counts.get(f.fieldName) || 0) + 1));
+
+  const groups = new Map();
+  fields.forEach((f, i) => {
+    if (perField[i] !== f.fieldName && counts.get(f.fieldName) > 1) {
+      if (!groups.has(f.fieldName)) groups.set(f.fieldName, []);
+      groups.get(f.fieldName).push(perField[i]);
+    }
+  });
+
+  if (groups.size === 0) { el.innerHTML = ''; return; }
+
+  const items = [...groups.entries()].map(([from, tos]) =>
+    `<code>${escHtml(from)}</code> → ${tos.map(t => `<code>${escHtml(t)}</code>`).join(', ')}`
+  ).join('; ');
+
+  el.innerHTML =
+    `<div class="info-box" style="margin:.75rem 1rem 0;border-color:var(--border-warn);background:var(--bg-warning);color:#7a5b00;">
+      <strong>Heads up — duplicate field names.</strong> “Download fixed CSV” will auto-number these so REDCap accepts the import: ${items}.
+      Verify they are genuinely different fields; if one is an accidental copy, delete it instead of keeping both.
+    </div>`;
+}
+
+function findingsToCSV(findings) {
+  const header = ['Severity','Rule','Category','Field name','Form','Finding','Suggested fix'];
+  const rows = findings.map(f => [f.sev, f.ruleId, f.cat, f.fieldName, f.formName, f.message, f.fix]);
+  return [header, ...rows].map(row => row.map(csvEscape).join(',')).join('\r\n');
+}
+
+
+// ============================================================
+// Main audit runner
+// ============================================================
+
+function runAudit(text) {
+  const { fields, headerRow, dataRows, colMap } = ingestCSV(text);
+  lastIngestion = { fields, headerRow, dataRows, colMap };
+  allFindings   = runAllHeuristics(fields);
+  activeFilter  = 'all';
+
+  const panel = document.getElementById('resultsPanel');
+  panel.style.display = '';
+  renderSummary(allFindings, fields.length);
+  renderFindings(allFindings);
+  renderFormSummary(allFindings, fields);
+  renderRenameNote(fields);
+  panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function safeRunAudit(text) {
+  try { runAudit(text); }
+  catch (err) { alert(`Audit error: ${err.message}`); }
+}
+
+
+// ============================================================
+// UI wiring
+// ============================================================
+
+function getCurrentCSVText() {
+  const active = document.querySelector('#inputTabs .tab.is-active')?.dataset.tab;
+  if (active === 'paste') return document.getElementById('pasteInput').value;
+  return window._uploadedText || '';
+}
+
+// Input tab switching
+document.getElementById('inputTabs').addEventListener('click', e => {
+  const tab = e.target.closest('[data-tab]');
+  if (!tab) return;
+  document.querySelectorAll('#inputTabs .tab').forEach(t => t.classList.remove('is-active'));
+  tab.classList.add('is-active');
+
+  const isStudyvahti = tab.dataset.tab === 'studyvahti';
+  document.getElementById('tabUpload').style.display     = tab.dataset.tab === 'upload'      ? '' : 'none';
+  document.getElementById('tabPaste').style.display      = tab.dataset.tab === 'paste'       ? '' : 'none';
+  document.getElementById('tabStudyvahti').style.display = isStudyvahti                      ? '' : 'none';
+  document.getElementById('mainBtnRow').style.display    = isStudyvahti                      ? 'none' : '';
+});
+
+// File upload
+const dropzone  = document.getElementById('dropzone');
+const fileInput = document.getElementById('fileInput');
+
+dropzone.addEventListener('click', () => fileInput.click());
+dropzone.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') fileInput.click(); });
+fileInput.addEventListener('change', () => {
+  const file = fileInput.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => { window._uploadedText = e.target.result; document.getElementById('fileLabel').textContent = file.name; };
+  reader.readAsText(file);
+});
+
+// Drag and drop
+dropzone.addEventListener('dragover', e => { e.preventDefault(); dropzone.classList.add('drag-over'); });
+dropzone.addEventListener('dragleave', () => dropzone.classList.remove('drag-over'));
+dropzone.addEventListener('drop', e => {
+  e.preventDefault(); dropzone.classList.remove('drag-over');
+  const file = e.dataTransfer.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => { window._uploadedText = ev.target.result; document.getElementById('fileLabel').textContent = file.name; };
+  reader.readAsText(file);
+});
+
+// Audit button
+document.getElementById('auditBtn').addEventListener('click', () => {
+  const text = getCurrentCSVText();
+  if (!text.trim()) { alert('Please upload or paste a REDCap data dictionary CSV first.'); return; }
+  safeRunAudit(text);
+});
+
+// Clear
+document.getElementById('clearBtn').addEventListener('click', () => {
+  window._uploadedText = '';
+  fileInput.value = '';
+  document.getElementById('fileLabel').textContent = '';
+  document.getElementById('pasteInput').value = '';
+  document.getElementById('resultsPanel').style.display = 'none';
+  allFindings = []; lastIngestion = null;
+});
+
+// Download fixed CSV
+document.getElementById('downloadFixedBtn').addEventListener('click', () => {
+  if (!lastIngestion) return;
+  const { fields } = lastIngestion;
+  // Always allow download — even if no renames, the output is structurally clean.
+  const csv = generateFixedCSV(fields);
+  const { perField } = assignFixedNames(fields);
+  const fixCount = perField.filter((nm, i) => nm !== fields[i].fieldName).length;
+  const filename = fixCount > 0 ? 'dictvahti_fixed_dictionary.csv' : 'dictvahti_clean_dictionary.csv';
+  downloadText(filename, csv);
+  if (fixCount === 0) alert('No naming fixes applied — all variable names are already clean.\nDownloaded structurally normalised CSV (18 columns, all values quoted).');
+});
+
+// Copy findings CSV
+document.getElementById('copyBtn').addEventListener('click', () => {
+  navigator.clipboard.writeText(findingsToCSV(allFindings)).then(() => {
+    const btn = document.getElementById('copyBtn');
+    const orig = btn.textContent;
+    btn.textContent = 'Copied!';
+    setTimeout(() => { btn.textContent = orig; }, 1800);
+  });
+});
+
+// Print
+document.getElementById('printBtn').addEventListener('click', () => window.print());
+
+// Results view tabs
+document.getElementById('resultsTabs').addEventListener('click', e => {
+  const tab = e.target.closest('[data-view]');
+  if (!tab) return;
+  document.querySelectorAll('#resultsTabs .tab').forEach(t => t.classList.remove('is-active'));
+  tab.classList.add('is-active');
+  document.getElementById('viewFindings').style.display = tab.dataset.view === 'findings' ? '' : 'none';
+  document.getElementById('viewByform').style.display   = tab.dataset.view === 'byform'   ? '' : 'none';
+});
+
+// StudyVahti convert + audit
+document.getElementById('convertSvBtn').addEventListener('click', () => {
+  const text = document.getElementById('studyvahtiInput').value.trim();
+  if (!text) { alert('Paste your StudyVahti variable plan first.'); return; }
+  try {
+    const { csv, count } = convertStudyVahtiToREDCap(text);
+    document.getElementById('svConvertStatus').textContent = `Converted ${count} variables. Running audit…`;
+    safeRunAudit(csv);
+    // Switch to upload tab so user can see results context
+    document.getElementById('svConvertStatus').textContent = `Converted ${count} variables and audited. See results below.`;
+  } catch (err) {
+    alert(`Conversion error: ${err.message}`);
+  }
+});
+
+// StudyVahti download CSV
+document.getElementById('downloadSvCsvBtn').addEventListener('click', () => {
+  const text = document.getElementById('studyvahtiInput').value.trim();
+  if (!text) { alert('Paste your StudyVahti variable plan first.'); return; }
+  try {
+    const { csv, count } = convertStudyVahtiToREDCap(text);
+    downloadText('studyvahti_redcap_dictionary.csv', csv);
+    document.getElementById('svConvertStatus').textContent = `Downloaded REDCap dictionary for ${count} variables.`;
+  } catch (err) {
+    alert(`Conversion error: ${err.message}`);
+  }
+});
+
+// Init
+renderRuleGrid();
+</script>
+
+</body>
+</html>
