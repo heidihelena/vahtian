@@ -35,6 +35,10 @@
     h1{font-size:clamp(30px,6vw,48px);line-height:1.08;letter-spacing:-.02em;margin:0 0 16px}
     .lede{font-size:clamp(17px,2.6vw,20px);color:#3a3450;margin:0 0 10px;max-width:62ch}
     .vahti{color:var(--muted);font-size:14.5px;margin:18px 0 0}
+    .cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:22px}
+    .btn{display:inline-block;padding:11px 18px;border-radius:9px;font-weight:600;text-decoration:none;font-size:15px}
+    .btn.primary{background:var(--navy);color:#fff}
+    .btn.ghost{border:1px solid var(--line);color:var(--ink);background:var(--card)}
     section{padding:34px 0;border-top:1px solid var(--line);margin-top:36px}
     h2{font-size:20px;margin:0 0 16px}
     .products{display:grid;gap:14px}
@@ -48,6 +52,7 @@
     .tag.free{background:#E3F5EC;border:1px solid #1E9E8A;color:#0E5F52}
     .p a.name{text-decoration:none;color:var(--ink)}
     .p a.name:hover{text-decoration:underline}
+    .p .notify{display:inline-block;font-size:13px;font-weight:600;margin-top:4px}
     .principle{display:grid;gap:12px;grid-template-columns:1fr 1fr}
     @media(max-width:560px){.principle{grid-template-columns:1fr}.p{grid-template-columns:auto 1fr;}.p .tag{grid-column:2;justify-self:start;margin-top:4px}}
     .principle .box{background:var(--card);border:1px solid var(--line);border-radius:11px;padding:16px}
@@ -84,6 +89,10 @@
       carry citation-risk exposure.</p>
     <p class="vahti"><b>vahti</b> — Finnish for <i>sentinel / guard</i>. The watch
       over what gets cited.</p>
+    <div class="cta">
+      <a class="btn primary" href="/citevahti/">Try CiteVahti →</a>
+      <a class="btn ghost" href="https://github.com/heidihelena/citevahti">View on GitHub</a>
+    </div>
   </div>
 
   <section>
@@ -98,19 +107,22 @@
       <div class="p review">
         <img class="pmark" src="brand/marks/reviewvahti.svg" width="46" height="46" alt="" loading="lazy">
         <span><span class="name">ReviewVahti</span>
-          <span class="for">Journals &amp; editorial offices — claim-level checks, reviewer oversight, manuscript audit trails.</span></span>
+          <span class="for">Journals &amp; editorial offices — claim-level checks, reviewer oversight, manuscript audit trails.</span>
+          <a class="notify" href="mailto:hello@vahtian.com?subject=ReviewVahti%20interest">Get notified →</a></span>
         <span class="tag soon">roadmap</span>
       </div>
       <div class="p guide">
         <img class="pmark" src="brand/marks/guidelinevahti.svg" width="46" height="46" alt="" loading="lazy">
         <span><span class="name">GuidelineVahti</span>
-          <span class="for">Guideline groups, societies, institutions &amp; medical-communications teams.</span></span>
+          <span class="for">Guideline groups, societies, institutions &amp; medical-communications teams.</span>
+          <a class="notify" href="mailto:hello@vahtian.com?subject=GuidelineVahti%20interest">Get notified →</a></span>
         <span class="tag soon">roadmap</span>
       </div>
       <div class="p atlas">
         <img class="pmark" src="brand/marks/atlasvahti.svg" width="46" height="46" alt="" loading="lazy">
         <span><span class="name">AtlasVahti</span>
-          <span class="for">Consented, de-identified evidence-validation patterns — governed analytics &amp; API.</span></span>
+          <span class="for">Consented, de-identified evidence-validation patterns — governed analytics &amp; API.</span>
+          <a class="notify" href="mailto:hello@vahtian.com?subject=AtlasVahti%20interest">Get notified →</a></span>
         <span class="tag soon">roadmap</span>
       </div>
     </div>
