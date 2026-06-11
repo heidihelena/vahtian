@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<!--
+  MatchVahti-Lite v0.1 — the reading & citing companion of the Vahtian claim-test spine.
+  A product of Vahtian. Single-file, zero-install, no-terminal, mobile-first, LIGHT mode.
+
+  This is NOT the blinded many-claims x many-papers matching loop (that is MatchVahti).
+  This is the lightweight citing aid:
+      search PubMed  ->  read one abstract  ->  tap the sentences worth citing
+      ->  tag them / mark salience with the [oo] closer-look flag  ->  append to a reviewable .ris.
+
+  What it is:  capture a quotable sentence with provenance, get it into Zotero.
+  What it is NOT:  it produces no MatchResult, no support rating, no AI verdict, no
+  Atlas graph, no poolable corpus record. Highlights are abstract-level and unverified.
+  The [oo] closer-look flag and stars are PRIVATE salience ("how much I want to cite this"),
+  never a verdict on the study. They live in a cite: namespace and never touch the
+  measurement scale.
+
+  Brand: Sentinel Geometry, light variant. THE rule: a Vahtian page never reaches out —
+  no CDNs, no web fonts, no analytics. The only outbound call is the PubMed search
+  (NCBI E-utilities). Zotero export is a downloadable, reviewable .ris — no silent write.
+  A reference is added to the .ris only once (dedup by PMID/DOI); re-reading the same
+  paper appends new claims to that reference's note. Zotero itself dedupes on import.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="theme-color" content="#2D2440" />
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src 'self' data:; connect-src https://eutils.ncbi.nlm.nih.gov; base-uri 'none'; form-action 'none'" />
+<meta name="referrer" content="no-referrer" />
+<title>MatchVahti-Lite — capture abstract sentences for Zotero</title>
+<meta name="description" content="MatchVahti-Lite: search PubMed, read one abstract, tap the sentences worth citing, tag them, and append them to a reviewable Zotero .ris. Single-file, browser-only, free; the only network call is the PubMed search." />
+<link rel="canonical" href="https://vahtian.com/matchvahti-lite/" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://vahtian.com/matchvahti-lite/" />
+<meta property="og:title" content="MatchVahti-Lite — capture abstract sentences for Zotero" />
+<meta property="og:description" content="The citation-capture companion to MatchVahti. Read a PubMed abstract, capture the citable sentence with PMID/DOI provenance, export to Zotero. Free, local-first; a product of Vahtian." />
+<meta property="og:image" content="https://vahtian.com/brand/vahti-family.png" />
+<meta property="og:site_name" content="Vahtian" />
+<meta name="twitter:card" content="summary_large_image" />
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "MatchVahti-Lite",
+  "url": "https://vahtian.com/matchvahti-lite/",
+  "description": "A citation-capture tool for researchers: search PubMed, read an abstract, capture the sentences worth citing with PMID/DOI provenance, tag them, and append them to a reviewable Zotero .ris. Browser-only and free; the only network call is the PubMed search.",
+  "applicationCategory": "Research software",
+  "operatingSystem": "Any (web browser); iOS app available",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "EUR" },
+  "license": "https://www.apache.org/licenses/LICENSE-2.0",
+  "publisher": { "@type": "Organization", "name": "Vahtian", "url": "https://vahtian.com/" }
+}
+</script>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23FAF9FC'/%3E%3Cg fill='none' stroke='%232D2440' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 9 H9 V23 H12'/%3E%3Cpath d='M20 9 H23 V23 H20'/%3E%3C/g%3E%3Ccircle cx='13.9' cy='16' r='1.7' fill='%238B6FC9'/%3E%3Ccircle cx='18.1' cy='16' r='1.7' fill='%238B6FC9'/%3E%3C/svg%3E" />
+<style>
+  :root{
+    /* Sentinel Geometry — light variant */
+    --navy:#2D2440; --violet:#8B6FC9; --lilac:#C5B8E8; --lilac-soft:#EFEBF8;
+    --ink:#1C1830; --muted:#5B5570; --bg:#FAF9FC; --card:#FFFFFF; --line:#E7E3F0;
+    --amber:#C98A00; --amber-fill:#FFF2D8; --amber-line:#E6C980;
+    --teal:#1E9E8A; --teal-fill:#D8F4ED; --teal-line:#A7E2D6;
+    --rose:#C24D7E;
+    --raccoon:#4A4060;
+    --shadow:0 12px 30px rgba(45,36,64,.10); --radius:14px;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,ui-sans-serif,system-ui,sans-serif;
+    font-size:16px;line-height:1.5}
+  .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+
+  header{background:var(--navy);color:#fff;padding:16px 18px;padding-top:max(16px,env(safe-area-inset-top))}
+  .brand{display:flex;align-items:center;gap:11px;max-width:820px;margin:0 auto}
+  .brand h1{margin:0;font-size:19px;font-weight:650;letter-spacing:.2px}
+  .brand .sub{margin:2px 0 0;font-size:12.5px;color:var(--lilac)}
+  .hwrap{max-width:820px;margin:10px auto 0;font-size:12px;color:#cfc7e6;line-height:1.5}
+  .pill{display:inline-block;font-size:11px;padding:2px 9px;border-radius:999px;
+    border:1px solid rgba(197,184,232,.4);color:var(--lilac);margin:5px 5px 0 0}
+
+  main{max-width:820px;margin:0 auto;padding:16px}
+  section{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+    padding:16px;margin:0 0 14px;box-shadow:var(--shadow)}
+  h2{font-size:12.5px;text-transform:uppercase;letter-spacing:.7px;color:var(--violet);margin:0 0 12px;font-weight:650}
+  label{display:block;font-size:13px;color:var(--muted);margin:10px 0 5px;font-weight:550}
+  input[type=text],input[type=number]{width:100%;padding:12px;border:1px solid var(--line);border-radius:10px;
+    background:#fff;font:inherit;font-size:16px;color:var(--ink)}
+  input:focus{outline:2px solid var(--violet);outline-offset:1px;border-color:var(--violet)}
+  .row{display:flex;gap:10px;flex-wrap:wrap}
+  .row .grow{flex:1;min-width:180px}
+  .ctrls{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
+  .ctrl{display:flex;align-items:center;gap:7px;flex:1;min-width:160px}
+  .ctrl-lbl{font-size:11.5px;color:var(--muted);font-weight:600;flex:none}
+  select{flex:1;padding:9px 10px;border:1px solid var(--line);border-radius:9px;background:#fff;font:inherit;
+    font-size:14px;color:var(--ink);cursor:pointer}
+  select:focus{outline:2px solid var(--violet);outline-offset:1px;border-color:var(--violet)}
+  button{font:inherit;font-size:15px;cursor:pointer;border:1px solid var(--navy);background:var(--navy);
+    color:#fff;padding:12px 16px;border-radius:11px;min-height:46px;font-weight:550}
+  button.ghost{background:#fff;color:var(--navy)}
+  button.small{padding:7px 11px;font-size:13px;min-height:0;border-radius:9px}
+  button:active{transform:translateY(1px)}
+  button:disabled{opacity:.4;cursor:not-allowed}
+  .muted{color:var(--muted);font-size:13px}
+  .hint{font-size:12px;color:var(--muted);margin-top:7px;line-height:1.45}
+  .hide{display:none}
+  .err{color:var(--rose);font-size:13.5px;margin-top:8px}
+  a{color:var(--violet)}
+
+  /* ---- result list ---- */
+  .results{display:flex;flex-direction:column;gap:0}
+  .ritem{border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-top:10px;background:#fff;
+    cursor:pointer;transition:border-color .12s ease, box-shadow .12s ease}
+  .ritem:hover{border-color:var(--lilac);box-shadow:0 6px 18px rgba(45,36,64,.08)}
+  .ritem .rtitle{font-weight:650;color:var(--navy);font-size:15.5px;line-height:1.35;margin:0 0 4px}
+  .ritem .rmeta{font-size:12px;color:var(--muted);line-height:1.5}
+  .ritem .rmeta .dot{margin:0 5px;color:var(--lilac)}
+  .badge{display:inline-block;font-size:10.5px;font-weight:650;padding:2px 8px;border-radius:999px;margin-left:6px;
+    background:var(--teal-fill);border:1px solid var(--teal-line);color:#08544A;vertical-align:1px}
+  .chip{display:inline-block;font-size:11.5px;padding:3px 9px;border-radius:999px;border:1px solid var(--line);
+    background:#fff;color:var(--muted)}
+
+  /* ---- reading view ---- */
+  .read-meta{font-size:12px;color:var(--muted);display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px;align-items:center}
+  .read-meta .pill2{background:var(--lilac-soft);border:1px solid var(--line);border-radius:999px;padding:3px 10px;color:var(--ink)}
+  .read-title{font-size:19px;line-height:1.3;font-weight:650;color:var(--navy);margin:2px 0 6px;letter-spacing:-.01em}
+  .read-authors{font-size:13px;color:var(--muted);font-style:italic;margin-bottom:14px}
+  .tiphint{font-size:11.5px;color:var(--violet);background:var(--lilac-soft);border:1px solid var(--lilac);
+    border-radius:9px;padding:8px 11px;margin-bottom:14px;display:flex;align-items:center;gap:8px;line-height:1.4}
+  .tiphint svg{flex:none}
+
+  .abstract{font-size:16px;line-height:1.66}
+  .abs-label{font-weight:650;color:var(--navy)}
+  .s{display:inline;cursor:pointer;border-radius:5px;padding:1px 1px;
+    transition:background .14s ease, box-shadow .14s ease;-webkit-tap-highlight-color:transparent}
+  .s:hover{background:var(--lilac-soft)}
+  .s.sel{background:var(--lilac-soft);box-shadow:inset 0 -2px 0 var(--violet)}
+  .s .num{display:none}
+  .s.sel .num{display:inline-flex;align-items:center;justify-content:center;width:17px;height:17px;border-radius:50%;
+    background:var(--violet);color:#fff;font-size:9.5px;font-weight:700;vertical-align:1px;margin-right:4px;
+    font-family:ui-monospace,Menlo,monospace}
+
+  /* ---- capture footer ---- */
+  .capture{border-top:1px dashed var(--line);margin-top:16px;padding-top:14px}
+  .selrow{min-height:20px;font-size:12.5px;color:var(--muted);margin-bottom:10px}
+  .selrow b{color:var(--violet)}
+  .salience{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:12px}
+  .salgroup{display:flex;align-items:center;gap:8px}
+  .salgroup .lbl{font-size:11.5px;color:var(--muted);font-weight:600}
+  .stars{display:flex;gap:2px}
+  .star{width:32px;height:32px;border:none;background:none;cursor:pointer;padding:0;color:var(--line);
+    font-size:24px;line-height:1;transition:transform .1s ease, color .14s ease}
+  .star:active{transform:scale(.86)}
+  .star.on{color:var(--amber)}
+  .raccoon{border:1.5px solid var(--line);background:#fff;color:var(--raccoon);border-radius:10px;
+    padding:7px 11px;font-size:14px;font-weight:700;min-height:0;cursor:pointer;display:inline-flex;align-items:center;gap:7px}
+  .raccoon .face{font-family:ui-monospace,Menlo,monospace;font-size:15px;letter-spacing:-1px}
+  .raccoon.on{background:var(--navy);color:#fff;border-color:var(--navy)}
+  .raccoon.on .face{color:var(--lilac)}
+
+  .tagbox{display:flex;flex-wrap:wrap;gap:6px;align-items:center;border:1px solid var(--line);border-radius:10px;
+    padding:8px;background:#fff;min-height:46px}
+  .tagbox input{border:none;outline:none;flex:1;min-width:120px;font:inherit;font-size:15px;padding:4px;background:transparent}
+  .tag{display:inline-flex;align-items:center;gap:6px;background:var(--lilac-soft);border:1px solid var(--lilac);
+    border-radius:8px;padding:3px 5px 3px 9px;font-size:12.5px;color:var(--ink)}
+  .tag b{color:var(--violet);font-weight:650}
+  .tag .x{cursor:pointer;color:var(--muted);font-weight:700;width:16px;height:16px;border-radius:50%;
+    display:inline-flex;align-items:center;justify-content:center;font-size:13px}
+  .tag .x:hover{background:#fff;color:var(--rose)}
+  .qtags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
+  .qtag{border:1px solid var(--line);background:#fff;color:var(--muted);border-radius:999px;
+    padding:5px 11px;font-size:12.5px;font-weight:550;cursor:pointer;min-height:0;line-height:1.2;
+    font-family:inherit}
+  .qtag:hover{border-color:var(--lilac);color:var(--ink)}
+  .qtag.on{background:var(--violet);color:#fff;border-color:var(--violet)}
+
+  /* selected-sentence preview (editable + removable before save) */
+  .sel-preview{margin:2px 0 12px;display:flex;flex-direction:column;gap:7px}
+  .sel-item{display:flex;gap:8px;align-items:flex-start;background:#fff;border:1px solid var(--line);
+    border-radius:10px;padding:8px 9px}
+  .sel-item .n{flex:none;width:18px;height:18px;border-radius:50%;background:var(--violet);color:#fff;
+    font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;margin-top:2px;
+    font-family:ui-monospace,Menlo,monospace}
+  .sel-item textarea{flex:1;border:none;outline:none;resize:vertical;font:inherit;font-size:13.5px;line-height:1.45;
+    color:var(--ink);background:transparent;min-height:20px;padding:0}
+  .sel-item .rm{flex:none;cursor:pointer;color:var(--muted);font-weight:700;width:20px;height:20px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;font-size:14px;border:1px solid var(--line);background:#fff}
+  .sel-item .rm:hover{color:var(--rose);border-color:#f2b3cc}
+  .absonly{margin:12px 0 0;font-size:12px;color:#5A4300;background:var(--amber-fill);border:1px solid var(--amber-line);
+    border-radius:9px;padding:8px 11px;line-height:1.45}
+  .noabs{font-size:13.5px;color:var(--muted);background:var(--bg);border:1px dashed var(--line);border-radius:10px;
+    padding:12px 14px;line-height:1.5}
+
+  .actions{display:flex;gap:10px;margin-top:14px}
+  .actions .grow{flex:1}
+  .skip{background:none;border:none;color:var(--muted);font-size:13px;cursor:pointer;text-decoration:underline;
+    text-underline-offset:3px;padding:8px}
+
+  /* ---- saved drawer ---- */
+  .savedhead{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+  .savedcount{font-size:13px;color:var(--muted)}
+  .savedcount b{color:var(--ink)}
+  .sref{border:1px solid var(--line);border-radius:11px;padding:11px 13px;margin-top:10px;background:var(--bg)}
+  .sref .st{font-weight:650;color:var(--navy);font-size:14px;line-height:1.3}
+  .sref .sm{font-size:11.5px;color:var(--muted);margin-top:2px}
+  .sref q{display:block;color:var(--ink);font-size:13px;quotes:'“' '”';margin:6px 0 0;padding-left:10px;
+    border-left:2px solid var(--lilac)}
+  .sref .strow{margin-top:7px;display:flex;gap:5px;flex-wrap:wrap;align-items:center}
+  .sref .stag{background:#fff;border:1px solid var(--line);border-radius:6px;padding:2px 7px;font-size:11px;color:var(--muted)}
+
+  /* ---- toast ---- */
+  .toast{position:fixed;left:16px;right:16px;bottom:18px;max-width:560px;margin:0 auto;z-index:50;
+    background:var(--navy);color:#eef3ef;border-radius:14px;padding:14px 16px;box-shadow:var(--shadow);
+    transform:translateY(160%);transition:transform .34s cubic-bezier(.2,.9,.3,1.3);font-size:13px;line-height:1.5}
+  .toast.show{transform:translateY(0)}
+  .toast .zt{font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--lilac);
+    margin-bottom:6px;display:flex;align-items:center;gap:7px}
+  .toast q{display:block;color:#cfe0d8;quotes:'“' '”';margin:2px 0;padding-left:10px;border-left:2px solid var(--violet);font-size:12.5px}
+
+  /* ---- cost / spine notes ---- */
+  .note-amber{margin-top:0;background:var(--amber-fill);border:1px solid var(--amber-line);border-radius:11px;
+    padding:12px 14px;font-size:12.5px;line-height:1.55;color:#5A4300}
+  .note-amber b{display:block;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:4px}
+  .spine{display:flex;gap:9px;align-items:flex-start;font-size:12px;color:var(--muted);line-height:1.5}
+  .spine svg{flex:none;margin-top:1px}
+
+  .explain{margin-top:12px;border:1px solid var(--line);border-radius:11px;background:var(--bg);overflow:hidden}
+  .explain+.explain{margin-top:8px}
+  .explain summary{cursor:pointer;list-style:none;padding:12px 14px;font-size:13px;font-weight:600;color:var(--navy);
+    display:flex;align-items:center;gap:9px}
+  .explain summary::-webkit-details-marker{display:none}
+  .explain summary::before{content:"";flex:none;width:8px;height:8px;border-right:2px solid var(--violet);
+    border-bottom:2px solid var(--violet);transform:rotate(-45deg);transition:transform .15s ease;margin-left:2px}
+  .explain[open] summary::before{transform:rotate(45deg)}
+  .explain summary:hover{color:var(--violet)}
+  .explain .explain-body{padding:0 14px 14px 31px;font-size:13px;color:var(--ink);line-height:1.6}
+  .explain .explain-body p{margin:0 0 9px}
+  .explain .explain-body b{color:var(--navy)}
+  .explain .howto{margin:0 0 9px;padding-left:18px;color:var(--ink)}
+  .explain .howto li{margin:4px 0;line-height:1.55}
+  .explain .warnline{margin:10px 0 6px;padding:8px 11px;background:var(--amber-fill);border:1px solid var(--amber-line);
+    border-radius:9px;color:#5A4300;font-size:12.5px}
+  .explain .warnline b{color:#5A4300}
+  .rispre{margin:0;white-space:pre-wrap;word-break:break-word;font:11.5px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;
+    color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:8px;padding:10px;max-height:280px;overflow:auto}
+  .savedfoot{margin-top:12px}
+  button.danger{border-color:#f2b3cc;color:var(--rose);background:#fff}
+  button.danger:hover{background:var(--rose-fill)}
+
+  footer{max-width:820px;margin:0 auto;padding:4px 18px 56px;color:var(--muted);font-size:11.5px;line-height:1.55}
+  @media (max-width:560px){ main{padding:12px} section{padding:14px;border-radius:12px} }
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">
+    <svg width="40" height="40" viewBox="0 0 40 40" aria-hidden="true">
+      <rect width="40" height="40" rx="9" fill="#2D2440"/>
+      <path d="M13 11 H10 V29 H13 M27 11 H30 V29 H27" fill="none" stroke="#C5B8E8" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="16.4" cy="20" r="2.5" fill="#8B6FC9"/><circle cx="23.6" cy="20" r="2.5" fill="#8B6FC9"/>
+      <path d="M16.4 20 H23.6" stroke="#8B6FC9" stroke-width="2.2" stroke-linecap="round"/>
+    </svg>
+    <div><h1>MatchVahti&#8202;·&#8202;Lite</h1><p class="sub">Capture abstract sentences for Zotero</p></div>
+  </div>
+  <div class="hwrap">
+    The citation-capture companion to <strong>MatchVahti</strong>. Not the blinded claims&times;papers loop &mdash;
+    it saves an abstract sentence (with PMID/DOI provenance) before you forget it.<br>
+    <span class="pill">v0.1</span><span class="pill">PubMed search</span><span class="pill">tap a sentence</span><span class="pill">[oo] closer look</span><span class="pill">Zotero .ris</span><span class="pill">local-first</span>
+  </div>
+</header>
+
+<main>
+
+  <!-- ============ SEARCH ============ -->
+  <section id="searchSection">
+    <h2>1 &middot; Search PubMed</h2>
+    <div class="row">
+      <div class="grow"><input type="text" id="query" placeholder="e.g. osimertinib adjuvant NSCLC overall survival" autocapitalize="off" /></div>
+      <button id="searchBtn">Search</button>
+    </div>
+    <div class="ctrls">
+      <div class="ctrl"><span class="ctrl-lbl">Sort</span>
+        <select id="sortSel">
+          <option value="relevance">Best Match</option>
+          <option value="date">Most recent</option>
+        </select>
+      </div>
+      <div class="ctrl"><span class="ctrl-lbl">Refine</span>
+        <select id="refineSel">
+          <option value="">All article types</option>
+          <option value="reviews">Reviews &amp; meta-analyses</option>
+          <option value="trials">Clinical trials</option>
+          <option value="recent5">Any type · last 5 years</option>
+        </select>
+      </div>
+    </div>
+    <div class="row" style="margin-top:6px">
+      <div class="hint">Type a query the way you would in PubMed (terms, <span class="mono">AND/OR</span>, <span class="mono">"phrases"</span>, <span class="mono">author 2024</span>). <b>Best Match</b> ranks by relevance; broad queries return many hits, so refine if the top results drift off-topic.</div>
+    </div>
+    <div id="searchErr" class="err hide"></div>
+    <div id="searchStatus" class="muted" style="margin-top:8px"></div>
+    <div id="results" class="results"></div>
+  </section>
+
+  <!-- ============ READING ============ -->
+  <section id="readSection" class="hide">
+    <h2>2 &middot; Read &amp; capture</h2>
+    <div class="read-meta" id="readMeta"></div>
+    <div class="read-title" id="readTitle"></div>
+    <div class="read-authors" id="readAuthors"></div>
+
+    <div class="tiphint" id="tiphint">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8B6FC9" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11.5 5 15a3 3 0 0 0 4 4l3.5-3.5"/><path d="M14 12.5 18.5 8a3 3 0 0 0-4-4L11 7.5"/><path d="m9.5 14.5 5-5"/></svg>
+      Tap sentences to capture them for citation. Tap again to release. Selected sentences are numbered in reading order.
+    </div>
+
+    <div class="abstract" id="abstract"></div>
+
+    <div class="capture" id="captureZone">
+      <div class="selrow" id="selrow">Nothing selected yet.</div>
+
+      <div id="selPreview" class="sel-preview hide"></div>
+
+      <div class="salience">
+        <div class="salgroup">
+          <span class="lbl">Citation priority</span>
+          <div class="stars" id="stars">
+            <button class="star" data-v="1" aria-label="1 star" type="button">&#9733;</button>
+            <button class="star" data-v="2" aria-label="2 stars" type="button">&#9733;</button>
+            <button class="star" data-v="3" aria-label="3 stars" type="button">&#9733;</button>
+          </div>
+        </div>
+        <div class="salgroup">
+          <button class="raccoon" id="raccoonBtn" type="button" title="Mark for full-text retrieval — this sentence is interesting enough to justify pulling the PDF">
+            <span class="face">[oo]</span> closer look
+          </button>
+        </div>
+      </div>
+
+      <label for="tagInput">Tags &amp; note</label>
+      <div class="qtags" id="quickTags"></div>
+      <div class="tagbox" id="tagbox">
+        <span id="tagchips" style="display:contents"></span>
+        <input type="text" id="tagInput" placeholder="or type a custom tag, press Enter (e.g. compare-Smith-2024)" autocapitalize="off" />
+      </div>
+      <input type="text" id="noteInput" placeholder="Optional free note — e.g. compare with the registrational trial estimate" style="margin-top:8px" />
+
+      <p class="absonly">Captured text is from the <b>abstract only</b> — verify against the full text before citing.</p>
+      <div class="actions">
+        <button class="grow" id="saveBtn" disabled>Add sentence(s) to RIS note</button>
+        <button class="skip" id="skipBtn" type="button">Clear</button>
+      </div>
+      <p class="hint" id="dedupHint"></p>
+    </div>
+  </section>
+
+  <!-- ============ SAVED / EXPORT ============ -->
+  <section id="savedSection" class="hide">
+    <div class="savedhead">
+      <h2 style="margin:0">3 &middot; Your .ris (review, then import)</h2>
+      <div class="row" style="margin:0">
+        <button class="ghost small" id="copyBtn" type="button">Copy</button>
+        <button class="small" id="exportBtn" type="button">Download .ris</button>
+      </div>
+    </div>
+    <p class="savedcount" id="savedCount"></p>
+    <div id="savedList"></div>
+
+    <details class="explain" id="rawRis">
+      <summary>Preview the raw <span class="mono">.ris</span> (exactly what gets imported)</summary>
+      <div class="explain-body"><pre class="rispre" id="risPre"></pre></div>
+    </details>
+
+    <div class="savedfoot">
+      <button class="ghost small danger" id="clearAllBtn" type="button">Clear all saved references</button>
+    </div>
+
+    <div class="spine" style="margin-top:14px">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5B5570" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 6v6c0 5 3.5 8 8 10 4.5-2 8-5 8-10V6z"/></svg>
+      <span>No silent writes. Each reference is added once (dedup by PMID/DOI); re-reading the same paper appends new sentences to its note. Captured sentences and your note go in the RIS <span class="mono">N1</span> field; tags in <span class="mono">KW</span>. Every record is tagged <span class="mono">cite:abstract-only</span> — abstract-level and unverified against full text.</span>
+    </div>
+
+    <details class="explain">
+      <summary>What is a <span class="mono">.ris</span> file, and how do I add it to Zotero?</summary>
+      <div class="explain-body">
+        <p><b>RIS is a plain-text bibliography format</b> (<span class="mono">.ris</span>) that almost every reference
+        manager reads — Zotero, EndNote, Mendeley, Papers. Each record is a short list of tagged lines:
+        <span class="mono">TY</span> type · <span class="mono">AU</span> author · <span class="mono">TI</span> title ·
+        <span class="mono">PY</span> year · <span class="mono">DO</span> DOI · <span class="mono">N1</span> notes ·
+        <span class="mono">KW</span> tags · <span class="mono">ER</span> end-of-record. You can open it in any text
+        editor and read exactly what will be imported — nothing hidden.</p>
+        <p><b>To get it into Zotero:</b></p>
+        <ol class="howto">
+          <li><b>Download .ris</b> (or <b>Copy</b>) above. Each download is timestamped (e.g. <span class="mono">matchvahti-lite-2026-06-11-1432.ris</span>) so batches never overwrite each other.</li>
+          <li>In Zotero, choose <span class="mono">File → Import…</span> — or just drag the <span class="mono">.ris</span> file onto your library.</li>
+          <li>Zotero creates the items, with your captured sentences and note in each item's <b>Notes/Extra</b> and your tags attached. If a reference is already in your library (same DOI/PMID), Zotero can <b>detect it as a duplicate</b> (Duplicate Items view) so you can merge instead of double-adding.</li>
+        </ol>
+        <p class="warnline"><b>Re-importing makes a new collection each time.</b> Zotero names the import
+        collection after the file, so importing repeatedly stacks up folders. Two ways to avoid the pile-up:</p>
+        <ul class="howto">
+          <li>In the import dialog, <b>untick “Place imported collections and items into a new collection”</b> — items land loose in your current collection instead of a new folder.</li>
+          <li>Or keep the box ticked and let the <b>timestamped filename</b> name each folder as a dated batch (<span class="mono">matchvahti-lite-2026-06-11-1432</span>), so re-imports don't collide and you can tell them apart.</li>
+        </ul>
+        <p class="warnline">Either way, the <b>export is cumulative</b> — it always contains every reference you've captured this session — so import a fresh <span class="mono">.ris</span> once when you're done rather than after every capture, and let Zotero's duplicate detection catch any overlap.</p>
+      </div>
+    </details>
+
+    <details class="explain">
+      <summary>What does the <span class="mono">[oo]</span> closer-look flag do after import?</summary>
+      <div class="explain-body">
+        <p><b><span class="mono">[oo]</span> closer look</b> means: <i>this abstract sentence is interesting enough to
+        justify pulling the full text.</i> It's a retrieval trigger, not a judgement on the study.</p>
+        <p>In the exported <span class="mono">.ris</span>, the flag travels as the tag
+        <span class="mono">cite:closer-look</span> (alongside <span class="mono">cite:abstract-only</span>), carried
+        with the paper's <b>DOI</b> and <b>PMID</b>. That lets a companion <b>Zotero-side tool</b>
+        (<span class="mono">vahtian_fulltext.py</span>, local-first, open-access only) close the loop:</p>
+        <ol class="howto">
+          <li>Scan imported items for <span class="mono">cite:closer-look</span>.</li>
+          <li>Try to fetch the PDF by <b>DOI</b> (primary) or <b>PMID</b> (fallback) and attach it.</li>
+          <li>Tag the item <span class="mono">fulltext:pdf-found</span>, <span class="mono">fulltext:pdf-missing</span>,
+          or <span class="mono">fulltext:check-needed</span>.</li>
+        </ol>
+        <p>Later, <b>MatchVahti</b> or CiteVahti can use those retrieved full texts for
+        <b>stronger, full-text claim checking</b> instead of abstract-only. MatchVahti-Lite itself never fetches PDFs
+        and never writes to your library — it only emits the flag; retrieval is a separate, explicit step.</p>
+      </div>
+    </details>
+
+    <details class="explain">
+      <summary>Why does one-click OAuth to Zotero work in CiteVahti but not here?</summary>
+      <div class="explain-body">
+        <p><b>Because CiteVahti is an installed app and this is a single web page.</b> CiteVahti runs as a real
+        process on your machine with a small backend, so it can do everything an OAuth handshake needs: hold a
+        client secret that never reaches the browser, open a <span class="mono">localhost</span> callback to catch
+        the redirect, and then keep an API key to write items into your Zotero library directly — decision-gated and
+        undoable.</p>
+        <p><b>MatchVahti-Lite is the opposite by design</b> — one static HTML file, no backend, no server, and
+        network access locked down to PubMed E-utilities. That removes every piece OAuth requires:</p>
+        <ul class="howto">
+          <li><b>No callback to return to.</b> OAuth must send you back to a URL the app controls; a static file has none.</li>
+          <li><b>Nowhere to keep a secret.</b> Anything in the page is readable by anyone who opens it, so a client secret can't be protected.</li>
+          <li><b>No path to Zotero's servers.</b> The content-security policy only permits network calls to PubMed, so the page can't reach Zotero's API (and the browser's CORS rules would block them too).</li>
+        </ul>
+        <p>So instead of a credentialed write, it uses the universal, no-login path: a reviewable
+        <span class="mono">.ris</span> you import yourself. That is also the whole spine's <b>no silent writes</b>
+        stance — nothing reaches your library until you have looked at it and clicked import. When you want the
+        direct, authenticated Zotero write, that lives in <a href="https://vahtian.com/citevahti/">CiteVahti</a> / <b>MatchVahti</b>.</p>
+      </div>
+    </details>
+  </section>
+
+  <!-- ============ ABOUT ============ -->
+  <section id="aboutSection">
+    <h2>What this is</h2>
+    <div class="spine">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5B5570" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 2"/></svg>
+      <span>A citation-capture tool, not a claim engine. This Lite mode produces <b>no MatchResult</b>, does not
+      blind you, does not feed the Atlas graph or the poolable corpus. The <span class="mono">[oo]</span> closer-look
+      flag and stars are your private salience — "how much I want to cite this" — never a verdict on the study. When you
+      need the rigorous, blinded claim×paper rating with an auditable trail, step up to
+      <b>MatchVahti</b>.</span>
+    </div>
+    <details class="explain" style="margin-top:12px">
+      <summary>Pricing</summary>
+      <div class="explain-body"><p>MatchVahti-Lite is free — it runs entirely in your browser and the only network
+      call is the PubMed search. A small subscription (planned, ~€3/mo) would add convenience extras (saved searches,
+      cross-device sync of your capture list); the core read → capture → <span class="mono">.ris</span> loop stays free.</p></div>
+    </details>
+  </section>
+
+</main>
+
+<div class="toast" id="toast">
+  <div class="zt">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#C5B8E8" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+    <span id="toastTitle">Added to your .ris</span>
+  </div>
+  <div id="toastBody"></div>
+</div>
+
+<footer>
+  MatchVahti-Lite v0.1 &middot; Apache-2.0 &middot; part of the Vahtian -vahti house (CiteVahti &rarr; MatchVahti &rarr; AtlasVahti).
+  Search-only against PubMed (NCBI E-utilities); no telemetry; nothing else leaves your device. Zotero export is a
+  downloadable, reviewable <span class="mono">.ris</span> — no silent write.
+</footer>
+
+<script>
+"use strict";
+
+/* ============================================================
+   CORE — pure helpers (PubMed, sentence split, RIS). Testable.
+   ============================================================ */
+const TOOL = "matchvahti-lite";
+
+function escapeHtml(s){ return (s||"").replace(/[&<>"']/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
+const esc = escapeHtml;
+
+// NCBI E-utilities call — identifies the tool (NCBI etiquette) + timeout.
+async function fetchT(url, ms){
+  const ac = new AbortController(); const t = setTimeout(()=>ac.abort(), ms||15000);
+  try{ return await fetch(url, {signal:ac.signal, referrerPolicy:"no-referrer"}); }
+  finally{ clearTimeout(t); }
+}
+function eutils(path){
+  const u = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/" + path + (path.includes("?")?"&":"?") + "tool=" + TOOL;
+  return fetchT(u, 15000);
+}
+
+// Parse an efetch PubMed XML payload into plain paper objects.
+function parsePubmed(xml){
+  const doc = new DOMParser().parseFromString(xml, "text/xml");
+  return [...doc.querySelectorAll("PubmedArticle")].map(a=>{
+    const t = a.querySelector("ArticleTitle"), pmid = a.querySelector("PMID");
+    const doiEl = [...a.querySelectorAll("ArticleId")].find(e=>e.getAttribute("IdType")==="doi");
+    const year = a.querySelector("PubDate Year") || a.querySelector("PubDate MedlineDate");
+    const journal = a.querySelector("Journal Title") || a.querySelector("Journal ISOAbbreviation");
+    // Keep AbstractText labels (BACKGROUND/METHODS/RESULTS…) as structured segments.
+    const segs = [...a.querySelectorAll("Abstract AbstractText")].map(n=>({
+      label: n.getAttribute("Label") || null, text: (n.textContent||"").trim()
+    })).filter(s=>s.text);
+    const authors = [...a.querySelectorAll("AuthorList Author")].slice(0,12).map(au=>{
+      const ln = au.querySelector("LastName"), ini = au.querySelector("Initials");
+      return ln ? (ln.textContent + (ini ? " " + ini.textContent : "")) : null;
+    }).filter(Boolean);
+    const pmidV = pmid ? pmid.textContent : null, doiV = doiEl ? doiEl.textContent : null;
+    return {
+      paper_id: pmidV || doiV || ("p" + Math.abs(hashStr(t?t.textContent:"x"))),
+      pmid: pmidV, doi: doiV,
+      title: t ? t.textContent : "(no title)",
+      journal: journal ? journal.textContent : null,
+      year: year ? year.textContent.slice(0,4) : null,
+      authors,
+      segments: segs.length ? segs : [{label:null, text:"(no abstract available)"}]
+    };
+  });
+}
+function hashStr(s){ let h=0; for(let i=0;i<(s||"").length;i++){ h=((h<<5)-h+s.charCodeAt(i))|0; } return h; }
+
+// Split a block of abstract text into sentence-sized tap targets.
+// Conservative: avoids breaking on common abbreviations / decimals / "vs."
+const ABBR = /(?:\b(?:no|vs|cf|eg|ie|al|fig|ref|approx|ca|mr|dr|prof|st|vol|pp|ed|e\.g|i\.e)\.)$/i;
+function splitSentences(text){
+  const clean = (text||"").replace(/\s+/g," ").trim();
+  if(!clean) return [];
+  const out = []; let buf = "";
+  const toks = clean.split(/(?<=[.!?])\s+/);
+  for(const tok of toks){
+    buf = buf ? buf + " " + tok : tok;
+    const endsAbbr = ABBR.test(buf);
+    const endsNum = /\b\d+\.$/.test(buf);            // "1." style enumerations / "9.8 months" guards via lookbehind already
+    const endsInitial = /\b[A-Z]\.$/.test(buf);      // author initials "A."
+    if(!endsAbbr && !endsNum && !endsInitial){ out.push(buf.trim()); buf = ""; }
+  }
+  if(buf.trim()) out.push(buf.trim());
+  return out;
+}
+
+// Build one RIS record for a saved reference, carrying every captured claim in N1.
+function toRIS(ref){
+  const p = ref.paper, L = ["TY  - JOUR"];
+  (p.authors||[]).forEach(a=>L.push("AU  - " + a));
+  L.push("TI  - " + p.title);
+  if(p.journal) L.push("JO  - " + p.journal);
+  if(p.year)    L.push("PY  - " + p.year);
+  if(p.doi)     L.push("DO  - " + p.doi);
+  if(p.pmid){ L.push("AN  - " + p.pmid); L.push("UR  - https://pubmed.ncbi.nlm.nih.gov/" + p.pmid + "/"); }
+
+  // Each capture event: quoted claims + salience + note, all into N1 (Zotero "Extra"/note).
+  ref.captures.forEach(cap=>{
+    const sal = [];
+    if(cap.stars) sal.push("★".repeat(cap.stars));
+    if(cap.raccoon) sal.push("[oo]");
+    const head = "MatchVahti-Lite" + (cap.at ? " · " + cap.at : "") + (sal.length ? " · " + sal.join(" ") : "") +
+                 " · abstract only, not verified vs full text";
+    L.push("N1  - " + head);
+    cap.claims.forEach(c=>L.push('N1  - “' + c.replace(/\s+/g," ").trim() + '”'));
+    if(cap.note) L.push("N1  - note: " + cap.note);
+    cap.tags.forEach(tg=>L.push("KW  - " + tg));
+    if(cap.stars)   L.push("KW  - cite:star-" + cap.stars);
+    if(cap.raccoon) L.push("KW  - cite:closer-look");
+  });
+  L.push("KW  - cite:abstract-only");
+  L.push("ER  - ");
+  return L.join("\n");
+}
+function risDocument(refs){ return refs.map(toRIS).join("\n\n") + "\n"; }
+
+// expose core for node-based tests (harmless in browser)
+if (typeof module !== "undefined" && module.exports){
+  module.exports = { splitSentences, parsePubmed, toRIS, risDocument, escapeHtml };
+}
+
+/* ============================================================
+   APP — DOM, state, wiring
+   ============================================================ */
+const $ = id => document.getElementById(id);
+const show = (el,on=true)=>el && el.classList.toggle("hide", !on);
+function todayStr(){ return new Date().toLocaleDateString("en-GB",{day:"numeric",month:"short",year:"numeric"}); }
+// Sortable local timestamp for filenames: 2026-06-11-1432 . Each export is uniquely named,
+// so downloads no longer collide AND Zotero's per-import collection gets a dated, meaningful
+// name instead of stacking identical "matchvahti-lite" folders.
+function fileStamp(){ const d=new Date(), p=n=>String(n).padStart(2,"0");
+  return `${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())}-${p(d.getHours())}${p(d.getMinutes())}`; }
+
+// session capture library: paper_id -> { paper, captures:[{claims,tags,note,stars,raccoon,at}] }
+const SAVED_KEY = "matchvahti.lite.saved.v1";
+let saved = loadSaved();
+function loadSaved(){ try{ const v=JSON.parse(localStorage.getItem(SAVED_KEY)); return (v&&typeof v==="object")?v:{}; }catch(e){ return {}; } }
+function persist(){ try{ localStorage.setItem(SAVED_KEY, JSON.stringify(saved)); }catch(e){} }
+
+let current = null;        // paper being read
+let selected = new Set();  // indices of selected sentences (in flat order)
+let flatSentences = [];    // [{idx, label, text}]
+let edits = {};            // idx -> edited sentence text (overrides the split text before save)
+let stars = 0, raccoon = false;
+let tags = [];
+
+/* ---- search ---- */
+$("searchBtn").addEventListener("click", runSearch);
+$("query").addEventListener("keydown", e=>{ if(e.key==="Enter") runSearch(); });
+
+// Compose the esearch query string from the box + the Refine control.
+// Article-type filters use PubMed [pt] tags; recency uses the reldate/datetype params.
+const REFINE = {
+  reviews: { clause: ' AND (review[pt] OR systematic review[pt] OR meta-analysis[pt] OR guideline[pt])', params: "", label: "reviews & meta-analyses" },
+  trials:  { clause: ' AND (randomized controlled trial[pt] OR clinical trial[pt])', params: "", label: "clinical trials" },
+  recent5: { clause: "", params: "&reldate=1825&datetype=pdat", label: "last 5 years" }
+};
+function buildSearchUrl(q, sort, refineKey){
+  const r = REFINE[refineKey] || { clause:"", params:"" };
+  const term = encodeURIComponent(q + r.clause);
+  return `esearch.fcgi?db=pubmed&retmode=json&retmax=20&sort=${sort}&term=${term}${r.params}`;
+}
+
+async function runSearch(){
+  const q = $("query").value.trim();
+  show($("searchErr"), false);
+  if(!q){ return fail("searchErr","Enter a PubMed query."); }
+  const sort = $("sortSel").value;             // relevance | date
+  const refineKey = $("refineSel").value;      // "" | reviews | trials | recent5
+  $("searchBtn").disabled = true; $("searchStatus").textContent = "Searching PubMed…";
+  $("results").innerHTML = "";
+  try{
+    const es = await eutils(buildSearchUrl(q, sort, refineKey)).then(r=>r.json());
+    const ids = (es.esearchresult && es.esearchresult.idlist) || [];
+    const total = +(es.esearchresult && es.esearchresult.count) || ids.length;
+    if(!ids.length){ $("searchStatus").textContent = ""; $("searchBtn").disabled=false; return fail("searchErr","No results for that query."); }
+    const xml = await eutils("efetch.fcgi?db=pubmed&rettype=abstract&retmode=xml&id=" + ids.join(",")).then(r=>r.text());
+    const papers = parsePubmed(xml);
+    renderResults(papers);
+    const sortLabel = sort==="date" ? "most recent" : "Best Match";
+    const refineLabel = (REFINE[refineKey] && REFINE[refineKey].label) ? " · " + REFINE[refineKey].label : "";
+    const more = total > papers.length ? ` of ${total.toLocaleString()}` : "";
+    $("searchStatus").textContent = `Showing top ${papers.length}${more} by ${sortLabel}${refineLabel} — tap one to read its abstract.`;
+  }catch(e){
+    fail("searchErr","PubMed request failed: " + e.message + " (NCBI may be rate-limiting; retry shortly.)");
+    $("searchStatus").textContent = "";
+  }finally{ $("searchBtn").disabled = false; }
+}
+function fail(id,msg){ const el=$(id); el.textContent=msg; show(el,true); }
+
+// One keying strategy, used by both save and the "in your .ris" badge, so DOI-only records badge correctly.
+const savedKeyOf = p => p.pmid || p.doi || p.paper_id;
+const NO_ABS = "(no abstract available)";
+const hasNoAbstract = p => p.segments.length===1 && !p.segments[0].label && p.segments[0].text===NO_ABS;
+
+function renderResults(papers){
+  const host = $("results");
+  host.innerHTML = papers.map((p,i)=>{
+    const already = !!saved[savedKeyOf(p)];
+    return `<div class="ritem" data-i="${i}" role="button" tabindex="0">
+      <div class="rtitle">${esc(p.title)}${already?`<span class="badge">in your .ris</span>`:""}</div>
+      <div class="rmeta">${esc((p.authors||[]).slice(0,4).join(", "))}${(p.authors||[]).length>4?" et al.":""}
+        ${p.journal?`<span class="dot">·</span>${esc(p.journal)}`:""}${p.year?`<span class="dot">·</span>${esc(p.year)}`:""}
+        ${p.pmid?`<span class="dot">·</span>PMID ${esc(p.pmid)}`:""}</div>
+    </div>`;
+  }).join("");
+  [...host.querySelectorAll(".ritem")].forEach(el=>{
+    const open = ()=>openPaper(papers[+el.dataset.i]);
+    el.addEventListener("click", open);
+    el.addEventListener("keydown", e=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); open(); } });
+  });
+}
+
+/* ---- reading ---- */
+function openPaper(p){
+  current = p; selected = new Set(); flatSentences = []; stars = 0; raccoon = false; tags = [];
+  $("readMeta").innerHTML =
+    `${p.journal?`<span class="pill2">${esc(p.journal)}</span>`:""}` +
+    `${p.year?`<span class="pill2">${esc(p.year)}</span>`:""}` +
+    `${p.pmid?`<span class="pill2 mono">PMID ${esc(p.pmid)}</span>`:""}` +
+    `${p.pmid?`<a href="https://pubmed.ncbi.nlm.nih.gov/${esc(p.pmid)}/" target="_blank" rel="noopener">PubMed ↗</a>`:""}` +
+    `${p.doi?` <a href="https://doi.org/${esc(p.doi)}" target="_blank" rel="noopener">DOI ↗</a>`:""}`;
+  $("readTitle").textContent = p.title;
+  $("readAuthors").textContent = (p.authors||[]).join(", ");
+  edits = {};
+
+  const absHost = $("abstract"); absHost.innerHTML = "";
+
+  if(hasNoAbstract(p)){
+    // No abstract to capture from — show a notice, hide the capture controls, but still link out to PubMed.
+    absHost.innerHTML = `<p class="noabs">No abstract available for this record. Open it on
+      ${p.pmid?`<a href="https://pubmed.ncbi.nlm.nih.gov/${esc(p.pmid)}/" target="_blank" rel="noopener">PubMed</a>`:"PubMed"}
+      ${p.doi?` or via <a href="https://doi.org/${esc(p.doi)}" target="_blank" rel="noopener">DOI</a>`:""} to read the full text.</p>`;
+    show($("tiphint"), false); show($("captureZone"), false);
+    show($("readSection"), true);
+    $("readSection").scrollIntoView({behavior:"smooth", block:"start"});
+    return;
+  }
+  show($("tiphint"), true); show($("captureZone"), true);
+
+  // Build the tappable abstract from labelled segments.
+  let idx = 0;
+  p.segments.forEach((seg,si)=>{
+    const block = document.createElement("p");
+    block.style.margin = si ? "10px 0 0" : "0";
+    if(seg.label){ const lab = document.createElement("span"); lab.className="abs-label"; lab.textContent = seg.label + ": "; block.appendChild(lab); }
+    splitSentences(seg.text).forEach(txt=>{
+      const i = idx++;
+      flatSentences.push({idx:i, text:txt});
+      const span = document.createElement("span");
+      span.className = "s"; span.dataset.i = i;
+      span.innerHTML = `<span class="num"></span>${esc(txt)} `;
+      span.addEventListener("click", ()=>toggleSentence(i, span));
+      block.appendChild(span);
+    });
+    absHost.appendChild(block);
+  });
+
+  // reset capture controls
+  $("noteInput").value = ""; $("tagInput").value = "";
+  renderTags(); renderStars(); renderRaccoon(); refreshCapture();
+  show($("readSection"), true);
+  $("readSection").scrollIntoView({behavior:"smooth", block:"start"});
+}
+
+function toggleSentence(i, span){
+  if(selected.has(i)){ selected.delete(i); delete edits[i]; } else selected.add(i);
+  span.classList.toggle("sel", selected.has(i));
+  renumber(); refreshCapture();
+}
+function deselect(i){
+  selected.delete(i); delete edits[i];
+  const el = $("abstract").querySelector(`.s[data-i="${i}"]`); if(el) el.classList.remove("sel");
+  renumber(); refreshCapture();
+}
+function selectedOrdered(){ return [...selected].sort((a,b)=>a-b); }
+function sentenceText(i){ return (i in edits) ? edits[i] : flatSentences[i].text; }
+function renumber(){
+  selectedOrdered().forEach((i,n)=>{
+    const el = $("abstract").querySelector(`.s[data-i="${i}"] .num`);
+    if(el) el.textContent = n+1;
+  });
+}
+
+// Editable, removable preview of the selected sentences — edits flow straight into the saved record,
+// so the user can fix a mis-split sentence (CIs, p-values, trial names) before it lands in the .ris.
+function renderSelPreview(){
+  const host = $("selPreview");
+  const order = selectedOrdered();
+  show(host, order.length>0);
+  if(!order.length){ host.innerHTML=""; return; }
+  host.innerHTML = order.map((i,n)=>
+    `<div class="sel-item"><span class="n">${n+1}</span>` +
+    `<textarea rows="1" data-i="${i}" aria-label="captured sentence ${n+1}">${esc(sentenceText(i))}</textarea>` +
+    `<span class="rm" data-i="${i}" role="button" aria-label="remove sentence">×</span></div>`).join("");
+  host.querySelectorAll("textarea").forEach(ta=>{
+    const grow=()=>{ ta.style.height="auto"; ta.style.height=ta.scrollHeight+"px"; };
+    grow(); ta.addEventListener("input", ()=>{ edits[+ta.dataset.i]=ta.value; grow(); });
+  });
+  host.querySelectorAll(".rm").forEach(x=>x.addEventListener("click", ()=>deselect(+x.dataset.i)));
+}
+
+/* ---- salience ---- */
+$("stars").querySelectorAll(".star").forEach(btn=>{
+  btn.addEventListener("click", ()=>{ const v=+btn.dataset.v; stars = (stars===v)?0:v; renderStars(); refreshCapture(); });
+});
+function renderStars(){ $("stars").querySelectorAll(".star").forEach(s=>s.classList.toggle("on", +s.dataset.v<=stars)); }
+$("raccoonBtn").addEventListener("click", ()=>{ raccoon=!raccoon; renderRaccoon(); refreshCapture(); });
+function renderRaccoon(){ $("raccoonBtn").classList.toggle("on", raccoon); }
+
+/* ---- tags ---- */
+// One-tap role/purpose presets — tap to add, tap again to remove. Custom tags still go in the input.
+const QUICK_TAGS = ["background","methods","results","limitation","gap","effect-size","compare","fulltext-needed"];
+const tagInput = $("tagInput");
+tagInput.addEventListener("keydown", e=>{
+  if(e.key==="Enter" || e.key===","){ e.preventDefault(); addTag(tagInput.value); tagInput.value=""; }
+  else if(e.key==="Backspace" && !tagInput.value && tags.length){ tags.pop(); renderTags(); refreshCapture(); }
+});
+tagInput.addEventListener("blur", ()=>{ if(tagInput.value.trim()){ addTag(tagInput.value); tagInput.value=""; } });
+function addTag(raw){
+  raw.split(",").map(s=>s.trim()).filter(Boolean).forEach(t=>{ if(!tags.includes(t)) tags.push(t); });
+  renderTags(); refreshCapture();
+}
+function toggleTag(t){
+  const i = tags.indexOf(t);
+  if(i>=0) tags.splice(i,1); else tags.push(t);
+  renderTags(); refreshCapture();
+}
+function renderQuickTags(){
+  $("quickTags").innerHTML = QUICK_TAGS.map(t=>
+    `<button type="button" class="qtag${tags.includes(t)?" on":""}" data-t="${t}" aria-pressed="${tags.includes(t)}">${t}</button>`).join("");
+  $("quickTags").querySelectorAll(".qtag").forEach(b=>b.addEventListener("click", ()=>toggleTag(b.dataset.t)));
+}
+function renderTags(){
+  $("tagchips").innerHTML = tags.map((t,i)=>
+    `<span class="tag"><b>#</b>${esc(t)}<span class="x" data-i="${i}" role="button" aria-label="remove tag">×</span></span>`).join("");
+  [...$("tagchips").querySelectorAll(".x")].forEach(x=>x.addEventListener("click",()=>{ tags.splice(+x.dataset.i,1); renderTags(); refreshCapture(); }));
+  renderQuickTags();
+}
+
+/* ---- capture state ---- */
+function refreshCapture(){
+  const n = selected.size;
+  const bits = [];
+  if(n) bits.push(`<b>${n}</b> sentence${n>1?"s":""} selected`);
+  if(stars) bits.push(`<b>${"★".repeat(stars)}</b>`);
+  if(raccoon) bits.push(`<b>[oo]</b>`);
+  if(tags.length) bits.push(`<b>${tags.length}</b> tag${tags.length>1?"s":""}`);
+  $("selrow").innerHTML = bits.length ? bits.join(" &middot; ") : "Nothing selected yet.";
+  renderSelPreview();
+  // Need at least one sentence selected to save a capture.
+  $("saveBtn").disabled = n===0;
+  // dedup hint
+  const ref = current && saved[savedKeyOf(current)];
+  $("dedupHint").textContent = ref
+    ? "This reference is already in your .ris — saving appends these sentences to its note."
+    : "New reference — saving adds it to your .ris and starts its note.";
+}
+
+/* ---- save / skip ---- */
+$("saveBtn").addEventListener("click", saveCapture);
+$("skipBtn").addEventListener("click", clearCapture);
+
+function saveCapture(){
+  if(!current || selected.size===0) return;
+  const claims = selectedOrdered().map(i=>sentenceText(i).replace(/\s+/g," ").trim()).filter(Boolean);
+  if(!claims.length) return;
+  const cap = { claims, tags:[...tags], note:$("noteInput").value.trim(), stars, raccoon, at:todayStr() };
+  const key = savedKeyOf(current);
+  const wasNew = !saved[key];
+  if(wasNew) saved[key] = { paper: stripPaper(current), captures: [] };
+  saved[key].captures.push(cap);
+  persist();
+  renderSaved();
+  toast(wasNew ? "New reference added to your .ris" : "Sentences appended to existing reference", claims, cap);
+  // reflect the new in-library state on any matching result row still on screen
+  [...document.querySelectorAll(".ritem .rtitle")].forEach(t=>{
+    if(t.textContent.replace(/in your \.ris$/,"").trim() === current.title.trim() && !t.querySelector(".badge")){
+      t.insertAdjacentHTML("beforeend", ' <span class="badge">in your .ris</span>');
+    }
+  });
+  clearCapture();
+}
+function stripPaper(p){ return { paper_id:p.paper_id, pmid:p.pmid, doi:p.doi, title:p.title, journal:p.journal, year:p.year, authors:p.authors }; }
+
+function clearCapture(){
+  selected.forEach(i=>{ const el=$("abstract").querySelector(`.s[data-i="${i}"]`); if(el) el.classList.remove("sel"); });
+  selected = new Set(); edits = {}; stars=0; raccoon=false; tags=[];
+  $("noteInput").value=""; $("tagInput").value="";
+  renderTags(); renderStars(); renderRaccoon(); refreshCapture();
+}
+
+/* ---- saved drawer ---- */
+function renderSaved(){
+  const refs = Object.values(saved);
+  show($("savedSection"), refs.length>0);
+  if(!refs.length){ $("risPre").textContent=""; return; }
+  const nSent = refs.reduce((a,r)=>a + r.captures.reduce((b,c)=>b+c.claims.length,0), 0);
+  $("savedCount").innerHTML = `<b>${refs.length}</b> reference${refs.length>1?"s":""} &middot; <b>${nSent}</b> captured sentence${nSent!==1?"s":""}.`;
+  $("risPre").textContent = risDocument(refs);
+  $("savedList").innerHTML = refs.map(r=>{
+    const p = r.paper;
+    const claims = r.captures.flatMap(c=>c.claims);
+    const allTags = [...new Set(r.captures.flatMap(c=>c.tags))];
+    const hasRaccoon = r.captures.some(c=>c.raccoon);
+    const maxStars = Math.max(0, ...r.captures.map(c=>c.stars||0));
+    return `<div class="sref">
+      <div class="st">${esc(p.title)}</div>
+      <div class="sm">${esc((p.authors||[]).slice(0,3).join(", "))}${(p.authors||[]).length>3?" et al.":""}${p.year?" · "+esc(p.year):""}${p.pmid?" · PMID "+esc(p.pmid):""}</div>
+      ${claims.map(c=>`<q>${esc(c)}</q>`).join("")}
+      <div class="strow">
+        ${maxStars?`<span class="stag">${"★".repeat(maxStars)}</span>`:""}
+        ${hasRaccoon?`<span class="stag mono">[oo]</span>`:""}
+        ${allTags.map(t=>`<span class="stag">#${esc(t)}</span>`).join("")}
+        <span class="stag mono">cite:abstract-only</span>
+      </div>
+    </div>`;
+  }).join("");
+}
+
+$("exportBtn").addEventListener("click", ()=>{
+  const refs = Object.values(saved);
+  if(!refs.length) return;
+  download(`matchvahti-lite-${fileStamp()}.ris`, risDocument(refs), "application/x-research-info-systems");
+});
+$("copyBtn").addEventListener("click", async ()=>{
+  const refs = Object.values(saved);
+  if(!refs.length) return;
+  try{ await navigator.clipboard.writeText(risDocument(refs)); flashBtn($("copyBtn"),"Copied ✓"); }
+  catch(e){ flashBtn($("copyBtn"),"Copy failed"); }
+});
+$("clearAllBtn").addEventListener("click", ()=>{
+  const refs = Object.values(saved);
+  if(!refs.length) return;
+  if(!confirm(`Remove all ${refs.length} saved reference${refs.length>1?"s":""} from this device? Download the .ris first if you haven't imported it — this can't be undone.`)) return;
+  saved = {}; persist(); renderSaved();
+  // drop any "in your .ris" badges currently on screen
+  document.querySelectorAll(".ritem .badge").forEach(b=>b.remove());
+});
+function flashBtn(btn,msg){ const o=btn.textContent; btn.textContent=msg; setTimeout(()=>btn.textContent=o,1400); }
+
+function download(name, text, type){
+  if(window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.mvSave){
+    window.webkit.messageHandlers.mvSave.postMessage({ name, text }); return;
+  }
+  const b = new Blob([text], {type:type||"text/plain"}); const u = URL.createObjectURL(b);
+  const a = document.createElement("a"); a.href=u; a.download=name; a.click(); URL.revokeObjectURL(u);
+}
+
+/* ---- toast ---- */
+let toastTimer = null;
+function toast(title, claims, cap){
+  $("toastTitle").textContent = title;
+  const sal = (cap.stars?("★".repeat(cap.stars)+" "):"") + (cap.raccoon?"[oo] ":"");
+  $("toastBody").innerHTML =
+    claims.slice(0,2).map(c=>`<q>${esc(c)}</q>`).join("") +
+    (claims.length>2?`<div class="muted" style="margin-top:4px">+${claims.length-2} more</div>`:"") +
+    `<div class="mono" style="color:#9cc3b6;font-size:11px;margin-top:7px">${sal?esc(sal)+"· ":""}N1 + KW written · review before import</div>`;
+  const t = $("toast"); t.classList.add("show");
+  clearTimeout(toastTimer); toastTimer = setTimeout(()=>t.classList.remove("show"), 4200);
+}
+
+/* ---- boot ---- */
+renderSaved();
+</script>
+</body>
+</html>
