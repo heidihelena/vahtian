@@ -31,9 +31,10 @@ STYLE.md-compliant. Gaps are conversion + discoverability, not craft.
       (2.7:1) — social cards expect 1.91:1, so previews crop badly. Make a navy
       card: Vahtian mark + "Auditable citation integrity, at publication
       scale." Reuse for both pages (or a CiteVahti variant for /citevahti/).
-- [ ] **JSON-LD structured data.** `Organization` on `/`,
-      `SoftwareApplication` (free, Apache-2.0) on `/citevahti/`. Researchers
-      find tools via AI assistants — structured data feeds those answers.
+- [x] **JSON-LD structured data.** `Organization` + `WebSite` on `/`,
+      `SoftwareApplication` on `/citevahti/`, `WebApplication` on
+      `/studyvahti/` and `/dictvahti/`. Researchers find tools via AI
+      assistants — structured data feeds those answers.
 - [ ] **Custom `404.html`** (Cloudflare Pages picks it up automatically).
       Branded navy page, link home. Currently the default.
 - [ ] **`_headers` file** for Cloudflare Pages: `X-Content-Type-Options:

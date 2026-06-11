@@ -3,7 +3,36 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>StudyVahti by Vahtian</title>
+  <title>StudyVahti by Vahtian — protocol-readiness for clinical study ideas</title>
+  <meta name="description" content="StudyVahti turns a rough clinical study idea into a protocol-ready checklist: PICOTS, reporting standards, bias domains, estimands, and feasibility. Free and local." />
+  <link rel="canonical" href="https://vahtian.com/studyvahti/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://vahtian.com/studyvahti/" />
+  <meta property="og:title" content="StudyVahti — protocol-readiness for clinical study ideas" />
+  <meta property="og:description" content="Turn a rough clinical study idea into a protocol-ready checklist. Free, local, single-page. A product of Vahtian." />
+  <meta property="og:image" content="https://vahtian.com/brand/vahti-family.png" />
+  <meta property="og:image:width" content="1404" />
+  <meta property="og:image:height" content="520" />
+  <meta property="og:site_name" content="Vahtian" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "StudyVahti",
+    "url": "https://vahtian.com/studyvahti/",
+    "description": "Research planning and methods-readiness tool: maps early clinical study ideas to PICOTS, protocol and reporting standards (SPIRIT, CONSORT, STROBE, RECORD, STARD, TRIPOD+AI, PRISMA), bias domains, estimand logic, and feasibility checks. Runs entirely in the browser — no server, no account, no telemetry.",
+    "applicationCategory": "Research software",
+    "operatingSystem": "Any",
+    "browserRequirements": "Requires JavaScript",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Vahtian",
+      "url": "https://vahtian.com/"
+    }
+  }
+  </script>
   <meta name="theme-color" content="#2D2440" />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232D2440'/%3E%3Cg fill='none' stroke='%235566B5' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 9 H9 V23 H12'/%3E%3Cpath d='M20 9 H23 V23 H20'/%3E%3C/g%3E%3Cg fill='none' stroke='%23C5B8E8' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M14.2 10.5 H17.8'/%3E%3Cpath d='M14.6 10.7 V13.8 L12.3 19.4 L19.7 19.4 L17.4 13.8 V10.7'/%3E%3Cpath d='M13.5 17.1 H18.5'/%3E%3C/g%3E%3C/svg%3E" />
   <style>
@@ -134,27 +163,27 @@
     }
 
     .state-ready {
-      color: #166534;
-      background: #dcfce7;
-      border-color: #86efac;
+      color: #5A4300;
+      background: #FFF2D8;
+      border-color: #C98A00;
     }
 
     .state-support {
-      color: #115e59;
-      background: #ccfbf1;
-      border-color: #5eead4;
+      color: #08544A;
+      background: #D8F4ED;
+      border-color: #1E9E8A;
     }
 
     .state-review {
-      color: #5b21b6;
-      background: #ede9fe;
-      border-color: #c4b5fd;
+      color: #432C7A;
+      background: #ECE3FF;
+      border-color: #8B6FC9;
     }
 
     .state-stop {
-      color: #991b1b;
-      background: #fee2e2;
-      border-color: #fca5a5;
+      color: #7A1F45;
+      background: #FBE0EA;
+      border-color: #C24D7E;
     }
 
     main {
@@ -231,7 +260,7 @@
       padding: 0.75rem;
       border: 1px solid var(--sv-border);
       border-radius: 0.45rem;
-      background: #f8fafc;
+      background: #faf9fc;
     }
 
     .score {
@@ -246,7 +275,7 @@
       width: 100%;
       height: 0.55rem;
       border-radius: 999px;
-      background: #e2e8f0;
+      background: #e7e3f0;
     }
 
     .progress > span {
@@ -354,7 +383,7 @@
     textarea:focus,
     select:focus {
       border-color: var(--sv-blue);
-      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+      box-shadow: 0 0 0 3px rgba(85, 102, 181, 0.15);
     }
 
     .segmented,
@@ -389,7 +418,7 @@
     .copy-btn:hover {
       border-color: var(--sv-blue);
       color: var(--sv-blue-dark);
-      background: #eff6ff;
+      background: #EEF0F8;
     }
 
     .preset-tools {
@@ -422,22 +451,22 @@
     }
 
     .preset-row button.is-recommended {
-      border-color: #e6c980;
-      background: #fff7db;
-      color: #7a5200;
+      border-color: #C98A00;
+      background: #FFF2D8;
+      color: #5A4300;
     }
 
     .preset-row button.is-loaded {
-      border-color: #9de2d8;
-      background: #e7fbf8;
-      color: #0f766e;
+      border-color: #1E9E8A;
+      background: #D8F4ED;
+      color: #08544A;
     }
 
     .variable-audit {
       display: grid;
       gap: 0.35rem;
       margin-top: 0.65rem;
-      border-left: 3px solid #9de2d8;
+      border-left: 3px solid #1E9E8A;
       padding-left: 0.75rem;
       color: var(--sv-muted);
       font-size: 0.8rem;
@@ -465,8 +494,8 @@
     }
 
     .danger {
-      border-color: #fecaca !important;
-      color: #991b1b !important;
+      border-color: #C24D7E !important;
+      color: #7A1F45 !important;
       background: #fff !important;
     }
 
@@ -602,27 +631,27 @@
     }
 
     .gate-complete {
-      border-color: #e6c980;
-      background: #fff7db;
-      color: #7a5200;
+      border-color: #C98A00;
+      background: #FFF2D8;
+      color: #5A4300;
     }
 
     .gate-support {
-      border-color: #9de2d8;
-      background: #e7fbf8;
-      color: #0f766e;
+      border-color: #1E9E8A;
+      background: #D8F4ED;
+      color: #08544A;
     }
 
     .gate-review {
-      border-color: #c4b5fd;
-      background: #f2efff;
-      color: #5b21b6;
+      border-color: #8B6FC9;
+      background: #ECE3FF;
+      color: #432C7A;
     }
 
     .gate-blocked {
-      border-color: #f2b3cc;
-      background: #fff0f6;
-      color: #9d2457;
+      border-color: #C24D7E;
+      background: #FBE0EA;
+      color: #7A1F45;
     }
 
     .ledger-wrap {
@@ -686,7 +715,7 @@
     .artifact-tabs button.is-active {
       border-color: var(--sv-blue);
       color: var(--sv-blue-dark);
-      background: #eff6ff;
+      background: #EEF0F8;
     }
 
     .output-panel {
@@ -710,7 +739,7 @@
     }
 
     .report-section {
-      border-left: 3px solid #bfdbfe;
+      border-left: 3px solid #C5B8E8;
       padding-left: 0.8rem;
     }
 
@@ -746,7 +775,7 @@
       margin: 0;
       border-radius: 0.45rem;
       background: var(--sv-code);
-      color: #e5e7eb;
+      color: #e8e3f5;
       padding: 0.9rem;
       font-size: 0.78rem;
       line-height: 1.5;
@@ -793,10 +822,10 @@
       z-index: 20;
       display: none;
       max-width: min(28rem, calc(100% - 2rem));
-      border: 1px solid #93c5fd;
+      border: 1px solid #AAB2DA;
       border-radius: 0.5rem;
-      background: #eff6ff;
-      color: #1e3a8a;
+      background: #EEF0F8;
+      color: #3A4577;
       padding: 0.75rem 0.9rem;
       box-shadow: var(--sv-shadow);
       font-size: 0.9rem;

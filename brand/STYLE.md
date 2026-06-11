@@ -54,6 +54,7 @@ Each product mark = the shared **bracket "gate"** + one glyph, navy tile, lilac 
 | Vahtian (company) | shield | Violet `#8B6FC9` |
 | CiteVahti | two dots `[oo]` | Violet `#8B6FC9` |
 | StudyVahti | flask | Indigo `#5566B5` |
+| DictVahti | document lines | Indigo `#5566B5` |
 | ReviewVahti | eye | Teal `#1E9E8A` |
 | GuidelineVahti | check | Amber `#C98A00` |
 | AtlasVahti | constellation | Rose `#C24D7E` |

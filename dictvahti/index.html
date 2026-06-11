@@ -4,6 +4,37 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>DictVahti — REDCap Dictionary Linter</title>
+  <meta name="description" content="DictVahti audits a REDCap data dictionary CSV with 26 deterministic rules across naming, field types, choices, and branching logic — and proposes fixes. Free, in-browser." />
+  <link rel="canonical" href="https://vahtian.com/dictvahti/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://vahtian.com/dictvahti/" />
+  <meta property="og:title" content="DictVahti — REDCap dictionary linter" />
+  <meta property="og:description" content="Find naming, structure, and logic problems in a REDCap data dictionary before data collection starts. Free, local, in-browser. A product of Vahtian." />
+  <meta property="og:image" content="https://vahtian.com/brand/vahti-family.png" />
+  <meta property="og:image:width" content="1404" />
+  <meta property="og:image:height" content="520" />
+  <meta property="og:site_name" content="Vahtian" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "DictVahti",
+    "url": "https://vahtian.com/dictvahti/",
+    "description": "REDCap data dictionary linter: runs 26 deterministic heuristic rules across naming, labels, field types, choices, branching logic, and completeness, and proposes specific fixes including a corrected CSV download. Runs entirely in the browser — no data leaves the machine.",
+    "applicationCategory": "Research software",
+    "operatingSystem": "Any",
+    "browserRequirements": "Requires JavaScript",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Vahtian",
+      "url": "https://vahtian.com/"
+    }
+  }
+  </script>
+  <meta name="theme-color" content="#2D2440" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232D2440'/%3E%3Cg fill='none' stroke='%235566B5' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 9 H9 V23 H12'/%3E%3Cpath d='M20 9 H23 V23 H20'/%3E%3C/g%3E%3Cg fill='none' stroke='%23C5B8E8' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M13 13 H19'/%3E%3Cpath d='M13 16 H19'/%3E%3Cpath d='M13 19 H16'/%3E%3C/g%3E%3C/svg%3E">
   <style>
     :root {
       --sv-ink:       #1c1830;
@@ -17,12 +48,12 @@
       --sev-error:    #c24d7e;
       --sev-warning:  #c98a00;
       --sev-info:     #5566b5;
-      --bg-error:     #fff0f6;
-      --bg-warning:   #fffbea;
-      --bg-info:      #eff6ff;
-      --border-error: #f2b3cc;
-      --border-warn:  #e6c980;
-      --border-info:  #93c5fd;
+      --bg-error:     #FBE0EA;
+      --bg-warning:   #FFF2D8;
+      --bg-info:      #EEF0F8;
+      --border-error: #C24D7E;
+      --border-warn:  #C98A00;
+      --border-info:  #AAB2DA;
     }
     *, *::before, *::after { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
@@ -92,7 +123,7 @@
       background: #fff; color: var(--sv-muted); text-align: center;
       padding: 1.5rem; transition: border-color .15s, background .15s; cursor: pointer;
     }
-    .dropzone.drag-over { border-color: var(--sv-blue); background: #eff6ff; }
+    .dropzone.drag-over { border-color: var(--sv-blue); background: #EEF0F8; }
     .dropzone strong { color: var(--sv-ink); font-size: .95rem; }
     .dropzone span { font-size: .82rem; }
     .dropzone input[type="file"] { display: none; }
@@ -117,17 +148,17 @@
       background: #fff; color: var(--sv-ink); padding: .45rem .8rem;
       font-size: .84rem; font-weight: 700; line-height: 1.2; white-space: nowrap;
     }
-    .btn:hover { border-color: var(--sv-blue); color: var(--sv-blue-dark); background: #eff6ff; }
+    .btn:hover { border-color: var(--sv-blue); color: var(--sv-blue-dark); background: #EEF0F8; }
     .btn-primary { border-color: var(--sv-blue); background: var(--sv-blue); color: #fff; }
     .btn-primary:hover { background: var(--sv-blue-dark); border-color: var(--sv-blue-dark); color: #fff; }
-    .btn-success { border-color: #86efac; background: #dcfce7; color: #166534; }
-    .btn-success:hover { background: #bbf7d0; border-color: #4ade80; color: #14532d; }
-    .btn-danger { border-color: #fecaca; color: #991b1b; }
+    .btn-success { border-color: #1E9E8A; background: #D8F4ED; color: #08544A; }
+    .btn-success:hover { background: #C2E9E0; border-color: #178F7C; color: #08544A; }
+    .btn-danger { border-color: #C24D7E; color: #7A1F45; }
 
     /* ── Summary bar ── */
     .summary-bar {
       display: flex; flex-wrap: wrap; gap: .5rem;
-      padding: .75rem 1rem; background: #f8fafc;
+      padding: .75rem 1rem; background: #faf9fc;
       border-bottom: 1px solid var(--sv-border);
     }
     .summary-chip {
@@ -138,7 +169,7 @@
     .chip-error   { color: var(--sev-error);  background: var(--bg-error);   border-color: var(--border-error); }
     .chip-warning { color: var(--sev-warning); background: var(--bg-warning); border-color: var(--border-warn);  }
     .chip-info    { color: var(--sev-info);    background: var(--bg-info);    border-color: var(--border-info);  }
-    .chip-pass    { color: #166534; background: #dcfce7; border-color: #86efac; }
+    .chip-pass    { color: #08544A; background: #D8F4ED; border-color: #1E9E8A; }
 
     /* ── Filter row ── */
     .filter-row {
@@ -154,7 +185,7 @@
     .filter-btn.active-error   { border-color: var(--border-error); background: var(--bg-error);   color: var(--sev-error);   }
     .filter-btn.active-warning { border-color: var(--border-warn);  background: var(--bg-warning); color: var(--sev-warning); }
     .filter-btn.active-info    { border-color: var(--border-info);  background: var(--bg-info);    color: var(--sev-info);    }
-    .filter-btn.active-all     { border-color: var(--sv-blue); background: #eff6ff; color: var(--sv-blue-dark); }
+    .filter-btn.active-all     { border-color: var(--sv-blue); background: #EEF0F8; color: var(--sv-blue-dark); }
 
     /* ── Findings table ── */
     .findings-wrap { overflow-x: auto; }
@@ -209,7 +240,7 @@
     /* ── Info box ── */
     .info-box {
       border: 1px solid var(--border-info); border-radius: .45rem;
-      background: var(--bg-info); color: #1e3a8a;
+      background: var(--bg-info); color: #3A4577;
       padding: .65rem .8rem; font-size: .82rem; line-height: 1.5;
       margin-bottom: .75rem;
     }
@@ -241,7 +272,7 @@
       background: #fff; color: var(--sv-muted);
       padding: .28rem .65rem; font-size: .78rem; font-weight: 700;
     }
-    .tab.is-active { border-color: var(--sv-blue); color: var(--sv-blue-dark); background: #eff6ff; }
+    .tab.is-active { border-color: var(--sv-blue); color: var(--sv-blue-dark); background: #EEF0F8; }
 
     @media (max-width: 720px) {
       .topbar-inner { flex-direction: column; align-items: flex-start; }
@@ -1339,7 +1370,7 @@ function renderRenameNote(fields) {
   ).join('; ');
 
   el.innerHTML =
-    `<div class="info-box" style="margin:.75rem 1rem 0;border-color:var(--border-warn);background:var(--bg-warning);color:#7a5b00;">
+    `<div class="info-box" style="margin:.75rem 1rem 0;border-color:var(--border-warn);background:var(--bg-warning);color:#5A4300;">
       <strong>Heads up — duplicate field names.</strong> “Download fixed CSV” will auto-number these so REDCap accepts the import: ${items}.
       Verify they are genuinely different fields; if one is an accidental copy, delete it instead of keeping both.
     </div>`;
