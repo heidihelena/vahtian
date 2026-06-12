@@ -14,3 +14,13 @@ decision-gated, undoable write and a hash-chained audit trail.
 Static pages (one `index.html` per product, plus `404.html` and `sitemap.xml`),
 deployed via Cloudflare Pages to vahtian.com.
 No trackers, no external dependencies.
+
+## Brand & social tooling
+
+- `brand/STYLE.md` — the canonical brand spec; `brand/PHILOSOPHY.md` — the mark system.
+- `brand/cards/` — 1200×630 Open Graph cards, one per page. Regenerate with
+  `npm i @resvg/resvg-js && node brand/cards/generate.mjs`.
+- `brand/carousel/` — self-contained LinkedIn carousel builder (`noindex`, zero
+  external requests). Preset decks per product, theme & format switching, post-caption
+  drafts, deck save/load as JSON, export as PDF (LinkedIn document post) or
+  per-slide PNGs.

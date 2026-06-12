@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="studyvahti social card">
+  <rect width="1200" height="630" fill="#2D2440"/>
+  <text x="84" y="138" font-family="Liberation Mono, DejaVu Sans Mono, monospace" font-size="21" font-weight="700" fill="#8B6FC9" letter-spacing="3">STUDYVAHTI — FREE STUDY-PLANNING TOOL</text>
+  <text x="84" y="226" font-family="Liberation Sans, DejaVu Sans, sans-serif" font-size="62" font-weight="700" fill="#FFFFFF" letter-spacing="-0.5">Plan the study before</text>
+  <text x="84" y="300" font-family="Liberation Sans, DejaVu Sans, sans-serif" font-size="62" font-weight="700" fill="#FFFFFF" letter-spacing="-0.5">you build the database.</text>
+  <text x="84" y="400" font-family="Liberation Sans, DejaVu Sans, sans-serif" font-size="25" fill="#C5B8E8">PICOTS structure, a variable codebook, and</text>
+  <text x="84" y="436" font-family="Liberation Sans, DejaVu Sans, sans-serif" font-size="25" fill="#C5B8E8">protocol-readiness triage. In your browser.</text>
+  <text x="84" y="566" font-family="Liberation Mono, DejaVu Sans Mono, monospace" font-size="24" font-weight="700" fill="#8B6FC9">[ vahtian.com ]</text>
+  <g transform="translate(924,204) scale(6.9375)">
+    <rect width="32" height="32" rx="7" fill="#FAF9FC"/>
+    <g fill="none" stroke="#2D2440" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 9 H9 V23 H12"/><path d="M20 9 H23 V23 H20"/>
+    </g><g fill="none" stroke="#8B6FC9" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14.2 10.5 H17.8"/><path d="M14.6 10.7 V13.8 L12.3 19.4 L19.7 19.4 L17.4 13.8 V10.7"/><path d="M13.5 17.1 H18.5"/></g></g>
+</svg>

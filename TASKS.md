@@ -27,10 +27,9 @@ STYLE.md-compliant. Gaps are conversion + discoverability, not craft.
 
 ## Tier 2 — same week (≤30 min each)
 
-- [ ] **Proper OG image (1200×630).** `brand/vahti-family.png` is 1404×520
-      (2.7:1) — social cards expect 1.91:1, so previews crop badly. Make a navy
-      card: Vahtian mark + "Auditable citation integrity, at publication
-      scale." Reuse for both pages (or a CiteVahti variant for /citevahti/).
+- [x] **Proper OG image (1200×630).** Done: `brand/cards/generate.mjs` renders
+      a navy 1200×630 card per page (vahtian, citevahti, studyvahti, dictvahti,
+      matchvahti-lite); all five pages now point at `brand/cards/<name>-card.png`.
 - [x] **JSON-LD structured data.** `Organization` + `WebSite` on `/`,
       `SoftwareApplication` on `/citevahti/`, `WebApplication` on
       `/studyvahti/` and `/dictvahti/`. Researchers find tools via AI
