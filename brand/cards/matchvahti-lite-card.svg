@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="matchvahti-lite social card">
+  <rect width="1200" height="630" fill="#2D2440"/>
+  <text x="84" y="138" font-family="Liberation Mono, DejaVu Sans Mono, monospace" font-size="21" font-weight="700" fill="#8B6FC9" letter-spacing="3">MATCHVAHTI-LITE — FREE CITATION CAPTURE</text>
+  <text x="84" y="226" font-family="Liberation Sans, DejaVu Sans, sans-serif" font-size="62" font-weight="700" fill="#FFFFFF" letter-spacing="-0.5">Capture the</text>
+  <text x="84" y="300" font-family="Liberation Sans, DejaVu Sans, sans-serif" font-size="62" font-weight="700" fill="#FFFFFF" letter-spacing="-0.5">citable sentence.</text>
+  <text x="84" y="400" font-family="Liberation Sans, DejaVu Sans, sans-serif" font-size="25" fill="#C5B8E8">Read a PubMed abstract · tap the sentence ·</text>
+  <text x="84" y="436" font-family="Liberation Sans, DejaVu Sans, sans-serif" font-size="25" fill="#C5B8E8">export to Zotero. Nothing is uploaded.</text>
+  <text x="84" y="566" font-family="Liberation Mono, DejaVu Sans Mono, monospace" font-size="24" font-weight="700" fill="#8B6FC9">[ vahtian.com ]</text>
+  <g transform="translate(924,204) scale(6.9375)">
+    <rect width="32" height="32" rx="7" fill="#FAF9FC"/>
+    <g fill="none" stroke="#2D2440" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 9 H9 V23 H12"/><path d="M20 9 H23 V23 H20"/>
+    </g><circle cx="13.9" cy="16" r="1.9" fill="#8B6FC9"/><circle cx="18.1" cy="16" r="1.9" fill="#8B6FC9"/><path d="M13.9 16 H18.1" stroke="#8B6FC9" stroke-width="2.3" stroke-linecap="round"/></g>
+</svg>

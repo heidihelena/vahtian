@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="citevahti social card">
+  <rect width="1200" height="630" fill="#2D2440"/>
+  <text x="84" y="138" font-family="Liberation Mono, DejaVu Sans Mono, monospace" font-size="21" font-weight="700" fill="#8B6FC9" letter-spacing="3">CITEVAHTI — FOR RESEARCHERS &amp; LABS</text>
+  <text x="84" y="226" font-family="Liberation Sans, DejaVu Sans, sans-serif" font-size="62" font-weight="700" fill="#FFFFFF" letter-spacing="-0.5">Run unit tests on</text>
+  <text x="84" y="300" font-family="Liberation Sans, DejaVu Sans, sans-serif" font-size="62" font-weight="700" fill="#FFFFFF" letter-spacing="-0.5">your manuscript.</text>
+  <text x="84" y="400" font-family="Liberation Sans, DejaVu Sans, sans-serif" font-size="25" fill="#C5B8E8">Verify the claim before you cite it —</text>
+  <text x="84" y="436" font-family="Liberation Sans, DejaVu Sans, sans-serif" font-size="25" fill="#C5B8E8">local-first, auditable, Zotero-safe.</text>
+  <text x="84" y="566" font-family="Liberation Mono, DejaVu Sans Mono, monospace" font-size="24" font-weight="700" fill="#8B6FC9">[ vahtian.com ]</text>
+  <g transform="translate(924,204) scale(6.9375)">
+    <rect width="32" height="32" rx="7" fill="#FAF9FC"/>
+    <g fill="none" stroke="#2D2440" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 9 H9 V23 H12"/><path d="M20 9 H23 V23 H20"/>
+    </g><circle cx="13.9" cy="16" r="1.7" fill="#8B6FC9"/><circle cx="18.1" cy="16" r="1.7" fill="#8B6FC9"/></g>
+</svg>

@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="vahtian social card">
+  <rect width="1200" height="630" fill="#2D2440"/>
+  <text x="84" y="138" font-family="Liberation Mono, DejaVu Sans Mono, monospace" font-size="21" font-weight="700" fill="#8B6FC9" letter-spacing="3">CITATION-INTEGRITY INFRASTRUCTURE</text>
+  <text x="84" y="196" font-family="Liberation Sans, DejaVu Sans, sans-serif" font-size="58" font-weight="700" fill="#FFFFFF" letter-spacing="-0.5">Auditable citation</text>
+  <text x="84" y="266" font-family="Liberation Sans, DejaVu Sans, sans-serif" font-size="58" font-weight="700" fill="#FFFFFF" letter-spacing="-0.5">integrity, at</text>
+  <text x="84" y="336" font-family="Liberation Sans, DejaVu Sans, sans-serif" font-size="58" font-weight="700" fill="#FFFFFF" letter-spacing="-0.5">publication scale.</text>
+  <text x="84" y="432" font-family="Liberation Sans, DejaVu Sans, sans-serif" font-size="25" fill="#C5B8E8">Blinded human → AI → adjudication, with a</text>
+  <text x="84" y="468" font-family="Liberation Sans, DejaVu Sans, sans-serif" font-size="25" fill="#C5B8E8">hash-chained audit trail. Free and local-first.</text>
+  <text x="84" y="566" font-family="Liberation Mono, DejaVu Sans Mono, monospace" font-size="24" font-weight="700" fill="#8B6FC9">[ vahtian.com ]</text>
+  <g transform="translate(924,204) scale(6.9375)">
+    <rect width="32" height="32" rx="7" fill="#FAF9FC"/>
+    <g fill="none" stroke="#2D2440" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 9 H9 V23 H12"/><path d="M20 9 H23 V23 H20"/>
+    </g><path d="M16 10.3 L19.6 12 L19.6 15 L16 19.6 L12.4 15 L12.4 12 Z" fill="none" stroke="#8B6FC9" stroke-width="1.8" stroke-linejoin="round"/></g>
+</svg>

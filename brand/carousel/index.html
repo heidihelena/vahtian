@@ -1,0 +1,412 @@
+<!doctype html>
+<!--
+  Vahtian Carousel Builder — internal brand tool.
+  Compose LinkedIn carousel decks (and single social cards) in Sentinel Geometry,
+  then export as PDF (LinkedIn document post) or per-slide PNGs.
+
+  THE rule applies here too: this page never reaches out. No CDNs, no fonts,
+  no analytics, no libraries. Decks save/load as local JSON files.
+
+  Export paths:
+    PDF  — the print stylesheet renders one slide per page at exact pixel size;
+           use the browser's "Save as PDF" (zero margins, default scale).
+    PNG  — each slide is serialized into an SVG <foreignObject> and drawn to a
+           canvas, then downloaded. Works in Chromium and Firefox.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Vahtian carousel builder</title>
+<meta name="theme-color" content="#2D2440">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232D2440'/%3E%3Cg fill='none' stroke='%238B6FC9' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 9 H9 V23 H12'/%3E%3Cpath d='M20 9 H23 V23 H20'/%3E%3C/g%3E%3Cpath d='M16 10.3 L19.6 12 L19.6 15 L16 19.6 L12.4 15 L12.4 12 Z' fill='none' stroke='%23C5B8E8' stroke-width='1.8' stroke-linejoin='round'/%3E%3C/svg%3E">
+<style id="slide-css">
+/* ===== slide styles — shared by preview, print, and PNG export ===== */
+.slide{
+  width:1080px;height:1350px;background:#2D2440;color:#fff;position:relative;
+  display:flex;flex-direction:column;justify-content:center;padding:96px;
+  box-sizing:border-box;overflow:hidden;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,ui-sans-serif,system-ui,sans-serif;
+}
+.slide.sq{height:1080px}
+.slide *{box-sizing:border-box;margin:0}
+.s-mark{width:150px;height:150px;margin-bottom:56px}
+.s-kicker{font:700 30px/1 ui-monospace,SFMono-Regular,Menlo,"Cascadia Code",monospace;
+  color:var(--accent,#8B6FC9);text-transform:uppercase;letter-spacing:.14em;margin-bottom:40px}
+.s-title{font-size:78px;font-weight:700;line-height:1.1;letter-spacing:-.02em;margin-bottom:44px}
+.slide.t-cover .s-title{font-size:92px}
+.s-body{font-size:41px;line-height:1.5;color:#D8D2EA;white-space:pre-wrap;max-width:860px}
+.s-code{font:32px/1.55 ui-monospace,SFMono-Regular,Menlo,"Cascadia Code",monospace;
+  color:#C5B8E8;background:#231B33;border:2px solid #4A3F66;border-radius:18px;
+  padding:40px 44px;margin:48px 0 0;white-space:pre-wrap}
+.slide.t-quote .s-title{font-size:66px;font-weight:600;line-height:1.3;color:#E4DEF4;letter-spacing:0}
+.slide.t-quote .s-bracket{font:700 110px/1 ui-monospace,Menlo,monospace;color:var(--accent,#8B6FC9);margin-bottom:36px}
+.slide.t-cta{align-items:flex-start}
+.slide.t-cta .s-url{font:700 46px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--accent,#8B6FC9);margin-top:64px}
+.s-foot{position:absolute;left:96px;right:96px;bottom:80px;display:flex;justify-content:space-between;align-items:baseline;
+  font:700 27px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:#8B6FC9}
+.s-foot .pg{font-weight:400;color:#6E6390}
+.s-foot .swipe{font-weight:400;color:#9B8FC4}
+</style>
+<style>
+/* ===== builder UI (screen only) ===== */
+:root{
+  --navy:#2D2440; --violet:#8B6FC9; --lilac:#C5B8E8;
+  --ink:#1c1830; --muted:#5b5570; --bg:#faf9fc; --card:#fff; --line:#e7e3f0;
+}
+*{box-sizing:border-box}
+body{margin:0;font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;color:var(--ink);background:var(--bg)}
+header{display:flex;align-items:center;gap:10px;padding:14px 20px;border-bottom:1px solid var(--line);background:var(--card)}
+header .mark{width:28px;height:28px}
+header b{font-size:16px}
+header span.sub{color:var(--muted);font-size:13px}
+.app{display:grid;grid-template-columns:340px 1fr;min-height:calc(100vh - 58px)}
+aside{border-right:1px solid var(--line);background:var(--card);padding:18px;overflow-y:auto}
+main{padding:24px;overflow-x:auto}
+h3{font:600 12px/1 ui-monospace,Menlo,monospace;text-transform:uppercase;letter-spacing:.08em;color:var(--violet);margin:22px 0 10px}
+h3:first-child{margin-top:0}
+label{display:block;font-size:12.5px;font-weight:600;color:var(--muted);margin:10px 0 4px}
+select,input[type=text],textarea{width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:8px;
+  font:inherit;color:var(--ink);background:var(--bg)}
+textarea{resize:vertical;min-height:70px}
+textarea.code{font-family:ui-monospace,Menlo,monospace;font-size:13px}
+.row{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+button{padding:8px 12px;border-radius:8px;border:1px solid var(--line);background:var(--card);
+  font:600 13px/1 inherit;color:var(--ink);cursor:pointer}
+button:hover{border-color:var(--violet)}
+button.primary{background:var(--navy);border-color:var(--navy);color:#fff}
+button.small{padding:5px 9px;font-size:12px}
+.deck{display:flex;flex-wrap:wrap;gap:22px;align-items:flex-start}
+.scalebox{width:259.2px;height:324px;position:relative;cursor:pointer;border-radius:10px;flex:0 0 auto}
+.scalebox.sq{height:259.2px}
+.scalebox .slide{transform:scale(.24);transform-origin:top left;border-radius:24px}
+.scalebox.sel{outline:3px solid var(--violet);outline-offset:4px}
+.scalebox .num{position:absolute;top:-2px;left:-30px;font:600 12px/1 ui-monospace,Menlo,monospace;color:var(--muted)}
+.hint{font-size:12.5px;color:var(--muted);margin:8px 0 0}
+.hint code{font-family:ui-monospace,Menlo,monospace;background:#f2f0f7;padding:1px 5px;border-radius:4px}
+@media print{
+  header,aside,.hint{display:none!important}
+  body{background:#fff}
+  .app{display:block;min-height:0}
+  main{padding:0;overflow:visible}
+  .deck{display:block}
+  .scalebox{width:auto!important;height:auto!important;page-break-after:always;break-after:page;outline:none!important}
+  .scalebox .slide{transform:none;border-radius:0}
+  .scalebox .num{display:none}
+}
+</style>
+<style id="pagesize">@page{size:1080px 1350px;margin:0}</style>
+</head>
+<body>
+
+<header>
+  <svg class="mark" viewBox="0 0 32 32" aria-hidden="true">
+    <rect width="32" height="32" rx="7" fill="#2D2440"/>
+    <g fill="none" stroke="#8B6FC9" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 9 H9 V23 H12"/><path d="M20 9 H23 V23 H20"/>
+    </g>
+    <path d="M16 10.3 L19.6 12 L19.6 15 L16 19.6 L12.4 15 L12.4 12 Z" fill="none" stroke="#C5B8E8" stroke-width="1.8" stroke-linejoin="round"/>
+  </svg>
+  <b>Carousel builder</b>
+  <span class="sub">Sentinel Geometry slides → LinkedIn PDF carousel / PNG cards. Nothing leaves this page.</span>
+</header>
+
+<div class="app">
+<aside>
+  <h3>Deck</h3>
+  <label for="preset">Start from</label>
+  <select id="preset"></select>
+  <label for="theme">Product theme</label>
+  <select id="theme"></select>
+  <label for="format">Format</label>
+  <select id="format">
+    <option value="1080x1350">1080 × 1350 — LinkedIn carousel (4:5)</option>
+    <option value="1080x1080">1080 × 1080 — square post</option>
+  </select>
+
+  <h3>Slide <span id="selLabel"></span></h3>
+  <label for="stype">Type</label>
+  <select id="stype">
+    <option value="cover">Cover — hook</option>
+    <option value="point">Point — kicker / title / body</option>
+    <option value="code">Code — adds a terminal block</option>
+    <option value="quote">Quote</option>
+    <option value="cta">CTA — closing slide</option>
+  </select>
+  <label for="f-kicker">Kicker</label>
+  <input type="text" id="f-kicker">
+  <label for="f-title">Title</label>
+  <textarea id="f-title"></textarea>
+  <label for="f-body">Body</label>
+  <textarea id="f-body" rows="5"></textarea>
+  <label for="f-code">Code block</label>
+  <textarea id="f-code" class="code" rows="3"></textarea>
+  <label for="f-url">URL (CTA)</label>
+  <input type="text" id="f-url">
+  <div class="row">
+    <button class="small" id="addSlide">+ add</button>
+    <button class="small" id="dupSlide">duplicate</button>
+    <button class="small" id="moveL">← move</button>
+    <button class="small" id="moveR">move →</button>
+    <button class="small" id="delSlide">delete</button>
+  </div>
+
+  <h3>Post caption</h3>
+  <textarea id="caption" rows="6"></textarea>
+  <div class="row"><button class="small" id="copyCaption">copy caption</button></div>
+
+  <h3>Export</h3>
+  <div class="row">
+    <button class="primary" id="exportPdf">PDF (print)</button>
+    <button id="exportPng">PNGs</button>
+  </div>
+  <div class="row">
+    <button class="small" id="saveJson">save deck .json</button>
+    <button class="small" id="loadJson">load deck</button>
+    <input type="file" id="fileInput" accept=".json" hidden>
+  </div>
+  <p class="hint">PDF: in the print dialog choose <code>Save as PDF</code>, margins
+  <code>None</code>, scale <code>100</code>. Upload the PDF to LinkedIn as a
+  <b>document</b> post — that is what renders as a swipeable carousel.</p>
+</aside>
+
+<main><div class="deck" id="deck"></div></main>
+</div>
+
+<script>
+'use strict';
+/* ===== brand constants (STYLE.md) ===== */
+const BRACKETS = (color) =>
+  `<g fill="none" stroke="${color}" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">`+
+  `<path d="M12 9 H9 V23 H12"/><path d="M20 9 H23 V23 H20"/></g>`;
+const GLYPHS = {
+  vahtian:`<path d="M16 10.3 L19.6 12 L19.6 15 L16 19.6 L12.4 15 L12.4 12 Z" fill="none" stroke="#C5B8E8" stroke-width="1.8" stroke-linejoin="round"/>`,
+  citevahti:`<circle cx="13.9" cy="16" r="1.7" fill="#C5B8E8"/><circle cx="18.1" cy="16" r="1.7" fill="#C5B8E8"/>`,
+  studyvahti:`<g fill="none" stroke="#C5B8E8" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14.2 10.5 H17.8"/><path d="M14.6 10.7 V13.8 L12.3 19.4 L19.7 19.4 L17.4 13.8 V10.7"/><path d="M13.5 17.1 H18.5"/></g>`,
+  dictvahti:`<g fill="none" stroke="#C5B8E8" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M13 13 H19"/><path d="M13 16 H19"/><path d="M13 19 H16"/></g>`,
+  reviewvahti:`<ellipse cx="16" cy="16" rx="4.4" ry="2.8" fill="none" stroke="#C5B8E8" stroke-width="1.7"/><circle cx="16" cy="16" r="1.5" fill="#C5B8E8"/>`,
+  guidelinevahti:`<path d="M12.8 16 L15.2 18.5 L19.3 13" fill="none" stroke="#C5B8E8" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>`,
+  atlasvahti:`<path d="M13 18.6 L19 18.6 L16 12.2 Z" fill="none" stroke="#C5B8E8" stroke-width="1"/><circle cx="13" cy="18.6" r="1.45" fill="#C5B8E8"/><circle cx="19" cy="18.6" r="1.45" fill="#C5B8E8"/><circle cx="16" cy="12.2" r="1.45" fill="#C5B8E8"/>`,
+  'matchvahti-lite':`<circle cx="13.9" cy="16" r="1.9" fill="#8B6FC9"/><circle cx="18.1" cy="16" r="1.9" fill="#8B6FC9"/><path d="M13.9 16 H18.1" stroke="#8B6FC9" stroke-width="2.3" stroke-linecap="round"/>`,
+};
+const THEMES = {
+  vahtian:{label:'Vahtian (company)',accent:'#8B6FC9'},
+  citevahti:{label:'CiteVahti',accent:'#8B6FC9'},
+  studyvahti:{label:'StudyVahti',accent:'#7B8AD9'},
+  dictvahti:{label:'DictVahti',accent:'#7B8AD9'},
+  reviewvahti:{label:'ReviewVahti',accent:'#1E9E8A'},
+  guidelinevahti:{label:'GuidelineVahti',accent:'#C98A00'},
+  atlasvahti:{label:'AtlasVahti',accent:'#C24D7E'},
+  'matchvahti-lite':{label:'MatchVahti-Lite',accent:'#8B6FC9'},
+};
+function markSvg(theme){
+  // Light tile variant: pale ground, navy brackets, glyph in the product accent.
+  return `<svg class="s-mark" viewBox="0 0 32 32" aria-hidden="true">`+
+    `<rect width="32" height="32" rx="7" fill="#FAF9FC"/>`+
+    BRACKETS('#2D2440')+
+    (GLYPHS[theme]||GLYPHS.vahtian).replaceAll('#C5B8E8', THEMES[theme]?.accent||'#8B6FC9')+
+    `</svg>`;
+}
+
+/* ===== preset decks — each doubles as a ready-to-post draft ===== */
+const PRESETS = {
+  blank:{label:'Blank deck',theme:'vahtian',caption:'',slides:[
+    {type:'cover',kicker:'VAHTIAN',title:'Your hook goes here.',body:''},
+    {type:'point',kicker:'POINT 1',title:'One idea per slide.',body:'Large type. Short sentences. The reader is on a phone, mid-scroll.'},
+    {type:'cta',kicker:'',title:'Close with the one action.',body:'Free and local-first for researchers.',url:'vahtian.com'},
+  ]},
+  citevahti:{label:'CiteVahti — unit tests for citations',theme:'citevahti',
+    caption:`Your manuscript has 80 citations. How many actually support the claim they're attached to?\n\nStudies of citation accuracy keep finding quotation errors in a meaningful share of checked references — and peer review almost never catches them, because nobody re-reads your reference list.\n\nCiteVahti treats every citation like a unit test: blinded human → AI → adjudication, with a hash-chained audit trail and no silent writes to Zotero. Free and local-first.\n\n→ vahtian.com/citevahti\n\n#ResearchIntegrity #AcademicWriting #MetaScience #Zotero #OpenScience`,
+    slides:[
+    {type:'cover',kicker:'CITEVAHTI',title:'How many of your 80 citations actually support the claim?',body:''},
+    {type:'point',kicker:'THE PROBLEM',title:'Citation errors survive peer review.',body:'Citation-accuracy studies keep finding quotation errors — references that don’t support the claim they’re attached to.\n\nReviewers check your methods. Almost nobody re-reads your references.'},
+    {type:'point',kicker:'THE IDEA',title:'Treat every citation like a unit test.',body:'The claim is the test case. The cited paper is the evidence.\n\nRun the suite before you submit — not after a reader finds the failure.'},
+    {type:'point',kicker:'HOW IT WORKS',title:'Blinded human → AI → adjudication.',body:'You rate the evidence first. An AI rates it blinded, as a second opinion.\n\nDisagreements route back to you — never silently resolved.'},
+    {type:'code',kicker:'GETTING STARTED',title:'Local-first, three commands.',body:'No terminal? There’s a Claude Desktop extension — download, double-click, done.',code:'pip install "citevahti[mcp]"\ncitevahti init\ncitevahti check manuscript.md'},
+    {type:'point',kicker:'THE GUARANTEE',title:'No silent writes. Ever.',body:'References enter Zotero only as the audited, undoable last step of a human decision.\n\nA hash-chained log records the reasoning — reportable in your methods section.'},
+    {type:'cta',kicker:'',title:'Free & local-first for researchers.',body:'Apache-2.0 core. Your manuscript never leaves your machine.',url:'vahtian.com/citevahti'},
+  ]},
+  dictvahti:{label:'DictVahti — 5 REDCap mistakes',theme:'dictvahti',
+    caption:`Five REDCap data-dictionary mistakes you won't notice until analysis time — and a free linter that catches all of them before you collect a single record.\n\nDictVahti runs 26 deterministic checks across naming, field types, choices, branching logic and completeness, with one-click fixes. In your browser; nothing is uploaded.\n\n→ vahtian.com/dictvahti\n\n#REDCap #ClinicalResearch #DataManagement #EHR #ResearchData`,
+    slides:[
+    {type:'cover',kicker:'DICTVAHTI',title:'5 REDCap dictionary mistakes you’ll pay for at analysis time.',body:''},
+    {type:'point',kicker:'MISTAKE 1',title:'Free text for things you’ll want to count.',body:'“Smoker? (text)” returns yes, Yes, y, current, ex...\n\nIf you will ever tabulate it, it needs coded choices — yesno exists, use it.'},
+    {type:'point',kicker:'MISTAKE 2',title:'Three names for one variable.',body:'bp_sys on one form, sysBP on another, systolic in the export.\n\nPick one convention on day one. Your future merge scripts will thank you.'},
+    {type:'point',kicker:'MISTAKE 3',title:'Dates stored as text.',body:'A date field without validation accepts 12/3/24, 3.12.2024 and “last Tuesday”.\n\nEvery unvalidated field is a cleaning script you haven’t written yet.'},
+    {type:'point',kicker:'MISTAKE 4',title:'Branching logic pointing at ghosts.',body:'Rename a field and the branching logic that referenced it fails silently.\n\nQuestions stop appearing — and nobody notices until the data is missing.'},
+    {type:'point',kicker:'MISTAKE 5',title:'Choice codes that drift mid-study.',body:'1 = Never, 2 = Former... then someone inserts a category and renumbers.\n\nThe early records keep the old meaning. The codebook is now fiction.'},
+    {type:'cta',kicker:'',title:'Lint the dictionary before record #1.',body:'26 deterministic checks, one-click fixes. Free, in your browser — nothing is uploaded.',url:'vahtian.com/dictvahti'},
+  ]},
+  studyvahti:{label:'StudyVahti — plan before you build',theme:'studyvahti',
+    caption:`A database schema is not a study plan.\n\nStudyVahti turns a rough clinical study idea into a protocol-ready checklist — PICOTS, a variable codebook, and readiness triage mapped to SPIRIT, STROBE, TRIPOD+AI and more. Free, in your browser, and the codebook exports straight into a REDCap dictionary.\n\n→ vahtian.com/studyvahti\n\n#ClinicalResearch #StudyDesign #Epidemiology #REDCap #MedEd`,
+    slides:[
+    {type:'cover',kicker:'STUDYVAHTI',title:'Your database schema is not a study plan.',body:''},
+    {type:'point',kicker:'STEP 1',title:'PICOTS before fields.',body:'Population, Intervention, Comparator, Outcome, Timing, Setting.\n\nIf you can’t fill these in, you’re not ready to name a single REDCap variable.'},
+    {type:'point',kicker:'STEP 2',title:'Codebook before collection.',body:'Every variable gets a name, type, unit, and provenance before the first record exists.\n\nThe codebook exports straight into a REDCap data dictionary.'},
+    {type:'point',kicker:'STEP 3',title:'Triage your readiness, honestly.',body:'StudyVahti maps your plan to SPIRIT, STROBE, TRIPOD+AI and friends — and shows what’s missing as a measurement, not a verdict.'},
+    {type:'cta',kicker:'',title:'Plan the study before you build the database.',body:'Free, in your browser, no account. Nothing leaves your machine.',url:'vahtian.com/studyvahti'},
+  ]},
+};
+
+/* ===== state ===== */
+let deck = JSON.parse(JSON.stringify(PRESETS.citevahti));
+let sel = 0;
+let format = '1080x1350';
+
+/* ===== rendering ===== */
+const deckEl = document.getElementById('deck');
+function esc(s){const d=document.createElement('div');d.textContent=s??'';return d.innerHTML}
+function slideHtml(s, i, n, theme){
+  const accent = THEMES[theme]?.accent || '#8B6FC9';
+  const sq = format==='1080x1080' ? ' sq' : '';
+  let inner = '';
+  if(s.type==='cover'){
+    inner = markSvg(theme)
+      + (s.kicker?`<div class="s-kicker">${esc(s.kicker)}</div>`:'')
+      + `<div class="s-title">${esc(s.title)}</div>`
+      + (s.body?`<div class="s-body">${esc(s.body)}</div>`:'');
+  }else if(s.type==='quote'){
+    inner = `<div class="s-bracket">[</div><div class="s-title">${esc(s.title)}</div>`
+      + (s.body?`<div class="s-body" style="margin-top:40px">${esc(s.body)}</div>`:'');
+  }else if(s.type==='cta'){
+    inner = markSvg(theme)
+      + `<div class="s-title">${esc(s.title)}</div>`
+      + (s.body?`<div class="s-body">${esc(s.body)}</div>`:'')
+      + `<div class="s-url">[ ${esc(s.url||'vahtian.com')} ]</div>`;
+  }else{
+    inner = (s.kicker?`<div class="s-kicker">${esc(s.kicker)}</div>`:'')
+      + `<div class="s-title">${esc(s.title)}</div>`
+      + (s.body?`<div class="s-body">${esc(s.body)}</div>`:'')
+      + (s.type==='code'&&s.code?`<div class="s-code">${esc(s.code)}</div>`:'');
+  }
+  const foot = `<div class="s-foot"><span>[ vahtian.com ]</span>`
+    + (i===0 && n>1 ? `<span class="swipe">swipe →</span>` : `<span class="pg">${i+1} / ${n}</span>`)
+    + `</div>`;
+  return `<div class="slide t-${s.type}${sq}" style="--accent:${accent}">${inner}${foot}</div>`;
+}
+function render(){
+  const n = deck.slides.length;
+  const sq = format==='1080x1080' ? ' sq' : '';
+  deckEl.innerHTML = deck.slides.map((s,i)=>
+    `<div class="scalebox${sq}${i===sel?' sel':''}" data-i="${i}"><span class="num">${i+1}</span>${slideHtml(s,i,n,deck.theme)}</div>`
+  ).join('');
+  document.getElementById('pagesize').textContent =
+    format==='1080x1080' ? '@page{size:1080px 1080px;margin:0}' : '@page{size:1080px 1350px;margin:0}';
+  document.getElementById('selLabel').textContent = `${sel+1} of ${n}`;
+}
+deckEl.addEventListener('click', e=>{
+  const box = e.target.closest('.scalebox');
+  if(box){ sel = +box.dataset.i; render(); syncForm(); }
+});
+
+/* ===== form ↔ state ===== */
+const F = id=>document.getElementById(id);
+const fields = [['stype','type'],['f-kicker','kicker'],['f-title','title'],['f-body','body'],['f-code','code'],['f-url','url']];
+function syncForm(){
+  const s = deck.slides[sel]||{};
+  for(const [id,key] of fields) F(id).value = s[key]||'';
+}
+for(const [id,key] of fields){
+  F(id).addEventListener('input', ()=>{
+    if(!deck.slides[sel]) return;
+    deck.slides[sel][key] = F(id).value;
+    render();
+  });
+}
+F('theme').innerHTML = Object.entries(THEMES).map(([k,t])=>`<option value="${k}">${t.label}</option>`).join('');
+F('theme').addEventListener('change', ()=>{ deck.theme = F('theme').value; render(); });
+F('format').addEventListener('change', ()=>{ format = F('format').value; render(); });
+F('preset').innerHTML = Object.entries(PRESETS).map(([k,p])=>`<option value="${k}">${p.label}</option>`).join('');
+F('preset').value = 'citevahti';
+F('preset').addEventListener('change', ()=>{
+  deck = JSON.parse(JSON.stringify(PRESETS[F('preset').value]));
+  sel = 0; F('theme').value = deck.theme; F('caption').value = deck.caption||'';
+  render(); syncForm();
+});
+F('caption').addEventListener('input', ()=>{ deck.caption = F('caption').value; });
+F('copyCaption').addEventListener('click', async ()=>{
+  await navigator.clipboard.writeText(F('caption').value);
+  F('copyCaption').textContent='copied ✓'; setTimeout(()=>F('copyCaption').textContent='copy caption',1200);
+});
+
+/* ===== slide ops ===== */
+F('addSlide').addEventListener('click', ()=>{
+  deck.slides.splice(sel+1,0,{type:'point',kicker:'KICKER',title:'New slide',body:''});
+  sel++; render(); syncForm();
+});
+F('dupSlide').addEventListener('click', ()=>{
+  deck.slides.splice(sel+1,0,JSON.parse(JSON.stringify(deck.slides[sel])));
+  sel++; render(); syncForm();
+});
+F('delSlide').addEventListener('click', ()=>{
+  if(deck.slides.length<=1) return;
+  deck.slides.splice(sel,1); sel=Math.max(0,sel-1); render(); syncForm();
+});
+F('moveL').addEventListener('click', ()=>{
+  if(sel===0) return;
+  [deck.slides[sel-1],deck.slides[sel]]=[deck.slides[sel],deck.slides[sel-1]];
+  sel--; render();
+});
+F('moveR').addEventListener('click', ()=>{
+  if(sel>=deck.slides.length-1) return;
+  [deck.slides[sel+1],deck.slides[sel]]=[deck.slides[sel],deck.slides[sel+1]];
+  sel++; render();
+});
+
+/* ===== save / load ===== */
+F('saveJson').addEventListener('click', ()=>{
+  const blob = new Blob([JSON.stringify({...deck, format}, null, 2)],{type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob); a.download = 'vahtian-carousel.json'; a.click();
+  URL.revokeObjectURL(a.href);
+});
+F('loadJson').addEventListener('click', ()=>F('fileInput').click());
+F('fileInput').addEventListener('change', async e=>{
+  const file = e.target.files[0]; if(!file) return;
+  try{
+    const d = JSON.parse(await file.text());
+    if(!Array.isArray(d.slides)) throw new Error('no slides[]');
+    deck = d; if(d.format) format = d.format;
+    sel = 0; F('theme').value = deck.theme||'vahtian'; F('format').value = format;
+    F('caption').value = deck.caption||'';
+    render(); syncForm();
+  }catch(err){ alert('Could not load deck: '+err.message); }
+  e.target.value = '';
+});
+
+/* ===== export ===== */
+F('exportPdf').addEventListener('click', ()=>window.print());
+F('exportPng').addEventListener('click', async ()=>{
+  const css = document.getElementById('slide-css').textContent;
+  const [w,h] = format==='1080x1080' ? [1080,1080] : [1080,1350];
+  const slides = deckEl.querySelectorAll('.slide');
+  for(let i=0;i<slides.length;i++){
+    const clone = slides[i].cloneNode(true);
+    clone.style.transform = 'none';
+    const xhtml = new XMLSerializer().serializeToString(clone);
+    const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}">`+
+      `<foreignObject width="100%" height="100%"><div xmlns="http://www.w3.org/1999/xhtml">`+
+      `<style>${css}</style>${xhtml}</div></foreignObject></svg>`;
+    const img = new Image();
+    img.src = 'data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg);
+    await new Promise((res,rej)=>{ img.onload=res; img.onerror=rej; });
+    const canvas = document.createElement('canvas');
+    canvas.width = w; canvas.height = h;
+    canvas.getContext('2d').drawImage(img,0,0);
+    const blob = await new Promise(res=>canvas.toBlob(res,'image/png'));
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = `vahtian-slide-${String(i+1).padStart(2,'0')}.png`;
+    a.click(); URL.revokeObjectURL(a.href);
+    await new Promise(res=>setTimeout(res,250));
+  }
+});
+
+/* ===== init ===== */
+F('theme').value = deck.theme;
+F('caption').value = deck.caption||'';
+render(); syncForm();
+</script>
+</body>
+</html>
