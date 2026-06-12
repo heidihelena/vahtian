@@ -22,9 +22,10 @@
 <meta name="theme-color" content="#2D2440">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232D2440'/%3E%3Cg fill='none' stroke='%238B6FC9' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 9 H9 V23 H12'/%3E%3Cpath d='M20 9 H23 V23 H20'/%3E%3C/g%3E%3Cpath d='M16 10.3 L19.6 12 L19.6 15 L16 19.6 L12.4 15 L12.4 12 Z' fill='none' stroke='%23C5B8E8' stroke-width='1.8' stroke-linejoin='round'/%3E%3C/svg%3E">
 <style id="slide-css">
-/* ===== slide styles — shared by preview, print, and PNG export ===== */
+/* ===== slide styles — shared by preview, print, and exports =====
+   Light is the default (mobile-feed contrast); navy is the brand-moment variant. */
 .slide{
-  width:1080px;height:1350px;background:#2D2440;color:#fff;position:relative;
+  width:1080px;height:1350px;background:#FAF9FC;color:#1C1830;position:relative;
   display:flex;flex-direction:column;justify-content:center;padding:96px;
   box-sizing:border-box;overflow:hidden;
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,ui-sans-serif,system-ui,sans-serif;
@@ -34,20 +35,31 @@
 .s-mark{width:150px;height:150px;margin-bottom:56px}
 .s-kicker{font:700 30px/1 ui-monospace,SFMono-Regular,Menlo,"Cascadia Code",monospace;
   color:var(--accent,#8B6FC9);text-transform:uppercase;letter-spacing:.14em;margin-bottom:40px}
-.s-title{font-size:78px;font-weight:700;line-height:1.1;letter-spacing:-.02em;margin-bottom:44px}
-.slide.t-cover .s-title{font-size:92px}
-.s-body{font-size:41px;line-height:1.5;color:#D8D2EA;white-space:pre-wrap;max-width:860px}
+.s-title{font-size:78px;font-weight:700;line-height:1.12;letter-spacing:-.02em;
+  margin-bottom:44px;white-space:pre-wrap;color:#1C1830}
+.slide.t-cover .s-title{font-size:90px}
+.s-body{font-size:41px;line-height:1.5;color:#3A3450;white-space:pre-wrap;max-width:860px}
 .s-code{font:32px/1.55 ui-monospace,SFMono-Regular,Menlo,"Cascadia Code",monospace;
-  color:#C5B8E8;background:#231B33;border:2px solid #4A3F66;border-radius:18px;
+  color:#E4DEF4;background:#2D2440;border-radius:18px;
   padding:40px 44px;margin:48px 0 0;white-space:pre-wrap}
-.slide.t-quote .s-title{font-size:66px;font-weight:600;line-height:1.3;color:#E4DEF4;letter-spacing:0}
+.slide.t-quote .s-title{font-size:66px;font-weight:600;line-height:1.3;letter-spacing:0}
 .slide.t-quote .s-bracket{font:700 110px/1 ui-monospace,Menlo,monospace;color:var(--accent,#8B6FC9);margin-bottom:36px}
 .slide.t-cta{align-items:flex-start}
-.slide.t-cta .s-url{font:700 46px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--accent,#8B6FC9);margin-top:64px}
+.slide.t-cta .s-url{font:700 46px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:#432C7A;margin-top:64px}
 .s-foot{position:absolute;left:96px;right:96px;bottom:80px;display:flex;justify-content:space-between;align-items:baseline;
-  font:700 27px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:#8B6FC9}
-.s-foot .pg{font-weight:400;color:#6E6390}
-.s-foot .swipe{font-weight:400;color:#9B8FC4}
+  font:700 27px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:#432C7A}
+.s-foot .pg,.s-foot .swipe{font-weight:700;color:#5B5570}
+/* CTA slides carry the URL in the body — don't repeat it in the footer */
+.slide.t-cta .s-foot span:first-child{visibility:hidden}
+/* navy variant — contrast bumped vs v1: near-white text, lilac footer */
+.slide.navy{background:#2D2440;color:#fff}
+.slide.navy .s-title{color:#FFFFFF}
+.slide.navy .s-body{color:#E4DEF4}
+.slide.navy .s-code{background:#231B33;border:2px solid #4A3F66;color:#E4DEF4}
+.slide.navy .t-quote .s-title,.slide.navy.t-quote .s-title{color:#F1EDF9}
+.slide.navy .s-foot{color:#C5B8E8}
+.slide.navy .s-foot .pg,.slide.navy .s-foot .swipe{color:#9B8FC4}
+.slide.navy.t-cta .s-url{color:#C5B8E8}
 </style>
 <style>
 /* ===== builder UI (screen only) ===== */
@@ -124,6 +136,13 @@ button.small{padding:5px 9px;font-size:12px}
     <option value="1080x1350">1080 × 1350 — LinkedIn carousel (4:5)</option>
     <option value="1080x1080">1080 × 1080 — square post</option>
   </select>
+  <label for="bg">Background</label>
+  <select id="bg">
+    <option value="light">Light — high contrast (post-ready)</option>
+    <option value="navy">Navy — brand moments</option>
+  </select>
+  <label for="f-deckurl">Footer URL</label>
+  <input type="text" id="f-deckurl" placeholder="vahtian.com">
 
   <h3>Slide <span id="selLabel"></span></h3>
   <label for="stype">Type</label>
@@ -158,7 +177,7 @@ button.small{padding:5px 9px;font-size:12px}
 
   <h3>Export</h3>
   <div class="row">
-    <button class="primary" id="exportPdf">PDF (print)</button>
+    <button class="primary" id="exportPdf">Download PDF</button>
     <button id="exportPng">PNGs</button>
   </div>
   <div class="row">
@@ -166,9 +185,10 @@ button.small{padding:5px 9px;font-size:12px}
     <button class="small" id="loadJson">load deck</button>
     <input type="file" id="fileInput" accept=".json" hidden>
   </div>
-  <p class="hint">PDF: in the print dialog choose <code>Save as PDF</code>, margins
-  <code>None</code>, scale <code>100</code>. Upload the PDF to LinkedIn as a
-  <b>document</b> post — that is what renders as a swipeable carousel.</p>
+  <p class="hint"><b>Download PDF</b> builds the file directly at exact slide size
+  (1080 × 1350 px pages) — no print dialog, no paper sizes. Upload it to LinkedIn as a
+  <b>document</b> post: that is what renders as a swipeable carousel. Put the link in
+  the post text too — links inside document posts are not reliable.</p>
 </aside>
 
 <main><div class="deck" id="deck"></div></main>
@@ -200,34 +220,42 @@ const THEMES = {
   atlasvahti:{label:'AtlasVahti',accent:'#C24D7E'},
   'matchvahti-lite':{label:'MatchVahti-Lite',accent:'#8B6FC9'},
 };
-function markSvg(theme){
-  // Light tile variant: pale ground, navy brackets, glyph in the product accent.
+function markSvg(theme, bg){
+  const accent = THEMES[theme]?.accent || '#8B6FC9';
+  const glyph = GLYPHS[theme] || GLYPHS.vahtian;
+  if(bg === 'navy'){
+    // Pale tile variant so the mark reads on the navy ground.
+    return `<svg class="s-mark" viewBox="0 0 32 32" aria-hidden="true">`+
+      `<rect width="32" height="32" rx="7" fill="#FAF9FC"/>`+
+      BRACKETS('#2D2440')+ glyph.replaceAll('#C5B8E8', accent)+ `</svg>`;
+  }
+  // Canonical mark (navy tile, accent brackets, lilac glyph) on light slides.
   return `<svg class="s-mark" viewBox="0 0 32 32" aria-hidden="true">`+
-    `<rect width="32" height="32" rx="7" fill="#FAF9FC"/>`+
-    BRACKETS('#2D2440')+
-    (GLYPHS[theme]||GLYPHS.vahtian).replaceAll('#C5B8E8', THEMES[theme]?.accent||'#8B6FC9')+
-    `</svg>`;
+    `<rect width="32" height="32" rx="7" fill="#2D2440"/>`+
+    BRACKETS(accent)+ glyph+ `</svg>`;
 }
 
 /* ===== preset decks — each doubles as a ready-to-post draft ===== */
 const PRESETS = {
-  blank:{label:'Blank deck',theme:'vahtian',caption:'',slides:[
+  blank:{label:'Blank deck',theme:'vahtian',bg:'light',url:'vahtian.com',caption:'',slides:[
     {type:'cover',kicker:'VAHTIAN',title:'Your hook goes here.',body:''},
     {type:'point',kicker:'POINT 1',title:'One idea per slide.',body:'Large type. Short sentences. The reader is on a phone, mid-scroll.'},
     {type:'cta',kicker:'',title:'Close with the one action.',body:'Free and local-first for researchers.',url:'vahtian.com'},
   ]},
   citevahti:{label:'CiteVahti — unit tests for citations',theme:'citevahti',
-    caption:`Your manuscript has 80 citations. How many actually support the claim they're attached to?\n\nStudies of citation accuracy keep finding quotation errors in a meaningful share of checked references — and peer review almost never catches them, because nobody re-reads your reference list.\n\nCiteVahti treats every citation like a unit test: blinded human → AI → adjudication, with a hash-chained audit trail and no silent writes to Zotero. Free and local-first.\n\n→ vahtian.com/citevahti\n\n#ResearchIntegrity #AcademicWriting #MetaScience #Zotero #OpenScience`,
+    bg:'light',url:'vahtian.com/citevahti',
+    caption:`Citation integrity should be checked before submission, not after a reader catches the mismatch.\n\nCiteVahti treats manuscript claims as test cases:\nhuman rating first,\nAI as a blinded advisory second rater,\ndiscordances routed back to the human,\nZotero writes previewed, confirmed, undoable,\naudit trail preserved.\n\nFree and local-first for researchers.\n\n→ vahtian.com/citevahti\n\nSource note: Jergas & Baethge, PeerJ 2015, systematic review and meta-analysis of quotation accuracy in medical journal articles.`,
     slides:[
-    {type:'cover',kicker:'CITEVAHTI',title:'How many of your 80 citations actually support the claim?',body:''},
-    {type:'point',kicker:'THE PROBLEM',title:'Citation errors survive peer review.',body:'Citation-accuracy studies keep finding quotation errors — references that don’t support the claim they’re attached to.\n\nReviewers check your methods. Almost nobody re-reads your references.'},
-    {type:'point',kicker:'THE IDEA',title:'Treat every citation like a unit test.',body:'The claim is the test case. The cited paper is the evidence.\n\nRun the suite before you submit — not after a reader finds the failure.'},
-    {type:'point',kicker:'HOW IT WORKS',title:'Blinded human → AI → adjudication.',body:'You rate the evidence first. An AI rates it blinded, as a second opinion.\n\nDisagreements route back to you — never silently resolved.'},
-    {type:'code',kicker:'GETTING STARTED',title:'Local-first, three commands.',body:'No terminal? There’s a Claude Desktop extension — download, double-click, done.',code:'pip install "citevahti[mcp]"\ncitevahti init\ncitevahti check manuscript.md'},
-    {type:'point',kicker:'THE GUARANTEE',title:'No silent writes. Ever.',body:'References enter Zotero only as the audited, undoable last step of a human decision.\n\nA hash-chained log records the reasoning — reportable in your methods section.'},
-    {type:'cta',kicker:'',title:'Free & local-first for researchers.',body:'Apache-2.0 core. Your manuscript never leaves your machine.',url:'vahtian.com/citevahti'},
+    {type:'cover',kicker:'CITEVAHTI BY VAHTIAN',title:'Your manuscript has 80 citations.\nHow many support the exact claims?',body:''},
+    {type:'point',kicker:'THE PROBLEM',title:'Peer review rarely tests every reference.',body:'Citation support is often assumed.\n\nBut a reference can be real, relevant, and still not support the sentence it is attached to.'},
+    {type:'point',kicker:'THE IDEA',title:'Treat every citation like a unit test.',body:'Claim = test case.\nCandidate paper = evidence.\nPass = supports this exact statement.'},
+    {type:'point',kicker:'HOW IT WORKS',title:'Human first.\nAI second.\nDisagreements flagged.',body:'You rate the evidence while blinded.\nAI gives an advisory second rating.\nDiscordance returns to you for adjudication.'},
+    {type:'code',kicker:'GETTING STARTED',title:'Local-first.\nNo manuscript upload.',body:'One project folder. Everything stays on your machine.',code:'pip install "citevahti[mcp]"\ncitevahti init\ncitevahti start'},
+    {type:'point',kicker:'THE SAFETY INVARIANT',title:'No silent writes.',body:'Zotero writes are previewed, confirmed, and undoable.\nEvery decision is recorded in a hash-chained audit trail.\n\nChecks citation support, not truth.'},
+    {type:'cta',kicker:'',title:'CiteVahti Core is free for researchers.',body:'Local-first.\nApache-2.0.\nYour manuscript stays on your machine.\n\nVahtian sells paid citation-integrity infrastructure for journals, institutions, guideline groups, and publishers.',url:'vahtian.com/citevahti'},
   ]},
   dictvahti:{label:'DictVahti — 5 REDCap mistakes',theme:'dictvahti',
+    bg:'light',url:'vahtian.com/dictvahti',
     caption:`Five REDCap data-dictionary mistakes you won't notice until analysis time — and a free linter that catches all of them before you collect a single record.\n\nDictVahti runs 26 deterministic checks across naming, field types, choices, branching logic and completeness, with one-click fixes. In your browser; nothing is uploaded.\n\n→ vahtian.com/dictvahti\n\n#REDCap #ClinicalResearch #DataManagement #EHR #ResearchData`,
     slides:[
     {type:'cover',kicker:'DICTVAHTI',title:'5 REDCap dictionary mistakes you’ll pay for at analysis time.',body:''},
@@ -239,6 +267,7 @@ const PRESETS = {
     {type:'cta',kicker:'',title:'Lint the dictionary before record #1.',body:'26 deterministic checks, one-click fixes. Free, in your browser — nothing is uploaded.',url:'vahtian.com/dictvahti'},
   ]},
   studyvahti:{label:'StudyVahti — plan before you build',theme:'studyvahti',
+    bg:'light',url:'vahtian.com/studyvahti',
     caption:`A database schema is not a study plan.\n\nStudyVahti turns a rough clinical study idea into a protocol-ready checklist — PICOTS, a variable codebook, and readiness triage mapped to SPIRIT, STROBE, TRIPOD+AI and more. Free, in your browser, and the codebook exports straight into a REDCap dictionary.\n\n→ vahtian.com/studyvahti\n\n#ClinicalResearch #StudyDesign #Epidemiology #REDCap #MedEd`,
     slides:[
     {type:'cover',kicker:'STUDYVAHTI',title:'Your database schema is not a study plan.',body:''},
@@ -259,10 +288,11 @@ const deckEl = document.getElementById('deck');
 function esc(s){const d=document.createElement('div');d.textContent=s??'';return d.innerHTML}
 function slideHtml(s, i, n, theme){
   const accent = THEMES[theme]?.accent || '#8B6FC9';
-  const sq = format==='1080x1080' ? ' sq' : '';
+  const bg = deck.bg === 'navy' ? 'navy' : 'light';
+  const cls = (bg==='navy' ? ' navy' : '') + (format==='1080x1080' ? ' sq' : '');
   let inner = '';
   if(s.type==='cover'){
-    inner = markSvg(theme)
+    inner = markSvg(theme, bg)
       + (s.kicker?`<div class="s-kicker">${esc(s.kicker)}</div>`:'')
       + `<div class="s-title">${esc(s.title)}</div>`
       + (s.body?`<div class="s-body">${esc(s.body)}</div>`:'');
@@ -270,20 +300,20 @@ function slideHtml(s, i, n, theme){
     inner = `<div class="s-bracket">[</div><div class="s-title">${esc(s.title)}</div>`
       + (s.body?`<div class="s-body" style="margin-top:40px">${esc(s.body)}</div>`:'');
   }else if(s.type==='cta'){
-    inner = markSvg(theme)
+    inner = markSvg(theme, bg)
       + `<div class="s-title">${esc(s.title)}</div>`
       + (s.body?`<div class="s-body">${esc(s.body)}</div>`:'')
-      + `<div class="s-url">[ ${esc(s.url||'vahtian.com')} ]</div>`;
+      + `<div class="s-url">[ ${esc(s.url||deck.url||'vahtian.com')} ]</div>`;
   }else{
     inner = (s.kicker?`<div class="s-kicker">${esc(s.kicker)}</div>`:'')
       + `<div class="s-title">${esc(s.title)}</div>`
       + (s.body?`<div class="s-body">${esc(s.body)}</div>`:'')
       + (s.type==='code'&&s.code?`<div class="s-code">${esc(s.code)}</div>`:'');
   }
-  const foot = `<div class="s-foot"><span>[ vahtian.com ]</span>`
+  const foot = `<div class="s-foot"><span>[ ${esc(deck.url||'vahtian.com')} ]</span>`
     + (i===0 && n>1 ? `<span class="swipe">swipe →</span>` : `<span class="pg">${i+1} / ${n}</span>`)
     + `</div>`;
-  return `<div class="slide t-${s.type}${sq}" style="--accent:${accent}">${inner}${foot}</div>`;
+  return `<div class="slide t-${s.type}${cls}" style="--accent:${accent}">${inner}${foot}</div>`;
 }
 function render(){
   const n = deck.slides.length;
@@ -317,11 +347,19 @@ for(const [id,key] of fields){
 F('theme').innerHTML = Object.entries(THEMES).map(([k,t])=>`<option value="${k}">${t.label}</option>`).join('');
 F('theme').addEventListener('change', ()=>{ deck.theme = F('theme').value; render(); });
 F('format').addEventListener('change', ()=>{ format = F('format').value; render(); });
+F('bg').addEventListener('change', ()=>{ deck.bg = F('bg').value; render(); });
+F('f-deckurl').addEventListener('input', ()=>{ deck.url = F('f-deckurl').value; render(); });
 F('preset').innerHTML = Object.entries(PRESETS).map(([k,p])=>`<option value="${k}">${p.label}</option>`).join('');
 F('preset').value = 'citevahti';
+function syncDeckControls(){
+  F('theme').value = deck.theme||'vahtian';
+  F('bg').value = deck.bg==='navy' ? 'navy' : 'light';
+  F('f-deckurl').value = deck.url||'';
+  F('caption').value = deck.caption||'';
+}
 F('preset').addEventListener('change', ()=>{
   deck = JSON.parse(JSON.stringify(PRESETS[F('preset').value]));
-  sel = 0; F('theme').value = deck.theme; F('caption').value = deck.caption||'';
+  sel = 0; syncDeckControls();
   render(); syncForm();
 });
 F('caption').addEventListener('input', ()=>{ deck.caption = F('caption').value; });
@@ -368,44 +406,102 @@ F('fileInput').addEventListener('change', async e=>{
     const d = JSON.parse(await file.text());
     if(!Array.isArray(d.slides)) throw new Error('no slides[]');
     deck = d; if(d.format) format = d.format;
-    sel = 0; F('theme').value = deck.theme||'vahtian'; F('format').value = format;
-    F('caption').value = deck.caption||'';
+    sel = 0; F('format').value = format; syncDeckControls();
     render(); syncForm();
   }catch(err){ alert('Could not load deck: '+err.message); }
   e.target.value = '';
 });
 
 /* ===== export ===== */
-F('exportPdf').addEventListener('click', ()=>window.print());
-F('exportPng').addEventListener('click', async ()=>{
+// Rasterize one preview slide to a canvas (scale 2 → crisp 2160px on retina feeds).
+async function slideCanvas(slideEl, scale=2){
   const css = document.getElementById('slide-css').textContent;
   const [w,h] = format==='1080x1080' ? [1080,1080] : [1080,1350];
+  const clone = slideEl.cloneNode(true);
+  clone.style.transform = 'none'; clone.style.borderRadius = '0';
+  const xhtml = new XMLSerializer().serializeToString(clone);
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}">`+
+    `<foreignObject width="100%" height="100%"><div xmlns="http://www.w3.org/1999/xhtml">`+
+    `<style>${css}</style>${xhtml}</div></foreignObject></svg>`;
+  const img = new Image();
+  img.src = 'data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg);
+  await new Promise((res,rej)=>{ img.onload=res; img.onerror=rej; });
+  const canvas = document.createElement('canvas');
+  canvas.width = w*scale; canvas.height = h*scale;
+  const ctx = canvas.getContext('2d');
+  ctx.scale(scale,scale); ctx.drawImage(img,0,0);
+  return canvas;
+}
+function download(blob, name){
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob); a.download = name; a.click();
+  URL.revokeObjectURL(a.href);
+}
+
+// Minimal PDF writer: one JPEG per page at exact slide size. No print dialog,
+// no paper sizes — pages are 1080×1350 (or 1080×1080) PDF units.
+function buildPdf(jpegs, w, h, pxW, pxH){
+  const enc = new TextEncoder();
+  const parts = [], offsets = [];
+  let pos = 0;
+  const push = (data)=>{ const b = typeof data==='string' ? enc.encode(data) : data; parts.push(b); pos += b.length; };
+  const obj = (body)=>{ offsets.push(pos); const id = offsets.length; push(`${id} 0 obj\n${body}\nendobj\n`); return id; };
+  push('%PDF-1.4\n%\xC9\xCE\xC2\xC5\n');
+  const n = jpegs.length;
+  // ids: 1 catalog, 2 pages, then per slide: page=3+3i, content=4+3i, image=5+3i
+  obj(`<< /Type /Catalog /Pages 2 0 R >>`);
+  const kids = Array.from({length:n},(_,i)=>`${3+3*i} 0 R`).join(' ');
+  obj(`<< /Type /Pages /Count ${n} /Kids [${kids}] >>`);
+  for(let i=0;i<n;i++){
+    const pageId = 3+3*i, contId = 4+3*i, imgId = 5+3*i;
+    obj(`<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${w} ${h}] `+
+        `/Resources << /XObject << /Im${i} ${imgId} 0 R >> >> /Contents ${contId} 0 R >>`);
+    const stream = `q ${w} 0 0 ${h} 0 0 cm /Im${i} Do Q`;
+    obj(`<< /Length ${stream.length} >>\nstream\n${stream}\nendstream`);
+    offsets.push(pos);
+    push(`${imgId} 0 obj\n<< /Type /XObject /Subtype /Image /Width ${pxW} /Height ${pxH} `+
+         `/ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ${jpegs[i].length} >>\nstream\n`);
+    push(jpegs[i]); push('\nendstream\nendobj\n');
+  }
+  const xrefPos = pos;
+  push(`xref\n0 ${offsets.length+1}\n0000000000 65535 f \n`+
+    offsets.map(o=>String(o).padStart(10,'0')+' 00000 n \n').join('')+
+    `trailer\n<< /Size ${offsets.length+1} /Root 1 0 R >>\nstartxref\n${xrefPos}\n%%EOF\n`);
+  const total = parts.reduce((s,p)=>s+p.length,0);
+  const out = new Uint8Array(total);
+  let at = 0; for(const p of parts){ out.set(p,at); at += p.length; }
+  return new Blob([out], {type:'application/pdf'});
+}
+
+F('exportPdf').addEventListener('click', async ()=>{
+  const btn = F('exportPdf'); btn.textContent = 'rendering…'; btn.disabled = true;
+  try{
+    const [w,h] = format==='1080x1080' ? [1080,1080] : [1080,1350];
+    const jpegs = [];
+    for(const slide of deckEl.querySelectorAll('.slide')){
+      const canvas = await slideCanvas(slide, 2);
+      const blob = await new Promise(res=>canvas.toBlob(res,'image/jpeg',0.92));
+      jpegs.push(new Uint8Array(await blob.arrayBuffer()));
+    }
+    download(buildPdf(jpegs, w, h, w*2, h*2), `vahtian-carousel-${deck.theme||'deck'}.pdf`);
+  }catch(err){
+    alert('PDF export failed ('+err.message+'). Falling back to the print dialog.');
+    window.print();
+  }finally{ btn.textContent = 'Download PDF'; btn.disabled = false; }
+});
+
+F('exportPng').addEventListener('click', async ()=>{
   const slides = deckEl.querySelectorAll('.slide');
   for(let i=0;i<slides.length;i++){
-    const clone = slides[i].cloneNode(true);
-    clone.style.transform = 'none';
-    const xhtml = new XMLSerializer().serializeToString(clone);
-    const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}">`+
-      `<foreignObject width="100%" height="100%"><div xmlns="http://www.w3.org/1999/xhtml">`+
-      `<style>${css}</style>${xhtml}</div></foreignObject></svg>`;
-    const img = new Image();
-    img.src = 'data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg);
-    await new Promise((res,rej)=>{ img.onload=res; img.onerror=rej; });
-    const canvas = document.createElement('canvas');
-    canvas.width = w; canvas.height = h;
-    canvas.getContext('2d').drawImage(img,0,0);
+    const canvas = await slideCanvas(slides[i], 1);
     const blob = await new Promise(res=>canvas.toBlob(res,'image/png'));
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = `vahtian-slide-${String(i+1).padStart(2,'0')}.png`;
-    a.click(); URL.revokeObjectURL(a.href);
+    download(blob, `vahtian-slide-${String(i+1).padStart(2,'0')}.png`);
     await new Promise(res=>setTimeout(res,250));
   }
 });
 
 /* ===== init ===== */
-F('theme').value = deck.theme;
-F('caption').value = deck.caption||'';
+syncDeckControls();
 render(); syncForm();
 </script>
 </body>

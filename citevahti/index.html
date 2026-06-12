@@ -130,18 +130,18 @@
   <section id="start">
     <h2>Get started</h2>
     <p class="note"><b>Public beta — local-first, single-user, PubMed-only.</b>
-      Installing from source today; coming to PyPI and the VS Code Marketplace.</p>
-    <pre><span class="c"># 1. install (beta)</span>
-git clone https://github.com/heidihelena/citevahti &amp;&amp; cd citevahti
-python -m venv .venv &amp;&amp; source .venv/bin/activate
-pip install -e ".[keyring]"
+      Now on <a href="https://pypi.org/project/citevahti/">PyPI</a>; VS Code Marketplace coming.</p>
+    <pre><span class="c"># 1. install from PyPI</span>
+pip install "citevahti[mcp]"
 
-<span class="c"># 2. connect Zotero — one paste, no hand-crafted keys</span>
+<span class="c"># 2. set up — connect Zotero with one paste, no hand-crafted keys</span>
 citevahti init
 citevahti connect-zotero
 
-<span class="c"># 3. verify your first claim → full guide:</span>
-<span class="c">#    github.com/heidihelena/citevahti/blob/main/docs/QUICKSTART.md</span></pre>
+<span class="c"># 3. start verifying claims</span>
+citevahti start
+
+<span class="c"># full guide: github.com/heidihelena/citevahti/blob/main/docs/QUICKSTART.md</span></pre>
     <p style="margin-top:14px"><a class="btn ghost" href="https://github.com/heidihelena/citevahti/blob/main/docs/QUICKSTART.md">Read the Quickstart →</a></p>
   </section>
 
