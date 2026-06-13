@@ -23,6 +23,8 @@ BG_BOT  = "#EDE7F7"   # off-white lavender (deeper tint)
 
 HEADLINE = "Make research claims checkable."
 SUBHEAD  = "Auditable software for citation integrity and biomedical evidence."
+TAGLINE  = ("Vahtian MD PhD · Docent | Lung Cancer · Registry · Nordic Research "
+            "| Vaasa Central Hospital · University of Turku")
 URL      = "vahtian.com"
 
 SANS = "Liberation Sans, DejaVu Sans, sans-serif"
@@ -50,6 +52,19 @@ def esc(t):
 def fit(text, avail, ideal, factor):
     by_width = avail / max(1, len(text) * factor)
     return min(ideal, by_width)
+
+# Render the credential tagline with the `·` / `|` separators in violet so the
+# groups read as distinct, the rest in muted ink.
+def tagline_tspans(text):
+    out = []
+    for i, tok in enumerate(text.split(" ")):
+        lead = "" if i == 0 else " "
+        if tok in ("·", "|"):
+            w = ' font-weight="700"' if tok == "|" else ""
+            out.append(f'<tspan fill="{VIOLET}"{w}>{lead}{esc(tok)}</tspan>')
+        else:
+            out.append(f'<tspan fill="{MUTED}">{lead}{esc(tok)}</tspan>')
+    return "".join(out)
 
 def graph(W, H, seed):
     """A faint lavender citation graph: nodes joined to near neighbours."""
@@ -118,8 +133,10 @@ def banner(W, H, seed, with_text=True):
         avail = W - tx - hmargin
         hf = fit(HEADLINE, avail, H * 0.17, 0.55)
         sf = fit(SUBHEAD, avail, hf * 0.42, 0.52)
-        head_y = H * 0.45
+        tf = fit(TAGLINE, avail, sf * 0.82, 0.52)
+        head_y = H * 0.42
         sub_y = head_y + hf * 0.80
+        tag_y = sub_y + sf * 1.55
         uf = max(14, min(40, H * 0.06))
         svg.append(
             f'<text x="{tx:.1f}" y="{head_y:.1f}" font-family="{SANS}" '
@@ -129,6 +146,10 @@ def banner(W, H, seed, with_text=True):
         svg.append(
             f'<text x="{tx:.1f}" y="{sub_y:.1f}" font-family="{SANS}" '
             f'font-size="{sf:.1f}" fill="{MUTED}">{esc(SUBHEAD)}</text>'
+        )
+        svg.append(
+            f'<text x="{tx:.1f}" y="{tag_y:.1f}" font-family="{SANS}" '
+            f'font-size="{tf:.1f}" letter-spacing="0.2">{tagline_tspans(TAGLINE)}</text>'
         )
         svg.append(
             f'<text x="{W - hmargin:.1f}" y="{H - mh * 0.07:.1f}" '
