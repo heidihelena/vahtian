@@ -1,9 +1,10 @@
 # Vahtian social / video-call banners
 
-Off-white-lavender banners with the Vahtian mark on the left, a faint lavender
-citation graph (nodes + edges) as the accent, dark main text, and the
-`vahtian.com` wordmark bottom-right. Built self-contained per
-[`../STYLE.md`](../STYLE.md): local fonts, inline SVG, no external requests.
+Off-white-lavender banners with a faint lavender citation graph (nodes + edges)
+as the accent, dark main text centre-right, and the Vahtian mark in the
+bottom-right corner stacked just above the `vahtian.com` wordmark. Built
+self-contained per [`../STYLE.md`](../STYLE.md): local fonts, inline SVG, no
+external requests.
 
 Run `python3 generate.py` (needs `cairosvg`) to rebuild every `.svg` + `.png`.
 
