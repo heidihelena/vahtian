@@ -22,7 +22,7 @@ BG_TOP  = "#FBFAFE"   # off-white lavender (light)
 BG_BOT  = "#EDE7F7"   # off-white lavender (deeper tint)
 
 HEADLINE = "Make research claims checkable."
-SUBHEAD  = "Auditable software for citation integrity and biomedical evidence."
+SUBHEAD  = "Citation integrity & biomedical evidence."
 URL      = "vahtian.com"
 
 SANS = "Liberation Sans, DejaVu Sans, sans-serif"
@@ -94,7 +94,7 @@ def graph(W, H, seed):
     parts.append('</g>')
     return "".join(parts)
 
-def banner(W, H, seed, with_text=True):
+def banner(W, H, seed, with_text=True, layout="corner"):
     mh = min(W, H)
     hmargin = round(W * 0.045)
 
@@ -110,7 +110,37 @@ def banner(W, H, seed, with_text=True):
         graph(W, H, seed),
     ]
 
-    if with_text:
+    if with_text and layout == "center":
+        # Mobile-safe centred lockup: LinkedIn crops the sides and overlaps the
+        # bottom-left with the avatar on phones, so everything stacks in the
+        # central safe column (~60% width) and stays clear of the corners.
+        cx = W / 2.0
+        ms = H * 0.20
+        hf = fit(HEADLINE, W * 0.60, H * 0.14, 0.56)
+        sf = fit(SUBHEAD, W * 0.58, hf * 0.50, 0.52)
+        uf = max(13, min(34, H * 0.055))
+        g1, g2, g3 = H * 0.05, H * 0.045, H * 0.06
+        total = ms + g1 + hf + g2 + sf + g3 + uf
+        top = (H - total) / 2.0
+        head_y = top + ms + g1 + hf
+        sub_y = head_y + g2 + sf
+        url_y = sub_y + g3 + uf
+        svg.append(mark(cx - ms / 2, top, ms))
+        svg.append(
+            f'<text x="{cx:.1f}" y="{head_y:.1f}" font-family="{SANS}" '
+            f'font-size="{hf:.1f}" font-weight="700" fill="{INK}" '
+            f'letter-spacing="-0.5" text-anchor="middle">{esc(HEADLINE)}</text>'
+        )
+        svg.append(
+            f'<text x="{cx:.1f}" y="{sub_y:.1f}" font-family="{SANS}" '
+            f'font-size="{sf:.1f}" fill="{MUTED}" text-anchor="middle">{esc(SUBHEAD)}</text>'
+        )
+        svg.append(
+            f'<text x="{cx:.1f}" y="{url_y:.1f}" font-family="{MONO}" '
+            f'font-size="{uf:.1f}" font-weight="700" fill="{VIOLET}" '
+            f'text-anchor="middle">{esc(URL)}</text>'
+        )
+    elif with_text:
         uf = max(14, min(40, H * 0.06))
         url_y = H - mh * 0.07
         # Mark in the bottom-right corner, stacked just above the url.
@@ -148,16 +178,17 @@ def banner(W, H, seed, with_text=True):
     return "".join(svg)
 
 SIZES = [
-    ("linkedin-personal",  1584, 396),   # LinkedIn profile background
-    ("linkedin-company",   1128, 191),   # LinkedIn company page cover
-    ("facebook-cover",     1640, 624),   # Facebook page cover
-    ("teams-background",   1920, 1080),  # Teams / video-call background
+    # name, width, height, layout
+    ("linkedin-personal",  1584, 396, "center"),  # LinkedIn profile bg (mobile-safe)
+    ("linkedin-company",   1128, 191, "corner"),  # LinkedIn company page cover
+    ("facebook-cover",     1640, 624, "corner"),  # Facebook page cover
+    ("teams-background",   1920, 1080, "corner"), # Teams / video-call background
 ]
 
 if __name__ == "__main__":
-    for i, (name, W, H) in enumerate(SIZES):
+    for i, (name, W, H, layout) in enumerate(SIZES):
         for suffix, txt in (("", True), ("-logo", False)):
-            src = banner(W, H, seed=11 + i, with_text=txt)
+            src = banner(W, H, seed=11 + i, with_text=txt, layout=layout)
             base = f"brand/social/{name}{suffix}-{W}x{H}"
             with open(base + ".svg", "w") as f:
                 f.write(src)

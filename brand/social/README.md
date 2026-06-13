@@ -6,6 +6,10 @@ bottom-right corner stacked just above the `vahtian.com` wordmark. Built
 self-contained per [`../STYLE.md`](../STYLE.md): local fonts, inline SVG, no
 external requests.
 
+The **LinkedIn profile** banner uses a centred, mobile-safe lockup instead —
+everything stacks in the central safe column so LinkedIn's phone crop (cut
+sides + avatar over the bottom-left) doesn't clip the mark, headline, or url.
+
 Run `python3 generate.py` (needs `cairosvg`) to rebuild every `.svg` + `.png`.
 
 | File | Size | Use |
