@@ -92,6 +92,20 @@
     .principle h3{margin:0 0 6px;font-size:15px}
     .principle p{margin:0;color:var(--muted);font-size:14px}
     .contact a{font-weight:600}
+    .stack3{display:grid;gap:5px;margin:6px 0 22px;color:#3a3450;font-size:clamp(15px,2.2vw,18px)}
+    .stack3 b{color:var(--ink)}
+    h2 .sub{font-weight:400;font-size:14px;color:var(--muted)}
+    ol.flow{margin:0 0 14px;padding-left:20px;display:grid;gap:9px;color:#322c47}
+    ol.flow b{color:var(--ink)}
+    .tierhead{display:flex;align-items:baseline;gap:11px;flex-wrap:wrap;margin:26px 0 13px}
+    .tierhead:first-of-type{margin-top:6px}
+    .tierhead .t{font:700 12px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.1em;text-transform:uppercase;color:#fff;background:var(--navy);padding:6px 11px;border-radius:6px}
+    .tierhead .d{color:var(--muted);font-size:14.5px}
+    .contract{background:var(--navy);border-radius:14px;padding:26px 24px}
+    .contract h2{color:#fff;margin:0 0 12px;font-size:clamp(20px,3.4vw,28px);line-height:1.14}
+    .contract p{color:#d9d3ea;font-size:15.5px;line-height:1.65;margin:0;max-width:66ch}
+    .contract p b{color:#fff}
+    .vahti.lower{margin:26px 0 0}
     footer{padding:30px 0 50px;color:var(--muted);font-size:13px;border-top:1px solid var(--line);margin-top:36px}
     footer a{color:var(--muted)}
   </style>
@@ -113,29 +127,56 @@
   </header>
 
   <div class="hero">
-    <p class="kicker">Citation-integrity infrastructure</p>
-    <h1>Auditable citation integrity, at publication scale.</h1>
-    <p class="lede">Vahtian builds the <b>sentinel layer</b> for research citations:
-      a blinded <b>human&nbsp;→&nbsp;AI&nbsp;→&nbsp;adjudication</b> workflow with a
-      decision-gated, undoable write and a hash-chained audit trail. Free and
-      local-first for researchers; paid infrastructure for the organizations that
-      carry citation-risk exposure.</p>
-    <p class="vahti"><b>vahti</b> — Finnish for <i>sentinel / guard</i>. The watch
-      over what gets cited.</p>
+    <p class="kicker">Research citation integrity</p>
+    <h1>Is each claim actually supported by the evidence cited for it?</h1>
+    <p class="lede">Vahtian verifies whether each manuscript claim is supported by
+      the evidence cited for it — through a blinded
+      <b>human&nbsp;→&nbsp;AI&nbsp;→&nbsp;adjudication</b> workflow with a
+      decision-gated, undoable write and a hash-chained audit trail.</p>
+    <div class="stack3">
+      <span><b>Human-first. AI-second. Auditable.</b></span>
+      <span>Free local tools for researchers.</span>
+      <span>Infrastructure for journals, guideline groups, and research organizations.</span>
+    </div>
     <div class="cta">
-      <a class="btn primary" href="/citevahti/">Try CiteVahti →</a>
-      <a class="btn ghost" href="https://github.com/heidihelena/citevahti">View on GitHub</a>
+      <a class="btn primary" href="/citevahti/">Check one claim with CiteVahti →</a>
+      <a class="btn ghost" href="#workflow">See the audit workflow</a>
     </div>
   </div>
 
+  <section id="workflow">
+    <h2>The audit workflow <span class="sub">— blinded human → AI → adjudication</span></h2>
+    <ol class="flow">
+      <li><b>Claim becomes a test.</b> Each manuscript claim is checked against the source cited for it.</li>
+      <li><b>Evidence, not topic.</b> Does the cited paper actually support <em>this</em> claim? (PICO-level match, not keyword overlap.)</li>
+      <li><b>You decide — blinded.</b> The AI rates too, but its opinion stays hidden until you’ve rated. The human is the decider.</li>
+      <li><b>Disagreements adjudicated.</b> When human and AI differ, it routes to a person — never silently resolved.</li>
+      <li><b>Guarded write.</b> A reference enters your library only as the audited, undoable last step of your decision.</li>
+      <li><b>Recorded.</b> A hash-chained audit trail of who rated what, what the AI advised, and what was finally written.</li>
+    </ol>
+    <p><a class="notify" href="/citevahti/">Run it on your manuscript with CiteVahti →</a></p>
+  </section>
+
   <section>
-    <h2>The Vahtian products</h2>
+    <h2>One system, three stages <span class="sub">— start where you are, grow into infrastructure</span></h2>
+
+    <div class="tierhead"><span class="t">Start</span><span class="d">Verify the claims in your own manuscript.</span></div>
     <div class="products">
       <div class="p cite">
         <img class="pmark" src="brand/marks/citevahti.svg" width="46" height="46" alt="" loading="lazy">
         <span><a class="name" href="/citevahti">CiteVahti</a>
-          <span class="for">Researchers &amp; labs — verify the claim before you cite it, inline in your manuscript.</span></span>
+          <span class="for">Verify that each claim in your manuscript is supported by the source cited for it.</span></span>
         <span class="tag beta">free beta</span>
+      </div>
+    </div>
+
+    <div class="tierhead"><span class="t">Prepare</span><span class="d">Get the study and its evidence right before analysis.</span></div>
+    <div class="products">
+      <div class="p study">
+        <img class="pmark" src="brand/marks/studyvahti.svg" width="46" height="46" alt="" loading="lazy">
+        <span><a class="name" href="/studyvahti">StudyVahti</a>
+          <span class="for">Plan a defensible study before data collection — PICOTS, a variable codebook, and protocol-readiness triage.</span></span>
+        <span class="tag free">free · live</span>
       </div>
       <div class="p method">
         <svg class="pmark" viewBox="0 0 32 32" aria-hidden="true">
@@ -149,55 +190,8 @@
           </g>
         </svg>
         <span><a class="name" href="/methodvahti">MethodVahti</a>
-          <span class="for">Qualitative &amp; mixed-methods researchers — justify your sample size and generate a COREQ/SRQR methods PDF, with an evidence-graded audit trail.</span></span>
+          <span class="for">Justify your sample size and generate a COREQ/SRQR methods PDF before you collect qualitative data.</span></span>
         <span class="tag beta">free beta</span>
-      </div>
-      <div class="p review">
-        <img class="pmark" src="brand/marks/reviewvahti.svg" width="46" height="46" alt="" loading="lazy">
-        <span><span class="name">ReviewVahti</span>
-          <span class="for">Journals &amp; editorial offices — claim-level checks, reviewer oversight, manuscript audit trails.</span>
-          <a class="notify" href="mailto:hello@vahtian.com?subject=ReviewVahti%20interest">Get notified →</a></span>
-        <span class="tag soon">roadmap</span>
-      </div>
-      <div class="p guide">
-        <img class="pmark" src="brand/marks/guidelinevahti.svg" width="46" height="46" alt="" loading="lazy">
-        <span><span class="name">GuidelineVahti</span>
-          <span class="for">Guideline groups, societies, institutions &amp; medical-communications teams.</span>
-          <a class="notify" href="mailto:hello@vahtian.com?subject=GuidelineVahti%20interest">Get notified →</a></span>
-        <span class="tag soon">roadmap</span>
-      </div>
-      <div class="p atlas">
-        <img class="pmark" src="brand/marks/atlasvahti.svg" width="46" height="46" alt="" loading="lazy">
-        <span><span class="name">AtlasVahti</span>
-          <span class="for">Consented, de-identified evidence-validation patterns — governed analytics &amp; API.</span>
-          <a class="notify" href="mailto:hello@vahtian.com?subject=AtlasVahti%20interest">Get notified →</a></span>
-        <span class="tag soon">roadmap</span>
-      </div>
-    </div>
-  </section>
-
-  <section>
-    <h2>Free quality-assurance tools</h2>
-    <p class="lede" style="margin-bottom:18px">Single-file, browser-only utilities for researchers — nothing is uploaded, nothing leaves your machine. Free, no account, open core.</p>
-    <div class="products">
-      <div class="p matchlite">
-        <svg class="pmark" viewBox="0 0 32 32" aria-hidden="true">
-          <rect width="32" height="32" rx="7" fill="#2D2440"/>
-          <g fill="none" stroke="#C5B8E8" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 9 H9 V23 H12"/><path d="M20 9 H23 V23 H20"/>
-          </g>
-          <circle cx="13.9" cy="16" r="1.9" fill="#8B6FC9"/><circle cx="18.1" cy="16" r="1.9" fill="#8B6FC9"/>
-          <path d="M13.9 16 H18.1" stroke="#8B6FC9" stroke-width="2.3" stroke-linecap="round"/>
-        </svg>
-        <span><a class="name" href="/matchvahti-lite/">MatchVahti-Lite</a>
-          <span class="for">Read a PubMed abstract, tap the sentences worth citing, tag them or flag <span style="font-family:ui-monospace,Menlo,monospace">[oo]</span> closer-look, and append them to a reviewable Zotero <span style="font-family:ui-monospace,Menlo,monospace">.ris</span> — provenance kept, nothing uploaded. The citation-capture companion to MatchVahti.</span></span>
-        <span class="tag free">free · live</span>
-      </div>
-      <div class="p study">
-        <img class="pmark" src="brand/marks/studyvahti.svg" width="46" height="46" alt="" loading="lazy">
-        <span><a class="name" href="/studyvahti">StudyVahti</a>
-          <span class="for">Plan the study before you build the database — PICOTS structure, a variable codebook, and protocol-readiness triage mapped to SPIRIT / STROBE / TRIPOD and more. Variables export straight into DictVahti.</span></span>
-        <span class="tag free">free · live</span>
       </div>
       <div class="p dict">
         <svg class="pmark" viewBox="0 0 32 32" aria-hidden="true">
@@ -210,20 +204,66 @@
           </g>
         </svg>
         <span><a class="name" href="/dictvahti">DictVahti</a>
-          <span class="for">REDCap data-dictionary linter — 26 deterministic checks across naming, field types, choices, branching logic &amp; completeness, with one-click fixes. Built for researchers and students designing their first EHR-based database.</span></span>
+          <span class="for">Clean the REDCap data dictionary before analysis — 26 deterministic checks with one-click fixes.</span></span>
         <span class="tag free">free · live</span>
+      </div>
+      <div class="p matchlite">
+        <svg class="pmark" viewBox="0 0 32 32" aria-hidden="true">
+          <rect width="32" height="32" rx="7" fill="#2D2440"/>
+          <g fill="none" stroke="#C5B8E8" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 9 H9 V23 H12"/><path d="M20 9 H23 V23 H20"/>
+          </g>
+          <circle cx="13.9" cy="16" r="1.9" fill="#8B6FC9"/><circle cx="18.1" cy="16" r="1.9" fill="#8B6FC9"/>
+          <path d="M13.9 16 H18.1" stroke="#8B6FC9" stroke-width="2.3" stroke-linecap="round"/>
+        </svg>
+        <span><a class="name" href="/matchvahti-lite/">MatchVahti-Lite</a>
+          <span class="for">Capture citation-worthy evidence from PubMed abstracts, with provenance, into a reviewable Zotero <span style="font-family:ui-monospace,Menlo,monospace">.ris</span>.</span></span>
+        <span class="tag free">free · live</span>
+      </div>
+    </div>
+
+    <div class="tierhead"><span class="t">Scale</span><span class="d">Claim-checking as governed infrastructure.</span></div>
+    <div class="products">
+      <div class="p review">
+        <img class="pmark" src="brand/marks/reviewvahti.svg" width="46" height="46" alt="" loading="lazy">
+        <span><span class="name">ReviewVahti</span>
+          <span class="for">Editorial claim-checking workflow for journals &amp; editorial offices — reviewer oversight, manuscript audit trails.</span>
+          <a class="notify" href="mailto:hello@vahtian.com?subject=ReviewVahti%20interest">Get notified →</a></span>
+        <span class="tag soon">roadmap</span>
+      </div>
+      <div class="p guide">
+        <img class="pmark" src="brand/marks/guidelinevahti.svg" width="46" height="46" alt="" loading="lazy">
+        <span><span class="name">GuidelineVahti</span>
+          <span class="for">Governed claim–evidence decisions for guideline panels, societies &amp; medical-communications teams.</span>
+          <a class="notify" href="mailto:hello@vahtian.com?subject=GuidelineVahti%20interest">Get notified →</a></span>
+        <span class="tag soon">roadmap</span>
+      </div>
+      <div class="p atlas">
+        <img class="pmark" src="brand/marks/atlasvahti.svg" width="46" height="46" alt="" loading="lazy">
+        <span><span class="name">AtlasVahti</span>
+          <span class="for">De-identified validation-pattern analytics — consented, governed, API-accessible.</span>
+          <a class="notify" href="mailto:hello@vahtian.com?subject=AtlasVahti%20interest">Get notified →</a></span>
+        <span class="tag soon">roadmap</span>
       </div>
     </div>
   </section>
 
   <section>
-    <h2>What every Vahtian product holds to</h2>
-    <div class="principle">
+    <h2>The trust contract</h2>
+    <div class="contract">
+      <h2>Vahtian does not decide scientific truth.</h2>
+      <p>It records whether a cited source supports a specific claim:
+        <b>who rated it</b>, <b>what the AI advised</b>, <b>how disagreements were
+        adjudicated</b>, and <b>what was finally written</b>. The judgment stays
+        with the researcher; Vahtian keeps the evidence of how it was made.</p>
+    </div>
+    <div class="principle" style="margin-top:16px">
       <div class="box"><h3>The human decides</h3><p>AI is a blinded, advisory second rater — never decisive, never silently propagated. Disagreements route to a person.</p></div>
       <div class="box"><h3>No silent writes</h3><p>References enter your library only as the audited, undoable last step of a human decision. Dedupe fails closed.</p></div>
       <div class="box"><h3>The reasoning is recorded</h3><p>A hash-chained audit trail, so the workflow can be reported transparently in a methods section.</p></div>
       <div class="box"><h3>Open core, local-first</h3><p>The core is Apache-2.0 and runs on your laptop. We never paywall a researcher’s ability to verify their own work.</p></div>
     </div>
+    <p class="vahti lower"><b>vahti</b> — Finnish for <i>sentinel / guard</i>. The watch over what gets cited.</p>
   </section>
 
   <section class="contact">
