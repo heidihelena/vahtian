@@ -334,7 +334,7 @@ function drawTornado(P,baseN){
     svg.appendChild(el('rect',{x:Math.min(x1,x2),y,width:Math.max(2,Math.abs(x2-x1)),height:barH,
       fill:i===0?C.violet:C.indigo,rx:4,opacity:i===0?1:0.8}));
     const lbl=(r.hi>0?'+':'')+r.hi+' / '+(r.lo>0?'+':'')+r.lo;
-    svg.appendChild(el('text',{x:Math.max(x1,x2)+6,y:y+barH/2+4,'font-size':10.5,fill:C.muted},'±'+r.span));
+    svg.appendChild(el('text',{x:Math.max(x1,x2)+6,y:y+barH/2+4,'font-size':10.5,fill:C.muted},lbl));
   });
 }
 
@@ -363,7 +363,8 @@ function drawSweep(P,curN){
 // ── Saturation Monte-Carlo ───────────────────────────────────────────────────
 let satSeed=12345;
 function rng(){ satSeed=(satSeed*1103515245+12345)&0x7fffffff; return satSeed/0x7fffffff; }
-function drawSat(P,seedReset){
+function drawSat(P,o,seedReset){
+  o = o || optimise(P);
   if(seedReset) satSeed=(Math.random()*1e9)|0;
   const svg=$('sat'); clear(svg);
   const base=DEPTH_BASE[P.depth]||DEPTH_BASE.explanatory;
@@ -403,16 +404,24 @@ function drawSat(P,seedReset){
   svg.appendChild(el('path',{d:d.join(' '),fill:'none',stroke:C.violet,'stroke-width':2.4,'stroke-linejoin':'round'}));
   // total-themes ceiling
   svg.appendChild(el('line',{x1:padL,y1:Y(L),x2:W-padR,y2:Y(L),stroke:C.muted,'stroke-width':1,'stroke-dasharray':'4 3'}));
-  // marker at optimal N
-  const o=optimise(P); const on=Math.min(Nmax,o.optimal_n);
+  // marker at optimal N — clamp the line to the chart, label honestly if N is off-chart
+  const off = o.optimal_n > Nmax, on = Math.min(Nmax, o.optimal_n);
   svg.appendChild(el('line',{x1:X(on),y1:padT,x2:X(on),y2:H-padB,stroke:C.indigo,'stroke-width':1.5,'stroke-dasharray':'3 3'}));
-  svg.appendChild(el('text',{x:X(on)+4,y:padT+12,'font-size':10.5,fill:C.indigo,'font-weight':700},'N='+o.optimal_n));
-  const pct=Math.round(100*mean[Math.min(Nmax,o.optimal_n)]/L);
-  $('satreadout').textContent = `≈${pct}% of ~${L} latent themes captured at N=${o.optimal_n}.`;
+  svg.appendChild(el('text',{x:X(on)+4,y:padT+12,'font-size':10.5,fill:C.indigo,'font-weight':700,'text-anchor':off?'end':'start'},
+    off?('N='+o.optimal_n+' ▸'):('N='+o.optimal_n)));
+  if(off) svg.lastChild.setAttribute('x', X(on)-4);
+  const pct=Math.round(100*mean[on]/L);
+  $('satreadout').textContent = off
+    ? `Optimal N=${o.optimal_n} is beyond this ${Nmax}-interview view; ≈${pct}% of ~${L} latent themes captured by N=${Nmax}.`
+    : `≈${pct}% of ~${L} latent themes captured at N=${o.optimal_n}.`;
 }
 
 // ── Orchestrate ──────────────────────────────────────────────────────────────
-function render(reseed){
+// The three lightweight charts redraw on every `input` (smooth slider drag).
+// The Monte-Carlo saturation sim is heavier, so it runs only when `runSim` is
+// set — on slider release / `change`, reset, and the re-run button — not on
+// every drag tick.
+function render(reseed, runSim){
   const P=readP();
   // mirror slider values
   $('het_v').textContent=P.H.toFixed(2); $('prev_v').textContent=P.p.toFixed(2);
@@ -425,18 +434,21 @@ function render(reseed){
   $('optsub').textContent=`range ${o.lo}–${o.hi} · information-power index ${o.ip.toFixed(2)}`;
   const chip=$('stchip'); chip.textContent=o.stable?'stable':'sensitive';
   chip.className='chip '+(o.stable?'stable':'sensitive');
-  drawBars(o); drawTornado(P,o.optimal_n); drawSweep(P,o.optimal_n); drawSat(P,reseed);
+  drawBars(o); drawTornado(P,o.optimal_n); drawSweep(P,o.optimal_n);
+  if(runSim) drawSat(P,o,reseed);
 }
 
-document.getElementById('controls').addEventListener('input', ()=>render(false));
-$('rerun').addEventListener('click', ()=>drawSat(readP(),true));
+const controls=document.getElementById('controls');
+controls.addEventListener('input', ()=>render(false,false));   // live, no sim
+controls.addEventListener('change', ()=>render(false,true));   // on release: rerun sim
+$('rerun').addEventListener('click', ()=>{const P=readP(); drawSat(P,optimise(P),true);});
 $('reset').addEventListener('click', ()=>{
   $('het').value=DEFAULTS.het; $('prev').value=DEFAULTS.prev; $('spec').value=DEFAULTS.spec;
   $('theory').value=DEFAULTS.theory; $('quality').value=DEFAULTS.quality; $('power').value=DEFAULTS.power;
   $('depth').value=DEFAULTS.depth; $('mixed').checked=DEFAULTS.mixed; $('mdd').value=DEFAULTS.mdd;
-  render(true);
+  render(true,true);
 });
-render(true);
+render(true,true);
 </script>
 </body>
 </html>

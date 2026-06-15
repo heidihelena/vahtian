@@ -136,10 +136,11 @@ The PDF layer needs reportlab (the only dependency, kept out of the core):
 pip install "methodvahti[pdf]"      # or: pip install "reportlab>=4"
 ```
 
-The PDF embeds **Liberation Sans/Mono** (bundled in `assets/fonts/`, SIL OFL) — the
-same system-stack approximation the brand's social-card generator uses — so the
+The PDF embeds **Liberation Sans/Mono** (bundled as package data in
+`methodvahti/assets/fonts/`, SIL OFL, and shipped in the wheel) — the same
+system-stack approximation the brand's social-card generator uses — so the
 report carries its own fonts and needs nothing installed on the reader's machine.
-If the bundled fonts are ever absent it falls back to the PDF base-14 (Helvetica).
+If the bundled fonts are ever absent it warns and falls back to the PDF base-14.
 
 ## Interactive explorer
 

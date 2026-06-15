@@ -21,9 +21,11 @@ Evidence grading (never removed from the report):
 All three models and the synthesis are ○ Author hypothesis. They are not
 externally validated — see methodvahti/VALIDATION.md.
 
-Brand: STYLE.md (navy #2D2440, violet #8B6FC9, lilac #C5B8E8). The evidence
-glyphs are drawn as vector shapes so the report renders identically without
-any embedded font.
+Brand: STYLE.md (navy #2D2440, violet #8B6FC9, lilac #C5B8E8). Body text uses
+the bundled, embedded Liberation Sans/Mono (SIL OFL, assets/fonts/) — the same
+system-stack approximation the brand's social-card generator uses — so the
+report carries its own fonts. The four evidence glyphs are drawn as vector
+shapes (not font characters) so they render regardless of font coverage.
 """
 from __future__ import annotations
 
@@ -55,9 +57,9 @@ def _clamp01(x: float) -> float:
 
 
 # The four evidence glyphs are drawn as vector shapes (see _evidence_glyph).
-# Inside running text rendered with the built-in Helvetica font they would
-# tofu, so strip them from any text string — the words ("Author hypothesis",
-# "Consensus", …) and the drawn legend carry the meaning.
+# The body font may not cover every code point, so strip the glyphs from any
+# running text — the words ("Author hypothesis", "Consensus", …) and the drawn
+# legend carry the meaning.
 _EV_GLYPHS = "◆◇○◌"
 
 
@@ -263,13 +265,28 @@ def _hex(s: str):
 # missing, we fall back to the PDF base-14 (Helvetica) — zero-asset, zero-request.
 
 import os
+import warnings
 
-_FONT_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "assets", "fonts")
+
+def _font_dir() -> str:
+    """The bundled fonts live in the installed ``methodvahti`` package
+    (assets/fonts) so they ship in the wheel as package data. Fall back to a
+    path next to this module for unusual layouts."""
+    try:
+        import importlib.resources as _res
+        return os.fspath(_res.files("methodvahti").joinpath("assets", "fonts"))
+    except Exception:
+        return os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                            "methodvahti", "assets", "fonts")
+
+
+_FONT_DIR = _font_dir()
 _FONTS = {  # logical name → (filename, reportlab base-14 fallback)
-    "MV-Sans":        ("LiberationSans-Regular.ttf", "Helvetica"),
-    "MV-Sans-Bold":   ("LiberationSans-Bold.ttf",    "Helvetica-Bold"),
-    "MV-Sans-Italic": ("LiberationSans-Italic.ttf",  "Helvetica-Oblique"),
-    "MV-Mono":        ("LiberationMono-Regular.ttf",  "Courier"),
+    "MV-Sans":            ("LiberationSans-Regular.ttf",    "Helvetica"),
+    "MV-Sans-Bold":       ("LiberationSans-Bold.ttf",       "Helvetica-Bold"),
+    "MV-Sans-Italic":     ("LiberationSans-Italic.ttf",     "Helvetica-Oblique"),
+    "MV-Sans-BoldItalic": ("LiberationSans-BoldItalic.ttf", "Helvetica-BoldOblique"),
+    "MV-Mono":            ("LiberationMono-Regular.ttf",    "Courier"),
 }
 _FONT_REGISTERED = False
 
@@ -282,27 +299,42 @@ def _font(name: str) -> str:
     from reportlab.pdfbase import pdfmetrics
     if not _FONT_REGISTERED:
         from reportlab.pdfbase.ttfonts import TTFont
+        n_loaded = 0
         for logical, (fname, _fb) in _FONTS.items():
             path = os.path.join(_FONT_DIR, fname)
             try:
                 pdfmetrics.registerFont(TTFont(logical, path))
+                n_loaded += 1
             except Exception:
                 pass  # leave unregistered → _resolve() returns the base-14 fallback
+
+        # Mark done *before* the family call so a failure there can't cause the
+        # whole (TTF-registering) block to re-run on every later _font() call.
+        _FONT_REGISTERED = True
+
+        if n_loaded == 0:
+            warnings.warn(
+                "MethodVahti: bundled Liberation fonts not found in "
+                f"{_FONT_DIR!r}; the PDF will fall back to the base-14 "
+                "Helvetica family. Check the package install.",
+                RuntimeWarning, stacklevel=2)
 
         def _resolve(n):
             return n if n in pdfmetrics.getRegisteredFontNames() \
                 else _FONTS.get(n, ("", "Helvetica"))[1]
 
-        # Register a family so <b>/<i> inline tags map to the Liberation
+        # Register a family so <b>/<i>/<b><i> inline tags map to the Liberation
         # variants instead of falling back to Helvetica/Times.
-        pdfmetrics.registerFontFamily(
-            _resolve("MV-Sans"),
-            normal=_resolve("MV-Sans"),
-            bold=_resolve("MV-Sans-Bold"),
-            italic=_resolve("MV-Sans-Italic"),
-            boldItalic=_resolve("MV-Sans-Bold"),
-        )
-        _FONT_REGISTERED = True
+        try:
+            pdfmetrics.registerFontFamily(
+                _resolve("MV-Sans"),
+                normal=_resolve("MV-Sans"),
+                bold=_resolve("MV-Sans-Bold"),
+                italic=_resolve("MV-Sans-Italic"),
+                boldItalic=_resolve("MV-Sans-BoldItalic"),
+            )
+        except Exception:
+            pass
     if name in pdfmetrics.getRegisteredFontNames():
         return name
     return _FONTS.get(name, ("", "Helvetica"))[1]
@@ -358,6 +390,8 @@ def build(report: dict, out_path: str) -> str:
                         textColor=_hex(VIOLET), leading=32)
     NOTE = ParagraphStyle("NOTE", fontName=_font("MV-Sans"), fontSize=8.5, leading=12,
                         textColor=_hex(MUTED), spaceBefore=2, spaceAfter=2)
+    MONO = ParagraphStyle("MONO", fontName=_font("MV-Mono"), fontSize=8, leading=12,
+                        textColor=_hex(MUTED), spaceBefore=2, spaceAfter=2)
 
     story = []
 
@@ -369,8 +403,8 @@ def build(report: dict, out_path: str) -> str:
         if std:
             story.append(Paragraph(std, STD))
 
-    def kv_table(rows):
-        data = [[Paragraph(k, LABEL), Paragraph(str(v), CELL)] for k, v in rows]
+    def kv_table(rows, value_style=CELL):
+        data = [[Paragraph(k, LABEL), Paragraph(str(v), value_style)] for k, v in rows]
         t = Table(data, colWidths=[42 * mm, 120 * mm])
         t.setStyle(TableStyle([
             ("VALIGN", (0, 0), (-1, -1), "TOP"),
@@ -569,7 +603,7 @@ def build(report: dict, out_path: str) -> str:
         ("Generated (UTC)", today),
         ("Citation", citation),
         ("Method core", "qualitative_heterogeneity_score() · Apache-2.0"),
-    ]))
+    ], value_style=MONO))
     sev = r.get("severity_audit_log")
     if sev:
         story.append(Spacer(1, 4))
@@ -578,7 +612,7 @@ def build(report: dict, out_path: str) -> str:
             story.append(Paragraph(_san(
                 f'{e.get("timestamp","")} · {e.get("changed_from")} → '
                 f'{e.get("changed_to")} · {e.get("changed_by","")}: '
-                f'{e.get("reason","")}'), NOTE))
+                f'{e.get("reason","")}'), MONO))
 
     # ── page furniture ───────────────────────────────────────────────────────────
     study_title = g("study_title", "Qualitative methods report")
