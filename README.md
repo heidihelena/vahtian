@@ -9,6 +9,8 @@ decision-gated, undoable write and a hash-chained audit trail.
 - **CiteVahti** — for researchers & labs (live): https://github.com/heidihelena/citevahti
 - **StudyVahti** — free study-planning & readiness tool: /studyvahti
 - **DictVahti** — free REDCap dictionary linter: /dictvahti
+- **MethodVahti** — qualitative sample-size justification → COREQ/SRQR methods PDF
+  (free beta for individuals, project licence for institutions): /methodvahti
 - ReviewVahti · GuidelineVahti · AtlasVahti — roadmap.
 
 Static pages (one `index.html` per product, plus `404.html` and `sitemap.xml`),

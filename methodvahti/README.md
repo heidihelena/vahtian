@@ -1,6 +1,6 @@
 # MethodVahti — Qualitative Heterogeneity Scoring
 
-Part of the [EpiNet](https://github.com/heidihelena/epinet) toolkit · [Vahtian](https://vahtian.com) · MIT licence
+Part of the [EpiNet](https://github.com/heidihelena/epinet) toolkit · [Vahtian](https://vahtian.com) · Apache-2.0 licence
 
 ## What this module does
 
@@ -120,7 +120,7 @@ python -m pytest tests/test_heterogeneity.py -v
 Vahtian. (2026). MethodVahti: Qualitative heterogeneity scoring
 for sample size optimisation. In: EpiNet toolkit.
 GitHub: heidihelena/epinet, branch: methodvahti-heterogeneity.
-MIT licence.
+Apache-2.0 licence.
 ```
 
 DOI will be assigned on Zenodo release.

@@ -1,6 +1,6 @@
 """
 MethodVahti — qualitative research decision support
-Part of the EpiNet toolkit · Vahtian · MIT licence
+Part of the EpiNet toolkit · Vahtian · Apache-2.0 licence
 
 from methodvahti.heterogeneity import (
     qualitative_heterogeneity_score,
