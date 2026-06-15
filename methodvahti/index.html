@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>MethodVahti — justify your qualitative sample size, honestly</title>
-  <meta name="description" content="MethodVahti turns qualitative research-design parameters into a COREQ/SRQR-compatible methods PDF: three sample-size models, a hierarchical heterogeneity score, and an evidence-graded audit trail. Free beta for individuals; project licence for institutions.">
+  <title>MethodVahti — defend your qualitative sampling decision, honestly</title>
+  <meta name="description" content="MethodVahti starts from your situation — planning an N, justifying one already chosen, answering a reviewer, reading pilot data, or writing methods text — and helps you build a defensible, COREQ/SRQR-grounded argument. The sample-size models run underneath.">
   <meta name="theme-color" content="#2D2440">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
@@ -12,12 +12,12 @@
   <link rel="canonical" href="https://vahtian.com/methodvahti/">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://vahtian.com/methodvahti/">
-  <meta property="og:title" content="MethodVahti — justify your qualitative sample size, honestly">
-  <meta property="og:description" content="From research-design parameters to a COREQ/SRQR-compatible methods PDF: three sample-size models and an evidence-graded heterogeneity score. A product of Vahtian.">
+  <meta property="og:title" content="MethodVahti — defend your qualitative sampling decision, honestly">
+  <meta property="og:description" content="Start from your situation — plan an N, justify one already chosen, answer a reviewer, read pilot data, or write methods text. MethodVahti builds the defensible COREQ/SRQR argument; the models run underneath. A product of Vahtian.">
   <meta property="og:image" content="https://vahtian.com/brand/cards/methodvahti-card.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="MethodVahti — justify your qualitative sample size; a product of Vahtian">
+  <meta property="og:image:alt" content="MethodVahti — defend your qualitative sampling decision; a product of Vahtian">
   <meta property="og:site_name" content="Vahtian">
   <meta name="twitter:card" content="summary_large_image">
   <script type="application/ld+json">
@@ -97,6 +97,20 @@
     pre .c{color:#9b93b8}
     .note{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--indigo);border-radius:9px;padding:13px 15px;color:#3a3450;font-size:14.5px}
     .note.warn{border-left-color:var(--amber)}
+    .routes{display:grid;gap:10px;grid-template-columns:repeat(2,1fr)}
+    @media(max-width:560px){.routes{grid-template-columns:1fr}}
+    .route{text-align:left;background:var(--card);border:1px solid var(--line);border-radius:11px;padding:13px 14px;cursor:pointer;font:inherit;color:var(--ink);transition:border-color .12s,box-shadow .12s}
+    .route:hover{border-color:var(--indigo)}
+    .route[aria-pressed="true"]{border-color:var(--indigo);box-shadow:0 0 0 1px var(--indigo) inset;background:#f6f4fb}
+    .route .rl{font-weight:700;font-size:14.5px;display:block}
+    .route .rv{color:var(--muted);font-size:12.5px;margin-top:3px;display:block;line-height:1.4}
+    .panel{margin-top:14px;background:var(--card);border:1px solid var(--line);border-radius:13px;padding:18px}
+    .panel .pv{font-size:clamp(16px,2.3vw,19px);line-height:1.32;color:var(--ink);margin:0 0 15px;font-weight:600}
+    .panel dl{display:grid;grid-template-columns:96px 1fr;gap:9px 14px;margin:0 0 16px}
+    @media(max-width:560px){.panel dl{grid-template-columns:1fr;gap:3px 0}.panel dt{margin-top:8px}}
+    .panel dt{font:700 11px/1.5 ui-monospace,monospace;text-transform:uppercase;letter-spacing:.05em;color:var(--indigo)}
+    .panel dd{margin:0;color:#3a3450;font-size:14.5px}
+    .panel .pcta{display:flex;flex-wrap:wrap;gap:10px;margin-top:2px}
     footer{padding:28px 0 50px;color:var(--muted);font-size:13px;border-top:1px solid var(--line);margin-top:32px}
     footer a{color:var(--muted)}
   </style>
@@ -121,16 +135,15 @@
 
   <div class="hero">
     <p class="kicker">A product of Vahtian</p>
-    <h1>Justify your sample size — honestly.</h1>
-    <p class="lede">MethodVahti turns your qualitative research-design parameters into a
-      <b>COREQ/SRQR-compatible methods PDF</b>: three independent sample-size models, a
-      hierarchical heterogeneity score, and an evidence-graded audit trail you can paste
-      into a manuscript. It never hands you one number and calls it the truth —
-      <em>you</em> decide N; the tool documents the decision.</p>
+    <h1>Defend your sampling decision — honestly.</h1>
+    <p class="lede">No-one arrives with tidy parameters. You arrive with pressure: a protocol to write,
+      an N to defend, a reviewer’s comment, half-coded pilot interviews, or a nagging doubt about saturation.
+      MethodVahti starts from <em>your</em> situation and helps you build a defensible,
+      COREQ/SRQR-grounded argument. You’re not optimising a number — you’re defending a decision; the
+      models run underneath.</p>
     <div class="cta">
-      <a class="btn primary" href="#start">Get started — free</a>
-      <a class="btn ghost" href="/methodvahti/explore/">Open the explorer →</a>
-      <a class="btn ghost" href="#how">How it works</a>
+      <a class="btn primary" href="#situations">Start from your situation ↓</a>
+      <a class="btn ghost" href="#deliverable">What you walk away with</a>
     </div>
     <div class="badges" aria-label="Evidence basis — every claim is graded">
       <span class="badge"><b>◆</b> Consensus</span>
@@ -140,28 +153,66 @@
     </div>
   </div>
 
-  <section id="how">
-    <h2>How it works <span class="sub">Six steps. You confirm N before any PDF is generated.</span></h2>
-    <ol class="flow">
-      <li><b>Elicit.</b> Research question, orientation, collection &amp; analysis strategy, reflexivity — the COREQ items, captured once.</li>
-      <li><b>Heterogeneity.</b> If you have coded pilot records, <code>qualitative_heterogeneity_score()</code> estimates how varied your design is across eight dimensions.</li>
-      <li><b>Optimise.</b> Three models — linear saturation, network complexity, fuzzy-set QCA — each propose an N, adjusted for information power.</li>
-      <li><b>Confirm.</b> You see all three estimates and a stability range, then state your chosen N and stopping criterion <em>in your own words</em>.</li>
-      <li><b>Generate.</b> A COREQ/SRQR-compatible PDF: study profile, optimisation, sensitivity, limitations, the full 32-item checklist, and the audit record.</li>
-      <li><b>Submit.</b> The PDF is the deliverable — a defensible answer when a reviewer asks why your sample is the size it is.</li>
-    </ol>
-    <p class="note" style="margin-top:16px">Want to feel how the three models respond to your design before you commit?
-      <a href="/methodvahti/explore/">Open the interactive explorer →</a> — sliders, a stability tornado,
-      and a saturation simulation, all in your browser, nothing uploaded.</p>
+  <section id="situations">
+    <h2>Start from where you are <span class="sub">Pick the situation you’re actually in — MethodVahti elicits the COREQ/SRQR detail it needs from there.</span></h2>
+    <div class="routes" aria-label="Your situation">
+      <button type="button" class="route" data-sit="plan" aria-pressed="true">
+        <span class="rl">Plan a qualitative sample size</span>
+        <span class="rv">“I’m writing the protocol and need an N I can defend.”</span></button>
+      <button type="button" class="route" data-sit="justify" aria-pressed="false">
+        <span class="rl">Justify a sample size already chosen</span>
+        <span class="rv">“My N is fixed by funding or feasibility — I need to defend it.”</span></button>
+      <button type="button" class="route" data-sit="reviewer" aria-pressed="false">
+        <span class="rl">Respond to reviewer criticism</span>
+        <span class="rv">“A reviewer said my sample is too small.”</span></button>
+      <button type="button" class="route" data-sit="pilot" aria-pressed="false">
+        <span class="rl">Interpret pilot / interim data</span>
+        <span class="rv">“I’ve coded some interviews — am I near saturation?”</span></button>
+      <button type="button" class="route" data-sit="wording" aria-pressed="false">
+        <span class="rl">Generate ethics / protocol / manuscript wording</span>
+        <span class="rv">“I need COREQ/SRQR methods text I can submit.”</span></button>
+    </div>
+    <div class="panel" id="sitpanel" aria-live="polite">
+      <p class="pv">“I’m writing the protocol and need an N I can defend.”</p>
+      <dl>
+        <dt>You get</dt><dd>A planned N as a <em>range</em> from three models, a saturation expectation, and the methods paragraph for your protocol.</dd>
+        <dt>It asks</dt><dd>Your orientation, how varied the sample is, target analytic depth, and any pilot signal.</dd>
+        <dt>Our stance</dt><dd>A defensible range with the reasoning — not a single magic number.</dd>
+      </dl>
+      <div class="pcta">
+        <a class="btn primary" href="/methodvahti/explore/">Open the planning explorer →</a>
+        <a class="btn ghost" href="mailto:hello@vahtian.com?subject=MethodVahti%20%E2%80%94%20plan%20a%20sample%20size">Get the documented version</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="deliverable">
+    <h2>What you walk away with <span class="sub">A methods document you can submit — not a terminal artifact.</span></h2>
+    <p style="margin:0 0 14px;color:#322c47">Whatever route you take, the output is the same shape:
+      submission-ready methods text and a COREQ/SRQR-mapped record of every decision — for an ethics
+      application, a protocol, a reviewer-response letter, or a manuscript. Every claim carries its
+      epistemic status (◆ ◇ ○ ◌).</p>
+    <table class="tbl">
+      <thead><tr><th>Section</th><th>Standards covered</th></tr></thead>
+      <tbody>
+        <tr><td>Study profile</td><td class="std">SRQR 1–6 · COREQ 1–9</td></tr>
+        <tr><td>Sampling argument + optimisation</td><td class="std">SRQR 13 · COREQ 17</td></tr>
+        <tr><td>Three-model sample-size comparison</td><td class="std">COREQ 17</td></tr>
+        <tr><td>Fuzzy-set calibration sensitivity</td><td class="std">SRQR 5</td></tr>
+        <tr><td>Epistemic limitations</td><td class="std">SRQR 20 · COREQ 31–32</td></tr>
+        <tr><td>COREQ 32-item checklist</td><td class="std">COREQ complete</td></tr>
+        <tr><td>Citation + audit record</td><td class="std">Reproducibility</td></tr>
+      </tbody>
+    </table>
   </section>
 
   <section>
-    <h2>Three scores, never one <span class="sub">Qualitative heterogeneity is not one natural number. We don't pretend it is.</span></h2>
+    <h2>What runs underneath <span class="sub">The computation stays under the argument — you never tune it by hand.</span></h2>
     <div class="scores">
       <div class="scard">
         <p class="role">Primary ○</p>
         <h3>Hierarchical score</h3>
-        <p>Heterogeneity estimated within each dimension, then aggregated across them. This is the number that feeds sample-size optimisation.</p>
+        <p>Heterogeneity estimated within each dimension, then aggregated across them. This is the number that feeds the sample-size argument.</p>
       </div>
       <div class="scard diag">
         <p class="role">Diagnostic ◆</p>
@@ -176,44 +227,8 @@
     </div>
     <p class="note" style="margin-top:16px"><b>Severity weight ≠ observed rate.</b> An outcome weight of <code>0.90</code>
       means near-maximum <em>amplification severity</em>, not "90% disagreement". Defaults are author
-      hypotheses; teams audit them with pilot data, and every change is timestamped in the report.</p>
-  </section>
-
-  <section>
-    <h2>What the PDF documents</h2>
-    <table class="tbl">
-      <thead><tr><th>Section</th><th>Standards covered</th></tr></thead>
-      <tbody>
-        <tr><td>Study profile</td><td class="std">SRQR 1–6 · COREQ 1–9</td></tr>
-        <tr><td>Detectable difference + optimisation</td><td class="std">SRQR 13 · COREQ 17</td></tr>
-        <tr><td>Three-model sample-size comparison</td><td class="std">COREQ 17</td></tr>
-        <tr><td>Fuzzy-set calibration sensitivity</td><td class="std">SRQR 5</td></tr>
-        <tr><td>Epistemic limitations</td><td class="std">SRQR 20 · COREQ 31–32</td></tr>
-        <tr><td>COREQ 32-item checklist</td><td class="std">COREQ complete</td></tr>
-        <tr><td>Citation + audit record</td><td class="std">Reproducibility</td></tr>
-      </tbody>
-    </table>
-  </section>
-
-  <section id="start">
-    <h2>Start now — free <span class="sub">Two working entry points. No account, nothing uploaded.</span></h2>
-    <ul class="feat">
-      <li><b>Open the explorer.</b> Move the design parameters and watch the three sample-size models, a stability tornado, and a Monte-Carlo saturation curve respond — entirely in your browser.
-        <br><a class="btn ghost" style="margin-top:9px" href="/methodvahti/explore/">Open the explorer →</a></li>
-      <li><b>Run the open-source core locally.</b> The Apache-2.0 heterogeneity score + three-model optimisation, with the COREQ/SRQR PDF generator.</li>
-    </ul>
-    <pre><span class="c"># install the open-source core (Apache-2.0)</span>
-pip install "methodvahti[pdf] @ git+https://github.com/heidihelena/vahtian#subdirectory=methodvahti"
-
-<span class="c"># score heterogeneity → optimise N → build the methods PDF</span>
-from methodvahti_pdf import optimise_n, build
-opt = optimise_n({"heterogeneity": 0.35, "depth": "explanatory", "specificity": 0.65})
-build({"report_id": "MV-2026-001", "optimisation": opt,
-       "research_question": "...", "chosen_n": opt["optimal_n"]},
-      "methodvahti-report.pdf")</pre>
-    <p class="note">The <b>guided</b> elicit → confirm → PDF workflow (the Claude Code skill) is in private
-      beta — <a href="mailto:hello@vahtian.com?subject=MethodVahti%20beta%20access">email hello@vahtian.com</a>
-      with a line about your study to join. Pricing &amp; licensing below.</p>
+      hypotheses; teams audit them with pilot data, and every change is timestamped in the report. Curious how
+      the models move? <a href="/methodvahti/explore/">Open the explorer →</a></p>
   </section>
 
   <section id="access">
@@ -224,12 +239,12 @@ build({"report_id": "MV-2026-001", "optimisation": opt,
         <h3>Individual researchers</h3>
         <p class="price">Free while in beta</p>
         <ul>
-          <li>The full elicit → optimise → PDF workflow</li>
-          <li>Unlimited iterations on your own projects</li>
+          <li>Start from any of the five situations</li>
+          <li>The planning explorer + guided methods drafting</li>
           <li>Beta users keep beta terms for the project they start under it</li>
         </ul>
         <p style="margin:0 0 12px;color:var(--muted);font-size:13px">Individual pricing arrives at 1.0. Beta is the time to use it free and tell us what's wrong with it.</p>
-        <a class="btn primary" href="#start">Get started →</a>
+        <a class="btn primary" href="#situations">Start from your situation →</a>
       </div>
       <div class="tier">
         <span class="ptag inst">project licence</span>
@@ -243,9 +258,10 @@ build({"report_id": "MV-2026-001", "optimisation": opt,
         <a class="btn ghost" href="mailto:hello@vahtian.com?subject=MethodVahti%20institutional%20licence">Talk to us →</a>
       </div>
     </div>
-    <p class="note" style="margin-top:16px">Individuals can <a href="/methodvahti/explore/">use the explorer</a>
-      and the <b>Apache-2.0</b> open-source core <a href="#start">right now</a>, free. The institutional
-      project licence and the guided PDF beta are how the work gets funded.</p>
+    <p class="note" style="margin-top:16px">Individuals start free from <a href="#situations">any situation</a> and the
+      <a href="/methodvahti/explore/">planning explorer</a>. The institutional project licence and guided
+      drafting are how the work gets funded. <span style="color:var(--muted)">Developers: the Apache-2.0 core
+      is <a href="https://github.com/heidihelena/vahtian/tree/main/methodvahti">on GitHub</a>.</span></p>
   </section>
 
   <section>
@@ -266,5 +282,70 @@ build({"report_id": "MV-2026-001", "optimisation": opt,
   </footer>
 
 </div>
+
+<script>
+"use strict";
+var MAIL = "mailto:hello@vahtian.com?subject=";
+var SITS = {
+  plan: {
+    voice: "“I’m writing the protocol and need an N I can defend.”",
+    get: "A planned N as a <em>range</em> from three models, a saturation expectation, and the methods paragraph for your protocol.",
+    asks: "Your orientation, how varied the sample is, target analytic depth, and any pilot signal.",
+    stance: "A defensible range with the reasoning — not a single magic number.",
+    primary: { label: "Open the planning explorer →", href: "/methodvahti/explore/" },
+    alt: { label: "Get the documented version", href: MAIL + "MethodVahti%20%E2%80%94%20plan%20a%20sample%20size" }
+  },
+  justify: {
+    voice: "“My N is fixed by funding or feasibility — I need to defend it.”",
+    get: "A written defence that names where your N is well-supported and, honestly, where it’s thin — built on information-power and saturation.",
+    asks: "Your chosen N, the design, and your stopping criterion.",
+    stance: "We won’t rubber-stamp a weak N. You get the strongest honest case and the residual risk, stated.",
+    primary: { label: "Start this defence →", href: MAIL + "MethodVahti%20%E2%80%94%20justify%20a%20chosen%20N" },
+    alt: { label: "Sanity-check in the explorer", href: "/methodvahti/explore/" }
+  },
+  reviewer: {
+    voice: "“A reviewer said my sample is too small.”",
+    get: "A structured, evidence-graded rebuttal addressing the specific objection — grounded in the saturation / information-power literature, ready for your response letter.",
+    asks: "The reviewer’s exact comment, your design, and your N.",
+    stance: "Grounded in the methods literature — and it flags any point you genuinely should concede.",
+    primary: { label: "Draft the response →", href: MAIL + "MethodVahti%20%E2%80%94%20reviewer%20response" }
+  },
+  pilot: {
+    voice: "“I’ve coded some interviews — am I near saturation?”",
+    get: "A heterogeneity reading of your coded records, a saturation view, and a documented decision: continue, stop, or extend.",
+    asks: "Your coded records or pilot themes, and the design dimensions.",
+    stance: "Saturation is a judgment we help you evidence — not a number we declare.",
+    primary: { label: "See saturation in the explorer →", href: "/methodvahti/explore/" },
+    alt: { label: "Run it on your records", href: MAIL + "MethodVahti%20%E2%80%94%20interpret%20pilot%20data" }
+  },
+  wording: {
+    voice: "“I need COREQ/SRQR methods text I can submit.”",
+    get: "Submission-ready methods wording mapped to COREQ (32 items) and SRQR, with every claim’s epistemic status marked.",
+    asks: "Your design details and which document — ethics, protocol, or manuscript.",
+    stance: "Wording you can stand behind, with an evidence-graded audit trail attached.",
+    primary: { label: "Generate the wording →", href: MAIL + "MethodVahti%20%E2%80%94%20methods%20wording" }
+  }
+};
+var panel = document.getElementById("sitpanel");
+function render(key){
+  var s = SITS[key]; if(!s || !panel) return;
+  var cta = '<a class="btn primary" href="' + s.primary.href + '">' + s.primary.label + '</a>';
+  if(s.alt) cta += '<a class="btn ghost" href="' + s.alt.href + '">' + s.alt.label + '</a>';
+  panel.innerHTML =
+    '<p class="pv">' + s.voice + '</p>' +
+    '<dl><dt>You get</dt><dd>' + s.get + '</dd>' +
+    '<dt>It asks</dt><dd>' + s.asks + '</dd>' +
+    '<dt>Our stance</dt><dd>' + s.stance + '</dd></dl>' +
+    '<div class="pcta">' + cta + '</div>';
+}
+var routes = document.querySelectorAll(".route");
+routes.forEach(function(btn){
+  btn.addEventListener("click", function(){
+    routes.forEach(function(b){ b.setAttribute("aria-pressed", b === btn ? "true" : "false"); });
+    render(btn.dataset.sit);
+  });
+});
+render("plan");
+</script>
 </body>
 </html>
