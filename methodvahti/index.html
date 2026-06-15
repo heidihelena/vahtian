@@ -128,8 +128,8 @@
       into a manuscript. It never hands you one number and calls it the truth —
       <em>you</em> decide N; the tool documents the decision.</p>
     <div class="cta">
-      <a class="btn primary" href="#access">Try the beta</a>
-      <a class="btn ghost" href="/methodvahti/explore/">Explore the models →</a>
+      <a class="btn primary" href="#start">Get started — free</a>
+      <a class="btn ghost" href="/methodvahti/explore/">Open the explorer →</a>
       <a class="btn ghost" href="#how">How it works</a>
     </div>
     <div class="badges" aria-label="Evidence basis — every claim is graded">
@@ -195,6 +195,27 @@
     </table>
   </section>
 
+  <section id="start">
+    <h2>Start now — free <span class="sub">Two working entry points. No account, nothing uploaded.</span></h2>
+    <ul class="feat">
+      <li><b>Open the explorer.</b> Move the design parameters and watch the three sample-size models, a stability tornado, and a Monte-Carlo saturation curve respond — entirely in your browser.
+        <br><a class="btn ghost" style="margin-top:9px" href="/methodvahti/explore/">Open the explorer →</a></li>
+      <li><b>Run the open-source core locally.</b> The Apache-2.0 heterogeneity score + three-model optimisation, with the COREQ/SRQR PDF generator.</li>
+    </ul>
+    <pre><span class="c"># install the open-source core (Apache-2.0)</span>
+pip install "methodvahti[pdf] @ git+https://github.com/heidihelena/vahtian#subdirectory=methodvahti"
+
+<span class="c"># score heterogeneity → optimise N → build the methods PDF</span>
+from methodvahti_pdf import optimise_n, build
+opt = optimise_n({"heterogeneity": 0.35, "depth": "explanatory", "specificity": 0.65})
+build({"report_id": "MV-2026-001", "optimisation": opt,
+       "research_question": "...", "chosen_n": opt["optimal_n"]},
+      "methodvahti-report.pdf")</pre>
+    <p class="note">The <b>guided</b> elicit → confirm → PDF workflow (the Claude Code skill) is in private
+      beta — <a href="mailto:hello@vahtian.com?subject=MethodVahti%20beta%20access">email hello@vahtian.com</a>
+      with a line about your study to join. Pricing &amp; licensing below.</p>
+  </section>
+
   <section id="access">
     <h2>Access <span class="sub">Free for individuals during beta — not free forever, and not free for institutions.</span></h2>
     <div class="tiers">
@@ -207,7 +228,8 @@
           <li>Unlimited iterations on your own projects</li>
           <li>Beta users keep beta terms for the project they start under it</li>
         </ul>
-        <p style="margin:0;color:var(--muted);font-size:13px">Individual pricing arrives at 1.0. Beta is the time to use it free and tell us what's wrong with it.</p>
+        <p style="margin:0 0 12px;color:var(--muted);font-size:13px">Individual pricing arrives at 1.0. Beta is the time to use it free and tell us what's wrong with it.</p>
+        <a class="btn primary" href="#start">Get started →</a>
       </div>
       <div class="tier">
         <span class="ptag inst">project licence</span>
@@ -221,9 +243,9 @@
         <a class="btn ghost" href="mailto:hello@vahtian.com?subject=MethodVahti%20institutional%20licence">Talk to us →</a>
       </div>
     </div>
-    <p class="note" style="margin-top:16px">Want into the individual beta?
-      <a href="mailto:hello@vahtian.com?subject=MethodVahti%20beta%20access">Email hello@vahtian.com</a>
-      and tell us about your study. The <b>Apache-2.0</b> heterogeneity core is open source either way.</p>
+    <p class="note" style="margin-top:16px">Individuals can <a href="/methodvahti/explore/">use the explorer</a>
+      and the <b>Apache-2.0</b> open-source core <a href="#start">right now</a>, free. The institutional
+      project licence and the guided PDF beta are how the work gets funded.</p>
   </section>
 
   <section>
