@@ -41,9 +41,9 @@ function markTile(glyph, x, y, size) {
 const CARDS = [
   {
     name: 'vahtian',
-    kicker: 'CITATION-INTEGRITY INFRASTRUCTURE',
-    title: ['Auditable citation', 'integrity, at', 'publication scale.'],
-    sub: ['Blinded human → AI → adjudication, with a', 'hash-chained audit trail. Free and local-first.'],
+    kicker: 'RESEARCH CITATION INTEGRITY',
+    title: ['Does the evidence', 'support the claim?'],
+    sub: ['Blinded human → AI → adjudication,', 'recorded in a hash-chained audit trail.'],
   },
   {
     name: 'citevahti',
