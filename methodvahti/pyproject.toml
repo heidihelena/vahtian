@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools>=68"]
+requires = ["setuptools>=77"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -8,12 +8,12 @@ version = "0.3.0"
 description = "MethodVahti — qualitative heterogeneity scoring for sample size optimisation (EpiNet toolkit / Vahtian)"
 readme = "README.md"
 requires-python = ">=3.9"
-license = { text = "MIT" }
+license = "Apache-2.0"
+license-files = ["LICENSE"]
 authors = [{ name = "Vahtian", email = "hello@vahtian.com" }]
 keywords = ["qualitative", "research", "heterogeneity", "sample-size", "COREQ", "SRQR", "methods"]
 classifiers = [
     "Programming Language :: Python :: 3",
-    "License :: OSI Approved :: MIT License",
     "Intended Audience :: Science/Research",
     "Topic :: Scientific/Engineering",
 ]

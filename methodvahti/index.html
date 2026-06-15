@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MethodVahti — justify your qualitative sample size, honestly</title>
+  <meta name="description" content="MethodVahti turns qualitative research-design parameters into a COREQ/SRQR-compatible methods PDF: three sample-size models, a hierarchical heterogeneity score, and an evidence-graded audit trail. Free beta for individuals; project licence for institutions.">
+  <meta name="theme-color" content="#2D2440">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="canonical" href="https://vahtian.com/methodvahti/">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://vahtian.com/methodvahti/">
+  <meta property="og:title" content="MethodVahti — justify your qualitative sample size, honestly">
+  <meta property="og:description" content="From research-design parameters to a COREQ/SRQR-compatible methods PDF: three sample-size models and an evidence-graded heterogeneity score. A product of Vahtian.">
+  <meta property="og:image" content="https://vahtian.com/brand/cards/methodvahti-card.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="MethodVahti — justify your qualitative sample size; a product of Vahtian">
+  <meta property="og:site_name" content="Vahtian">
+  <meta name="twitter:card" content="summary_large_image">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "MethodVahti",
+    "url": "https://vahtian.com/methodvahti/",
+    "description": "Qualitative research decision support: synthesises three sample-size models, runs a hierarchical heterogeneity score, and generates a COREQ/SRQR-compatible methods PDF with an evidence-graded audit trail.",
+    "applicationCategory": "Research software",
+    "operatingSystem": "macOS, Linux, Windows",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "EUR", "description": "Free beta for individual researchers; project licence for institutions." },
+    "license": "https://www.apache.org/licenses/LICENSE-2.0",
+    "sameAs": "https://github.com/heidihelena/epinet",
+    "publisher": {
+      "@type": "Organization",
+      "name": "Vahtian",
+      "url": "https://vahtian.com/"
+    }
+  }
+  </script>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232D2440'/%3E%3Cg fill='none' stroke='%235566B5' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 9 H9 V23 H12'/%3E%3Cpath d='M20 9 H23 V23 H20'/%3E%3C/g%3E%3Cg fill='%23C5B8E8'%3E%3Ccircle cx='14' cy='14' r='1.5'/%3E%3Ccircle cx='18' cy='14' r='1.5'/%3E%3Ccircle cx='14' cy='18' r='1.5'/%3E%3Ccircle cx='18' cy='18' r='1.5'/%3E%3C/g%3E%3C/svg%3E">
+  <style>
+    :root{--navy:#2D2440;--violet:#8B6FC9;--lilac:#C5B8E8;--indigo:#5566B5;--amber:#C98A00;--teal:#1E9E8A;--rose:#C24D7E;
+          --ink:#1c1830;--muted:#5b5570;--bg:#faf9fc;--card:#fff;--line:#e7e3f0;}
+    *{box-sizing:border-box}
+    body{margin:0;font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,ui-sans-serif,system-ui,sans-serif;
+         color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased}
+    a{color:var(--violet)}
+    code,kbd{font:13px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace}
+    .wrap{max-width:780px;margin:0 auto;padding:0 22px}
+    header{padding:26px 0 6px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+    .brand{display:flex;align-items:center;gap:11px;font-weight:700;font-size:18px}
+    .mark{width:32px;height:32px;flex:0 0 32px}
+    .up{font-size:13px;color:var(--muted);text-decoration:none}
+    .hero{padding:46px 0 12px}
+    .kicker{font:600 13px/1 ui-monospace,monospace;color:var(--indigo);text-transform:uppercase;letter-spacing:.08em;margin:0 0 14px}
+    h1{font-size:clamp(30px,6vw,46px);line-height:1.1;letter-spacing:-.02em;margin:0 0 16px}
+    .lede{font-size:clamp(17px,2.6vw,20px);color:#3a3450;margin:0 0 24px;max-width:62ch}
+    .cta{display:flex;flex-wrap:wrap;gap:12px}
+    .btn{display:inline-block;padding:11px 18px;border-radius:9px;font-weight:600;text-decoration:none;font-size:15px}
+    .btn.primary{background:var(--navy);color:#fff}
+    .btn.ghost{border:1px solid var(--line);color:var(--ink);background:var(--card)}
+    .badges{display:flex;flex-wrap:wrap;gap:8px;margin:28px 0 4px}
+    .badge{font:600 12px/1 ui-monospace,monospace;padding:6px 10px;border-radius:7px;border:1px solid var(--line);background:var(--card);color:#3a3450}
+    .badge b{color:var(--ink)}
+    section{padding:32px 0;border-top:1px solid var(--line);margin-top:32px}
+    h2{font-size:20px;margin:0 0 14px}
+    h2 .sub{display:block;font-size:14px;font-weight:400;color:var(--muted);margin-top:4px}
+    ol.flow{margin:0;padding-left:20px;display:grid;gap:9px;color:#322c47}
+    ol.flow b{color:var(--ink)}
+    ul.feat{list-style:none;padding:0;margin:0;display:grid;gap:13px}
+    ul.feat li{padding-left:24px;position:relative;color:#322c47}
+    ul.feat li::before{content:"";position:absolute;left:0;top:.55em;width:9px;height:9px;border-radius:50%;background:var(--indigo)}
+    ul.feat b{color:var(--ink)}
+    .scores{display:grid;gap:13px;grid-template-columns:1fr 1fr 1fr}
+    @media(max-width:640px){.scores{grid-template-columns:1fr}.tiers{grid-template-columns:1fr!important}}
+    .scard{background:var(--card);border:1px solid var(--line);border-radius:11px;padding:15px}
+    .scard .role{font:600 11px/1 ui-monospace,monospace;text-transform:uppercase;letter-spacing:.06em;color:var(--indigo);margin:0 0 7px}
+    .scard.diag .role{color:var(--muted)}
+    .scard h3{margin:0 0 6px;font-size:15px}
+    .scard p{margin:0;color:#3a3450;font-size:13.5px}
+    .tbl{width:100%;border-collapse:collapse;font-size:14px}
+    .tbl th,.tbl td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+    .tbl th{color:var(--muted);font-weight:600;font-size:12.5px;text-transform:uppercase;letter-spacing:.04em}
+    .tbl td.std{color:var(--muted);font:12.5px/1.5 ui-monospace,monospace;white-space:nowrap}
+    .tiers{display:grid;gap:14px;grid-template-columns:1fr 1fr}
+    .tier{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px}
+    .tier.beta{border-color:var(--indigo);box-shadow:0 0 0 1px var(--indigo) inset}
+    .tier .ptag{font:600 11px/1 ui-monospace,monospace;padding:5px 9px;border-radius:6px;display:inline-block;margin-bottom:10px}
+    .ptag.free{background:#D8F4ED;border:1px solid var(--teal);color:#08544A}
+    .ptag.inst{background:#ECE3FF;border:1px solid var(--violet);color:#432C7A}
+    .tier h3{margin:0 0 4px;font-size:17px}
+    .tier .price{font-size:15px;color:var(--ink);font-weight:600;margin:0 0 10px}
+    .tier ul{margin:0 0 14px;padding-left:18px;color:#3a3450;font-size:14px;display:grid;gap:6px}
+    pre{background:var(--navy);color:#e8e3f5;border-radius:10px;padding:14px 16px;overflow:auto;font:13px/1.6 ui-monospace,monospace}
+    pre .c{color:#9b93b8}
+    .note{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--indigo);border-radius:9px;padding:13px 15px;color:#3a3450;font-size:14.5px}
+    .note.warn{border-left-color:var(--amber)}
+    footer{padding:28px 0 50px;color:var(--muted);font-size:13px;border-top:1px solid var(--line);margin-top:32px}
+    footer a{color:var(--muted)}
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="brand">
+      <svg class="mark" viewBox="0 0 32 32" aria-hidden="true">
+        <rect width="32" height="32" rx="7" fill="#2D2440"/>
+        <g fill="none" stroke="#5566B5" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 9 H9 V23 H12"/><path d="M20 9 H23 V23 H20"/></g>
+        <g fill="#C5B8E8">
+          <circle cx="14" cy="14" r="1.5"/><circle cx="18" cy="14" r="1.5"/>
+          <circle cx="14" cy="18" r="1.5"/><circle cx="18" cy="18" r="1.5"/></g>
+      </svg>
+      <span>MethodVahti</span>
+    </div>
+    <a class="up" href="/">← Vahtian</a>
+  </header>
+
+  <div class="hero">
+    <p class="kicker">A product of Vahtian</p>
+    <h1>Justify your sample size — honestly.</h1>
+    <p class="lede">MethodVahti turns your qualitative research-design parameters into a
+      <b>COREQ/SRQR-compatible methods PDF</b>: three independent sample-size models, a
+      hierarchical heterogeneity score, and an evidence-graded audit trail you can paste
+      into a manuscript. It never hands you one number and calls it the truth —
+      <em>you</em> decide N; the tool documents the decision.</p>
+    <div class="cta">
+      <a class="btn primary" href="#access">Try the beta</a>
+      <a class="btn ghost" href="#how">How it works</a>
+    </div>
+    <div class="badges" aria-label="Evidence basis — every claim is graded">
+      <span class="badge"><b>◆</b> Consensus</span>
+      <span class="badge"><b>◇</b> Contested</span>
+      <span class="badge"><b>○</b> Author hypothesis</span>
+      <span class="badge"><b>◌</b> Opinion range</span>
+    </div>
+  </div>
+
+  <section id="how">
+    <h2>How it works <span class="sub">Six steps. You confirm N before any PDF is generated.</span></h2>
+    <ol class="flow">
+      <li><b>Elicit.</b> Research question, orientation, collection &amp; analysis strategy, reflexivity — the COREQ items, captured once.</li>
+      <li><b>Heterogeneity.</b> If you have coded pilot records, <code>qualitative_heterogeneity_score()</code> estimates how varied your design is across eight dimensions.</li>
+      <li><b>Optimise.</b> Three models — linear saturation, network complexity, fuzzy-set QCA — each propose an N, adjusted for information power.</li>
+      <li><b>Confirm.</b> You see all three estimates and a stability range, then state your chosen N and stopping criterion <em>in your own words</em>.</li>
+      <li><b>Generate.</b> A COREQ/SRQR-compatible PDF: study profile, optimisation, sensitivity, limitations, the full 32-item checklist, and the audit record.</li>
+      <li><b>Submit.</b> The PDF is the deliverable — a defensible answer when a reviewer asks why your sample is the size it is.</li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>Three scores, never one <span class="sub">Qualitative heterogeneity is not one natural number. We don't pretend it is.</span></h2>
+    <div class="scores">
+      <div class="scard">
+        <p class="role">Primary ○</p>
+        <h3>Hierarchical score</h3>
+        <p>Heterogeneity estimated within each dimension, then aggregated across them. This is the number that feeds sample-size optimisation.</p>
+      </div>
+      <div class="scard diag">
+        <p class="role">Diagnostic ◆</p>
+        <h3>Marginal map</h3>
+        <p>A descriptive, per-dimension breakdown — which dimensions actually carry the variation, as a plain unweighted mean.</p>
+      </div>
+      <div class="scard diag">
+        <p class="role">Diagnostic ○</p>
+        <h3>Sparse-interaction stress</h3>
+        <p>The full cross-tabulation with a sparsity penalty, so data gaps are <em>visible</em> — never silently driving the result.</p>
+      </div>
+    </div>
+    <p class="note" style="margin-top:16px"><b>Severity weight ≠ observed rate.</b> An outcome weight of <code>0.90</code>
+      means near-maximum <em>amplification severity</em>, not "90% disagreement". Defaults are author
+      hypotheses; teams audit them with pilot data, and every change is timestamped in the report.</p>
+  </section>
+
+  <section>
+    <h2>What the PDF documents</h2>
+    <table class="tbl">
+      <thead><tr><th>Section</th><th>Standards covered</th></tr></thead>
+      <tbody>
+        <tr><td>Study profile</td><td class="std">SRQR 1–6 · COREQ 1–9</td></tr>
+        <tr><td>Detectable difference + optimisation</td><td class="std">SRQR 13 · COREQ 17</td></tr>
+        <tr><td>Three-model sample-size comparison</td><td class="std">COREQ 17</td></tr>
+        <tr><td>Fuzzy-set calibration sensitivity</td><td class="std">SRQR 5</td></tr>
+        <tr><td>Epistemic limitations</td><td class="std">SRQR 20 · COREQ 31–32</td></tr>
+        <tr><td>COREQ 32-item checklist</td><td class="std">COREQ complete</td></tr>
+        <tr><td>Citation + audit record</td><td class="std">Reproducibility</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="access">
+    <h2>Access <span class="sub">Free for individuals during beta — not free forever, and not free for institutions.</span></h2>
+    <div class="tiers">
+      <div class="tier beta">
+        <span class="ptag free">free beta</span>
+        <h3>Individual researchers</h3>
+        <p class="price">Free while in beta</p>
+        <ul>
+          <li>The full elicit → optimise → PDF workflow</li>
+          <li>Unlimited iterations on your own projects</li>
+          <li>Beta users keep beta terms for the project they start under it</li>
+        </ul>
+        <p style="margin:0;color:var(--muted);font-size:13px">Individual pricing arrives at 1.0. Beta is the time to use it free and tell us what's wrong with it.</p>
+      </div>
+      <div class="tier">
+        <span class="ptag inst">project licence</span>
+        <h3>Institutions &amp; teams</h3>
+        <p class="price">Paid — per research project</p>
+        <ul>
+          <li>Departments, doctoral schools, research groups</li>
+          <li>Team-wide licence, unlimited iterations</li>
+          <li>Priority support for methods reviews</li>
+        </ul>
+        <a class="btn ghost" href="mailto:hello@vahtian.com?subject=MethodVahti%20institutional%20licence">Talk to us →</a>
+      </div>
+    </div>
+    <p class="note" style="margin-top:16px">Want into the individual beta?
+      <a href="mailto:hello@vahtian.com?subject=MethodVahti%20beta%20access">Email hello@vahtian.com</a>
+      and tell us about your study. The <b>Apache-2.0</b> heterogeneity core is open source either way.</p>
+  </section>
+
+  <section>
+    <h2>Open validation, in progress</h2>
+    <p style="margin:0 0 14px;color:#322c47">We don't hide that the primary heterogeneity score is an
+      <b>author hypothesis (○)</b> — Vahtian's construction, not externally validated. We are testing it
+      against open-access qualitative datasets and published meta-syntheses, and we will publish the
+      validation protocol and results openly. Until that work lands, treat the score as
+      <b>decision support, not ground truth</b>.</p>
+    <p class="note warn">Honest limits: MethodVahti does not infer causality, does not validate study
+      quality, and does not replace researcher judgment. The number is a synthesis you defend — not a verdict it issues.</p>
+  </section>
+
+  <footer>
+    <p>© 2026 Vahtian · MethodVahti · Apache-2.0 core ·
+      <a href="https://github.com/heidihelena/epinet">source</a> · <a href="/">vahtian.com</a></p>
+    <p>Part of the EpiNet toolkit. Records every methodological decision with an evidence-graded audit trail; it does not assert truth.</p>
+  </footer>
+
+</div>
+</body>
+</html>

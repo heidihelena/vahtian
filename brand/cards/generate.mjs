@@ -25,6 +25,7 @@ const GLYPHS = {
   studyvahti: `<g fill="none" stroke="${VIOLET}" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14.2 10.5 H17.8"/><path d="M14.6 10.7 V13.8 L12.3 19.4 L19.7 19.4 L17.4 13.8 V10.7"/><path d="M13.5 17.1 H18.5"/></g>`,
   dictvahti: `<g fill="none" stroke="${VIOLET}" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M13 13 H19"/><path d="M13 16 H19"/><path d="M13 19 H16"/></g>`,
   'matchvahti-lite': `<circle cx="13.9" cy="16" r="1.9" fill="${VIOLET}"/><circle cx="18.1" cy="16" r="1.9" fill="${VIOLET}"/><path d="M13.9 16 H18.1" stroke="${VIOLET}" stroke-width="2.3" stroke-linecap="round"/>`,
+  methodvahti: `<g fill="${VIOLET}"><circle cx="14" cy="14" r="1.5"/><circle cx="18" cy="14" r="1.5"/><circle cx="14" cy="18" r="1.5"/><circle cx="18" cy="18" r="1.5"/></g>`,
 };
 
 // Light tile (pale ground, navy brackets) — reads as the mark *on* the navy card.
@@ -67,6 +68,12 @@ const CARDS = [
     kicker: 'MATCHVAHTI-LITE — FREE CITATION CAPTURE',
     title: ['Capture the', 'citable sentence.'],
     sub: ['Read a PubMed abstract · tap the sentence ·', 'export to Zotero. Nothing is uploaded.'],
+  },
+  {
+    name: 'methodvahti',
+    kicker: 'METHODVAHTI — FOR QUALITATIVE RESEARCHERS',
+    title: ['Justify your', 'sample size,', 'honestly.'],
+    sub: ['Three sample-size models + a heterogeneity score,', 'into a COREQ/SRQR methods PDF. Free beta.'],
   },
 ];
 
