@@ -136,6 +136,21 @@ The PDF layer needs reportlab (the only dependency, kept out of the core):
 pip install "methodvahti[pdf]"      # or: pip install "reportlab>=4"
 ```
 
+The PDF embeds **Liberation Sans/Mono** (bundled in `assets/fonts/`, SIL OFL) — the
+same system-stack approximation the brand's social-card generator uses — so the
+report carries its own fonts and needs nothing installed on the reader's machine.
+If the bundled fonts are ever absent it falls back to the PDF base-14 (Helvetica).
+
+## Interactive explorer
+
+A browser-only visualisation of these exact models lives at
+[vahtian.com/methodvahti/explore](https://vahtian.com/methodvahti/explore/)
+(`methodvahti/explore/index.html` in this repo). It ports `optimise_n` to
+JavaScript and lets researchers *see* how their design choices move N — a
+three-model comparison with a stability band, a sensitivity tornado, an
+N-vs-heterogeneity sweep, and a Monte-Carlo saturation curve. Self-contained,
+no external requests, nothing uploaded.
+
 ## What this module does NOT do
 
 - Does not infer causality

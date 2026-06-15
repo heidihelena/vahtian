@@ -253,6 +253,61 @@ def _hex(s: str):
     return HexColor(s)
 
 
+# ── Fonts ─────────────────────────────────────────────────────────────────────
+#
+# STYLE.md: fonts are local-only. The web pages use the system stack; the brand's
+# own card generator approximates that stack with **Liberation Sans/Mono**. The
+# PDF does the same — it embeds the bundled Liberation TTFs (SIL OFL, see
+# assets/fonts/LICENSE-OFL.txt) so the report carries its own fonts and depends
+# on nothing installed on the reader's machine. If the bundled files are ever
+# missing, we fall back to the PDF base-14 (Helvetica) — zero-asset, zero-request.
+
+import os
+
+_FONT_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "assets", "fonts")
+_FONTS = {  # logical name → (filename, reportlab base-14 fallback)
+    "MV-Sans":        ("LiberationSans-Regular.ttf", "Helvetica"),
+    "MV-Sans-Bold":   ("LiberationSans-Bold.ttf",    "Helvetica-Bold"),
+    "MV-Sans-Italic": ("LiberationSans-Italic.ttf",  "Helvetica-Oblique"),
+    "MV-Mono":        ("LiberationMono-Regular.ttf",  "Courier"),
+}
+_FONT_REGISTERED = False
+
+
+def _font(name: str) -> str:
+    """Resolve a logical font name to a registered embedded font, or its
+    base-14 fallback if the bundled TTF is unavailable. Registration is lazy
+    and idempotent."""
+    global _FONT_REGISTERED
+    from reportlab.pdfbase import pdfmetrics
+    if not _FONT_REGISTERED:
+        from reportlab.pdfbase.ttfonts import TTFont
+        for logical, (fname, _fb) in _FONTS.items():
+            path = os.path.join(_FONT_DIR, fname)
+            try:
+                pdfmetrics.registerFont(TTFont(logical, path))
+            except Exception:
+                pass  # leave unregistered → _resolve() returns the base-14 fallback
+
+        def _resolve(n):
+            return n if n in pdfmetrics.getRegisteredFontNames() \
+                else _FONTS.get(n, ("", "Helvetica"))[1]
+
+        # Register a family so <b>/<i> inline tags map to the Liberation
+        # variants instead of falling back to Helvetica/Times.
+        pdfmetrics.registerFontFamily(
+            _resolve("MV-Sans"),
+            normal=_resolve("MV-Sans"),
+            bold=_resolve("MV-Sans-Bold"),
+            italic=_resolve("MV-Sans-Italic"),
+            boldItalic=_resolve("MV-Sans-Bold"),
+        )
+        _FONT_REGISTERED = True
+    if name in pdfmetrics.getRegisteredFontNames():
+        return name
+    return _FONTS.get(name, ("", "Helvetica"))[1]
+
+
 def build(report: dict, out_path: str) -> str:
     """
     Render the COREQ/SRQR-compatible MethodVahti PDF.
@@ -283,25 +338,25 @@ def build(report: dict, out_path: str) -> str:
         return _san(v) if v not in (None, "", []) else default
 
     # ── styles ────────────────────────────────────────────────────────────────
-    H1 = ParagraphStyle("H1", fontName="Helvetica-Bold", fontSize=15,
+    H1 = ParagraphStyle("H1", fontName=_font("MV-Sans-Bold"), fontSize=15,
                         textColor=_hex(NAVY), spaceBefore=2, spaceAfter=2, leading=18)
-    KICK = ParagraphStyle("KICK", fontName="Helvetica-Bold", fontSize=8.5,
+    KICK = ParagraphStyle("KICK", fontName=_font("MV-Sans-Bold"), fontSize=8.5,
                         textColor=_hex(INDIGO), spaceAfter=6, leading=11, tracking=1)
-    H2 = ParagraphStyle("H2", fontName="Helvetica-Bold", fontSize=12.5,
+    H2 = ParagraphStyle("H2", fontName=_font("MV-Sans-Bold"), fontSize=12.5,
                         textColor=_hex(NAVY), spaceBefore=4, spaceAfter=3, leading=15)
-    STD = ParagraphStyle("STD", fontName="Helvetica-Oblique", fontSize=8,
+    STD = ParagraphStyle("STD", fontName=_font("MV-Sans-Italic"), fontSize=8,
                         textColor=_hex(MUTED), spaceAfter=8, leading=10)
-    BODY = ParagraphStyle("BODY", fontName="Helvetica", fontSize=9.5,
+    BODY = ParagraphStyle("BODY", fontName=_font("MV-Sans"), fontSize=9.5,
                         textColor=_hex(INK), leading=14, alignment=TA_LEFT, spaceAfter=4)
-    LABEL = ParagraphStyle("LABEL", fontName="Helvetica-Bold", fontSize=8.5,
+    LABEL = ParagraphStyle("LABEL", fontName=_font("MV-Sans-Bold"), fontSize=8.5,
                         textColor=_hex(MUTED), leading=12)
-    CELL = ParagraphStyle("CELL", fontName="Helvetica", fontSize=9, leading=13,
+    CELL = ParagraphStyle("CELL", fontName=_font("MV-Sans"), fontSize=9, leading=13,
                         textColor=_hex(INK))
-    CELLB = ParagraphStyle("CELLB", fontName="Helvetica-Bold", fontSize=9, leading=13,
+    CELLB = ParagraphStyle("CELLB", fontName=_font("MV-Sans-Bold"), fontSize=9, leading=13,
                         textColor=_hex(INK))
-    BIG = ParagraphStyle("BIG", fontName="Helvetica-Bold", fontSize=30,
+    BIG = ParagraphStyle("BIG", fontName=_font("MV-Sans-Bold"), fontSize=30,
                         textColor=_hex(VIOLET), leading=32)
-    NOTE = ParagraphStyle("NOTE", fontName="Helvetica", fontSize=8.5, leading=12,
+    NOTE = ParagraphStyle("NOTE", fontName=_font("MV-Sans"), fontSize=8.5, leading=12,
                         textColor=_hex(MUTED), spaceBefore=2, spaceAfter=2)
 
     story = []
@@ -551,22 +606,22 @@ def build(report: dict, out_path: str) -> str:
         canvas.restoreState()
         # band text
         canvas.setFillColor(_hex(CARD))
-        canvas.setFont("Helvetica-Bold", 11)
+        canvas.setFont(_font("MV-Sans-Bold"),11)
         canvas.drawString(26 * mm, my - 1 * mm if doc.page == 1 else my - 1.5 * mm, "MethodVahti")
         if doc.page == 1:
-            canvas.setFont("Helvetica", 9)
+            canvas.setFont(_font("MV-Sans"),9)
             canvas.setFillColor(_hex(LILAC))
             canvas.drawString(26 * mm, my - 6 * mm, "Qualitative research decision support · a product of Vahtian")
-            canvas.setFont("Helvetica-Bold", 16)
+            canvas.setFont(_font("MV-Sans-Bold"),16)
             canvas.setFillColor(_hex(CARD))
             canvas.drawString(18 * mm, Hpt - band_h - 12 * mm, study_title[:64])
-            canvas.setFont("Helvetica", 9)
+            canvas.setFont(_font("MV-Sans"),9)
             canvas.setFillColor(_hex(MUTED))
             canvas.drawString(18 * mm, Hpt - band_h - 18 * mm,
                               f"{rid} · {today} · {g('research_group','')}")
         # footer
         canvas.setFillColor(_hex(MUTED))
-        canvas.setFont("Helvetica", 7.5)
+        canvas.setFont(_font("MV-Sans"),7.5)
         canvas.drawString(18 * mm, 10 * mm,
                           "© 2026 Vahtian · MethodVahti · Apache-2.0 core · vahtian.com/methodvahti")
         canvas.drawRightString(W - 18 * mm, 10 * mm, f"Page {doc.page}")
