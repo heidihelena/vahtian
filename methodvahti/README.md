@@ -87,16 +87,53 @@ H = result.primary_score["value"]   # → feed into epinet_estimate()
 
 ## Feeding into sample size optimisation
 
-```python
-# H flows into the MethodVahti optimisation layer
-from methodvahti_pdf import optimise_n
+`H` flows into the optimisation + reporting layer (`methodvahti_pdf`), which
+synthesises **three** sample-size models — linear saturation, network
+complexity, fuzzy-set QCA — and adjusts for information power. The three
+estimates are always returned alongside the synthesis: the number is decision
+support, never a verdict.
 
-H = result.primary_score["value"]
+```python
+from methodvahti_pdf import optimise_n, build
+
 opt = optimise_n({
-    "heterogeneity": H,
-    "depth": "explanatory",
-    ...
+    "heterogeneity": result.primary_score["value"],
+    "theme_prevalence": 0.30,
+    "depth": "explanatory",          # descriptive | explanatory | theoretical
+    "specificity": 0.65,
+    "theory_strength": 0.50,
+    "data_quality": 0.75,
+    "power": 0.80,
+    "mixed_methods": True,
+    "min_detectable_diff": 0.20,
 })
+opt["optimal_n"]   # synthesis;  opt["models"] holds all three;  opt["stable"]
+```
+
+## The COREQ/SRQR PDF report
+
+`build()` renders a brand-styled, peer-review-ready PDF — study profile, the
+three-model comparison, fuzzy-set sensitivity, epistemic limitations, the full
+COREQ 32-item checklist, and a citation + audit record. **The researcher
+confirms N before the PDF is generated.**
+
+```python
+build({
+    "report_id": "MV-2026-001",
+    "study_title": "...",
+    "research_question": "...", "orientation": "IPA",
+    "optimisation": opt,             # or "optimisation_params": { ... }
+    "chosen_n": 18,                  # the researcher's decision
+    "chosen_rationale": "...",       # in their own words
+    "stopping_criterion": "...",
+    # ...see examples/methodvahti_pdf_example.py for the full schema
+}, "methodvahti-report-2026-001.pdf")
+```
+
+The PDF layer needs reportlab (the only dependency, kept out of the core):
+
+```bash
+pip install "methodvahti[pdf]"      # or: pip install "reportlab>=4"
 ```
 
 ## What this module does NOT do
@@ -110,8 +147,10 @@ opt = optimise_n({
 ## Tests
 
 ```bash
-python -m pytest tests/test_heterogeneity.py -v
-# 29 tests, fully offline
+python -m pytest tests/ -v
+# heterogeneity: 29 offline tests
+# optimise_n:    deterministic tests, fully offline
+# build():       1 PDF smoke test (auto-skipped if reportlab is absent)
 ```
 
 ## Citation

@@ -24,7 +24,11 @@ Homepage = "https://vahtian.com/methodvahti"
 Repository = "https://github.com/heidihelena/epinet"
 
 [project.optional-dependencies]
-test = ["pytest>=7"]
+pdf = ["reportlab>=4"]
+test = ["pytest>=7", "reportlab>=4"]
+
+[tool.setuptools]
+py-modules = ["methodvahti_pdf"]
 
 [tool.setuptools.packages.find]
 where = ["."]
