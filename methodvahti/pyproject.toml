@@ -30,6 +30,9 @@ test = ["pytest>=7", "reportlab>=4"]
 [tool.setuptools]
 py-modules = ["methodvahti_pdf"]
 
+[tool.setuptools.package-data]
+methodvahti = ["assets/fonts/*.ttf", "assets/fonts/LICENSE-OFL.txt"]
+
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["methodvahti*"]
