@@ -97,7 +97,12 @@ button.small{padding:5px 9px;font-size:12px}
 .scalebox.sq{height:259.2px}
 .scalebox .slide{transform:scale(.24);transform-origin:top left;border-radius:24px}
 .scalebox.sel{outline:3px solid var(--violet);outline-offset:4px}
-.scalebox .num{position:absolute;top:-2px;left:-30px;font:600 12px/1 ui-monospace,Menlo,monospace;color:var(--muted)}
+.scalebox .num{position:absolute;top:8px;right:8px;z-index:3;font:700 11px/1 ui-monospace,Menlo,monospace;
+  color:#fff;background:var(--violet);padding:3px 7px;border-radius:6px}
+/* overflow guard — content taller than the slide's safe area clips silently on export */
+.scalebox.over{outline:3px solid #C24D7E;outline-offset:4px}
+.scalebox .warn{position:absolute;top:8px;left:8px;z-index:3;font:700 11px/1 ui-monospace,Menlo,monospace;
+  color:#fff;background:#C24D7E;padding:3px 7px;border-radius:6px}
 .hint{font-size:12.5px;color:var(--muted);margin:8px 0 0}
 .hint code{font-family:ui-monospace,Menlo,monospace;background:#f2f0f7;padding:1px 5px;border-radius:4px}
 @media print{
@@ -156,16 +161,16 @@ button.small{padding:5px 9px;font-size:12px}
     <option value="quote">Quote</option>
     <option value="cta">CTA — closing slide</option>
   </select>
-  <label for="f-kicker">Kicker</label>
-  <input type="text" id="f-kicker">
-  <label for="f-title">Title</label>
-  <textarea id="f-title"></textarea>
-  <label for="f-body">Body</label>
-  <textarea id="f-body" rows="5"></textarea>
-  <label for="f-code">Code block</label>
-  <textarea id="f-code" class="code" rows="3"></textarea>
-  <label for="f-url">URL (CTA)</label>
-  <input type="text" id="f-url">
+  <div class="fld" id="fld-kicker"><label for="f-kicker">Kicker</label>
+  <input type="text" id="f-kicker"></div>
+  <div class="fld" id="fld-title"><label for="f-title">Title</label>
+  <textarea id="f-title"></textarea></div>
+  <div class="fld" id="fld-body"><label for="f-body">Body</label>
+  <textarea id="f-body" rows="5"></textarea></div>
+  <div class="fld" id="fld-code"><label for="f-code">Code block</label>
+  <textarea id="f-code" class="code" rows="3"></textarea></div>
+  <div class="fld" id="fld-url"><label for="f-url">URL (CTA)</label>
+  <input type="text" id="f-url"></div>
   <div class="row">
     <button class="small" id="addSlide">+ add</button>
     <button class="small" id="dupSlide">duplicate</button>
@@ -218,8 +223,8 @@ const GLYPHS = {
 const THEMES = {
   vahtian:{label:'Vahtian (company)',accent:'#8B6FC9'},
   citevahti:{label:'CiteVahti',accent:'#8B6FC9'},
-  studyvahti:{label:'StudyVahti',accent:'#7B8AD9'},
-  dictvahti:{label:'DictVahti',accent:'#7B8AD9'},
+  studyvahti:{label:'StudyVahti',accent:'#5566B5'},
+  dictvahti:{label:'DictVahti',accent:'#5566B5'},
   reviewvahti:{label:'ReviewVahti',accent:'#1E9E8A'},
   guidelinevahti:{label:'GuidelineVahti',accent:'#C98A00'},
   atlasvahti:{label:'AtlasVahti',accent:'#C24D7E'},
@@ -364,6 +369,31 @@ function render(){
   document.getElementById('pagesize').textContent =
     format==='1080x1080' ? '@page{size:1080px 1080px;margin:0}' : '@page{size:1080px 1350px;margin:0}';
   document.getElementById('selLabel').textContent = `${sel+1} of ${n}`;
+  flagOverflow();
+}
+// Flag any slide whose content exceeds its 1080×1350/1080 safe area — it will clip
+// silently on export (slides are overflow:hidden, centered). Measured pre-transform.
+function flagOverflow(){
+  for(const box of deckEl.querySelectorAll('.scalebox')){
+    const sl = box.querySelector('.slide'); if(!sl) continue;
+    if(sl.scrollHeight - sl.clientHeight > 2){
+      box.classList.add('over');
+      const w = document.createElement('span'); w.className = 'warn'; w.textContent = 'overflows';
+      box.appendChild(w);
+    }
+  }
+}
+// Show only the fields each slide type actually uses.
+const FIELD_VIS = {
+  cover:['kicker','title','body'], point:['kicker','title','body'],
+  code:['kicker','title','body','code'], quote:['title','body'], cta:['title','body','url'],
+};
+function applyTypeFields(type){
+  const vis = FIELD_VIS[type] || FIELD_VIS.point;
+  for(const k of ['kicker','title','body','code','url']){
+    const el = document.getElementById('fld-'+k);
+    if(el) el.style.display = vis.includes(k) ? '' : 'none';
+  }
 }
 deckEl.addEventListener('click', e=>{
   const box = e.target.closest('.scalebox');
@@ -376,11 +406,13 @@ const fields = [['stype','type'],['f-kicker','kicker'],['f-title','title'],['f-b
 function syncForm(){
   const s = deck.slides[sel]||{};
   for(const [id,key] of fields) F(id).value = s[key]||'';
+  applyTypeFields(s.type||'point');
 }
 for(const [id,key] of fields){
   F(id).addEventListener('input', ()=>{
     if(!deck.slides[sel]) return;
     deck.slides[sel][key] = F(id).value;
+    if(id==='stype') applyTypeFields(F(id).value);
     render();
   });
 }
