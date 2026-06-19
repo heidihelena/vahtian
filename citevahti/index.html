@@ -157,19 +157,22 @@
 
   <section id="start">
     <h2>Get started</h2>
-    <p class="note"><b>Public beta — local-first, single-user, PubMed-only.</b>
-      Now on <a href="https://pypi.org/project/citevahti/">PyPI</a>; VS Code Marketplace coming.</p>
-    <pre><span class="c"># 1. install from PyPI</span>
+    <p class="note"><b>Free beta — local-first.</b> Your manuscript never leaves your
+      device unless you choose to use an external AI model.</p>
+
+    <p style="font-weight:700;margin:18px 0 6px">No terminal — Claude Desktop</p>
+    <p>Download the CiteVahti extension for your computer from the
+      <a href="https://github.com/heidihelena/citevahti/releases/latest">latest release</a>,
+      double-click it, choose a CiteVahti folder, then ask Claude:
+      <em>“Run claim tests on my manuscript using CiteVahti.”</em>
+      Builds for Windows, Linux, and macOS (Apple Silicon — signed &amp; notarized).</p>
+
+    <p style="font-weight:700;margin:20px 0 6px">Prefer the terminal?</p>
+    <pre><span class="c"># install from PyPI</span>
 pip install "citevahti[mcp]"
 
-<span class="c"># 2. set up — connect Zotero with one paste, no hand-crafted keys</span>
-citevahti init
-citevahti connect-zotero
-
-<span class="c"># 3. start verifying claims</span>
-citevahti start
-
-<span class="c"># full guide: github.com/heidihelena/citevahti/blob/main/docs/QUICKSTART.md</span></pre>
+<span class="c"># open the local review panel — it names the next step for you</span>
+citevahti run</pre>
     <p style="margin-top:14px"><a class="btn ghost" href="https://github.com/heidihelena/citevahti/blob/main/docs/QUICKSTART.md">Read the Quickstart →</a></p>
   </section>
 
