@@ -98,9 +98,9 @@
   .row{display:flex;gap:10px;flex-wrap:wrap}
   .row .grow{flex:1;min-width:180px}
   .ctrls{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
-  .ctrl{display:flex;align-items:center;gap:7px;flex:1;min-width:160px}
+  .ctrl{display:flex;align-items:center;gap:7px;flex:1;min-width:0}
   .ctrl-lbl{font-size:11.5px;color:var(--muted);font-weight:600;flex:none}
-  select{flex:1;padding:9px 10px;border:1px solid var(--line);border-radius:9px;background:#fff;font:inherit;
+  select{flex:1;min-width:0;padding:9px 10px;border:1px solid var(--line);border-radius:9px;background:#fff;font:inherit;
     font-size:14px;color:var(--ink);cursor:pointer}
   select:focus{outline:2px solid var(--violet);outline-offset:1px;border-color:var(--violet)}
   button{font:inherit;font-size:15px;cursor:pointer;border:1px solid var(--navy);background:var(--navy);
@@ -142,6 +142,7 @@
   .s{display:inline;cursor:pointer;border-radius:5px;padding:1px 1px;
     transition:background .14s ease, box-shadow .14s ease;-webkit-tap-highlight-color:transparent}
   .s:hover{background:var(--lilac-soft)}
+  .s:focus-visible{outline:2px solid var(--violet);outline-offset:1px;background:var(--lilac-soft)}
   .s.sel{background:var(--lilac-soft);box-shadow:inset 0 -2px 0 var(--violet)}
   .s .num{display:none}
   .s.sel .num{display:inline-flex;align-items:center;justify-content:center;width:17px;height:17px;border-radius:50%;
@@ -173,7 +174,9 @@
     border-radius:8px;padding:3px 5px 3px 9px;font-size:12.5px;color:var(--ink)}
   .tag b{color:var(--violet);font-weight:650}
   .tag .x{cursor:pointer;color:var(--muted);font-weight:700;width:16px;height:16px;border-radius:50%;
-    display:inline-flex;align-items:center;justify-content:center;font-size:13px}
+    display:inline-flex;align-items:center;justify-content:center;font-size:13px;
+    padding:0;min-height:0;border:none;background:none;line-height:1}
+  .tag .x:focus-visible{outline:2px solid var(--violet);outline-offset:1px}
   .tag .x:hover{background:#fff;color:var(--rose)}
   .qtags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
   .qtag{border:1px solid var(--line);background:#fff;color:var(--muted);border-radius:999px;
@@ -192,10 +195,24 @@
   .sel-item textarea{flex:1;border:none;outline:none;resize:vertical;font:inherit;font-size:13.5px;line-height:1.45;
     color:var(--ink);background:transparent;min-height:20px;padding:0}
   .sel-item .rm{flex:none;cursor:pointer;color:var(--muted);font-weight:700;width:20px;height:20px;border-radius:50%;
-    display:flex;align-items:center;justify-content:center;font-size:14px;border:1px solid var(--line);background:#fff}
+    display:flex;align-items:center;justify-content:center;font-size:14px;border:1px solid var(--line);background:#fff;
+    padding:0;min-height:0;line-height:1}
+  .sel-item .rm:focus-visible{outline:2px solid var(--violet);outline-offset:1px}
   .sel-item .rm:hover{color:var(--rose);border-color:#f2b3cc}
   .absonly{margin:12px 0 0;font-size:12px;color:#5A4300;background:var(--amber-fill);border:1px solid var(--amber-line);
     border-radius:9px;padding:8px 11px;line-height:1.45}
+  .absbadge{display:inline-block;margin:8px 0 0;font-size:11px;font-weight:650;color:#5A4300;
+    background:var(--amber-fill);border:1px solid var(--amber-line);border-radius:999px;padding:3px 11px}
+  /* pipeline strip — where Lite sits: capture → retrieve → verify → write */
+  .pipeline{display:flex;flex-wrap:wrap;align-items:center;gap:6px 7px;margin:0 0 16px;padding:11px 13px;
+    background:#fff;border:1px solid var(--line);border-radius:12px}
+  .pstep{font-size:11.5px;font-weight:600;padding:4px 10px;border-radius:999px;border:1px solid var(--line);
+    color:var(--muted);background:var(--bg);white-space:nowrap}
+  .pstep em{font-style:normal;font-weight:600;opacity:.75}
+  .pstep.on{background:var(--lilac-soft);border-color:var(--lilac);color:var(--navy)}
+  .pstep.next{border-style:dashed}
+  .parrow{color:var(--lilac);font-size:12px}
+  .pcap{flex-basis:100%;margin-top:4px;font-size:11px;color:var(--muted)}
   .noabs{font-size:13.5px;color:var(--muted);background:var(--bg);border:1px dashed var(--line);border-radius:10px;
     padding:12px 14px;line-height:1.5}
 
@@ -256,7 +273,8 @@
   button.danger:hover{background:var(--rose-fill)}
 
   footer{max-width:820px;margin:0 auto;padding:4px 18px 56px;color:var(--muted);font-size:11.5px;line-height:1.55}
-  @media (max-width:560px){ main{padding:12px} section{padding:14px;border-radius:12px} }
+  @media (max-width:560px){ main{padding:12px} section{padding:14px;border-radius:12px}
+    .ctrls{flex-direction:column} .ctrl{flex:1 1 auto;width:100%} }
 </style>
 </head>
 <body>
@@ -278,6 +296,17 @@
 </header>
 
 <main>
+
+  <!-- where Lite sits in the house pipeline: capture → retrieve → verify → write -->
+  <nav class="pipeline" aria-label="Where MatchVahti-Lite sits in the workflow">
+    <span class="pstep on">Search PubMed</span><span class="parrow">→</span>
+    <span class="pstep on">Tap sentence</span><span class="parrow">→</span>
+    <span class="pstep on">Export RIS</span><span class="parrow">→</span>
+    <span class="pstep on">Import to Zotero</span><span class="parrow">→</span>
+    <span class="pstep next">Pull PDF <em>· FullVahti</em></span><span class="parrow">→</span>
+    <span class="pstep next">Check the claim <em>· CiteVahti</em></span>
+    <span class="pcap">Capture first &middot; verify before citing</span>
+  </nav>
 
   <!-- ============ SEARCH ============ -->
   <section id="searchSection">
@@ -305,8 +334,17 @@
     <div class="row" style="margin-top:6px">
       <div class="hint">Type a query the way you would in PubMed (terms, <span class="mono">AND/OR</span>, <span class="mono">"phrases"</span>, <span class="mono">author 2024</span>). <b>Best Match</b> ranks by relevance; broad queries return many hits, so refine if the top results drift off-topic.</div>
     </div>
-    <div id="searchErr" class="err hide"></div>
-    <div id="searchStatus" class="muted" style="margin-top:8px"></div>
+    <details style="margin-top:8px">
+      <summary class="hint" style="cursor:pointer;font-weight:600">NCBI etiquette — contact email &amp; API key (optional)</summary>
+      <div class="row" style="margin-top:6px">
+        <div class="grow"><input type="text" id="ncbiEmail" autocapitalize="off" spellcheck="false" placeholder="contact email — you@university.fi" /></div>
+        <div class="grow"><input type="password" id="ncbiApiKey" autocomplete="off" placeholder="NCBI API key (optional)" /></div>
+      </div>
+      <div class="hint" style="margin-top:6px">NCBI asks tools to send a contact email with E-utilities calls; an API key lifts
+        the rate limit from 3 to 10 requests/s. Both are sent <b>only to NCBI</b> and stored only in this browser.</div>
+    </details>
+    <div id="searchErr" class="err hide" role="alert"></div>
+    <div id="searchStatus" class="muted" style="margin-top:8px" role="status" aria-live="polite"></div>
     <div id="results" class="results"></div>
   </section>
 
@@ -316,6 +354,7 @@
     <div class="read-meta" id="readMeta"></div>
     <div class="read-title" id="readTitle"></div>
     <div class="read-authors" id="readAuthors"></div>
+    <div class="absbadge" title="Captured sentences are abstract-level only">Abstract only — full text still required before citing</div>
 
     <div class="tiphint" id="tiphint">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8B6FC9" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11.5 5 15a3 3 0 0 0 4 4l3.5-3.5"/><path d="M14 12.5 18.5 8a3 3 0 0 0-4-4L11 7.5"/><path d="m9.5 14.5 5-5"/></svg>
@@ -339,7 +378,7 @@
           </div>
         </div>
         <div class="salgroup">
-          <button class="raccoon" id="raccoonBtn" type="button" title="Mark for full-text retrieval — this sentence is interesting enough to justify pulling the PDF">
+          <button class="raccoon" id="raccoonBtn" type="button" title="Closer look — mark for full-text retrieval; this sentence is interesting enough to justify pulling the full text (exported as the cite:closer-look tag)">
             <span class="face">[oo]</span> closer look
           </button>
         </div>
@@ -389,7 +428,7 @@
     </div>
 
     <details class="explain">
-      <summary>What is a <span class="mono">.ris</span> file, and how do I add it to Zotero?</summary>
+      <summary>How this gets into Zotero (the <span class="mono">.ris</span> file)</summary>
       <div class="explain-body">
         <p><b>RIS is a plain-text bibliography format</b> (<span class="mono">.ris</span>) that almost every reference
         manager reads — Zotero, EndNote, Mendeley, Papers. Each record is a short list of tagged lines:
@@ -400,7 +439,7 @@
         <p><b>To get it into Zotero:</b></p>
         <ol class="howto">
           <li><b>Download .ris</b> (or <b>Copy</b>) above. Each download is timestamped (e.g. <span class="mono">matchvahti-lite-2026-06-11-1432.ris</span>) so batches never overwrite each other.</li>
-          <li>In Zotero, choose <span class="mono">File → Import…</span> — or just drag the <span class="mono">.ris</span> file onto your library.</li>
+          <li>In Zotero, choose <span class="mono">File → Import…</span> and pick the <span class="mono">.ris</span> file (or open the file if your system already associates <span class="mono">.ris</span> with Zotero). <b>Don't drag it into the Zotero window</b> — depending on where it lands that can attach the file to an item instead of importing it; <span class="mono">File → Import…</span> always imports.</li>
           <li>Zotero creates the items, with your captured sentences and note in each item's <b>Notes/Extra</b> and your tags attached. If a reference is already in your library (same DOI/PMID), Zotero can <b>detect it as a duplicate</b> (Duplicate Items view) so you can merge instead of double-adding.</li>
         </ol>
         <p class="warnline"><b>Re-importing makes a new collection each time.</b> Zotero names the import
@@ -414,19 +453,24 @@
     </details>
 
     <details class="explain">
-      <summary>What does the <span class="mono">[oo]</span> closer-look flag do after import?</summary>
+      <summary>What does the <span class="mono">[oo]</span> “closer look” flag do after import?</summary>
       <div class="explain-body">
         <p><b><span class="mono">[oo]</span> closer look</b> means: <i>this abstract sentence is interesting enough to
         justify pulling the full text.</i> It's a retrieval trigger, not a judgement on the study.</p>
         <p>In the exported <span class="mono">.ris</span>, the flag travels as the tag
         <span class="mono">cite:closer-look</span> (alongside <span class="mono">cite:abstract-only</span>), carried
-        with the paper's <b>DOI</b> and <b>PMID</b>. That lets a companion <b>Zotero-side tool</b>
-        (<span class="mono">vahtian_fulltext.py</span>, local-first, open-access only) close the loop:</p>
+        with the paper's <b>DOI</b> and <b>PMID</b>. <b>That tag is the contract:</b> it is how the retrieval
+        step recognises which references get a full-text fetch. Two ways to close the loop — both local-first
+        and <b>open-access only</b>:</p>
         <ol class="howto">
-          <li>Scan imported items for <span class="mono">cite:closer-look</span>.</li>
-          <li>Try to fetch the PDF by <b>DOI</b> (primary) or <b>PMID</b> (fallback) and attach it.</li>
-          <li>Tag the item <span class="mono">fulltext:pdf-found</span>, <span class="mono">fulltext:pdf-missing</span>,
-          or <span class="mono">fulltext:check-needed</span>.</li>
+          <li><b>FullVahti — the Zotero plugin (no terminal).</b> Install once from a file (two clicks in
+          Zotero&nbsp;7), then <i>Tools → FullVahti: Find OA PDFs for tagged items</i>. It scans your library for
+          <span class="mono">cite:closer-look</span>, attaches the free, legal PDF when one exists (Unpaywall /
+          PubMed Central, by DOI or PMID), tags each item <span class="mono">fulltext:pdf-found</span> /
+          <span class="mono">fulltext:pdf-missing</span> / <span class="mono">fulltext:check-needed</span>, and
+          leaves one run-report note listing what's still missing — ready for interlibrary-loan requests.</li>
+          <li><b><span class="mono">vahtian_fulltext.py</span> — the scripted path (power users).</b> Same scan,
+          same <span class="mono">fulltext:*</span> tags, dry-run by default.</li>
         </ol>
         <p>Later, <b>MatchVahti</b> or CiteVahti can use those retrieved full texts for
         <b>stronger, full-text claim checking</b> instead of abstract-only. MatchVahti-Lite itself never fetches PDFs
@@ -478,7 +522,7 @@
 
 </main>
 
-<div class="toast" id="toast">
+<div class="toast" id="toast" role="status" aria-live="polite">
   <div class="zt">
     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#C5B8E8" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
     <span id="toastTitle">Added to your .ris</span>
@@ -495,22 +539,37 @@
 <script>
 "use strict";
 
-/* ============================================================
-   CORE — pure helpers (PubMed, sentence split, RIS). Testable.
-   ============================================================ */
+// ============================================================
+// === CORE START — pure helpers (PubMed, sentence split, RIS).
+// DOM-free at definition time; tested by tests/run.mjs.
+// ============================================================
 const TOOL = "matchvahti-lite";
 
 function escapeHtml(s){ return (s||"").replace(/[&<>"']/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
 const esc = escapeHtml;
 
-// NCBI E-utilities call — identifies the tool (NCBI etiquette) + timeout.
+// NCBI E-utilities etiquette: identify the tool, and — when the user has provided them —
+// a contact email and an api_key (the 10 req/s tier). Sent ONLY to NCBI, never anywhere
+// else. Keep this fn identical in index.html (parity-locked by tests/run.mjs).
+function eutilsSuffix(tool, email, apiKey){
+  let s = "tool=" + encodeURIComponent(tool || "");
+  const e = (email || "").trim();
+  if(e.includes("@")) s += "&email=" + encodeURIComponent(e);
+  const k = (apiKey == null ? "" : String(apiKey)).trim();
+  if(k) s += "&api_key=" + encodeURIComponent(k);
+  return s;
+}
+
+// NCBI E-utilities call — etiquette suffix + timeout. ncbiCfg is defined in the APP
+// section (localStorage); the typeof guard keeps this block loadable in node tests.
 async function fetchT(url, ms){
   const ac = new AbortController(); const t = setTimeout(()=>ac.abort(), ms||15000);
   try{ return await fetch(url, {signal:ac.signal, referrerPolicy:"no-referrer"}); }
   finally{ clearTimeout(t); }
 }
 function eutils(path){
-  const u = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/" + path + (path.includes("?")?"&":"?") + "tool=" + TOOL;
+  const c = (typeof ncbiCfg === "function") ? ncbiCfg() : {};
+  const u = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/" + path + (path.includes("?")?"&":"?") + eutilsSuffix(TOOL, c.email, c.api_key);
   return fetchT(u, 15000);
 }
 
@@ -551,11 +610,18 @@ function splitSentences(text){
   const clean = (text||"").replace(/\s+/g," ").trim();
   if(!clean) return [];
   const out = []; let buf = "";
-  const toks = clean.split(/(?<=[.!?])\s+/);
+  // Split at sentence-final punctuation + whitespace, keeping the punctuation on its
+  // sentence — written WITHOUT a lookbehind, which is a parse-time syntax error on
+  // iOS Safari < 16.4, and one bad regex kills this whole single-script page.
+  // split() with a capturing group returns [text, punct, text, punct, …]; re-attach
+  // each punct to the chunk before it. (Locked equal to the old split by tests/run.mjs.)
+  const parts = clean.split(/([.!?])\s+/);
+  const toks = [];
+  for(let i=0;i<parts.length;i+=2) toks.push(parts[i] + (parts[i+1]||""));
   for(const tok of toks){
     buf = buf ? buf + " " + tok : tok;
     const endsAbbr = ABBR.test(buf);
-    const endsNum = /\b\d+\.$/.test(buf);            // "1." style enumerations / "9.8 months" guards via lookbehind already
+    const endsNum = /\b\d+\.$/.test(buf);            // "1." style enumerations ("9.8" never splits: no space after the dot)
     const endsInitial = /\b[A-Z]\.$/.test(buf);      // author initials "A."
     if(!endsAbbr && !endsNum && !endsInitial){ out.push(buf.trim()); buf = ""; }
   }
@@ -595,8 +661,11 @@ function risDocument(refs){ return refs.map(toRIS).join("\n\n") + "\n"; }
 
 // expose core for node-based tests (harmless in browser)
 if (typeof module !== "undefined" && module.exports){
-  module.exports = { splitSentences, parsePubmed, toRIS, risDocument, escapeHtml };
+  module.exports = { splitSentences, parsePubmed, toRIS, risDocument, escapeHtml, eutilsSuffix };
 }
+// ============================================================
+// === CORE END
+// ============================================================
 
 /* ============================================================
    APP — DOM, state, wiring
@@ -622,6 +691,17 @@ let flatSentences = [];    // [{idx, label, text}]
 let edits = {};            // idx -> edited sentence text (overrides the split text before save)
 let stars = 0, raccoon = false;
 let tags = [];
+
+/* ---- NCBI etiquette settings (email + api_key; sent only to NCBI) ---- */
+const NCBI_KEY = "matchvahti.lite.ncbi.v1";
+function ncbiCfg(){ try{ const v=JSON.parse(localStorage.getItem(NCBI_KEY)); return (v&&typeof v==="object")?v:{}; }catch(e){ return {}; } }
+function saveNcbiCfg(){ try{ localStorage.setItem(NCBI_KEY, JSON.stringify({
+  email: $("ncbiEmail").value.trim(), api_key: $("ncbiApiKey").value.trim() })); }catch(e){} }
+$("ncbiEmail").addEventListener("input", saveNcbiCfg);
+$("ncbiApiKey").addEventListener("input", saveNcbiCfg);
+(function restoreNcbiCfg(){ const c=ncbiCfg();
+  if(c.email) $("ncbiEmail").value=c.email;
+  if(c.api_key) $("ncbiApiKey").value=c.api_key; })();
 
 /* ---- search ---- */
 $("searchBtn").addEventListener("click", runSearch);
@@ -676,7 +756,7 @@ function renderResults(papers){
   const host = $("results");
   host.innerHTML = papers.map((p,i)=>{
     const already = !!saved[savedKeyOf(p)];
-    return `<div class="ritem" data-i="${i}" role="button" tabindex="0">
+    return `<div class="ritem" data-i="${i}" data-key="${esc(savedKeyOf(p))}" role="button" tabindex="0">
       <div class="rtitle">${esc(p.title)}${already?`<span class="badge">in your .ris</span>`:""}</div>
       <div class="rmeta">${esc((p.authors||[]).slice(0,4).join(", "))}${(p.authors||[]).length>4?" et al.":""}
         ${p.journal?`<span class="dot">·</span>${esc(p.journal)}`:""}${p.year?`<span class="dot">·</span>${esc(p.year)}`:""}
@@ -698,7 +778,7 @@ function openPaper(p){
     `${p.year?`<span class="pill2">${esc(p.year)}</span>`:""}` +
     `${p.pmid?`<span class="pill2 mono">PMID ${esc(p.pmid)}</span>`:""}` +
     `${p.pmid?`<a href="https://pubmed.ncbi.nlm.nih.gov/${esc(p.pmid)}/" target="_blank" rel="noopener">PubMed ↗</a>`:""}` +
-    `${p.doi?` <a href="https://doi.org/${esc(p.doi)}" target="_blank" rel="noopener">DOI ↗</a>`:""}`;
+    `${p.doi?` <a href="https://doi.org/${esc(p.doi)}" target="_blank" rel="noopener">Open DOI ↗</a>`:""}`;
   $("readTitle").textContent = p.title;
   $("readAuthors").textContent = (p.authors||[]).join(", ");
   edits = {};
@@ -728,8 +808,13 @@ function openPaper(p){
       flatSentences.push({idx:i, text:txt});
       const span = document.createElement("span");
       span.className = "s"; span.dataset.i = i;
+      // a real toggle control for keyboard + screen-reader users, not a click-only span
+      span.setAttribute("role","button");
+      span.setAttribute("tabindex","0");
+      span.setAttribute("aria-pressed","false");
       span.innerHTML = `<span class="num"></span>${esc(txt)} `;
       span.addEventListener("click", ()=>toggleSentence(i, span));
+      span.addEventListener("keydown", e=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); toggleSentence(i, span); } });
       block.appendChild(span);
     });
     absHost.appendChild(block);
@@ -745,11 +830,12 @@ function openPaper(p){
 function toggleSentence(i, span){
   if(selected.has(i)){ selected.delete(i); delete edits[i]; } else selected.add(i);
   span.classList.toggle("sel", selected.has(i));
+  span.setAttribute("aria-pressed", String(selected.has(i)));
   renumber(); refreshCapture();
 }
 function deselect(i){
   selected.delete(i); delete edits[i];
-  const el = $("abstract").querySelector(`.s[data-i="${i}"]`); if(el) el.classList.remove("sel");
+  const el = $("abstract").querySelector(`.s[data-i="${i}"]`); if(el){ el.classList.remove("sel"); el.setAttribute("aria-pressed","false"); }
   renumber(); refreshCapture();
 }
 function selectedOrdered(){ return [...selected].sort((a,b)=>a-b); }
@@ -771,7 +857,7 @@ function renderSelPreview(){
   host.innerHTML = order.map((i,n)=>
     `<div class="sel-item"><span class="n">${n+1}</span>` +
     `<textarea rows="1" data-i="${i}" aria-label="captured sentence ${n+1}">${esc(sentenceText(i))}</textarea>` +
-    `<span class="rm" data-i="${i}" role="button" aria-label="remove sentence">×</span></div>`).join("");
+    `<button type="button" class="rm" data-i="${i}" aria-label="Remove sentence ${n+1}">×</button></div>`).join("");
   host.querySelectorAll("textarea").forEach(ta=>{
     const grow=()=>{ ta.style.height="auto"; ta.style.height=ta.scrollHeight+"px"; };
     grow(); ta.addEventListener("input", ()=>{ edits[+ta.dataset.i]=ta.value; grow(); });
@@ -812,7 +898,7 @@ function renderQuickTags(){
 }
 function renderTags(){
   $("tagchips").innerHTML = tags.map((t,i)=>
-    `<span class="tag"><b>#</b>${esc(t)}<span class="x" data-i="${i}" role="button" aria-label="remove tag">×</span></span>`).join("");
+    `<span class="tag"><b>#</b>${esc(t)}<button type="button" class="x" data-i="${i}" aria-label="Remove tag ${esc(t)}">×</button></span>`).join("");
   [...$("tagchips").querySelectorAll(".x")].forEach(x=>x.addEventListener("click",()=>{ tags.splice(+x.dataset.i,1); renderTags(); refreshCapture(); }));
   renderQuickTags();
 }
@@ -852,11 +938,12 @@ function saveCapture(){
   persist();
   renderSaved();
   toast(wasNew ? "New reference added to your .ris" : "Sentences appended to existing reference", claims, cap);
-  // reflect the new in-library state on any matching result row still on screen
-  [...document.querySelectorAll(".ritem .rtitle")].forEach(t=>{
-    if(t.textContent.replace(/in your \.ris$/,"").trim() === current.title.trim() && !t.querySelector(".badge")){
-      t.insertAdjacentHTML("beforeend", ' <span class="badge">in your .ris</span>');
-    }
+  // reflect the new in-library state on the matching result row — keyed by PMID/DOI/paper_id
+  // (data-key), not visible title text, so a similarly-titled record can't pick up the badge.
+  document.querySelectorAll(".ritem").forEach(row=>{
+    if(row.dataset.key !== key) return;
+    const t = row.querySelector(".rtitle");
+    if(t && !t.querySelector(".badge")) t.insertAdjacentHTML("beforeend", ' <span class="badge">in your .ris</span>');
   });
   clearCapture();
 }
