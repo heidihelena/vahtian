@@ -54,6 +54,16 @@
 .s-foot .pg,.s-foot .swipe{font-weight:700;color:#5B5570}
 /* CTA slides carry the URL in the body — don't repeat it in the footer */
 .slide.t-cta .s-foot span:first-child{visibility:hidden}
+/* list slide — violet bullets in a white card ("white text box") */
+.s-card{background:#fff;border:2px solid #E7E3F0;border-radius:24px;padding:52px 56px;margin-top:8px}
+.s-list{list-style:none;padding:0;margin:0;display:grid;gap:26px}
+.s-list li{position:relative;padding-left:50px;font-size:38px;line-height:1.38;color:#1C1830}
+.s-list li::before{content:"";position:absolute;left:0;top:.5em;width:18px;height:18px;border-radius:50%;background:var(--accent,#8B6FC9)}
+/* image slide — embedded local picture (data URL; stays self-contained) */
+.slide.t-image{justify-content:flex-start}
+.s-img{display:block;width:100%;flex:1 1 auto;min-height:0;object-fit:cover;border-radius:18px;background:#E7E3F0}
+.s-img-empty{display:flex;align-items:center;justify-content:center;flex:1 1 auto;text-align:center;padding:40px;
+  background:#fff;border:3px dashed #C5B8E8;border-radius:18px;color:#5B5570;font-size:32px;line-height:1.4}
 /* navy variant — contrast bumped vs v1: near-white text, lilac footer */
 .slide.navy{background:#2D2440;color:#fff}
 .slide.navy .s-title{color:#FFFFFF}
@@ -63,6 +73,8 @@
 .slide.navy .s-foot{color:#C5B8E8}
 .slide.navy .s-foot .pg,.slide.navy .s-foot .swipe{color:#9B8FC4}
 .slide.navy.t-cta .s-url{color:#C5B8E8}
+/* the white card and its dark bullet text stay as-is on navy — that's the contrast moment */
+.slide.navy .s-img-empty{background:#231B33;border-color:#4A3F66;color:#C5B8E8}
 </style>
 <style>
 /* ===== builder UI (screen only) ===== */
@@ -157,7 +169,9 @@ button.small{padding:5px 9px;font-size:12px}
   <select id="stype">
     <option value="cover">Cover — hook</option>
     <option value="point">Point — kicker / title / body</option>
+    <option value="list">List — violet bullets in a white box</option>
     <option value="code">Code — adds a terminal block</option>
+    <option value="image">Image — embed a screenshot / figure</option>
     <option value="quote">Quote</option>
     <option value="cta">CTA — closing slide</option>
   </select>
@@ -171,13 +185,18 @@ button.small{padding:5px 9px;font-size:12px}
   <textarea id="f-code" class="code" rows="3"></textarea></div>
   <div class="fld" id="fld-url"><label for="f-url">URL (CTA)</label>
   <input type="text" id="f-url"></div>
+  <div class="fld" id="fld-image"><label for="f-imgfile">Image — local file, embedded (not linked)</label>
+  <input type="file" id="f-imgfile" accept="image/*">
+  <div class="row"><button class="small" id="clearImg">clear image</button><span id="imgState" class="hint" style="align-self:center;margin:0"></span></div></div>
   <div class="row">
     <button class="small" id="addSlide">+ add</button>
     <button class="small" id="dupSlide">duplicate</button>
     <button class="small" id="moveL">← move</button>
     <button class="small" id="moveR">move →</button>
     <button class="small" id="delSlide">delete</button>
+    <button class="small" id="undo">undo</button>
   </div>
+  <p class="hint">Drag a slide in the deck to reorder. <code>⌘/Ctrl+Z</code> undoes add/duplicate/move/delete.</p>
 
   <h3>Post caption</h3>
   <textarea id="caption" rows="6"></textarea>
@@ -349,6 +368,18 @@ function slideHtml(s, i, n, theme){
       + `<div class="s-title">${esc(s.title)}</div>`
       + (s.body?`<div class="s-body">${esc(s.body)}</div>`:'')
       + `<div class="s-url">[ ${esc(s.url||deck.url||'vahtian.com')} ]</div>`;
+  }else if(s.type==='list'){
+    const items = (s.body||'').split('\n').map(x=>x.trim()).filter(Boolean);
+    inner = (s.kicker?`<div class="s-kicker">${esc(s.kicker)}</div>`:'')
+      + `<div class="s-title">${esc(s.title)}</div>`
+      + `<div class="s-card"><ul class="s-list">`
+      + items.map(t=>`<li>${esc(t)}</li>`).join('')
+      + `</ul></div>`;
+  }else if(s.type==='image'){
+    inner = (s.kicker?`<div class="s-kicker">${esc(s.kicker)}</div>`:'')
+      + (s.title?`<div class="s-title" style="font-size:52px;margin-bottom:36px">${esc(s.title)}</div>`:'')
+      + (s.img?`<img class="s-img" src="${s.img}" draggable="false" alt="">`
+              :`<div class="s-img-empty">Add an image in the editor — it embeds into the slide (stays local).</div>`);
   }else{
     inner = (s.kicker?`<div class="s-kicker">${esc(s.kicker)}</div>`:'')
       + `<div class="s-title">${esc(s.title)}</div>`
@@ -364,7 +395,7 @@ function render(){
   const n = deck.slides.length;
   const sq = format==='1080x1080' ? ' sq' : '';
   deckEl.innerHTML = deck.slides.map((s,i)=>
-    `<div class="scalebox${sq}${i===sel?' sel':''}" data-i="${i}"><span class="num">${i+1}</span>${slideHtml(s,i,n,deck.theme)}</div>`
+    `<div class="scalebox${sq}${i===sel?' sel':''}" data-i="${i}" draggable="true"><span class="num">${i+1}</span>${slideHtml(s,i,n,deck.theme)}</div>`
   ).join('');
   document.getElementById('pagesize').textContent =
     format==='1080x1080' ? '@page{size:1080px 1080px;margin:0}' : '@page{size:1080px 1350px;margin:0}';
@@ -387,10 +418,11 @@ function flagOverflow(){
 const FIELD_VIS = {
   cover:['kicker','title','body'], point:['kicker','title','body'],
   code:['kicker','title','body','code'], quote:['title','body'], cta:['title','body','url'],
+  list:['kicker','title','body'], image:['kicker','title','image'],
 };
 function applyTypeFields(type){
   const vis = FIELD_VIS[type] || FIELD_VIS.point;
-  for(const k of ['kicker','title','body','code','url']){
+  for(const k of ['kicker','title','body','code','url','image']){
     const el = document.getElementById('fld-'+k);
     if(el) el.style.display = vis.includes(k) ? '' : 'none';
   }
@@ -407,6 +439,7 @@ function syncForm(){
   const s = deck.slides[sel]||{};
   for(const [id,key] of fields) F(id).value = s[key]||'';
   applyTypeFields(s.type||'point');
+  F('imgState').textContent = s.img ? 'image embedded ✓' : 'no image yet';
 }
 for(const [id,key] of fields){
   F(id).addEventListener('input', ()=>{
@@ -430,6 +463,7 @@ function syncDeckControls(){
   F('caption').value = deck.caption||'';
 }
 F('preset').addEventListener('change', ()=>{
+  snapshot();
   deck = JSON.parse(JSON.stringify(PRESETS[F('preset').value]));
   sel = 0; syncDeckControls();
   render(); syncForm();
@@ -442,24 +476,29 @@ F('copyCaption').addEventListener('click', async ()=>{
 
 /* ===== slide ops ===== */
 F('addSlide').addEventListener('click', ()=>{
+  snapshot();
   deck.slides.splice(sel+1,0,{type:'point',kicker:'KICKER',title:'New slide',body:''});
   sel++; render(); syncForm();
 });
 F('dupSlide').addEventListener('click', ()=>{
+  snapshot();
   deck.slides.splice(sel+1,0,JSON.parse(JSON.stringify(deck.slides[sel])));
   sel++; render(); syncForm();
 });
 F('delSlide').addEventListener('click', ()=>{
   if(deck.slides.length<=1) return;
+  snapshot();
   deck.slides.splice(sel,1); sel=Math.max(0,sel-1); render(); syncForm();
 });
 F('moveL').addEventListener('click', ()=>{
   if(sel===0) return;
+  snapshot();
   [deck.slides[sel-1],deck.slides[sel]]=[deck.slides[sel],deck.slides[sel-1]];
   sel--; render();
 });
 F('moveR').addEventListener('click', ()=>{
   if(sel>=deck.slides.length-1) return;
+  snapshot();
   [deck.slides[sel+1],deck.slides[sel]]=[deck.slides[sel],deck.slides[sel+1]];
   sel++; render();
 });
@@ -477,11 +516,60 @@ F('fileInput').addEventListener('change', async e=>{
   try{
     const d = JSON.parse(await file.text());
     if(!Array.isArray(d.slides)) throw new Error('no slides[]');
+    snapshot();
     deck = d; if(d.format) format = d.format;
     sel = 0; F('format').value = format; syncDeckControls();
     render(); syncForm();
   }catch(err){ alert('Could not load deck: '+err.message); }
   e.target.value = '';
+});
+
+/* ===== undo + drag reorder + image embed ===== */
+let history = [];
+function snapshot(){ history.push(JSON.stringify(deck)); if(history.length>40) history.shift(); }
+function undo(){
+  if(!history.length) return;
+  deck = JSON.parse(history.pop());
+  if(sel >= deck.slides.length) sel = deck.slides.length-1;
+  if(sel < 0) sel = 0;
+  syncDeckControls(); render(); syncForm();
+}
+F('undo').addEventListener('click', undo);
+document.addEventListener('keydown', e=>{
+  if((e.metaKey||e.ctrlKey) && (e.key==='z'||e.key==='Z') && !/^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName)){
+    e.preventDefault(); undo();
+  }
+});
+// drag-to-reorder thumbnails
+let dragFrom = null;
+deckEl.addEventListener('dragstart', e=>{
+  const box = e.target.closest('.scalebox'); if(!box) return;
+  dragFrom = +box.dataset.i; e.dataTransfer.effectAllowed = 'move';
+  try{ e.dataTransfer.setData('text/plain', String(dragFrom)); }catch(_){}
+});
+deckEl.addEventListener('dragover', e=>{ if(dragFrom!==null) e.preventDefault(); });
+deckEl.addEventListener('drop', e=>{
+  const box = e.target.closest('.scalebox'); if(!box || dragFrom===null) return;
+  e.preventDefault();
+  const to = +box.dataset.i;
+  if(to !== dragFrom){
+    snapshot();
+    const [m] = deck.slides.splice(dragFrom,1);
+    deck.slides.splice(to,0,m);
+    sel = to; render(); syncForm();
+  }
+  dragFrom = null;
+});
+deckEl.addEventListener('dragend', ()=>{ dragFrom = null; });
+// image embed — local file → data URL (self-contained, exports without tainting the canvas)
+F('f-imgfile').addEventListener('change', e=>{
+  const file = e.target.files[0]; if(!file || !deck.slides[sel]) return;
+  const r = new FileReader();
+  r.onload = ()=>{ deck.slides[sel].img = r.result; render(); syncForm(); };
+  r.readAsDataURL(file); e.target.value = '';
+});
+F('clearImg').addEventListener('click', ()=>{
+  if(deck.slides[sel] && deck.slides[sel].img){ delete deck.slides[sel].img; render(); syncForm(); }
 });
 
 /* ===== export ===== */
