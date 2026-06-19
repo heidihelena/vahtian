@@ -287,6 +287,19 @@
       body { background: #fff; }
       main { width: 100%; padding: 0; }
     }
+
+    /* Shared Vahtian footer chrome — keeps the family consistent across pages. */
+    .site-footer {
+      width: min(1380px, calc(100% - 2rem));
+      margin: 0 auto;
+      padding: 1.5rem 0 3rem;
+      border-top: 1px solid var(--sv-border);
+      color: var(--sv-muted);
+      font-size: 0.8rem;
+      line-height: 1.55;
+    }
+    .site-footer p { margin: 0 0 0.35rem; }
+    .site-footer a { color: var(--sv-muted); font-weight: 700; }
   </style>
 </head>
 <body>
@@ -470,6 +483,11 @@
   </div>
 
 </main>
+
+<footer class="site-footer">
+  <p>© 2026 Vahtian · DictVahti · self-contained, runs entirely in your browser · <a href="/">vahtian.com</a></p>
+  <p>Lints a REDCap data dictionary against deterministic checks and flags issues; it does not modify your dictionary or validate your study design.</p>
+</footer>
 
 <script>
 // ============================================================
