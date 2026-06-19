@@ -61,7 +61,7 @@
 .s-list li::before{content:"";position:absolute;left:0;top:.5em;width:18px;height:18px;border-radius:50%;background:var(--accent,#8B6FC9)}
 /* image slide — embedded local picture (data URL; stays self-contained) */
 .slide.t-image{justify-content:flex-start}
-.s-img{display:block;width:100%;flex:1 1 auto;min-height:0;object-fit:cover;border-radius:18px;background:#E7E3F0}
+.s-img{display:block;width:100%;flex:1 1 auto;min-height:0;object-fit:contain;border-radius:18px;background:#E7E3F0;padding:18px}
 .s-img-empty{display:flex;align-items:center;justify-content:center;flex:1 1 auto;text-align:center;padding:40px;
   background:#fff;border:3px dashed #C5B8E8;border-radius:18px;color:#5B5570;font-size:32px;line-height:1.4}
 /* navy variant — contrast bumped vs v1: near-white text, lilac footer */
@@ -75,6 +75,7 @@
 .slide.navy.t-cta .s-url{color:#C5B8E8}
 /* the white card and its dark bullet text stay as-is on navy — that's the contrast moment */
 .slide.navy .s-img-empty{background:#231B33;border-color:#4A3F66;color:#C5B8E8}
+.slide.navy .s-img{background:#231B33}
 </style>
 <style>
 /* ===== builder UI (screen only) ===== */
@@ -281,7 +282,8 @@ const PRESETS = {
     {type:'point',kicker:'THE PROBLEM',title:'Peer review rarely tests every reference.',body:'Citation support is often assumed.\n\nBut a reference can be real, relevant, and still not support the sentence it is attached to.'},
     {type:'point',kicker:'THE IDEA',title:'Treat every citation like a unit test.',body:'Claim = test case.\nCandidate paper = evidence.\nPass = supports this exact statement.'},
     {type:'point',kicker:'HOW IT WORKS',title:'Human first.\nAI second.\nDisagreements flagged.',body:'You rate the evidence while blinded.\nAI gives an advisory second rating.\nDiscordance returns to you for adjudication.'},
-    {type:'code',kicker:'GETTING STARTED',title:'Local-first.\nNo manuscript upload.',body:'One project folder. Everything stays on your machine.',code:'pip install "citevahti[mcp]"\ncitevahti init\ncitevahti start'},
+    {type:'image',kicker:'THE REVIEW SURFACE',title:'You rate blind, inside the manuscript.',imgSrc:'screenshots/citevahti-review.png'},
+    {type:'code',kicker:'GETTING STARTED',title:'Local-first.\nNo manuscript upload.',body:'One project folder. Everything stays on your machine.',code:'pip install "citevahti[mcp]"\ncitevahti run'},
     {type:'point',kicker:'THE SAFETY INVARIANT',title:'No silent writes.',body:'Zotero writes are previewed, confirmed, and undoable.\nEvery decision is recorded in a hash-chained audit trail.\n\nChecks citation support, not truth.'},
     {type:'cta',kicker:'',title:'CiteVahti Core is free for researchers.',body:'Local-first.\nApache-2.0.\nYour manuscript stays on your machine.\n\nVahtian sells paid citation-integrity infrastructure for journals, institutions, guideline groups, and publishers.',url:'vahtian.com/citevahti'},
   ]},
@@ -414,6 +416,21 @@ function flagOverflow(){
     }
   }
 }
+// Embed any preset/loaded image referenced by path (imgSrc) as a data URL, so the
+// slide previews and exports self-contained. Same-origin fetch only — never reaches out.
+async function hydrateImages(){
+  let changed = false;
+  for(const s of deck.slides){
+    if(s.imgSrc && !s.img){
+      try{
+        const blob = await (await fetch(s.imgSrc)).blob();
+        s.img = await new Promise((res,rej)=>{ const r=new FileReader(); r.onload=()=>res(r.result); r.onerror=rej; r.readAsDataURL(blob); });
+        changed = true;
+      }catch(_){ /* leave the empty-state prompt in place */ }
+    }
+  }
+  if(changed) render();
+}
 // Show only the fields each slide type actually uses.
 const FIELD_VIS = {
   cover:['kicker','title','body'], point:['kicker','title','body'],
@@ -466,7 +483,7 @@ F('preset').addEventListener('change', ()=>{
   snapshot();
   deck = JSON.parse(JSON.stringify(PRESETS[F('preset').value]));
   sel = 0; syncDeckControls();
-  render(); syncForm();
+  render(); syncForm(); hydrateImages();
 });
 F('caption').addEventListener('input', ()=>{ deck.caption = F('caption').value; });
 F('copyCaption').addEventListener('click', async ()=>{
@@ -519,7 +536,7 @@ F('fileInput').addEventListener('change', async e=>{
     snapshot();
     deck = d; if(d.format) format = d.format;
     sel = 0; F('format').value = format; syncDeckControls();
-    render(); syncForm();
+    render(); syncForm(); hydrateImages();
   }catch(err){ alert('Could not load deck: '+err.message); }
   e.target.value = '';
 });
@@ -662,7 +679,7 @@ F('exportPng').addEventListener('click', async ()=>{
 
 /* ===== init ===== */
 syncDeckControls();
-render(); syncForm();
+render(); syncForm(); hydrateImages();
 </script>
 </body>
 </html>
