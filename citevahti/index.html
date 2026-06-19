@@ -80,6 +80,21 @@
     pre{background:var(--navy);color:#e8e3f5;border-radius:10px;padding:14px 16px;overflow:auto;font:13px/1.6 ui-monospace,monospace}
     pre .c{color:#9b93b8}
     .note{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--violet);border-radius:9px;padding:13px 15px;color:#3a3450;font-size:14.5px}
+    /* Full-bleed lighthouse hero — self-contained canvas, claim-verification scene */
+    .hero-band{position:relative;overflow:hidden;background:#1b1530;min-height:460px;margin-top:14px}
+    .hero-band canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+    .hero-scrim{position:absolute;inset:0;pointer-events:none;
+      background:linear-gradient(90deg,rgba(20,14,38,.93) 0%,rgba(20,14,38,.80) 26%,rgba(20,14,38,.36) 50%,rgba(20,14,38,0) 70%)}
+    .hero-inner{position:relative;z-index:2;display:flex;align-items:center;min-height:460px}
+    .hero-copy{max-width:72%;padding:36px 0}
+    .hero-band .kicker{color:#C5B8E8}
+    .hero-band h1{color:#F5F2FB;font-size:clamp(28px,4.4vw,42px)}
+    .hero-band .lede{color:#cfc7e6}
+    .hero-band .lede b{color:#C5B8E8}
+    .hero-band .btn.primary{background:#C5B8E8;color:#241b3a}
+    .hero-band .btn.ghost{background:transparent;border:1px solid rgba(197,184,232,.45);color:#C5B8E8}
+    @media(max-width:640px){.hero-band,.hero-inner{min-height:400px}.hero-copy{max-width:100%;padding:34px 0}
+      .hero-scrim{background:linear-gradient(180deg,rgba(20,14,38,.5),rgba(20,14,38,.86))}}
     footer{padding:28px 0 50px;color:var(--muted);font-size:13px;border-top:1px solid var(--line);margin-top:32px}
     footer a{color:var(--muted)}
   </style>
@@ -99,8 +114,13 @@
     </div>
     <a class="up" href="/">← Vahtian</a>
   </header>
+</div><!-- /wrap -->
 
-  <div class="hero">
+<section class="hero-band" id="heroBand">
+  <canvas id="heroCanvas" aria-hidden="true"></canvas>
+  <div class="hero-scrim" aria-hidden="true"></div>
+  <div class="wrap hero-inner">
+   <div class="hero-copy">
     <p class="kicker">A product of Vahtian</p>
     <h1>Verify the claim before you cite it.</h1>
     <p class="lede">CiteVahti tests every manuscript claim against its candidate papers
@@ -117,7 +137,11 @@
       <span class="chip r">[r] review needed</span>
       <span class="chip d">[d] decision recorded</span>
     </div>
-  </div>
+   </div><!-- /hero-copy -->
+  </div><!-- /hero-inner -->
+</section>
+
+<div class="wrap">
 
   <section>
     <h2>How it works — the manuscript as a test suite</h2>
@@ -167,5 +191,75 @@ citevahti start
   </footer>
 
 </div>
+<script>
+(function(){
+  var host=document.getElementById('heroBand'),canvas=document.getElementById('heroCanvas');
+  if(!host||!canvas)return;
+  var ctx=canvas.getContext('2d');
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var W=0,H=0,dpr=1,raf=null,PHI=0.618;
+  function mb(a){return function(){a|=0;a=a+0x6D2B79F5|0;var t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+  var rnd=mb(5);
+  // Focused scene: one claim node (hub) + its candidate-paper evidence + a little ambient literature.
+  var nodes=[
+    {nx:0.40,ny:0.42,claim:true},
+    {nx:0.27,ny:0.29},{nx:0.30,ny:0.55},{nx:0.52,ny:0.30},{nx:0.53,ny:0.52},{nx:0.19,ny:0.44},
+    {nx:0.09,ny:0.20,amb:true},{nx:0.60,ny:0.18,amb:true},{nx:0.11,ny:0.57,amb:true},{nx:0.58,ny:0.60,amb:true},{nx:0.07,ny:0.36,amb:true}
+  ];
+  for(var i=0;i<nodes.length;i++)nodes[i].charge=0,nodes[i].ang=0;
+  var edges=[[0,1,1],[0,2,1],[0,3,1],[0,4,1],[0,5,1],[6,1,0],[7,3,0],[8,2,0],[9,4,0],[10,5,0]];
+  var lampX=0,lampY=0,bMin=0,bMax=0;
+  function geom(){lampX=0.764*W;lampY=(1-PHI)*H;var lo=1e9,hi=-1e9;for(var i=0;i<nodes.length;i++){var n=nodes[i],a=Math.atan2(n.ny*H-lampY,n.nx*W-lampX);if(a<0)a+=Math.PI*2;n.ang=a;if(a<lo)lo=a;if(a>hi)hi=a;}bMin=lo-0.12;bMax=hi+0.12;}
+  function resize(){var r=host.getBoundingClientRect();W=r.width;H=r.height;dpr=Math.min(window.devicePixelRatio||1,2);canvas.width=Math.round(W*dpr);canvas.height=Math.round(H*dpr);ctx.setTransform(dpr,0,0,dpr,0,0);geom();}
+  var stars=[];for(var s=0;s<48;s++)stars.push({x:rnd(),y:rnd()*0.6,p:rnd()*6.28,s:0.4+rnd()*0.9});
+  function sm(t){t=t<0?0:t>1?1:t;return t*t*(3-2*t);}
+  function lighthouse(horizon,t){
+    var bx=lampX,baseY=horizon,topY=lampY,hb=0.032*W,ht=0.018*W;
+    ctx.fillStyle='#120d22';ctx.beginPath();ctx.moveTo(bx-0.082*W,baseY+0.07*H);ctx.quadraticCurveTo(bx-0.02*W,baseY-0.016*H,bx,baseY-0.01*H);ctx.quadraticCurveTo(bx+0.03*W,baseY-0.012*H,bx+0.082*W,baseY+0.07*H);ctx.closePath();ctx.fill();
+    var tg=ctx.createLinearGradient(bx-hb,0,bx+hb,0);tg.addColorStop(0,'#2a2140');tg.addColorStop(.5,'#3a2f57');tg.addColorStop(1,'#241c38');ctx.fillStyle=tg;
+    ctx.beginPath();ctx.moveTo(bx-hb,baseY);ctx.lineTo(bx-ht,topY+0.02*H);ctx.lineTo(bx+ht,topY+0.02*H);ctx.lineTo(bx+hb,baseY);ctx.closePath();ctx.fill();
+    ctx.fillStyle='rgba(197,184,232,0.15)';for(var b=0;b<3;b++){var f0=0.18+b*0.30,f1=f0+0.12,yt=topY+0.02*H,h0=yt+(baseY-yt)*f0,h1=yt+(baseY-yt)*f1,w0=ht+(hb-ht)*f0,w1=ht+(hb-ht)*f1;ctx.beginPath();ctx.moveTo(bx-w0,h0);ctx.lineTo(bx+w0,h0);ctx.lineTo(bx+w1,h1);ctx.lineTo(bx-w1,h1);ctx.closePath();ctx.fill();}
+    ctx.strokeStyle='rgba(139,111,201,0.5)';ctx.lineWidth=1.2;ctx.beginPath();ctx.moveTo(bx-hb,baseY);ctx.lineTo(bx-ht,topY+0.02*H);ctx.lineTo(bx+ht,topY+0.02*H);ctx.lineTo(bx+hb,baseY);ctx.stroke();
+    var lh=0.044*H;ctx.fillStyle='#0f0b1c';ctx.fillRect(bx-ht*1.4,topY-lh+0.02*H,ht*2.8,lh);
+    ctx.fillStyle='#3a2f57';ctx.beginPath();ctx.moveTo(bx-ht*1.5,topY-lh+0.02*H);ctx.lineTo(bx,topY-lh-0.012*H);ctx.lineTo(bx+ht*1.5,topY-lh+0.02*H);ctx.closePath();ctx.fill();
+    var pulse=0.85+0.15*Math.sin(t*2.2);ctx.globalCompositeOperation='lighter';
+    var lg=ctx.createRadialGradient(bx,lampY,0,bx,lampY,0.058*W*pulse);lg.addColorStop(0,'rgba(245,242,251,0.95)');lg.addColorStop(.4,'rgba(197,184,232,0.5)');lg.addColorStop(1,'rgba(197,184,232,0)');ctx.fillStyle=lg;ctx.beginPath();ctx.arc(bx,lampY,0.058*W*pulse,0,6.2832);ctx.fill();
+    ctx.fillStyle='#F5F2FB';ctx.beginPath();ctx.arc(bx,lampY,2.2,0,6.2832);ctx.fill();
+    var wob=Math.sin(t*1.3)*4,wr=ctx.createLinearGradient(bx,horizon,bx,H);wr.addColorStop(0,'rgba(197,184,232,0.16)');wr.addColorStop(1,'rgba(197,184,232,0)');ctx.fillStyle=wr;ctx.beginPath();ctx.moveTo(bx-3,horizon);ctx.lineTo(bx+3,horizon);ctx.lineTo(bx+10+wob,H);ctx.lineTo(bx-10+wob,H);ctx.closePath();ctx.fill();
+    ctx.globalCompositeOperation='source-over';
+  }
+  function draw(time){
+    var t=time*0.001;ctx.clearRect(0,0,W,H);
+    var g=ctx.createLinearGradient(0,0,0,H);g.addColorStop(0,'#150f28');g.addColorStop(PHI-0.02,'#221a37');g.addColorStop(PHI,'#1d1630');g.addColorStop(1,'#171127');ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+    var horizon=PHI*H;
+    for(var i=0;i<stars.length;i++){var st=stars[i];ctx.globalAlpha=0.25+0.45*(0.5+0.5*Math.sin(t*0.8+st.p));ctx.fillStyle='#C5B8E8';ctx.fillRect(st.x*W,st.y*H,st.s,st.s);}
+    ctx.globalAlpha=1;
+    var hgl=ctx.createLinearGradient(0,horizon-40,0,horizon+40);hgl.addColorStop(0,'rgba(139,111,201,0)');hgl.addColorStop(.5,'rgba(139,111,201,.10)');hgl.addColorStop(1,'rgba(139,111,201,0)');ctx.fillStyle=hgl;ctx.fillRect(0,horizon-40,W,80);
+    for(var w=0;w<5;w++){var y=horizon+8+w*((H-horizon)/6),off=Math.sin(t*0.5+w)*12;ctx.globalAlpha=0.05+0.03*Math.sin(t*0.7+w*1.3);ctx.strokeStyle='#8B6FC9';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(off,y);ctx.lineTo(W+off,y);ctx.stroke();}
+    ctx.globalAlpha=1;
+    var theta;if(reduce){theta=bMin+(bMax-bMin)*0.5;}else{var mid=(bMin+bMax)/2,amp=(bMax-bMin)/2;theta=mid+amp*Math.sin(t*(6.2832/15));}
+    var halfA=0.12;
+    for(var n=0;n<nodes.length;n++){var nd=nodes[n],dd=Math.abs(nd.ang-theta);if(reduce){nd.charge=dd<halfA?sm((halfA-dd)/halfA):0.12;continue;}if(dd<halfA)nd.charge+=0.016*2.4*sm((halfA-dd)/halfA);nd.charge-=0.016*0.5;if(nd.charge<0)nd.charge=0;if(nd.charge>1)nd.charge=1;}
+    var L=1.25*W;ctx.save();ctx.translate(lampX,lampY);ctx.rotate(theta);ctx.globalCompositeOperation='lighter';
+    var bg=ctx.createLinearGradient(0,0,L,0);bg.addColorStop(0,'rgba(197,184,232,0.20)');bg.addColorStop(.5,'rgba(139,111,201,0.06)');bg.addColorStop(1,'rgba(139,111,201,0)');ctx.fillStyle=bg;ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(Math.cos(halfA)*L,Math.sin(halfA)*L);ctx.lineTo(Math.cos(-halfA)*L,Math.sin(-halfA)*L);ctx.closePath();ctx.fill();
+    var cg=ctx.createLinearGradient(0,0,L,0);cg.addColorStop(0,'rgba(245,242,251,0.5)');cg.addColorStop(.3,'rgba(197,184,232,0.12)');cg.addColorStop(1,'rgba(197,184,232,0)');ctx.fillStyle=cg;ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(Math.cos(halfA*0.35)*L,Math.sin(halfA*0.35)*L);ctx.lineTo(Math.cos(-halfA*0.35)*L,Math.sin(-halfA*0.35)*L);ctx.closePath();ctx.fill();ctx.restore();
+    ctx.globalCompositeOperation='source-over';
+    for(var e=0;e<edges.length;e++){var a=nodes[edges[e][0]],bn=nodes[edges[e][1]],strong=edges[e][2],c=Math.max(a.charge,bn.charge);ctx.globalAlpha=(strong?0.12:0.05)+0.55*c;ctx.strokeStyle=c>0.4?'#C5B8E8':'#6f63a0';ctx.lineWidth=(strong?1.1:0.8)+c*0.8;ctx.beginPath();ctx.moveTo(a.nx*W,a.ny*H);ctx.lineTo(bn.nx*W,bn.ny*H);ctx.stroke();}
+    ctx.globalAlpha=1;
+    for(var m=0;m<nodes.length;m++){var nd2=nodes[m],x=nd2.nx*W,y=nd2.ny*H,base=nd2.claim?4.2:(nd2.amb?2.0:2.7),r=base+1.4*nd2.charge,gr=(nd2.claim?15:9)+(nd2.claim?20:14)*nd2.charge;
+      ctx.globalCompositeOperation='lighter';var rg=ctx.createRadialGradient(x,y,0,x,y,gr);rg.addColorStop(0,'rgba(197,184,232,'+((nd2.claim?0.2:0.13)+0.5*nd2.charge)+')');rg.addColorStop(1,'rgba(197,184,232,0)');ctx.fillStyle=rg;ctx.beginPath();ctx.arc(x,y,gr,0,6.2832);ctx.fill();ctx.globalCompositeOperation='source-over';
+      ctx.fillStyle=nd2.charge>0.55?'#F5F2FB':'#C5B8E8';ctx.beginPath();ctx.arc(x,y,r,0,6.2832);ctx.fill();
+      if(nd2.claim&&nd2.charge>0.45){var av=sm((nd2.charge-0.45)/0.4);ctx.globalAlpha=av;ctx.strokeStyle='#C98A00';ctx.lineWidth=1.6;ctx.beginPath();ctx.arc(x,y,r+6,0,6.2832);ctx.stroke();
+        ctx.fillStyle='#E0A52A';var dx=r*0.62;ctx.beginPath();ctx.arc(x-dx,y,1.7,0,6.2832);ctx.fill();ctx.beginPath();ctx.arc(x+dx,y,1.7,0,6.2832);ctx.fill();ctx.globalAlpha=1;}
+    }
+    lighthouse(horizon,t);
+    if(!reduce)raf=requestAnimationFrame(draw);
+  }
+  function start(){if(raf)cancelAnimationFrame(raf);if(reduce){draw(0);}else{raf=requestAnimationFrame(draw);}}
+  new ResizeObserver(function(){resize();if(reduce)draw(0);}).observe(host);
+  resize();start();
+  if('IntersectionObserver' in window&&!reduce){new IntersectionObserver(function(es){es.forEach(function(en){if(en.isIntersecting){if(!raf)raf=requestAnimationFrame(draw);}else if(raf){cancelAnimationFrame(raf);raf=null;}});}).observe(host);}
+})();
+</script>
 </body>
 </html>
