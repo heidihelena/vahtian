@@ -1,14 +1,34 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="citevahti social card">
-  <rect width="1200" height="630" fill="#2D2440"/>
-  <text x="84" y="138" font-family="Liberation Mono, DejaVu Sans Mono, monospace" font-size="21" font-weight="700" fill="#8B6FC9" letter-spacing="3">CITEVAHTI — FOR RESEARCHERS &amp; LABS</text>
-  <text x="84" y="226" font-family="Liberation Sans, DejaVu Sans, sans-serif" font-size="62" font-weight="700" fill="#FFFFFF" letter-spacing="-0.5">Run unit tests on</text>
-  <text x="84" y="300" font-family="Liberation Sans, DejaVu Sans, sans-serif" font-size="62" font-weight="700" fill="#FFFFFF" letter-spacing="-0.5">your manuscript.</text>
-  <text x="84" y="400" font-family="Liberation Sans, DejaVu Sans, sans-serif" font-size="25" fill="#C5B8E8">Verify the claim before you cite it —</text>
-  <text x="84" y="436" font-family="Liberation Sans, DejaVu Sans, sans-serif" font-size="25" fill="#C5B8E8">local-first, auditable, Zotero-safe.</text>
-  <text x="84" y="566" font-family="Liberation Mono, DejaVu Sans Mono, monospace" font-size="24" font-weight="700" fill="#8B6FC9">[ vahtian.com ]</text>
-  <g transform="translate(924,204) scale(6.9375)">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#150f28"/><stop offset="0.62" stop-color="#1d1630"/><stop offset="1" stop-color="#171127"/></linearGradient>
+    <radialGradient id="lampG"><stop offset="0" stop-color="#F5F2FB" stop-opacity="0.95"/><stop offset="0.4" stop-color="#C5B8E8" stop-opacity="0.5"/><stop offset="1" stop-color="#C5B8E8" stop-opacity="0"/></radialGradient>
+    <radialGradient id="nodeG"><stop offset="0" stop-color="#C5B8E8" stop-opacity="0.55"/><stop offset="1" stop-color="#C5B8E8" stop-opacity="0"/></radialGradient>
+    <radialGradient id="amberG"><stop offset="0" stop-color="#E0A52A" stop-opacity="0.7"/><stop offset="1" stop-color="#C98A00" stop-opacity="0"/></radialGradient>
+    <linearGradient id="beamG" gradientUnits="userSpaceOnUse" x1="1050" y1="276" x2="681.5" y2="347.9"><stop offset="0" stop-color="#C5B8E8" stop-opacity="0.26"/><stop offset="0.55" stop-color="#8B6FC9" stop-opacity="0.07"/><stop offset="1" stop-color="#8B6FC9" stop-opacity="0"/></linearGradient>
+    <linearGradient id="beamCoreG" gradientUnits="userSpaceOnUse" x1="1050" y1="276" x2="681.5" y2="347.9"><stop offset="0" stop-color="#F5F2FB" stop-opacity="0.5"/><stop offset="0.4" stop-color="#C5B8E8" stop-opacity="0.12"/><stop offset="1" stop-color="#C5B8E8" stop-opacity="0"/></linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <circle cx="742" cy="96" r="1.3" fill="#C5B8E8" opacity="0.5"/><circle cx="800" cy="150" r="1.3" fill="#C5B8E8" opacity="0.5"/><circle cx="884" cy="104" r="1.3" fill="#C5B8E8" opacity="0.5"/><circle cx="958" cy="150" r="1.3" fill="#C5B8E8" opacity="0.5"/><circle cx="1126" cy="120" r="1.3" fill="#C5B8E8" opacity="0.5"/><circle cx="718" cy="250" r="1.3" fill="#C5B8E8" opacity="0.5"/><circle cx="992" cy="196" r="1.3" fill="#C5B8E8" opacity="0.5"/><circle cx="1150" cy="300" r="1.3" fill="#C5B8E8" opacity="0.5"/><circle cx="860" cy="150" r="1.3" fill="#C5B8E8" opacity="0.5"/><circle cx="924" cy="372" r="1.3" fill="#C5B8E8" opacity="0.5"/><circle cx="788" cy="182" r="1.3" fill="#C5B8E8" opacity="0.5"/><circle cx="1090" cy="238" r="1.3" fill="#C5B8E8" opacity="0.5"/>
+  <polygon points="1050,276 692.7,405.5 670.3,290.3" fill="url(#beamG)"/>
+  <polygon points="1050,276 681.4,368.3 673.7,329.0" fill="url(#beamCoreG)"/>
+  <line x1="927" y1="300" x2="836" y2="250" stroke="#C5B8E8" stroke-width="1.4" opacity="0.5"/><line x1="927" y1="300" x2="882" y2="352" stroke="#C5B8E8" stroke-width="1.4" opacity="0.5"/><line x1="927" y1="300" x2="990" y2="248" stroke="#C5B8E8" stroke-width="1.4" opacity="0.5"/><line x1="927" y1="300" x2="818" y2="314" stroke="#C5B8E8" stroke-width="1.4" opacity="0.5"/><line x1="927" y1="300" x2="964" y2="338" stroke="#C5B8E8" stroke-width="1.4" opacity="0.5"/><line x1="836" y1="250" x2="818" y2="314" stroke="#6f63a0" stroke-width="1" opacity="0.3"/><line x1="990" y1="248" x2="964" y2="338" stroke="#6f63a0" stroke-width="1" opacity="0.3"/><circle cx="927" cy="300" r="34" fill="url(#amberG)"/><circle cx="927" cy="300" r="5" fill="#F5F2FB"/><circle cx="927" cy="300" r="11" fill="none" stroke="#C98A00" stroke-width="2"/><circle cx="922.8" cy="300" r="2.1" fill="#E0A52A"/><circle cx="931.2" cy="300" r="2.1" fill="#E0A52A"/><circle cx="836" cy="250" r="22" fill="url(#nodeG)"/><circle cx="836" cy="250" r="3.4" fill="#C5B8E8"/><circle cx="882" cy="352" r="22" fill="url(#nodeG)"/><circle cx="882" cy="352" r="3.4" fill="#C5B8E8"/><circle cx="990" cy="248" r="22" fill="url(#nodeG)"/><circle cx="990" cy="248" r="3.4" fill="#C5B8E8"/><circle cx="818" cy="314" r="22" fill="url(#nodeG)"/><circle cx="818" cy="314" r="3.4" fill="#C5B8E8"/><circle cx="964" cy="338" r="22" fill="url(#nodeG)"/><circle cx="964" cy="338" r="3.4" fill="#C5B8E8"/>
+  <path d="M972,486 Q1030,430 1050,434 Q1076,432 1128,486 Z" fill="#120d22"/>
+  <polygon points="1020,440 1033,290 1067,290 1080,440" fill="#34294e"/>
+  <polygon points="1030.66,317.0 1069.34,317.0 1071.03,336.5 1028.97,336.5" fill="#C5B8E8" opacity="0.16"/><polygon points="1026.76,362.0 1073.24,362.0 1074.93,381.5 1025.07,381.5" fill="#C5B8E8" opacity="0.16"/><polygon points="1022.86,407.0 1077.14,407.0 1078.83,426.5 1021.17,426.5" fill="#C5B8E8" opacity="0.16"/>
+  <polygon points="1020,440 1033,290 1067,290 1080,440" fill="none" stroke="#8B6FC9" stroke-width="1.4" opacity="0.55"/>
+  <rect x="1026.2" y="262" width="47.599999999999994" height="28" fill="#0f0b1c"/>
+  <polygon points="1024.5,262 1050,246 1075.5,262" fill="#34294e"/>
+  <circle cx="1050" cy="276" r="52" fill="url(#lampG)"/>
+  <circle cx="1050" cy="276" r="3.4" fill="#F5F2FB"/>
+  <g transform="translate(96,48) scale(2.25)">
     <rect width="32" height="32" rx="7" fill="#FAF9FC"/>
     <g fill="none" stroke="#2D2440" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
       <path d="M12 9 H9 V23 H12"/><path d="M20 9 H23 V23 H20"/>
     </g><circle cx="13.9" cy="16" r="1.7" fill="#8B6FC9"/><circle cx="18.1" cy="16" r="1.7" fill="#8B6FC9"/></g>
+  <text x="96" y="156" font-family="Liberation Mono, DejaVu Sans Mono, monospace" font-size="21" font-weight="700" fill="#C5B8E8" letter-spacing="3">CITEVAHTI — FOR RESEARCHERS &amp; LABS</text>
+  <text x="96" y="214" font-family="Liberation Sans, DejaVu Sans, sans-serif" font-size="54" font-weight="700" fill="#FFFFFF" letter-spacing="-0.5">Run unit tests on</text>
+  <text x="96" y="282" font-family="Liberation Sans, DejaVu Sans, sans-serif" font-size="54" font-weight="700" fill="#FFFFFF" letter-spacing="-0.5">your manuscript.</text>
+  <text x="96" y="380" font-family="Liberation Sans, DejaVu Sans, sans-serif" font-size="24" fill="#C5B8E8">Verify the claim before you cite it —</text>
+  <text x="96" y="418" font-family="Liberation Sans, DejaVu Sans, sans-serif" font-size="24" fill="#C5B8E8">local-first, auditable, Zotero-safe.</text>
+  <text x="96" y="566" font-family="Liberation Mono, DejaVu Sans Mono, monospace" font-size="24" font-weight="700" fill="#C5B8E8">[ vahtian.com ]</text>
 </svg>
