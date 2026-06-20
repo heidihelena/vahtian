@@ -65,6 +65,13 @@
   .claimcard h3{margin:0 0 4px;font-size:15px}
   .badge{display:inline-block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;
     padding:2px 8px;border-radius:999px;background:var(--lilac-soft);color:var(--violet);margin-left:8px}
+  .verdict{margin-top:10px;font-size:15px;line-height:1.5}
+  .verdict .big{font-size:26px;font-weight:700;color:var(--navy)}
+  .action{margin-top:10px;font-size:13.5px;background:var(--lilac-soft);border-radius:8px;padding:10px 12px;color:var(--ink)}
+  .action.ok{background:var(--bg);color:var(--muted)}
+  .detail{margin-top:10px;border-top:1px dashed var(--line);padding-top:6px}
+  .detail summary{cursor:pointer;color:var(--violet);font-weight:600;font-size:12.5px}
+  .detail[open] summary{margin-bottom:4px}
   .stats{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
   .stat{flex:1 1 120px;border:1px solid var(--line);border-radius:10px;padding:9px 11px;background:var(--bg)}
   .stat .k{font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);font-weight:700}
@@ -92,13 +99,18 @@
 <main>
   <section>
     <h2>1 &middot; Load reviewers' files</h2>
-    <div class="drop" id="drop">
+    <div class="drop" id="drop" role="button" tabindex="0" aria-label="Choose protocol and ballot files to load">
       <b>Drop protocol + ballot files here</b><br>
       <span class="muted">or click to choose &mdash; <span class="mono">protocol-*.json</span>, <span class="mono">ballot-*.json</span>, or the <span class="mono">reviewvahti-*.zip</span> MatchVahti exports</span>
     </div>
     <input type="file" id="file" multiple accept=".json,.zip,application/json,application/zip" />
-    <p class="hint">Each reviewer screens the <b>same</b> papers in their own MatchVahti and exports a zip.
-      Load every reviewer's files together. The shared protocol is matched by its <span class="mono">protocol_hash</span>;
+    <div class="actions">
+      <button class="ghost" id="loadExample">▶ Load a worked example</button>
+      <button class="ghost" id="clearAll" style="display:none">Clear</button>
+    </div>
+    <p class="hint">New here? <b>Load a worked example</b> to see a populated result without any files. In real use,
+      each reviewer screens the <b>same</b> papers in their own MatchVahti and exports a zip; load every reviewer's
+      files together. The shared protocol is matched by its <span class="mono">protocol_hash</span>;
       a ballot whose hash doesn't match is flagged, never silently scored.</p>
     <div id="loadStatus" class="muted" style="margin-top:8px" role="status" aria-live="polite"></div>
     <div id="problems"></div>
@@ -336,24 +348,63 @@ function readFileAsync(file){
   });
 }
 
-async function handleFiles(fileList){
-  const files=[...fileList]; if(!files.length) return;
-  $("loadStatus").textContent="Reading "+files.length+" file(s)…";
-  const docs=[];
-  for(const f of files){ const parsed=await readFileAsync(f); parsed.forEach(function(d){ docs.push(d); }); }
+async function processDocs(docs, sourceLabel){
   const { protocols, ballots, unknown } = classifyDocs(docs);
   const { groups, problems } = await validateBundle(protocols, ballots);
   REVIEWS = groups.filter(function(g){ return g.ballots.length; }).map(reviewClaim);
   renderProblems(problems, unknown.length, protocols.length, ballots.length);
   renderClaims(REVIEWS);
-  $("loadStatus").textContent = protocols.length+" protocol(s), "+ballots.length+" ballot(s) → "+REVIEWS.length+" claim(s) scored.";
+  $("loadStatus").textContent = (sourceLabel?sourceLabel+" — ":"") + protocols.length+" protocol(s), "+ballots.length+" ballot(s) → "+REVIEWS.length+" claim(s) scored.";
+  $("clearAll").style.display = (REVIEWS.length || problems.length) ? "" : "none";
+  if(REVIEWS.length) $("resultsSection").scrollIntoView({ behavior:"smooth", block:"start" });
 }
+async function handleFiles(fileList){
+  const files=[...fileList]; if(!files.length) return;
+  $("loadStatus").textContent="Reading "+files.length+" file(s)…";
+  const docs=[];
+  for(const f of files){ const parsed=await readFileAsync(f); parsed.forEach(function(d){ docs.push(d); }); }
+  await processDocs(docs);
+}
+function clearAll(){
+  REVIEWS=[]; renderProblems([],0,0,0); renderClaims([]);
+  $("loadStatus").textContent=""; $("clearAll").style.display="none";
+}
+// A built-in worked example so the tool can be evaluated with no files: one EGFR-adjuvant claim,
+// two reviewers, four records — three agree (incl. two "off-topic"), one mild disagreement.
+async function buildExampleDocs(){
+  const protocol={ regime:"screening",
+    objective:{ type:"pico_question", text:"Adjuvant osimertinib improves disease-free survival in resected EGFR-mutated NSCLC." },
+    ballot_spec:{ categories:["directly_supports","partially_supports","indirectly_supports","overstated","does_not_support","contradicts","unclear"], scale_type:"nominal", allow_abstain:true },
+    reason_codes:[],
+    records:[
+      { record_id:"ex1", identity:{ pmid:"32955177" }, display:{ title:"ADAURA: osimertinib in resected EGFR-mutated NSCLC", year:2020, journal:"N Engl J Med" } },
+      { record_id:"ex2", identity:{ pmid:"37272534" }, display:{ title:"ADAURA overall-survival update", year:2023, journal:"N Engl J Med" } },
+      { record_id:"ex3", identity:{ pmid:"29286771" }, display:{ title:"Osimertinib pharmacokinetics — review", year:2018, journal:"Clin Pharmacokinet" } },
+      { record_id:"ex4", identity:{ pmid:"25589191" }, display:{ title:"EGFR mutation testing methods", year:2015, journal:"J Mol Diagn" } }
+    ] };
+  protocol.protocol_hash = await protocolHash(protocol);
+  const mk=(rid,votes)=>({ schema_version:"1.0.0", ballot_id:"ball_"+rid, protocol_hash:protocol.protocol_hash, round:1, blinded:true, rater:{ rater_id:rid, rater_type:"human" }, votes });
+  const R1=mk("R1",[
+    { record_id:"ex1", value:"directly_supports", evidence:"DFS hazard ratio 0.17 vs placebo." },
+    { record_id:"ex2", value:"directly_supports" },
+    { record_id:"ex3", value:"abstain", status:"not_relevant" },
+    { record_id:"ex4", value:"abstain", status:"not_relevant" }
+  ]);
+  const R2=mk("R2",[
+    { record_id:"ex1", value:"directly_supports" },
+    { record_id:"ex2", value:"partially_supports" },   // mild disagreement → one conflict to adjudicate
+    { record_id:"ex3", value:"abstain", status:"not_relevant" },
+    { record_id:"ex4", value:"abstain", status:"not_relevant" }
+  ]);
+  return [protocol, R1, R2];
+}
+async function loadExample(){ await processDocs(await buildExampleDocs(), "worked example"); }
 
 function renderProblems(problems, unknownN, protoN, ballotN){
   const host=$("problems"); if(!problems.length && !unknownN){ host.innerHTML=""; return; }
   let h="";
   problems.forEach(function(p){
-    if(p.kind==="protocol_hash_mismatch") h+=`<div class="warn">Protocol <b>${esc(p.id)}</b> rejected — its stored hash doesn't match a recompute (tampered or wrong serializer). Stored <span class="mono">${esc((p.stored||"").slice(0,12))}</span>, computed <span class="mono">${esc((p.computed||"").slice(0,12))}</span>.</div>`;
+    if(p.kind==="protocol_hash_mismatch") h+=`<div class="warn">Protocol <b>${esc(p.id)}</b> doesn't match its own fingerprint — it looks like it was edited after export, so it's not scored. Re-export it from MatchVahti. <span class="muted">(stored <span class="mono">${esc((p.stored||"").slice(0,10))}</span> ≠ computed <span class="mono">${esc((p.computed||"").slice(0,10))}</span>)</span></div>`;
     else if(p.kind==="orphan_ballot") h+=`<div class="warn">Ballot <b>${esc(p.id)}</b> has no matching protocol (hash <span class="mono">${esc((p.hash||"").slice(0,12))}</span>) — not scored. Load that claim's <span class="mono">protocol-*.json</span> too.</div>`;
     else if(p.kind==="duplicate_rater") h+=`<div class="warn">Two ballots from the same reviewer for <b>${esc(p.id)}</b> — kept the last one.</div>`;
   });
@@ -376,14 +427,21 @@ function renderClaims(reviews){
       body=`<div class="warn">Only ${r.n} reviewer loaded — reliability needs at least 2 ballots for this claim.</div>`;
     } else if(r.two){
       const t=r.two, k=t.kappa.value;
-      body = `<div class="stats">
-        ${statBlock("Raw agreement", pct(t.raw.value), t.compared+" shared record(s)")}
-        ${statBlock("Cohen's κ", fmt(k))}
-        ${statBlock("PABAK", fmt(t.pabak.value))}
-        ${statBlock("Gwet's AC1", fmt(t.ac1.value))}
-      </div>
-      <div class="interp"><b>κ = ${fmt(k)}</b> — ${esc(interpretKappa(k))}. Read it alongside ${pct(t.raw.value)} raw agreement and PABAK ${fmt(t.pabak.value)} / AC1 ${fmt(t.ac1.value)}: when screening is lopsided, κ understates a high raw agreement, so the chance-corrected measures (PABAK/AC1) and the raw % are reported together.</div>
-      ${r.conflicts.length?`<p class="muted" style="margin-top:8px">${r.conflicts.length} record(s) the two reviewers disagree on — see <span class="mono">conflicts.jsonl</span>; send those back to MatchVahti for adjudication.</p>`:`<p class="muted" style="margin-top:8px">No disagreements on jointly-rated records.</p>`}`;
+      const action = r.conflicts.length
+        ? `<div class="action">⤿ <b>${r.conflicts.length} record(s)</b> the two reviewers disagree on — send these back to MatchVahti to adjudicate (listed in <span class="mono">conflicts.jsonl</span>).</div>`
+        : `<div class="action ok">No disagreements on the ${t.compared} jointly-rated record(s).</div>`;
+      body = `
+      <div class="verdict"><span class="big">${pct(t.raw.value)}</span> raw agreement on ${t.compared} shared record(s) · Cohen&rsquo;s &kappa; ${fmt(k)} <b>(${esc(interpretKappa(k))})</b></div>
+      ${action}
+      <details class="detail"><summary>Statistical detail (κ, PABAK, AC1) &amp; how to read it</summary>
+        <div class="stats">
+          ${statBlock("Raw agreement", pct(t.raw.value))}
+          ${statBlock("Cohen's κ", fmt(k))}
+          ${statBlock("PABAK", fmt(t.pabak.value))}
+          ${statBlock("Gwet's AC1", fmt(t.ac1.value))}
+        </div>
+        <div class="interp">&kappa; corrects for chance agreement, but when screening is lopsided it understates a high raw agreement (the &ldquo;kappa paradox&rdquo;). That's why &kappa; ${fmt(k)} is read together with ${pct(t.raw.value)} raw agreement and the chance-corrected PABAK ${fmt(t.pabak.value)} / AC1 ${fmt(t.ac1.value)} — never alone.</div>
+      </details>`;
     } else if(r.pairwise){
       body = `<div class="warn">${r.n} reviewers — Krippendorff's α (the primary ≥3-rater metric) arrives in phase 2. Pairwise Cohen's κ for now:</div>
       <table><tr><th>pair</th><th>compared</th><th>raw %</th><th>κ</th></tr>${
@@ -442,13 +500,16 @@ $("exportPrint").onclick=function(){ const w=window.open("","_blank"); if(w){ w.
 $("exportReconciled").onclick=function(){ download("reconciled.jsonl", reconciledJsonl(), "application/x-ndjson"); };
 $("exportConflicts").onclick=function(){ download("conflicts.jsonl", conflictsJsonl(), "application/x-ndjson"); };
 
-// ---- file input + drag/drop ----
+// ---- file input + drag/drop + keyboard ----
 const drop=$("drop");
 drop.onclick=function(){ $("file").click(); };
+drop.addEventListener("keydown", function(e){ if(e.key==="Enter" || e.key===" "){ e.preventDefault(); $("file").click(); } });
 $("file").onchange=function(e){ handleFiles(e.target.files); e.target.value=""; };
 ["dragenter","dragover"].forEach(function(ev){ drop.addEventListener(ev, function(e){ e.preventDefault(); drop.classList.add("over"); }); });
 ["dragleave","drop"].forEach(function(ev){ drop.addEventListener(ev, function(e){ e.preventDefault(); drop.classList.remove("over"); }); });
 drop.addEventListener("drop", function(e){ if(e.dataTransfer && e.dataTransfer.files) handleFiles(e.dataTransfer.files); });
+$("loadExample").onclick=loadExample;
+$("clearAll").onclick=clearAll;
 </script>
 </body>
 </html>
