@@ -1,0 +1,10 @@
+{
+  "name": "reviewvahti",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "ReviewVahti — static, in-browser inter-rater screening reliability (Layer 2). package.json only enables `node tests/run.mjs` for the vendored, parity-locked CORE.",
+  "scripts": {
+    "test": "node tests/run.mjs"
+  }
+}

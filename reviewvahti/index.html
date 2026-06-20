@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<!--
+  ReviewVahti — inter-rater reliability for blinded screening (Layer 2 · n 2–7).
+  Static, single-file, no backend. Reads the protocol + ballot files MatchVahti exports
+  (record_id + protocol_hash keystone) and computes per-claim agreement IN YOUR BROWSER.
+  Nothing uploads — ReviewVahti makes NO network calls at all (connect-src 'none').
+
+  Phase 1: load protocol + ballot JSON (or the STORE .zip MatchVahti emits), validate every
+  ballot against its protocol_hash, and report per claim — raw % agreement, Cohen's kappa,
+  PABAK, and Gwet's AC1 for a 2-rater panel (pairwise kappa for 3+). Krippendorff's alpha,
+  the AI performance panel, PRISMA, and the zip report are later phases.
+
+  The CORE block below is VENDORED byte-equal from MatchVahti and parity-locked by tests/run.mjs
+  (golden protocol_hash / normalizeClaimText / cohenKappa vectors). Any drift breaks the lock.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="theme-color" content="#2D2440" />
+<!-- ReviewVahti reads only local files: no outbound connections permitted at all. -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src 'self' data:; connect-src 'none'; base-uri 'none'; form-action 'none'" />
+<meta name="referrer" content="no-referrer" />
+<title>ReviewVahti — screening reliability (kappa, in your browser)</title>
+<style>
+  :root{
+    --navy:#2D2440; --violet:#8B6FC9; --lilac:#C5B8E8; --lilac-soft:#EFEBF8;
+    --ink:#1C1830; --muted:#5B5570; --bg:#FAF9FC; --card:#FFFFFF; --line:#E7E3F0;
+    --amber:#C98A00; --amber-fill:#FFF2D8; --link:#6F52B8;
+    --shadow:0 12px 30px rgba(45,36,64,.10); --radius:14px;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,ui-sans-serif,system-ui,sans-serif;
+    font-size:16px;line-height:1.5}
+  header{background:var(--navy);color:#fff;padding:18px 18px 16px;padding-top:max(18px,env(safe-area-inset-top))}
+  .brand{display:flex;align-items:center;gap:11px;max-width:820px;margin:0 auto}
+  .brand h1{margin:0;font-size:20px;font-weight:650;letter-spacing:.2px}
+  .brand .sub{margin:2px 0 0;font-size:13px;color:var(--lilac)}
+  .hwrap{max-width:820px;margin:11px auto 0;font-size:12.5px;color:#cfc7e6;line-height:1.5}
+  .pill{display:inline-block;font-size:11.5px;padding:2px 9px;border-radius:999px;
+    border:1px solid rgba(197,184,232,.4);color:var(--lilac);margin:5px 5px 0 0}
+  main{max-width:820px;margin:0 auto;padding:16px}
+  section{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+    padding:16px;margin:0 0 14px;box-shadow:var(--shadow)}
+  h2{font-size:13px;text-transform:uppercase;letter-spacing:.7px;color:var(--violet);margin:0 0 12px;font-weight:650}
+  .drop{border:2px dashed var(--line);border-radius:12px;padding:26px 16px;text-align:center;color:var(--muted);
+    cursor:pointer;transition:border-color .15s,background .15s}
+  .drop.over{border-color:var(--violet);background:var(--lilac-soft)}
+  .drop b{color:var(--ink)}
+  input[type=file]{display:none}
+  button{background:var(--navy);color:#fff;border:none;border-radius:10px;padding:11px 15px;font:inherit;
+    font-size:14px;font-weight:600;cursor:pointer}
+  button.ghost{background:#fff;color:var(--ink);border:1.5px solid var(--line)}
+  button:disabled{opacity:.5;cursor:default}
+  .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+  .muted{color:var(--muted);font-size:13px}
+  .hint{font-size:12.5px;color:var(--muted);margin-top:7px;line-height:1.45}
+  table{border-collapse:collapse;width:100%;font-size:13px;margin-top:8px}
+  th,td{border:1px solid var(--line);padding:6px 8px;text-align:left}
+  th{background:var(--bg);font-weight:600;color:var(--muted)}
+  .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px}
+  .claimcard{border:1px solid var(--line);border-radius:12px;padding:14px;margin-top:12px}
+  .claimcard h3{margin:0 0 4px;font-size:15px}
+  .badge{display:inline-block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;
+    padding:2px 8px;border-radius:999px;background:var(--lilac-soft);color:var(--violet);margin-left:8px}
+  .stats{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+  .stat{flex:1 1 120px;border:1px solid var(--line);border-radius:10px;padding:9px 11px;background:var(--bg)}
+  .stat .k{font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);font-weight:700}
+  .stat .v{font-size:20px;font-weight:650;margin-top:2px}
+  .interp{margin-top:10px;font-size:13px;background:var(--lilac-soft);border-radius:8px;padding:9px 11px;color:var(--ink)}
+  .warn{background:var(--amber-fill);border:1px solid #e6c980;border-radius:8px;padding:9px 11px;font-size:13px;color:#5A4300;margin-top:8px}
+  .err{color:#9b2242}
+  a{color:var(--link)}
+  footer{max-width:820px;margin:8px auto 28px;padding:0 16px;font-size:12px;color:var(--muted);line-height:1.5}
+  @media (max-width:560px){ main{padding:12px} section{padding:14px} }
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">
+    <svg width="34" height="34" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#3A2F57"/><g fill="none" stroke="#8B6FC9" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M9 10 V22"/><path d="M16 10 V22"/><path d="M23 10 V22"/></g><path d="M9 16 H23" stroke="#C5B8E8" stroke-width="1.8" stroke-linecap="round"/></svg>
+    <div><h1>ReviewVahti</h1><p class="sub">Screening reliability &middot; 2&ndash;7 reviewers &middot; in your browser</p></div>
+  </div>
+  <div class="hwrap">
+    Load each reviewer's MatchVahti export (protocol + ballot) and ReviewVahti reports the per-claim
+    agreement &mdash; raw %, Cohen&rsquo;s &kappa;, PABAK, Gwet&rsquo;s AC1.<br>
+    <span class="pill">nothing uploads</span><span class="pill">no network at all</span><span class="pill">Layer 2 &middot; review</span><span class="pill">human-only &kappa;</span>
+  </div>
+</header>
+<main>
+  <section>
+    <h2>1 &middot; Load reviewers' files</h2>
+    <div class="drop" id="drop">
+      <b>Drop protocol + ballot files here</b><br>
+      <span class="muted">or click to choose &mdash; <span class="mono">protocol-*.json</span>, <span class="mono">ballot-*.json</span>, or the <span class="mono">reviewvahti-*.zip</span> MatchVahti exports</span>
+    </div>
+    <input type="file" id="file" multiple accept=".json,.zip,application/json,application/zip" />
+    <p class="hint">Each reviewer screens the <b>same</b> papers in their own MatchVahti and exports a zip.
+      Load every reviewer's files together. The shared protocol is matched by its <span class="mono">protocol_hash</span>;
+      a ballot whose hash doesn't match is flagged, never silently scored.</p>
+    <div id="loadStatus" class="muted" style="margin-top:8px" role="status" aria-live="polite"></div>
+    <div id="problems"></div>
+  </section>
+
+  <section id="resultsSection" style="display:none">
+    <h2>2 &middot; Per-claim reliability</h2>
+    <p class="hint">&kappa; is shown <b>with</b> raw % agreement, PABAK, and AC1 &mdash; never alone. Screening
+      skews to one category, so &kappa; can read low even at high agreement (the &ldquo;kappa paradox&rdquo;);
+      the adjacent measures keep it honest. The AI second opinion is <b>never</b> a ballot.</p>
+    <div id="claims"></div>
+    <div class="actions">
+      <button class="ghost" id="exportSummary" disabled>Download summary (HTML)</button>
+      <button class="ghost" id="exportPrint" disabled>Print / Save as PDF</button>
+      <button class="ghost" id="exportReconciled" disabled>reconciled.jsonl</button>
+      <button class="ghost" id="exportConflicts" disabled>conflicts.jsonl</button>
+    </div>
+  </section>
+</main>
+<footer>
+  ReviewVahti &middot; static, in-browser, no telemetry, no outbound calls &middot; reads only the files you load.
+  Reliability is measured over human reviewers; the AI second opinion is advisory and never counts toward &kappa;.
+</footer>
+
+<script>
+"use strict";
+// ============================================================
+// === CORE START — pure, DOM-free. VENDORED byte-equal from MatchVahti
+//     (sha256/normalizeClaimText/canonicalJson/canonicalObjective/
+//      canonicalProtocolPayload/protocolHash/tierOf/cohenKappa). Parity-locked
+//      by tests/run.mjs golden vectors. Do not edit without re-locking both repos.
+// ============================================================
+async function sha256(text){
+  const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(text));
+  return [...new Uint8Array(buf)].map(b=>b.toString(16).padStart(2,"0")).join("");
+}
+function normalizeClaimText(text){
+  return (text || "").normalize("NFC").toLowerCase().replace(/\s+/g, " ").trim();
+}
+function canonicalJson(v){
+  if(v === null || typeof v !== "object") return JSON.stringify(v === undefined ? null : v);
+  if(Array.isArray(v)) return "[" + v.map(canonicalJson).join(",") + "]";
+  return "{" + Object.keys(v).sort().map(k => JSON.stringify(k) + ":" + canonicalJson(v[k])).join(",") + "}";
+}
+function canonicalObjective(obj){
+  if(!obj) return null;
+  if(obj.type === "claims") return { type:"claims", claims:(obj.claims||[]).map(c=>({ statement:normalizeClaimText(c.statement||""), domain:c.domain||null })) };
+  if(obj.type === "pico_question") return { type:"pico_question", text:normalizeClaimText(obj.text||"") };
+  return obj;
+}
+function canonicalProtocolPayload(protocol){
+  const records = (protocol.records||[]).map(r=>({ record_id:r.record_id, identity:r.identity||{} }))
+    .sort((a,b)=> a.record_id < b.record_id ? -1 : a.record_id > b.record_id ? 1 : 0);
+  return {
+    regime: protocol.regime,
+    objective: canonicalObjective(protocol.objective),
+    ballot_spec: protocol.ballot_spec,
+    reason_codes: [...(protocol.reason_codes||[])].sort(),
+    records
+  };
+}
+async function protocolHash(protocol){ return sha256(canonicalJson(canonicalProtocolPayload(protocol))); }
+function tierOf(n){
+  if(n >= 8) return "guideline";
+  if(n >= 2) return "review";
+  if(n === 1) return "individual";
+  return "none";
+}
+function cohenKappa(pairs){
+  const ps = (pairs||[]).filter(function(p){ return p && p[0]!=null && p[1]!=null; });
+  const n = ps.length;
+  if(!n) return { value:null, n:0, reason:"no comparable pairs" };
+  let agree=0; const ca={}, cb={};
+  ps.forEach(function(p){ if(p[0]===p[1]) agree++; ca[p[0]]=(ca[p[0]]||0)+1; cb[p[1]]=(cb[p[1]]||0)+1; });
+  const po = agree/n;
+  let pe = 0; const cats = {}; Object.keys(ca).forEach(function(c){cats[c]=1;}); Object.keys(cb).forEach(function(c){cats[c]=1;});
+  Object.keys(cats).forEach(function(c){ pe += ((ca[c]||0)/n) * ((cb[c]||0)/n); });
+  if(pe >= 1) return { value:null, n:n, po:po, pe:pe, reason:"degenerate (one category)" };
+  return { value:(po-pe)/(1-pe), po:po, pe:pe, n:n };
+}
+
+// --- ReviewVahti reliability additions (phase 1) ---
+function _complete(pairs){ return (pairs||[]).filter(function(p){ return p && p[0]!=null && p[1]!=null; }); }
+function rawAgreement(pairs){
+  const ps=_complete(pairs); const n=ps.length; if(!n) return { value:null, n:0 };
+  let a=0; ps.forEach(function(p){ if(p[0]===p[1]) a++; }); return { value:a/n, n:n };
+}
+function _categories(ps){ const s={}; ps.forEach(function(p){ s[p[0]]=1; s[p[1]]=1; }); return Object.keys(s); }
+// PABAK (prevalence-adjusted, bias-adjusted), multiclass form: (Q*po - 1)/(Q - 1), Q = categories used.
+function pabak(pairs){
+  const ps=_complete(pairs); const n=ps.length; if(!n) return { value:null, n:0 };
+  const q=_categories(ps).length; if(q<2) return { value:null, n:n, q:q, reason:"one category" };
+  let a=0; ps.forEach(function(p){ if(p[0]===p[1]) a++; }); const po=a/n;
+  return { value:(q*po-1)/(q-1), po:po, q:q, n:n };
+}
+// Gwet's AC1: pe(gamma) = (1/(Q-1)) * sum_k pi_k(1-pi_k), pi_k = overall proportion of category k.
+function gwetAC1(pairs){
+  const ps=_complete(pairs); const n=ps.length; if(!n) return { value:null, n:0 };
+  let a=0; const c={}; ps.forEach(function(p){ if(p[0]===p[1]) a++; c[p[0]]=(c[p[0]]||0)+1; c[p[1]]=(c[p[1]]||0)+1; });
+  const po=a/n; const cats=Object.keys(c); const q=cats.length;
+  if(q<2) return { value:null, n:n, q:q, reason:"one category" };
+  let sum=0; cats.forEach(function(k){ const pi=c[k]/(2*n); sum += pi*(1-pi); });
+  const pe=sum/(q-1); return { value:(po-pe)/(1-pe), po:po, pe:pe, q:q, n:n };
+}
+function interpretKappa(k){
+  if(k==null) return "not estimable";
+  if(k<0)   return "poor (worse than chance)";
+  if(k<0.20) return "slight";
+  if(k<0.40) return "fair";
+  if(k<0.60) return "moderate";
+  if(k<0.80) return "substantial";
+  return "almost perfect";
+}
+
+// --- STORE-zip reader (matches MatchVahti zipStore: method 0, sizes in the local header, no descriptor) ---
+function readStoreZip(bytes){
+  const dv = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength);
+  const dec = new TextDecoder();
+  const out = []; let p = 0;
+  while(p + 4 <= bytes.length && dv.getUint32(p, true) === 0x04034b50){
+    const csize = dv.getUint32(p+18, true);
+    const nameLen = dv.getUint16(p+26, true);
+    const extraLen = dv.getUint16(p+28, true);
+    const name = dec.decode(bytes.subarray(p+30, p+30+nameLen));
+    const dataStart = p+30+nameLen+extraLen;
+    const text = dec.decode(bytes.subarray(dataStart, dataStart+csize));
+    out.push({ name:name, text:text });
+    p = dataStart + csize;
+  }
+  return out;
+}
+
+// --- orchestration: classify → validate → group → review one claim ---
+function classifyDocs(docs){
+  const protocols=[], ballots=[], unknown=[];
+  docs.forEach(function(d){
+    if(d && d.objective && Array.isArray(d.records)) protocols.push(d);
+    else if(d && d.protocol_hash && Array.isArray(d.votes)) ballots.push(d);
+    else unknown.push(d);
+  });
+  return { protocols:protocols, ballots:ballots, unknown:unknown };
+}
+async function validateBundle(protocols, ballots){
+  const problems=[]; const byHash={};
+  for(const pr of protocols){
+    const h = await protocolHash(pr);
+    if(h !== pr.protocol_hash){ problems.push({ kind:"protocol_hash_mismatch", id:pr.protocol_id||"(protocol)", stored:pr.protocol_hash, computed:h }); continue; }
+    byHash[h] = pr;
+  }
+  const groups={}; Object.keys(byHash).forEach(function(h){ groups[h]={ protocol:byHash[h], ballots:[] }; });
+  ballots.forEach(function(b){
+    const h=b.protocol_hash; const g=groups[h];
+    if(!g){ problems.push({ kind:"orphan_ballot", id:b.ballot_id||"(ballot)", hash:h }); return; }
+    const key=((b.rater&&b.rater.rater_id)||"?")+"|"+(b.round||1);
+    const i=g.ballots.findIndex(function(x){ return (((x.rater&&x.rater.rater_id)||"?")+"|"+(x.round||1))===key; });
+    if(i>=0){ problems.push({ kind:"duplicate_rater", id:key }); g.ballots[i]=b; } else g.ballots.push(b);
+  });
+  return { groups: Object.keys(groups).map(function(h){ return groups[h]; }), problems:problems };
+}
+// a vote's nominal agreement category: not_relevant is a real "off-topic" category, not a missing value.
+function voteCategory(v){ return (v && v.status === "not_relevant") ? "not_relevant" : (v ? v.value : null); }
+function claimMatrix(humanBallots){
+  const m={};
+  humanBallots.forEach(function(b){
+    const rid=(b.rater&&b.rater.rater_id)||"?"; m[rid]=m[rid]||{};
+    (b.votes||[]).forEach(function(v){ if(v && v.record_id!=null) m[rid][v.record_id]=voteCategory(v); });
+  });
+  return m;
+}
+function pairsFor(matrix, ra, rb){
+  const a=matrix[ra]||{}, b=matrix[rb]||{}, pairs=[]; const recs={};
+  Object.keys(a).forEach(function(r){recs[r]=1;}); Object.keys(b).forEach(function(r){recs[r]=1;});
+  Object.keys(recs).forEach(function(r){ if(a[r]!=null && b[r]!=null) pairs.push([a[r], b[r]]); });
+  return pairs;
+}
+function reviewClaim(group){
+  const human = group.ballots.filter(function(b){ return !b.rater || b.rater.rater_type !== "ai"; });
+  const ai = group.ballots.filter(function(b){ return b.rater && b.rater.rater_type === "ai"; });
+  const matrix = claimMatrix(human);
+  const raters = Object.keys(matrix);
+  const n = raters.length;
+  const res = {
+    objective: group.protocol.objective, protocol_hash: group.protocol.protocol_hash,
+    records: (group.protocol.records||[]).length, raters: raters, n: n, aiN: ai.length, tier: tierOf(n)
+  };
+  if(n === 2){
+    const pr = pairsFor(matrix, raters[0], raters[1]);
+    res.two = { a:raters[0], b:raters[1], compared:pr.length,
+      raw:rawAgreement(pr), kappa:cohenKappa(pr), pabak:pabak(pr), ac1:gwetAC1(pr) };
+  } else if(n >= 3){
+    res.pairwise=[];
+    for(let i=0;i<n;i++) for(let j=i+1;j<n;j++){ const pr=pairsFor(matrix, raters[i], raters[j]);
+      res.pairwise.push({ a:raters[i], b:raters[j], compared:pr.length, kappa:cohenKappa(pr), raw:rawAgreement(pr) }); }
+    res.alphaPending = true;
+  }
+  // per-record dispositions (phase-1 light): agreed if every human who voted gave the same category.
+  const recVotes={};
+  raters.forEach(function(r){ Object.keys(matrix[r]).forEach(function(rec){ (recVotes[rec]=recVotes[rec]||{})[r]=matrix[r][rec]; }); });
+  res.dispositions = Object.keys(recVotes).map(function(rec){
+    const votes=recVotes[rec]; const vals=Object.keys(votes).map(function(r){return votes[r];});
+    const distinct={}; vals.forEach(function(v){distinct[v]=1;});
+    const agreed = vals.length>=2 && Object.keys(distinct).length===1;
+    return { record_id:rec, votes:votes, n_votes:vals.length, agreed:agreed, conflict: vals.length>=2 && Object.keys(distinct).length>1 };
+  });
+  res.conflicts = res.dispositions.filter(function(d){ return d.conflict; });
+  return res;
+}
+// === CORE END ===
+
+// ---------------- UI ----------------
+function $(id){ return document.getElementById(id); }
+function esc(s){ return String(s==null?"":s).replace(/[&<>"']/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]; }); }
+function fmt(x){ return x==null ? "—" : (Math.round(x*1000)/1000).toFixed(3); }
+function pct(x){ return x==null ? "—" : (Math.round(x*1000)/10)+"%"; }
+
+let REVIEWS = [];   // computed claim results, kept for export
+
+function readFileAsync(file){
+  return new Promise(function(resolve){
+    const r=new FileReader();
+    const isZip = /\.zip$/i.test(file.name) || file.type==="application/zip";
+    r.onload=function(){
+      try{
+        if(isZip){
+          const bytes=new Uint8Array(r.result);
+          const entries=readStoreZip(bytes).filter(function(e){ return /\.json$/i.test(e.name); });
+          resolve(entries.map(function(e){ try{ return JSON.parse(e.text); }catch(_){ return null; } }).filter(Boolean));
+        } else {
+          resolve([JSON.parse(r.result)]);
+        }
+      }catch(e){ resolve([]); }
+    };
+    r.onerror=function(){ resolve([]); };
+    if(isZip) r.readAsArrayBuffer(file); else r.readAsText(file);
+  });
+}
+
+async function handleFiles(fileList){
+  const files=[...fileList]; if(!files.length) return;
+  $("loadStatus").textContent="Reading "+files.length+" file(s)…";
+  const docs=[];
+  for(const f of files){ const parsed=await readFileAsync(f); parsed.forEach(function(d){ docs.push(d); }); }
+  const { protocols, ballots, unknown } = classifyDocs(docs);
+  const { groups, problems } = await validateBundle(protocols, ballots);
+  REVIEWS = groups.filter(function(g){ return g.ballots.length; }).map(reviewClaim);
+  renderProblems(problems, unknown.length, protocols.length, ballots.length);
+  renderClaims(REVIEWS);
+  $("loadStatus").textContent = protocols.length+" protocol(s), "+ballots.length+" ballot(s) → "+REVIEWS.length+" claim(s) scored.";
+}
+
+function renderProblems(problems, unknownN, protoN, ballotN){
+  const host=$("problems"); if(!problems.length && !unknownN){ host.innerHTML=""; return; }
+  let h="";
+  problems.forEach(function(p){
+    if(p.kind==="protocol_hash_mismatch") h+=`<div class="warn">Protocol <b>${esc(p.id)}</b> rejected — its stored hash doesn't match a recompute (tampered or wrong serializer). Stored <span class="mono">${esc((p.stored||"").slice(0,12))}</span>, computed <span class="mono">${esc((p.computed||"").slice(0,12))}</span>.</div>`;
+    else if(p.kind==="orphan_ballot") h+=`<div class="warn">Ballot <b>${esc(p.id)}</b> has no matching protocol (hash <span class="mono">${esc((p.hash||"").slice(0,12))}</span>) — not scored. Load that claim's <span class="mono">protocol-*.json</span> too.</div>`;
+    else if(p.kind==="duplicate_rater") h+=`<div class="warn">Two ballots from the same reviewer for <b>${esc(p.id)}</b> — kept the last one.</div>`;
+  });
+  if(unknownN) h+=`<div class="warn">${unknownN} file(s) weren't a protocol or a ballot — ignored.</div>`;
+  host.innerHTML=h;
+}
+
+function objectiveText(o){ return o ? (o.type==="pico_question" ? o.text : (o.type==="claims" ? (o.claims||[]).map(function(c){return c.statement;}).join(" · ") : JSON.stringify(o))) : "(no objective)"; }
+
+function statBlock(label, value, sub){ return `<div class="stat"><div class="k">${esc(label)}</div><div class="v">${value}</div>${sub?`<div class="muted">${esc(sub)}</div>`:""}</div>`; }
+
+function renderClaims(reviews){
+  const host=$("claims");
+  if(!reviews.length){ host.innerHTML=`<p class="muted">No scorable claims yet — load at least one protocol and two reviewers' ballots for the same claim.</p>`;
+    $("resultsSection").style.display="none"; toggleExports(false); return; }
+  $("resultsSection").style.display="";
+  host.innerHTML = reviews.map(function(r){
+    let body="";
+    if(r.n < 2){
+      body=`<div class="warn">Only ${r.n} reviewer loaded — reliability needs at least 2 ballots for this claim.</div>`;
+    } else if(r.two){
+      const t=r.two, k=t.kappa.value;
+      body = `<div class="stats">
+        ${statBlock("Raw agreement", pct(t.raw.value), t.compared+" shared record(s)")}
+        ${statBlock("Cohen's κ", fmt(k))}
+        ${statBlock("PABAK", fmt(t.pabak.value))}
+        ${statBlock("Gwet's AC1", fmt(t.ac1.value))}
+      </div>
+      <div class="interp"><b>κ = ${fmt(k)}</b> — ${esc(interpretKappa(k))}. Read it alongside ${pct(t.raw.value)} raw agreement and PABAK ${fmt(t.pabak.value)} / AC1 ${fmt(t.ac1.value)}: when screening is lopsided, κ understates a high raw agreement, so the chance-corrected measures (PABAK/AC1) and the raw % are reported together.</div>
+      ${r.conflicts.length?`<p class="muted" style="margin-top:8px">${r.conflicts.length} record(s) the two reviewers disagree on — see <span class="mono">conflicts.jsonl</span>; send those back to MatchVahti for adjudication.</p>`:`<p class="muted" style="margin-top:8px">No disagreements on jointly-rated records.</p>`}`;
+    } else if(r.pairwise){
+      body = `<div class="warn">${r.n} reviewers — Krippendorff's α (the primary ≥3-rater metric) arrives in phase 2. Pairwise Cohen's κ for now:</div>
+      <table><tr><th>pair</th><th>compared</th><th>raw %</th><th>κ</th></tr>${
+        r.pairwise.map(function(pw){ return `<tr><td>${esc(pw.a)} ↔ ${esc(pw.b)}</td><td>${pw.compared}</td><td>${pct(pw.raw.value)}</td><td>${fmt(pw.kappa.value)}</td></tr>`; }).join("")
+      }</table>`;
+    }
+    const aiNote = r.aiN ? `<p class="muted" style="margin-top:8px">${r.aiN} AI ballot(s) loaded — excluded from κ (the AI is advisory, never a panel member). The AI performance panel is a later phase.</p>` : "";
+    return `<div class="claimcard">
+      <h3>${esc(objectiveText(r.objective))}<span class="badge">${esc(r.tier)} · ${r.n} of ${r.n}</span></h3>
+      <p class="muted">${r.records} record(s) in the protocol · hash <span class="mono">${esc((r.protocol_hash||"").slice(0,12))}</span></p>
+      ${body}${aiNote}
+    </div>`;
+  }).join("");
+  toggleExports(true);
+}
+
+function toggleExports(on){ ["exportSummary","exportPrint","exportReconciled","exportConflicts"].forEach(function(id){ $(id).disabled=!on; }); }
+
+// ---- exports (phase 1: separate files; the zip bundle is a later phase) ----
+function download(name, text, type){
+  const blob=new Blob([text], { type:type||"text/plain" });
+  const a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download=name;
+  document.body.appendChild(a); a.click(); a.remove(); setTimeout(function(){ URL.revokeObjectURL(a.href); }, 1000);
+}
+function summaryHtml(){
+  const rows=REVIEWS.map(function(r){
+    const t=r.two;
+    const cells = t ? `${pct(t.raw.value)}</td><td>${fmt(t.kappa.value)}</td><td>${fmt(t.pabak.value)}</td><td>${fmt(t.ac1.value)}`
+                    : `${r.n<2?"(1 reviewer)":"(≥3 — see pairwise)"}</td><td>—</td><td>—</td><td>—`;
+    return `<tr><td>${esc(objectiveText(r.objective))}</td><td>${r.n}</td><td>${esc(r.tier)}</td><td>${cells}</td></tr>`;
+  }).join("");
+  return `<!DOCTYPE html><meta charset="utf-8"><title>ReviewVahti summary</title>
+<style>body{font-family:-apple-system,system-ui,sans-serif;max-width:840px;margin:24px auto;padding:0 16px;color:#1C1830}
+table{border-collapse:collapse;width:100%;font-size:14px}th,td{border:1px solid #E7E3F0;padding:6px 9px;text-align:left}
+th{background:#FAF9FC}h1{font-size:20px}</style>
+<h1>ReviewVahti — screening reliability</h1>
+<p>${REVIEWS.length} claim(s). κ is reported with raw % agreement, PABAK and Gwet's AC1; the AI is excluded from κ.</p>
+<table><tr><th>Claim (objective)</th><th>Reviewers</th><th>Tier</th><th>Raw %</th><th>Cohen's κ</th><th>PABAK</th><th>AC1</th></tr>${rows}</table>
+<p style="color:#5B5570;font-size:12px;margin-top:14px">Computed in-browser by ReviewVahti. Reliability over human reviewers only.</p>`;
+}
+function reconciledJsonl(){
+  const rows=[];
+  REVIEWS.forEach(function(r){ r.dispositions.forEach(function(d){
+    rows.push(JSON.stringify({ protocol_hash:r.protocol_hash, record_id:d.record_id, votes:d.votes, n_votes:d.n_votes, agreed:d.agreed, conflict:d.conflict })); }); });
+  return rows.join("\n")+"\n";
+}
+function conflictsJsonl(){
+  const rows=[];
+  REVIEWS.forEach(function(r){ r.conflicts.forEach(function(d){
+    rows.push(JSON.stringify({ protocol_hash:r.protocol_hash, objective:objectiveText(r.objective), record_id:d.record_id, votes:d.votes })); }); });
+  return rows.join("\n")+"\n";
+}
+
+$("exportSummary").onclick=function(){ download("reviewvahti-summary.html", summaryHtml(), "text/html"); };
+$("exportPrint").onclick=function(){ const w=window.open("","_blank"); if(w){ w.document.write(summaryHtml()); w.document.close(); w.focus(); setTimeout(function(){ w.print(); }, 250); } };
+$("exportReconciled").onclick=function(){ download("reconciled.jsonl", reconciledJsonl(), "application/x-ndjson"); };
+$("exportConflicts").onclick=function(){ download("conflicts.jsonl", conflictsJsonl(), "application/x-ndjson"); };
+
+// ---- file input + drag/drop ----
+const drop=$("drop");
+drop.onclick=function(){ $("file").click(); };
+$("file").onchange=function(e){ handleFiles(e.target.files); e.target.value=""; };
+["dragenter","dragover"].forEach(function(ev){ drop.addEventListener(ev, function(e){ e.preventDefault(); drop.classList.add("over"); }); });
+["dragleave","drop"].forEach(function(ev){ drop.addEventListener(ev, function(e){ e.preventDefault(); drop.classList.remove("over"); }); });
+drop.addEventListener("drop", function(e){ if(e.dataTransfer && e.dataTransfer.files) handleFiles(e.dataTransfer.files); });
+</script>
+</body>
+</html>
