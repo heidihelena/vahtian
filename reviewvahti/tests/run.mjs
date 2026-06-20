@@ -17,7 +17,8 @@ const b = lines.findIndex(l => l.includes('CORE END'));
 if (a < 0 || b < 0) { console.error('CORE markers not found'); process.exit(2); }
 const names = ['sha256','normalizeClaimText','canonicalJson','canonicalObjective','canonicalProtocolPayload',
   'protocolHash','tierOf','cohenKappa','rawAgreement','pabak','gwetAC1','interpretKappa','readStoreZip',
-  'classifyDocs','validateBundle','voteCategory','claimMatrix','pairsFor','reviewClaim'];
+  'classifyDocs','validateBundle','voteCategory','claimMatrix','pairsFor','reviewClaim',
+  'reliabilityUnits','krippendorffAlpha','fleissKappa','interpretAlpha'];
 const src = lines.slice(a + 1, b).join('\n') + `\n;globalThis.__core = {${names.join(',')}};`;
 const context = { crypto: webcrypto, TextEncoder, TextDecoder, console };
 vm.createContext(context);
@@ -105,6 +106,54 @@ eq(C.cohenKappa([['a','a'],['a','a']]).value, null, 'kappa: one category → deg
   const orphan = { protocol_hash:'deadbeef', round:1, rater:{ rater_id:'RX', rater_type:'human' }, votes:[] };
   const v2 = await C.validateBundle([protocol], [ballotR1, orphan]);
   ok(v2.problems.some(p=>p.kind==='orphan_ballot'), 'validate: orphan ballot flagged');
+}
+
+// ---- phase 2: Krippendorff's α + Fleiss' κ (hand-worked on a 3-rater × 4-unit example) ----
+// units: u1=[1,1,1] u2=[1,1,2] u3=[2,2,2] u4=[1,2,2]. By hand: α = 0.3889, Fleiss κ = 0.3333.
+{
+  const units = { u1:['1','1','1'], u2:['1','1','2'], u3:['2','2','2'], u4:['1','2','2'] };
+  near(C.krippendorffAlpha(units).value, 0.3888888888888889, 'krippendorff α = 0.3889', 1e-9);
+  near(C.fleissKappa(units).value, 0.3333333333333333, 'fleiss κ = 0.3333', 1e-9);
+  // perfect agreement → α = 1
+  near(C.krippendorffAlpha({ a:['x','x'], b:['y','y'] }).value, 1, 'α: perfect agreement → 1');
+  // Fleiss refuses unequal coverage; α still computes
+  const uneq = { u1:['1','1','2'], u2:['1','2'] };
+  eq(C.fleissKappa(uneq).value, null, 'fleiss: unequal coverage → null');
+  ok(C.krippendorffAlpha(uneq).value != null, 'α: still computes on unequal coverage');
+  eq(C.interpretAlpha(0.85), 'reliable', 'interpret α 0.85'); eq(C.interpretAlpha(0.70), 'tentative — use cautiously', 'interpret α 0.70');
+  eq(C.interpretAlpha(0.40), 'unreliable', 'interpret α 0.40');
+}
+
+// ---- readStoreZip walks MULTIPLE local-file headers (a real export has protocol + ballot + README) ----
+{
+  const enc=new TextEncoder();
+  const entry=(name,data)=>{ const nB=enc.encode(name), dB=enc.encode(data);
+    const h=[0x50,0x4b,0x03,0x04,20,0,0,0,0,0,0,0,0,0,0,0,0,0,dB.length&0xFF,(dB.length>>>8)&0xFF,0,0,dB.length&0xFF,(dB.length>>>8)&0xFF,0,0,nB.length&0xFF,(nB.length>>>8)&0xFF,0,0];
+    const b=new Uint8Array(h.length+nB.length+dB.length); b.set(h,0); b.set(nB,h.length); b.set(dB,h.length+nB.length); return b; };
+  const e1=entry('protocol-c1.json','{"a":1}'), e2=entry('ballot-c1-R1.json','{"b":2}'), e3=entry('README.txt','hi');
+  const all=new Uint8Array(e1.length+e2.length+e3.length); all.set(e1,0); all.set(e2,e1.length); all.set(e3,e1.length+e2.length);
+  const out=C.readStoreZip(all);
+  eq(out.length, 3, 'zip reader: walks 3 entries');
+  eq(out.map(x=>x.name), ['protocol-c1.json','ballot-c1-R1.json','README.txt'], 'zip reader: names in order');
+  eq(out[1].text, '{"b":2}', 'zip reader: second payload');
+}
+
+// ---- ≥3-rater integration: reviewClaim returns α + Fleiss ----
+{
+  const protocol={ regime:'screening', objective:{type:'pico_question',text:'X improves Y.'},
+    ballot_spec:{categories:['directly_supports','does_not_support'],scale_type:'nominal'}, reason_codes:[],
+    records:[{record_id:'r1',identity:{pmid:'1'}},{record_id:'r2',identity:{pmid:'2'}}] };
+  protocol.protocol_hash=await C.protocolHash(protocol);
+  const mk=(id,v1,v2)=>({protocol_hash:protocol.protocol_hash,round:1,rater:{rater_id:id,rater_type:'human'},
+    votes:[{record_id:'r1',value:v1},{record_id:'r2',value:v2}]});
+  const { groups } = await C.validateBundle([protocol],
+    [mk('R1','directly_supports','does_not_support'), mk('R2','directly_supports','does_not_support'), mk('R3','directly_supports','directly_supports')]);
+  const r=C.reviewClaim(groups[0]);
+  eq(r.n, 3, '≥3: three reviewers'); eq(r.tier, 'review', '≥3: review tier');
+  ok(r.alpha && r.alpha.value!=null, '≥3: Krippendorff α computed');
+  ok(r.fleiss && r.fleiss.value!=null, '≥3: Fleiss κ computed (equal coverage)');
+  eq(r.pairwise.length, 3, '≥3: three pairwise comparisons');
+  eq(r.conflicts.length, 1, '≥3: r2 is a conflict (R3 disagrees)');
 }
 
 console.log(`\n${pass} passed, ${fail} failed`);
