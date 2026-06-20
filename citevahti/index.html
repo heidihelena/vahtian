@@ -97,6 +97,43 @@
       .hero-scrim{background:linear-gradient(180deg,rgba(20,14,38,.5),rgba(20,14,38,.86))}}
     footer{padding:28px 0 50px;color:var(--muted);font-size:13px;border-top:1px solid var(--line);margin-top:32px}
     footer a{color:var(--muted)}
+    /* ── Interactive "Check one claim" demo ─────────────────────────── */
+    .demo{margin-top:4px}
+    .demo .steps{list-style:none;display:flex;flex-wrap:wrap;gap:8px;padding:0;margin:0 0 18px;font:600 12px/1 ui-monospace,monospace}
+    .demo .steps li{padding:6px 11px;border-radius:7px;border:1px solid var(--line);color:var(--muted);background:var(--card)}
+    .demo .steps li.on{border-color:var(--violet);color:#432C7A;background:#ECE3FF}
+    .demo .steps li.done{border-color:var(--teal);color:#08544A;background:#D8F4ED}
+    .claimcard{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 18px 8px;box-shadow:0 1px 0 rgba(45,36,64,.03)}
+    .clbl{font:600 11px/1 ui-monospace,monospace;text-transform:uppercase;letter-spacing:.07em;color:var(--violet);margin-bottom:7px}
+    .claimtext{font-size:18px;line-height:1.5;margin:0 0 4px;color:var(--ink)}
+    .claimtext sup{color:var(--violet);font-weight:700}
+    .src{border-top:1px dashed var(--line);margin-top:14px;padding:14px 0 6px}
+    .src .clbl{color:var(--muted)}
+    .src p{margin:0;font-size:14.5px;color:#3a3450}
+    .askq{font-weight:700;margin:20px 0 12px;font-size:16px}
+    .choices{display:flex;flex-wrap:wrap;gap:9px}
+    .choice{font:600 14px/1 inherit;padding:10px 15px;border-radius:9px;border:1.5px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer;transition:border-color .12s,background .12s}
+    .choice:hover{border-color:var(--violet)}
+    .choice:focus-visible{outline:2px solid var(--violet);outline-offset:2px}
+    .choice.sel{border-color:var(--navy);background:var(--navy);color:#fff}
+    .choice:disabled{cursor:default;opacity:.5}
+    .choice.sel:disabled{opacity:1}
+    .blindnote{font-size:13.5px;color:var(--muted);margin:13px 0 0}
+    .yourated{font-size:14.5px;color:#3a3450;margin:18px 0 12px}
+    .ai{background:#F6F2FF;border:1px solid var(--line);border-left:3px solid var(--violet);border-radius:10px;padding:14px 16px}
+    .ai .clbl{color:var(--violet);margin-bottom:6px}
+    .ai p{margin:0;font-size:14.5px;color:#322c47}
+    .agree{font-weight:600;font-size:14.5px;margin:14px 0 4px}
+    .agree.same{color:#08544A}.agree.diff{color:#7A1F45}
+    .teach{font-size:14px;color:var(--muted);margin:8px 0 0}
+    .statewrap{font-size:16px;margin:6px 0 14px}
+    .statewrap .chip{font-size:13px;vertical-align:middle}
+    .ledger{background:var(--navy);border-radius:10px;padding:4px 4px 6px;margin-top:4px}
+    .ledger .clbl{color:var(--lilac);padding:9px 12px 3px}
+    .ledger pre{margin:0;background:transparent;font-size:12.5px;line-height:1.7}
+    .ledger pre .k{color:#9b93b8}.ledger pre .ok{color:#7fd9c5}
+    .cta-final{margin-top:18px}
+    .cta-final p{font-size:15px;color:#322c47;max-width:62ch}
   </style>
 </head>
 <body>
@@ -128,8 +165,8 @@
       reference enters Zotero only as the audited, undoable last step of <em>your</em>
       decision. Free and local-first.</p>
     <div class="cta">
-      <a class="btn primary" href="#start">Get started</a>
-      <a class="btn ghost" href="https://github.com/heidihelena/citevahti">View on GitHub</a>
+      <a class="btn primary" href="#try">Check one claim ↓</a>
+      <a class="btn ghost" href="#start">Get started</a>
     </div>
     <div class="chips" aria-label="The four claim states">
       <span class="chip v">[oo] verified</span>
@@ -142,6 +179,83 @@
 </section>
 
 <div class="wrap">
+
+  <section id="try">
+    <h2>Check one claim — right here</h2>
+    <p class="note">A worked example, running entirely in your browser — nothing is sent anywhere.
+      You rate first; the AI's opinion stays hidden until you do, exactly as the tool works.</p>
+
+    <div class="demo">
+      <ol class="steps" aria-hidden="true">
+        <li id="st1">1 · Read</li>
+        <li id="st2" class="on">2 · Rate (blind)</li>
+        <li id="st3">3 · Reveal</li>
+        <li id="st4">4 · Decide</li>
+      </ol>
+
+      <div class="claimcard">
+        <div class="clbl">Manuscript claim</div>
+        <p class="claimtext">“Low-dose CT screening reduces lung-cancer mortality in adults over 50
+          with any smoking history.”<sup>1</sup></p>
+        <div class="src">
+          <div class="clbl">¹ The source cited for it</div>
+          <p><b>National Lung Screening Trial</b> — NEJM 2011. Three annual low-dose CT scans vs
+            chest X-ray gave a <b>20% relative reduction</b> in lung-cancer mortality. Enrolled adults
+            aged <b>55–74</b> with <b>≥30 pack-years</b>, current smokers or those who quit within
+            15 years (n = 53,454).</p>
+        </div>
+      </div>
+
+      <div id="rateBlock">
+        <p class="askq">Does the cited paper support <em>this</em> claim, as written?</p>
+        <div class="choices" role="group" aria-label="Your support rating">
+          <button class="choice" type="button" data-r="direct">Directly supports</button>
+          <button class="choice" type="button" data-r="partial">Partially supports</button>
+          <button class="choice" type="button" data-r="no">Doesn’t support</button>
+          <button class="choice" type="button" data-r="contra">Contradicts</button>
+        </div>
+        <p class="blindnote"><span aria-hidden="true">🔒 </span>The AI's second opinion is hidden until you rate.</p>
+      </div>
+
+      <div id="revealBlock" tabindex="-1" hidden>
+        <p class="yourated">You rated: <b id="youRated"></b></p>
+        <div class="ai">
+          <div class="clbl">AI second opinion <span style="font-weight:400;text-transform:none;letter-spacing:0">— was blinded until you rated</span></div>
+          <p><b>Partially supports.</b> The paper does show low-dose CT cuts lung-cancer mortality, but
+            for a <b>narrower population</b> than the claim states — NLST enrolled 55–74-year-olds with
+            ≥30 pack-years, not “over 50 with any smoking history.” As written, the claim
+            <b>overstates</b> the evidence: the population (the <em>P</em> in PICO) doesn't match.</p>
+        </div>
+        <p class="agree" id="agreeLine"></p>
+        <p class="teach">This is the catch keyword-matching misses: the paper is <em>about</em> the topic,
+          yet it doesn't support the claim <em>as worded</em>.</p>
+
+        <p class="askq" style="margin-top:22px">Your decision — you're the decider:</p>
+        <div class="choices" role="group" aria-label="Your decision">
+          <button class="choice" type="button" data-d="accept">Accept</button>
+          <button class="choice" type="button" data-d="caution">Caution</button>
+          <button class="choice" type="button" data-d="reject">Reject / revise</button>
+        </div>
+      </div>
+
+      <div id="outcomeBlock" tabindex="-1" hidden>
+        <p class="statewrap">This claim is now <span class="chip" id="stateChip"></span></p>
+        <div class="ledger">
+          <div class="clbl">Audit ledger — what CiteVahti would record</div>
+          <pre id="ledgerLine"></pre>
+        </div>
+        <div class="cta-final">
+          <p><b>That was one claim.</b> CiteVahti runs this across your whole manuscript — real PubMed
+            candidates instead of a baked example, an undoable Zotero write, and a hash-chained audit
+            trail you can cite in a methods section.</p>
+          <div class="cta">
+            <a class="btn primary" href="#start">Get CiteVahti →</a>
+            <button class="btn ghost" id="tryReset" type="button">↺ Start over</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <section>
     <h2>How it works — the manuscript as a test suite</h2>
@@ -260,6 +374,58 @@ citevahti run</pre>
   new ResizeObserver(function(){resize();if(reduce)draw(0);}).observe(host);
   resize();start();
   if('IntersectionObserver' in window&&!reduce){new IntersectionObserver(function(es){es.forEach(function(en){if(en.isIntersecting){if(!raf)raf=requestAnimationFrame(draw);}else if(raf){cancelAnimationFrame(raf);raf=null;}});}).observe(host);}
+})();
+</script>
+<script>
+/* Interactive "Check one claim" demo — blinded rate → reveal → decide.
+   All data is baked in; nothing is sent anywhere. */
+(function(){
+  var R={direct:"Directly supports",partial:"Partially supports",no:"Doesn’t support",contra:"Contradicts"};
+  var rated=null;
+  function step(n,allDone){
+    [1,2,3,4].forEach(function(i){var el=document.getElementById('st'+i);if(!el)return;
+      el.className=allDone?'done':(i<n?'done':(i===n?'on':''));});
+  }
+  function h32(s){var h=0x811c9dc5;for(var i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,0x01000193);}return('00000000'+(h>>>0).toString(16)).slice(-8);}
+  var rateBtns=Array.prototype.slice.call(document.querySelectorAll('#rateBlock .choice'));
+  rateBtns.forEach(function(b){b.addEventListener('click',function(){
+    rated=b.getAttribute('data-r');
+    rateBtns.forEach(function(x){x.classList.toggle('sel',x===b);x.disabled=true;});
+    document.getElementById('youRated').textContent=R[rated];
+    var same=(rated==='partial');
+    var ag=document.getElementById('agreeLine');
+    ag.textContent=same?'✓ Your rating and the AI agree.'
+      :'⚠ Your rating and the AI differ — CiteVahti flags disagreements for a second look.';
+    ag.className='agree '+(same?'same':'diff');
+    var rv=document.getElementById('revealBlock');rv.hidden=false;step(3);
+    rv.focus();rv.scrollIntoView({behavior:'smooth',block:'nearest'});
+  });});
+  var decBtns=Array.prototype.slice.call(document.querySelectorAll('#revealBlock .choice'));
+  decBtns.forEach(function(b){b.addEventListener('click',function(){
+    decBtns.forEach(function(x){x.classList.toggle('sel',x===b);x.disabled=true;});
+    var d=b.getAttribute('data-d');
+    var map={accept:['v','[oo] verified'],caution:['r','[r] review needed'],reject:['d','[d] decision recorded']};
+    var chip=document.getElementById('stateChip');chip.className='chip '+map[d][0];chip.textContent=map[d][1];
+    var now=new Date().toISOString().slice(0,16).replace('T',' ')+'Z';
+    var hash=h32(d+rated+now),prev=h32('genesis'+rated);
+    document.getElementById('ledgerLine').innerHTML=
+      now+'  <span class="k">claim</span>=clm_7f3a  <span class="k">decision</span>='+d+'\n'+
+      '  <span class="k">human</span>='+rated+'   <span class="k">ai</span>=partial <span class="k">(blinded)</span>\n'+
+      '  <span class="k">state</span>='+map[d][1]+'\n'+
+      '  <span class="k">hash</span>='+hash+'  <span class="k">prev</span>='+prev+'   <span class="ok">✓ chain intact</span>';
+    var ob=document.getElementById('outcomeBlock');ob.hidden=false;step(4,true);
+    ob.focus();ob.scrollIntoView({behavior:'smooth',block:'nearest'});
+  });});
+  var reset=document.getElementById('tryReset');
+  if(reset)reset.addEventListener('click',function(){
+    rated=null;
+    document.getElementById('revealBlock').hidden=true;
+    document.getElementById('outcomeBlock').hidden=true;
+    Array.prototype.slice.call(document.querySelectorAll('.demo .choice')).forEach(function(x){x.classList.remove('sel');x.disabled=false;});
+    step(2);
+    document.getElementById('try').scrollIntoView({behavior:'smooth',block:'start'});
+  });
+  step(2);
 })();
 </script>
 </body>
