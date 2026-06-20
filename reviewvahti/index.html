@@ -9,8 +9,9 @@
   against its protocol_hash, and report per claim — raw % agreement + Cohen's kappa + PABAK +
   Gwet's AC1 (+ a bootstrap CI) for a 2-rater panel; Krippendorff's alpha (primary) + Fleiss' kappa
   (equal coverage) + a pairwise kappa matrix for 3+ reviewers; an AI performance panel vs the
-  human-agreed reference; and a .zip report bundle. PRISMA (which needs the search's hit/dedup
-  counts from MatchVahti) is the remaining phase.
+  human-agreed reference; a PRISMA title/abstract screening flow; and a .zip report bundle.
+  (The PRISMA identified/duplicates boxes are filled from the search when the protocol carries
+  those counts; otherwise from your search log.)
 
   The CORE block below is VENDORED byte-equal from MatchVahti and parity-locked by tests/run.mjs
   (golden protocol_hash / normalizeClaimText / cohenKappa vectors). Any drift breaks the lock.
@@ -79,6 +80,11 @@
   .stat .k{font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);font-weight:700}
   .stat .v{font-size:20px;font-weight:650;margin-top:2px}
   .interp{margin-top:10px;font-size:13px;background:var(--lilac-soft);border-radius:8px;padding:9px 11px;color:var(--ink)}
+  .prisma{margin-top:8px;display:flex;flex-direction:column;gap:0}
+  .pbox{border:1px solid var(--line);border-radius:9px;padding:9px 12px;background:var(--bg);display:flex;align-items:baseline;gap:10px}
+  .pbox .pn{font-size:18px;font-weight:700;color:var(--navy);min-width:48px}
+  .pbox .pl{font-size:13px;color:var(--ink)}
+  .parrow{font-size:11.5px;color:var(--muted);padding:3px 0 3px 14px}
   .warn{background:var(--amber-fill);border:1px solid #e6c980;border-radius:8px;padding:9px 11px;font-size:13px;color:#5A4300;margin-top:8px}
   .err{color:#9b2242}
   a{color:var(--link)}
@@ -333,6 +339,29 @@ function bootstrapKappaCI(pairs, B){
   return { lo: vals[Math.floor(0.025*vals.length)], hi: vals[Math.ceil(0.975*vals.length)-1], n:n, B:vals.length };
 }
 
+// --- phase 3b: PRISMA title/abstract screening counts ---
+// ReviewVahti owns the title/abstract stage (§6.6): records SCREENED, EXCLUDED, and SOUGHT for
+// retrieval are computed from the ballots (rigorous). Records IDENTIFIED and DUPLICATES come from
+// the database search — read from the protocol's source_provenance when present (null otherwise).
+function prismaCounts(review){
+  const recs = review.dispositions || [];
+  let sought=0, excluded=0;
+  recs.forEach(function(d){
+    const vals = Object.keys(d.votes||{}).map(function(r){ return d.votes[r]; });
+    if(vals.some(isRetrievalPositive)) sought++; else excluded++;   // safe rule: any supporting → sought
+  });
+  const sp = review.sourceProvenance || {};
+  const dbs = sp.databases || [];
+  const hitsKnown = dbs.some(function(d){ return typeof d.hits === "number"; });
+  return {
+    databases: dbs,
+    identified: hitsKnown ? dbs.reduce(function(s,d){ return s + (typeof d.hits==="number" ? d.hits : 0); }, 0) : null,
+    duplicates: (typeof sp.duplicates_removed === "number") ? sp.duplicates_removed : null,
+    screened: recs.length, excluded: excluded, sought: sought,
+    records: review.records || 0, notScreened: Math.max(0, (review.records||0) - recs.length)
+  };
+}
+
 // --- vendored byte-equal from MatchVahti: crc32 + zipStore (for the .zip report bundle) ---
 const _CRCT = (function(){ const t=[]; for(let n=0;n<256;n++){ let c=n; for(let k=0;k<8;k++) c = c&1 ? 0xEDB88320 ^ (c>>>1) : c>>>1; t[n]=c>>>0; } return t; })();
 function crc32(bytes){ let c=0xFFFFFFFF; for(let i=0;i<bytes.length;i++) c = _CRCT[(c ^ bytes[i]) & 0xFF] ^ (c>>>8); return (c ^ 0xFFFFFFFF) >>> 0; }
@@ -438,7 +467,8 @@ function reviewClaim(group){
   const n = raters.length;
   const res = {
     objective: group.protocol.objective, protocol_hash: group.protocol.protocol_hash,
-    records: (group.protocol.records||[]).length, raters: raters, n: n, aiN: ai.length, tier: tierOf(n)
+    records: (group.protocol.records||[]).length, raters: raters, n: n, aiN: ai.length, tier: tierOf(n),
+    sourceProvenance: group.protocol.source_provenance || null
   };
   if(n === 2){
     const pr = pairsFor(matrix, raters[0], raters[1]);
@@ -463,6 +493,7 @@ function reviewClaim(group){
     return { record_id:rec, votes:votes, n_votes:vals.length, agreed:agreed, conflict: vals.length>=2 && Object.keys(distinct).length>1 };
   });
   res.conflicts = res.dispositions.filter(function(d){ return d.conflict; });
+  res.prisma = prismaCounts(res);   // title/abstract screening flow (§6.6)
   // AI performance vs the human-agreed reference (separate panel; AI never enters human κ)
   if(ai.length){ res.ai = aiPerformance(matrix, claimMatrix(ai)); }
   return res;
@@ -588,6 +619,27 @@ function aiPanelHtml(r){
   </details>`;
 }
 
+// PRISMA title/abstract screening flow (§6.6). Screened/excluded/sought are computed from the
+// ballots; identified/duplicates come from the search (protocol provenance) when present.
+function prismaHtml(r){
+  const p=r.prisma; if(!p) return "";
+  const box=function(label,n,note){ return `<div class="pbox"><div class="pn">${n==null?"—":n}</div><div class="pl">${label}${note?` <span class="muted">${note}</span>`:""}</div></div>`; };
+  const dbNote = p.databases && p.databases.length ? p.databases.map(function(d){ return esc(d.name||"?")+(typeof d.hits==="number"?(" "+d.hits):""); }).join(", ") : "";
+  return `<details class="detail" style="margin-top:10px"><summary>PRISMA — title/abstract screening flow</summary>
+    <p class="muted" style="margin-top:6px">ReviewVahti owns the title/abstract stage. <b>Screened / excluded / sought</b> are computed from the ballots; <b>identified / duplicates</b> come from your database search — shown when the protocol carries them, otherwise enter them from your search log. Full-text exclusions belong to the later retrieval stage.</p>
+    <div class="prisma">
+      ${box("Records identified (databases)", p.identified, p.identified==null?"— from your search log":(dbNote?"· "+dbNote:""))}
+      <div class="parrow">↓ removed before screening</div>
+      ${box("Duplicates removed", p.duplicates, p.duplicates==null?"— from your search log":"")}
+      ${box("Records screened (title/abstract)", p.screened, p.notScreened?("· "+p.notScreened+" not yet screened"):"")}
+      <div class="parrow">↓ excluded at screening</div>
+      ${box("Excluded at screening", p.excluded)}
+      ${box("Sought for retrieval (supporting)", p.sought)}
+    </div>
+    <div class="interp">&ldquo;Sought for retrieval&rdquo; = records at least one reviewer rated as supporting (the retrieval-positive set, safe rule); &ldquo;excluded&rdquo; = every reviewer rated it non-supporting. The two sum to the ${p.screened} screened.</div>
+  </details>`;
+}
+
 function renderClaims(reviews){
   const host=$("claims");
   if(!reviews.length){ host.innerHTML=`<p class="muted">No scorable claims yet — load at least one protocol and two reviewers' ballots for the same claim.</p>`;
@@ -636,7 +688,7 @@ function renderClaims(reviews){
     return `<div class="claimcard">
       <h3>${esc(objectiveText(r.objective))}<span class="badge">${esc(r.tier)} · ${r.n} of ${r.n}</span></h3>
       <p class="muted">${r.records} record(s) in the protocol · hash <span class="mono">${esc((r.protocol_hash||"").slice(0,12))}</span></p>
-      ${body}${aiNote}
+      ${body}${aiNote}${prismaHtml(r)}
     </div>`;
   }).join("");
   toggleExports(true);
