@@ -7,9 +7,10 @@
 
   Load protocol + ballot JSON (or the STORE .zip MatchVahti emits), validate every ballot
   against its protocol_hash, and report per claim — raw % agreement + Cohen's kappa + PABAK +
-  Gwet's AC1 for a 2-rater panel; Krippendorff's alpha (primary) + Fleiss' kappa (equal coverage)
-  + a pairwise kappa matrix for 3+ reviewers. The AI performance panel, PRISMA, and the zip
-  report are later phases.
+  Gwet's AC1 (+ a bootstrap CI) for a 2-rater panel; Krippendorff's alpha (primary) + Fleiss' kappa
+  (equal coverage) + a pairwise kappa matrix for 3+ reviewers; an AI performance panel vs the
+  human-agreed reference; and a .zip report bundle. PRISMA (which needs the search's hit/dedup
+  counts from MatchVahti) is the remaining phase.
 
   The CORE block below is VENDORED byte-equal from MatchVahti and parity-locked by tests/run.mjs
   (golden protocol_hash / normalizeClaimText / cohenKappa vectors). Any drift breaks the lock.
@@ -128,6 +129,7 @@
       <button class="ghost" id="exportPrint" disabled>Print / Save as PDF</button>
       <button class="ghost" id="exportReconciled" disabled>reconciled.jsonl</button>
       <button class="ghost" id="exportConflicts" disabled>conflicts.jsonl</button>
+      <button class="ghost" id="exportZip" disabled>Report bundle (.zip)</button>
     </div>
   </section>
 </main>
@@ -281,6 +283,92 @@ function interpretAlpha(a){
   return "unreliable";
 }
 
+// --- phase 3a: AI performance vs the human-agreed reference + bootstrap CI for κ ---
+// Retrieval-positive = the three supporting values (a paper worth keeping); everything else
+// (incl. not_relevant / contradicts / unclear) is retrieval-negative. (§6.3)
+const SUPPORTING_SET = { directly_supports:1, partially_supports:1, indirectly_supports:1 };
+function isRetrievalPositive(cat){ return !!SUPPORTING_SET[cat]; }
+// Reference standard = records where the humans AGREE; the AI is scored against that, never inside κ (#8).
+function aiPerformance(humanMatrix, aiMatrix){
+  const units = reliabilityUnits(humanMatrix);
+  const truth = {};
+  Object.keys(units).forEach(function(rec){
+    const vals = units[rec]; if(vals.length < 2) return;
+    const d = {}; vals.forEach(function(v){ d[v]=1; });
+    if(Object.keys(d).length === 1) truth[rec] = vals[0];   // unanimous human category
+  });
+  const aiVotes = {};
+  Object.keys(aiMatrix||{}).forEach(function(r){ Object.keys(aiMatrix[r]).forEach(function(rec){ aiVotes[rec]=aiMatrix[r][rec]; }); });
+  let TP=0, FP=0, TN=0, FN=0; const pairs=[];
+  Object.keys(truth).forEach(function(rec){
+    if(aiVotes[rec] == null) return;
+    const aiPos = isRetrievalPositive(aiVotes[rec]), hPos = isRetrievalPositive(truth[rec]);
+    // κ is on the binarized screening decision (include/exclude), matching the sens/spec panel
+    pairs.push([aiPos ? "pos" : "neg", hPos ? "pos" : "neg"]);
+    if(hPos && aiPos) TP++; else if(!hPos && aiPos) FP++; else if(!hPos && !aiPos) TN++; else FN++;
+  });
+  const N = TP+FP+TN+FN;
+  if(!N) return { n:0, reason:"no AI ratings on the human-agreed subset" };
+  const div = function(a,b){ return b ? a/b : null; };
+  const sens = div(TP, TP+FN);
+  return {
+    n:N, TP:TP, FP:FP, TN:TN, FN:FN,
+    sensitivity: sens, specificity: div(TN, TN+FP), ppv: div(TP, TP+FP), npv: div(TN, TN+FN),
+    wss95: (TN+FN)/N - 0.05, recallMeets95: sens != null && sens >= 0.95,
+    kappa: cohenKappa(pairs)
+  };
+}
+// 95% CI for Cohen's κ by nonparametric bootstrap over RECORDS, preserving each record's paired
+// votes (#6). Math.random is fine here (browser + node vm); this is not a Workflow script.
+function bootstrapKappaCI(pairs, B){
+  const ps = _complete(pairs); const n = ps.length;
+  if(n < 5) return { lo:null, hi:null, n:n, reason:"too few jointly-rated records for a stable CI" };
+  B = B || 2000; const vals = [];
+  for(let b=0;b<B;b++){
+    const sample = []; for(let i=0;i<n;i++) sample.push(ps[Math.floor(Math.random()*n)]);
+    const k = cohenKappa(sample).value; if(k != null) vals.push(k);
+  }
+  if(vals.length < B*0.5) return { lo:null, hi:null, n:n, reason:"κ undefined in too many resamples" };
+  vals.sort(function(a,b){ return a-b; });
+  return { lo: vals[Math.floor(0.025*vals.length)], hi: vals[Math.ceil(0.975*vals.length)-1], n:n, B:vals.length };
+}
+
+// --- vendored byte-equal from MatchVahti: crc32 + zipStore (for the .zip report bundle) ---
+const _CRCT = (function(){ const t=[]; for(let n=0;n<256;n++){ let c=n; for(let k=0;k<8;k++) c = c&1 ? 0xEDB88320 ^ (c>>>1) : c>>>1; t[n]=c>>>0; } return t; })();
+function crc32(bytes){ let c=0xFFFFFFFF; for(let i=0;i<bytes.length;i++) c = _CRCT[(c ^ bytes[i]) & 0xFF] ^ (c>>>8); return (c ^ 0xFFFFFFFF) >>> 0; }
+function zipStore(files){
+  const enc = new TextEncoder();
+  const u16 = n => [n & 0xFF, (n>>>8) & 0xFF];
+  const u32 = n => [n & 0xFF, (n>>>8) & 0xFF, (n>>>16) & 0xFF, (n>>>24) & 0xFF];
+  const locals = [], central = []; let offset = 0;
+  for(const f of (files||[])){
+    const nameB = enc.encode(f.name);
+    const dataB = enc.encode(typeof f.data === "string" ? f.data : "");
+    const crc = crc32(dataB);
+    const lfh = [].concat(u32(0x04034b50), u16(20), u16(0), u16(0), u16(0), u16(0),
+      u32(crc), u32(dataB.length), u32(dataB.length), u16(nameB.length), u16(0));
+    const lfhB = new Uint8Array(lfh.length + nameB.length + dataB.length);
+    lfhB.set(lfh, 0); lfhB.set(nameB, lfh.length); lfhB.set(dataB, lfh.length + nameB.length);
+    locals.push(lfhB);
+    const cdh = [].concat(u32(0x02014b50), u16(20), u16(20), u16(0), u16(0), u16(0), u16(0),
+      u32(crc), u32(dataB.length), u32(dataB.length), u16(nameB.length), u16(0), u16(0), u16(0), u16(0),
+      u32(0), u32(offset));
+    const cdhB = new Uint8Array(cdh.length + nameB.length);
+    cdhB.set(cdh, 0); cdhB.set(nameB, cdh.length);
+    central.push(cdhB);
+    offset += lfhB.length;
+  }
+  const centralSize = central.reduce((s,c)=>s+c.length, 0);
+  const eocdB = new Uint8Array([].concat(u32(0x06054b50), u16(0), u16(0),
+    u16(central.length), u16(central.length), u32(centralSize), u32(offset), u16(0)));
+  const total = locals.reduce((s,c)=>s+c.length,0) + centralSize + eocdB.length;
+  const out = new Uint8Array(total); let p=0;
+  for(const c of locals){ out.set(c, p); p+=c.length; }
+  for(const c of central){ out.set(c, p); p+=c.length; }
+  out.set(eocdB, p);
+  return out;
+}
+
 // --- STORE-zip reader (matches MatchVahti zipStore: method 0, sizes in the local header, no descriptor) ---
 function readStoreZip(bytes){
   const dv = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength);
@@ -355,7 +443,8 @@ function reviewClaim(group){
   if(n === 2){
     const pr = pairsFor(matrix, raters[0], raters[1]);
     res.two = { a:raters[0], b:raters[1], compared:pr.length,
-      raw:rawAgreement(pr), kappa:cohenKappa(pr), pabak:pabak(pr), ac1:gwetAC1(pr) };
+      raw:rawAgreement(pr), kappa:cohenKappa(pr), pabak:pabak(pr), ac1:gwetAC1(pr),
+      ci:bootstrapKappaCI(pr) };
   } else if(n >= 3){
     const units = reliabilityUnits(matrix);
     res.alpha = krippendorffAlpha(units);
@@ -374,6 +463,8 @@ function reviewClaim(group){
     return { record_id:rec, votes:votes, n_votes:vals.length, agreed:agreed, conflict: vals.length>=2 && Object.keys(distinct).length>1 };
   });
   res.conflicts = res.dispositions.filter(function(d){ return d.conflict; });
+  // AI performance vs the human-agreed reference (separate panel; AI never enters human κ)
+  if(ai.length){ res.ai = aiPerformance(matrix, claimMatrix(ai)); }
   return res;
 }
 // === CORE END ===
@@ -474,6 +565,29 @@ function objectiveText(o){ return o ? (o.type==="pico_question" ? o.text : (o.ty
 
 function statBlock(label, value, sub){ return `<div class="stat"><div class="k">${esc(label)}</div><div class="v">${value}</div>${sub?`<div class="muted">${esc(sub)}</div>`:""}</div>`; }
 
+// AI performance panel — measured against the human-agreed subset, kept visually separate, labelled
+// advisory. Shows nothing toward κ; the AI is never a panel member.
+function aiPanelHtml(r){
+  if(!r.aiN) return "";
+  if(!r.ai || !r.ai.n) return `<p class="muted" style="margin-top:8px">${r.aiN} AI ballot(s) loaded, but the reviewers don't yet agree on any record the AI also rated — no reference standard to score the AI against.</p>`;
+  const a=r.ai;
+  return `<details class="detail" style="margin-top:10px"><summary>AI second-opinion performance (advisory — never a ballot)</summary>
+    <p class="muted" style="margin-top:6px">Measured on the ${a.n} record(s) where the reviewers <b>agree</b> (the reference standard). Retrieval-positive = a supporting rating.</p>
+    <div class="stats">
+      ${statBlock("Sensitivity", pct(a.sensitivity), "recall of supporting")}
+      ${statBlock("Specificity", pct(a.specificity))}
+      ${statBlock("PPV", pct(a.ppv))}
+      ${statBlock("NPV", pct(a.npv))}
+    </div>
+    <div class="stats">
+      ${statBlock("WSS@95", a.wss95==null?"—":fmt(a.wss95), a.recallMeets95?"recall ≥95% ✓":"recall <95% — not met")}
+      ${statBlock("κ vs consensus", fmt(a.kappa.value))}
+      ${statBlock("Confusion", `${a.TP}·${a.FP}·${a.TN}·${a.FN}`, "TP·FP·TN·FN")}
+    </div>
+    <div class="interp">The AI is scored as a screener against where humans agree — it never enters the human κ/α. WSS@95 (work saved over sampling at 95% recall) only holds when the AI's recall reaches 95%${a.recallMeets95?"":" — here it doesn't, so treat WSS@95 as not achieved at this operating point"}.</div>
+  </details>`;
+}
+
 function renderClaims(reviews){
   const host=$("claims");
   if(!reviews.length){ host.innerHTML=`<p class="muted">No scorable claims yet — load at least one protocol and two reviewers' ballots for the same claim.</p>`;
@@ -494,11 +608,11 @@ function renderClaims(reviews){
       <details class="detail"><summary>Statistical detail (κ, PABAK, AC1) &amp; how to read it</summary>
         <div class="stats">
           ${statBlock("Raw agreement", pct(t.raw.value))}
-          ${statBlock("Cohen's κ", fmt(k))}
+          ${statBlock("Cohen's κ", fmt(k) + (t.ci && t.ci.lo!=null ? ` <span style="font-size:12px;color:var(--muted)">[${fmt(t.ci.lo)}, ${fmt(t.ci.hi)}]</span>` : ""))}
           ${statBlock("PABAK", fmt(t.pabak.value))}
           ${statBlock("Gwet's AC1", fmt(t.ac1.value))}
         </div>
-        <div class="interp">&kappa; corrects for chance agreement, but when screening is lopsided it understates a high raw agreement (the &ldquo;kappa paradox&rdquo;). That's why &kappa; ${fmt(k)} is read together with ${pct(t.raw.value)} raw agreement and the chance-corrected PABAK ${fmt(t.pabak.value)} / AC1 ${fmt(t.ac1.value)} — never alone.</div>
+        <div class="interp">&kappa; corrects for chance agreement, but when screening is lopsided it understates a high raw agreement (the &ldquo;kappa paradox&rdquo;). That's why &kappa; ${fmt(k)} is read together with ${pct(t.raw.value)} raw agreement and the chance-corrected PABAK ${fmt(t.pabak.value)} / AC1 ${fmt(t.ac1.value)} — never alone.${t.ci && t.ci.lo!=null ? ` The bracket after &kappa; is a 95% bootstrap CI over ${t.ci.n} records (${t.ci.B} resamples).` : ""}</div>
       </details>`;
     } else if(r.alpha){
       const a=r.alpha.value, hasF=r.fleiss && r.fleiss.value!=null;
@@ -518,7 +632,7 @@ function renderClaims(reviews){
         <div class="interp">Krippendorff&rsquo;s &alpha; handles any number of reviewers and missing ratings; by convention &alpha; ≥ 0.80 is reliable, 0.667&ndash;0.80 tentative. The pairwise κ shows which reviewer pair diverges most — the first place to look.</div>
       </details>`;
     }
-    const aiNote = r.aiN ? `<p class="muted" style="margin-top:8px">${r.aiN} AI ballot(s) loaded — excluded from κ (the AI is advisory, never a panel member). The AI performance panel is a later phase.</p>` : "";
+    const aiNote = aiPanelHtml(r);
     return `<div class="claimcard">
       <h3>${esc(objectiveText(r.objective))}<span class="badge">${esc(r.tier)} · ${r.n} of ${r.n}</span></h3>
       <p class="muted">${r.records} record(s) in the protocol · hash <span class="mono">${esc((r.protocol_hash||"").slice(0,12))}</span></p>
@@ -528,7 +642,22 @@ function renderClaims(reviews){
   toggleExports(true);
 }
 
-function toggleExports(on){ ["exportSummary","exportPrint","exportReconciled","exportConflicts"].forEach(function(id){ $(id).disabled=!on; }); }
+function toggleExports(on){ ["exportSummary","exportPrint","exportReconciled","exportConflicts","exportZip"].forEach(function(id){ $(id).disabled=!on; }); }
+function downloadBytes(name, bytes, type){
+  const blob=new Blob([bytes], { type:type||"application/octet-stream" });
+  const a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download=name;
+  document.body.appendChild(a); a.click(); a.remove(); setTimeout(function(){ URL.revokeObjectURL(a.href); }, 1000);
+}
+function zipReadme(){
+  return ["ReviewVahti report bundle","=========================","",
+    `${REVIEWS.length} claim(s) scored in-browser. Reliability is over human reviewers only; the AI`,
+    "second opinion is advisory and never enters kappa/alpha.","",
+    "summary.html       Per-claim reliability table (raw %, kappa/alpha, PABAK/Fleiss, AC1).",
+    "reconciled.jsonl   One row per record: each reviewer's vote, whether they agreed.",
+    "conflicts.jsonl    The disagreements — send these back to MatchVahti to adjudicate.","",
+    "Provenance: each claim is keyed by its protocol_hash (printed in summary.html);",
+    "a ballot is only scored if it matches that hash.",""].join("\n");
+}
 
 // ---- exports (phase 1: separate files; the zip bundle is a later phase) ----
 function download(name, text, type){
@@ -570,6 +699,15 @@ $("exportSummary").onclick=function(){ download("reviewvahti-summary.html", summ
 $("exportPrint").onclick=function(){ const w=window.open("","_blank"); if(w){ w.document.write(summaryHtml()); w.document.close(); w.focus(); setTimeout(function(){ w.print(); }, 250); } };
 $("exportReconciled").onclick=function(){ download("reconciled.jsonl", reconciledJsonl(), "application/x-ndjson"); };
 $("exportConflicts").onclick=function(){ download("conflicts.jsonl", conflictsJsonl(), "application/x-ndjson"); };
+$("exportZip").onclick=function(){
+  const zip = zipStore([
+    { name:"summary.html", data:summaryHtml() },
+    { name:"reconciled.jsonl", data:reconciledJsonl() },
+    { name:"conflicts.jsonl", data:conflictsJsonl() },
+    { name:"README.txt", data:zipReadme() }
+  ]);
+  downloadBytes("reviewvahti-report.zip", zip, "application/zip");
+};
 
 // ---- file input + drag/drop + keyboard ----
 const drop=$("drop");

@@ -18,7 +18,8 @@ if (a < 0 || b < 0) { console.error('CORE markers not found'); process.exit(2); 
 const names = ['sha256','normalizeClaimText','canonicalJson','canonicalObjective','canonicalProtocolPayload',
   'protocolHash','tierOf','cohenKappa','rawAgreement','pabak','gwetAC1','interpretKappa','readStoreZip',
   'classifyDocs','validateBundle','voteCategory','claimMatrix','pairsFor','reviewClaim',
-  'reliabilityUnits','krippendorffAlpha','fleissKappa','interpretAlpha'];
+  'reliabilityUnits','krippendorffAlpha','fleissKappa','interpretAlpha',
+  'isRetrievalPositive','aiPerformance','bootstrapKappaCI','crc32','zipStore'];
 const src = lines.slice(a + 1, b).join('\n') + `\n;globalThis.__core = {${names.join(',')}};`;
 const context = { crypto: webcrypto, TextEncoder, TextDecoder, console };
 vm.createContext(context);
@@ -154,6 +155,47 @@ eq(C.cohenKappa([['a','a'],['a','a']]).value, null, 'kappa: one category → deg
   ok(r.fleiss && r.fleiss.value!=null, '≥3: Fleiss κ computed (equal coverage)');
   eq(r.pairwise.length, 3, '≥3: three pairwise comparisons');
   eq(r.conflicts.length, 1, '≥3: r2 is a conflict (R3 disagrees)');
+}
+
+// ---- phase 3a: AI performance vs the human-agreed reference (hand-worked confusion) ----
+{
+  // humans agree on r1 (pos), r2 (neg), r4 (neg); disagree on r3 (excluded from the reference)
+  const human = {
+    R1:{ r1:'directly_supports', r2:'does_not_support', r3:'directly_supports', r4:'not_relevant' },
+    R2:{ r1:'directly_supports', r2:'does_not_support', r3:'does_not_support', r4:'not_relevant' }
+  };
+  const aiM = { AI:{ r1:'directly_supports', r2:'directly_supports', r3:'contradicts', r4:'does_not_support' } };
+  const p = C.aiPerformance(human, aiM);
+  eq([p.TP,p.FP,p.TN,p.FN], [1,1,1,0], 'aiPerf: confusion on the agreed subset (r3 excluded)');
+  eq(p.n, 3, 'aiPerf: N = agreed records the AI also rated');
+  near(p.sensitivity, 1, 'aiPerf: sensitivity 1.0'); near(p.specificity, 0.5, 'aiPerf: specificity 0.5');
+  near(p.ppv, 0.5, 'aiPerf: PPV 0.5'); near(p.npv, 1, 'aiPerf: NPV 1.0');
+  near(p.wss95, 1/3 - 0.05, 'aiPerf: WSS@95 = (TN+FN)/N − 0.05');
+  ok(p.recallMeets95 === true, 'aiPerf: recall meets 95%');
+  near(p.kappa.value, 0.4, 'aiPerf: κ(AI vs agreed humans) = 0.4');
+  eq(C.isRetrievalPositive('partially_supports'), true, 'supporting is retrieval-positive');
+  eq(C.isRetrievalPositive('not_relevant'), false, 'not_relevant is retrieval-negative');
+  eq(C.aiPerformance(human, {}).n, 0, 'aiPerf: no AI ratings → n 0');
+}
+
+// ---- phase 3a: bootstrap CI for κ (structural — randomized) ----
+{
+  const pairs = [['a','a'],['a','b'],['b','b'],['b','b'],['a','a'],['b','a'],['a','a'],['b','b']];
+  const ci = C.bootstrapKappaCI(pairs, 500);
+  ok(ci.lo != null && ci.hi != null, 'bootstrap: CI estimated for ≥5 records');
+  ok(ci.lo <= ci.hi, 'bootstrap: lo ≤ hi');
+  ok(ci.lo >= -1 && ci.hi <= 1, 'bootstrap: within κ range');
+  ok(C.bootstrapKappaCI([['a','a'],['a','b']]).lo === null, 'bootstrap: <5 records → no CI');
+}
+
+// ---- phase 3a: zipStore (vendored byte-equal) round-trips through readStoreZip ----
+{
+  eq(C.crc32(new TextEncoder().encode('123456789')), 0xCBF43926, 'crc32: standard check value');
+  const zip = C.zipStore([{ name:'summary.html', data:'<h1>x</h1>' }, { name:'reconciled.jsonl', data:'{"a":1}\n' }]);
+  ok(zip[0] === 0x50 && zip[1] === 0x4B, 'zipStore: PK magic');
+  const back = C.readStoreZip(zip);
+  eq(back.map(x=>x.name), ['summary.html','reconciled.jsonl'], 'zip round-trip: names');
+  eq(back[0].text, '<h1>x</h1>', 'zip round-trip: payload 1'); eq(back[1].text, '{"a":1}\n', 'zip round-trip: payload 2');
 }
 
 console.log(`\n${pass} passed, ${fail} failed`);
