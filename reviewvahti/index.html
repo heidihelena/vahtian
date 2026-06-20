@@ -5,10 +5,11 @@
   (record_id + protocol_hash keystone) and computes per-claim agreement IN YOUR BROWSER.
   Nothing uploads — ReviewVahti makes NO network calls at all (connect-src 'none').
 
-  Phase 1: load protocol + ballot JSON (or the STORE .zip MatchVahti emits), validate every
-  ballot against its protocol_hash, and report per claim — raw % agreement, Cohen's kappa,
-  PABAK, and Gwet's AC1 for a 2-rater panel (pairwise kappa for 3+). Krippendorff's alpha,
-  the AI performance panel, PRISMA, and the zip report are later phases.
+  Load protocol + ballot JSON (or the STORE .zip MatchVahti emits), validate every ballot
+  against its protocol_hash, and report per claim — raw % agreement + Cohen's kappa + PABAK +
+  Gwet's AC1 for a 2-rater panel; Krippendorff's alpha (primary) + Fleiss' kappa (equal coverage)
+  + a pairwise kappa matrix for 3+ reviewers. The AI performance panel, PRISMA, and the zip
+  report are later phases.
 
   The CORE block below is VENDORED byte-equal from MatchVahti and parity-locked by tests/run.mjs
   (golden protocol_hash / normalizeClaimText / cohenKappa vectors). Any drift breaks the lock.
@@ -92,7 +93,7 @@
   </div>
   <div class="hwrap">
     Load each reviewer's MatchVahti export (protocol + ballot) and ReviewVahti reports the per-claim
-    agreement &mdash; raw %, Cohen&rsquo;s &kappa;, PABAK, Gwet&rsquo;s AC1.<br>
+    agreement &mdash; raw %, Cohen&rsquo;s &kappa;, PABAK, AC1 for a pair; Krippendorff&rsquo;s &alpha; for 3+.<br>
     <span class="pill">nothing uploads</span><span class="pill">no network at all</span><span class="pill">Layer 2 &middot; review</span><span class="pill">human-only &kappa;</span>
   </div>
 </header>
@@ -225,6 +226,61 @@ function interpretKappa(k){
   return "almost perfect";
 }
 
+// --- ≥3-rater reliability (phase 2): Krippendorff's α (primary) + Fleiss' κ (equal coverage only) ---
+// units: { record_id: [category, ...] } — one entry per reviewer who rated that record.
+function reliabilityUnits(matrix){
+  const recs={};
+  Object.keys(matrix).forEach(function(r){ Object.keys(matrix[r]).forEach(function(rec){ (recs[rec]=recs[rec]||[]).push(matrix[r][rec]); }); });
+  return recs;
+}
+// Nominal Krippendorff's α via the coincidence matrix; handles any rater count and missing ratings.
+function krippendorffAlpha(units){
+  const o={}; let n=0; const cats={};
+  Object.keys(units).forEach(function(rec){
+    const vals=units[rec]; const m=vals.length; if(m<2) return;
+    const cnt={}; vals.forEach(function(v){ cnt[v]=(cnt[v]||0)+1; cats[v]=1; });
+    const ks=Object.keys(cnt);
+    ks.forEach(function(c){ ks.forEach(function(k){
+      const pairs = (c===k) ? cnt[c]*(cnt[c]-1) : cnt[c]*cnt[k];
+      const add = pairs/(m-1);
+      o[c]=o[c]||{}; o[c][k]=(o[c][k]||0)+add; n+=add;
+    }); });
+  });
+  if(n<2) return { value:null, n:0, reason:"need ≥2 ratings on shared records" };
+  const catList=Object.keys(cats); let diagonal=0; const nc={};
+  catList.forEach(function(c){ catList.forEach(function(k){ const v=(o[c]&&o[c][k])||0; nc[c]=(nc[c]||0)+v; if(c===k) diagonal+=v; }); });
+  let sumNc2=0; catList.forEach(function(c){ sumNc2 += nc[c]*nc[c]; });
+  const Do=n-diagonal, De=(n*n - sumNc2)/(n-1);
+  if(De===0) return { value:null, n:n, reason:"no variation" };
+  return { value: 1 - Do/De, n:n };
+}
+// Fleiss' κ — ONLY valid when every unit has the same number of ratings (equal coverage, #7).
+function fleissKappa(units){
+  const recs=Object.keys(units).filter(function(rec){ return units[rec].length>=2; });
+  if(!recs.length) return { value:null, reason:"no units" };
+  const m=units[recs[0]].length;
+  if(!recs.every(function(rec){ return units[rec].length===m; })) return { value:null, reason:"unequal coverage — Krippendorff α is primary" };
+  const cats={}; recs.forEach(function(rec){ units[rec].forEach(function(v){ cats[v]=1; }); });
+  const catList=Object.keys(cats); const nUnits=recs.length; const total=nUnits*m;
+  let sumPi=0; const catTotals={};
+  recs.forEach(function(rec){
+    const cnt={}; units[rec].forEach(function(v){ cnt[v]=(cnt[v]||0)+1; });
+    let s=0; catList.forEach(function(c){ const nij=cnt[c]||0; s+=nij*nij; catTotals[c]=(catTotals[c]||0)+nij; });
+    sumPi += (s - m)/(m*(m-1));
+  });
+  const Pbar=sumPi/nUnits; let Pe=0;
+  catList.forEach(function(c){ const pj=catTotals[c]/total; Pe+=pj*pj; });
+  if(Pe>=1) return { value:null, reason:"one category" };
+  return { value:(Pbar-Pe)/(1-Pe), n:nUnits, m:m };
+}
+// Krippendorff's own reliability convention (stricter than Landis–Koch).
+function interpretAlpha(a){
+  if(a==null) return "not estimable";
+  if(a>=0.80) return "reliable";
+  if(a>=0.667) return "tentative — use cautiously";
+  return "unreliable";
+}
+
 // --- STORE-zip reader (matches MatchVahti zipStore: method 0, sizes in the local header, no descriptor) ---
 function readStoreZip(bytes){
   const dv = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength);
@@ -301,10 +357,12 @@ function reviewClaim(group){
     res.two = { a:raters[0], b:raters[1], compared:pr.length,
       raw:rawAgreement(pr), kappa:cohenKappa(pr), pabak:pabak(pr), ac1:gwetAC1(pr) };
   } else if(n >= 3){
+    const units = reliabilityUnits(matrix);
+    res.alpha = krippendorffAlpha(units);
+    res.fleiss = fleissKappa(units);   // value null when coverage is unequal
     res.pairwise=[];
     for(let i=0;i<n;i++) for(let j=i+1;j<n;j++){ const pr=pairsFor(matrix, raters[i], raters[j]);
       res.pairwise.push({ a:raters[i], b:raters[j], compared:pr.length, kappa:cohenKappa(pr), raw:rawAgreement(pr) }); }
-    res.alphaPending = true;
   }
   // per-record dispositions (phase-1 light): agreed if every human who voted gave the same category.
   const recVotes={};
@@ -442,11 +500,23 @@ function renderClaims(reviews){
         </div>
         <div class="interp">&kappa; corrects for chance agreement, but when screening is lopsided it understates a high raw agreement (the &ldquo;kappa paradox&rdquo;). That's why &kappa; ${fmt(k)} is read together with ${pct(t.raw.value)} raw agreement and the chance-corrected PABAK ${fmt(t.pabak.value)} / AC1 ${fmt(t.ac1.value)} — never alone.</div>
       </details>`;
-    } else if(r.pairwise){
-      body = `<div class="warn">${r.n} reviewers — Krippendorff's α (the primary ≥3-rater metric) arrives in phase 2. Pairwise Cohen's κ for now:</div>
-      <table><tr><th>pair</th><th>compared</th><th>raw %</th><th>κ</th></tr>${
-        r.pairwise.map(function(pw){ return `<tr><td>${esc(pw.a)} ↔ ${esc(pw.b)}</td><td>${pw.compared}</td><td>${pct(pw.raw.value)}</td><td>${fmt(pw.kappa.value)}</td></tr>`; }).join("")
-      }</table>`;
+    } else if(r.alpha){
+      const a=r.alpha.value, hasF=r.fleiss && r.fleiss.value!=null;
+      const action = r.conflicts.length
+        ? `<div class="action">⤿ <b>${r.conflicts.length} record(s)</b> the reviewers disagree on — send these back to MatchVahti to adjudicate (listed in <span class="mono">conflicts.jsonl</span>).</div>`
+        : `<div class="action ok">No disagreements among the ${r.n} reviewers.</div>`;
+      body = `
+      <div class="verdict"><span class="big">&alpha; ${fmt(a)}</span> Krippendorff&rsquo;s &alpha; across ${r.n} reviewers <b>(${esc(interpretAlpha(a))})</b></div>
+      ${action}
+      <details class="detail"><summary>Fleiss&rsquo; κ, the pairwise κ matrix &amp; how to read it</summary>
+        <p class="muted" style="margin-top:6px">${hasF
+          ? `Fleiss&rsquo; κ = <b>${fmt(r.fleiss.value)}</b> — every record has the same ${r.fleiss.m} ratings, so Fleiss is valid here.`
+          : `Fleiss&rsquo; κ omitted — records don&rsquo;t all have the same number of ratings, so Krippendorff&rsquo;s &alpha; (which handles missing data) is the primary measure.`}</p>
+        <table><tr><th>reviewer pair</th><th>compared</th><th>raw %</th><th>κ</th></tr>${
+          r.pairwise.map(function(pw){ return `<tr><td>${esc(pw.a)} ↔ ${esc(pw.b)}</td><td>${pw.compared}</td><td>${pct(pw.raw.value)}</td><td>${fmt(pw.kappa.value)}</td></tr>`; }).join("")
+        }</table>
+        <div class="interp">Krippendorff&rsquo;s &alpha; handles any number of reviewers and missing ratings; by convention &alpha; ≥ 0.80 is reliable, 0.667&ndash;0.80 tentative. The pairwise κ shows which reviewer pair diverges most — the first place to look.</div>
+      </details>`;
     }
     const aiNote = r.aiN ? `<p class="muted" style="margin-top:8px">${r.aiN} AI ballot(s) loaded — excluded from κ (the AI is advisory, never a panel member). The AI performance panel is a later phase.</p>` : "";
     return `<div class="claimcard">
@@ -470,7 +540,8 @@ function summaryHtml(){
   const rows=REVIEWS.map(function(r){
     const t=r.two;
     const cells = t ? `${pct(t.raw.value)}</td><td>${fmt(t.kappa.value)}</td><td>${fmt(t.pabak.value)}</td><td>${fmt(t.ac1.value)}`
-                    : `${r.n<2?"(1 reviewer)":"(≥3 — see pairwise)"}</td><td>—</td><td>—</td><td>—`;
+                    : (r.alpha ? `—</td><td>α ${fmt(r.alpha.value)}</td><td>${r.fleiss&&r.fleiss.value!=null?"Fleiss "+fmt(r.fleiss.value):"—"}</td><td>—`
+                               : `(1 reviewer)</td><td>—</td><td>—</td><td>—`);
     return `<tr><td>${esc(objectiveText(r.objective))}</td><td>${r.n}</td><td>${esc(r.tier)}</td><td>${cells}</td></tr>`;
   }).join("");
   return `<!DOCTYPE html><meta charset="utf-8"><title>ReviewVahti summary</title>
@@ -478,8 +549,8 @@ function summaryHtml(){
 table{border-collapse:collapse;width:100%;font-size:14px}th,td{border:1px solid #E7E3F0;padding:6px 9px;text-align:left}
 th{background:#FAF9FC}h1{font-size:20px}</style>
 <h1>ReviewVahti — screening reliability</h1>
-<p>${REVIEWS.length} claim(s). κ is reported with raw % agreement, PABAK and Gwet's AC1; the AI is excluded from κ.</p>
-<table><tr><th>Claim (objective)</th><th>Reviewers</th><th>Tier</th><th>Raw %</th><th>Cohen's κ</th><th>PABAK</th><th>AC1</th></tr>${rows}</table>
+<p>${REVIEWS.length} claim(s). For a 2-reviewer pair: raw % agreement + Cohen's κ + PABAK + Gwet's AC1. For 3+ reviewers the κ column shows Krippendorff's α (primary) and the PABAK column shows Fleiss' κ where coverage is equal. The AI is excluded throughout.</p>
+<table><tr><th>Claim (objective)</th><th>Reviewers</th><th>Tier</th><th>Raw %</th><th>κ / α</th><th>PABAK / Fleiss</th><th>AC1</th></tr>${rows}</table>
 <p style="color:#5B5570;font-size:12px;margin-top:14px">Computed in-browser by ReviewVahti. Reliability over human reviewers only.</p>`;
 }
 function reconciledJsonl(){
