@@ -19,7 +19,7 @@ const names = ['sha256','normalizeClaimText','canonicalJson','canonicalObjective
   'protocolHash','tierOf','cohenKappa','rawAgreement','pabak','gwetAC1','interpretKappa','readStoreZip',
   'classifyDocs','validateBundle','voteCategory','claimMatrix','pairsFor','reviewClaim',
   'reliabilityUnits','krippendorffAlpha','fleissKappa','interpretAlpha',
-  'isRetrievalPositive','aiPerformance','bootstrapKappaCI','crc32','zipStore'];
+  'isRetrievalPositive','aiPerformance','bootstrapKappaCI','crc32','zipStore','prismaCounts'];
 const src = lines.slice(a + 1, b).join('\n') + `\n;globalThis.__core = {${names.join(',')}};`;
 const context = { crypto: webcrypto, TextEncoder, TextDecoder, console };
 vm.createContext(context);
@@ -196,6 +196,33 @@ eq(C.cohenKappa([['a','a'],['a','a']]).value, null, 'kappa: one category → deg
   const back = C.readStoreZip(zip);
   eq(back.map(x=>x.name), ['summary.html','reconciled.jsonl'], 'zip round-trip: names');
   eq(back[0].text, '<h1>x</h1>', 'zip round-trip: payload 1'); eq(back[1].text, '{"a":1}\n', 'zip round-trip: payload 2');
+}
+
+// ---- phase 3b: PRISMA screening counts (computed lower half + provenance upper half) ----
+{
+  const review = {
+    records: 5,
+    dispositions: [
+      { votes:{ R1:'directly_supports', R2:'directly_supports' } },   // sought
+      { votes:{ R1:'does_not_support',  R2:'does_not_support'  } },   // excluded
+      { votes:{ R1:'partially_supports' } },                          // sought (1 vote)
+      { votes:{ R1:'not_relevant',      R2:'not_relevant'      } }    // excluded
+    ],   // 4 of 5 records screened
+    sourceProvenance: { databases:[{ name:'PubMed', hits:120 }, { name:'Embase', hits:80 }], duplicates_removed:30 }
+  };
+  const p = C.prismaCounts(review);
+  eq(p.screened, 4, 'prisma: screened = records with ≥1 vote');
+  eq(p.sought, 2, 'prisma: sought = any supporting vote');
+  eq(p.excluded, 2, 'prisma: excluded = all non-supporting');
+  eq(p.sought + p.excluded, p.screened, 'prisma: sought + excluded = screened');
+  eq(p.notScreened, 1, 'prisma: 1 protocol record not yet screened');
+  eq(p.identified, 200, 'prisma: identified = sum of database hits');
+  eq(p.duplicates, 30, 'prisma: duplicates from provenance');
+  // no hit counts in provenance → identified null (filled from the search log)
+  const p2 = C.prismaCounts({ records:2, dispositions:[{votes:{R1:'directly_supports'}}], sourceProvenance:{ databases:[{name:'PubMed'}] } });
+  eq(p2.identified, null, 'prisma: identified null when hits absent');
+  eq(p2.duplicates, null, 'prisma: duplicates null when absent');
+  eq(p2.sought, 1, 'prisma: sought counted without provenance');
 }
 
 console.log(`\n${pass} passed, ${fail} failed`);
