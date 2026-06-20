@@ -126,6 +126,13 @@
     .agree{font-weight:600;font-size:14.5px;margin:14px 0 4px}
     .agree.same{color:#08544A}.agree.diff{color:#7A1F45}
     .teach{font-size:14px;color:var(--muted);margin:8px 0 0}
+    .rewrite{background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden;margin:0 0 4px}
+    .rewrite p{margin:0;padding:11px 14px;font-size:14.5px}
+    .wbefore{color:var(--muted);border-bottom:1px dashed var(--line)}
+    .wafter{color:var(--ink)}
+    .wlbl{display:inline-block;font:600 10px/1 ui-monospace,monospace;text-transform:uppercase;letter-spacing:.06em;padding:3px 6px;border-radius:5px;margin-right:9px;vertical-align:middle}
+    .wbefore .wlbl{background:#FBE0EA;color:#7A1F45}
+    .wafter .wlbl{background:#D8F4ED;color:#08544A}
     .statewrap{font-size:16px;margin:6px 0 14px}
     .statewrap .chip{font-size:13px;vertical-align:middle}
     .ledger{background:var(--navy);border-radius:10px;padding:4px 4px 6px;margin-top:4px}
@@ -232,13 +239,23 @@
 
         <p class="askq" style="margin-top:22px">Your decision — you're the decider:</p>
         <div class="choices" role="group" aria-label="Your decision">
-          <button class="choice" type="button" data-d="accept">Accept</button>
-          <button class="choice" type="button" data-d="caution">Caution</button>
-          <button class="choice" type="button" data-d="reject">Reject / revise</button>
+          <button class="choice" type="button" data-d="revise">Revise wording → accept</button>
+          <button class="choice" type="button" data-d="caution">Caution — flag for review</button>
+          <button class="choice" type="button" data-d="reject">Reject</button>
         </div>
       </div>
 
       <div id="outcomeBlock" tabindex="-1" hidden>
+        <div id="reviseBox" hidden>
+          <p class="askq" style="margin:2px 0 8px">Wording tightened to match the source</p>
+          <div class="rewrite">
+            <p class="wbefore"><span class="wlbl">As written</span>“…in adults over 50 with any smoking history.”</p>
+            <p class="wafter"><span class="wlbl">Revised</span>“…in adults aged 55–74 with ≥30 pack-years — the population studied in the cited trial.”</p>
+          </div>
+          <p class="teach">A sound finding behind an overstated claim usually isn't rejected — you tighten the
+            wording to match the evidence, then accept. CiteVahti records the revision and the accept as
+            one decision-gated, undoable write.</p>
+        </div>
         <p class="statewrap">This claim is now <span class="chip" id="stateChip"></span></p>
         <div class="ledger">
           <div class="clbl">Audit ledger — what CiteVahti would record</div>
@@ -404,12 +421,14 @@ citevahti run</pre>
   decBtns.forEach(function(b){b.addEventListener('click',function(){
     decBtns.forEach(function(x){x.classList.toggle('sel',x===b);x.disabled=true;});
     var d=b.getAttribute('data-d');
-    var map={accept:['v','[oo] verified'],caution:['r','[r] review needed'],reject:['d','[d] decision recorded']};
+    var map={revise:['v','[oo] verified'],caution:['r','[r] review needed'],reject:['d','[d] decision recorded']};
+    var decLabel={revise:'revise→accept',caution:'caution',reject:'reject'}[d];
+    document.getElementById('reviseBox').hidden=(d!=='revise');
     var chip=document.getElementById('stateChip');chip.className='chip '+map[d][0];chip.textContent=map[d][1];
     var now=new Date().toISOString().slice(0,16).replace('T',' ')+'Z';
     var hash=h32(d+rated+now),prev=h32('genesis'+rated);
     document.getElementById('ledgerLine').innerHTML=
-      now+'  <span class="k">claim</span>=clm_7f3a  <span class="k">decision</span>='+d+'\n'+
+      now+'  <span class="k">claim</span>=clm_7f3a  <span class="k">decision</span>='+decLabel+'\n'+
       '  <span class="k">human</span>='+rated+'   <span class="k">ai</span>=partial <span class="k">(blinded)</span>\n'+
       '  <span class="k">state</span>='+map[d][1]+'\n'+
       '  <span class="k">hash</span>='+hash+'  <span class="k">prev</span>='+prev+'   <span class="ok">✓ chain intact</span>';
@@ -421,6 +440,7 @@ citevahti run</pre>
     rated=null;
     document.getElementById('revealBlock').hidden=true;
     document.getElementById('outcomeBlock').hidden=true;
+    document.getElementById('reviseBox').hidden=true;
     Array.prototype.slice.call(document.querySelectorAll('.demo .choice')).forEach(function(x){x.classList.remove('sel');x.disabled=false;});
     step(2);
     document.getElementById('try').scrollIntoView({behavior:'smooth',block:'start'});
