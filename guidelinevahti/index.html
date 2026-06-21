@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<!--
+  GuidelineVahti — PUBLIC TEASER / preview page (no tool logic, no file loading).
+  Shows what the tool produces with a frozen sample result. The working tool (RAND/UCLA +
+  Delphi + GRADE, parity-locked to the Vahtian evidence ladder) is in early access — request
+  it via the CTA. This page makes no network calls.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="theme-color" content="#2D2440" />
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; img-src 'self' data:; base-uri 'none'; form-action 'none'" />
+<meta name="referrer" content="no-referrer" />
+<link rel="canonical" href="https://vahtian.com/guidelinevahti/" />
+<title>GuidelineVahti — panel consensus for guideline groups (preview)</title>
+<meta name="description" content="GuidelineVahti turns a guideline panel's RAND/UCLA votes into consensus, an implementation priority map, and GRADE recommendations — anonymous, in the browser. Early access." />
+<meta property="og:title" content="GuidelineVahti — panel consensus, in the browser" />
+<meta property="og:description" content="RAND/UCLA voting · Delphi rounds · importance×feasibility priorities · GRADE recommendations. Anonymous; nothing uploads. Early access." />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://vahtian.com/guidelinevahti/" />
+<style>
+  :root{
+    --navy:#2D2440; --violet:#8B6FC9; --lilac:#C5B8E8; --lilac-soft:#EFEBF8;
+    --ink:#1C1830; --muted:#5B5570; --bg:#FAF9FC; --card:#FFFFFF; --line:#E7E3F0;
+    --amber:#C98A00; --amber-fill:#FFF2D8; --link:#6F52B8;
+    --shadow:0 12px 30px rgba(45,36,64,.10); --radius:14px;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,ui-sans-serif,system-ui,sans-serif;
+    font-size:16px;line-height:1.55}
+  header{background:var(--navy);color:#fff;padding:20px 18px 18px;padding-top:max(20px,env(safe-area-inset-top))}
+  .wrap{max-width:840px;margin:0 auto}
+  .brand{display:flex;align-items:center;gap:11px}
+  .brand h1{margin:0;font-size:21px;font-weight:650;letter-spacing:.2px}
+  .brand .sub{margin:2px 0 0;font-size:13px;color:var(--lilac)}
+  .lede{max-width:840px;margin:16px auto 0;font-size:15.5px;color:#e7e2f4;line-height:1.55}
+  .pill{display:inline-block;font-size:11.5px;padding:2px 9px;border-radius:999px;
+    border:1px solid rgba(197,184,232,.4);color:var(--lilac);margin:9px 5px 0 0}
+  .cta-row{margin:18px auto 0;max-width:840px;display:flex;gap:11px;flex-wrap:wrap}
+  .btn{display:inline-block;padding:11px 17px;border-radius:10px;font-weight:600;font-size:14.5px;text-decoration:none}
+  .btn.primary{background:#fff;color:var(--navy)}
+  .btn.ghost{border:1px solid rgba(197,184,232,.5);color:#fff}
+  main{max-width:840px;margin:0 auto;padding:16px}
+  section{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+    padding:18px;margin:0 0 14px;box-shadow:var(--shadow)}
+  h2{font-size:13px;text-transform:uppercase;letter-spacing:.7px;color:var(--violet);margin:0 0 4px;font-weight:650}
+  .sect-lede{color:var(--muted);font-size:13.5px;margin:0 0 6px}
+  .demo-label{font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);font-weight:700;
+    background:var(--bg);border:1px dashed var(--line);border-radius:999px;padding:3px 10px;display:inline-block;margin-bottom:10px}
+  .muted{color:var(--muted);font-size:13px}
+  .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px}
+  /* ---- result mockup (same look as the tool) ---- */
+  .interp{margin-top:10px;font-size:13px;background:var(--lilac-soft);border-radius:8px;padding:9px 11px;color:var(--ink)}
+  .scard{border:1px solid var(--line);border-radius:12px;padding:14px;margin-top:12px}
+  .scard .st{margin:0 0 4px;font-size:14.5px;font-weight:600}
+  .state{display:inline-block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;padding:3px 9px;border-radius:999px;margin-left:6px}
+  .state.for{background:var(--lilac-soft);color:#3a2c6b;border:1px solid var(--violet)}
+  .state.uncertain{background:var(--amber-fill);color:#5A4300;border:1px solid #e6c980}
+  .state.nocon{background:var(--amber-fill);color:#5A4300;border:1px solid #e6c980}
+  .agg{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+  .ab{flex:1 1 110px;border:1px solid var(--line);border-radius:10px;padding:9px 11px;background:var(--bg)}
+  .ab .k{font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);font-weight:700}
+  .ab .v{font-size:20px;font-weight:650;margin-top:2px}
+  .hist{display:flex;align-items:flex-end;gap:3px;height:54px;margin-top:12px}
+  .hist .bar{flex:1;border-radius:3px 3px 0 0;min-height:2px;position:relative}
+  .hist .bar.against{background:#c9c2dc}
+  .hist .bar.uncertain{background:#e6cf9a}
+  .hist .bar.for{background:var(--violet)}
+  .hist .bl{position:absolute;bottom:-17px;left:0;right:0;text-align:center;font-size:10px;color:var(--muted)}
+  .grade{margin-top:22px;font-size:13.5px;border:1px solid var(--line);border-left:3px solid var(--violet);border-radius:8px;padding:9px 12px;background:var(--bg)}
+  .grade .glab{font-size:10.5px;text-transform:uppercase;letter-spacing:.5px;color:var(--violet);font-weight:700;margin-right:6px}
+  .pmap{border:1px solid var(--line);border-radius:12px;padding:14px;margin-top:12px;background:var(--card)}
+  .pmap svg{display:block;margin:0 auto}
+  /* ---- features ---- */
+  ul.feat{list-style:none;padding:0;margin:6px 0 0;display:grid;gap:9px}
+  ul.feat li{padding-left:24px;position:relative;font-size:14px}
+  ul.feat li::before{content:"◆";position:absolute;left:2px;color:var(--violet);font-size:11px;top:3px}
+  ul.feat b{color:var(--ink)}
+  .who{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:6px}
+  @media(max-width:560px){ .who{grid-template-columns:1fr} }
+  .who .box{border:1px solid var(--line);border-radius:10px;padding:11px 13px;background:var(--bg);font-size:13.5px}
+  .who .box b{display:block;margin-bottom:2px}
+  a{color:var(--link)}
+  footer{max-width:840px;margin:8px auto 30px;padding:0 16px;font-size:12px;color:var(--muted);line-height:1.6}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div class="brand">
+      <svg width="36" height="36" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#3A2F57"/><g fill="none" stroke="#8B6FC9" stroke-width="2.2" stroke-linecap="round"><path d="M8 11 H24"/><path d="M8 16 H24"/><path d="M8 21 H18"/></g><circle cx="23" cy="21" r="2.3" fill="#C5B8E8"/></svg>
+      <div><h1>GuidelineVahti</h1><p class="sub">Panel consensus for guideline groups &middot; in the browser</p></div>
+    </div>
+  </div>
+  <p class="lede">Your panel votes <b>1&ndash;9</b> on each statement. GuidelineVahti turns those votes into
+    <b>RAND/UCLA consensus</b>, an <b>implementation priority map</b>, a chance-corrected <b>agreement</b> score,
+    and <b>GRADE recommendations</b> &mdash; with the full Delphi round history. Votes stay <b>anonymous</b>;
+    nothing ever leaves the browser.</p>
+  <div class="wrap">
+    <span class="pill">anonymous &middot; aggregates only</span><span class="pill">nothing uploads</span><span class="pill">no backend</span><span class="pill">Layer 3 of the Vahtian evidence ladder</span>
+  </div>
+  <div class="cta-row">
+    <a class="btn primary" href="mailto:hello@vahtian.com?subject=GuidelineVahti%20early%20access">Request early access &rarr;</a>
+    <a class="btn ghost" href="/">The Vahtian house &rarr;</a>
+  </div>
+</header>
+<main>
+
+  <section>
+    <h2>What you get</h2>
+    <p class="sect-lede">A frozen sample of a 12-panelist guideline round &mdash; this is exactly what the tool renders.</p>
+    <span class="demo-label">Sample output</span>
+
+    <div class="interp">Panel ordinal agreement (Krippendorff&rsquo;s &alpha;, interval): <b>0.74</b> &mdash; tentative; read it with the per-statement medians/IQR. Chance-corrected across all statements on the 1&ndash;9 scale.</div>
+
+    <!-- statement 1 — strong recommendation -->
+    <div class="scard">
+      <p class="st">Use a slice thickness &le; 1.5&nbsp;mm for nodules &lt; 10&nbsp;mm.
+        <span class="state for">Consensus &middot; FOR</span><span class="state for">P1</span></p>
+      <div class="agg">
+        <div class="ab"><div class="k">Importance</div><div class="v">9</div><div class="muted">IQR 0.75</div></div>
+        <div class="ab"><div class="k">Feasibility</div><div class="v">8</div><div class="muted">IQR 1</div></div>
+        <div class="ab"><div class="k">% for (7–9)</div><div class="v">100%</div></div>
+        <div class="ab"><div class="k">Votes</div><div class="v">12</div></div>
+      </div>
+      <div class="hist"><div class="bar against" style="height:2px"><span class="bl">1–3 · 0</span></div><div class="bar uncertain" style="height:2px"><span class="bl">4–6 · 0</span></div><div class="bar for" style="height:50px"><span class="bl">7–9 · 12</span></div></div>
+      <div class="grade"><span class="glab">GRADE</span><b>Recommend (strong, high certainty)</b></div>
+    </div>
+
+    <!-- statement 2 — split, no recommendation -->
+    <div class="scard">
+      <p class="st">Discharge a stable solid nodule after 12 months of follow-up.
+        <span class="state nocon">No consensus</span><span class="state uncertain">↻ continue — re-vote</span></p>
+      <div class="agg">
+        <div class="ab"><div class="k">Importance</div><div class="v">5</div><div class="muted">IQR 7</div></div>
+        <div class="ab"><div class="k">Feasibility</div><div class="v">5</div><div class="muted">IQR 6</div></div>
+        <div class="ab"><div class="k">% for (7–9)</div><div class="v">50%</div></div>
+        <div class="ab"><div class="k">Votes</div><div class="v">12</div></div>
+      </div>
+      <div class="hist"><div class="bar against" style="height:50px"><span class="bl">1–3 · 6</span></div><div class="bar uncertain" style="height:2px"><span class="bl">4–6 · 0</span></div><div class="bar for" style="height:50px"><span class="bl">7–9 · 6</span></div></div>
+      <div class="grade"><span class="glab">GRADE</span><b>No recommendation — consensus not reached</b> <span class="muted">— the panel is split (extreme-disagreement rule)</span></div>
+    </div>
+
+    <!-- priority map -->
+    <div class="pmap">
+      <div class="muted" style="font-weight:600;font-size:12px;margin-bottom:6px">Importance &times; feasibility (median &plusmn; IQR &middot; cut at 7)</div>
+      <svg viewBox="0 0 360 360" width="100%" style="max-width:380px" role="img" aria-label="Importance by feasibility with the 7 cut">
+        <rect x="269.5" y="14" width="76.5" height="77" fill="#EFEBF8"/>
+        <rect x="40" y="14" width="306" height="308" fill="none" stroke="#E7E3F0"/>
+        <line x1="269.5" y1="14" x2="269.5" y2="322" stroke="#8B6FC9" stroke-dasharray="4 3"/>
+        <line x1="40" y1="91" x2="346" y2="91" stroke="#8B6FC9" stroke-dasharray="4 3"/>
+        <text x="78.5" y="336" font-size="9" fill="#5B5570" text-anchor="middle">1</text>
+        <text x="193" y="336" font-size="9" fill="#5B5570" text-anchor="middle">5</text>
+        <text x="307.5" y="336" font-size="9" fill="#5B5570" text-anchor="middle">9</text>
+        <text x="34" y="325" font-size="9" fill="#5B5570" text-anchor="end">1</text>
+        <text x="34" y="171" font-size="9" fill="#5B5570" text-anchor="end">5</text>
+        <text x="34" y="17" font-size="9" fill="#5B5570" text-anchor="end">9</text>
+        <text x="193" y="356" font-size="10" fill="#5B5570" text-anchor="middle">Feasibility &rarr;</text>
+        <text x="12" y="168" font-size="10" fill="#5B5570" text-anchor="middle" transform="rotate(-90 12 168)">Importance &uarr;</text>
+        <!-- S1 imp9 feas8 (top-right, implement first) -->
+        <line x1="269.5" y1="14" x2="307.5" y2="14" stroke="#8B6FC9" stroke-width="1.5" opacity="0.5"/>
+        <line x1="288.5" y1="33" x2="288.5" y2="14" stroke="#8B6FC9" stroke-width="1.5" opacity="0.5"/>
+        <circle cx="288.5" cy="14" r="4" fill="#2D2440"/><text x="295" y="12" font-size="10" font-weight="700" fill="#2D2440">S1</text>
+        <!-- S3 imp8 feas4 (top-left, high value low feas) -->
+        <circle cx="154.75" cy="52.5" r="4" fill="#2D2440"/><text x="161" y="50" font-size="10" font-weight="700" fill="#2D2440">S3</text>
+        <!-- S2 imp6 feas8 (feasible lower value) -->
+        <circle cx="307.5" cy="129.5" r="4" fill="#2D2440"/><text x="296" y="127" font-size="10" font-weight="700" fill="#2D2440">S2</text>
+        <!-- S4 imp5 feas5 (middle) -->
+        <circle cx="193" cy="168" r="4" fill="#2D2440"/><text x="199" y="166" font-size="10" font-weight="700" fill="#2D2440">S4</text>
+      </svg>
+      <div style="margin-top:10px"><div class="muted" style="font-weight:600;font-size:12px">Implementation priority</div>
+        <div class="muted" style="font-weight:600;font-size:12px;margin-top:8px">Implement first — high importance · feasible</div>
+        <div style="font-size:13px;padding:2px 0"><b>S1</b> — imp 9 · feas 8 — slice thickness ≤ 1.5 mm</div>
+        <div class="muted" style="font-weight:600;font-size:12px;margin-top:8px">High importance · low feasibility — enable, then do</div>
+        <div style="font-size:13px;padding:2px 0"><b>S3</b> — imp 8 · feas 4 — volumetry as the primary growth metric</div>
+        <div class="muted" style="font-weight:600;font-size:12px;margin-top:8px">Feasible · lower importance — optional quick win</div>
+        <div style="font-size:13px;padding:2px 0"><b>S2</b> — imp 6 · feas 8 — report micro-nodules without measuring</div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>What it does</h2>
+    <ul class="feat">
+      <li><b>RAND/UCLA two-region consensus</b> — median, IQR, distribution, and a state (consensus for/against · uncertain · no consensus) with a configurable threshold and a disagreement rule.</li>
+      <li><b>Delphi rounds</b> — round-by-round trajectory, stability between rounds, and a stop rule (consensus, stable &ldquo;won&rsquo;t converge&rdquo;, or round cap).</li>
+      <li><b>Importance &times; feasibility priority map</b> — a 7-cut quadrant plot that ranks an implementation priority list (do-first → deprioritise).</li>
+      <li><b>Chance-corrected ordinal agreement</b> — interval Krippendorff&rsquo;s &alpha; across the statement set, more honest than IQR alone.</li>
+      <li><b>GRADE / EtD recommendations</b> — consensus + evidence certainty become a recommendation: strong &ldquo;recommend&rdquo; or conditional &ldquo;suggest&rdquo;.</li>
+      <li><b>Between-round feedback</b> — a per-panelist anonymous feedback file (their prior vote + the group distribution) to run the next round.</li>
+      <li><b>Anonymous &amp; private by design</b> — aggregates only, no panelist ever named; the AI is never a panelist; <b>nothing uploads</b> (no network calls at all).</li>
+      <li><b>Part of the evidence ladder</b> — keyed to the same protocol the rest of the Vahtian house uses, so screening (ReviewVahti) and consensus (GuidelineVahti) line up.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Who it&rsquo;s for</h2>
+    <div class="who">
+      <div class="box"><b>Specialty societies &amp; guideline groups</b>Run a modified-Delphi/RAND consensus with auditable numbers, not a spreadsheet.</div>
+      <div class="box"><b>Guideline methodologists</b>The consensus, priority, agreement, and GRADE analysis in one place — in the browser.</div>
+      <div class="box"><b>Medical-communications teams</b>A defensible, reproducible consensus record for a client guideline.</div>
+      <div class="box"><b>Living-guideline programmes</b>Re-vote affected statements each cycle; the data file is the versioned source of truth.</div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Early access</h2>
+    <p class="sect-lede" style="margin-bottom:10px">GuidelineVahti is complete and in early access. Pilot partners welcome &mdash; pricing on request.</p>
+    <a class="btn primary" style="background:var(--navy);color:#fff" href="mailto:hello@vahtian.com?subject=GuidelineVahti%20early%20access">Request early access &rarr;</a>
+  </section>
+
+</main>
+<footer>
+  GuidelineVahti &middot; part of the <a href="/">Vahtian</a> house (the evidence ladder: CiteVahti &rarr; MatchVahti &rarr; ReviewVahti &rarr; GuidelineVahti).
+  This preview shows a sample result; the working tool runs entirely in your browser, anonymously, with no network calls.
+</footer>
+</body>
+</html>
