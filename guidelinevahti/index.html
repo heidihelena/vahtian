@@ -183,6 +183,53 @@
   </section>
 
   <section>
+    <h2>From diagnostic algorithms to treatment recommendations</h2>
+    <p class="sect-lede">The same engine, the full GRADE range — direction (<b>for / against</b>) and strength (<b>strong / conditional</b>) follow the panel&rsquo;s consensus and the evidence certainty.</p>
+    <span class="demo-label">Sample output · treatment guideline</span>
+
+    <!-- T1 — FOR, strong -->
+    <div class="scard">
+      <p class="st">Offer adjuvant osimertinib after complete resection of stage IB&ndash;IIIA EGFR-mutated NSCLC.
+        <span class="state for">Consensus &middot; FOR</span></p>
+      <div class="agg">
+        <div class="ab"><div class="k">Median</div><div class="v">9</div><div class="muted">IQR 0.75</div></div>
+        <div class="ab"><div class="k">% for (7–9)</div><div class="v">100%</div></div>
+        <div class="ab"><div class="k">Certainty</div><div class="v" style="font-size:15px">high</div></div>
+        <div class="ab"><div class="k">Votes</div><div class="v">14</div></div>
+      </div>
+      <div class="grade"><span class="glab">GRADE</span><b>Recommend (strong, high certainty)</b></div>
+    </div>
+
+    <!-- T2 — AGAINST, strong -->
+    <div class="scard">
+      <p class="st">Routinely add adjuvant immune-checkpoint inhibitor to osimertinib in EGFR-mutated disease.
+        <span class="state against" style="background:var(--bg);color:var(--muted);border:1px solid var(--line)">Consensus &middot; AGAINST</span></p>
+      <div class="agg">
+        <div class="ab"><div class="k">Median</div><div class="v">2</div><div class="muted">IQR 1</div></div>
+        <div class="ab"><div class="k">% in 1–3</div><div class="v">86%</div></div>
+        <div class="ab"><div class="k">Certainty</div><div class="v" style="font-size:15px">moderate</div></div>
+        <div class="ab"><div class="k">Votes</div><div class="v">14</div></div>
+      </div>
+      <div class="grade"><span class="glab">GRADE</span><b>Recommend against (strong, moderate certainty)</b></div>
+    </div>
+
+    <!-- T3 — FOR, conditional (low certainty downgrades it) -->
+    <div class="scard">
+      <p class="st">Extend adjuvant osimertinib beyond 3 years in high-risk resected disease.
+        <span class="state for">Consensus &middot; FOR</span></p>
+      <div class="agg">
+        <div class="ab"><div class="k">Median</div><div class="v">7</div><div class="muted">IQR 2</div></div>
+        <div class="ab"><div class="k">% for (7–9)</div><div class="v">79%</div></div>
+        <div class="ab"><div class="k">Certainty</div><div class="v" style="font-size:15px">low</div></div>
+        <div class="ab"><div class="k">Votes</div><div class="v">14</div></div>
+      </div>
+      <div class="grade"><span class="glab">GRADE</span><b>Suggest (conditional, low certainty)</b> <span class="muted">— the panel agrees, but low certainty holds it to conditional</span></div>
+    </div>
+
+    <p class="muted" style="margin-top:14px">A treatment guideline also makes the <b>impact</b> quantitative — projected NNT, survival, toxicity, or cost per recommendation — which can feed the importance/priority ranking. (Two reference guidelines are in progress: a diagnostic pulmonary-nodule guideline and a lung-cancer treatment guideline.)</p>
+  </section>
+
+  <section>
     <h2>What it does</h2>
     <ul class="feat">
       <li><b>RAND/UCLA two-region consensus</b> — median, IQR, distribution, and a state (consensus for/against · uncertain · no consensus) with a configurable threshold and a disagreement rule.</li>
