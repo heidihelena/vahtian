@@ -36,7 +36,7 @@
   </header>
 
   <h1>Privacy</h1>
-  <p class="upd">Last updated 20 June 2026.</p>
+  <p class="upd">Last updated 22 June 2026.</p>
 
   <p class="note"><b>The short version.</b> vahtian.com has no accounts and no advertising
   trackers. The interactive demos run entirely in your browser. The downloadable tools are
@@ -48,7 +48,8 @@
 
   <h2>What this page covers</h2>
   <p>This notice is about the <b>website</b> (vahtian.com) and the demos shown on it. Each
-  downloadable tool has its own behavior — see, for CiteVahti, the
+  downloadable tool has its own behavior — the <b>MatchVahti</b> and <b>MatchVahti Lite</b> apps
+  are covered in their own section below, and for CiteVahti see the
   <a href="https://github.com/heidihelena/citevahti/blob/main/docs/CONTRIBUTOR_PRIVACY.md">contributor
   privacy notice</a> (the optional, default-off evidence-contribution feature).</p>
 
@@ -71,9 +72,54 @@
     <li>We do not require an account to use any free tool.</li>
   </ul>
 
+  <h2>MatchVahti and MatchVahti Lite (apps)</h2>
+  <p>The MatchVahti and MatchVahti Lite apps are <b>local-first</b>. Your projects, claims,
+  papers, ratings, notes, and the on-device validation log live <b>only on your device</b> — they
+  are not uploaded, and there are no accounts, no advertising, and no analytics or tracking in the
+  apps. Network requests happen only when you act. With the optional features off — the shipped
+  default — the only thing that leaves your device is the PubMed search you run.</p>
+
+  <p><b>What the apps send, and when:</b></p>
+  <ul>
+    <li><b>PubMed search (both apps).</b> Your query is sent to the US National Library of
+      Medicine's NCBI E-utilities to return results. It is search-only; we do not receive or store
+      your queries. An optional NCBI contact email / API key (for NCBI's rate-limit etiquette) is
+      sent with those requests and is stored only on your device.</li>
+    <li><b>AI second opinion (MatchVahti only — optional, off by default).</b> If you enable it,
+      after your own rating is recorded, the selected claim, the paper title, and its abstract are
+      sent to the model endpoint <b>you</b> configure, using <b>your own</b> API key. The key stays
+      on your device and is never sent to us — your chosen AI provider is the recipient, not
+      Vahtian. Leave it off and nothing is sent.</li>
+    <li><b>Semantic Scholar citation map (MatchVahti only — optional, off by default).</b> If you
+      use it, the <b>public identifiers</b> (PMIDs/DOIs) of the papers you select are sent to the
+      Semantic Scholar Graph API to fetch the citation graph. No personal data and no claim text
+      are sent.</li>
+    <li><b>Corpus contribution (MatchVahti only — optional, off by default, explicit per-send
+      consent).</b> Contributing de-identified judgment metadata to the shared Vahtian evidence
+      corpus is a separate, deliberate action — never automatic. What a contribution carries, who
+      receives it (Vahtian and its EU-based processors), where it is stored (an EU database), how
+      long it is kept, and how to revoke it are set out in the
+      <a href="https://github.com/heidihelena/matchvahti/blob/main/docs/CONTRIBUTOR_PRIVACY.md">contributor
+      privacy notice</a>. Each contribution is revocable from within the app.</li>
+  </ul>
+
+  <p><b>MatchVahti Lite</b> has none of the optional features above. Its only network call is the
+  PubMed search; captures and the Zotero <code>.ris</code> export stay on your device.</p>
+
+  <h2>Legal basis (apps)</h2>
+  <ul>
+    <li><b>PubMed search, AI second opinion, citation map:</b> to deliver the function you actively
+      request when you run a search or switch on a feature (GDPR Art. 6(1)(b)); the AI provider and
+      Semantic Scholar act as your chosen recipients under their own terms.</li>
+    <li><b>Corpus contribution:</b> your consent (GDPR Art. 6(1)(a)), recorded per opt-in.</li>
+  </ul>
+
   <h2>Your rights</h2>
   <p>Under the GDPR you may request access, correction, erasure, restriction, or portability of
-  any personal data we hold, and object to processing. Because the site is cookieless and
+  any personal data we hold, and object to processing. You may also <b>withdraw any consent at any
+  time</b> (Art. 7(3)); withdrawal does not affect the lawfulness of processing carried out before
+  it. For corpus contributions you can <b>revoke</b> directly in the app, which deletes the data
+  and leaves only a dated tombstone proving erasure. Because the website is cookieless and
   account-free, we usually hold no data that identifies you. Contact
   <a href="mailto:privacy@vahtian.com">privacy@vahtian.com</a>. You may also lodge a complaint
   with the Finnish Data Protection Ombudsman (<a href="https://tietosuoja.fi/en">tietosuoja.fi</a>).</p>
