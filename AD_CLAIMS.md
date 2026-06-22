@@ -10,6 +10,27 @@ by a clinician, MD, PhD; overclaiming is both a trust risk and a compliance risk
 
 Everything else should ladder up to that. CiteVahti checks **citation support**, not truth.
 
+## Audience, channels & budget (decided)
+
+- **Primary audience:** biomedical manuscript **authors** and **supervisors** doing a
+  **pre-submission citation audit**.
+- **Positioning:** *CiteVahti is a local-first citation-support audit tool for manuscript
+  claims — it helps authors test whether the cited evidence supports each claim before
+  submission.*
+- **Channels (organic, ~€0 paid):** GitHub (source of truth), the **Zotero community**, and
+  **biomedical research-methods** channels. No paid Meta/IG ads for now — the "Platform
+  notes" below apply only if that changes.
+- **CTA:** *"Try the 3-minute demo"* / `citevahti demo` → then the GitHub repo.
+
+## Conflict of interest & disclosure
+
+CiteVahti is developed by the author (clinician, MD/PhD). It **does not certify** scientific
+truth, manuscript quality, publication suitability, or the absence of citation problems —
+final responsibility stays with the human author, reviewer, editor, or institution. Any
+post, talk, teaching, or write-up should **disclose the tool use and the developer
+relationship where relevant**. Canonical statement + ready-to-adapt methods text:
+<https://github.com/heidihelena/citevahti/blob/main/docs/DISCLOSURE.md>.
+
 ## ✅ Say this (truthful, on-brand)
 
 - "Check whether each claim is supported by the source cited for it."
