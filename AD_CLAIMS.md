@@ -1,7 +1,7 @@
 # Ad & marketing claim guardrails — CiteVahti
 
-*Draft for founder approval. Keep ad copy truthful and platform-safe. CiteVahti is built
-by a clinician; overclaiming is both a trust risk and a compliance risk.*
+*Draft approved by founder. Keep ad copy truthful and platform-safe. CiteVahti is built
+by a clinician, MD, PhD; overclaiming is both a trust risk and a compliance risk.*
 
 ## The one true line
 
@@ -37,7 +37,7 @@ Everything else should ladder up to that. CiteVahti checks **citation support**,
 
 ## Platform notes (Meta / Instagram)
 
-- Health-adjacent + sensational claims get flagged or rejected — stay modest and specific.
+- Health-adjacent + sensational claims get flagged or rejected, stay modest and specific.
 - Prefer **UTM-tagged links** for attribution so the site stays cookieless (no tracking
   pixel) — consistent with the [privacy page](/privacy/). If a conversion pixel is ever
   added, it needs a consent banner and a privacy-notice update.
