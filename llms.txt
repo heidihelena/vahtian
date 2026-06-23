@@ -1,21 +1,33 @@
 # Vahtian
 
-> Citation-integrity infrastructure: a blinded human → AI → adjudication workflow for research citations, with decision-gated, undoable writes and a hash-chained audit trail. Free and local-first for researchers; paid infrastructure for organizations at publication scale. "vahti" is Finnish for *sentinel / guard*.
+> Open, agent-driven research-support infrastructure for the evidence lifecycle — find the sentence, search the literature, screen it blinded, reconcile reviewers, retrieve full text, and verify the claim before it is cited. Human-first: the AI is an advisory, fully-identified second rater, never the decider. Local-first and Apache-2.0 for researchers; governed infrastructure for organisations at publication scale. "vahti" is Finnish for *sentinel / guard*.
 
-Vahtian records the blinded human → AI → adjudication workflow with provenance; it does not assert truth. Core principles: the human decides (AI is a blinded, advisory second rater, never decisive); no silent writes (references enter a library only as the audited, undoable last step, dedupe fails closed); the reasoning is recorded (a hash-chained audit trail reportable in a methods section); open core, local-first (the core is Apache-2.0 and runs on your machine). The free researcher tools are single-file and browser-only — nothing is uploaded.
+Vahtian records the **blinded human → AI → adjudication** workflow with provenance; it does not assert scientific truth. An LLM or agent can do real support work with these tools, but must respect the invariants that make the output trustworthy:
 
-## Products (live)
-- [CiteVahti](https://vahtian.com/citevahti/): Verify the claim before you cite it, inline in your manuscript.
-- [MatchVahti-Lite](https://vahtian.com/matchvahti-lite/): Tap the sentences worth citing in a PubMed abstract and append them to a reviewable Zotero `.ris` — provenance kept, nothing uploaded.
-- [StudyVahti](https://vahtian.com/studyvahti/): Protocol-readiness for clinical study ideas — PICOTS structure, a variable codebook, and triage mapped to SPIRIT / STROBE / TRIPOD. Variables export into DictVahti.
-- [DictVahti](https://vahtian.com/dictvahti/): REDCap data-dictionary linter — 26 deterministic checks across naming, field types, choices, branching logic and completeness, with one-click fixes.
+- **Human decides.** The AI is a blinded, advisory second rater — consulted only *after* the human commits, never anchoring, never setting the recorded value.
+- **No silent writes.** References enter a library (Zotero RIS) only as an audited, undoable, preview→confirm step. Dedupe fails closed.
+- **AI is a fully-identified, separate tier.** Any AI rating is labelled with model id + version + prompt version. It never counts as an independent human assessor and never fills a consensus/k-anonymity floor. Maximal transparency, not anonymity.
+- **Open, reproducible search.** Literature search uses open APIs only (PubMed/MEDLINE, Europe PMC, Semantic Scholar, OpenAlex) + citation chasing — so anyone can re-run it. Login-gated databases (Embase, Web of Science, Scopus) are excluded by design.
+- **Honest about scope.** An abstract sentence is a lead, not evidence. Currency is bounded by the search date.
+
+## For LLMs and agents — how to do research-support work
+- [Agent guide](https://vahtian.com/agents/): what an LLM can drive, the open pipeline, and the invariants to honour.
+- [Vahtian research-support skill](https://github.com/heidihelena/vahtian/blob/main/skill/SKILL.md): a drop-in skill that teaches an agent the find → search → screen → reconcile → retrieve → verify pipeline.
+- [vahtian_search.py](https://github.com/heidihelena/vahtian/blob/main/tools/vahtian_search.py): open multi-source literature search → one frozen, deduped, provenance-stamped corpus. Stdlib only, re-runnable: `python3 tools/vahtian_search.py outdir/`.
+
+## Live tools (free, local-first, single browser file — nothing is uploaded)
+- [CiteVahti](https://vahtian.com/citevahti/): Verify each claim is supported by the source cited for it, inline in your manuscript; decision-gated, undoable Zotero write-back; hash-chained audit. *(free beta)*
+- [MatchVahti-Lite](https://vahtian.com/matchvahti-lite/): Tap the sentences worth citing in a PubMed abstract → reviewable Zotero `.ris`, provenance kept, nothing uploaded.
+- [StudyVahti](https://vahtian.com/studyvahti/): Protocol-readiness — PICOTS structure, a variable codebook, triage mapped to SPIRIT / STROBE / TRIPOD. Exports a machine-readable protocol an agent can read.
+- [DictVahti](https://vahtian.com/dictvahti/): REDCap data-dictionary linter — 26 deterministic checks with one-click fixes.
+- [MethodVahti](https://vahtian.com/methodvahti/): Justify sample size → COREQ/SRQR methods PDF. *(free beta; project licence for institutions)*
+- [ReviewVahti](https://vahtian.com/reviewvahti/): Inter-rater reliability for screening — load each reviewer's blinded ballot → per-claim Cohen's κ, PABAK, AC1 (pairs) / Krippendorff's α (3+). κ never shown alone.
 
 ## Roadmap
-- ReviewVahti: Journals & editorial offices — claim-level checks, reviewer oversight, manuscript audit trails.
-- GuidelineVahti: Guideline groups, societies, institutions & medical-communications teams.
-- AtlasVahti: Consented, de-identified evidence-validation patterns — governed analytics & API.
+- GuidelineVahti: Panel consensus — RAND/UCLA voting, Delphi rounds, GRADE recommendations, anonymous.
+- AtlasVahti: Consented, de-identified evidence-validation patterns — governed analytics & API, and transparent model-concordance reports (which models scored what, and how well they agree with human consensus).
 
 ## More
+- [Source code](https://github.com/heidihelena/vahtian) (site + open tools) · [CiteVahti](https://github.com/heidihelena/citevahti)
 - [Sitemap](https://vahtian.com/sitemap.xml)
-- [Source code](https://github.com/heidihelena/citevahti)
 - Contact: hello@vahtian.com
