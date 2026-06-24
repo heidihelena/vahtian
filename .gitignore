@@ -1,5 +1,11 @@
 .DS_Store
 .claude/
+# …but keep the committed agent skills (run-vahtian + UX review skills)
+!.claude/
+!.claude/skills/
+!.claude/skills/**
+# screenshots are large and regenerable — don't commit them
+.claude/skills/run-vahtian/shots/
 node_modules
 
 # wrangler files
