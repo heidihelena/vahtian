@@ -118,6 +118,15 @@ button.small{padding:5px 9px;font-size:12px}
   color:#fff;background:#C24D7E;padding:3px 7px;border-radius:6px}
 .hint{font-size:12.5px;color:var(--muted);margin:8px 0 0}
 .hint code{font-family:ui-monospace,Menlo,monospace;background:#f2f0f7;padding:1px 5px;border-radius:4px}
+.checks{display:grid;gap:6px}
+.checks .grp{font:700 11px/1 ui-monospace,Menlo,monospace;color:var(--muted);margin-top:4px}
+.checks .iss{font-size:12.5px;padding:5px 8px;border-radius:7px;border:1px solid var(--line);background:var(--bg)}
+.checks .iss.warn{background:#FBE0EA;border-color:#F2B3CC;color:#7A1F45}
+.checks .iss.claim{background:#FBE0EA;border-color:#C24D7E;color:#7A1F45;font-weight:600}
+.checks .iss.info{background:#FFF2D8;border-color:#E6C980;color:#5A4300}
+.ccount{font:700 11px/1 ui-monospace,Menlo,monospace;color:#fff;background:var(--violet);padding:2px 7px;border-radius:6px;display:none}
+.ccount.has{display:inline-block}
+.ccount.clean{background:#1E9E8A}
 @media print{
   header,aside,.hint{display:none!important}
   body{background:#fff}
@@ -201,7 +210,11 @@ button.small{padding:5px 9px;font-size:12px}
 
   <h3>Post caption</h3>
   <textarea id="caption" rows="6"></textarea>
-  <div class="row"><button class="small" id="copyCaption">copy caption</button></div>
+  <div class="row"><button class="small" id="genCaption">generate from deck</button><button class="small" id="copyCaption">copy caption</button></div>
+  <p class="hint">“Generate” drafts a caption from the deck’s cover, points and CTA — then edit it. It never overwrites without your click.</p>
+
+  <h3>Checks <span id="checkCount" class="ccount"></span></h3>
+  <div id="checks" class="checks"><p class="hint" style="margin:0">No issues — slides read clean.</p></div>
 
   <h3>Export</h3>
   <div class="row">
@@ -239,6 +252,7 @@ const GLYPHS = {
   'matchvahti-lite':`<circle cx="13.9" cy="16" r="1.9" fill="#8B6FC9"/><circle cx="18.1" cy="16" r="1.9" fill="#8B6FC9"/><path d="M13.9 16 H18.1" stroke="#8B6FC9" stroke-width="2.3" stroke-linecap="round"/>`,
   matchvahti:`<circle cx="13" cy="13.5" r="1.4" fill="#C5B8E8"/><circle cx="19" cy="13.5" r="1.4" fill="#C5B8E8"/><circle cx="13" cy="18.5" r="1.4" fill="#C5B8E8"/><circle cx="19" cy="18.5" r="1.4" fill="#C5B8E8"/>`,
   fullvahti:`<path d="M16 11 V18 M12.8 15.8 L16 19 L19.2 15.8" fill="none" stroke="#C5B8E8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>`,
+  methodvahti:`<g fill="none" stroke="#C5B8E8" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M13 19 V16.6"/><path d="M16 19 V13.4"/><path d="M19 19 V11.6"/></g>`,
 };
 const THEMES = {
   vahtian:{label:'Vahtian (company)',accent:'#8B6FC9'},
@@ -251,6 +265,7 @@ const THEMES = {
   'matchvahti-lite':{label:'MatchVahti-Lite',accent:'#8B6FC9'},
   matchvahti:{label:'MatchVahti',accent:'#8B6FC9'},
   fullvahti:{label:'FullVahti',accent:'#1E9E8A'},
+  methodvahti:{label:'MethodVahti',accent:'#5566B5'},
 };
 function markSvg(theme, bg){
   const accent = THEMES[theme]?.accent || '#8B6FC9';
@@ -342,10 +357,133 @@ const PRESETS = {
     {type:'point',kicker:'THE RULE',title:'FullVahti never bypasses a paywall.',body:'Only officially designated open-access materials are downloaded.\n\nItems it can\'t find are logged in a report note — useful for interlibrary loan requests.'},
     {type:'cta',kicker:'',title:'Attach the open-access PDFs your Zotero is missing.',body:'Free Zotero plugin. Zotero 7–9.\nInstalls without technical skills. Auto-updates.\n\nOptional CiteVahti integration for tag sync.',url:'vahtian.com'},
   ]},
+  methodvahti:{label:'MethodVahti — justify the sample size',theme:'methodvahti',
+    bg:'light',url:'vahtian.com/methodvahti',
+    caption:`Reviewer 2 will ask how you justified your sample size — and your qualitative methods.\n\nMethodVahti helps you document both before data collection: a transparent sample-size rationale and a COREQ / SRQR methods write-up you can drop into the manuscript.\n\nIt records your reasoning; it does not decide it for you.\n\n→ vahtian.com/methodvahti\n\n#ClinicalResearch #QualitativeResearch #Methods #SampleSize #MedEd`,
+    slides:[
+    {type:'cover',kicker:'METHODVAHTI',title:'Reviewer 2 will ask how you justified your sample size.',body:''},
+    {type:'point',kicker:'BEFORE COLLECTION',title:'Write the rationale first.',body:'A sample size is an argument, not a number you reach for at write-up.\n\nMethodVahti walks the inputs and records the reasoning while it is still a choice.'},
+    {type:'point',kicker:'QUALITATIVE TOO',title:'“We reached saturation” needs more than a sentence.',body:'Score heterogeneity transparently and show the basis for your judgement, rather than asserting it.'},
+    {type:'point',kicker:'THE OUTPUT',title:'A methods write-up you can paste in.',body:'COREQ / SRQR-aligned text and a sample-size rationale — drafted from your inputs, edited by you.'},
+    {type:'cta',kicker:'',title:'Document the method before you collect the data.',body:'Free beta for individuals; project licence for institutions. In your browser.',url:'vahtian.com/methodvahti'},
+  ]},
+  reviewvahti:{label:'ReviewVahti — inter-rater reliability',theme:'reviewvahti',
+    bg:'light',url:'vahtian.com/reviewvahti',
+    caption:`Two reviewers screened the same studies. How much did they actually agree?\n\nReviewVahti loads each reviewer's blinded ballot and reports per-claim agreement — raw %, Cohen's κ, PABAK, AC1 for a pair; Krippendorff's α for three or more.\n\nκ is shown alongside complementary measures, never alone: it can read low even at high agreement when categories are skewed.\n\nIn your browser; nothing is uploaded.\n\n→ vahtian.com/reviewvahti\n\n#SystematicReview #EvidenceSynthesis #InterRaterReliability #ResearchMethods`,
+    slides:[
+    {type:'cover',kicker:'REVIEWVAHTI',title:'Two reviewers, one screening.\nHow much did they agree?',body:''},
+    {type:'point',kicker:'THE QUESTION',title:'Percent agreement alone can mislead.',body:'When most studies are excluded, two reviewers agree most of the time by chance.\n\nYou need a chance-corrected measure to see the real signal.'},
+    {type:'point',kicker:'WHAT IT REPORTS',title:'κ, PABAK, AC1 — and α for 3+.',body:'Load each reviewer’s blinded ballot.\nGet raw % agreement plus chance-corrected measures per claim.'},
+    {type:'point',kicker:'THE CAUTION',title:'κ is never shown alone.',body:'Cohen’s κ can read low even when agreement is high, if the categories are skewed.\n\nReviewVahti shows it beside complementary measures so you read it in context.'},
+    {type:'cta',kicker:'',title:'Measure screening reliability before you report it.',body:'For 2–7 reviewers. In your browser; nothing is uploaded.',url:'vahtian.com/reviewvahti'},
+  ]},
+  guidelinevahti:{label:'GuidelineVahti — panel consensus',theme:'guidelinevahti',
+    bg:'light',url:'vahtian.com/guidelinevahti',
+    caption:`A recommendation needs more than a room full of experts — it needs a documented consensus.\n\nGuidelineVahti runs the structured steps in your browser: RAND/UCLA 1–9 appropriateness voting, Delphi rounds, an importance × feasibility map, ordinal agreement, and GRADE recommendations. Anonymous; nothing is uploaded.\n\nIt documents how the panel decided; the panel still decides.\n\n→ vahtian.com/guidelinevahti\n\n#ClinicalGuidelines #GRADE #Consensus #HealthPolicy #EvidenceBasedMedicine`,
+    slides:[
+    {type:'cover',kicker:'GUIDELINEVAHTI',title:'A recommendation needs a documented consensus, not just expert opinion.',body:''},
+    {type:'point',kicker:'STRUCTURED VOTING',title:'RAND/UCLA, not a show of hands.',body:'1–9 appropriateness voting with anonymous rounds surfaces real disagreement instead of burying it.'},
+    {type:'point',kicker:'THE MAP',title:'Importance × feasibility, side by side.',body:'See where the panel converges and where it splits — as a measurement, not a verdict.'},
+    {type:'point',kicker:'THE OUTPUT',title:'GRADE recommendations, with the trail.',body:'Delphi rounds, ordinal agreement, and a recommendation — with the record of how the panel got there.'},
+    {type:'cta',kicker:'',title:'Run the consensus, keep the record.',body:'Anonymous, in your browser; nothing is uploaded. Early access.',url:'vahtian.com/guidelinevahti'},
+  ]},
+  atlasvahti:{label:'AtlasVahti — the validation map (roadmap)',theme:'atlasvahti',
+    bg:'navy',url:'vahtian.com',
+    caption:`Every blinded claim check across the Vahtian tools records the same atom: claim ↔ study ↔ {supports | contrasts}.\n\nAtlasVahti is the consented, de-identified map built from those records — where claims contradict, where evidence is thin, and how well AI ratings agree with human consensus, reported transparently per model.\n\nConsented and governed: contribution is opt-in and revocable; the map shows patterns, it does not assert truth.\n\nOn the roadmap. Register interest: hello@vahtian.com\n\n→ vahtian.com\n\n#EvidenceSynthesis #OpenScience #ResearchInfrastructure #MetaResearch`,
+    slides:[
+    {type:'cover',kicker:'ATLASVAHTI',title:'What if every blinded claim check fed one consented map?',body:''},
+    {type:'point',kicker:'THE ATOM',title:'One record, everywhere.',body:'Across the tools, each check stores the same atom:\nclaim ↔ study ↔ supports or contrasts.'},
+    {type:'point',kicker:'THE MAP',title:'Contradictions and gaps, made visible.',body:'Pooled and de-identified, the records show where claims disagree and where the evidence is thin.'},
+    {type:'point',kicker:'MODEL CONCORDANCE',title:'How well does the AI agree with people?',body:'Reported transparently per model — usage and agreement with human consensus, not a leaderboard verdict.'},
+    {type:'cta',kicker:'',title:'AtlasVahti is on the roadmap.',body:'Consented, de-identified, governed. Contribution is opt-in and revocable.\n\nRegister interest: hello@vahtian.com',url:'vahtian.com'},
+  ]},
 };
 
+/* ===== deck schema + normalization (keeps save/load compatible) ===== */
+const SCHEMA_VERSION = 1;
+const SLIDE_TYPES = ['cover','point','list','code','image','quote','cta'];
+function str(v){ return typeof v==='string' ? v : (v==null ? '' : String(v)); }
+function normalizeSlide(s){
+  s = s && typeof s==='object' ? s : {};
+  const type = SLIDE_TYPES.includes(s.type) ? s.type : 'point';
+  const o = { type, kicker:str(s.kicker), title:str(s.title), body:str(s.body) };
+  if(type==='code') o.code = str(s.code);
+  if(type==='cta')  o.url  = str(s.url);
+  if(type==='image'){ if(s.img) o.img = s.img; if(s.imgSrc) o.imgSrc = s.imgSrc; }
+  return o;
+}
+// Bring any deck (preset or loaded JSON, old or new) to a known shape. Never throws.
+function normalizeDeck(d){
+  d = d && typeof d==='object' ? d : {};
+  const out = {
+    schema: SCHEMA_VERSION,
+    label: str(d.label) || 'Untitled deck',
+    theme: THEMES[d.theme] ? d.theme : 'vahtian',
+    bg: d.bg==='navy' ? 'navy' : 'light',
+    url: str(d.url) || 'vahtian.com',
+    caption: str(d.caption),
+    slides: (Array.isArray(d.slides) && d.slides.length ? d.slides : [{type:'cover',title:'Your hook goes here.'}]).map(normalizeSlide),
+  };
+  if(d.format) out.format = d.format;
+  return out;
+}
+
+/* ===== evidence-safe language — flag overclaims (the house "no overclaim" rule) ===== */
+const OVERCLAIMS = [
+  /\bproves?\b/i, /\bproven\b/i, /\bguarantees?\b/i, /\bguaranteed\b/i,
+  /\bfully verif\w*/i, /\beliminat\w* bias\b/i, /\bremoves? bias\b/i,
+  /\bai decides?\b[^.]*\btruth\b/i, /\bdecides? (?:what is |the )?truth\b/i,
+  /\b100% ?(?:accurate|correct|reliable)\b/i, /\bnever wrong\b/i, /\balways correct\b/i,
+  /\bensures? (?:accuracy|correctness|truth)\b/i, /\bperfectly (?:accurate|reliable)\b/i,
+];
+function findOverclaims(text){ const t = str(text), hits = [];
+  for(const re of OVERCLAIMS){ const m = t.match(re); if(m && !hits.includes(m[0].toLowerCase())) hits.push(m[0].toLowerCase()); }
+  return hits; }
+
+/* ===== slide + deck linting (LinkedIn legibility) ===== */
+const LINT = { titleMax:90, titleMaxCover:120, bodyMax:320, bullets:6, bulletMax:90 };
+function lintSlide(s){
+  const out = [], title = str(s.title), body = str(s.body);
+  const tMax = s.type==='cover' ? LINT.titleMaxCover : LINT.titleMax;
+  if(title.length > tMax) out.push({lvl:'warn', msg:`title ${title.length} chars (< ${tMax}) — shrinks on mobile`});
+  if(!title.trim() && s.type!=='image') out.push({lvl:'warn', msg:'no title'});
+  if(body.length > LINT.bodyMax) out.push({lvl:'warn', msg:`body ${body.length} chars (< ${LINT.bodyMax}) — wall of text`});
+  if(s.type==='list'){
+    const items = body.split('\n').map(x=>x.trim()).filter(Boolean);
+    if(!items.length) out.push({lvl:'warn', msg:'list slide has no bullets'});
+    if(items.length > LINT.bullets) out.push({lvl:'warn', msg:`${items.length} bullets (≤ ${LINT.bullets})`});
+    if(items.some(x=>x.length>LINT.bulletMax)) out.push({lvl:'info', msg:'a bullet runs long — keep each to one line'});
+  }
+  if(s.type==='cta' && !str(s.url||deck.url).trim()) out.push({lvl:'warn', msg:'CTA has no URL'});
+  for(const w of findOverclaims(title+' '+body)) out.push({lvl:'claim', msg:`overclaim “${w}” — Vahtian records, it doesn’t prove`});
+  return out;
+}
+function lintDeck(){
+  const perSlide = deck.slides.map((s,i)=>({i, issues:lintSlide(s)}));
+  const deckIssues = [];
+  if(!deck.slides.some(s=>s.type==='cta')) deckIssues.push({lvl:'warn', msg:'no CTA slide — close with the one action'});
+  if(deck.slides.length < 2) deckIssues.push({lvl:'info', msg:'a carousel wants ≥ 2 slides'});
+  for(const w of findOverclaims(deck.caption)) deckIssues.push({lvl:'claim', msg:`caption overclaim “${w}”`});
+  return { perSlide, deckIssues };
+}
+
+/* ===== caption generation — a draft assembled from the deck (editable) ===== */
+function generateCaption(){
+  const sl = deck.slides, cover = sl.find(s=>s.type==='cover') || sl[0] || {};
+  const cta = [...sl].reverse().find(s=>s.type==='cta');
+  const points = sl.filter(s=>s.type==='point'||s.type==='list').slice(0,4)
+    .map(s=>'• '+str(s.title).replace(/\s*\n\s*/g,' ').trim()).filter(x=>x.length>3);
+  const url = str((cta&&cta.url) || deck.url || 'vahtian.com');
+  const tag = (THEMES[deck.theme]?.label || 'Vahtian').replace(/[^A-Za-z]/g,'');
+  const lines = [ str(cover.title).replace(/\s*\n\s*/g,' ').trim() ];
+  if(points.length){ lines.push('', ...points); }
+  if(cta && str(cta.title).trim()){ lines.push('', str(cta.title).replace(/\s*\n\s*/g,' ').trim()); }
+  lines.push('', '→ '+url, '', '#'+tag+' #ResearchTools #AcademicTwitter');
+  return lines.join('\n');
+}
+
 /* ===== state ===== */
-let deck = JSON.parse(JSON.stringify(PRESETS.citevahti));
+let deck = normalizeDeck(PRESETS.citevahti);
 let sel = 0;
 let format = '1080x1350';
 
@@ -403,6 +541,22 @@ function render(){
     format==='1080x1080' ? '@page{size:1080px 1080px;margin:0}' : '@page{size:1080px 1350px;margin:0}';
   document.getElementById('selLabel').textContent = `${sel+1} of ${n}`;
   flagOverflow();
+  renderChecks();
+}
+// Lint + evidence-safe results in the sidebar, refreshed on every render.
+function renderChecks(){
+  const {perSlide, deckIssues} = lintDeck();
+  const slideIssues = perSlide.filter(p=>p.issues.length);
+  const total = deckIssues.length + slideIssues.reduce((a,p)=>a+p.issues.length,0);
+  const cc = document.getElementById('checkCount');
+  cc.textContent = total ? (total+' issue'+(total>1?'s':'')) : 'clean ✓';
+  cc.className = 'ccount has' + (total ? '' : ' clean');
+  const host = document.getElementById('checks');
+  if(!total){ host.innerHTML = '<p class="hint" style="margin:0">No issues — slides read clean and evidence-safe.</p>'; return; }
+  let html = '';
+  if(deckIssues.length) html += '<div class="grp">DECK</div>' + deckIssues.map(d=>`<div class="iss ${d.lvl}">${esc(d.msg)}</div>`).join('');
+  for(const p of slideIssues) html += `<div class="grp">SLIDE ${p.i+1}</div>` + p.issues.map(d=>`<div class="iss ${d.lvl}">${esc(d.msg)}</div>`).join('');
+  host.innerHTML = html;
 }
 // Flag any slide whose content exceeds its 1080×1350/1080 safe area — it will clip
 // silently on export (slides are overflow:hidden, centered). Measured pre-transform.
@@ -481,14 +635,19 @@ function syncDeckControls(){
 }
 F('preset').addEventListener('change', ()=>{
   snapshot();
-  deck = JSON.parse(JSON.stringify(PRESETS[F('preset').value]));
+  deck = normalizeDeck(PRESETS[F('preset').value]);
   sel = 0; syncDeckControls();
   render(); syncForm(); hydrateImages();
 });
 F('caption').addEventListener('input', ()=>{ deck.caption = F('caption').value; });
 F('copyCaption').addEventListener('click', async ()=>{
-  await navigator.clipboard.writeText(F('caption').value);
-  F('copyCaption').textContent='copied ✓'; setTimeout(()=>F('copyCaption').textContent='copy caption',1200);
+  try{ await navigator.clipboard.writeText(F('caption').value); F('copyCaption').textContent='copied ✓'; }
+  catch(_){ F('caption').select(); document.execCommand&&document.execCommand('copy'); F('copyCaption').textContent='copied ✓'; }
+  setTimeout(()=>F('copyCaption').textContent='copy caption',1200);
+});
+F('genCaption').addEventListener('click', ()=>{
+  const c = generateCaption(); F('caption').value = c; deck.caption = c; renderChecks();
+  F('genCaption').textContent='generated ✓'; setTimeout(()=>F('genCaption').textContent='generate from deck',1200);
 });
 
 /* ===== slide ops ===== */
@@ -534,7 +693,7 @@ F('fileInput').addEventListener('change', async e=>{
     const d = JSON.parse(await file.text());
     if(!Array.isArray(d.slides)) throw new Error('no slides[]');
     snapshot();
-    deck = d; if(d.format) format = d.format;
+    deck = normalizeDeck(d); if(d.format) format = d.format;
     sel = 0; F('format').value = format; syncDeckControls();
     render(); syncForm(); hydrateImages();
   }catch(err){ alert('Could not load deck: '+err.message); }
@@ -650,7 +809,20 @@ function buildPdf(jpegs, w, h, pxW, pxH){
   return new Blob([out], {type:'application/pdf'});
 }
 
+// Pre-export gate — surface overflow, overclaims, and a missing CTA before a file goes out.
+function preflight(){
+  const {perSlide, deckIssues} = lintDeck();
+  const claims = [...deckIssues, ...perSlide.flatMap(p=>p.issues)].filter(i=>i.lvl==='claim');
+  const overflow = deckEl.querySelectorAll('.scalebox.over').length;
+  const blockers = [];
+  if(overflow) blockers.push(`${overflow} slide(s) overflow the safe area and will clip on export`);
+  if(claims.length) blockers.push(`${claims.length} possible overclaim(s): ${claims.map(c=>c.msg.replace(/^.*?“/,'“')).join('; ')}`);
+  if(!deck.slides.some(s=>s.type==='cta')) blockers.push('no CTA slide — readers have no next step');
+  if(!blockers.length) return true;
+  return confirm('Pre-export check found:\n\n• '+blockers.join('\n• ')+'\n\nExport anyway?');
+}
 F('exportPdf').addEventListener('click', async ()=>{
+  if(!preflight()) return;
   const btn = F('exportPdf'); btn.textContent = 'rendering…'; btn.disabled = true;
   try{
     const [w,h] = format==='1080x1080' ? [1080,1080] : [1080,1350];
@@ -668,6 +840,7 @@ F('exportPdf').addEventListener('click', async ()=>{
 });
 
 F('exportPng').addEventListener('click', async ()=>{
+  if(!preflight()) return;
   const slides = deckEl.querySelectorAll('.slide');
   for(let i=0;i<slides.length;i++){
     const canvas = await slideCanvas(slides[i], 1);
