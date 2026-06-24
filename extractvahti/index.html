@@ -88,7 +88,7 @@
       <svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#2D2440"/><g fill="none" stroke="#5566B5" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9 H9 V23 H12"/><path d="M20 9 H23 V23 H20"/></g><g fill="none" stroke="#C5B8E8" stroke-width="1.7"><rect x="11.5" y="11.5" width="9" height="9" rx="1.2"/><path d="M16 11.5 V20.5 M11.5 16 H20.5"/></g></svg>
       <div><h1>ExtractVahti</h1><p class="sub">Extract once, appraise once &mdash; tidy data + risk-of-bias your meta-analysis can trust</p></div>
     </div>
-    <div class="chips"><span class="chip">v0.2</span><span class="chip">dual-reconcile</span><span class="chip">local-first</span><span class="chip">nothing uploads</span><span class="chip">DTA</span></div>
+    <div class="chips"><span class="chip">v0.3</span><span class="chip">κ / Krippendorff α</span><span class="chip">RoB SVG</span><span class="chip">local-first</span><span class="chip">DTA</span></div>
   </div>
 </header>
 
@@ -104,6 +104,8 @@
       <div><label for="extractorId">Your extractor id</label><input id="extractorId" placeholder="e.g. HA" /></div>
       <div><label for="cutoffs">Cutoffs (comma-sep)</label><input id="cutoffs" value="&gt;=1%, &gt;=50%" /></div>
     </div>
+    <label for="lockHash">protocol_hash &mdash; <span class="muted" style="font-weight:400">optional; paste from MatchVahti / the frozen corpus to lock parity. Left blank, it is derived locally.</span></label>
+    <input id="lockHash" class="mono" placeholder="e.g. b0d861dd64c9a6f4 (else auto)" />
     <label style="display:flex;gap:8px;align-items:center;font-weight:500;margin-top:12px"><input type="checkbox" id="probastOn" style="width:auto" /> Include PROBAST-AI / CLAIM appraisal (AI index test)</label>
     <label for="studies">Included studies (JSON array or JSONL)</label>
     <textarea id="studies" placeholder='{"record_id":"pmid:40123456","pmid":"40123456","title":"…","year":2025,"venue":"…"}'></textarea>
@@ -171,7 +173,9 @@
       <button id="expExtraction">extraction.csv</button>
       <button id="expReclass" class="ghost">reclassification.csv</button>
       <button id="expRob" class="ghost">rob.csv</button>
+      <button id="expRobSvg" class="ghost">rob-traffic-light.svg</button>
       <button id="expJsonl" class="ghost">extraction.jsonl</button>
+      <button id="expValidation" class="ghost">validation.jsonl (de-identified)</button>
     </div>
     <p class="hint" style="margin-top:10px">Feed <span class="mono">extraction.csv</span> / <span class="mono">reclassification.csv</span> to R
       (<span class="mono">metadta</span> / <span class="mono">mada</span> / <span class="mono">meta</span>) &mdash; HSROC where a 2&times;2 is reconstructable, agreement pooling otherwise.</p>
@@ -229,12 +233,19 @@ function audit(action,detail){ S.audit.push({ t:new Date().toISOString(), action
 function parseStudies(text){
   const t=(text||"").trim(); if(!t) return [];
   const out=[];
-  const push=o=>{ if(o&&typeof o==="object"){ const rid=o.record_id||(o.pmid?"pmid:"+o.pmid:(o.doi?"doi:"+o.doi:null)); if(rid) out.push({ record_id:rid, pmid:o.pmid||null, doi:o.doi||null, title:o.title||"(no title)", year:o.year||null, venue:o.venue||o.journal||null }); } };
+  const push=o=>{ if(o&&typeof o==="object"){ const rid=canonRecordId(o); if(rid) out.push({ record_id:rid, pmid:o.pmid||null, doi:o.doi||null, title:o.title||"(no title)", year:o.year||null, venue:o.venue||o.journal||null }); } };
   if(t[0]==="["){ JSON.parse(t).forEach(push); }
   else { t.split(/\r?\n/).forEach(line=>{ const s=line.trim(); if(s){ try{ push(JSON.parse(s)); }catch(_){} } }); }
   const seen=new Set(); return out.filter(s=>seen.has(s.record_id)?false:(seen.add(s.record_id),true));
 }
 async function sha16(str){ const b=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(str)); return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,"0")).join("").slice(0,16); }
+// ---- keystone parity (byte-identical to ReviewVahti normPmid/normDoi) ----
+// record_id canonical form = "pmid:<digits>" > "doi:<lower,no-resolver>" > the given id (frozen-corpus form
+// from vahtian_search.py). protocol_hash can be locked to the upstream value (lockHash). Note: ReviewVahti
+// additionally sha256-hashes this string; ExtractVahti keeps the plain frozen-corpus form to join the corpus.
+function normPmid(p){ return String(p==null?"":p).replace(/\D/g,""); }
+function normDoi(d){ return String(d==null?"":d).toLowerCase().trim().replace(/^https?:\/\/(dx\.)?doi\.org\//,""); }
+function canonRecordId(o){ const pm=normPmid(o.pmid); if(pm) return "pmid:"+pm; const dv=normDoi(o.doi); if(dv) return "doi:"+dv; return o.record_id||null; }
 
 async function startExtract(){
   $("setupErr").classList.add("hide");
@@ -245,16 +256,19 @@ async function startExtract(){
   S.cutoffs=$("cutoffs").value.split(",").map(s=>s.trim()).filter(Boolean);
   S.probast_on=$("probastOn").checked;
   S.studies=studies;
-  S.protocol_hash=await sha16(S.protocol_id+"|"+S.cutoffs.join(",")+"|"+studies.map(s=>s.record_id).sort().join(","));
+  const lock=$("lockHash").value.trim();
+  S.protocol_hash = lock || await sha16(S.protocol_id+"|"+S.cutoffs.join(",")+"|"+studies.map(s=>s.record_id).sort().join(","));
+  S.hash_locked=!!lock;
   S.idx=0;
-  audit("import_studies",{ n:studies.length, protocol_hash:S.protocol_hash });
+  audit("import_studies",{ n:studies.length, protocol_hash:S.protocol_hash, hash_locked:!!lock });
   save(); showWork();
 }
 function showWork(){
   $("setupSection").classList.add("hide");
   ["extractSection","reviewSection","reconcileSection","sealSetup"].forEach(id=>$(id).classList.remove("hide"));
   $("tolCounts").value=S.tol.counts; $("tolRate").value=S.tol.rate; $("tolKappa").value=S.tol.kappa;
-  if(Object.keys(S.coExt).length) $("coStatus").textContent="Loaded "+Object.keys(S.coExt).length+" records from extractor "+S.coId+".";
+  if(S.protocol_hash && S.hash_locked) $("lockHash").value=S.protocol_hash;
+  if(Object.keys(S.coExt).length){ const ids=Object.keys(S.coExt); $("coStatus").textContent="Loaded "+ids.length+" co-extractor(s): "+ids.join(", ")+"."; }
   if(S.sealedMeta){ $("sealPill").textContent="sealed · "+S.sealedMeta.n+" records · "+S.sealedMeta.model; $("sealPill").className="pill done"; }
   renderStudy(); renderReview(); renderReconcile();
 }
@@ -378,6 +392,25 @@ function expRob(){
   download("rob.csv",rows.join("\n"),"text/csv");
 }
 function expJsonl(){ const lines=S.studies.map(s=>{ const e=S.ext[s.record_id]; return e?JSON.stringify(Object.assign({protocol_hash:S.protocol_hash},e)):null; }).filter(Boolean); download("extraction.jsonl",lines.join("\n"),"application/json"); }
+// de-identified poolable projection: hashed protocol + public PMID/DOI + metrics + RoB tier; NO extractor_id, NO notes/free-text.
+function expValidation(){ const lines=S.studies.map(s=>{ const e=S.ext[s.record_id]; if(!e) return null;
+  const cut={}; S.cutoffs.forEach(c=>{ const cd=e.cutoffs[c]||{}, m=metrics(cd); cut[c]={ n:m.n, sens:m.sens, spec:m.spec, opa:m.opa, kappa:cd.kappa||null }; });
+  const rc={}; S.cutoffs.forEach(c=>{ const r=e.reclass[c]; if(r&&Object.keys(r).length) rc[c]=r; });
+  return JSON.stringify({ tier:"extraction-validation", protocol_hash:S.protocol_hash, record_id:s.record_id, pmid:s.pmid||null, doi:s.doi||null, cutoffs:cut, reclassification:rc, rob:e.rob }); }).filter(Boolean);
+  download("extraction-validation.jsonl",lines.join("\n"),"application/json"); }
+// downloadable RoB traffic-light figure (SVG)
+function expRobSvg(){ const cols=ROB_DOMS.quadas2.concat(["QUADAS-C"]).concat(S.probast_on?["PROBAST-AI"]:[]);
+  const cw=72, rh=26, lw=190, top=78, fill={low:"#D8F4ED",unclear:"#FFF2D8",high:"#FBE0EA",na:"#ffffff"}, bd={low:"#A7E2D6",unclear:"#E6C980",high:"#F2B3CC",na:"#E7E3F0"};
+  const W=lw+cols.length*cw+20, H=top+S.studies.length*rh+44;
+  let svg='<svg xmlns="http://www.w3.org/2000/svg" width="'+W+'" height="'+H+'" font-family="system-ui,Arial,sans-serif" font-size="11"><rect width="'+W+'" height="'+H+'" fill="#FAF9FC"/>';
+  svg+='<text x="12" y="22" font-weight="700" font-size="13" fill="#1C1830">Risk of bias &#8212; '+esc(S.protocol_id||"protocol")+'</text>';
+  cols.forEach((c,i)=>{ const x=lw+i*cw+cw/2; svg+='<text x="'+x+'" y="'+(top-10)+'" fill="#5B5570" transform="rotate(-32 '+x+' '+(top-10)+')">'+esc(c.replace(" (AI)","").slice(0,16))+'</text>'; });
+  S.studies.forEach((s,ri)=>{ const y=top+ri*rh, e=S.ext[s.record_id]||{rob:{}};
+    svg+='<text x="12" y="'+(y+rh/2+4)+'" fill="#1C1830">'+esc(s.title.slice(0,26))+'</text>';
+    const judgs=ROB_DOMS.quadas2.map(d=>(e.rob.quadas2||{})[d]).concat([(e.rob.quadas_c||{})[ROB_DOMS.quadas_c[0]]]).concat(S.probast_on?[worst(e.rob.probast_ai)]:[]);
+    judgs.forEach((j,ci)=>{ const x=lw+ci*cw, key=j||"na"; svg+='<rect x="'+(x+4)+'" y="'+(y+3)+'" width="'+(cw-8)+'" height="'+(rh-6)+'" rx="4" fill="'+fill[key]+'" stroke="'+bd[key]+'"/>'; }); });
+  const ly=top+S.studies.length*rh+22; ["low","unclear","high"].forEach((j,i)=>{ const x=12+i*92; svg+='<rect x="'+x+'" y="'+ly+'" width="14" height="14" rx="3" fill="'+fill[j]+'" stroke="'+bd[j]+'"/><text x="'+(x+20)+'" y="'+(ly+11)+'" fill="#5B5570">'+j+'</text>'; });
+  svg+='</svg>'; download("rob-traffic-light.svg",svg,"image/svg+xml"); }
 
 function loadExample(){
   $("protocolId").value="pdl1-ai-tps"; $("extractorId").value="HA"; $("cutoffs").value=">=1%, >=50%"; $("probastOn").checked=true;
@@ -390,9 +423,29 @@ function loadExample(){
 
 // ---- v0.2: dual-extraction reconcile + sealed agent aid ----
 function readJsonl(file,cb){ const r=new FileReader(); r.onload=()=>{ const recs=[]; String(r.result).trim().split(/\r?\n/).forEach(l=>{ l=l.trim(); if(l){ try{ recs.push(JSON.parse(l)); }catch(_){} } }); cb(recs); }; r.readAsText(file); }
-function loadCo(file){ readJsonl(file,recs=>{ const map={}; let coId=""; recs.forEach(r=>{ if(r&&r.record_id){ map[r.record_id]=r; if(r.extractor_id) coId=r.extractor_id; } });
-  S.coExt=map; S.coId=coId||"B"; audit("load_co_extraction",{ n:Object.keys(map).length, coId:S.coId }); save();
-  $("coStatus").textContent="Loaded "+Object.keys(map).length+" records from extractor "+S.coId+"."; renderReconcile(); }); }
+function loadCo(file){ readJsonl(file,recs=>{ const byId={}; recs.forEach(r=>{ if(r&&r.record_id){ const id=r.extractor_id||"B"; (byId[id]=byId[id]||{})[r.record_id]=r; } });
+  Object.keys(byId).forEach(id=>{ S.coExt[id]=Object.assign(S.coExt[id]||{}, byId[id]); });
+  audit("load_co_extraction",{ extractors:Object.keys(byId), records:recs.length }); save();
+  const ids=Object.keys(S.coExt); $("coStatus").textContent="Loaded "+ids.length+" co-extractor(s): "+ids.join(", ")+" (load more files to add raters; 3+ → Krippendorff’s α)."; renderReconcile(); }); }
+function raterList(){ return [{id:S.extractor_id||"A", map:S.ext}].concat(Object.keys(S.coExt).map(id=>({id, map:S.coExt[id]}))); }
+function present(v){ return !(v==null||v===""); }
+function tolFor(t){ return t==="count"?S.tol.counts:t==="rate"?S.tol.rate:t==="kappa"?S.tol.kappa:0; }
+function valuesAgree(type,vals){ if(vals.length<2) return true; if(type==="rob"||type==="cat") return vals.every(v=>String(v)===String(vals[0])); const nums=vals.map(Number),t=tolFor(type); return (Math.max.apply(null,nums)-Math.min.apply(null,nums))<=t; }
+function fieldSpecs(){ const specs=[];
+  [["specimen","cat"],["clone","cat"],["ref","cat"],["algo","cat"],["algo_v","cat"],["platform","cat"],["cohort_n","count"],["tat","count"]].forEach(p=>specs.push({key:"study."+p[0],type:p[1],get:r=>(r.study||{})[p[0]]}));
+  S.cutoffs.forEach(c=>{ ["tp","fp","fn","tn"].forEach(f=>specs.push({key:c+".2x2."+f,type:"count",get:r=>((r.cutoffs||{})[c]||{})[f]}));
+    specs.push({key:c+".opa",type:"rate",get:r=>((r.cutoffs||{})[c]||{}).opa}); specs.push({key:c+".kappa",type:"kappa",get:r=>((r.cutoffs||{})[c]||{}).kappa});
+    ["ai_up","ai_down","over_treat","therapy_denied"].forEach(f=>specs.push({key:c+".rc."+f,type:"count",get:r=>((r.reclass||{})[c]||{})[f]})); });
+  Object.keys(ROB_DOMS).forEach(inst=>{ if(inst==="probast_ai"&&!S.probast_on) return; ROB_DOMS[inst].forEach(dom=>specs.push({key:inst+"."+dom,type:"rob",get:r=>((r.rob||{})[inst]||{})[dom]})); });
+  return specs; }
+function krippendorffAlpha(units){ const u2=units.filter(u=>u.length>=2); const o={};
+  u2.forEach(u=>{ const m=u.length; for(let i=0;i<m;i++) for(let j=0;j<m;j++) if(i!==j){ o[u[i]]=o[u[i]]||{}; o[u[i]][u[j]]=(o[u[i]][u[j]]||0)+1/(m-1); } });
+  const cats={}; Object.keys(o).forEach(c=>{ cats[c]=1; Object.keys(o[c]).forEach(c2=>cats[c2]=1); }); const C=Object.keys(cats); if(!C.length) return null;
+  const nc={}; C.forEach(c=>{ nc[c]=C.reduce((s,c2)=>s+((o[c]&&o[c][c2])||0),0); });
+  const n=C.reduce((s,c)=>s+nc[c],0); if(n<2) return null;
+  let Do=0; C.forEach(c=>C.forEach(c2=>{ if(c!==c2) Do+=((o[c]&&o[c][c2])||0); }));
+  let De=0; C.forEach(c=>{ De+=nc[c]*(n-nc[c]); }); De=De/(n-1);
+  return De===0?1:1-Do/De; }
 function numAgree(x,y,t){ if(x===""||x==null||y===""||y==null) return (x==null||x==="")&&(y==null||y===""); return Math.abs((+x)-(+y))<=t; }
 function cmpFields(a,b){ const tol=S.tol, out=[];
   const sa=a.study||{}, sb=b.study||{};
@@ -414,17 +467,26 @@ function cohenKappa(pairs){ const items=pairs.filter(p=>p[0]&&p[1]), n=items.len
   let pe=0; C.forEach(k=>{ pe+=(items.filter(p=>p[0]===k).length/n)*(items.filter(p=>p[1]===k).length/n); });
   return pe>=1?1:(po-pe)/(1-pe); }
 function reconcile(){ S.tol.counts=+$("tolCounts").value||0; S.tol.rate=+$("tolRate").value||0; S.tol.kappa=+$("tolKappa").value||0; save();
-  const shared=S.studies.filter(s=>S.ext[s.record_id]&&S.coExt[s.record_id]);
-  let allFields=[], robPairs=[], mismatches=[];
-  shared.forEach(s=>{ cmpFields(S.ext[s.record_id],S.coExt[s.record_id]).forEach(f=>{ allFields.push(f); if(f.type==="rob") robPairs.push([f.a,f.b]); if(!f.agree) mismatches.push(Object.assign({record_id:s.record_id},f)); }); });
-  return { shared:shared.length, allFields, robPairs, mismatches, k:cohenKappa(robPairs) }; }
+  const raters=raterList(), specs=fieldSpecs();
+  const shared=S.studies.filter(s=>raters.filter(rt=>rt.map[s.record_id]).length>=2);
+  let total=0, agreed=0, mismatches=[], robUnits=[];
+  shared.forEach(s=>{ specs.forEach(sp=>{ const vals=[], byRater=[];
+    raters.forEach(rt=>{ const rec=rt.map[s.record_id]; if(rec){ const v=sp.get(rec); if(present(v)){ vals.push(v); byRater.push({id:rt.id,v}); } } });
+    if(vals.length>=2){ total++; if(valuesAgree(sp.type,vals)) agreed++; else mismatches.push({record_id:s.record_id,key:sp.key,byRater});
+      if(sp.type==="rob") robUnits.push(vals.map(String)); } }); });
+  const n=raters.length;
+  const k = n===2 ? cohenKappa(robUnits.filter(u=>u.length===2)) : null;
+  const alpha = n>=3 ? krippendorffAlpha(robUnits) : null;
+  return { raters:raters.map(r=>r.id), nRaters:n, shared:shared.length, total, agreed, mismatches, k, alpha }; }
 function renderReconcile(){ if(!Object.keys(S.coExt).length){ $("reconcileSummary").innerHTML=""; $("mismatchTable").innerHTML=""; return; }
-  const R=reconcile(), n=R.allFields.length, agr=R.allFields.filter(f=>f.agree).length;
-  $("reconcileSummary").innerHTML='<div class="calc" style="display:block">Extractor '+esc(S.extractor_id)+' vs '+esc(S.coId)+' · '+R.shared+' shared studies · field agreement '+(n?(100*agr/n).toFixed(1):"—")+'% ('+agr+'/'+n+') · RoB Cohen’s κ '+(R.k==null?"—":R.k.toFixed(2))+' · '+R.mismatches.length+' beyond-tolerance mismatch(es)</div>';
-  if(!R.mismatches.length){ $("mismatchTable").innerHTML='<p class="muted" style="margin-top:10px">No beyond-tolerance mismatches — extractions reconcile within tolerance.</p>'; return; }
+  const R=reconcile();
+  const stat = R.nRaters>=3 ? ("Krippendorff’s α "+(R.alpha==null?"—":R.alpha.toFixed(2))) : ("Cohen’s κ "+(R.k==null?"—":R.k.toFixed(2)));
+  $("reconcileSummary").innerHTML='<div class="calc" style="display:block">'+R.nRaters+' extractors ('+R.raters.map(esc).join(", ")+') · '+R.shared+' shared studies · field agreement '+(R.total?(100*R.agreed/R.total).toFixed(1):"—")+'% ('+R.agreed+'/'+R.total+') · RoB '+stat+' · '+R.mismatches.length+' beyond-tolerance mismatch(es)</div>';
+  if(!R.mismatches.length){ $("mismatchTable").innerHTML='<p class="muted" style="margin-top:10px">No beyond-tolerance mismatches.</p>'; return; }
   const rows=R.mismatches.map(m=>{ const key=m.record_id+"|"+m.key, adj=(S.adjud[m.record_id]||{})[m.key];
-    return '<tr><td class="l mono">'+esc(m.record_id.slice(0,18))+'</td><td class="l">'+esc(m.key)+'</td><td>'+esc(m.a)+'</td><td>'+esc(m.b)+'</td><td><input data-adj="'+esc(key)+'" value="'+(adj==null?"":esc(adj))+'" style="width:88px;padding:4px 6px" placeholder="resolve"></td></tr>'; }).join("");
-  $("mismatchTable").innerHTML='<h4 style="margin:14px 0 4px;font-size:13.5px">Adjudicate ('+R.mismatches.length+')</h4><table><tr><th class="l">record_id</th><th class="l">field</th><th>'+esc(S.extractor_id)+'</th><th>'+esc(S.coId)+'</th><th>adjudicated</th></tr>'+rows+'</table>';
+    const vals=m.byRater.map(b=>esc(b.id)+"="+esc(b.v)).join(", ");
+    return '<tr><td class="l mono">'+esc(m.record_id.slice(0,18))+'</td><td class="l">'+esc(m.key)+'</td><td class="l">'+vals+'</td><td><input data-adj="'+esc(key)+'" value="'+(adj==null?"":esc(adj))+'" style="width:88px;padding:4px 6px" placeholder="resolve"></td></tr>'; }).join("");
+  $("mismatchTable").innerHTML='<h4 style="margin:14px 0 4px;font-size:13.5px">Adjudicate ('+R.mismatches.length+')</h4><table><tr><th class="l">record_id</th><th class="l">field</th><th class="l">rater values</th><th>adjudicated</th></tr>'+rows+'</table>';
   document.querySelectorAll('#mismatchTable input[data-adj]').forEach(inp=>{ inp.oninput=()=>{ const p=inp.dataset.adj.split("|"); (S.adjud[p[0]]=S.adjud[p[0]]||{})[p[1]]=inp.value; save(); }; }); }
 function loadSealed(file){ readJsonl(file,recs=>{ const map={}; let model=""; recs.forEach(r=>{ if(r&&r.record_id){ map[r.record_id]=r; model=(r.model&&(r.model.name||r.model))||r.model_id||model; } });
   S.sealed=map; S.sealedMeta={ model:model||"agent", loaded:new Date().toISOString(), n:Object.keys(map).length }; audit("load_sealed_agent",{ n:S.sealedMeta.n, model:S.sealedMeta.model }); save();
@@ -444,7 +506,7 @@ $("resetAll").onclick=()=>{ if(confirm("Clear all extraction data?")){ S=blankSt
 $("prevStudy").onclick=()=>{ if(S.idx>0){ S.idx--; renderStudy(); } };
 $("nextStudy").onclick=()=>{ if(S.idx<S.studies.length-1){ S.idx++; renderStudy(); } };
 $("saveStudy").onclick=saveStudy;
-$("expExtraction").onclick=expExtraction; $("expReclass").onclick=expReclass; $("expRob").onclick=expRob; $("expJsonl").onclick=expJsonl;
+$("expExtraction").onclick=expExtraction; $("expReclass").onclick=expReclass; $("expRob").onclick=expRob; $("expRobSvg").onclick=expRobSvg; $("expJsonl").onclick=expJsonl; $("expValidation").onclick=expValidation;
 
 (function init(){ if(S.studies.length){ $("protocolId").value=S.protocol_id; $("extractorId").value=S.extractor_id; $("cutoffs").value=S.cutoffs.join(", "); $("probastOn").checked=S.probast_on; showWork(); } })();
 </script>
