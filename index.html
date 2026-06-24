@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Vahtian — research citation integrity</title>
-  <meta name="description" content="Vahtian verifies whether each manuscript claim is supported by the evidence cited for it — a blinded human → AI → adjudication workflow with a decision-gated, undoable write and a hash-chained audit trail. Free local tools for researchers.">
+  <meta name="description" content="Vahtian checks whether each manuscript claim is supported by the source cited for it — a blinded human → AI → adjudication workflow with a decision-gated, undoable write and a hash-chained audit trail. Free local tools for researchers.">
   <meta name="theme-color" content="#2D2440">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
@@ -14,7 +14,7 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://vahtian.com/">
   <meta property="og:title" content="Vahtian — does the evidence support the claim?">
-  <meta property="og:description" content="Vahtian verifies whether each manuscript claim is supported by the evidence cited for it. Human-first, AI-second, auditable. Free local tools for researchers; infrastructure for journals, guideline groups, and research organizations.">
+  <meta property="og:description" content="Vahtian checks whether each manuscript claim is supported by the source cited for it. Human-first, AI-second, auditable. Free local tools for researchers; infrastructure for journals, guideline groups, and research organizations.">
   <meta property="og:image" content="https://vahtian.com/brand/cards/vahtian-card.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
@@ -102,6 +102,10 @@
     .tierhead:first-of-type{margin-top:6px}
     .tierhead .t{font:700 12px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.1em;text-transform:uppercase;color:#fff;background:var(--navy);padding:6px 11px;border-radius:6px}
     .tierhead .d{color:var(--muted);font-size:14.5px}
+    ul.chooser{list-style:none;padding:0;margin:0;display:grid;gap:8px}
+    ul.chooser li{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px;padding:11px 14px;background:var(--card);border:1px solid var(--line);border-radius:10px}
+    ul.chooser li .arr{color:var(--violet);font-weight:700}
+    ul.chooser strong{font-weight:600}
     .contract{background:var(--navy);border-radius:14px;padding:26px 24px}
     .contract h2{color:#fff;margin:0 0 12px;font-size:clamp(20px,3.4vw,28px);line-height:1.14}
     .contract p{color:#d9d3ea;font-size:15.5px;line-height:1.65;margin:0;max-width:66ch}
@@ -152,8 +156,8 @@
    <div class="hero-copy">
     <p class="kicker">Research citation integrity</p>
     <h1>Is each claim actually supported by the evidence cited for it?</h1>
-    <p class="lede">Vahtian verifies whether each manuscript claim is supported by
-      the evidence cited for it — through a blinded
+    <p class="lede">Vahtian checks whether each manuscript claim is supported by
+      the source cited for it — through a blinded
       <b>human&nbsp;→&nbsp;AI&nbsp;→&nbsp;adjudication</b> workflow with a
       decision-gated, undoable write and a hash-chained audit trail.</p>
     <div class="stack3">
@@ -184,15 +188,28 @@
     <p><a class="notify" href="/citevahti/">Run it on your manuscript with CiteVahti →</a></p>
   </section>
 
+  <section id="chooser">
+    <h2>Which Vahti should I use?</h2>
+    <ul class="chooser">
+      <li>I'm <strong>writing a manuscript</strong> <span class="arr">→</span> <a href="/citevahti/">CiteVahti</a></li>
+      <li>I'm <strong>planning a study</strong> <span class="arr">→</span> <a href="/studyvahti/">StudyVahti</a></li>
+      <li>I'm <strong>preparing qualitative methods</strong> <span class="arr">→</span> <a href="/methodvahti/">MethodVahti</a></li>
+      <li>I'm <strong>cleaning REDCap metadata</strong> <span class="arr">→</span> <a href="/dictvahti/">DictVahti</a></li>
+      <li>I'm <strong>screening evidence</strong> <span class="arr">→</span> <a href="/matchvahti-lite/">MatchVahti-Lite</a> / <a href="/reviewvahti/">ReviewVahti</a></li>
+      <li>I'm <strong>extracting &amp; appraising studies</strong> <span class="arr">→</span> <a href="/extractvahti/">ExtractVahti</a></li>
+      <li>I'm <strong>running a guideline panel</strong> <span class="arr">→</span> <a href="/guidelinevahti/">GuidelineVahti</a></li>
+    </ul>
+  </section>
+
   <section>
     <h2>One system, three stages <span class="sub">— start where you are, grow into infrastructure</span></h2>
 
-    <div class="tierhead"><span class="t">Start</span><span class="d">Verify the claims in your own manuscript.</span></div>
+    <div class="tierhead"><span class="t">Start</span><span class="d">Check the claims in your own manuscript.</span></div>
     <div class="products">
       <div class="p cite">
         <img class="pmark" src="brand/marks/citevahti.svg" width="46" height="46" alt="" loading="lazy">
         <span><a class="name" href="/citevahti">CiteVahti</a>
-          <span class="for">Verify that each claim in your manuscript is supported by the source cited for it — now a double-click Claude Desktop extension (no terminal), building a reusable evidence map.</span></span>
+          <span class="for">Check that each claim in your manuscript is supported by the source cited for it — now a double-click Claude Desktop extension (no terminal), building a reusable evidence map.</span></span>
         <span class="tag beta">free beta</span>
       </div>
     </div>
@@ -302,7 +319,7 @@
   <section class="contact">
     <h2>For LLMs &amp; agents</h2>
     <p>Your AI assistant can drive Vahtian's open tools to search, screen blinded, reconcile, retrieve,
-       and verify — human-first and reproducibly. See the <a href="/agents/">agent guide</a>,
+       and check claim–source support — human-first and reproducibly. See the <a href="/agents/">agent guide</a>,
        the <a href="https://github.com/heidihelena/vahtian/blob/main/skill/SKILL.md">research-support skill</a>,
        and <a href="/llms.txt">llms.txt</a>.</p>
     <h2 style="margin-top:26px">Contact</h2>
