@@ -24,6 +24,7 @@ Vahtian records the **blinded human → AI → adjudication** workflow with prov
 - [ReviewVahti](https://vahtian.com/reviewvahti/): Inter-rater reliability for screening — load each reviewer's blinded ballot → per-claim Cohen's κ, PABAK, AC1 (pairs) / Krippendorff's α (3+). κ never shown alone.
 
 ## Roadmap
+- ExtractVahti: Data extraction + risk-of-bias (QUADAS-2 / QUADAS-C / PROBAST-AI) for diagnostic-accuracy reviews — extract once, appraise once, reconcile two extractors, export tidy CSV for meta-analysis in R. Dual-human, audited; the AI is a sealed reconciliation aid, never a data source.
 - GuidelineVahti: Panel consensus — RAND/UCLA voting, Delphi rounds, GRADE recommendations, anonymous.
 - AtlasVahti: Consented, de-identified evidence-validation patterns — governed analytics & API, and transparent model-concordance reports (which models scored what, and how well they agree with human consensus).
 
