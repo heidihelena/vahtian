@@ -16,7 +16,7 @@ Vahtian records the **blinded human → AI → adjudication** workflow with prov
 - [vahtian_search.py](https://github.com/heidihelena/vahtian/blob/main/tools/vahtian_search.py): open multi-source literature search → one frozen, deduped, provenance-stamped corpus. Stdlib only, re-runnable: `python3 tools/vahtian_search.py outdir/`.
 
 ## Live tools (free, local-first, single browser file — nothing is uploaded)
-- [CiteVahti](https://vahtian.com/citevahti/): Verify each claim is supported by the source cited for it, inline in your manuscript; decision-gated, undoable Zotero write-back; hash-chained audit. *(free beta)*
+- [CiteVahti](https://vahtian.com/citevahti/): Check each claim is supported by the source cited for it, inline in your manuscript; decision-gated, undoable Zotero write-back; hash-chained audit. *(free beta)*
 - [MatchVahti-Lite](https://vahtian.com/matchvahti-lite/): Tap the sentences worth citing in a PubMed abstract → reviewable Zotero `.ris`, provenance kept, nothing uploaded.
 - [StudyVahti](https://vahtian.com/studyvahti/): Protocol-readiness — PICOTS structure, a variable codebook, triage mapped to SPIRIT / STROBE / TRIPOD. Exports a machine-readable protocol an agent can read.
 - [DictVahti](https://vahtian.com/dictvahti/): REDCap data-dictionary linter — 26 deterministic checks with one-click fixes.
