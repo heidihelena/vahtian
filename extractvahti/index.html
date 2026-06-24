@@ -1,0 +1,372 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>ExtractVahti — DTA data extraction + risk of bias</title>
+<meta name="description" content="Extract once, appraise once: per-study diagnostic-accuracy data extraction and risk-of-bias (QUADAS-2 / QUADAS-C / PROBAST-AI), exporting tidy CSV for meta-analysis in R. Local-first, nothing uploads." />
+<meta name="theme-color" content="#2D2440" />
+<meta name="robots" content="noindex" />
+<!--
+  ExtractVahti v0.1 — the DTA back-half tool. Per-study data extraction + risk-of-bias appraisal,
+  exporting tidy data for meta-analysis in R. Single-file, local-first, no external requests.
+  Spec: heidihelena/matchvahti docs/extractvahti-design.md. Keystone: protocol_hash + record_id.
+  v0.1 = single-extractor core (import -> extract + appraise -> export). Dual-extraction reconcile and
+  the sealed agent reconciliation aid are v0.2 (the data model already carries extractor_id + sealed_ai_ref).
+  RoB hues: low->teal, unclear->amber, high->rose (measurement, not verdict; never green/alarm-red).
+-->
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232D2440'/%3E%3Cg fill='none' stroke='%235566B5' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 9 H9 V23 H12'/%3E%3Cpath d='M20 9 H23 V23 H20'/%3E%3C/g%3E%3Cg fill='none' stroke='%23C5B8E8' stroke-width='1.7'%3E%3Crect x='11.5' y='11.5' width='9' height='9' rx='1.2'/%3E%3Cpath d='M16 11.5 V20.5 M11.5 16 H20.5'/%3E%3C/g%3E%3C/svg%3E">
+<style>
+  :root{
+    --navy:#2D2440; --violet:#8B6FC9; --lilac:#C5B8E8; --indigo:#5566B5;
+    --ink:#1C1830; --muted:#5B5570; --bg:#FAF9FC; --card:#FFFFFF; --line:#E7E3F0; --link:#6F52B8;
+    --teal:#1E9E8A; --teal-fill:#D8F4ED; --teal-bd:#A7E2D6; --teal-text:#08544A;
+    --amber:#C98A00; --amber-fill:#FFF2D8; --amber-bd:#E6C980; --amber-text:#5A4300;
+    --rose:#C24D7E; --rose-fill:#FBE0EA; --rose-bd:#F2B3CC; --rose-text:#7A1F45;
+    --sp-2:4px; --sp-3:6px; --sp-4:8px; --sp-5:10px; --sp-6:12px; --sp-7:16px; --sp-8:24px;
+    --radius:12px; --shadow:0 12px 30px rgba(45,36,64,.10);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,ui-sans-serif,system-ui,sans-serif;color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased}
+  .wrap{max-width:840px;margin:0 auto;padding:0 18px}
+  a{color:var(--link)}
+  header{background:var(--navy);color:#fff;padding:22px 0 18px}
+  .brand{display:flex;align-items:center;gap:11px}
+  .mark{width:34px;height:34px;flex:0 0 34px}
+  .brand h1{font-size:20px;margin:0;letter-spacing:-.01em}
+  .brand .sub{color:var(--lilac);font-size:13.5px;margin:2px 0 0}
+  .chips{display:flex;flex-wrap:wrap;gap:var(--sp-4);margin-top:var(--sp-6)}
+  .chip{font:600 11px/1 ui-monospace,Menlo,monospace;padding:5px 9px;border-radius:999px;border:1px solid #4a4068;color:#cfc7e6}
+  section{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px;margin:18px 0;box-shadow:var(--shadow)}
+  h2{font-size:16px;margin:0 0 4px;letter-spacing:-.01em}
+  h2 .n{color:var(--violet);font:600 13px/1 ui-monospace,monospace;margin-right:6px}
+  .hint{color:var(--muted);font-size:13px;margin:4px 0 12px;max-width:64ch}
+  label{display:block;font-weight:600;font-size:13px;margin:10px 0 3px}
+  input,select,textarea{width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:9px;font:inherit;background:#fff;color:var(--ink)}
+  textarea{min-height:60px;resize:vertical}
+  .row{display:flex;flex-wrap:wrap;gap:var(--sp-6)}
+  .row > div{flex:1 1 160px}
+  .grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--sp-4)}
+  button{font:inherit;font-weight:600;border:0;border-radius:9px;padding:9px 15px;background:var(--navy);color:#fff;cursor:pointer}
+  button.ghost{background:#fff;color:var(--ink);border:1px solid var(--line)}
+  button.small{padding:6px 11px;font-size:13px}
+  button:disabled{opacity:.45;cursor:not-allowed}
+  .actions{display:flex;flex-wrap:wrap;gap:var(--sp-5);margin-top:var(--sp-7)}
+  .muted{color:var(--muted)} .mono{font-family:ui-monospace,Menlo,monospace}
+  .hide{display:none !important}
+  .nav{display:flex;align-items:center;justify-content:space-between;gap:var(--sp-5);margin-bottom:var(--sp-6)}
+  .studytitle{font-weight:700;font-size:15px} .studymeta{color:var(--muted);font-size:12.5px}
+  .cutblock{border:1px solid var(--line);border-radius:10px;padding:12px;margin:10px 0;background:#fcfbfe}
+  .cutblock h4{margin:0 0 8px;font-size:13.5px}
+  .calc{font-size:12.5px;color:var(--teal-text);background:var(--teal-fill);border:1px solid var(--teal-bd);border-radius:8px;padding:5px 9px;margin-top:8px;display:inline-block}
+  .rob{display:flex;flex-wrap:wrap;gap:var(--sp-4);align-items:center;margin:8px 0}
+  .rob .dom{flex:1 1 200px;font-size:13px}
+  .seg{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+  .seg button{background:#fff;color:var(--muted);border-radius:0;padding:5px 10px;font-size:12px;font-weight:600;border-right:1px solid var(--line)}
+  .seg button:last-child{border-right:0}
+  .seg button.on.low{background:var(--teal-fill);color:var(--teal-text)}
+  .seg button.on.unclear{background:var(--amber-fill);color:var(--amber-text)}
+  .seg button.on.high{background:var(--rose-fill);color:var(--rose-text)}
+  table{border-collapse:collapse;width:100%;font-size:12.5px;margin-top:8px}
+  th,td{border:1px solid var(--line);padding:5px 7px;text-align:center}
+  th{background:#f6f4fb;font-weight:600}
+  td.l{text-align:left}
+  .tl{width:18px;height:18px;border-radius:4px;display:inline-block;border:1px solid}
+  .tl.low{background:var(--teal-fill);border-color:var(--teal-bd)} .tl.unclear{background:var(--amber-fill);border-color:var(--amber-bd)} .tl.high{background:var(--rose-fill);border-color:var(--rose-bd)} .tl.na{background:#fff;border-color:var(--line)}
+  .v2note{font-size:12px;color:var(--muted);border-left:3px solid var(--violet);padding:4px 10px;margin:10px 0;background:#f4f1fb;border-radius:0 8px 8px 0}
+  footer{color:var(--muted);font-size:12.5px;padding:8px 0 40px;text-align:center}
+  .pill{font:600 11px/1 ui-monospace,monospace;padding:4px 8px;border-radius:6px}
+  .pill.done{background:var(--teal-fill);color:var(--teal-text)} .pill.todo{background:#f2f0f7;color:var(--muted)}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div class="brand">
+      <svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#2D2440"/><g fill="none" stroke="#5566B5" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9 H9 V23 H12"/><path d="M20 9 H23 V23 H20"/></g><g fill="none" stroke="#C5B8E8" stroke-width="1.7"><rect x="11.5" y="11.5" width="9" height="9" rx="1.2"/><path d="M16 11.5 V20.5 M11.5 16 H20.5"/></g></svg>
+      <div><h1>ExtractVahti</h1><p class="sub">Extract once, appraise once &mdash; tidy data + risk-of-bias your meta-analysis can trust</p></div>
+    </div>
+    <div class="chips"><span class="chip">v0.1</span><span class="chip">local-first</span><span class="chip">nothing uploads</span><span class="chip">DTA</span></div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <section id="setupSection">
+    <h2><span class="n">1</span>Included studies &amp; protocol</h2>
+    <p class="hint">Paste the included set from MatchVahti screening (JSON / JSONL: one object per study with
+      <span class="mono">record_id, pmid, doi, title, year, venue</span>), or load the example. The corpus is your locked
+      set &mdash; extraction is keyed to <span class="mono">protocol_hash + record_id</span> so it lines up with screening and reconciliation.</p>
+    <div class="row">
+      <div><label for="protocolId">Protocol id</label><input id="protocolId" placeholder="pdl1-ai-tps" /></div>
+      <div><label for="extractorId">Your extractor id</label><input id="extractorId" placeholder="e.g. HA" /></div>
+      <div><label for="cutoffs">Cutoffs (comma-sep)</label><input id="cutoffs" value="&gt;=1%, &gt;=50%" /></div>
+    </div>
+    <label style="display:flex;gap:8px;align-items:center;font-weight:500;margin-top:12px"><input type="checkbox" id="probastOn" style="width:auto" /> Include PROBAST-AI / CLAIM appraisal (AI index test)</label>
+    <label for="studies">Included studies (JSON array or JSONL)</label>
+    <textarea id="studies" placeholder='{"record_id":"pmid:40123456","pmid":"40123456","title":"…","year":2025,"venue":"…"}'></textarea>
+    <p class="err hide" id="setupErr" style="color:var(--rose-text)"></p>
+    <div class="actions">
+      <button id="loadStudies">Start extracting &rarr;</button>
+      <button class="ghost" id="loadExample">&#9654; Try the example</button>
+      <button class="ghost" id="resetAll">Reset</button>
+    </div>
+  </section>
+
+  <section id="extractSection" class="hide">
+    <div class="nav">
+      <button class="ghost small" id="prevStudy">&larr; Prev</button>
+      <div style="text-align:center;flex:1"><div class="studytitle" id="studyTitle"></div><div class="studymeta" id="studyMeta"></div></div>
+      <button class="ghost small" id="nextStudy">Next &rarr;</button>
+    </div>
+    <p class="hint" id="progress"></p>
+
+    <h2><span class="n">2</span>Extract &mdash; study data</h2>
+    <div class="row">
+      <div><label>Cohort n</label><input id="f_cohort_n" type="number" min="0" /></div>
+      <div><label>Specimen type</label><select id="f_specimen"><option value=""></option><option>resection</option><option>core/small biopsy</option><option>cytology cell block</option></select></div>
+      <div><label>PD-L1 clone</label><select id="f_clone"><option value=""></option><option>22C3</option><option>28-8</option><option>SP263</option><option>SP142</option><option>other</option></select></div>
+    </div>
+    <div class="row">
+      <div><label>Algorithm name</label><input id="f_algo" /></div>
+      <div><label>Version</label><input id="f_algo_v" /></div>
+      <div><label>Platform / scanner</label><input id="f_platform" /></div>
+    </div>
+    <div class="row">
+      <div><label>Reference standard</label><input id="f_ref" placeholder="e.g. >=2-pathologist consensus" /></div>
+      <div><label>Turn-around (min)</label><input id="f_tat" type="number" min="0" /></div>
+      <div><label>Funding / COI</label><input id="f_funding" /></div>
+    </div>
+
+    <h2 style="margin-top:18px"><span class="n">2b</span>Per-cutoff accuracy <span class="muted" style="font-weight:400;font-size:12px">&mdash; enter a 2&times;2 where reconstructable; sens/spec/OPA auto-compute</span></h2>
+    <div id="cutoffBlocks"></div>
+
+    <h2 style="margin-top:18px"><span class="n">2c</span>Decision impact <span class="muted" style="font-weight:400;font-size:12px">&mdash; directional reclassification (AI vs manual)</span></h2>
+    <div id="reclassBlocks"></div>
+
+    <label for="f_notes" style="margin-top:14px">Notes / page refs</label>
+    <textarea id="f_notes"></textarea>
+
+    <h2 style="margin-top:18px"><span class="n">3</span>Appraise &mdash; risk of bias</h2>
+    <p class="hint">Each domain: <strong>low</strong> &middot; <strong>unclear</strong> &middot; <strong>high</strong>. The reference-standard domain is
+      <em>high-concern by design</em> here (an imperfect reference shares error with the comparator).</p>
+    <div id="robForms"></div>
+
+    <div class="actions">
+      <button id="saveStudy">Save this study</button>
+      <span class="pill" id="savePill"></span>
+    </div>
+    <div class="v2note"><strong>v0.2 (designed, not yet built):</strong> a second extractor's records reconcile on
+      <span class="mono">record_id</span> (Cohen's &kappa; on judgments, tolerance on continuous fields), and an optional
+      <em>sealed</em> agent reconciliation aid &mdash; never a data source, revealed only after you commit. Single-extractor here.</div>
+  </section>
+
+  <section id="reviewSection" class="hide">
+    <h2><span class="n">4</span>Review &amp; export</h2>
+    <p class="hint">Completion + the risk-of-bias traffic-light. Export is downloadable, reviewable files &mdash; nothing uploads.</p>
+    <div id="completionTable"></div>
+    <h4 style="margin:16px 0 4px;font-size:13.5px">Risk-of-bias traffic-light</h4>
+    <div id="trafficLight" style="overflow:auto"></div>
+    <div class="actions">
+      <button id="expExtraction">extraction.csv</button>
+      <button id="expReclass" class="ghost">reclassification.csv</button>
+      <button id="expRob" class="ghost">rob.csv</button>
+      <button id="expJsonl" class="ghost">extraction.jsonl</button>
+    </div>
+    <p class="hint" style="margin-top:10px">Feed <span class="mono">extraction.csv</span> / <span class="mono">reclassification.csv</span> to R
+      (<span class="mono">metadta</span> / <span class="mono">mada</span> / <span class="mono">meta</span>) &mdash; HSROC where a 2&times;2 is reconstructable, agreement pooling otherwise.</p>
+  </section>
+
+  <footer>
+    ExtractVahti &middot; a product of <a href="/">Vahtian</a> &middot; local-first, nothing uploads &middot; spec in
+    <a href="https://github.com/heidihelena/matchvahti/blob/main/docs/extractvahti-design.md">matchvahti/docs</a>
+  </footer>
+</div>
+
+<script>
+"use strict";
+const $=id=>document.getElementById(id);
+const esc=s=>String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const KEY="extractvahti.v0_1";
+const ROB_DOMS={
+  quadas2:["Patient selection","Index test (AI)","Reference standard","Flow & timing"],
+  quadas_c:["Comparative — index tests (AI vs pathologist)"],
+  probast_ai:["Participants","Predictors / index test","Outcome","Analysis & reporting (TRIPOD-AI/CLAIM)"]
+};
+const ROB_LABEL={quadas2:"QUADAS-2",quadas_c:"QUADAS-C",probast_ai:"PROBAST-AI / TRIPOD-AI / CLAIM"};
+let S=load();
+function blankState(){ return { protocol_id:"", protocol_hash:"", extractor_id:"", cutoffs:[">=1%",">=50%"], probast_on:false, studies:[], ext:{}, idx:0, audit:[] }; }
+function load(){ try{ const o=JSON.parse(localStorage.getItem(KEY)); return o&&o.studies?o:blankState(); }catch(e){ return blankState(); } }
+function save(){ localStorage.setItem(KEY, JSON.stringify(S)); }
+function audit(action,detail){ S.audit.push({ t:new Date().toISOString(), action, detail }); }
+
+function parseStudies(text){
+  const t=(text||"").trim(); if(!t) return [];
+  const out=[];
+  const push=o=>{ if(o&&typeof o==="object"){ const rid=o.record_id||(o.pmid?"pmid:"+o.pmid:(o.doi?"doi:"+o.doi:null)); if(rid) out.push({ record_id:rid, pmid:o.pmid||null, doi:o.doi||null, title:o.title||"(no title)", year:o.year||null, venue:o.venue||o.journal||null }); } };
+  if(t[0]==="["){ JSON.parse(t).forEach(push); }
+  else { t.split(/\r?\n/).forEach(line=>{ const s=line.trim(); if(s){ try{ push(JSON.parse(s)); }catch(_){} } }); }
+  const seen=new Set(); return out.filter(s=>seen.has(s.record_id)?false:(seen.add(s.record_id),true));
+}
+async function sha16(str){ const b=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(str)); return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,"0")).join("").slice(0,16); }
+
+async function startExtract(){
+  $("setupErr").classList.add("hide");
+  const studies=parseStudies($("studies").value);
+  if(!studies.length){ $("setupErr").textContent="No studies parsed — paste a JSON array or JSONL with record_id/pmid."; $("setupErr").classList.remove("hide"); return; }
+  S.protocol_id=$("protocolId").value.trim()||"protocol";
+  S.extractor_id=$("extractorId").value.trim()||"anon";
+  S.cutoffs=$("cutoffs").value.split(",").map(s=>s.trim()).filter(Boolean);
+  S.probast_on=$("probastOn").checked;
+  S.studies=studies;
+  S.protocol_hash=await sha16(S.protocol_id+"|"+S.cutoffs.join(",")+"|"+studies.map(s=>s.record_id).sort().join(","));
+  S.idx=0;
+  audit("import_studies",{ n:studies.length, protocol_hash:S.protocol_hash });
+  save(); showWork();
+}
+function showWork(){
+  $("setupSection").classList.add("hide");
+  $("extractSection").classList.remove("hide");
+  $("reviewSection").classList.remove("hide");
+  renderStudy(); renderReview();
+}
+function curStudy(){ return S.studies[S.idx]; }
+function curExt(){ const r=curStudy().record_id; if(!S.ext[r]) S.ext[r]={ record_id:r, extractor_id:S.extractor_id, study:{}, cutoffs:{}, reclass:{}, rob:{}, notes:"", done:false, sealed_ai_ref:null }; return S.ext[r]; }
+
+function renderStudy(){
+  const s=curStudy(), e=curExt();
+  $("studyTitle").textContent=s.title;
+  $("studyMeta").textContent=[s.record_id, s.year, s.venue].filter(Boolean).join(" · ");
+  const done=S.studies.filter(x=>S.ext[x.record_id]&&S.ext[x.record_id].done).length;
+  $("progress").textContent="Study "+(S.idx+1)+" of "+S.studies.length+" · "+done+" saved · protocol_hash "+S.protocol_hash;
+  $("prevStudy").disabled=S.idx===0; $("nextStudy").disabled=S.idx===S.studies.length-1;
+  const f=e.study;
+  $("f_cohort_n").value=f.cohort_n||""; $("f_specimen").value=f.specimen||""; $("f_clone").value=f.clone||"";
+  $("f_algo").value=f.algo||""; $("f_algo_v").value=f.algo_v||""; $("f_platform").value=f.platform||"";
+  $("f_ref").value=f.ref||""; $("f_tat").value=f.tat||""; $("f_funding").value=f.funding||"";
+  $("f_notes").value=e.notes||"";
+  $("cutoffBlocks").innerHTML=S.cutoffs.map((c,i)=>{
+    const cd=(e.cutoffs[c]||{});
+    return '<div class="cutblock"><h4>'+esc(c)+'</h4>'
+      +'<div class="grid4">'
+      +cell2x2(i,"tp","TP",cd.tp)+cell2x2(i,"fp","FP",cd.fp)+cell2x2(i,"fn","FN",cd.fn)+cell2x2(i,"tn","TN",cd.tn)
+      +'</div><div class="row" style="margin-top:6px">'
+      +'<div><label>&kappa; (linear, optional)</label><input data-cut="'+i+'" data-fld="kappa" type="number" step="0.01" value="'+(cd.kappa==null?"":esc(cd.kappa))+'"></div>'
+      +'<div><label>OPA % (optional)</label><input data-cut="'+i+'" data-fld="opa" type="number" step="0.1" value="'+(cd.opa==null?"":esc(cd.opa))+'"></div>'
+      +'</div><div class="calc" id="calc'+i+'">'+esc(calcText(cd))+'</div></div>';
+  }).join("");
+  $("reclassBlocks").innerHTML=S.cutoffs.map((c,i)=>{
+    const rd=(e.reclass[c]||{});
+    return '<div class="cutblock"><h4>'+esc(c)+' transition</h4><div class="grid4">'
+      +cellRc(i,"ai_up","AI up",rd.ai_up)+cellRc(i,"ai_down","AI down",rd.ai_down)
+      +cellRc(i,"over_treat","Over-treat",rd.over_treat)+cellRc(i,"therapy_denied","Therapy denied",rd.therapy_denied)
+      +'</div></div>';
+  }).join("");
+  const instruments=["quadas2","quadas_c"].concat(S.probast_on?["probast_ai"]:[]);
+  $("robForms").innerHTML=instruments.map(inst=>{
+    const rows=ROB_DOMS[inst].map((dom,di)=>{
+      const cur=((e.rob[inst]||{})[dom])||"";
+      const seg=["low","unclear","high"].map(j=>'<button class="rj '+j+(cur===j?" on "+j:"")+'" data-inst="'+inst+'" data-di="'+di+'" data-j="'+j+'">'+j+'</button>').join("");
+      return '<div class="rob"><span class="dom">'+esc(dom)+'</span><span class="seg">'+seg+'</span></div>';
+    }).join("");
+    return '<h4 style="margin:12px 0 2px;font-size:13.5px">'+ROB_LABEL[inst]+'</h4>'+rows;
+  }).join("");
+  bindStudyInputs();
+  $("savePill").textContent=e.done?"saved ✓":""; $("savePill").className="pill "+(e.done?"done":"");
+}
+function cell2x2(i,fld,lbl,v){ return '<div><label>'+lbl+'</label><input data-cut="'+i+'" data-fld="'+fld+'" type="number" min="0" value="'+(v==null?"":esc(v))+'"></div>'; }
+function cellRc(i,fld,lbl,v){ return '<div><label>'+lbl+'</label><input data-rc="'+i+'" data-fld="'+fld+'" type="number" min="0" value="'+(v==null?"":esc(v))+'"></div>'; }
+function calcText(cd){
+  const have=["tp","fp","fn","tn"].every(k=>cd[k]!==""&&cd[k]!=null&&!isNaN(+cd[k]));
+  if(!have) return "enter the 2×2 → sens / spec / OPA";
+  const tp=+cd.tp,fp=+cd.fp,fn=+cd.fn,tn=+cd.tn,n=tp+fp+fn+tn; if(!n) return "—";
+  const sens=tp+fn?tp/(tp+fn):NaN, spec=tn+fp?tn/(tn+fp):NaN, opa=(tp+tn)/n;
+  return "n="+n+" · sens "+(isNaN(sens)?"—":(sens*100).toFixed(1)+"%")+" · spec "+(isNaN(spec)?"—":(spec*100).toFixed(1)+"%")+" · OPA "+(opa*100).toFixed(1)+"%";
+}
+function bindStudyInputs(){
+  const map={f_cohort_n:"cohort_n",f_specimen:"specimen",f_clone:"clone",f_algo:"algo",f_algo_v:"algo_v",f_platform:"platform",f_ref:"ref",f_tat:"tat",f_funding:"funding"};
+  Object.keys(map).forEach(id=>{ $(id).oninput=()=>{ curExt().study[map[id]]=$(id).value; curExt().done=false; save(); }; });
+  $("f_notes").oninput=()=>{ curExt().notes=$("f_notes").value; save(); };
+  document.querySelectorAll('#cutoffBlocks input').forEach(inp=>{
+    inp.oninput=()=>{ const e=curExt(),c=S.cutoffs[+inp.dataset.cut]; (e.cutoffs[c]=e.cutoffs[c]||{})[inp.dataset.fld]=inp.value; e.done=false;
+      const box=$("calc"+inp.dataset.cut); if(box) box.textContent=calcText(e.cutoffs[c]); save(); };
+  });
+  document.querySelectorAll('#reclassBlocks input').forEach(inp=>{
+    inp.oninput=()=>{ const e=curExt(),c=S.cutoffs[+inp.dataset.rc]; (e.reclass[c]=e.reclass[c]||{})[inp.dataset.fld]=inp.value; e.done=false; save(); };
+  });
+  document.querySelectorAll('.rj').forEach(btn=>{
+    btn.onclick=()=>{ const e=curExt(),inst=btn.dataset.inst,dom=ROB_DOMS[inst][+btn.dataset.di];
+      (e.rob[inst]=e.rob[inst]||{})[dom]=btn.dataset.j; e.done=false;
+      btn.parentNode.querySelectorAll('button').forEach(b=>{ b.className="rj "+b.dataset.j; });
+      btn.className="rj "+btn.dataset.j+" on "+btn.dataset.j; save(); };
+  });
+}
+function saveStudy(){
+  const e=curExt(); e.done=true; audit("save_study",{ record_id:e.record_id }); save();
+  $("savePill").textContent="saved ✓"; $("savePill").className="pill done";
+  renderReview();
+  if(S.idx<S.studies.length-1){ S.idx++; renderStudy(); window.scrollTo({top:0,behavior:"smooth"}); }
+}
+
+function renderReview(){
+  const rows=S.studies.map(s=>{ const e=S.ext[s.record_id]; const done=e&&e.done;
+    const cuts=S.cutoffs.filter(c=>e&&e.cutoffs[c]&&e.cutoffs[c].tp!=null&&e.cutoffs[c].tp!=="").length;
+    return '<tr><td class="l">'+esc(s.title.slice(0,52))+'</td><td class="mono">'+esc(s.record_id)+'</td><td>'+cuts+'/'+S.cutoffs.length+'</td>'
+      +'<td><span class="pill '+(done?"done":"todo")+'">'+(done?"saved":"todo")+'</span></td></tr>'; }).join("");
+  $("completionTable").innerHTML='<table><tr><th class="l">study</th><th>record_id</th><th>2×2</th><th>status</th></tr>'+rows+'</table>';
+  const cols=ROB_DOMS.quadas2.concat(["QUADAS-C"]).concat(S.probast_on?["PROBAST-AI"]:[]);
+  const head='<tr><th class="l">study</th>'+cols.map(c=>'<th>'+esc(c.replace(' (AI)','').slice(0,10))+'</th>').join("")+'</tr>';
+  const body=S.studies.map(s=>{ const e=S.ext[s.record_id]||{rob:{}};
+    const cell=j=>'<td><span class="tl '+(j||"na")+'"></span></td>';
+    const q=ROB_DOMS.quadas2.map(d=>cell((e.rob.quadas2||{})[d])).join("");
+    const qc=cell((e.rob.quadas_c||{})[ROB_DOMS.quadas_c[0]]);
+    const pb=S.probast_on?cell(worst(e.rob.probast_ai)):"";
+    return '<tr><td class="l">'+esc(s.title.slice(0,30))+'</td>'+q+qc+pb+'</tr>'; }).join("");
+  $("trafficLight").innerHTML='<table>'+head+body+'</table>';
+}
+function worst(obj){ const order={high:3,unclear:2,low:1}; let w=""; Object.values(obj||{}).forEach(v=>{ if(!w||order[v]>order[w]) w=v; }); return w; }
+
+function download(name,text,mime){ const b=new Blob([text],{type:mime||"text/plain"}); const u=URL.createObjectURL(b); const a=document.createElement("a"); a.href=u; a.download=name; a.click(); setTimeout(()=>URL.revokeObjectURL(u),1500); }
+function csvRow(arr){ return arr.map(v=>{ v=v==null?"":String(v); return /[",\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v; }).join(","); }
+function metrics(cd){ const have=["tp","fp","fn","tn"].every(k=>cd[k]!==""&&cd[k]!=null&&!isNaN(+cd[k])); if(!have) return {n:"",sens:"",spec:"",opa:""}; const tp=+cd.tp,fp=+cd.fp,fn=+cd.fn,tn=+cd.tn,n=tp+fp+fn+tn; return { n, sens:(tp+fn?(tp/(tp+fn)).toFixed(4):""), spec:(tn+fp?(tn/(tn+fp)).toFixed(4):""), opa:n?((tp+tn)/n).toFixed(4):"" }; }
+function expExtraction(){
+  const head=["protocol_hash","record_id","pmid","doi","cutoff","tp","fp","fn","tn","n","sens","spec","opa","kappa_linear","opa_reported","cohort_n","specimen","pd_l1_clone","algorithm","version","platform","reference_standard","tat_min","extractor_id"];
+  const rows=[csvRow(head)];
+  S.studies.forEach(s=>{ const e=S.ext[s.record_id]; if(!e) return; const st=e.study;
+    S.cutoffs.forEach(c=>{ const cd=e.cutoffs[c]||{}; const m=metrics(cd);
+      rows.push(csvRow([S.protocol_hash,s.record_id,s.pmid,s.doi,c,cd.tp,cd.fp,cd.fn,cd.tn,m.n,m.sens,m.spec,m.opa,cd.kappa,cd.opa,st.cohort_n,st.specimen,st.clone,st.algo,st.algo_v,st.platform,st.ref,st.tat,e.extractor_id])); }); });
+  download("extraction.csv",rows.join("\n"),"text/csv");
+}
+function expReclass(){
+  const rows=[csvRow(["protocol_hash","record_id","transition","ai_up","ai_down","over_treat","therapy_denied"])];
+  S.studies.forEach(s=>{ const e=S.ext[s.record_id]; if(!e) return; S.cutoffs.forEach(c=>{ const r=e.reclass[c]||{}; if(Object.keys(r).length) rows.push(csvRow([S.protocol_hash,s.record_id,c,r.ai_up,r.ai_down,r.over_treat,r.therapy_denied])); }); });
+  download("reclassification.csv",rows.join("\n"),"text/csv");
+}
+function expRob(){
+  const rows=[csvRow(["protocol_hash","record_id","instrument","domain","judgment"])];
+  S.studies.forEach(s=>{ const e=S.ext[s.record_id]; if(!e) return; Object.keys(e.rob||{}).forEach(inst=>{ Object.keys(e.rob[inst]).forEach(dom=>{ rows.push(csvRow([S.protocol_hash,s.record_id,inst,dom,e.rob[inst][dom]])); }); }); });
+  download("rob.csv",rows.join("\n"),"text/csv");
+}
+function expJsonl(){ const lines=S.studies.map(s=>{ const e=S.ext[s.record_id]; return e?JSON.stringify(Object.assign({protocol_hash:S.protocol_hash},e)):null; }).filter(Boolean); download("extraction.jsonl",lines.join("\n"),"application/json"); }
+
+function loadExample(){
+  $("protocolId").value="pdl1-ai-tps"; $("extractorId").value="HA"; $("cutoffs").value=">=1%, >=50%"; $("probastOn").checked=true;
+  $("studies").value=[
+    '{"record_id":"pmid:40000001","pmid":"40000001","title":"AI vs pathologist PD-L1 TPS concordance, SP263","year":2025,"venue":"J Clin Pathol"}',
+    '{"record_id":"pmid:40000002","pmid":"40000002","title":"Clone-agnostic AI PD-L1 across trials","year":2025,"venue":"J Thorac Oncol"}',
+    '{"record_id":"pmid:40000003","pmid":"40000003","title":"Pathologists more consistent than AI at cutoffs","year":2025,"venue":"Histopathology"}'
+  ].join("\n");
+}
+
+$("loadStudies").onclick=startExtract;
+$("loadExample").onclick=loadExample;
+$("resetAll").onclick=()=>{ if(confirm("Clear all extraction data?")){ S=blankState(); save(); location.reload(); } };
+$("prevStudy").onclick=()=>{ if(S.idx>0){ S.idx--; renderStudy(); } };
+$("nextStudy").onclick=()=>{ if(S.idx<S.studies.length-1){ S.idx++; renderStudy(); } };
+$("saveStudy").onclick=saveStudy;
+$("expExtraction").onclick=expExtraction; $("expReclass").onclick=expReclass; $("expRob").onclick=expRob; $("expJsonl").onclick=expJsonl;
+
+(function init(){ if(S.studies.length){ $("protocolId").value=S.protocol_id; $("extractorId").value=S.extractor_id; $("cutoffs").value=S.cutoffs.join(", "); $("probastOn").checked=S.probast_on; showWork(); } })();
+</script>
+</body>
+</html>
