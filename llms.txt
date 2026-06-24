@@ -12,7 +12,7 @@ Vahtian records the **blinded human → AI → adjudication** workflow with prov
 
 ## For LLMs and agents — how to do research-support work
 - [Agent guide](https://vahtian.com/agents/): what an LLM can drive, the open pipeline, and the invariants to honour.
-- [Vahtian research-support skill](https://github.com/heidihelena/vahtian/blob/main/skill/SKILL.md): a drop-in skill that teaches an agent the find → search → screen → reconcile → retrieve → verify pipeline.
+- [Vahtian research-support skill](https://github.com/heidihelena/vahtian/blob/main/skill/SKILL.md): a drop-in skill that teaches an agent the find → search → screen → reconcile → retrieve → check pipeline.
 - [vahtian_search.py](https://github.com/heidihelena/vahtian/blob/main/tools/vahtian_search.py): open multi-source literature search → one frozen, deduped, provenance-stamped corpus. Stdlib only, re-runnable: `python3 tools/vahtian_search.py outdir/`.
 
 ## Live tools (free, local-first, single browser file — nothing is uploaded)
