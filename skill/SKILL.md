@@ -5,6 +5,10 @@ description: Use when a researcher needs literature-search, screening, evidence-
 
 # Vahtian — research-support for agents
 
+> **Skill v1.0.0 · prompt_version 1** · compatible tools: `vahtian_search.py` ≥1.0, MatchVahti ≥0.5,
+> ReviewVahti ≥1.0, ExtractVahti ≥0.2, FullVahti/`vahtian_fulltext.py` ≥1.0, CiteVahti ≥0.19.
+> Stamp `prompt_version` on every AI rating you record (Invariant 3).
+
 You are the intelligence; Vahtian's tools are deterministic and local-first. Your job is to drive the
 open pipeline and do the heavy lifting **while the human keeps every judgement**. The output is only
 trustworthy if you honour the invariants below — they are not optional.
@@ -40,6 +44,38 @@ opinion — that is all.
 | Reconcile | ReviewVahti | load each reviewer's ballot → per-claim Cohen's κ, PABAK, AC1 / Krippendorff's α |
 | Retrieve | FullVahti / `vahtian_fulltext.py` | fetch open-access full text for flagged items |
 | Verify | CiteVahti | check each claim against its source; decision-gated, undoable Zotero write-back; hash-chained audit |
+
+## Expected artifacts per stage
+
+Each stage produces a concrete, hand-off-able file. If a stage didn't produce its artifact, it isn't done.
+
+```
+Plan      → protocol.json (PICOTS + eligibility, machine-readable)
+Search    → frozen-corpus.jsonl + search-report.md (deduped, provenance, search_date, content_hash)
+Screen    → blinded ballot files (one per reviewer; AI ratings sealed, model+version+prompt labelled)
+Reconcile → agreement report (κ / α) + adjudication list (unresolved disagreements)
+Retrieve  → full-text manifest (open-access PDFs found / missing / check-needed)
+Extract   → tidy extraction CSV + RoB traffic-light table
+Verify    → claim–source audit ledger (hash-chained) + a methods paragraph
+```
+
+## Failure modes (non-negotiable)
+
+- If you **cannot retrieve the full text**, label the item **abstract-only** — do not treat the abstract as the evidence.
+- If a source is **topic-relevant but claim-mismatched**, it does **not** count as support.
+- If a source is **paywalled**, do **not** invent content from its title or abstract.
+- If **human and AI disagree**, route the item to **adjudication** — never overwrite the human value.
+- If **Zotero write-back** is requested, require **preview → confirm** first; never write silently.
+- If you are **uncertain**, say so and stop — a flagged unknown beats a confident fabrication.
+
+## Compliance checklist (run before any write or final report)
+
+- [ ] Human committed every recorded rating **before** any AI value was revealed (seal intact, audit shows the order).
+- [ ] Every AI rating carries **model id + version + prompt_version**; none counts as a human assessor.
+- [ ] No write to Zotero/library happened without an explicit **preview → confirm**.
+- [ ] Search is **reproducible** (open APIs only) with the **search date** recorded; no gated-database scraping.
+- [ ] Abstract-only and claim-mismatched items are **labelled**, not silently treated as support.
+- [ ] The report states what is **uncertain** and bounded by the search date — it asserts support, **not truth**.
 
 ## Running the open search
 
