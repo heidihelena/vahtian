@@ -25,7 +25,7 @@ Vahtian records the **blinded human → AI → adjudication** workflow with prov
 - [ExtractVahti](https://vahtian.com/extractvahti/): Data extraction + risk-of-bias for diagnostic-accuracy reviews — per-study 2×2 → sens/spec/OPA, directional reclassification, QUADAS-2 / QUADAS-C / PROBAST-AI; multi-extractor reconcile (Cohen's κ / Krippendorff's α + per-field tolerance, adjudicate mismatches); exports tidy CSV + RoB traffic-light SVG + a de-identified projection for R `metadta`/`mada`. The AI is a **sealed** reconciliation aid — revealed only after the human commit, never a data source. *(early access)*
 
 ## Roadmap
-- GuidelineVahti: Panel consensus — RAND/UCLA voting, Delphi rounds, GRADE recommendations, anonymous.
+- GuidelineVahti: Panel consensus — RAND/UCLA voting, Delphi rounds, GRADE recommendations. In the browser; nothing uploads.
 - AtlasVahti: Consented, de-identified evidence-validation patterns — governed analytics & API, and transparent model-concordance reports (which models scored what, and how well they agree with human consensus).
 
 ## More
