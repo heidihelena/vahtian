@@ -102,9 +102,11 @@
     .tierhead:first-of-type{margin-top:6px}
     .tierhead .t{font:700 12px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.1em;text-transform:uppercase;color:#fff;background:var(--navy);padding:6px 11px;border-radius:6px}
     .tierhead .d{color:var(--muted);font-size:14.5px}
-    ul.chooser{list-style:none;padding:0;margin:0;display:grid;gap:8px}
-    ul.chooser li{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px;padding:11px 14px;background:var(--card);border:1px solid var(--line);border-radius:10px}
+    ul.chooser{list-style:none;padding:0;margin:0;display:grid;gap:10px}
+    ul.chooser li{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:6px 14px;background:var(--card);border:1px solid var(--line);border-radius:10px}
     ul.chooser li .arr{color:var(--violet);font-weight:700}
+    /* Larger tap target for the decision-path links — ≥44px tall on touch */
+    ul.chooser li a{display:inline-block;padding:11px 6px;line-height:1.4}
     ul.chooser strong{font-weight:600}
     .contract{background:var(--navy);border-radius:14px;padding:26px 24px}
     .contract h2{color:#fff;margin:0 0 12px;font-size:clamp(20px,3.4vw,28px);line-height:1.14}
