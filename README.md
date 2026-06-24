@@ -26,10 +26,11 @@ infrastructure for journals, guideline groups, and research organizations.
 - **DictVahti** — clean the REDCap data dictionary before analysis *(free · live)*: /dictvahti
 - **MatchVahti-Lite** — capture citation-worthy evidence from abstracts *(free · live)*: /matchvahti-lite
 
-**Scale** — claim-checking as governed infrastructure *(roadmap)*
-- **ReviewVahti** — editorial claim-checking workflow for journals
-- **GuidelineVahti** — governed claim–evidence decisions for panels
-- **AtlasVahti** — de-identified validation-pattern analytics
+**Scale** — systematic-review infrastructure
+- **ReviewVahti** — inter-rater reliability for screening (Cohen's κ / Krippendorff's α) *(live)*: /reviewvahti
+- **ExtractVahti** — DTA data extraction + risk-of-bias (QUADAS-2/-C, PROBAST-AI) → tidy CSV + RoB traffic-light SVG for R; multi-extractor reconcile (κ / α); sealed agent aid *(early access)*: /extractvahti
+- **GuidelineVahti** — panel consensus, RAND/UCLA + GRADE *(early access)*: /guidelinevahti
+- **AtlasVahti** — de-identified validation-pattern analytics *(roadmap)*
 
 Static pages (one `index.html` per product, plus `404.html` and `sitemap.xml`),
 deployed via Cloudflare to vahtian.com. No trackers, no external dependencies.
