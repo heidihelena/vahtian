@@ -84,9 +84,10 @@
     .tag.soon{background:#f2f0f7;border:1px solid var(--line);color:var(--muted)}
     .tag.free{background:#D8F4ED;border:1px solid #1E9E8A;color:#08544A}
     .tag.beta{background:#ECE9F6;border:1px solid #5566B5;color:#33408a}
-    .p a.name{text-decoration:none;color:var(--ink)}
+    /* Expand card link hit areas for touch; negative margins keep the layout put */
+    .p a.name{text-decoration:none;color:var(--ink);display:inline-block;padding:7px 6px;margin:-7px -6px -5px}
     .p a.name:hover{text-decoration:underline}
-    .p .notify{display:inline-block;font-size:13px;font-weight:600;margin-top:4px}
+    .p .notify{display:inline-block;font-size:13px;font-weight:600;margin-top:2px;padding:10px 6px 4px}
     .principle{display:grid;gap:12px;grid-template-columns:1fr 1fr}
     @media(max-width:560px){.principle{grid-template-columns:1fr}.p{grid-template-columns:auto 1fr;}.p .tag{grid-column:2;justify-self:start;margin-top:4px}}
     .principle .box{background:var(--card);border:1px solid var(--line);border-radius:11px;padding:16px}
