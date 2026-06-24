@@ -11,8 +11,10 @@
   ExtractVahti v0.1 — the DTA back-half tool. Per-study data extraction + risk-of-bias appraisal,
   exporting tidy data for meta-analysis in R. Single-file, local-first, no external requests.
   Spec: heidihelena/matchvahti docs/extractvahti-design.md. Keystone: protocol_hash + record_id.
-  v0.1 = single-extractor core (import -> extract + appraise -> export). Dual-extraction reconcile and
-  the sealed agent reconciliation aid are v0.2 (the data model already carries extractor_id + sealed_ai_ref).
+  v0.2 = single-extractor core (import -> extract + appraise -> export) + dual-extraction reconcile
+  (load extractor B's jsonl -> Cohen's kappa on judgments, per-field tolerance, adjudicate mismatches)
+  + a guarded sealed agent reconciliation aid (revealed only after the human commit; never a data
+  source; audit records save_study before ai_reveal).
   RoB hues: low->teal, unclear->amber, high->rose (measurement, not verdict; never green/alarm-red).
 -->
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232D2440'/%3E%3Cg fill='none' stroke='%235566B5' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 9 H9 V23 H12'/%3E%3Cpath d='M20 9 H23 V23 H20'/%3E%3C/g%3E%3Cg fill='none' stroke='%23C5B8E8' stroke-width='1.7'%3E%3Crect x='11.5' y='11.5' width='9' height='9' rx='1.2'/%3E%3Cpath d='M16 11.5 V20.5 M11.5 16 H20.5'/%3E%3C/g%3E%3C/svg%3E">
@@ -86,7 +88,7 @@
       <svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#2D2440"/><g fill="none" stroke="#5566B5" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9 H9 V23 H12"/><path d="M20 9 H23 V23 H20"/></g><g fill="none" stroke="#C5B8E8" stroke-width="1.7"><rect x="11.5" y="11.5" width="9" height="9" rx="1.2"/><path d="M16 11.5 V20.5 M11.5 16 H20.5"/></g></svg>
       <div><h1>ExtractVahti</h1><p class="sub">Extract once, appraise once &mdash; tidy data + risk-of-bias your meta-analysis can trust</p></div>
     </div>
-    <div class="chips"><span class="chip">v0.1</span><span class="chip">local-first</span><span class="chip">nothing uploads</span><span class="chip">DTA</span></div>
+    <div class="chips"><span class="chip">v0.2</span><span class="chip">dual-reconcile</span><span class="chip">local-first</span><span class="chip">nothing uploads</span><span class="chip">DTA</span></div>
   </div>
 </header>
 
@@ -156,9 +158,7 @@
       <button id="saveStudy">Save this study</button>
       <span class="pill" id="savePill"></span>
     </div>
-    <div class="v2note"><strong>v0.2 (designed, not yet built):</strong> a second extractor's records reconcile on
-      <span class="mono">record_id</span> (Cohen's &kappa; on judgments, tolerance on continuous fields), and an optional
-      <em>sealed</em> agent reconciliation aid &mdash; never a data source, revealed only after you commit. Single-extractor here.</div>
+    <div id="sealReveal"></div>
   </section>
 
   <section id="reviewSection" class="hide">
@@ -175,6 +175,31 @@
     </div>
     <p class="hint" style="margin-top:10px">Feed <span class="mono">extraction.csv</span> / <span class="mono">reclassification.csv</span> to R
       (<span class="mono">metadta</span> / <span class="mono">mada</span> / <span class="mono">meta</span>) &mdash; HSROC where a 2&times;2 is reconstructable, agreement pooling otherwise.</p>
+  </section>
+
+  <section id="reconcileSection" class="hide">
+    <h2><span class="n">5</span>Reconcile &mdash; dual extraction</h2>
+    <p class="hint">Load a <strong>second extractor's</strong> <span class="mono">extraction.jsonl</span> (from another ExtractVahti).
+      Records join on <span class="mono">record_id</span>; judgments get Cohen's &kappa;, counts an exact match, continuous
+      values a tolerance. Only beyond-tolerance mismatches surface for adjudication &mdash; the human data source stands alone.</p>
+    <div class="row" style="align-items:flex-end">
+      <div><label class="filebtn" style="display:inline-block;cursor:pointer"><input type="file" id="coFile" accept=".jsonl,.json,application/json" style="display:none"> <button class="ghost small" type="button" onclick="document.getElementById('coFile').click()">Load extractor B (jsonl)</button></label></div>
+      <div><label>Count tolerance (±)</label><input id="tolCounts" type="number" min="0" value="0"></div>
+      <div><label>Rate tolerance (± %pt)</label><input id="tolRate" type="number" min="0" step="0.5" value="1"></div>
+      <div><label>&kappa; tolerance (±)</label><input id="tolKappa" type="number" min="0" step="0.01" value="0.05"></div>
+    </div>
+    <p class="muted" id="coStatus" style="font-size:13px;margin-top:8px"></p>
+    <div id="reconcileSummary"></div>
+    <div id="mismatchTable"></div>
+  </section>
+
+  <section id="sealSetup" class="hide">
+    <h2><span class="n">A</span>Sealed agent reconciliation aid <span class="muted" style="font-weight:400;font-size:12px">&mdash; optional, guarded</span></h2>
+    <p class="hint">Load an <strong>agent pre-extraction</strong> file (same jsonl; each record carries a <span class="mono">model</span> id).
+      It is <strong>sealed</strong> &mdash; never shown and never entered into your data. After you <em>commit</em> a study (Save),
+      the agent's values for that study are revealed <strong>only as discrepancy flags to re-check</strong>. Audited: human-commit before reveal.</p>
+    <label class="filebtn" style="display:inline-block;cursor:pointer"><input type="file" id="sealFile" accept=".jsonl,.json,application/json" style="display:none"> <button class="ghost small" type="button" onclick="document.getElementById('sealFile').click()">Load sealed agent file (jsonl)</button></label>
+    <span class="pill" id="sealPill" style="margin-left:8px"></span>
   </section>
 
   <footer>
@@ -195,7 +220,8 @@ const ROB_DOMS={
 };
 const ROB_LABEL={quadas2:"QUADAS-2",quadas_c:"QUADAS-C",probast_ai:"PROBAST-AI / TRIPOD-AI / CLAIM"};
 let S=load();
-function blankState(){ return { protocol_id:"", protocol_hash:"", extractor_id:"", cutoffs:[">=1%",">=50%"], probast_on:false, studies:[], ext:{}, idx:0, audit:[] }; }
+function blankState(){ return { protocol_id:"", protocol_hash:"", extractor_id:"", cutoffs:[">=1%",">=50%"], probast_on:false, studies:[], ext:{}, idx:0, audit:[],
+  coExt:{}, coId:"", sealed:{}, sealedMeta:null, adjud:{}, tol:{ counts:0, rate:1.0, kappa:0.05 } }; }
 function load(){ try{ const o=JSON.parse(localStorage.getItem(KEY)); return o&&o.studies?o:blankState(); }catch(e){ return blankState(); } }
 function save(){ localStorage.setItem(KEY, JSON.stringify(S)); }
 function audit(action,detail){ S.audit.push({ t:new Date().toISOString(), action, detail }); }
@@ -226,15 +252,18 @@ async function startExtract(){
 }
 function showWork(){
   $("setupSection").classList.add("hide");
-  $("extractSection").classList.remove("hide");
-  $("reviewSection").classList.remove("hide");
-  renderStudy(); renderReview();
+  ["extractSection","reviewSection","reconcileSection","sealSetup"].forEach(id=>$(id).classList.remove("hide"));
+  $("tolCounts").value=S.tol.counts; $("tolRate").value=S.tol.rate; $("tolKappa").value=S.tol.kappa;
+  if(Object.keys(S.coExt).length) $("coStatus").textContent="Loaded "+Object.keys(S.coExt).length+" records from extractor "+S.coId+".";
+  if(S.sealedMeta){ $("sealPill").textContent="sealed · "+S.sealedMeta.n+" records · "+S.sealedMeta.model; $("sealPill").className="pill done"; }
+  renderStudy(); renderReview(); renderReconcile();
 }
 function curStudy(){ return S.studies[S.idx]; }
 function curExt(){ const r=curStudy().record_id; if(!S.ext[r]) S.ext[r]={ record_id:r, extractor_id:S.extractor_id, study:{}, cutoffs:{}, reclass:{}, rob:{}, notes:"", done:false, sealed_ai_ref:null }; return S.ext[r]; }
 
 function renderStudy(){
   const s=curStudy(), e=curExt();
+  $("sealReveal").innerHTML="";
   $("studyTitle").textContent=s.title;
   $("studyMeta").textContent=[s.record_id, s.year, s.venue].filter(Boolean).join(" · ");
   const done=S.studies.filter(x=>S.ext[x.record_id]&&S.ext[x.record_id].done).length;
@@ -302,10 +331,11 @@ function bindStudyInputs(){
   });
 }
 function saveStudy(){
-  const e=curExt(); e.done=true; audit("save_study",{ record_id:e.record_id }); save();
+  const e=curExt(); e.done=true; audit("save_study",{ record_id:e.record_id, committed_at:new Date().toISOString() }); save();
   $("savePill").textContent="saved ✓"; $("savePill").className="pill done";
-  renderReview();
-  if(S.idx<S.studies.length-1){ S.idx++; renderStudy(); window.scrollTo({top:0,behavior:"smooth"}); }
+  renderReview(); renderReconcile();
+  revealSealed(e.record_id);                              // guarded: only after the commit above
+  if(!S.sealed[e.record_id] && S.idx<S.studies.length-1){ S.idx++; renderStudy(); window.scrollTo({top:0,behavior:"smooth"}); }
 }
 
 function renderReview(){
@@ -357,6 +387,56 @@ function loadExample(){
     '{"record_id":"pmid:40000003","pmid":"40000003","title":"Pathologists more consistent than AI at cutoffs","year":2025,"venue":"Histopathology"}'
   ].join("\n");
 }
+
+// ---- v0.2: dual-extraction reconcile + sealed agent aid ----
+function readJsonl(file,cb){ const r=new FileReader(); r.onload=()=>{ const recs=[]; String(r.result).trim().split(/\r?\n/).forEach(l=>{ l=l.trim(); if(l){ try{ recs.push(JSON.parse(l)); }catch(_){} } }); cb(recs); }; r.readAsText(file); }
+function loadCo(file){ readJsonl(file,recs=>{ const map={}; let coId=""; recs.forEach(r=>{ if(r&&r.record_id){ map[r.record_id]=r; if(r.extractor_id) coId=r.extractor_id; } });
+  S.coExt=map; S.coId=coId||"B"; audit("load_co_extraction",{ n:Object.keys(map).length, coId:S.coId }); save();
+  $("coStatus").textContent="Loaded "+Object.keys(map).length+" records from extractor "+S.coId+"."; renderReconcile(); }); }
+function numAgree(x,y,t){ if(x===""||x==null||y===""||y==null) return (x==null||x==="")&&(y==null||y===""); return Math.abs((+x)-(+y))<=t; }
+function cmpFields(a,b){ const tol=S.tol, out=[];
+  const sa=a.study||{}, sb=b.study||{};
+  [["specimen","cat"],["clone","cat"],["ref","cat"],["algo","cat"],["algo_v","cat"],["platform","cat"],["cohort_n","count"],["tat","count"]].forEach(([f,ty])=>{
+    const va=sa[f],vb=sb[f]; if((va==null||va==="")&&(vb==null||vb==="")) return;
+    out.push({key:"study."+f,type:ty,a:va,b:vb,agree: ty==="count"?numAgree(va,vb,tol.counts):String(va||"")===String(vb||"")}); });
+  S.cutoffs.forEach(c=>{ const ca=(a.cutoffs||{})[c]||{}, cb=(b.cutoffs||{})[c]||{};
+    ["tp","fp","fn","tn"].forEach(f=>{ const va=ca[f],vb=cb[f]; if((va==null||va==="")&&(vb==null||vb==="")) return; out.push({key:c+".2x2."+f,type:"count",a:va,b:vb,agree:numAgree(va,vb,tol.counts)}); });
+    {const va=ca.opa,vb=cb.opa; if(!((va==null||va==="")&&(vb==null||vb===""))) out.push({key:c+".opa",type:"rate",a:va,b:vb,agree:numAgree(va,vb,tol.rate)});}
+    {const va=ca.kappa,vb=cb.kappa; if(!((va==null||va==="")&&(vb==null||vb===""))) out.push({key:c+".kappa",type:"kappa",a:va,b:vb,agree:numAgree(va,vb,tol.kappa)});}
+  });
+  S.cutoffs.forEach(c=>{ const ra=(a.reclass||{})[c]||{}, rb=(b.reclass||{})[c]||{};
+    ["ai_up","ai_down","over_treat","therapy_denied"].forEach(f=>{ const va=ra[f],vb=rb[f]; if((va==null||va==="")&&(vb==null||vb==="")) return; out.push({key:c+".rc."+f,type:"count",a:va,b:vb,agree:numAgree(va,vb,tol.counts)}); }); });
+  Object.keys(ROB_DOMS).forEach(inst=>{ if(inst==="probast_ai"&&!S.probast_on) return; ROB_DOMS[inst].forEach(dom=>{ const va=((a.rob||{})[inst]||{})[dom], vb=((b.rob||{})[inst]||{})[dom]; if(!va&&!vb) return; out.push({key:inst+"."+dom,type:"rob",a:va||"",b:vb||"",agree:(va||"")===(vb||"")}); }); });
+  return out; }
+function cohenKappa(pairs){ const items=pairs.filter(p=>p[0]&&p[1]), n=items.length; if(!n) return null;
+  const cats={}; items.forEach(([a,b])=>{ cats[a]=1; cats[b]=1; }); const C=Object.keys(cats);
+  let agree=0; items.forEach(([a,b])=>{ if(a===b) agree++; }); const po=agree/n;
+  let pe=0; C.forEach(k=>{ pe+=(items.filter(p=>p[0]===k).length/n)*(items.filter(p=>p[1]===k).length/n); });
+  return pe>=1?1:(po-pe)/(1-pe); }
+function reconcile(){ S.tol.counts=+$("tolCounts").value||0; S.tol.rate=+$("tolRate").value||0; S.tol.kappa=+$("tolKappa").value||0; save();
+  const shared=S.studies.filter(s=>S.ext[s.record_id]&&S.coExt[s.record_id]);
+  let allFields=[], robPairs=[], mismatches=[];
+  shared.forEach(s=>{ cmpFields(S.ext[s.record_id],S.coExt[s.record_id]).forEach(f=>{ allFields.push(f); if(f.type==="rob") robPairs.push([f.a,f.b]); if(!f.agree) mismatches.push(Object.assign({record_id:s.record_id},f)); }); });
+  return { shared:shared.length, allFields, robPairs, mismatches, k:cohenKappa(robPairs) }; }
+function renderReconcile(){ if(!Object.keys(S.coExt).length){ $("reconcileSummary").innerHTML=""; $("mismatchTable").innerHTML=""; return; }
+  const R=reconcile(), n=R.allFields.length, agr=R.allFields.filter(f=>f.agree).length;
+  $("reconcileSummary").innerHTML='<div class="calc" style="display:block">Extractor '+esc(S.extractor_id)+' vs '+esc(S.coId)+' · '+R.shared+' shared studies · field agreement '+(n?(100*agr/n).toFixed(1):"—")+'% ('+agr+'/'+n+') · RoB Cohen’s κ '+(R.k==null?"—":R.k.toFixed(2))+' · '+R.mismatches.length+' beyond-tolerance mismatch(es)</div>';
+  if(!R.mismatches.length){ $("mismatchTable").innerHTML='<p class="muted" style="margin-top:10px">No beyond-tolerance mismatches — extractions reconcile within tolerance.</p>'; return; }
+  const rows=R.mismatches.map(m=>{ const key=m.record_id+"|"+m.key, adj=(S.adjud[m.record_id]||{})[m.key];
+    return '<tr><td class="l mono">'+esc(m.record_id.slice(0,18))+'</td><td class="l">'+esc(m.key)+'</td><td>'+esc(m.a)+'</td><td>'+esc(m.b)+'</td><td><input data-adj="'+esc(key)+'" value="'+(adj==null?"":esc(adj))+'" style="width:88px;padding:4px 6px" placeholder="resolve"></td></tr>'; }).join("");
+  $("mismatchTable").innerHTML='<h4 style="margin:14px 0 4px;font-size:13.5px">Adjudicate ('+R.mismatches.length+')</h4><table><tr><th class="l">record_id</th><th class="l">field</th><th>'+esc(S.extractor_id)+'</th><th>'+esc(S.coId)+'</th><th>adjudicated</th></tr>'+rows+'</table>';
+  document.querySelectorAll('#mismatchTable input[data-adj]').forEach(inp=>{ inp.oninput=()=>{ const p=inp.dataset.adj.split("|"); (S.adjud[p[0]]=S.adjud[p[0]]||{})[p[1]]=inp.value; save(); }; }); }
+function loadSealed(file){ readJsonl(file,recs=>{ const map={}; let model=""; recs.forEach(r=>{ if(r&&r.record_id){ map[r.record_id]=r; model=(r.model&&(r.model.name||r.model))||r.model_id||model; } });
+  S.sealed=map; S.sealedMeta={ model:model||"agent", loaded:new Date().toISOString(), n:Object.keys(map).length }; audit("load_sealed_agent",{ n:S.sealedMeta.n, model:S.sealedMeta.model }); save();
+  $("sealPill").textContent="sealed · "+S.sealedMeta.n+" records · "+S.sealedMeta.model; $("sealPill").className="pill done"; }); }
+function revealSealed(record_id){ const host=$("sealReveal"); host.innerHTML=""; if(!S.sealed[record_id]) return;
+  audit("ai_reveal",{ record_id, after_commit:true, revealed_at:new Date().toISOString(), model:(S.sealedMeta||{}).model }); save();
+  const cmp=cmpFields(S.ext[record_id],S.sealed[record_id]).filter(f=>!f.agree);
+  const head='<div class="v2note"><strong>Sealed agent aid ('+esc((S.sealedMeta||{}).model||"agent")+')</strong> — revealed <em>after</em> your commit. Discrepancy flags to re-check only; never entered into your data.';
+  host.innerHTML = cmp.length ? head+'<ul style="margin:6px 0 0;padding-left:18px">'+cmp.map(f=>'<li><span class="mono">'+esc(f.key)+'</span>: you <strong>'+esc(f.a)+'</strong> · agent '+esc(f.b)+'</li>').join("")+'</ul></div>' : head+' No discrepancies for this study.</div>'; }
+$("coFile").onchange=e=>{ const f=e.target.files[0]; if(f) loadCo(f); e.target.value=""; };
+$("sealFile").onchange=e=>{ const f=e.target.files[0]; if(f) loadSealed(f); e.target.value=""; };
+["tolCounts","tolRate","tolKappa"].forEach(id=>$(id).oninput=renderReconcile);
 
 $("loadStudies").onclick=startExtract;
 $("loadExample").onclick=loadExample;
