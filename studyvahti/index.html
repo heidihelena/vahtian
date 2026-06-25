@@ -1234,7 +1234,7 @@
           </ul>
         </section>
 
-        <section class="section" id="forskaiNext" hidden>
+        <section class="section" id="forskaiNext">
           <h2>Next stage</h2>
           <p class="hint" style="margin-top: 0.75rem;">
             StudyVahti checks whether a study is protocol-ready and where it needs methods review.
@@ -2603,10 +2603,6 @@
       $("readinessScore").textContent = `${result.score} / 100`;
       $("progressBar").style.width = `${Math.max(0, Math.min(100, result.score))}%`;
       $("nextStep").textContent = result.next;
-      // Reveal the ForskAI hand-off only at the genuine handoff moment — ready to draft ([oo])
-      // or methods-review needed ([r]). Lives in the sidebar (not the aria-live readiness panel),
-      // so it never re-announces on keystrokes.
-      $("forskaiNext").hidden = !(result.code === "[oo]" || result.code === "[r]");
       renderVariableAudit(data);
       renderPresets(data);
       return result;
