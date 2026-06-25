@@ -1234,6 +1234,24 @@
           </ul>
         </section>
 
+        <section class="section" id="forskaiNext" hidden>
+          <h2>Next stage</h2>
+          <p class="hint" style="margin-top: 0.75rem;">
+            StudyVahti checks whether a study is protocol-ready and where it needs methods review.
+            The next question is whether the design can actually
+            <strong style="color:#1c1830;">recover the effect</strong> before any data is collected.
+          </p>
+          <ul class="method-list">
+            <li>
+              <strong><a href="https://www.forskai.com" target="_blank" rel="noopener" style="color:#5566b5;">ForskAI Design Pilot</a></strong>
+              <span>A separate service: a recoverability stress-test of the planned design — PASS / RISK / FAIL
+              with the assumptions, thresholds, and fixes, reviewed by a methodologist.
+              <a href="https://www.forskai.com/what-is-recoverability-testing" target="_blank" rel="noopener" style="color:#5566b5;">What this is</a> ·
+              <a href="https://www.forskai.com/example" target="_blank" rel="noopener" style="color:#5566b5;">example report</a>.</span>
+            </li>
+          </ul>
+        </section>
+
         <section class="section">
           <h2>Scientific Backbone</h2>
           <ul class="method-list">
@@ -2585,6 +2603,10 @@
       $("readinessScore").textContent = `${result.score} / 100`;
       $("progressBar").style.width = `${Math.max(0, Math.min(100, result.score))}%`;
       $("nextStep").textContent = result.next;
+      // Reveal the ForskAI hand-off only at the genuine handoff moment — ready to draft ([oo])
+      // or methods-review needed ([r]). Lives in the sidebar (not the aria-live readiness panel),
+      // so it never re-announces on keystrokes.
+      $("forskaiNext").hidden = !(result.code === "[oo]" || result.code === "[r]");
       renderVariableAudit(data);
       renderPresets(data);
       return result;
