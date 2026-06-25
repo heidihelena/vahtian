@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>How to cite Vahtian</title>
+  <meta name="description" content="How to cite Vahtian's research-integrity tools (CiteVahti, StudyVahti, ReviewVahti, and the rest) in your methods and references — APA software citations and BibTeX.">
+  <meta name="theme-color" content="#2D2440">
+  <link rel="canonical" href="https://vahtian.com/cite/">
+  <meta name="robots" content="index,follow">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232D2440'/%3E%3Cg fill='none' stroke='%238B6FC9' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 9 H9 V23 H12'/%3E%3Cpath d='M20 9 H23 V23 H20'/%3E%3C/g%3E%3Cpath d='M16 10.3 L19.6 12 L19.6 15 L16 19.6 L12.4 15 L12.4 12 Z' fill='none' stroke='%23C5B8E8' stroke-width='1.8' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <style>
+    :root{--navy:#2D2440;--violet:#8B6FC9;--lilac:#C5B8E8;--ink:#1c1830;--muted:#5b5570;
+          --bg:#faf9fc;--card:#fff;--line:#e7e3f0;--link:#6F52B8;}
+    *{box-sizing:border-box}
+    body{margin:0;font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+         color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased}
+    a{color:var(--link)}
+    .wrap{max-width:780px;margin:0 auto;padding:0 22px}
+    header{padding:26px 0 6px}
+    .brand{display:flex;align-items:center;gap:11px;font-weight:700;font-size:18px}
+    .mark{width:32px;height:32px;flex:0 0 32px}
+    h1{font-size:clamp(28px,5vw,40px);line-height:1.1;letter-spacing:-.02em;margin:30px 0 10px}
+    .lede{font-size:clamp(16px,2.4vw,19px);color:#3a3450;margin:0 0 8px;max-width:64ch}
+    .note{background:#FFF2D8;border:1px solid var(--violet);color:#33285f;border-radius:10px;
+          padding:12px 15px;font-size:14.5px;margin:18px 0}
+    section{padding:26px 0;border-top:1px solid var(--line);margin-top:26px}
+    h2{font-size:20px;margin:0 0 6px}
+    h3{font-size:15px;margin:18px 0 6px}
+    p.apa{margin:0 0 8px;padding-left:2.4em;text-indent:-2.4em;max-width:70ch}
+    pre{background:var(--navy);color:#EDE9F7;border-radius:10px;padding:13px 15px;overflow:auto;
+        font:12.5px/1.55 ui-monospace,SFMono-Regular,Menlo,monospace;margin:0 0 8px}
+    code{font:13px/1.4 ui-monospace,Menlo,monospace;background:#f2f0f7;padding:1px 5px;border-radius:5px}
+    table{border-collapse:collapse;width:100%;font-size:14.5px;margin:6px 0}
+    th,td{text-align:left;padding:7px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+    th{color:var(--muted);font-weight:600;font-size:12.5px;text-transform:uppercase;letter-spacing:.04em}
+    td a{font-weight:600}
+    footer{padding:28px 0 50px;color:var(--muted);font-size:13px;border-top:1px solid var(--line);margin-top:30px}
+    footer a{color:var(--link)}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <a class="brand" href="/" aria-label="Vahtian — home" style="text-decoration:none;color:var(--ink)">
+      <svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#2D2440"/><g fill="none" stroke="#8B6FC9" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9 H9 V23 H12"/><path d="M20 9 H23 V23 H20"/></g><path d="M16 10.3 L19.6 12 L19.6 15 L16 19.6 L12.4 15 L12.4 12 Z" fill="none" stroke="#C5B8E8" stroke-width="1.8" stroke-linejoin="round"/></svg>
+      Vahtian
+    </a>
+  </header>
+<main>
+
+  <h1>How to cite Vahtian</h1>
+  <p class="lede">If a Vahtian tool was part of how you searched, screened, extracted, or checked
+    citations, please cite the specific tool you used in your methods and references. It keeps the
+    workflow auditable — which is the whole point.</p>
+
+  <p class="lede" style="font-size:15px;color:var(--muted)">Author:
+    <a href="https://orcid.org/0000-0001-5923-5865">Heidi Helena Andersén
+    <span aria-hidden="true">iD</span></a> (ORCID 0000-0001-5923-5865). Citations use stable page
+    URLs; archival Zenodo DOIs may be added later.</p>
+
+  <section>
+    <h2>Recommended format</h2>
+    <p>Software citation — author, year, tool, version, publisher, and a persistent link:</p>
+    <p class="apa">Andersén, H. H. (2026). <i>&lt;Tool&gt;</i> (Version &lt;x.y&gt;) [Computer software]. Vahtian. https://vahtian.com/&lt;tool&gt;/</p>
+    <p style="color:var(--muted);font-size:14.5px;margin:8px 0 0">Once a Zenodo DOI exists, replace the URL with <code>https://doi.org/10.5281/zenodo.XXXXX</code> — a DOI is archival and versioned, which reviewers prefer over a plain URL.</p>
+  </section>
+
+  <section>
+    <h2>Per-tool citations</h2>
+    <p style="color:var(--muted);font-size:14.5px;margin:0 0 10px">Replace year/version as appropriate. URLs are stable; DOIs to follow.</p>
+    <table>
+      <thead><tr><th>Tool</th><th>Citation</th></tr></thead>
+      <tbody>
+        <tr><td><a href="/citevahti/">CiteVahti</a></td><td>Andersén, H. H. (2026). <i>CiteVahti</i> [Computer software]. Vahtian. https://vahtian.com/citevahti/</td></tr>
+        <tr><td><a href="/studyvahti/">StudyVahti</a></td><td>Andersén, H. H. (2026). <i>StudyVahti</i> [Computer software]. Vahtian. https://vahtian.com/studyvahti/</td></tr>
+        <tr><td><a href="/methodvahti/">MethodVahti</a></td><td>Andersén, H. H. (2026). <i>MethodVahti</i> [Computer software]. Vahtian. https://vahtian.com/methodvahti/</td></tr>
+        <tr><td><a href="/dictvahti/">DictVahti</a></td><td>Andersén, H. H. (2026). <i>DictVahti</i> [Computer software]. Vahtian. https://vahtian.com/dictvahti/</td></tr>
+        <tr><td><a href="/matchvahti-lite/">MatchVahti-Lite</a></td><td>Andersén, H. H. (2026). <i>MatchVahti-Lite</i> [Computer software]. Vahtian. https://vahtian.com/matchvahti-lite/</td></tr>
+        <tr><td><a href="/reviewvahti/">ReviewVahti</a></td><td>Andersén, H. H. (2026). <i>ReviewVahti</i> [Computer software]. Vahtian. https://vahtian.com/reviewvahti/</td></tr>
+        <tr><td><a href="/extractvahti/">ExtractVahti</a></td><td>Andersén, H. H. (2026). <i>ExtractVahti</i> [Computer software]. Vahtian. https://vahtian.com/extractvahti/</td></tr>
+        <tr><td><a href="/guidelinevahti/">GuidelineVahti</a></td><td>Andersén, H. H. (2026). <i>GuidelineVahti</i> [Computer software]. Vahtian. https://vahtian.com/guidelinevahti/</td></tr>
+        <tr><td><a href="/synthvahti/">SynthVahti</a></td><td>Andersén, H. H. (2026). <i>SynthVahti</i> [Computer software]. Vahtian. https://vahtian.com/synthvahti/</td></tr>
+      </tbody>
+    </table>
+    <p style="color:var(--muted);font-size:13.5px;margin:6px 0 0">MatchVahti (the full app) is a separate product — cite it by name and the page you used; it has no public archive.</p>
+  </section>
+
+  <section>
+    <h2>BibTeX</h2>
+    <p>Template — change <code>title</code>, <code>url</code>, and (when available) <code>doi</code>:</p>
+    <pre>@software{vahtian_citevahti_2026,
+  author    = {Andersén, Heidi Helena},
+  title     = {CiteVahti},
+  year      = {2026},
+  publisher = {Vahtian},
+  url       = {https://vahtian.com/citevahti/},
+  note      = {Computer software, ORCID 0000-0001-5923-5865}
+}</pre>
+  </section>
+
+  <section>
+    <h2>Citing Vahtian generally</h2>
+    <p class="apa">Andersén, H. H. (2026). <i>Vahtian: human-first, auditable research-integrity tools</i> [Computer software]. https://vahtian.com/</p>
+    <p style="color:var(--muted);font-size:14.5px;margin:8px 0 0">GitHub also offers “Cite this repository” from the <code>CITATION.cff</code> in the <a href="https://github.com/heidihelena/vahtian">source repo</a>.</p>
+  </section>
+</main>
+
+  <footer>
+    <p>&copy; 2026 Vahtian &middot; How to cite &middot; <a href="/">vahtian.com</a> &middot; <a href="https://github.com/heidihelena/vahtian">source</a> &middot; <a href="/privacy/">Privacy</a></p>
+  </footer>
+</div>
+</body>
+</html>
