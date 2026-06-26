@@ -1,0 +1,58 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # Hard gate: the repo-specific drift audit (meta, JSON-LD, sitemap, footers,
+  # internal links). Encodes the vahtian-site skill's §Verify. Must pass.
+  drift:
+    name: Drift audit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Run drift audit
+        run: bash .github/scripts/audit.sh
+
+  # Informative: quality budgets. continue-on-error so score variance never
+  # blocks a merge; tighten the thresholds in lighthouserc.json over time.
+  lighthouse:
+    name: Lighthouse CI
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Lighthouse CI (performance / a11y / SEO budgets)
+        run: npx --yes @lhci/cli@0.14.x autorun
+
+  # Informative: accessibility (WCAG 2.2 AA) on the key pages, via a local
+  # static server. continue-on-error initially; promote to a hard gate once green.
+  a11y:
+    name: Accessibility (pa11y-ci)
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Serve site + WCAG2AA scan
+        run: |
+          npx --yes serve@14 -l 8080 . &
+          npx --yes wait-on@7 http://127.0.0.1:8080
+          npx --yes pa11y-ci@3

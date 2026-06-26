@@ -101,17 +101,19 @@ or **[grows]** (worth it as the site/team grows; don't over-engineer yet).
   `Strict-Transport-Security`, `Permissions-Policy`). Use **SRI** (`integrity=…`) for any
   external resource you ever add (ideally: never add one).
 
-### 7. Engineering hygiene & CI  [grows]
-Currently shipping is: edit → Cloudflare preview deploy → merge. That is fine for now.
-When it's worth hardening (more pages, contributors, or before a launch), add a GitHub
-Actions pipeline:
-- **Lighthouse CI** (`@lhci/cli`) — run per PR, assert performance/a11y/SEO **budgets**,
-  catch regressions across pages, reduce score variance by running N times, track over time.
-- **pa11y-ci** — accessibility in CI; it can read `sitemap.xml` and test **every** page,
-  with a configurable error threshold.
-- **Link checker** (e.g. lychee) + **HTML validation** (html-validate / vnu) + a small
-  script that enforces the head/footer/sitemap checklist (§Verify) so drift fails CI.
-Offer to set this up; don't add it silently.
+### 7. Engineering hygiene & CI  [done]
+GitHub Actions CI runs on every PR + push to main (`.github/workflows/ci.yml`):
+- **Drift audit** (`.github/scripts/audit.sh`) — the **hard gate**. Runs the §Verify
+  checks: meta completeness, JSON-LD validity, noindex/sitemap conflicts, footer
+  consistency, sitemap integrity, and internal-link resolution. A failing audit blocks
+  the merge. **Run it locally before pushing:** `bash .github/scripts/audit.sh`.
+- **Lighthouse CI** (`lighthouserc.json`) — performance/a11y/SEO **budgets**;
+  `continue-on-error` so score variance never blocks a merge. Tighten thresholds over time.
+- **pa11y-ci** (`.pa11yci`) — WCAG 2.2 AA on the key pages via a local static server;
+  `continue-on-error` until consistently green, then promote it to a hard gate.
+
+Keep `audit.sh` in sync with this checklist: when you add a new site-wide invariant,
+add a check so drift fails CI instead of reaching production.
 
 ## Workflow for a new page or tool
 
