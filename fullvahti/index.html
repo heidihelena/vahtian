@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FullVahti — find open-access PDFs for your Zotero library</title>
+  <meta name="description" content="FullVahti is a Zotero plugin that finds open-access full-text PDFs for your references via Unpaywall and PubMed Central — in two clicks, with an honest report of what's still missing. It never bypasses a paywall. Free, open-source, local-first.">
+  <meta name="theme-color" content="#2D2440">
+  <link rel="canonical" href="https://vahtian.com/fullvahti/">
+  <meta name="robots" content="index,follow">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://vahtian.com/fullvahti/">
+  <meta property="og:title" content="FullVahti — find open-access PDFs for your Zotero library">
+  <meta property="og:description" content="A Zotero plugin that finds open-access full-text PDFs (Unpaywall + PMC), in two clicks, with an honest report of what's missing. Never bypasses a paywall. Free and local-first.">
+  <meta property="og:image" content="https://vahtian.com/brand/cards/fullvahti-card.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="FullVahti — find the open-access PDF. A product of Vahtian.">
+  <meta property="og:site_name" content="Vahtian">
+  <meta name="twitter:card" content="summary_large_image">
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"SoftwareApplication",
+    "name":"FullVahti",
+    "url":"https://vahtian.com/fullvahti/",
+    "description":"A Zotero plugin that finds open-access full-text PDFs for library references via Unpaywall and PubMed Central, labels each item, and reports what is still missing. It never bypasses a paywall; it also flags retractions (PubMed, Crossref/Retraction Watch) and runs a read-only citation-metadata check against Crossref.",
+    "applicationCategory":"Research software",
+    "operatingSystem":"Zotero 7–9 (macOS, Linux, Windows)",
+    "offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},
+    "license":"https://www.apache.org/licenses/LICENSE-2.0",
+    "softwareHelp":"https://github.com/heidihelena/fullvahti",
+    "sameAs":"https://github.com/heidihelena/fullvahti",
+    "publisher":{"@type":"Organization","name":"Vahtian","url":"https://vahtian.com/"}
+  }
+  </script>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232D2440'/%3E%3Cg fill='none' stroke='%23C24D7E' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 9 H9 V23 H12'/%3E%3Cpath d='M20 9 H23 V23 H20'/%3E%3C/g%3E%3Cg fill='none' stroke='%23C5B8E8' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M16 10.5 V17'/%3E%3Cpath d='M13 14.5 L16 17.5 L19 14.5'/%3E%3Cpath d='M12.2 20.5 H19.8'/%3E%3C/g%3E%3C/svg%3E">
+  <style>
+    :root{--navy:#2D2440;--violet:#8B6FC9;--lilac:#C5B8E8;--rose:#C24D7E;
+          --ink:#1c1830;--muted:#5b5570;--bg:#faf9fc;--card:#fff;--line:#e7e3f0;--link:#6F52B8;}
+    *{box-sizing:border-box}
+    body{margin:0;font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+         color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased}
+    a{color:var(--link)}
+    .wrap{max-width:800px;margin:0 auto;padding:0 22px}
+    header{padding:26px 0 6px}
+    .brand{display:flex;align-items:center;gap:11px;font-weight:700;font-size:18px;text-decoration:none;color:var(--ink)}
+    .mark{width:32px;height:32px;flex:0 0 32px}
+    .hero{padding:44px 0 8px}
+    .kicker{font:600 13px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--rose);
+            text-transform:uppercase;letter-spacing:.08em;margin:0 0 14px}
+    h1{font-size:clamp(28px,5.4vw,44px);line-height:1.08;letter-spacing:-.02em;margin:0 0 14px}
+    .lede{font-size:clamp(17px,2.5vw,20px);color:#3a3450;margin:0 0 6px;max-width:60ch}
+    .sub{color:var(--muted);font-size:15px;margin:14px 0 0}
+    .cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:24px}
+    .btn{display:inline-block;padding:11px 18px;border-radius:9px;font-weight:600;text-decoration:none;font-size:15px}
+    .btn.primary{background:var(--navy);color:#fff}
+    .btn.ghost{border:1px solid var(--line);color:var(--ink);background:var(--card)}
+    section{padding:30px 0;border-top:1px solid var(--line);margin-top:30px}
+    h2{font-size:21px;margin:0 0 14px;letter-spacing:-.01em}
+    h3{font-size:15px;margin:0 0 6px}
+    p{max-width:68ch}
+    .grid{display:grid;gap:14px;grid-template-columns:1fr 1fr}
+    @media(max-width:560px){.grid{grid-template-columns:1fr}}
+    .box{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px}
+    .box p{margin:0;color:var(--muted);font-size:14.5px}
+    ol.steps{counter-reset:s;list-style:none;padding:0;margin:0}
+    ol.steps li{position:relative;padding:10px 0 10px 42px;border-bottom:1px solid var(--line)}
+    ol.steps li:last-child{border-bottom:0}
+    ol.steps li::before{counter-increment:s;content:counter(s);position:absolute;left:0;top:9px;
+      width:28px;height:28px;border-radius:50%;background:var(--navy);color:#fff;
+      font:700 14px/28px ui-monospace,monospace;text-align:center}
+    .tag{display:inline-block;font:600 11px/1 ui-monospace,monospace;padding:5px 9px;border-radius:6px;
+      background:#FBE6EF;border:1px solid var(--rose);color:#8d2b52;margin-left:8px;vertical-align:middle}
+    code{font:13px/1.5 ui-monospace,Menlo,monospace;background:#f2f0f7;padding:1px 5px;border-radius:5px}
+    .pill{display:inline-block;font:600 12px/1 ui-monospace,monospace;color:var(--muted);
+      border:1px solid var(--line);border-radius:6px;padding:5px 8px;margin:0 6px 6px 0;background:var(--card)}
+    .note{background:#F4F1FA;border:1px solid var(--line);border-radius:11px;padding:15px 17px;margin:18px 0 0}
+    .note p{margin:0;font-size:14.5px;color:#33285f}
+    footer{padding:28px 0 50px;color:var(--muted);font-size:13px;border-top:1px solid var(--line);margin-top:30px}
+    footer a{color:var(--link)}
+    footer p{max-width:none}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <a class="brand" href="/" aria-label="Vahtian — home">
+      <svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#2D2440"/><g fill="none" stroke="#8B6FC9" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9 H9 V23 H12"/><path d="M20 9 H23 V23 H20"/></g><path d="M16 10.3 L19.6 12 L19.6 15 L16 19.6 L12.4 15 L12.4 12 Z" fill="none" stroke="#C5B8E8" stroke-width="1.8" stroke-linejoin="round"/></svg>
+      Vahtian
+    </a>
+  </header>
+
+<main>
+  <div class="hero">
+    <p class="kicker">FullVahti — Zotero plugin <span class="tag">free · open source</span></p>
+    <h1>Find the open-access PDF, before you give up on it.</h1>
+    <p class="lede">FullVahti finds freely available full-text PDFs for your Zotero references — in two
+      clicks, with a tidy report of what's still missing.</p>
+    <p class="sub">It never bypasses a paywall. Paywalled papers are reported honestly as missing,
+      with a one-click link to find them through your library.</p>
+    <div class="cta">
+      <a class="btn primary" href="https://github.com/heidihelena/fullvahti/releases/latest">Download the latest .xpi</a>
+      <a class="btn ghost" href="https://github.com/heidihelena/fullvahti">View on GitHub</a>
+    </div>
+  </div>
+
+  <section>
+    <h2>What it does</h2>
+    <p>Point FullVahti at a set of references — by tag or by selection — and it looks for an
+      open-access copy of each one, attaches it, and records the licence. Every item is labelled so
+      you can see at a glance what was found, what's missing, and what needs a human look:</p>
+    <p style="margin-top:12px">
+      <span class="pill">fulltext:pdf-found</span>
+      <span class="pill">fulltext:pdf-missing</span>
+      <span class="pill">fulltext:check-needed</span>
+    </p>
+    <p>The missing list is the point as much as the found list: you get an honest account of the gaps,
+      not a false sense that everything is in hand.</p>
+  </section>
+
+  <section>
+    <h2>How it finds PDFs</h2>
+    <p>FullVahti queries two well-known open-access services by DOI or PMID:</p>
+    <div class="grid" style="margin-top:6px">
+      <div class="box"><h3>Unpaywall</h3><p>The open-access index across institutional and subject repositories.</p></div>
+      <div class="box"><h3>PubMed Central</h3><p>The PMC Open Access Subset, via NCBI's official channels.</p></div>
+    </div>
+    <div class="note"><p><strong>It never bypasses a paywall.</strong> FullVahti only retrieves
+      copies the publisher or author has made openly available. Anything behind a paywall is reported
+      as missing — with an OpenURL "find in my library" link so you can reach it through your
+      institution's legitimate access.</p></div>
+  </section>
+
+  <section>
+    <h2>More than retrieval</h2>
+    <div class="grid">
+      <div class="box">
+        <h3>Retraction flags</h3>
+        <p>Cross-checks each item against PubMed and Crossref / Retraction Watch, tagging
+          <code>retraction:retracted</code>, <code>retraction:none</code>, or
+          <code>retraction:check-needed</code> — catching mass retractions that PubMed alone can miss.</p>
+      </div>
+      <div class="box">
+        <h3>Citation metadata check</h3>
+        <p>A <strong>read-only</strong> comparison against the Crossref record. It surfaces missing
+          fields and mismatches as <code>citation:incomplete</code> / <code>citation:mismatch</code> —
+          it never auto-edits your data.</p>
+      </div>
+      <div class="box">
+        <h3>Library access</h3>
+        <p>OpenURL resolver support: for anything not openly available, a one-click "find in my
+          library" link routes you to your institution's holdings.</p>
+      </div>
+      <div class="box">
+        <h3>CiteVahti hand-off <span style="color:var(--muted);font-weight:400">(advanced)</span></h3>
+        <p>An optional, token-guarded write-back to your local Zotero, with a
+          preview → confirm → audit → undo flow and allow-listed tag prefixes only. No silent writes.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Install</h2>
+    <ol class="steps">
+      <li>Download the latest <code>.xpi</code> from the
+        <a href="https://github.com/heidihelena/fullvahti/releases/latest">GitHub releases page</a>.</li>
+      <li>In Zotero: <strong>Tools → Plugins</strong>, click the gear ⚙️, then
+        <strong>Install Plugin From File…</strong> and choose the <code>.xpi</code>.</li>
+      <li>On first run, enter your email — it's sent only to the open services that ask for it
+        (Unpaywall, NCBI, Crossref), never to PDF hosts.</li>
+      <li>Optional: set a tag for batch processing, and your library's OpenURL resolver, in Settings.</li>
+    </ol>
+    <p class="sub">Requires <strong>Zotero 7–9</strong>. Updates automatically once installed.</p>
+  </section>
+
+  <section>
+    <h2>Privacy</h2>
+    <p>Nothing leaves your machine except the DOI / PMID lookups to the open services named above.
+      <strong>No accounts, no analytics, no Vahtian server.</strong> Your contact email is shared only
+      with the APIs that require it, and never with PDF sources. The work stays in your Zotero.</p>
+  </section>
+
+  <section>
+    <h2>Open source</h2>
+    <p>FullVahti is Apache-2.0, plain JavaScript with no build step, © Heidi Helena Andersén / Vahtian.
+      Read the code, file an issue, or build the <code>.xpi</code> yourself on
+      <a href="https://github.com/heidihelena/fullvahti">GitHub</a>. See
+      <a href="/cite/">how to cite</a> it if it helped your work.</p>
+  </section>
+</main>
+
+  <footer>
+    <p>© 2026 Vahtian · FullVahti · a Zotero plugin · <a href="/">vahtian.com</a> · <a href="https://github.com/heidihelena/fullvahti">source</a> · <a href="/cite/">Cite</a> · <a href="/privacy/">Privacy</a></p>
+    <p>Finds openly available full-text and reports what is missing; it never bypasses a paywall and does not assert that a source is correct.</p>
+  </footer>
+</div>
+</body>
+</html>

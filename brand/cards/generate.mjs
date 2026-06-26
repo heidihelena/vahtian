@@ -36,6 +36,7 @@ const GLYPHS = {
   extractvahti: `<g fill="none" stroke="${VIOLET}" stroke-width="1.7" stroke-linejoin="round"><rect x="11.5" y="11.5" width="9" height="9" rx="1.2"/><path d="M16 11.5 V20.5 M11.5 16 H20.5"/></g>`,
   guidelinevahti: `<path d="M12.8 16 L15.2 18.5 L19.3 13" fill="none" stroke="${VIOLET}" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>`,
   synthvahti: `<path d="M12 19 L15 14 L18 16 L20 11" fill="none" stroke="${VIOLET}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>`,
+  fullvahti: `<g fill="none" stroke="${VIOLET}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 10.5 V17"/><path d="M13 14.5 L16 17.5 L19 14.5"/><path d="M12.2 20.5 H19.8"/></g>`,
 };
 
 // Light tile (pale ground, navy brackets) — reads as the mark *on* the navy card.
@@ -156,6 +157,12 @@ const CARDS = [
     kicker: 'SYNTHVAHTI — DTA AGREEMENT SYNTHESIS',
     title: ['Pool agreement.', 'Keep HSROC in R.'],
     sub: ['Random-effects pooling + forest/funnel figures', 'in the browser; a versioned R script for the rest.'],
+  },
+  {
+    name: 'fullvahti',
+    kicker: 'FULLVAHTI — ZOTERO PLUGIN',
+    title: ['Find the', 'open-access PDF.'],
+    sub: ['Unpaywall + PMC, in two clicks, with an honest', 'report of what’s missing. Never bypasses a paywall.'],
   },
 ];
 
