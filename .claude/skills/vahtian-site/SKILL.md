@@ -110,7 +110,8 @@ GitHub Actions CI runs on every PR + push to main (`.github/workflows/ci.yml`):
 - **Lighthouse CI** (`lighthouserc.json`) — performance/a11y/SEO **budgets**;
   `continue-on-error` so score variance never blocks a merge. Tighten thresholds over time.
 - **pa11y-ci** (`.pa11yci`) — WCAG 2.2 AA on the key pages via a local static server;
-  `continue-on-error` until consistently green, then promote it to a hard gate.
+  a **hard gate** (an a11y regression on a covered page fails the build). The URL
+  list covers the main public pages; add new public pages to `.pa11yci` as they ship.
 
 Keep `audit.sh` in sync with this checklist: when you add a new site-wide invariant,
 add a check so drift fails CI instead of reaching production.
