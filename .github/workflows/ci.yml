@@ -40,12 +40,12 @@ jobs:
       - name: Lighthouse CI (performance / a11y / SEO budgets)
         run: npx --yes @lhci/cli@0.14.x autorun
 
-  # Informative: accessibility (WCAG 2.2 AA) on the key pages, via a local
-  # static server. continue-on-error initially; promote to a hard gate once green.
+  # Hard gate: accessibility (WCAG 2.2 AA) on the key pages, via a local static
+  # server. Promoted from informative to blocking now that it is consistently
+  # green — an a11y regression on a covered page fails the build.
   a11y:
     name: Accessibility (pa11y-ci)
     runs-on: ubuntu-latest
-    continue-on-error: true
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
