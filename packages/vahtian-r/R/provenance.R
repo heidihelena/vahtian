@@ -92,6 +92,7 @@ vahtian_content_hash <- function(records) {
 #' @examples
 #' corpus <- vahtian_freeze(list(list(pmid = "1", title = "A")))
 #' corpus$content_hash
+#' @importFrom utils modifyList
 #' @export
 vahtian_freeze <- function(records, search_date = NULL, now = NULL) {
   by_id <- list()
