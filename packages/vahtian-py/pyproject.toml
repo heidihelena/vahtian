@@ -1,0 +1,32 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "vahtian"
+version = "0.1.0"
+description = "Reproducible, provenance-first evidence tooling — freeze a corpus, verify it, keep a hash-chained audit trail. Human-first, auditable, local-first."
+readme = "README.md"
+requires-python = ">=3.9"
+license = "Apache-2.0"
+authors = [{ name = "Heidi Helena Andersén" }]
+keywords = ["research integrity", "systematic review", "provenance", "reproducibility", "evidence synthesis", "audit trail"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Science/Research",
+  "License :: OSI Approved :: Apache Software License",
+  "Programming Language :: Python :: 3",
+  "Topic :: Scientific/Engineering :: Information Analysis",
+]
+dependencies = []   # stdlib only — re-runnable anywhere
+
+[project.urls]
+Homepage = "https://vahtian.com/"
+Documentation = "https://vahtian.com/agents/"
+Source = "https://github.com/heidihelena/vahtian-py"
+
+[project.scripts]
+vahtian = "vahtian.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/vahtian"]
