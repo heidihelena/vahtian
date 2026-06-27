@@ -1,0 +1,23 @@
+Package: vahtian
+Type: Package
+Title: Reproducible, Provenance-First Evidence Tooling
+Version: 0.1.0
+Authors@R:
+    person("Heidi Helena", "Andersén", role = c("aut", "cre"),
+           email = "andersenheidihelena@gmail.com",
+           comment = c(ORCID = "0000-0001-5923-5865"))
+Description: Freeze a record set into a content-hashed, provenance-stamped,
+    date-locked corpus; verify reproducibility; and keep a hash-chained,
+    tamper-evident audit trail. The canonical on-disk format and the content
+    hash are byte-identical with the Python package 'vahtian', so frozen
+    corpora and audit ledgers interoperate across the two languages.
+License: Apache License (>= 2)
+Encoding: UTF-8
+Imports:
+    digest
+Suggests:
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
+URL: https://vahtian.com, https://github.com/heidihelena/vahtian
+BugReports: https://github.com/heidihelena/vahtian/issues
+RoxygenNote: 7.3.1

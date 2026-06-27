@@ -1,0 +1,42 @@
+# PyPI Trusted Publishing (OIDC) for packages/vahtian-py — no API tokens.
+# Matches the PyPI pending publisher: repo heidihelena/vahtian, workflow publish.yml.
+# Triggers only on version tags, so it never runs on normal pushes/PRs.
+name: publish
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+      - name: Build sdist + wheel
+        working-directory: packages/vahtian-py
+        run: pipx run build
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: packages/vahtian-py/dist/
+
+  publish:
+    needs: build
+    runs-on: ubuntu-latest          # pypi-publish is Linux-only (docker)
+    permissions:
+      id-token: write               # OIDC is the only credential — no username/password
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
+      - uses: pypa/gh-action-pypi-publish@release/v1
+        # PEP 740 attestations (Sigstore + OIDC) are on by default — kept.

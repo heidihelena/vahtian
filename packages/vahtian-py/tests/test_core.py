@@ -1,5 +1,22 @@
 import vahtian
 
+# The cross-language parity gate: the R package `vahtian` asserts this SAME literal.
+# If either canonical serialiser drifts, one of the two CIs goes red.
+GOLDEN = "sha256:50ca741a72e7058870d0ca7594b0c37faa7183472fcb1752b7a6c5abe23cafd1"
+
+def test_golden_cross_language_hash():
+    recs = [
+        {"pmid": "12345", "title": "PD-L1 AI scoring agrees with pathologists",
+         "provenance": [{"source": "pubmed", "retrieved": "2026-06-23"}]},
+        {"doi": "10.1/x", "title": "A second study",
+         "provenance": [{"source": "openalex", "retrieved": "2026-06-23"}]},
+        {"pmid": "12345", "title": "PD-L1 AI scoring agrees with pathologists",
+         "provenance": [{"source": "europepmc", "retrieved": "2026-06-23"}]},
+    ]
+    c = vahtian.freeze(recs, search_date="2026-06-23")
+    assert len(c.records) == 2
+    assert c.content_hash == GOLDEN
+
 def test_dedupe_and_reproducible():
     recs = [
         {"pmid": "1", "title": "A", "provenance": [{"source": "pubmed"}]},
