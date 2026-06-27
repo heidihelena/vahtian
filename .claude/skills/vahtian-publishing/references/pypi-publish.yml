@@ -1,0 +1,47 @@
+# Copy to the repo ROOT as .github/workflows/publish-pypi.yml
+# PyPI Trusted Publishing (OIDC) — no API tokens. Builds the subdir package, then publishes.
+# Prereq: a PyPI "pending publisher" pointing at owner=heidihelena, repo=vahtian,
+# workflow=publish-pypi.yml, environment=pypi (see SKILL.md §A).
+name: publish-pypi
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0            # hatch-vcs derives the version from git tags/history
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+      - name: Build sdist + wheel
+        working-directory: packages/vahtian-py
+        run: pipx run build
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: packages/vahtian-py/dist/
+
+  publish:
+    needs: build
+    runs-on: ubuntu-latest          # the publish action is Linux-only (docker)
+    environment: pypi               # protected GitHub Environment — gate who/what can publish
+    permissions:
+      id-token: write               # OIDC is the ONLY credential — never set username/password
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
+      - uses: pypa/gh-action-pypi-publish@release/v1
+        # PEP 740 attestations (Sigstore, tied to the OIDC identity) are ON by default — keep them.
+        # TestPyPI dry-run: configure a separate pending publisher and uncomment:
+        # with:
+        #   repository-url: https://test.pypi.org/legacy/
