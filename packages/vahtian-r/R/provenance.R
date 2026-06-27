@@ -70,6 +70,9 @@
 #' Byte-identical to the Python package `vahtian`.
 #' @param records a list of records (each a named list).
 #' @return a string like "sha256:...".
+#' @examples
+#' vahtian_content_hash(list(list(pmid = "1", title = "A")))
+#' @importFrom digest digest
 #' @export
 vahtian_content_hash <- function(records) {
   ord <- records[order(vapply(records, .record_id, character(1)))]
@@ -86,6 +89,9 @@ vahtian_content_hash <- function(records) {
 #' @param search_date ISO date string; defaults to today.
 #' @param now timestamp string for the manifest; defaults to current UTC time.
 #' @return an object of class "vahtian_corpus".
+#' @examples
+#' corpus <- vahtian_freeze(list(list(pmid = "1", title = "A")))
+#' corpus$content_hash
 #' @export
 vahtian_freeze <- function(records, search_date = NULL, now = NULL) {
   by_id <- list()
@@ -122,6 +128,9 @@ vahtian_freeze <- function(records, search_date = NULL, now = NULL) {
 #' Recomputes the content hash and compares it to the stored value.
 #' @param corpus a "vahtian_corpus".
 #' @return TRUE if the stored hash still matches the records.
+#' @examples
+#' corpus <- vahtian_freeze(list(list(pmid = "1", title = "A")))
+#' vahtian_verify(corpus)
 #' @export
 vahtian_verify <- function(corpus) {
   identical(vahtian_content_hash(corpus$records), corpus$content_hash)
