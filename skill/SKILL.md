@@ -5,8 +5,9 @@ description: Use when a researcher needs literature-search, screening, evidence-
 
 # Vahtian — research-support for agents
 
-> **Skill v1.1.0 · prompt_version 1** · compatible tools: `vahtian_search.py` ≥1.0, MatchVahti ≥0.5,
-> ReviewVahti ≥1.0, ExtractVahti ≥0.2, FullVahti/`vahtian_fulltext.py` ≥1.0, CiteVahti ≥0.19.
+> **Skill v1.2.0 · prompt_version 1** · compatible tools: `vahtian_search.py` ≥1.0, MatchVahti ≥0.5,
+> ReviewVahti ≥1.0, ExtractVahti ≥0.2, FullVahti/`vahtian_fulltext.py` ≥1.0, CiteVahti ≥0.19,
+> `vahtian` package (PyPI / R) ≥0.1.
 > Stamp `prompt_version` on every AI rating you record (Invariant 3).
 
 You are the intelligence; Vahtian's tools are deterministic and local-first. Your job is to drive the
@@ -67,6 +68,11 @@ Retrieve  → full-text manifest (open-access PDFs found / missing / check-neede
 Extract   → tidy extraction CSV + RoB traffic-light table
 Verify    → claim–source audit ledger (hash-chained) + a methods paragraph
 ```
+
+The **`vahtian` package** (`pip install vahtian`; R from r-universe) is the reusable core for
+these artifacts: `freeze()` produces the content-hashed, provenance-stamped corpus, `verify()`
+proves it is untampered, and the audit ledger is hash-chained. It is **byte-identical across
+Python and R**, so a corpus frozen in one language verifies in the other.
 
 ## Failure modes (non-negotiable)
 
