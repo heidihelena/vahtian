@@ -5,9 +5,14 @@ description: Review Vahtian copy for research-integrity safety. Use when reviewi
 
 # Vahtian brand-safety reviewer
 
-This is the **most important** review skill: it keeps the site from drifting into
-AI hype. Vahtian is built by a clinician (MD, PhD); overclaiming is both a trust
-risk and a compliance risk. Canonical source of truth in-repo: `AD_CLAIMS.md`.
+This skill keeps the site from drifting into AI hype. Vahtian is built by a
+clinician (MD, PhD); overclaiming is both a trust risk and a compliance risk.
+
+**This is the single canonical home of the invariant and copy rules.** The
+other skills (`vahtian-ux-auditor`, `vahtian-frontend-implementer`, `CLAUDE.md`)
+defer here rather than restating them. In-repo source of truth for marketing
+claims: `AD_CLAIMS.md` — on any conflict between this skill and `AD_CLAIMS.md`,
+**`AD_CLAIMS.md` wins**; update this skill to match it, never the reverse.
 
 ## The invariant (never let copy break this)
 

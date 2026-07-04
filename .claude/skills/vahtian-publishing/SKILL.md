@@ -20,19 +20,23 @@ The whole point: **no API tokens in the repo.** GitHub Actions authenticates to 
 OIDC; PyPI mints a project-scoped token valid for only ~15 minutes, so nothing leakable
 persists.
 
-**One-time setup (before the first release):**
+**One-time setup — the workflow already exists; verify the PyPI side matches it:**
 1. On PyPI → your account → **Publishing → Add a pending publisher** (GitHub). A *pending*
    publisher lets you reserve a not-yet-existent project; it **auto-converts** to a normal
-   trusted publisher on the first successful publish — no manual first upload needed. Fields:
+   trusted publisher on the first successful publish — no manual first upload needed. Fields
+   (**must match the committed workflow exactly** — PyPI matches on the literal filename):
    - **PyPI Project Name:** `vahtian`
    - **Owner:** `heidihelena`
    - **Repository name:** `vahtian` *(this monorepo)*
-   - **Workflow name:** `publish-pypi.yml` *(filename only, lives at repo-root `.github/workflows/`)*
-   - **Environment name:** `pypi` *(optional but **[do]** — add a GitHub Environment with
-     protection so only approved refs can publish)*
+   - **Workflow name:** `publish.yml` *(filename only — the committed workflow at
+     repo-root `.github/workflows/publish.yml`)*
+   - **Environment name:** leave **blank** — `publish.yml` currently sets no `environment:`.
+     If you later add a protected GitHub Environment (**[do]**, gates who/what can publish),
+     add `environment: pypi` to the *publish* job **and** set the same name on the PyPI
+     publisher — the two must agree or the publish is rejected.
 2. Repeat on **test.pypi.org** for dry-runs (separate pending publisher).
 
-**The workflow** (`references/pypi-publish.yml` → copy to repo-root `.github/workflows/publish-pypi.yml`):
+**The workflow** (already committed: `.github/workflows/publish.yml`):
 - Triggers on a version tag (`on: push: tags: ["v*"]`).
 - `permissions: id-token: write` (+ `contents: read`) — and **never** set username/password.
 - **Build first, then publish.** `pypa/gh-action-pypi-publish` does **not** build packages
@@ -63,7 +67,7 @@ universal wheel covers everything.
   R-universe rebuilds on every push and serves `install.packages("vahtian", repos =
   "https://heidihelena.r-universe.dev")`. This *reserves* and ships the name immediately.
 
-**CI check (`references/r-cmd-check.yaml` → `.github/workflows/r-cmd-check.yaml`) [do]:**
+**CI check (already committed: `.github/workflows/r-cmd-check.yaml`) [do]:**
 - `r-lib/actions/setup-r`, then `setup-r-dependencies` (`extra-packages: any::rcmdcheck`,
   `needs: check`), then **`r-lib/actions/check-r-package@v2`** — it runs `R CMD check` via
   `rcmdcheck`. Use its **`working-directory: packages/vahtian-r`** input so the subdir package
@@ -98,8 +102,12 @@ politely. CRAN doesn't pre-reserve names — being first to pass review claims i
    for a team, overhead for a solo maintainer; start with one shared tag.
 
 ## Reference files
-- `references/pypi-publish.yml` — the Trusted-Publishing workflow (build in subdir → publish).
-- `references/r-cmd-check.yaml` — the r-lib CRAN-check workflow for the subdir R package.
+- The live workflows are the source of truth: `.github/workflows/publish.yml`
+  (Trusted-Publishing: build in subdir → publish) and
+  `.github/workflows/r-cmd-check.yaml` (r-lib CRAN check for the subdir R package).
+  Don't keep copies here — they drift.
+- `references/r-cmd-check.yaml` — annotated variant kept for the epinet-style conventions;
+  when it disagrees with the committed workflow, the committed workflow wins.
 
 ## Evidence base
 Grounded in a verified research pass (the synthesis step failed under API rate-limiting, so

@@ -35,13 +35,14 @@ Don't claim a fix works until you've looked at both widths.
    "while I'm here". Don't redesign everything at once.
 2. **Preserve the philosophy.** Local-first, human-first / AI-second, audit-ledger,
    "does not decide scientific truth" must survive every edit — never trade them
-   away to simplify.
+   away to simplify. The canonical wording lives in `vahtian-brand-safety`; defer
+   to it, don't paraphrase it.
 3. **No new dependencies, no framework.** Don't add npm packages, web fonts,
    trackers, analytics, or external scripts. If you think you need one, you
    probably don't — say why instead of adding it.
 4. **Copy comes from brand-safety.** Any user-facing string you add or change must
-   have passed `vahtian-brand-safety` (PASS) first. Don't write truth/certification
-   framing or AI-as-judge wording.
+   have passed `vahtian-brand-safety` (PASS) first — its tables, not your memory,
+   define what is sayable.
 5. **Match the surrounding code.** Reuse existing CSS variables, class names,
    spacing rhythm, and the navy/amber/teal/violet/rose palette. Read the file's
    existing `<style>` before adding rules.
@@ -67,12 +68,6 @@ Don't claim a fix works until you've looked at both widths.
 5. Commit one focused change with a clear message, e.g.
    `feat(site): improve Vahtian homepage UX clarity`.
 
-## Hard constraints
-
-- Do not make AI the judge.
-- Do not imply Vahtian certifies scientific truth.
-- Do not add telemetry or trackers.
-- Do not weaken local-first messaging.
-- Do not bury the human-first safety model.
-- Do not redesign everything at once or introduce a heavy framework change.
-- Do not add dependencies unless clearly necessary (and justify it if you do).
+The rules of engagement above are the hard constraints — there is no second,
+softer list. If an edit would break rule 2 (philosophy) or rule 4 (unreviewed
+copy), stop and route through `vahtian-brand-safety` instead.
