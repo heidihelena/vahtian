@@ -4,9 +4,9 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <title>SynthVahti — browser-side DTA agreement synthesis (HSROC stays in R)</title>
-<meta name="description" content="Pool agreement (OPA, sensitivity, specificity, decision impact) from an ExtractVahti CSV with random-effects meta-analysis, and export publication-quality forest/funnel figures as PNG. The headline HSROC / bivariate / publication-bias models stay in R, with a generated, package-versioned script. Local-first; nothing uploads." />
+<meta name="description" content="Pool agreement (OPA, sensitivity, specificity, decision impact) from an ExtractVahti CSV with random-effects meta-analysis, and export forest and funnel figures as PNG. The headline HSROC / bivariate / publication-bias models stay in R, with a generated, package-versioned script. Local-first; nothing uploads." />
 <meta name="theme-color" content="#2D2440" />
-<meta name="robots" content="noindex" />
+<link rel="canonical" href="https://vahtian.com/synthvahti/" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://vahtian.com/synthvahti/" />
 <meta property="og:title" content="SynthVahti — browser-side DTA agreement synthesis" />
@@ -17,61 +17,86 @@
 <meta property="og:image:alt" content="SynthVahti — pool agreement, keep HSROC in R. A product of Vahtian." />
 <meta property="og:site_name" content="Vahtian" />
 <meta name="twitter:card" content="summary_large_image" />
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "SynthVahti",
+  "applicationCategory": "HealthApplication",
+  "operatingSystem": "Any (web browser)",
+  "url": "https://vahtian.com/synthvahti/",
+  "description": "Browser-side random-effects pooling of diagnostic-test-accuracy agreement (OPA, sensitivity, specificity) from an ExtractVahti CSV, with forest and funnel figures exported as PNG. The headline HSROC / bivariate / publication-bias models run in R via a generated, package-versioned script. Local-first; nothing uploads.",
+  "isPartOf": { "@type": "WebSite", "name": "Vahtian", "url": "https://vahtian.com/" },
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "EUR" }
+}
+</script>
 <!--
-  SynthVahti v0.1 — the browser half of the hybrid synthesis stage (docs/agent-driven-pipeline.md §6).
-  JS does the achievable, self-contained part: random-effects (DerSimonian–Laird, logit scale) pooling
-  of OPA / sensitivity / specificity / decision-impact proportions, with I²/τ², publication-quality
-  forest + funnel figures exported as PNG, and a results report.
+  SynthVahti v0.1 — the browser half of the hybrid synthesis stage.
+  JS (synth.mjs) does the achievable, self-contained part: random-effects (DerSimonian–Laird, logit)
+  pooling of OPA / sensitivity / specificity / decision-impact proportions, with I²/τ², forest + funnel
+  figures exported as PNG, and a results report. The pooling core is golden-tested against metafor in CI.
   R keeps the headline: HSROC, the bivariate DTA model, complex random effects, sensitivity analyses,
   publication-bias methods (Deeks), and package-versioned reproducibility — via a generated synthesis.R.
   Estimates here are agreement against an imperfect reference, NOT accuracy (the review's framing).
-  Local-first: your data never leaves the browser, nothing uploads. The JS pooling + figures make no
-  network calls; the optional in-browser R (webR) fetches its runtime from a CDN on demand — an
-  external download, but compute stays local and no data is uploaded.
+  Local-first: your data never leaves the browser, nothing uploads. Zero external requests.
 -->
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232D2440'/%3E%3Cg fill='none' stroke='%231E9E8A' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 9 H9 V23 H12'/%3E%3Cpath d='M20 9 H23 V23 H20'/%3E%3C/g%3E%3Cg fill='none' stroke='%23C5B8E8' stroke-width='1.7'%3E%3Cpath d='M12 19 L15 14 L18 16 L20 11'/%3E%3C/g%3E%3C/svg%3E">
 <style>
   :root{
     --navy:#2D2440; --violet:#8B6FC9; --lilac:#C5B8E8; --teal:#1E9E8A;
-    --ink:#1C1830; --muted:#5B5570; --bg:#FAF9FC; --card:#FFFFFF; --line:#E7E3F0; --link:#6F52B8;
-    --teal-fill:#D8F4ED; --teal-bd:#A7E2D6; --teal-text:#08544A;
-    --amber:#C98A00; --amber-fill:#FFF2D8; --amber-bd:#E6C980; --amber-text:#5A4300;
+    --ink:#1C1830; --muted:#4A4460; --bg:#FAF9FC; --card:#FFFFFF; --line:#E7E3F0; --link:#6F52B8;
+    --teal-fill:#D8F4ED; --teal-bd:#1E9E8A; --teal-text:#08544A;
+    --amber:#C98A00; --amber-fill:#FFF2D8; --amber-bd:#C98A00; --amber-text:#5A4300;
     --sp-4:8px; --sp-5:10px; --sp-6:12px; --sp-7:16px; --radius:12px; --shadow:0 12px 30px rgba(45,36,64,.10);
   }
   *{box-sizing:border-box}
   body{margin:0;font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,ui-sans-serif,system-ui,sans-serif;color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased}
   .wrap{max-width:880px;margin:0 auto;padding:0 18px}
   a{color:var(--link)}
+  a:focus-visible,button:focus-visible,textarea:focus-visible,input:focus-visible,summary:focus-visible{outline:3px solid var(--violet);outline-offset:2px}
   header{background:var(--navy);color:#fff;padding:22px 0 18px}
   .brand{display:flex;align-items:center;gap:11px}
   .mark{width:34px;height:34px;flex:0 0 34px}
   .brand h1{font-size:20px;margin:0;letter-spacing:-.01em}
-  .brand .sub{color:var(--lilac);font-size:13.5px;margin:2px 0 0;max-width:70ch}
+  .brand .sub{color:#D9CFF2;font-size:13.5px;margin:2px 0 0;max-width:74ch;line-height:1.5}
   .chips{display:flex;flex-wrap:wrap;gap:var(--sp-4);margin-top:var(--sp-6)}
-  .chip{font:600 11px/1 ui-monospace,Menlo,monospace;padding:5px 9px;border-radius:999px;border:1px solid #4a4068;color:#cfc7e6}
-  section{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px;margin:18px 0;box-shadow:var(--shadow)}
-  h2{font-size:16px;margin:0 0 4px;letter-spacing:-.01em}
-  h2 .n{color:var(--teal);font:600 13px/1 ui-monospace,monospace;margin-right:6px}
-  h3{font-size:14px;margin:18px 0 6px}
-  .hint{color:var(--muted);font-size:13px;margin:4px 0 12px;max-width:70ch}
+  .chip{font:600 11px/1 ui-monospace,Menlo,monospace;padding:5px 9px;border-radius:999px;border:1px solid #6A5E92;color:#DCD3F2}
+  section{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:20px;margin:18px 0;box-shadow:var(--shadow)}
+  h2{font-size:17px;margin:0 0 4px;letter-spacing:-.01em}
+  h2 .n{color:var(--teal-text);font:700 13px/1 ui-monospace,monospace;margin-right:7px}
+  h3{font-size:14.5px;margin:18px 0 6px}
+  .hint{color:var(--muted);font-size:13.5px;margin:4px 0 12px;max-width:74ch}
   label{display:block;font-weight:600;font-size:13px;margin:10px 0 3px}
-  textarea,input,select{width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:9px;font:inherit;background:#fff;color:var(--ink)}
-  textarea{min-height:90px;font-family:ui-monospace,Menlo,monospace;font-size:12.5px;resize:vertical}
+  textarea,input,select{width:100%;padding:9px 11px;border:1px solid var(--line);border-radius:9px;font:inherit;background:#fff;color:var(--ink)}
+  textarea{min-height:104px;font-family:ui-monospace,Menlo,monospace;font-size:12.5px;resize:vertical;line-height:1.5}
   button{font:inherit;font-weight:600;border:0;border-radius:9px;padding:11px 16px;background:var(--navy);color:#fff;cursor:pointer}
   button.ghost{background:#fff;color:var(--ink);border:1px solid var(--line)}
   button.small{padding:6px 11px;font-size:13px}
-  button:disabled{opacity:.45;cursor:not-allowed}
+  button:disabled{opacity:.5;cursor:not-allowed}
   .actions{display:flex;flex-wrap:wrap;gap:var(--sp-5);margin-top:var(--sp-7)}
   .muted{color:var(--muted)} .mono{font-family:ui-monospace,Menlo,monospace}
   .hide{display:none !important}
   table{border-collapse:collapse;width:100%;font-size:12.5px;margin-top:8px}
-  th,td{border:1px solid var(--line);padding:5px 8px;text-align:center}
-  th{background:#f6f4fb;font-weight:600} td.l{text-align:left}
-  .fig{border:1px solid var(--line);border-radius:10px;padding:10px;margin:10px 0;background:#fff;overflow:auto}
-  .caveat{font-size:13px;color:var(--amber-text);background:var(--amber-fill);border:1px solid var(--amber-bd);border-radius:10px;padding:11px 13px;margin:10px 0}
-  .rnote{font-size:13px;color:var(--teal-text);background:var(--teal-fill);border:1px solid var(--teal-bd);border-radius:10px;padding:11px 13px;margin:10px 0}
-  .err{color:#7A1F45}
-  footer{color:var(--muted);font-size:12.5px;padding:8px 0 40px;text-align:center}
+  th,td{border:1px solid var(--line);padding:6px 9px;text-align:center}
+  th{background:#F1EEF9;font-weight:700;color:var(--ink)} td.l{text-align:left}
+  .fig{border:1px solid var(--line);border-radius:10px;padding:12px;margin:12px 0;background:#fff;overflow:auto}
+  .caveat{font-size:13px;color:var(--amber-text);background:var(--amber-fill);border:1px solid var(--amber-bd);border-radius:10px;padding:12px 14px;margin:12px 0}
+  .rnote{font-size:13px;color:var(--teal-text);background:var(--teal-fill);border:1px solid var(--teal-bd);border-radius:10px;padding:12px 14px;margin:12px 0}
+  .err{color:#7A1F45;background:#FBE4EE;border:1px solid #C24D7E;border-radius:9px;padding:10px 13px;font-size:13.5px;font-weight:600}
+  footer{color:var(--muted);font-size:12.5px;padding:8px 0 40px;text-align:center;line-height:1.7}
+  /* data-format teaching block */
+  .teach{background:#FAF9FC;border:1px solid var(--line);border-radius:11px;padding:2px 16px 4px;margin:8px 0 14px}
+  .teach summary{cursor:pointer;font-weight:700;font-size:13.5px;padding:12px 0;list-style:none;display:flex;align-items:center;gap:9px}
+  .teach summary::-webkit-details-marker{display:none}
+  .teach summary .tw{color:var(--teal-text);font:700 12px/1 ui-monospace,monospace}
+  .teach[open] summary{border-bottom:1px solid var(--line)}
+  .cols{width:100%;font-size:12.5px;border-collapse:collapse;margin:6px 0 12px}
+  .cols th,.cols td{border:1px solid var(--line);padding:6px 9px;text-align:left;vertical-align:top}
+  .cols th{background:#F1EEF9}
+  .cols td.c{font-family:ui-monospace,Menlo,monospace;color:var(--ink);white-space:nowrap}
+  .cols td.req{font-weight:700}
+  .req-y{color:var(--teal-text)} .req-n{color:var(--muted)}
+  .example-note{font-size:12.5px;color:var(--muted);margin:2px 0 10px}
 </style>
 </head>
 <body>
@@ -79,7 +104,7 @@
   <div class="wrap">
     <div class="brand">
       <a href="/" aria-label="Vahtian — home" style="display:flex"><svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#2D2440"/><g fill="none" stroke="#1E9E8A" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9 H9 V23 H12"/><path d="M20 9 H23 V23 H20"/></g><g fill="none" stroke="#C5B8E8" stroke-width="1.7"><path d="M12 19 L15 14 L18 16 L20 11"/></g></svg></a>
-      <div><h1>SynthVahti</h1><p class="sub">Browser-side agreement synthesis + publication-quality figures — the headline HSROC / bivariate / publication-bias models stay in R, package-versioned.</p></div>
+      <div><h1>SynthVahti</h1><p class="sub">Pool agreement across studies and get forest &amp; funnel figures in your browser — the headline HSROC / bivariate / publication-bias models stay in R, package-versioned.</p></div>
     </div>
     <div class="chips"><span class="chip">v0.1</span><span class="chip">hybrid · R for HSROC</span><span class="chip">local-first</span><span class="chip">nothing uploads</span></div>
   </div>
@@ -88,42 +113,70 @@
 <div class="wrap">
 <main>
   <section id="inputSection">
-    <h2><span class="n">1</span>Load extraction data</h2>
-    <p class="hint">Paste <span class="mono">extraction.csv</span> from ExtractVahti (or load the file). Columns used:
-      <span class="mono">record_id, cutoff, tp, fp, fn, tn, n, opa, kappa_linear</span>. One row per study × cutoff.</p>
+    <h2><span class="n">1</span>Load your extraction data</h2>
+    <p class="hint">SynthVahti reads one <span class="mono">extraction.csv</span> — the file
+      <a href="/extractvahti/">ExtractVahti</a> exports, one row per study &times; cutoff. Load it below, or start
+      from the worked example to see the format.</p>
+
+    <details class="teach">
+      <summary><span class="tw">FORMAT</span>What each column means &mdash; and the two ways to give SynthVahti a study</summary>
+      <p class="hint" style="margin-top:12px">Header row required. Give <b>either</b> a full 2&times;2 count
+        (<span class="mono">tp,fp,fn,tn</span>) <b>or</b> a precomputed proportion with its denominator
+        (<span class="mono">opa</span> + <span class="mono">n</span>). The 2&times;2 is preferred — it lets
+        SynthVahti pool sensitivity and specificity too, not just overall agreement.</p>
+      <table class="cols">
+        <thead><tr><th>column</th><th>meaning</th><th>required?</th></tr></thead>
+        <tbody>
+          <tr><td class="c">record_id</td><td>study label shown on the forest plot (e.g. a PMID or first-author-year)</td><td class="req req-n">recommended</td></tr>
+          <tr><td class="c">cutoff</td><td>the positivity threshold; rows are pooled <em>within</em> each cutoff (e.g. <span class="mono">&gt;=1%</span>, <span class="mono">&gt;=50%</span>)</td><td class="req req-n">recommended</td></tr>
+          <tr><td class="c">tp fp fn tn</td><td>the 2&times;2 agreement table vs the reference standard (true/false positives &amp; negatives)</td><td class="req req-y">one of these two</td></tr>
+          <tr><td class="c">opa &nbsp;n</td><td>overall percent agreement (0&ndash;1) and the total N it was computed on</td><td class="req req-y">&hellip;or these two</td></tr>
+          <tr><td class="c">kappa_linear</td><td>per-study weighted &kappa;, shown descriptively in the table (not pooled)</td><td class="req req-n">optional</td></tr>
+        </tbody>
+      </table>
+      <p class="example-note">Reads as <b>agreement against an imperfect reference</b>, not accuracy — a
+        &ge;2-pathologist consensus shares error with the comparator. That framing carries through every figure and export.</p>
+      <p class="hint" style="margin-bottom:14px">Minimal valid file:</p>
+      <textarea readonly aria-label="minimal example CSV" style="min-height:76px;background:#F1EEF9">record_id,cutoff,tp,fp,fn,tn
+Smith-2021,>=1%,85,10,5,100
+Jones-2022,>=1%,120,18,12,150
+Lee-2023,>=1%,60,5,9,90</textarea>
+    </details>
+
+    <label for="csv">Paste extraction.csv</label>
     <textarea id="csv" placeholder="record_id,cutoff,tp,fp,fn,tn,n,opa,kappa_linear
-pmid:1,>=1%,85,10,5,100,200,0.925,0.78
+Smith-2021,>=1%,85,10,5,100,200,0.925,0.78
 ..."></textarea>
     <div class="actions">
       <button id="run">Synthesise &rarr;</button>
-      <button class="ghost" id="loadFile">load extraction.csv</button>
-      <input type="file" id="file" accept=".csv,text/csv" hidden>
-      <button class="ghost" id="loadExample">▶ example</button>
+      <button class="ghost" id="loadFile">Load extraction.csv</button>
+      <input type="file" id="file" accept=".csv,text/csv" aria-label="Choose extraction.csv file to load" hidden>
+      <button class="ghost" id="loadExample">Load worked example</button>
     </div>
-    <p class="err hide" id="err"></p>
+    <p class="err hide" id="err" role="alert"></p>
   </section>
 
   <section id="resultsSection" class="hide">
     <h2><span class="n">2</span>Results — random-effects agreement synthesis</h2>
     <div class="caveat"><strong>Reads as agreement, not accuracy.</strong> Sensitivity/specificity here are agreement against an
-      <em>imperfect reference</em> (≥2-pathologist consensus shares error with the comparator). Pooling is random-effects
-      DerSimonian–Laird on the logit scale; κ is descriptive only. <strong>This is the browser half</strong> — see the R hand-off below for the headline models.</div>
+      <em>imperfect reference</em> (a &ge;2-pathologist consensus shares error with the comparator). Pooling is random-effects
+      DerSimonian–Laird on the logit scale; &kappa; is descriptive only. <strong>This is the browser half</strong> — see the R hand-off below for the headline models.</div>
     <div id="summary"></div>
-    <h3>Figures <span class="muted" style="font-weight:400;font-size:12px">— publication-quality; export PNG at 2× below</span></h3>
+    <h3>Figures <span class="muted" style="font-weight:400;font-size:12.5px">— formatted for print; export PNG at 2&times; below</span></h3>
     <div id="figures"></div>
   </section>
 
   <section id="exportSection" class="hide">
     <h2><span class="n">3</span>Export</h2>
     <div class="actions">
-      <button id="expPng">figures → PNG (2×)</button>
+      <button id="expPng">Figures &rarr; PNG (2&times;)</button>
       <button id="expReport" class="ghost">report.md</button>
       <button id="expR" class="ghost">synthesis.R (HSROC + pub-bias)</button>
     </div>
-    <div class="rnote"><strong>R hand-off (the headline analysis).</strong> <span class="mono">synthesis.R</span> reads the same
-      <span class="mono">extraction.csv</span> and runs, in R: the <strong>bivariate / HSROC</strong> model (<span class="mono">mada</span> / <span class="mono">metadta</span>),
+    <div class="rnote"><strong>R hand-off — the headline analysis.</strong> <span class="mono">synthesis.R</span> reads the same
+      <span class="mono">extraction.csv</span> and runs, in R: the <strong>bivariate / HSROC</strong> model (<span class="mono">mada</span>),
       <strong>complex random effects</strong>, pre-specified <strong>sensitivity analyses</strong>, and <strong>publication-bias</strong> methods (Deeks' funnel
-      asymmetry — the DTA-appropriate test, not the symmetric funnel shown here). It writes <span class="mono">sessionInfo()</span> +
+      asymmetry — the DTA-appropriate test, not the symmetric funnel shown here). It records <span class="mono">sessionInfo()</span> +
       an <span class="mono">renv</span> note so the analysis is <strong>package-versioned and reproducible</strong>.</div>
   </section>
 </main>
@@ -131,151 +184,39 @@ pmid:1,>=1%,85,10,5,100,200,0.925,0.78
   <footer>&copy; 2026 Vahtian · SynthVahti · a product of <a href="/">Vahtian</a> · local-first, nothing uploads · the hybrid synthesis stage (R keeps HSROC) · <a href="https://github.com/heidihelena/vahtian">source</a> · <a href="/cite/">Cite</a> · <a href="/privacy/">Privacy</a></footer>
 </div>
 
-<script>
-"use strict";
+<script type="module">
+import { parseCsv, synthesise, pct, forestSvg, funnelSvg, buildReport, buildRScript, KNOWN_COLUMNS } from "./synth.mjs";
 const $=id=>document.getElementById(id);
 const esc=s=>String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-let MODEL=null;  // last synthesis result, for export
-
-// ---- CSV ----
-function parseCsv(text){
-  const lines=String(text||"").trim().split(/\r?\n/).filter(l=>l.trim());
-  if(!lines.length) return [];
-  const head=lines[0].split(",").map(s=>s.trim());
-  return lines.slice(1).map(line=>{ const cells=splitCsv(line); const o={}; head.forEach((h,i)=>o[h]=(cells[i]||"").trim()); return o; });
-}
-function splitCsv(line){ const out=[]; let cur="",q=false; for(const ch of line){ if(ch==='"'){q=!q;} else if(ch===","&&!q){out.push(cur);cur="";} else cur+=ch; } out.push(cur); return out.map(s=>s.replace(/^"|"$/g,"")); }
-const num=v=>{ const n=parseFloat(v); return isNaN(n)?null:n; };
-
-// ---- DerSimonian–Laird random-effects pooling of a proportion on the logit scale ----
-function poolProportion(studies){ // studies: [{label, events, n}]
-  const pts=[];
-  for(const s of studies){
-    let e=s.events, n=s.n; if(e==null||n==null||n<=0) continue;
-    let ec=e, nc=n; if(e===0||e===n){ ec=e+0.5; nc=n+1; }   // continuity correction
-    const p=ec/nc, y=Math.log(p/(1-p)), v=1/(nc*p*(1-p));
-    pts.push({label:s.label, p:e/n, y, v, n, lo:logit_ci(y,v,-1), hi:logit_ci(y,v,1)});
-  }
-  if(pts.length<1) return null;
-  const sw=pts.reduce((a,s)=>a+1/s.v,0);
-  const yF=pts.reduce((a,s)=>a+s.y/s.v,0)/sw;
-  const Q=pts.reduce((a,s)=>a+(1/s.v)*(s.y-yF)**2,0);
-  const df=pts.length-1;
-  const sw2=pts.reduce((a,s)=>a+(1/s.v)**2,0);
-  const C=sw-sw2/sw;
-  const tau2=C>0?Math.max(0,(Q-df)/C):0;
-  const I2=Q>df&&Q>0?Math.max(0,100*(Q-df)/Q):0;
-  const sws=pts.reduce((a,s)=>a+1/(s.v+tau2),0);
-  const yR=pts.reduce((a,s)=>a+s.y/(s.v+tau2),0)/sws;
-  const seR=Math.sqrt(1/sws);
-  const inv=x=>1/(1+Math.exp(-x));
-  return { k:pts.length, studies:pts.map(s=>({...s, w:1/(s.v+tau2)})),
-    pooled:inv(yR), lo:inv(yR-1.96*seR), hi:inv(yR+1.96*seR), yR, seR, tau2, I2, Q, df };
-}
-function logit_ci(y,v,dir){ const se=Math.sqrt(v); return 1/(1+Math.exp(-(y+dir*1.96*se))); }
-const pct=x=>x==null?"—":(100*x).toFixed(1)+"%";
-
-// ---- synthesis ----
-function synthesise(rows){
-  const byCut={};
-  for(const r of rows){
-    const c=r.cutoff||"(none)"; (byCut[c]=byCut[c]||[]).push(r);
-  }
-  const cutoffs=Object.keys(byCut);
-  const out={cutoffs:[], n_rows:rows.length};
-  for(const c of cutoffs){
-    const rs=byCut[c];
-    const opaStud=[], sensStud=[], specStud=[]; const kappas=[];
-    for(const r of rs){
-      const tp=num(r.tp),fp=num(r.fp),fn=num(r.fn),tn=num(r.tn),n=num(r.n),opa=num(r.opa),kp=num(r.kappa_linear);
-      const lab=r.record_id||"study";
-      if(tp!=null&&fp!=null&&fn!=null&&tn!=null){
-        const tot=tp+fp+fn+tn; opaStud.push({label:lab, events:tp+tn, n:tot});
-        sensStud.push({label:lab, events:tp, n:tp+fn}); specStud.push({label:lab, events:tn, n:tn+fp});
-      } else if(opa!=null&&n!=null){ opaStud.push({label:lab, events:Math.round(opa*n), n}); }
-      if(kp!=null) kappas.push(kp);
-    }
-    out.cutoffs.push({ cutoff:c, k:rs.length,
-      opa:poolProportion(opaStud), sens:poolProportion(sensStud), spec:poolProportion(specStud),
-      kappa: kappas.length?{n:kappas.length, mean:kappas.reduce((a,b)=>a+b,0)/kappas.length, min:Math.min(...kappas), max:Math.max(...kappas)}:null });
-  }
-  return out;
-}
-
-// ---- forest plot (SVG, publication-quality) ----
-function forestSvg(title, pool, fmt){
-  if(!pool) return `<p class="muted">No poolable data.</p>`;
-  const S=pool.studies, n=S.length, rowH=26, top=54, bot=64, W=720, x0=300, x1=690;
-  const H=top+n*rowH+bot;
-  const sx=p=>x0+(x1-x0)*Math.max(0,Math.min(1,p));
-  let g=`<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" font-family="-apple-system,Segoe UI,Roboto,sans-serif">`;
-  g+=`<rect width="${W}" height="${H}" fill="#ffffff"/>`;
-  g+=`<text x="16" y="26" font-size="15" font-weight="700" fill="#1C1830">${esc(title)}</text>`;
-  g+=`<text x="16" y="44" font-size="11" fill="#5B5570">random-effects (DerSimonian–Laird, logit) · k=${pool.k} · I²=${pool.I2.toFixed(0)}% · τ²=${pool.tau2.toFixed(3)}</text>`;
-  // axis
-  for(let t=0;t<=1.0001;t+=0.25){ const x=sx(t); g+=`<line x1="${x}" y1="${top-8}" x2="${x}" y2="${top+n*rowH+6}" stroke="#E7E3F0"/><text x="${x}" y="${top+n*rowH+22}" font-size="10" fill="#5B5570" text-anchor="middle">${(t*100).toFixed(0)}%</text>`; }
-  S.forEach((s,i)=>{ const y=top+i*rowH+rowH/2;
-    g+=`<text x="16" y="${y+4}" font-size="11" fill="#1C1830">${esc(String(s.label).slice(0,30))}</text>`;
-    g+=`<line x1="${sx(s.lo)}" y1="${y}" x2="${sx(s.hi)}" y2="${y}" stroke="#5B5570" stroke-width="1.4"/>`;
-    const sz=4+8*Math.sqrt(s.w/S.reduce((a,b)=>a+b.w,0));
-    g+=`<rect x="${sx(s.p)-sz/2}" y="${y-sz/2}" width="${sz}" height="${sz}" fill="#5566B5"/>`;
-    g+=`<text x="${x1+2}" y="${y+4}" font-size="10" fill="#5B5570" text-anchor="start" transform="translate(0,0)">${fmt(s.p)}</text>`;
-  });
-  // pooled diamond
-  const yD=top+n*rowH+10, cx=sx(pool.pooled), l=sx(pool.lo), r=sx(pool.hi);
-  g+=`<polygon points="${l},${yD} ${cx},${yD-7} ${r},${yD} ${cx},${yD+7}" fill="#1E9E8A" stroke="#08544A"/>`;
-  g+=`<text x="16" y="${yD+4}" font-size="11" font-weight="700" fill="#08544A">Pooled</text>`;
-  g+=`<text x="${x1+2}" y="${yD+4}" font-size="10.5" font-weight="700" fill="#08544A">${fmt(pool.pooled)} [${fmt(pool.lo)}, ${fmt(pool.hi)}]</text>`;
-  g+=`</svg>`;
-  return g;
-}
-// ---- funnel plot (symmetric; Deeks' DTA test stays in R) ----
-function funnelSvg(title, pool){
-  if(!pool||pool.k<3) return `<p class="muted">Funnel needs ≥3 studies.</p>`;
-  const W=520,H=360,padL=64,padB=48,padT=40,padR=20;
-  const ys=pool.studies.map(s=>Math.sqrt(s.v)); const seMax=Math.max(...ys)*1.1;
-  const xs=pool.studies.map(s=>s.y); const c=pool.yR; const xspan=Math.max(...xs.map(x=>Math.abs(x-c)),1)*1.2;
-  const X=v=>padL+(W-padL-padR)*((v-(c-xspan))/(2*xspan));
-  const Y=se=>padT+(H-padT-padB)*(se/seMax);
-  let g=`<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" font-family="-apple-system,Segoe UI,Roboto,sans-serif"><rect width="${W}" height="${H}" fill="#fff"/>`;
-  g+=`<text x="16" y="24" font-size="14" font-weight="700" fill="#1C1830">${esc(title)}</text>`;
-  // pseudo 95% funnel
-  const seB=seMax, xL=c-1.96*seB, xR=c+1.96*seB;
-  g+=`<polygon points="${X(c)},${Y(0)} ${X(xL)},${Y(seB)} ${X(xR)},${Y(seB)}" fill="#F4F1FB" stroke="#C5B8E8"/>`;
-  g+=`<line x1="${X(c)}" y1="${Y(0)}" x2="${X(c)}" y2="${Y(seMax)}" stroke="#8B6FC9" stroke-dasharray="4 3"/>`;
-  pool.studies.forEach(s=>{ g+=`<circle cx="${X(s.y)}" cy="${Y(Math.sqrt(s.v))}" r="4" fill="#5566B5" fill-opacity="0.8"/>`; });
-  g+=`<text x="${W/2}" y="${H-14}" font-size="11" fill="#5B5570" text-anchor="middle">logit proportion (effect)</text>`;
-  g+=`<text x="14" y="${padT+ (H-padT-padB)/2}" font-size="11" fill="#5B5570" transform="rotate(-90 14 ${padT+(H-padT-padB)/2})" text-anchor="middle">standard error</text>`;
-  g+=`<text x="${padL}" y="${H-30}" font-size="9.5" fill="#5B5570">Visual only — Deeks' funnel-asymmetry test is in synthesis.R</text>`;
-  g+=`</svg>`;
-  return g;
-}
+let MODEL=null;
 
 function render(){
   const M=MODEL; let html='';
-  // summary table
   html+='<table><tr><th class="l">cutoff</th><th>studies</th><th>pooled OPA</th><th>I²</th><th>pooled sens*</th><th>pooled spec*</th><th>κ (mean, range)</th></tr>';
   for(const c of M.cutoffs){
     html+=`<tr><td class="l mono">${esc(c.cutoff)}</td><td>${c.k}</td>`+
-      `<td>${c.opa?pct(c.opa.pooled)+'<br><span class="muted" style="font-size:10px">['+pct(c.opa.lo)+', '+pct(c.opa.hi)+']</span>':'—'}</td>`+
+      `<td>${c.opa?pct(c.opa.pooled)+'<br><span class="muted" style="font-size:10.5px">['+pct(c.opa.lo)+', '+pct(c.opa.hi)+']</span>':'—'}</td>`+
       `<td>${c.opa?c.opa.I2.toFixed(0)+'%':'—'}</td>`+
       `<td>${c.sens?pct(c.sens.pooled):'—'}</td><td>${c.spec?pct(c.spec.pooled):'—'}</td>`+
       `<td>${c.kappa?c.kappa.mean.toFixed(2)+' ('+c.kappa.min.toFixed(2)+'–'+c.kappa.max.toFixed(2)+')':'—'}</td></tr>`;
   }
   html+='</table><p class="hint">* sens/spec = agreement vs an imperfect reference, not accuracy. Decision-impact pooling and the bivariate model live in synthesis.R.</p>';
+  if(M.skipped && M.skipped.length){
+    html+=`<p class="hint" style="color:var(--amber-text)">Skipped ${M.skipped.length} row(s) that had neither a full 2×2 nor opa+n: `+
+      esc(M.skipped.map(s=>`row ${s.row} (${s.label})`).join(', '))+`.</p>`;
+  }
   $("summary").innerHTML=html;
-  // figures
+
   let figs='';
-  M._figs=[];
   for(const c of M.cutoffs){
-    if(c.opa){ const id='fig_opa_'+c.cutoff.replace(/\W/g,''); figs+=`<div class="fig" data-fig="${id}">${forestSvg('OPA — '+c.cutoff, c.opa, pct)}</div>`; M._figs.push({id, name:'forest-opa-'+c.cutoff.replace(/\W/g,'')}); }
-    if(c.sens&&c.spec){ const id='fig_ss_'+c.cutoff.replace(/\W/g,''); figs+=`<div class="fig" data-fig="${id}">${forestSvg('Sensitivity — '+c.cutoff+' (agreement vs imperfect ref)', c.sens, pct)}${forestSvg('Specificity — '+c.cutoff, c.spec, pct)}</div>`; M._figs.push({id, name:'forest-sensspec-'+c.cutoff.replace(/\W/g,'')}); }
-    if(c.opa&&c.opa.k>=3){ const id='fig_fun_'+c.cutoff.replace(/\W/g,''); figs+=`<div class="fig" data-fig="${id}">${funnelSvg('Funnel (OPA) — '+c.cutoff, c.opa)}</div>`; M._figs.push({id, name:'funnel-opa-'+c.cutoff.replace(/\W/g,'')}); }
+    const slug=c.cutoff.replace(/\W/g,'');
+    if(c.opa){ figs+=`<div class="fig">${forestSvg('Overall agreement — '+c.cutoff, c.opa, pct)}</div>`; }
+    if(c.sens&&c.spec){ figs+=`<div class="fig">${forestSvg('Sensitivity — '+c.cutoff+' (agreement vs imperfect ref)', c.sens, pct)}${forestSvg('Specificity — '+c.cutoff, c.spec, pct)}</div>`; }
+    if(c.opa&&c.opa.k>=3){ figs+=`<div class="fig">${funnelSvg('Funnel (OPA) — '+c.cutoff, c.opa)}</div>`; }
   }
   $("figures").innerHTML=figs;
 }
 
-// ---- export ----
 function download(name,data,mime){ const b=new Blob([data],{type:mime||"text/plain"}); const u=URL.createObjectURL(b); const a=document.createElement("a"); a.href=u; a.download=name; a.click(); setTimeout(()=>URL.revokeObjectURL(u),1500); }
 async function svgToPng(svgEl, scale){
   const xml=new XMLSerializer().serializeToString(svgEl);
@@ -296,79 +237,36 @@ async function exportPng(){
     }
   }
 }
-function buildReport(){
-  const M=MODEL, L=[];
-  L.push("# DTA agreement synthesis — SynthVahti (browser half)\n");
-  L.push("> Random-effects (DerSimonian–Laird, logit scale). Sensitivity/specificity are **agreement vs an imperfect reference, not accuracy**. κ is descriptive. The HSROC / bivariate model, complex random effects, sensitivity analyses, and publication-bias (Deeks) are run in R (synthesis.R), package-versioned.\n");
-  L.push("| cutoff | studies | pooled OPA [95% CI] | I² | τ² | pooled sens* | pooled spec* | κ mean (range) |");
-  L.push("|---|---|---|---|---|---|---|---|");
-  for(const c of M.cutoffs){
-    L.push(`| ${c.cutoff} | ${c.k} | ${c.opa?pct(c.opa.pooled)+" ["+pct(c.opa.lo)+", "+pct(c.opa.hi)+"]":"—"} | ${c.opa?c.opa.I2.toFixed(0)+"%":"—"} | ${c.opa?c.opa.tau2.toFixed(3):"—"} | ${c.sens?pct(c.sens.pooled):"—"} | ${c.spec?pct(c.spec.pooled):"—"} | ${c.kappa?c.kappa.mean.toFixed(2)+" ("+c.kappa.min.toFixed(2)+"–"+c.kappa.max.toFixed(2)+")":"—"} |`);
-  }
-  L.push("\n*agreement vs an imperfect reference, not accuracy.\n");
-  L.push("**Headline analysis (R):** bivariate/HSROC, complex random effects, pre-specified sensitivity analyses, and Deeks' publication-bias test — see synthesis.R, with sessionInfo()/renv for package-versioned reproducibility.");
-  return L.join("\n")+"\n";
-}
-function buildRScript(){
-  return `# synthesis.R — headline DTA meta-analysis (run in R; this is the reproducible, package-versioned half)
-# Input: extraction.csv from ExtractVahti (record_id, cutoff, tp, fp, fn, tn, ...).
-# JS (SynthVahti) already did agreement pooling + figures; R does HSROC / bivariate / pub-bias.
-#
-# Reproducibility: capture exact package versions.
-#   install.packages("renv"); renv::init(); renv::snapshot()
-# and record sessionInfo() in the manuscript supplement.
 
-library(mada)      # bivariate (Reitsma) + HSROC for diagnostic test accuracy
-# library(metadta) # alternative GLMM bivariate, if preferred
-
-d <- read.csv("extraction.csv", stringsAsFactors = FALSE)
-d <- subset(d, !is.na(tp) & !is.na(fp) & !is.na(fn) & !is.na(tn))   # reconstructable 2x2 only
-
-for (cut in unique(d$cutoff)) {
-  dd <- subset(d, cutoff == cut)
-  if (nrow(dd) < 4) next                                            # bivariate needs a few studies
-  message("=== cutoff ", cut, " (k=", nrow(dd), ") ===")
-  fit <- reitsma(dd)                                                # bivariate model
-  print(summary(fit))                                              # pooled sens/spec + correlation
-  # HSROC summary curve:
-  png(sprintf("sroc-%s.png", gsub("[^0-9a-zA-Z]", "", cut)), width = 1600, height = 1600, res = 300)
-  plot(sroc(fit), type = "l"); points(fpr(dd), sens(dd)); dev.off()
-  # publication bias (DTA-appropriate): Deeks' funnel asymmetry test
-  print(try(deeks(dd)))
-}
-
-# Sensitivity analyses (pre-specified): re-run the above on subsets, e.g.
-#   subset(d, !industry_funded);  subset(d, reference_standard == ">=2-path consensus");
-#   subset(d, era == "post-2018");  the high-recall 565 vs the Block-D 201 corpus.
-sessionInfo()
-`;
-}
-
-// ---- wire ----
 function run(){
   $("err").classList.add("hide");
-  const rows=parseCsv($("csv").value).filter(r=>r.cutoff||r.record_id);
-  if(!rows.length){ $("err").textContent="No rows parsed — paste extraction.csv (header + rows)."; $("err").classList.remove("hide"); return; }
+  const rows=parseCsv($("csv").value).filter(r=>r.cutoff||r.record_id||r.tp||r.opa);
+  if(!rows.length){ showErr(`No rows parsed. Paste extraction.csv with a header row and at least one study. Columns: ${KNOWN_COLUMNS}.`); return; }
   MODEL=synthesise(rows);
-  if(!MODEL.cutoffs.length){ $("err").textContent="No cutoff groups found."; $("err").classList.remove("hide"); return; }
+  if(!MODEL.cutoffs.length || MODEL.cutoffs.every(c=>!c.opa)){
+    showErr("No poolable studies found — each row needs a full 2×2 (tp,fp,fn,tn) or opa+n. Open the FORMAT panel above for the two accepted shapes."); return;
+  }
   $("resultsSection").classList.remove("hide"); $("exportSection").classList.remove("hide");
   render();
+  $("resultsSection").scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth', block:'start'});
 }
+function showErr(m){ $("err").textContent=m; $("err").classList.remove("hide"); }
+
 $("run").onclick=run;
 $("loadFile").onclick=()=>$("file").click();
 $("file").onchange=e=>{ const f=e.target.files[0]; if(!f) return; const r=new FileReader(); r.onload=()=>{$("csv").value=r.result; run();}; r.readAsText(f); e.target.value=""; };
 $("loadExample").onclick=()=>{ $("csv").value=
 `record_id,cutoff,tp,fp,fn,tn,n,opa,kappa_linear
-pmid:1,>=1%,85,10,5,100,200,0.925,0.78
-pmid:2,>=1%,120,18,12,150,300,0.90,0.74
-pmid:3,>=1%,60,5,9,90,164,0.915,0.81
-pmid:4,>=1%,200,30,25,245,500,0.89,0.70
-pmid:1,>=50%,70,12,8,110,200,0.90,0.72
-pmid:2,>=50%,95,20,18,167,300,0.873,0.66
-pmid:3,>=50%,55,7,10,92,164,0.896,0.75
-pmid:4,>=50%,160,40,35,265,500,0.85,0.62`; run(); };
+Smith-2021,>=1%,85,10,5,100,200,0.925,0.78
+Jones-2022,>=1%,120,18,12,150,300,0.90,0.74
+Lee-2023,>=1%,60,5,9,90,164,0.915,0.81
+Park-2022,>=1%,200,30,25,245,500,0.89,0.70
+Smith-2021,>=50%,70,12,8,110,200,0.90,0.72
+Jones-2022,>=50%,95,20,18,167,300,0.873,0.66
+Lee-2023,>=50%,55,7,10,92,164,0.896,0.75
+Park-2022,>=50%,160,40,35,265,500,0.85,0.62`; run(); };
 $("expPng").onclick=exportPng;
-$("expReport").onclick=()=>download("synthvahti-report.md", buildReport(), "text/markdown");
+$("expReport").onclick=()=>download("synthvahti-report.md", buildReport(MODEL), "text/markdown");
 $("expR").onclick=()=>download("synthesis.R", buildRScript(), "text/plain");
 </script>
 </body>
