@@ -31,6 +31,7 @@ canonical marketing-claims document is `AD_CLAIMS.md` — on conflict,
 | Edit site HTML/CSS/JS | `vahtian-frontend-implementer` (smallest coherent change) |
 | Add a page / site-wide quality pass | `vahtian-site` (meta, footer, sitemap, JSON-LD — CI gate: `.github/scripts/audit.sh`) |
 | Release Python/R packages | `vahtian-publishing` (PyPI Trusted Publishing via `.github/workflows/publish.yml`) |
+| Announce a shipped change (posts, release notes) | `vahtian-announcer` — drafts + queues; never posts without founder sign-off |
 
 ## Hard floor (even when no skill fires)
 
