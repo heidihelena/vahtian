@@ -1,0 +1,16 @@
+{
+  "provenance": {
+    "generated_by": "tools/golden_synth.R (metafor) \u2014 regenerated in CI; committed copy computed by an independent Python reference for local parity",
+    "fixture": "synthvahti/fixtures/golden.csv",
+    "cutoff": ">=1%"
+  },
+  "opa": {
+    "k": 5,
+    "pooled": 0.907840818296577,
+    "lo": 0.8800835599235526,
+    "hi": 0.9296863798779579,
+    "tau2": 0.045545387526321486,
+    "I2": 44.12830952871336,
+    "Q": 7.159260738773717
+  }
+}
