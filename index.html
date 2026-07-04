@@ -74,22 +74,45 @@
     .btn.ghost{border:1px solid var(--line);color:var(--ink);background:var(--card)}
     section{padding:34px 0;border-top:1px solid var(--line);margin-top:36px}
     h2{font-size:20px;margin:0 0 16px}
-    .products{display:grid;gap:14px}
-    .p{display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center;
-       background:var(--card);border:1px solid var(--line);border-radius:12px;padding:15px 16px}
+    .products{display:grid;gap:12px}
+    /* 2-up grid on wide screens; a lone or trailing odd card spans full width,
+       so the flagship (START) and the roadmap card read as deliberate emphasis */
+    @media(min-width:660px){
+      .products{grid-template-columns:1fr 1fr}
+      .products .p:last-child:nth-child(odd){grid-column:1/-1}
+    }
+    .p{position:relative;display:grid;grid-template-columns:auto 1fr;gap:13px;align-items:start;
+       background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 34px 14px 15px;
+       border-left:3px solid var(--accent,var(--line));
+       transition:border-color .15s ease,box-shadow .15s ease}
+    /* each card's accent = the accent of its own mark */
+    .p.cite,.p.matchlite{--accent:#8B6FC9}
+    .p.study,.p.method,.p.dict,.p.extract{--accent:#5566B5}
+    .p.review{--accent:#1E9E8A}
+    .p.full,.p.atlas{--accent:#C24D7E}
+    .p.guide{--accent:#C98A00}
     .p .pmark{width:46px;height:46px;flex:0 0 46px;display:block}
-    .p .name{font-weight:700} .p .for{color:var(--muted);font-size:14px;display:block;margin-top:2px}
-    .p .tag{font:600 11px/1 ui-monospace,monospace;padding:5px 9px;border-radius:6px;white-space:nowrap}
+    .p .name{font-weight:700} .p .for{color:var(--muted);font-size:14px;display:block;margin-top:4px}
+    .p .tag{font:600 11px/1 ui-monospace,monospace;padding:5px 9px;border-radius:6px;white-space:nowrap;
+            display:inline-block;vertical-align:2px;margin-left:6px}
     .tag.live{background:#ECE3FF;border:1px solid var(--violet);color:#432C7A}
     .tag.soon{background:#f2f0f7;border:1px solid var(--line);color:var(--muted)}
     .tag.free{background:#D8F4ED;border:1px solid #1E9E8A;color:#08544A}
     .tag.beta{background:#ECE9F6;border:1px solid #5566B5;color:#33408a}
-    /* Expand card link hit areas for touch; negative margins keep the layout put */
-    .p a.name{text-decoration:none;color:var(--ink);display:inline-block;padding:7px 6px;margin:-7px -6px -5px}
-    .p a.name:hover{text-decoration:underline}
-    .p .notify{display:inline-block;font-size:13px;font-weight:600;margin-top:2px;padding:10px 6px 4px}
+    /* The whole card is the link (stretched from the name); the underline and the
+       static arrow make the affordance visible without hover — mobile included */
+    .p a.name{color:var(--ink);text-decoration:underline;text-decoration-color:var(--lilac);text-underline-offset:3px}
+    .p a.name::after{content:"";position:absolute;inset:0;border-radius:12px}
+    .p:has(a.name)::before{content:"→";position:absolute;right:13px;top:14px;font-weight:700;
+      color:var(--accent,var(--violet));opacity:.55;transition:transform .15s ease,opacity .15s ease}
+    .p:hover{border-color:var(--accent,var(--violet));box-shadow:0 3px 14px rgba(45,36,64,.09)}
+    .p:hover a.name{text-decoration-color:var(--accent,var(--violet))}
+    .p:hover::before{transform:translateX(3px);opacity:1}
+    @media(prefers-reduced-motion:reduce){.p,.p::before{transition:none}}
+    /* secondary links inside a card sit above the stretched link */
+    .p .notify{position:relative;z-index:1;display:inline-block;font-size:13px;font-weight:600;margin-top:2px;padding:10px 6px 4px 0}
     .principle{display:grid;gap:12px;grid-template-columns:1fr 1fr}
-    @media(max-width:560px){.principle{grid-template-columns:1fr}.p{grid-template-columns:auto 1fr;}.p .tag{grid-column:2;justify-self:start;margin-top:4px}}
+    @media(max-width:560px){.principle{grid-template-columns:1fr}}
     .principle .box{background:var(--card);border:1px solid var(--line);border-radius:11px;padding:16px}
     .principle h3{margin:0 0 6px;font-size:15px}
     .principle p{margin:0;color:var(--muted);font-size:14px}
@@ -199,9 +222,8 @@
     <div class="products">
       <div class="p cite">
         <img class="pmark" src="brand/marks/citevahti.svg" width="46" height="46" alt="" loading="lazy">
-        <span><a class="name" href="/citevahti">CiteVahti</a>
+        <span><a class="name" href="/citevahti">CiteVahti</a> <span class="tag beta">free beta</span>
           <span class="for">Check that each claim in your manuscript is supported by the source cited for it — now a double-click Claude Desktop extension (no terminal), building a reusable evidence map.</span></span>
-        <span class="tag beta">free beta</span>
       </div>
     </div>
 
@@ -209,9 +231,8 @@
     <div class="products">
       <div class="p study">
         <img class="pmark" src="brand/marks/studyvahti.svg" width="46" height="46" alt="" loading="lazy">
-        <span><a class="name" href="/studyvahti">StudyVahti</a>
+        <span><a class="name" href="/studyvahti">StudyVahti</a> <span class="tag free">free · live</span>
           <span class="for">Plan a defensible study before data collection — PICOTS, a variable codebook, and protocol-readiness triage. In your browser; nothing uploads.</span></span>
-        <span class="tag free">free · live</span>
       </div>
       <div class="p method">
         <svg class="pmark" viewBox="0 0 32 32" aria-hidden="true">
@@ -224,9 +245,8 @@
             <circle cx="14" cy="18" r="1.5"/><circle cx="18" cy="18" r="1.5"/>
           </g>
         </svg>
-        <span><a class="name" href="/methodvahti">MethodVahti</a>
+        <span><a class="name" href="/methodvahti">MethodVahti</a> <span class="tag beta">free beta</span>
           <span class="for">Justify your sample size and generate a COREQ/SRQR methods PDF before you collect qualitative data.</span></span>
-        <span class="tag beta">free beta</span>
       </div>
       <div class="p dict">
         <svg class="pmark" viewBox="0 0 32 32" aria-hidden="true">
@@ -238,9 +258,8 @@
             <path d="M13 13 H19"/><path d="M13 16 H19"/><path d="M13 19 H16"/>
           </g>
         </svg>
-        <span><a class="name" href="/dictvahti">DictVahti</a>
+        <span><a class="name" href="/dictvahti">DictVahti</a> <span class="tag free">free · live</span>
           <span class="for">Clean the REDCap data dictionary before analysis — 26 deterministic checks with one-click fixes. In your browser; nothing uploads.</span></span>
-        <span class="tag free">free · live</span>
       </div>
       <div class="p matchlite">
         <svg class="pmark" viewBox="0 0 32 32" aria-hidden="true">
@@ -251,9 +270,8 @@
           <circle cx="13.9" cy="16" r="1.9" fill="#8B6FC9"/><circle cx="18.1" cy="16" r="1.9" fill="#8B6FC9"/>
           <path d="M13.9 16 H18.1" stroke="#8B6FC9" stroke-width="2.3" stroke-linecap="round"/>
         </svg>
-        <span><a class="name" href="/matchvahti-lite/">MatchVahti-Lite</a>
+        <span><a class="name" href="/matchvahti-lite/">MatchVahti-Lite</a> <span class="tag free">free · live</span>
           <span class="for">Capture citation-worthy evidence from PubMed abstracts, with provenance, into a reviewable Zotero <span style="font-family:ui-monospace,Menlo,monospace">.ris</span>. Local-first; nothing uploads.</span></span>
-        <span class="tag free">free · live</span>
       </div>
     </div>
 
@@ -261,9 +279,8 @@
     <div class="products">
       <div class="p review">
         <img class="pmark" src="brand/marks/reviewvahti.svg" width="46" height="46" alt="" loading="lazy">
-        <span><a class="name" href="/reviewvahti/">ReviewVahti</a>
+        <span><a class="name" href="/reviewvahti/">ReviewVahti</a> <span class="tag live">live</span>
           <span class="for">Inter-rater reliability for systematic-review screening — load each reviewer's MatchVahti ballots and get per-claim agreement (Cohen&rsquo;s &kappa;, PABAK, AC1) in the browser. Nothing uploads.</span></span>
-        <span class="tag live">live</span>
       </div>
       <div class="p full">
         <svg class="pmark" viewBox="0 0 32 32" aria-hidden="true">
@@ -275,30 +292,26 @@
             <path d="M16 10.5 V17"/><path d="M13 14.5 L16 17.5 L19 14.5"/><path d="M12.2 20.5 H19.8"/>
           </g>
         </svg>
-        <span><a class="name" href="/fullvahti/">FullVahti</a>
+        <span><a class="name" href="/fullvahti/">FullVahti</a> <span class="tag free">free · open source</span>
           <span class="for">Find open-access full-text PDFs for your Zotero library (Unpaywall + PMC) and get an honest report of what's missing — it never bypasses a paywall. A Zotero plugin.</span></span>
-        <span class="tag free">free · open source</span>
       </div>
       <div class="p extract">
         <img class="pmark" src="brand/marks/extractvahti.svg" width="46" height="46" alt="" loading="lazy">
-        <span><a class="name" href="/extractvahti/">ExtractVahti</a>
+        <span><a class="name" href="/extractvahti/">ExtractVahti</a> <span class="tag beta">early access</span>
           <span class="for">Data extraction &amp; risk-of-bias for diagnostic-accuracy reviews — appraise with QUADAS-2 / QUADAS-C / PROBAST-AI and export tidy CSV for meta-analysis in R. Local-first; nothing uploads.</span>
           <a class="notify" href="/extractvahti/">See the ExtractVahti preview &rarr;</a></span>
-        <span class="tag beta">early access</span>
       </div>
       <div class="p guide">
         <img class="pmark" src="brand/marks/guidelinevahti.svg" width="46" height="46" alt="" loading="lazy">
-        <span><a class="name" href="/guidelinevahti/">GuidelineVahti</a>
+        <span><a class="name" href="/guidelinevahti/">GuidelineVahti</a> <span class="tag beta">early access</span>
           <span class="for">Panel consensus for guideline groups — RAND/UCLA + Delphi voting and GRADE recommendations, in the browser. Nothing uploads.</span>
           <a class="notify" href="/guidelinevahti/">See the GuidelineVahti preview &rarr;</a></span>
-        <span class="tag beta">early access</span>
       </div>
       <div class="p atlas">
         <img class="pmark" src="brand/marks/atlasvahti.svg" width="46" height="46" alt="" loading="lazy">
-        <span><span class="name">AtlasVahti</span>
+        <span><span class="name">AtlasVahti</span> <span class="tag soon">roadmap</span>
           <span class="for">De-identified validation-pattern analytics — consented, governed, API-accessible.</span>
           <a class="notify" href="mailto:hello@vahtian.com?subject=AtlasVahti%20interest">Get notified →</a></span>
-        <span class="tag soon">roadmap</span>
       </div>
     </div>
   </section>

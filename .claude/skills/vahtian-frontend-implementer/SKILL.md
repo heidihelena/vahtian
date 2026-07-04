@@ -43,9 +43,11 @@ Don't claim a fix works until you've looked at both widths.
 4. **Copy comes from brand-safety.** Any user-facing string you add or change must
    have passed `vahtian-brand-safety` (PASS) first — its tables, not your memory,
    define what is sayable.
-5. **Match the surrounding code.** Reuse existing CSS variables, class names,
-   spacing rhythm, and the navy/amber/teal/violet/rose palette. Read the file's
-   existing `<style>` before adding rules.
+5. **Meet the design language, don't just match surroundings.** The bar is
+   `.claude/skills/vahtian-site/references/design-language.md` — tokens,
+   component specs, and the taste do/don't list. Reuse existing CSS variables
+   and class names, and read the file's existing `<style>` before adding rules;
+   when the page and the design language disagree, raise the page to the spec.
 
 ## Accessibility & semantics (cheap, high-value)
 

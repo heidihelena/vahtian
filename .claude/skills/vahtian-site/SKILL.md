@@ -89,10 +89,18 @@ or **[grows]** (worth it as the site/team grows; don't over-engineer yet).
   imply Vahtian verifies truth, detects all problems, or replaces judgment.
 - Consistent voice: plain language, active voice, concrete verbs; "checks whether a cited
   source **supports** a claim" — never "verifies facts" / "guarantees integrity".
-- Run `vahtian-brand-safety` on any new product copy before shipping.
+- For copy *craft* (voice, rhythm, microcopy), use `vahtian-copy-editor`; then
+  run `vahtian-brand-safety` on any new product copy before shipping — editor
+  first, gate second.
+- For visual craft, the bar is `references/design-language.md` — tokens,
+  component specs, and the taste do/don't list.
 
 ### 6. Security  [do]
 - Stay **zero-dependency**: no third-party scripts means almost no supply-chain surface.
+- Keep internal working docs out of the served asset set: `.assetsignore` (repo root)
+  excludes `.claude/`, `.github/`, `CLAUDE.md`, `TASKS.md`, `AD_CLAIMS.md`,
+  `launch-posts.md` from Cloudflare's upload. Add new internal-only files there.
+  `llms.txt`, `skill/`, and `tools/` are deliberately public — leave them served.
 - Keep/extend the strict per-page **CSP** on the app-like tools (e.g. reviewvahti uses
   `default-src 'none'` + explicit allows). `application/ld+json` is data, not script — it
   is safe under a strict `script-src`.
