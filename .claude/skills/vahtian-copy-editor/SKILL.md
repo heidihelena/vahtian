@@ -1,6 +1,6 @@
 ---
 name: vahtian-copy-editor
-description: Edit Vahtian copy for craft — clarity, rhythm, and voice. Use when writing or revising Vahtian headlines, ledes, product descriptions, microcopy (buttons, tags, empty states), docs, READMEs, or posts, and the question is whether it reads well, not whether it overclaims. Runs BEFORE vahtian-brand-safety, which stays the final integrity gate — this skill makes copy good, that one makes it safe.
+description: Edit Vahtian copy for craft — clarity, rhythm, voice, and stripping the tells that make writing read as AI-generated. Use when writing or revising Vahtian headlines, ledes, product descriptions, microcopy (buttons, tags, empty states), docs, READMEs, LinkedIn/launch posts, or any outbound copy, and the question is whether it reads well and sounds human, not whether it overclaims. Runs BEFORE vahtian-brand-safety, which stays the final integrity gate — this skill makes copy good, that one makes it safe.
 ---
 
 # Vahtian copy editor
@@ -38,6 +38,47 @@ professionally allergic to hype — restraint *is* the persuasion.
   rhythm ("load each reviewer's ballots — and get per-claim agreement";
   "Local-first; nothing uploads."). Don't switch punctuation systems per page.
 
+## The AI-tell test — cut what makes copy read as machine-written
+
+Researchers spot AI copy instantly, and it reads as *someone didn't bother*. For
+this audience that is a trust cost, not just a style nit. Hunt these and cut them.
+
+**Banned vocabulary** (the LLM-house-style words — replace with a plain verb or
+delete): delve, dive in, elevate, unlock, harness, leverage, empower, streamline,
+supercharge, seamless, robust, powerful, cutting-edge, game-changer, revolutionize,
+transformative, unleash, foster, boost, embark, journey, landscape, realm,
+tapestry, testament, navigate (figurative), pivotal, vibrant, bustling, ensure,
+"in today's … world", "at the end of the day". If a word could sell any product,
+it sells nothing here.
+
+**Structural tells** (the giveaways are shapes, not just words):
+- **The "not just X, but Y" / "it's not about X — it's about Y" pivot.** Overused
+  by models. State the thing plainly instead.
+- **"Whether you're a … or a …"** opener. Cut it; name the one reader you mean.
+- **Rule-of-three padding** — "fast, simple, and powerful". One true adjective
+  beats three decorative ones. (A *real* triad like OPA / sensitivity / specificity
+  is content, not decoration — keep those.)
+- **"Not only … but also", "Moreover / Furthermore / Additionally" chains.** Two
+  short sentences beat one hinged clause.
+- **Throat-clearing and summary bookends** — "It's worth noting that…",
+  "In conclusion…", "Ultimately…", a closing sentence that restates the paragraph.
+- **Symmetrical antithesis for its own sake** — "the human decides, the machine
+  advises" is fine when it's *true and load-bearing*; a balanced flourish that adds
+  no fact is not.
+- **Fake enthusiasm** — "We're thrilled to…", "excited to announce". State what
+  shipped.
+- **Emoji as bullets or section markers, Title Case Headlines, and colon-stacked
+  titles** ("SynthVahti: The Future of Synthesis"). None of these belong here.
+
+**The one test:** would a busy clinician-researcher write this line in an email to
+a colleague? If it sounds like a brochure, a pitch deck, or a press release, rewrite
+it until it sounds like a person who knows the subject. Plainer is almost always more
+credible — and this house style *is* plain by design.
+
+**Note on the em-dash:** the site uses it deliberately for the pivot, and that's
+correct — but AI overuses it. Two or more em-dashes in one short paragraph is a tell;
+keep one, turn the other into a period or a semicolon.
+
 ## Microcopy rules
 
 - **Buttons are verb phrases** naming the outcome: "Check one claim",
@@ -53,14 +94,17 @@ professionally allergic to hype — restraint *is* the persuasion.
 
 1. Read the copy aloud (mentally); mark every place you stumble or skim.
 2. Apply the rules above — cut first, rearrange second, rewrite last.
-3. Diff-check meaning: the edit must not add capability claims or strip a
+3. **Run the AI-tell test** — scan for the banned vocabulary and the structural
+   tells; if a line would sound like a brochure, rewrite it plainer.
+4. Diff-check meaning: the edit must not add capability claims or strip a
    safety invariant. If meaning moved, flag it.
-4. Hand the result to `vahtian-brand-safety` for the PASS gate. Copy ships
+5. Hand the result to `vahtian-brand-safety` for the PASS gate. Copy ships
    only after PASS.
 
 ## Output format
 
 - The edited copy.
-- A short list of what changed and why (rule applied per change).
+- A short list of what changed and why (rule applied per change), calling out
+  any **AI-tell** removed (word or structure).
 - Anything flagged for `vahtian-brand-safety` attention (meaning shifted,
   new claim introduced).
