@@ -1,0 +1,8 @@
+# Internal working docs & tooling — not part of the served site.
+# (llms.txt, skill/, tools/, packages/ stay public by design.)
+.claude/
+.github/
+CLAUDE.md
+TASKS.md
+AD_CLAIMS.md
+launch-posts.md
