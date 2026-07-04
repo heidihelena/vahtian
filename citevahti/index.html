@@ -278,7 +278,7 @@
     <h2>How it works — the manuscript as a test suite</h2>
     <ol class="flow">
       <li><b>Claim detected.</b> Each manuscript claim becomes a test case.</li>
-      <li><b>Evidence found.</b> Staged from PubMed — candidates, not citations; often abstracts, which are leads to confirm in the full text, not proof.</li>
+      <li><b>Evidence found.</b> Staged from PubMed, OpenAlex, Semantic Scholar, and Crossref — candidates, not citations; often abstracts, which are leads to confirm in the full text, not proof.</li>
       <li><b>Support, not just topic.</b> Does the paper actually support <em>this</em> claim? (PICO match)</li>
       <li><b>You decide — blinded.</b> The AI's opinion stays hidden until you rate. The human is the decider.</li>
       <li><b>Guarded write.</b> Preview → confirm → write to Zotero, with undo. No silent writes; dedupe fails closed.</li>
@@ -288,20 +288,32 @@
 
   <section id="start">
     <h2>Get started</h2>
-    <p class="note"><b>Free beta — local-first.</b> Your manuscript never leaves your
-      device unless you choose to use an external AI model.</p>
+    <p class="note"><b>Free beta — local-first.</b> Works on a Word (<code>.docx</code>) or
+      Markdown manuscript, or pasted text. Your manuscript stays on your device — and even the
+      AI second opinion can run locally, so nothing has to leave your machine.</p>
 
-    <p style="font-weight:700;margin:18px 0 6px">No terminal — Claude Desktop</p>
-    <p>Download the CiteVahti extension for your computer from the
-      <a href="https://github.com/heidihelena/citevahti/releases/latest">latest release</a>,
-      double-click it, choose a CiteVahti folder, then ask Claude:
-      <em>“Run claim tests on my manuscript using CiteVahti.”</em>
-      Builds for Windows, Linux, and macOS (Apple Silicon — signed &amp; notarized).</p>
+    <p style="font-weight:700;margin:18px 0 6px">macOS app — no terminal</p>
+    <p>Download <code>CiteVahti.app</code> from the
+      <a href="https://github.com/heidihelena/citevahti/releases/latest">latest release</a>
+      (Apple Silicon, signed &amp; notarized), drag it to Applications, and open it.</p>
+
+    <p style="font-weight:700;margin:20px 0 6px">Claude Desktop — no terminal</p>
+    <p>Download the CiteVahti extension (<code>.mcpb</code>) for macOS, Windows, or Linux from the
+      same release, double-click to install, choose a CiteVahti folder, then ask Claude:
+      <em>“Run claim tests on my manuscript using CiteVahti.”</em></p>
 
     <p style="font-weight:700;margin:20px 0 6px">Prefer the terminal?</p>
     <pre>pip install "citevahti[mcp]"
-citevahti run</pre>
-    <p style="font-size:14px;color:var(--muted);margin:8px 0 0">Installs from PyPI, then opens the local review panel — it names the next step for you.</p>
+citevahti demo   <span class="c"># 3-minute worked example — no Zotero, AI, or setup</span>
+citevahti run    <span class="c"># review panel on your own manuscript</span></pre>
+    <p style="font-size:14px;color:var(--muted);margin:8px 0 0">Installs from PyPI. <code>run</code>
+      opens the local review panel and names the next step for you.</p>
+
+    <p style="font-weight:700;margin:20px 0 6px">Keep the AI on-device (optional)</p>
+    <p>The AI second opinion is off by default. Point it at your own API key, or run a local model
+      with <a href="https://ollama.com">Ollama</a> (<code>ollama pull qwen2.5</code>) — then even
+      the second opinion stays on your machine.</p>
+
     <p style="margin-top:14px"><a class="btn ghost" href="https://github.com/heidihelena/citevahti/blob/main/docs/QUICKSTART.md">Read the Quickstart →</a></p>
   </section>
 
