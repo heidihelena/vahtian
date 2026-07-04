@@ -1,0 +1,41 @@
+# Vahtian — repo guide for Claude
+
+Vahtian is a research-integrity toolkit for biomedical researchers (StudyVahti,
+CiteVahti, ReviewVahti, …), built by a clinician (MD, PhD). This repo holds the
+static marketing site (repo root, one `index.html` per product, deployed via
+Cloudflare — no framework, no build step, zero external requests/trackers) and
+the packages (`packages/vahtian-py/`, `packages/vahtian-r/`). `skill/` at the
+repo root is a **shipped product artifact** (a distributable agent skill), not
+internal tooling — don't confuse it with `.claude/skills/`.
+
+## The invariant (applies to every edit, every session)
+
+> **Vahtian assesses whether a cited source supports a specific claim, and
+> records who decided what — with a human first, AI second, and an auditable
+> trail. It does NOT certify scientific truth, clinical validity, manuscript
+> quality, publication readiness, or the absence of citation problems.**
+
+Never write or approve copy that makes AI the judge, certifies truth or
+publication readiness, or claims unbenchmarked accuracy. The enforcement skill
+is `.claude/skills/vahtian-brand-safety/` (full rules + phrase tables); the
+canonical marketing-claims document is `AD_CLAIMS.md` — on conflict,
+`AD_CLAIMS.md` wins.
+
+## Which skill for what
+
+| Task | Skill |
+|---|---|
+| Render / screenshot a page | `run-vahtian` (driver serves + shoots desktop/mobile PNGs) |
+| Find UX problems (diagnose only) | `vahtian-ux-auditor` |
+| Review or write any user-facing copy | `vahtian-brand-safety` — copy doesn't ship without PASS |
+| Edit site HTML/CSS/JS | `vahtian-frontend-implementer` (smallest coherent change) |
+| Add a page / site-wide quality pass | `vahtian-site` (meta, footer, sitemap, JSON-LD — CI gate: `.github/scripts/audit.sh`) |
+| Release Python/R packages | `vahtian-publishing` (PyPI Trusted Publishing via `.github/workflows/publish.yml`) |
+
+## Hard floor (even when no skill fires)
+
+- No trackers, analytics, CDN fonts, or external requests on the site.
+- No new dependencies or frameworks; match the existing inline-style idiom.
+- Local-first, human-first/AI-second, and audit-trail messaging must survive
+  every edit — look at rendered pages (via `run-vahtian`) before claiming a
+  visual change works.
