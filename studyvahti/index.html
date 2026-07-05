@@ -315,6 +315,19 @@
     .section {
       padding: 1rem;
     }
+    .intro-guide h2 { margin: 0 0 .5rem; font-size: 1.05rem; }
+    .intro-guide .wwh { margin: .5rem 0 0; color: var(--sv-ink); font-size: .95rem; max-width: 72ch; line-height: 1.5; }
+    .intro-guide .wwh b { color: var(--sv-blue-dark); }
+    .egbox { margin-top: 1rem; border: 1px solid var(--sv-border); border-left: 3px solid var(--sv-blue);
+      border-radius: 0 .5rem .5rem 0; padding: .7rem .9rem; background: var(--sv-bg); font-size: .9rem; color: var(--sv-muted); max-width: 74ch; }
+    .egbox b { color: var(--sv-blue-dark); }
+    .faq { margin-top: 1.1rem; }
+    .faq details { border-top: 1px solid var(--sv-border); padding: .5rem 0; }
+    .faq summary { cursor: pointer; font-weight: 650; color: var(--sv-blue); font-size: .92rem; }
+    .faq details p { margin: .4rem 0 0; color: var(--sv-muted); font-size: .9rem; max-width: 70ch; line-height: 1.5; }
+    .terms { margin: 1.1rem 0 0; }
+    .terms dt { font-weight: 700; color: var(--sv-blue-dark); font-size: .9rem; margin-top: .5rem; }
+    .terms dd { margin: .1rem 0 0; color: var(--sv-muted); font-size: .88rem; line-height: 1.45; max-width: 72ch; }
 
     .section-header {
       display: flex;
@@ -985,6 +998,72 @@
           <button class="danger" id="resetBtn" type="button">Reset</button>
         </div>
       </aside>
+    </section>
+
+    <section class="section intro-guide" aria-labelledby="guide-heading">
+      <h2 id="guide-heading">What this is, and when to use it</h2>
+      <p class="wwh"><b>What.</b> StudyVahti turns a rough clinical study idea into a protocol-ready checklist. It
+        maps your idea to PICOTS, the reporting standard your study will be judged against (STROBE, CONSORT,
+        STARD, PRISMA&hellip;), the bias domains to plan for, and an analysis-ready variable codebook — in your
+        browser, nothing uploaded.</p>
+      <p class="wwh"><b>When to use it.</b> At the very start — once you have a research question but
+        <b>before</b> you write the protocol or collect data. It is a design-stage tool; when your protocol is
+        registered and data is flowing, its job is done and CiteVahti / ExtractVahti take over downstream.</p>
+      <p class="wwh"><b>Who it&rsquo;s for.</b> Master&rsquo;s and PhD students planning a clinical or
+        epidemiological study — and their supervisors, who can use the readiness sheet as a shared checklist in a
+        supervision meeting instead of catching the gaps at the thesis defence.</p>
+      <p class="wwh"><b>How.</b> Fill in the study identity, PICOTS, variables, bias checks, and feasibility.
+        StudyVahti scores readiness out of 100, names the next gate to close, and exports a codebook and readiness
+        sheet. The codebook is <b>tidy and analysis-ready by construction</b> — snake_case names, one concept per
+        column, a documented type and role per variable — so the data imports cleanly into R (tidyverse) or
+        Python (pandas) with no renaming or reshaping later. Clean names up front are the cheapest analysis you
+        will ever do.</p>
+
+      <div class="egbox"><b>Worked example.</b> <em>Does prehabilitation before lung-cancer surgery reduce
+        90-day complications?</em> &nbsp;<b>P</b> resectable NSCLC adults · <b>I</b> prehab programme ·
+        <b>C</b> usual care · <b>O</b> 90-day complications · <b>T</b> time-zero = surgery date ·
+        <b>S</b> two tertiary centres. StudyVahti then flags: define time-zero, name the estimand, draft a
+        confounding plan — and readiness climbs from <b>[d] not ready</b> toward <b>[oo] ready for methods
+        review</b> as you close each gate.</p></div>
+
+      <div class="faq">
+        <details><summary>When should I use StudyVahti?</summary>
+          <p>Early — after you have a research question but before you write the protocol or collect data. It is a
+            planning-stage tool, not an analysis or write-up tool.</p></details>
+        <details><summary>Who is StudyVahti for?</summary>
+          <p>Master&rsquo;s and PhD students designing a clinical or epidemiological study, and their supervisors —
+            the readiness sheet works as a shared checklist between student and supervisor.</p></details>
+        <details><summary>Does StudyVahti write or approve my protocol?</summary>
+          <p>No. It maps your idea to the reporting standards and flags where methods review is needed. It does not
+            approve studies, appraise design quality, or replace a qualified methodologist — any causal or
+            inferential study should still involve one.</p></details>
+        <details><summary>How does it make my R or Python analysis easier?</summary>
+          <p>It builds a tidy variable codebook — snake_case names, one concept per column, and a documented type
+            and role for each variable — so your data reads straight into the tidyverse or pandas without renaming
+            or reshaping. Fixing variable names before data collection is far cheaper than fixing them in a
+            half-finished analysis.</p></details>
+        <details><summary>Which reporting standard does my study need?</summary>
+          <p>StudyVahti maps it for you: STROBE for observational studies, CONSORT / SPIRIT for randomized trials,
+            STARD / TRIPOD-AI for diagnostic-accuracy and prediction studies, PRISMA for systematic reviews, and
+            COREQ / SRQR for qualitative work.</p></details>
+        <details><summary>Is my data uploaded anywhere?</summary>
+          <p>No. StudyVahti runs entirely in your browser and saves nothing to a server — the study idea, the
+            codebook, and the readiness sheet stay on your device.</p></details>
+      </div>
+
+      <dl class="terms">
+        <dt>PICOTS</dt><dd>Population, Intervention, Comparator, Outcome, Timing, Setting — the structured skeleton
+          of a well-specified research question. Vague PICOTS is where most study designs go wrong.</dd>
+        <dt>Estimand</dt><dd>The exact quantity you are trying to estimate: which effect, in whom, at what time, and
+          how you handle events like death or treatment switching. Naming it up front prevents a vague analysis.</dd>
+        <dt>Time-zero (index date)</dt><dd>The moment follow-up starts for every participant. Getting it wrong is the
+          usual cause of immortal-time bias.</dd>
+        <dt>Immortal-time bias</dt><dd>A bias where a stretch of time during which the outcome could not occur is
+          credited to a treatment group, inflating its apparent benefit. A well-defined time-zero avoids it.</dd>
+        <dt>Target-trial emulation</dt><dd>Designing an observational study as if you were running the randomized
+          trial you ideally would — it forces explicit eligibility, treatment, and time-zero definitions.</dd>
+        <dt>ROBINS-I</dt><dd>A structured tool for assessing risk of bias in non-randomized studies of interventions.</dd>
+      </dl>
     </section>
 
     <div class="layout">
