@@ -167,9 +167,9 @@
     return out;
   }
 
-  var CLAIM="\\b(?:improves?|reduces?|increases?|decreases?|prevents?|causes?|leads to|is associated with|is recommended|is the standard|reduces? the risk of|improves? survival|is superior|is effective|lowers?|raises?|enhances?|worsens?|is known to)\\b";
+  var CLAIM="\\b(?:caused? by|cause of|causes|causing|associated with|linked to|related to|correlated with|due to|results? in|resulting in|leads? to|leading to|contributes? to|driven by|attributable to|improves?|improved|improving|reduces?|reduced|reducing|increases?|increased|increasing|decreases?|decreased|decreasing|rising|declining|growing|prevents?|prevented|preventing|is recommended|is the standard|standard treatment|reduces? the risk|improves? survival|is superior|is effective|lowers?|raises?|enhances?|worsens?|is known to|dominate[sd]?)\\b";
   var VAGUE="\\b(?:studies show|studies have shown|evidence suggests|previous research (?:has )?(?:found|shown)|research has shown|widely accepted|well[\\s-]known|it is known|increasingly recognized|it has been (?:shown|suggested|reported)|many studies)\\b";
-  var OVER="\\b(?:proves?|proven|confirms?|clearly demonstrates?|definitively|definitive|undoubtedly|conclusively|always|never|causal|gold standard|well[\\s-]established|firmly established)\\b";
+  var OVER="\\b(?:proves?|proven|confirms?|clearly demonstrates?|definitively|definitive|undoubtedly|conclusively|always|never|causal|caused? by|cause of|attributable to|gold standard|well[\\s-]established|firmly established)\\b";
   var GUIDE="\\b(?:recommended|guidelines?|should be offered|standard of care|first[\\s-]line|contraindication|indication|must be (?:offered|used|given))\\b";
   var BROAD="\\b(?:worldwide|globally|in all patients|all patients|universally|everyone|in general|across all|any population|in every)\\b";
   var NUM=["\\b\\d+(?:\\.\\d+)?\\s?%","\\b(?:aHR|aOR|HR|OR|RR|IRR)\\b","\\b(?:hazard|odds|risk|rate) ratio\\b","\\bp\\s?[<=>]\\s?0?\\.\\d+","\\b\\d{2}\\s?%?\\s?CI\\b","confidence interval","\\bn\\s?=\\s?\\d[\\d,]*","\\b\\d+(?:\\.\\d+)?[\\s-]?(?:year|month)\\s+survival\\b","survival rate"];
