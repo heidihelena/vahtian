@@ -287,11 +287,28 @@
     </ol>
   </section>
 
+  <section>
+    <h2>Not a reference manager</h2>
+    <p>Zotero and EndNote store and format your references. CiteVahti does the part they don't: it
+      checks whether the paper you cited actually <b>supports the sentence</b> you attached it to —
+      claim by claim — and records who decided what. It reads your Zotero library and writes back to
+      it; it doesn't replace it.</p>
+    <ul class="feat">
+      <li><b>Your reference manager</b> answers "is this reference stored and formatted right?"</li>
+      <li><b>CiteVahti</b> answers "does this source support this claim, as written?" — the question a reviewer asks.</li>
+    </ul>
+    <p class="note" style="margin-top:16px">Doing a systematic review? CiteVahti checks the claims; its
+      siblings handle the rest — <a href="/reviewvahti/">ReviewVahti</a> for reviewer agreement,
+      <a href="/extractvahti/">ExtractVahti</a> for data extraction, and <a href="/synthvahti/">SynthVahti</a>
+      for synthesis.</p>
+  </section>
+
   <section id="start">
     <h2>Get started</h2>
-    <p class="note"><b>Free beta — local-first.</b> Works on a Word (<code>.docx</code>) or
-      Markdown manuscript, or pasted text. Your manuscript stays on your device — and even the
-      AI second opinion can run locally, so nothing has to leave your machine.</p>
+    <p class="note"><b>Free while in beta.</b> No account, no card. The core is open-source and runs on
+      your machine, so checking your own manuscript stays free — a good time to try it is now, before
+      you're mid-submission. Works on a Word (<code>.docx</code>) or Markdown manuscript, or pasted text;
+      nothing has to leave your device.</p>
 
     <p style="font-weight:700;margin:18px 0 6px">macOS app — no terminal</p>
     <p>Download <code>CiteVahti.app</code> from the
@@ -310,6 +327,19 @@ citevahti run    <span class="c"># review panel on your own manuscript</span></p
     <p style="font-size:14px;color:var(--muted);margin:8px 0 0">Installs from PyPI. <code>run</code>
       opens the local review panel and names the next step for you.</p>
 
+    <p style="font-weight:700;margin:20px 0 6px">Using CiteVahti in Claude Code or Claude Desktop</p>
+    <p>Install the MCP server (<code>pip install "citevahti[mcp]"</code>) and connect it in Claude Code, or
+      double-click the Claude Desktop extension — the
+      <a href="https://github.com/heidihelena/citevahti/blob/main/docs/QUICKSTART.md">Quickstart</a> has the
+      exact steps. Then you drive it in plain language: ask for the outcome, not a command.</p>
+    <pre>Run claim tests on my manuscript.docx with CiteVahti.
+Which of my claims have no citation, or overstate the source?
+Check whether this citation supports the sentence — rate it blind first.
+Write the verified references to Zotero, and let me confirm each one.
+Draft this paragraph using only my verified claims.</pre>
+    <p style="font-size:14px;color:var(--muted);margin:8px 0 0">You stay the decider: CiteVahti stages the
+      evidence and gives a blinded second opinion, but nothing is rated or written to Zotero without you.</p>
+
     <p style="font-weight:700;margin:20px 0 6px">Keep the AI on-device (optional)</p>
     <p>The AI second opinion is off by default. Point it at your own API key, or run a local model
       with <a href="https://ollama.com">Ollama</a> (<code>ollama pull qwen2.5</code>) — then even
@@ -326,6 +356,9 @@ citevahti run    <span class="c"># review panel on your own manuscript</span></p
       <li><b>Your key is yours.</b> Stored only in the OS keychain; reads need no key at all.</li>
       <li><b>Local-first &amp; private.</b> Runs on your laptop. No account, no telemetry, no fabricated citations.</li>
       <li><b>Auditable.</b> A hash-chained log records the reasoning — reportable in a methods section.</li>
+      <li><b>Made to disclose.</b> Export the audit trail for your methods, and tell your supervisor or
+        journal you used it — there's a ready template in the
+        <a href="https://github.com/heidihelena/citevahti/blob/main/docs/DISCLOSURE.md">disclosure guide</a>.</li>
     </ul>
   </section>
 
