@@ -133,6 +133,48 @@
 </header>
 <main>
   <section>
+    <h2>What this is</h2>
+    <p><b>What.</b> When two or more people screen the same papers for a review, they won't agree on
+      every one. ReviewVahti measures how much they actually agreed — per claim, in your browser — so
+      you can report it and find the papers to reconcile.</p>
+    <p><b>Why.</b> A systematic review is only as trustworthy as its screening. PRISMA and most journals
+      expect a reliability statistic, and disagreement you can't quantify is a reviewer red flag.
+      ReviewVahti gives you the number, and the list of conflicts to resolve.</p>
+    <p><b>How.</b> Each reviewer screens the same papers in their own MatchVahti and exports a file. Load
+      every reviewer's files here together; ReviewVahti checks they used the same protocol, then reports
+      per-claim agreement — raw&nbsp;% and Cohen&rsquo;s&nbsp;&kappa; (with PABAK and AC1) for a pair,
+      Krippendorff&rsquo;s&nbsp;&alpha; for three or more.</p>
+    <p class="hint" style="margin-top:10px">New to this? Use <b>Load a worked example</b> below to see a
+      filled-in result with no files.</p>
+
+    <details class="detail"><summary>Which number do I report?</summary>
+      <p class="hint">For <b>two</b> reviewers, report raw&nbsp;% agreement with Cohen&rsquo;s&nbsp;&kappa; —
+        and read PABAK and AC1 alongside, because &kappa; alone understates agreement when almost every
+        paper is excluded (the &ldquo;kappa paradox&rdquo;). For <b>three or more</b>, report
+        Krippendorff&rsquo;s&nbsp;&alpha; (&ge;&nbsp;0.80 reliable, 0.667&ndash;0.80 tentative).</p></details>
+    <details class="detail"><summary>How many reviewers can I load?</summary>
+      <p class="hint">Two to seven. Two gives &kappa;, PABAK, AC1 and a bootstrap CI; three or more gives
+        Krippendorff&rsquo;s&nbsp;&alpha;, Fleiss&rsquo;&nbsp;&kappa; (when everyone rated every paper), and a
+        pairwise matrix showing which pair diverged most.</p></details>
+    <details class="detail"><summary>What do I load, and where does it come from?</summary>
+      <p class="hint">The protocol and ballot files (or the <span class="mono">.zip</span>) each reviewer
+        exports from MatchVahti after screening the <b>same</b> papers under the <b>same</b> protocol.
+        ReviewVahti matches them by a fingerprint (<span class="mono">protocol_hash</span>) and flags any
+        ballot that doesn&rsquo;t match, rather than scoring it silently.</p></details>
+    <details class="detail"><summary>Does my data leave the browser?</summary>
+      <p class="hint">No. ReviewVahti makes <b>no network calls at all</b> — it reads only the files you
+        load, computes everything on your device, and uploads nothing.</p></details>
+    <details class="detail"><summary>Does the AI count toward agreement?</summary>
+      <p class="hint">No. Reliability is measured over human reviewers only. If an AI ballot is present, it
+        is scored <b>separately</b> against the records where the humans agree, and never enters &kappa; or
+        &alpha;.</p></details>
+    <details class="detail"><summary>What is the &ldquo;kappa paradox&rdquo;?</summary>
+      <p class="hint">When almost every paper is excluded, chance agreement is high, so &kappa; can read low
+        even when reviewers agree on nearly every paper. That is why ReviewVahti always shows &kappa; next
+        to raw&nbsp;%, PABAK, and AC1 — never alone.</p></details>
+  </section>
+
+  <section>
     <h2>1 &middot; Load reviewers' files</h2>
     <div class="drop" id="drop" role="button" tabindex="0" aria-label="Choose protocol and ballot files to load">
       <b>Drop protocol + ballot files here</b><br>
