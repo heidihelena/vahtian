@@ -53,6 +53,11 @@
   h2{font-size:16px;margin:0 0 4px;letter-spacing:-.01em}
   h2 .n{color:var(--violet);font:600 13px/1 ui-monospace,monospace;margin-right:6px}
   .hint{color:var(--muted);font-size:13px;margin:4px 0 12px;max-width:64ch}
+  .wwh{font-size:14px;margin:6px 0 0;color:var(--ink);max-width:66ch}
+  .faq{margin-top:14px}
+  .faq details{border-top:1px solid var(--line);padding:8px 0}
+  .faq summary{cursor:pointer;font-weight:600;color:var(--link);font-size:13.5px}
+  .faq details p{color:var(--muted);font-size:13px;margin:6px 0 0;max-width:62ch}
   label{display:block;font-weight:600;font-size:13px;margin:10px 0 3px}
   input,select,textarea{width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:9px;font:inherit;background:#fff;color:var(--ink)}
   textarea{min-height:60px;resize:vertical}
@@ -104,6 +109,45 @@
 
 <div class="wrap">
 <main>
+
+  <section>
+    <h2>What this is</h2>
+    <p class="wwh"><b>What.</b> ExtractVahti is the extraction-and-appraisal step of a diagnostic-test-accuracy
+      review. For each included study you enter the 2&times;2 counts (it computes sensitivity, specificity, and
+      overall agreement), record the study details, and rate risk of bias with QUADAS-2 / QUADAS-C /
+      PROBAST-AI — then export tidy CSVs for meta-analysis in R.</p>
+    <p class="wwh"><b>Why.</b> Extraction is where DTA reviews leak errors: a mis-transcribed 2&times;2, an
+      inconsistent reference standard, a bias domain nobody appraised. Doing it once, in a structured form
+      that computes the accuracy for you and keeps a risk-of-bias traffic-light, is what a reproducible
+      review needs — and it hands the headline model straight to R.</p>
+    <p class="wwh"><b>How.</b> Paste your included studies from MatchVahti (or load the example). For each
+      study: enter the 2&times;2 per cutoff, note the decision impact, and rate each risk-of-bias domain, then
+      Save and move on. Export <span class="mono">extraction.csv</span> / <span class="mono">rob.csv</span>
+      and the traffic-light SVG. A second extractor&rsquo;s file can be reconciled. Nothing uploads.</p>
+
+    <div class="faq">
+      <details><summary>Is my data uploaded?</summary>
+        <p>No. ExtractVahti runs entirely in your browser and saves to your device&rsquo;s local storage —
+          nothing leaves your machine, and there are no accounts or trackers.</p></details>
+      <details><summary>What does it compute, and what stays in R?</summary>
+        <p>From a 2&times;2 (TP/FP/FN/TN) it computes sensitivity, specificity, and overall percent agreement;
+          with two or more extractors it computes Cohen&rsquo;s &kappa; (or Krippendorff&rsquo;s &alpha; for 3+)
+          on the judgments. The headline HSROC / bivariate model runs in R on the exported CSV
+          (<span class="mono">mada</span> / <span class="mono">metadta</span>).</p></details>
+      <details><summary>Which risk-of-bias tools?</summary>
+        <p>QUADAS-2 and QUADAS-C by default; PROBAST-AI / TRIPOD-AI / CLAIM when the index test is AI
+          (toggle it on in step 1). The reference-standard domain is high-concern by design when the
+          reference standard is imperfect.</p></details>
+      <details><summary>What do I get out?</summary>
+        <p><span class="mono">extraction.csv</span> and <span class="mono">reclassification.csv</span> for R,
+          <span class="mono">rob.csv</span>, a risk-of-bias traffic-light SVG, and a de-identified
+          validation file. All downloadable, reviewable, and local.</p></details>
+      <details><summary>Can two people extract independently?</summary>
+        <p>Yes. Load a second extractor&rsquo;s <span class="mono">extraction.jsonl</span> in the Reconcile
+          step — only beyond-tolerance mismatches surface for adjudication, and each person&rsquo;s data
+          stands alone.</p></details>
+    </div>
+  </section>
 
   <section id="setupSection">
     <h2><span class="n">1</span>Included studies &amp; protocol</h2>
