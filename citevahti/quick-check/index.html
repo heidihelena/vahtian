@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Citation Integrity Quick Check — CiteVahti</title>
+  <meta name="description" content="Paste a manuscript paragraph and check for citation-risk signals before submission: uncited claims, vague evidence wording, overclaiming, citation pile-ups, numeric claims, and guideline statements. Runs in your browser — nothing uploads. A CiteVahti tool.">
+  <meta name="theme-color" content="#2D2440">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="canonical" href="https://vahtian.com/citevahti/quick-check/">
+  <meta name="robots" content="index,follow">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://vahtian.com/citevahti/quick-check/">
+  <meta property="og:title" content="Citation Integrity Quick Check — CiteVahti">
+  <meta property="og:description" content="Paste a manuscript paragraph and find citation-risk signals before submission. Runs in your browser; it flags where a human should check — it doesn't read the cited papers or decide whether a claim is true.">
+  <meta property="og:image" content="https://vahtian.com/brand/cards/citevahti-card.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Citation Integrity Quick Check — a CiteVahti tool">
+  <meta property="og:site_name" content="Vahtian">
+  <meta name="twitter:card" content="summary_large_image">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Citation Integrity Quick Check",
+    "applicationCategory": "HealthApplication",
+    "operatingSystem": "Any (web browser)",
+    "url": "https://vahtian.com/citevahti/quick-check/",
+    "description": "Browser-side heuristic check for citation-risk signals in a manuscript paragraph — uncited claims, vague evidence wording, overclaiming, citation pile-ups, broad claims, guideline statements, and numeric claims. It flags where a human should check; it does not read the cited papers or decide whether a claim is true.",
+    "isPartOf": { "@type": "WebSite", "name": "Vahtian", "url": "https://vahtian.com/" },
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "EUR" }
+  }
+  </script>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232D2440'/%3E%3Cg fill='none' stroke='%238B6FC9' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 9 H9 V23 H12'/%3E%3Cpath d='M20 9 H23 V23 H20'/%3E%3C/g%3E%3Ccircle cx='13.9' cy='16' r='1.7' fill='%23C5B8E8'/%3E%3Ccircle cx='18.1' cy='16' r='1.7' fill='%23C5B8E8'/%3E%3C/svg%3E">
+  <style>
+    :root{--navy:#2D2440;--violet:#8B6FC9;--lilac:#C5B8E8;--amber:#C98A00;--teal:#1E9E8A;--rose:#C24D7E;
+          --ink:#1c1830;--muted:#4A4460;--bg:#faf9fc;--card:#fff;--line:#e7e3f0;--link:#6F52B8;
+          --amber-fill:#FFF2D8;--amber-text:#5A4300;--teal-fill:#D8F4ED;--teal-text:#08544A}
+    *{box-sizing:border-box}
+    body{margin:0;font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,ui-sans-serif,system-ui,sans-serif;
+         color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased}
+    a{color:var(--link)}
+    code{font:13px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;background:#f1eef9;padding:1px 5px;border-radius:5px}
+    .wrap{max-width:800px;margin:0 auto;padding:0 22px}
+    a:focus-visible,button:focus-visible,textarea:focus-visible{outline:3px solid var(--violet);outline-offset:2px}
+    header{padding:24px 0 4px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:18px}
+    .mark{width:30px;height:30px;flex:0 0 30px}
+    .up{font-size:13px;color:var(--muted);text-decoration:none}
+    h1{font-size:clamp(26px,4.6vw,36px);line-height:1.12;letter-spacing:-.02em;margin:22px 0 8px}
+    .sub{font-size:clamp(16px,2.2vw,18px);color:#3a3450;margin:0 0 10px;max-width:60ch}
+    .bound{font-size:14px;color:var(--muted);max-width:64ch;margin:0 0 22px}
+    .tool{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:18px;box-shadow:0 10px 26px rgba(45,36,64,.06)}
+    label.tl{display:block;font-weight:600;font-size:13px;margin:0 0 6px}
+    textarea{width:100%;min-height:150px;padding:12px 13px;border:1px solid var(--line);border-radius:10px;
+             font:15px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:#fff;color:var(--ink);resize:vertical}
+    .actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
+    button{font:inherit;font-weight:600;border:0;border-radius:9px;padding:11px 17px;background:var(--navy);color:#fff;cursor:pointer;font-size:15px}
+    button.ghost{background:#fff;color:var(--ink);border:1px solid var(--line)}
+    button:disabled{opacity:.5;cursor:not-allowed}
+    .priv{font-size:12.5px;color:var(--muted);margin:11px 0 0}
+    /* results */
+    #out{margin-top:22px}
+    .summary{display:flex;flex-wrap:wrap;align-items:center;gap:9px;margin:0 0 16px}
+    .stotal{font-weight:700;font-size:15px}
+    .scount{font:600 12px/1 ui-monospace,monospace;padding:6px 10px;border-radius:999px;background:#F1EEF9;border:1px solid var(--line);color:#432C7A}
+    .card{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--violet);border-radius:11px;padding:14px 16px;margin:0 0 12px}
+    .sent{font-size:15.5px;line-height:1.55;color:var(--ink);margin:0 0 12px}
+    .sent mark{background:var(--amber-fill);color:var(--amber-text);border-radius:3px;padding:0 2px;font-weight:600}
+    .flags{display:grid;gap:9px;margin:0}
+    .flag{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start}
+    .flabel{font:600 11px/1.4 ui-monospace,monospace;padding:5px 9px;border-radius:6px;background:var(--amber-fill);border:1px solid var(--amber);color:var(--amber-text);white-space:nowrap}
+    .fbody{font-size:13.5px;color:#322c47}
+    .fbody .step{color:var(--teal-text);font-weight:600}
+    .clean{background:var(--teal-fill);border:1px solid var(--teal);border-radius:11px;padding:14px 16px;color:var(--teal-text);font-size:14.5px}
+    /* bridge / CTA */
+    .bridge{background:var(--navy);border-radius:13px;padding:20px 22px;margin:20px 0 4px}
+    .bridge h2{color:#fff;font-size:clamp(18px,3vw,22px);margin:0 0 8px;letter-spacing:-.01em}
+    .bridge p{color:#d9d3ea;font-size:14.5px;line-height:1.6;margin:0 0 16px;max-width:64ch}
+    .bridge p b{color:#fff}
+    .btn{display:inline-block;padding:12px 18px;border-radius:9px;font-weight:600;text-decoration:none;font-size:15px;background:#C5B8E8;color:#241b3a}
+    .btn.ghost{background:transparent;border:1px solid rgba(197,184,232,.5);color:#C5B8E8;margin-left:8px}
+    section.info{border-top:1px solid var(--line);margin-top:36px;padding-top:26px}
+    section.info h2{font-size:19px;margin:0 0 12px}
+    ul.checks{list-style:none;padding:0;margin:0;display:grid;gap:10px}
+    ul.checks li{padding-left:22px;position:relative;color:#322c47;font-size:14.5px}
+    ul.checks li::before{content:"";position:absolute;left:0;top:.5em;width:8px;height:8px;border-radius:50%;background:var(--violet)}
+    ul.checks b{color:var(--ink)}
+    .cant{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--amber);border-radius:10px;padding:13px 15px;color:#3a3450;font-size:14px;margin-top:16px}
+    footer{padding:28px 0 50px;color:var(--muted);font-size:13px;border-top:1px solid var(--line);margin-top:34px;line-height:1.7}
+    footer a{color:var(--muted)}
+    @media(max-width:520px){.flag{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand">
+      <a href="/citevahti/" aria-label="CiteVahti — home" style="display:flex"><svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#2D2440"/><g fill="none" stroke="#8B6FC9" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9 H9 V23 H12"/><path d="M20 9 H23 V23 H20"/></g><circle cx="13.9" cy="16" r="1.7" fill="#C5B8E8"/><circle cx="18.1" cy="16" r="1.7" fill="#C5B8E8"/></svg></a>
+      <span>CiteVahti</span>
+    </div>
+    <a class="up" href="/citevahti/">← CiteVahti</a>
+  </header>
+
+<main>
+  <h1>Citation Integrity Quick Check</h1>
+  <p class="sub">Paste a manuscript paragraph and check for citation-risk signals before submission.</p>
+  <p class="bound">This is a wording check that runs entirely in your browser. It flags sentences where a
+    human should look — it <b>does not read the cited papers</b> and <b>does not decide whether a claim is
+    true</b>. Nothing is uploaded.</p>
+
+  <div class="tool">
+    <label class="tl" for="ms">Your manuscript paragraph</label>
+    <textarea id="ms" placeholder="Paste a paragraph from your manuscript…"></textarea>
+    <div class="actions">
+      <button id="run" type="button">Run quick check</button>
+      <button id="ex" class="ghost" type="button">Load example</button>
+      <button id="clr" class="ghost" type="button">Clear</button>
+    </div>
+    <p class="priv">No account · no upload · nothing leaves your browser.</p>
+  </div>
+
+  <div id="out" role="region" aria-live="polite" aria-label="Quick check results"></div>
+
+  <section class="info">
+    <h2>What this checks</h2>
+    <ul class="checks">
+      <li><b>Uncited claims</b> — a checkable scientific claim with no nearby citation.</li>
+      <li><b>Citation pile-ups</b> — many citations grouped on one claim.</li>
+      <li><b>Vague evidence wording</b> — "studies show", "evidence suggests", "well known".</li>
+      <li><b>Strong certainty language</b> — "proves", "confirms", "always", "gold standard".</li>
+      <li><b>Broad claims</b> — a cited claim that may reach beyond the evidence's population or setting.</li>
+      <li><b>Guideline-type claims</b> — "recommended", "standard of care", "first-line".</li>
+      <li><b>Numeric claims</b> — percentages, hazard/odds ratios, p-values, survival rates.</li>
+    </ul>
+    <div class="cant"><b>What it can't do.</b> Heuristics see wording, not evidence. They cannot open the cited
+      paper, and a clean result is not a clearance. Checking whether a source actually supports a claim is the
+      full CiteVahti audit.</div>
+  </section>
+</main>
+
+  <footer>
+    <p>© 2026 Vahtian · CiteVahti · Powered by CiteVahti heuristics ·
+      <a href="https://github.com/heidihelena/citevahti">source</a> · <a href="/cite/">Cite</a> ·
+      <a href="/citevahti/privacy/">CiteVahti privacy</a> · <a href="/privacy/">Website privacy</a> · <a href="/">vahtian.com</a></p>
+    <p>A browser-side wording check for manuscript claims. It flags citation-risk signals where a human should
+      look; it <b>does not</b> read cited sources, verify support, or decide whether a claim is true — final
+      responsibility stays with the author, reviewer, editor, or institution.</p>
+  </footer>
+</div>
+
+<script>
+"use strict";
+(function(){
+  var $=function(id){return document.getElementById(id);};
+  function esc(s){return String(s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];});}
+
+  // Citation markers: [1], [1-9], [1,2,3], [@key], (Author, 2020), superscript digits.
+  var CITE=/\[\s*\d+(?:\s*[–\-,]\s*\d+)*\s*\]|\[@[\w:.\-]+\]|\((?:[A-Z][A-Za-z.'\-]+(?:\s+et\s+al\.?)?(?:\s*&\s*[A-Z][A-Za-z.'\-]+)?,?\s*\d{4}[a-z]?)\)|[¹²³⁰-⁹]+/;
+  function hasCite(s){return CITE.test(s);}
+
+  function collect(src,flags,s){
+    var re=new RegExp(src, flags.indexOf('g')<0?flags+'g':flags), out=[], m;
+    while((m=re.exec(s))){ if(m.index===re.lastIndex) re.lastIndex++; if(m[0].length) out.push([m.index,m.index+m[0].length]); }
+    return out;
+  }
+
+  var CLAIM="\\b(?:caused? by|cause of|causes|causing|associated with|linked to|related to|correlated with|due to|results? in|resulting in|leads? to|leading to|contributes? to|driven by|attributable to|improves?|improved|improving|reduces?|reduced|reducing|increases?|increased|increasing|decreases?|decreased|decreasing|rising|declining|growing|prevents?|prevented|preventing|is recommended|is the standard|standard treatment|reduces? the risk|improves? survival|is superior|is effective|lowers?|raises?|enhances?|worsens?|is known to|dominate[sd]?)\\b";
+  var VAGUE="\\b(?:studies show|studies have shown|evidence suggests|previous research (?:has )?(?:found|shown)|research has shown|widely accepted|well[\\s-]known|it is known|increasingly recognized|it has been (?:shown|suggested|reported)|many studies)\\b";
+  var OVER="\\b(?:proves?|proven|confirms?|clearly demonstrates?|definitively|definitive|undoubtedly|conclusively|always|never|causal|caused? by|cause of|attributable to|gold standard|well[\\s-]established|firmly established)\\b";
+  var GUIDE="\\b(?:recommended|guidelines?|should be offered|standard of care|first[\\s-]line|contraindication|indication|must be (?:offered|used|given))\\b";
+  var BROAD="\\b(?:worldwide|globally|in all patients|all patients|universally|everyone|in general|across all|any population|in every)\\b";
+  var NUM=["\\b\\d+(?:\\.\\d+)?\\s?%","\\b(?:aHR|aOR|HR|OR|RR|IRR)\\b","\\b(?:hazard|odds|risk|rate) ratio\\b","\\bp\\s?[<=>]\\s?0?\\.\\d+","\\b\\d{2}\\s?%?\\s?CI\\b","confidence interval","\\bn\\s?=\\s?\\d[\\d,]*","\\b\\d+(?:\\.\\d+)?[\\s-]?(?:year|month)\\s+survival\\b","survival rate"];
+
+  var DET=[
+    {key:"uncited", label:"Uncited claim",
+     why:"This sentence makes a checkable scientific claim but has no nearby citation.",
+     step:"attach a source and check it supports this exact claim.",
+     find:function(s){ return hasCite(s)?[]:collect(CLAIM,"gi",s); }},
+    {key:"pileup", label:"Citation pile-up",
+     why:"Grouped citations can hide whether each one supports this exact claim.",
+     step:"split the claim and rate each citation separately.",
+     find:function(s){
+       var ranges=[], m, r=/\[\s*(\d+)\s*[–-]\s*(\d+)\s*\]/g;
+       while((m=r.exec(s))){ if((+m[2]-+m[1]+1)>=3) ranges.push([m.index,m.index+m[0].length]); }
+       if(ranges.length) return ranges;
+       var c=collect(CITE.source,"",s); return c.length>=3?c:[];
+     }},
+    {key:"vague", label:"Vague evidence wording",
+     why:"Non-specific evidence language. Consider naming the study type or the source.",
+     step:"point the claim at a specific paper and rate its support.",
+     find:function(s){ return collect(VAGUE,"gi",s); }},
+    {key:"overclaim", label:"Strong certainty language",
+     why:"High-certainty wording. Check whether the cited source really supports this level of certainty.",
+     step:"compare the claim's certainty to what the source actually shows.",
+     find:function(s){ return collect(OVER,"gi",s); }},
+    {key:"broad", label:"Broad claim vs. cited scope",
+     why:"The cited evidence may apply only to specific populations, settings, or protocols.",
+     step:"check the source population and setting against the claim.",
+     find:function(s){ return hasCite(s)?collect(BROAD,"gi",s):[]; }},
+    {key:"guideline", label:"Guideline-type claim",
+     why:"Check the date, country, population, and whether the cited source is actually a guideline.",
+     step:"verify the cited source is the guideline, and still current.",
+     find:function(s){ return collect(GUIDE,"gi",s); }},
+    {key:"numeric", label:"Numeric claim",
+     why:"Verify the number, its denominator, the population, and the source table.",
+     step:"trace the number to the cited source.",
+     find:function(s){ var out=[]; for(var i=0;i<NUM.length;i++) out=out.concat(collect(NUM[i],"gi",s)); return out; }}
+  ];
+
+  function splitSentences(text){
+    var abbr=/\b(?:e\.g|i\.e|vs|et al|Fig|no|cf|approx|Dr|Prof|St|al|ca|resp|etc|Inc|Ltd|Jr)\.$/i;
+    var parts=text.replace(/\s+/g,' ').trim().split(/(?<=[.!?])\s+(?=["'“(\[]?[A-Z0-9])/);
+    var out=[];
+    for(var i=0;i<parts.length;i++){
+      var p=parts[i];
+      if(out.length && abbr.test(out[out.length-1])) out[out.length-1]+=' '+p;
+      else out.push(p);
+    }
+    return out.filter(function(s){return s.trim().length>1;});
+  }
+
+  function merge(ranges){
+    ranges=ranges.slice().sort(function(a,b){return a[0]-b[0]||a[1]-b[1];});
+    var out=[];
+    for(var i=0;i<ranges.length;i++){
+      var r=ranges[i];
+      if(out.length && r[0]<=out[out.length-1][1]) out[out.length-1][1]=Math.max(out[out.length-1][1],r[1]);
+      else out.push([r[0],r[1]]);
+    }
+    return out;
+  }
+  function highlight(s, ranges){
+    ranges=merge(ranges); var html='', i=0;
+    for(var k=0;k<ranges.length;k++){ var r=ranges[k]; html+=esc(s.slice(i,r[0]))+'<mark>'+esc(s.slice(r[0],r[1]))+'</mark>'; i=r[1]; }
+    return html+esc(s.slice(i));
+  }
+
+  function analyse(text){
+    var sentences=splitSentences(text), cards=[], counts={}, total=0;
+    for(var i=0;i<sentences.length;i++){
+      var s=sentences[i], hits=[], allRanges=[];
+      for(var d=0;d<DET.length;d++){
+        var rs=DET[d].find(s);
+        if(rs.length){ hits.push(DET[d]); allRanges=allRanges.concat(rs); counts[DET[d].key]=(counts[DET[d].key]||0)+1; total++; }
+      }
+      if(hits.length) cards.push({s:s, hits:hits, ranges:allRanges});
+    }
+    return {cards:cards, counts:counts, total:total, nSent:sentences.length};
+  }
+
+  function labelFor(key){ for(var i=0;i<DET.length;i++) if(DET[i].key===key) return DET[i].label; return key; }
+
+  function render(res){
+    var out=$("out");
+    if(!res.nSent){ out.innerHTML='<div class="clean">Paste a paragraph, then run the check.</div>'; return; }
+    var html='';
+    if(res.total===0){
+      html+='<div class="clean"><b>No signals in this snippet.</b> That isn\'t a clearance — heuristics only see '+
+            'wording, not whether the cited sources support the claims. The full CiteVahti audit is what checks support.</div>';
+    } else {
+      html+='<div class="summary"><span class="stotal">'+res.cards.length+' of '+res.nSent+' sentence'+
+            (res.nSent===1?'':'s')+' flagged</span>';
+      for(var k in res.counts){ if(res.counts.hasOwnProperty(k)) html+='<span class="scount">'+esc(labelFor(k))+' · '+res.counts[k]+'</span>'; }
+      html+='</div>';
+      for(var i=0;i<res.cards.length;i++){
+        var c=res.cards[i];
+        html+='<div class="card"><p class="sent">'+highlight(c.s,c.ranges)+'</p><div class="flags">';
+        for(var h=0;h<c.hits.length;h++){
+          var f=c.hits[h];
+          html+='<div class="flag"><span class="flabel">'+esc(f.label)+'</span><span class="fbody">'+
+                esc(f.why)+' <span class="step">In CiteVahti: '+esc(f.step)+'</span></span></div>';
+        }
+        html+='</div></div>';
+      }
+    }
+    html+=bridge(res.total>0);
+    out.innerHTML=html;
+  }
+
+  function bridge(hasSignals){
+    var lead=hasSignals
+      ? 'Your paragraph shows citation-risk signals. Heuristics can flag risk from wording alone — they <b>can\'t read the cited papers</b> or tell you whether a source actually supports a claim.'
+      : 'Wording checks only go so far. Whether each cited source actually supports its claim is what a full audit answers — and it\'s the part heuristics can\'t see.';
+    return '<div class="bridge"><h2>Check whether the source really supports the claim</h2>'+
+      '<p>'+lead+' That\'s the CiteVahti audit: claim-to-source checking, with Zotero and an exportable report.</p>'+
+      '<a class="btn" href="/citevahti/#start">Run the full citation-support audit in CiteVahti →</a>'+
+      '<a class="btn ghost" href="/citevahti/">What CiteVahti does</a></div>';
+  }
+
+  var EXAMPLE="Low-dose CT screening clearly reduces lung-cancer mortality worldwide [1]. Several studies have shown that it is now the standard of care for high-risk adults [2-9]. Screening improves survival and should be offered to everyone over 50. In the trial, screening reduced mortality by 20% (HR 0.80, 95% CI 0.73-0.88, p<0.001). It is well known that early detection saves lives, and this benefit is firmly established.";
+
+  $("run").addEventListener("click",function(){ render(analyse($("ms").value||"")); $("out").scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'nearest'}); });
+  $("ex").addEventListener("click",function(){ $("ms").value=EXAMPLE; render(analyse(EXAMPLE)); $("out").scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'nearest'}); });
+  $("clr").addEventListener("click",function(){ $("ms").value=""; $("out").innerHTML=""; $("ms").focus(); });
+})();
+</script>
+</body>
+</html>
