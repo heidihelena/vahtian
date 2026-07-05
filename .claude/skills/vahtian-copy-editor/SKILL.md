@@ -19,7 +19,7 @@ professionally allergic to hype — restraint *is* the persuasion.
 - **Plain verbs, present tense.** "Checks whether the source supports the
   claim." Not "empowers you to revolutionize citation quality."
 - **Concrete over abstract.** Name the standard (PRISMA, QUADAS-2, Cohen's κ),
-  the number (26 checks), the artifact (a `.ris` file, a hash-chained trail).
+  the number (28 checks), the artifact (a `.ris` file, a hash-chained trail).
   Specificity reads as competence *and* helps GEO.
 - **Front-load the claim.** First clause carries the point; qualifiers follow.
   "Free, local-first — nothing uploads" beats "With a local-first architecture
