@@ -304,7 +304,7 @@ const PRESETS = {
   ]},
   dictvahti:{label:'DictVahti — 5 REDCap mistakes',theme:'dictvahti',
     bg:'light',url:'vahtian.com/dictvahti',
-    caption:`Five REDCap data-dictionary mistakes you won't notice until analysis time — and a free linter that catches all of them before you collect a single record.\n\nDictVahti runs 26 deterministic checks across naming, field types, choices, branching logic and completeness, with one-click fixes. In your browser; nothing is uploaded.\n\n→ vahtian.com/dictvahti\n\n#REDCap #ClinicalResearch #DataManagement #EHR #ResearchData`,
+    caption:`Five REDCap data-dictionary mistakes you won't notice until analysis time — and a free linter that catches all of them before you collect a single record.\n\nDictVahti runs 28 deterministic checks across naming, field types, choices, branching logic and completeness, with one-click fixes. In your browser; nothing is uploaded.\n\n→ vahtian.com/dictvahti\n\n#REDCap #ClinicalResearch #DataManagement #EHR #ResearchData`,
     slides:[
     {type:'cover',kicker:'DICTVAHTI',title:'5 REDCap dictionary mistakes you’ll pay for at analysis time.',body:''},
     {type:'point',kicker:'MISTAKE 1',title:'Free text for things you’ll want to count.',body:'“Smoker? (text)” returns yes, Yes, y, current, ex...\n\nIf you will ever tabulate it, it needs coded choices — yesno exists, use it.'},
@@ -312,7 +312,7 @@ const PRESETS = {
     {type:'point',kicker:'MISTAKE 3',title:'Dates stored as text.',body:'A date field without validation accepts 12/3/24, 3.12.2024 and “last Tuesday”.\n\nEvery unvalidated field is a cleaning script you haven’t written yet.'},
     {type:'point',kicker:'MISTAKE 4',title:'Branching logic pointing at ghosts.',body:'Rename a field and the branching logic that referenced it fails silently.\n\nQuestions stop appearing — and nobody notices until the data is missing.'},
     {type:'point',kicker:'MISTAKE 5',title:'Choice codes that drift mid-study.',body:'1 = Never, 2 = Former... then someone inserts a category and renumbers.\n\nThe early records keep the old meaning. The codebook is now fiction.'},
-    {type:'cta',kicker:'',title:'Lint the dictionary before record #1.',body:'26 deterministic checks, one-click fixes. Free, in your browser — nothing is uploaded.',url:'vahtian.com/dictvahti'},
+    {type:'cta',kicker:'',title:'Lint the dictionary before record #1.',body:'28 deterministic checks, one-click fixes. Free, in your browser — nothing is uploaded.',url:'vahtian.com/dictvahti'},
   ]},
   studyvahti:{label:'StudyVahti — plan before you build',theme:'studyvahti',
     bg:'light',url:'vahtian.com/studyvahti',

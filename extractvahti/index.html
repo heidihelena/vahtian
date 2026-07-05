@@ -51,8 +51,13 @@
   .chip{font:600 11px/1 ui-monospace,Menlo,monospace;padding:5px 9px;border-radius:999px;border:1px solid #4a4068;color:#cfc7e6}
   section{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px;margin:18px 0;box-shadow:var(--shadow)}
   h2{font-size:16px;margin:0 0 4px;letter-spacing:-.01em}
-  h2 .n{color:var(--violet);font:600 13px/1 ui-monospace,monospace;margin-right:6px}
+  h2 .n{color:var(--link);font:600 13px/1 ui-monospace,monospace;margin-right:6px}
   .hint{color:var(--muted);font-size:13px;margin:4px 0 12px;max-width:64ch}
+  .wwh{font-size:14px;margin:6px 0 0;color:var(--ink);max-width:66ch}
+  .faq{margin-top:14px}
+  .faq details{border-top:1px solid var(--line);padding:8px 0}
+  .faq summary{cursor:pointer;font-weight:600;color:var(--link);font-size:13.5px}
+  .faq details p{color:var(--muted);font-size:13px;margin:6px 0 0;max-width:62ch}
   label{display:block;font-weight:600;font-size:13px;margin:10px 0 3px}
   input,select,textarea{width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:9px;font:inherit;background:#fff;color:var(--ink)}
   textarea{min-height:60px;resize:vertical}
@@ -105,6 +110,45 @@
 <div class="wrap">
 <main>
 
+  <section>
+    <h2>What this is</h2>
+    <p class="wwh"><b>What.</b> ExtractVahti is the extraction-and-appraisal step of a diagnostic-test-accuracy
+      review. For each included study you enter the 2&times;2 counts (it computes sensitivity, specificity, and
+      overall agreement), record the study details, and rate risk of bias with QUADAS-2 / QUADAS-C /
+      PROBAST-AI — then export tidy CSVs for meta-analysis in R.</p>
+    <p class="wwh"><b>Why.</b> Extraction is where DTA reviews leak errors: a mis-transcribed 2&times;2, an
+      inconsistent reference standard, a bias domain nobody appraised. Doing it once, in a structured form
+      that computes the accuracy for you and keeps a risk-of-bias traffic-light, is what a reproducible
+      review needs — and it hands the headline model straight to R.</p>
+    <p class="wwh"><b>How.</b> Paste your included studies from MatchVahti (or load the example). For each
+      study: enter the 2&times;2 per cutoff, note the decision impact, and rate each risk-of-bias domain, then
+      Save and move on. Export <span class="mono">extraction.csv</span> / <span class="mono">rob.csv</span>
+      and the traffic-light SVG. A second extractor&rsquo;s file can be reconciled. Nothing uploads.</p>
+
+    <div class="faq">
+      <details><summary>Is my data uploaded?</summary>
+        <p>No. ExtractVahti runs entirely in your browser and saves to your device&rsquo;s local storage —
+          nothing leaves your machine, and there are no accounts or trackers.</p></details>
+      <details><summary>What does it compute, and what stays in R?</summary>
+        <p>From a 2&times;2 (TP/FP/FN/TN) it computes sensitivity, specificity, and overall percent agreement;
+          with two or more extractors it computes Cohen&rsquo;s &kappa; (or Krippendorff&rsquo;s &alpha; for 3+)
+          on the judgments. The headline HSROC / bivariate model runs in R on the exported CSV
+          (<span class="mono">mada</span> / <span class="mono">metadta</span>).</p></details>
+      <details><summary>Which risk-of-bias tools?</summary>
+        <p>QUADAS-2 and QUADAS-C by default; PROBAST-AI / TRIPOD-AI / CLAIM when the index test is AI
+          (toggle it on in step 1). The reference-standard domain is high-concern by design when the
+          reference standard is imperfect.</p></details>
+      <details><summary>What do I get out?</summary>
+        <p><span class="mono">extraction.csv</span> and <span class="mono">reclassification.csv</span> for R,
+          <span class="mono">rob.csv</span>, a risk-of-bias traffic-light SVG, and a de-identified
+          validation file. All downloadable, reviewable, and local.</p></details>
+      <details><summary>Can two people extract independently?</summary>
+        <p>Yes. Load a second extractor&rsquo;s <span class="mono">extraction.jsonl</span> in the Reconcile
+          step — only beyond-tolerance mismatches surface for adjudication, and each person&rsquo;s data
+          stands alone.</p></details>
+    </div>
+  </section>
+
   <section id="setupSection">
     <h2><span class="n">1</span>Included studies &amp; protocol</h2>
     <p class="hint">Paste the included set from MatchVahti screening (JSON / JSONL: one object per study with
@@ -138,19 +182,19 @@
 
     <h2><span class="n">2</span>Extract &mdash; study data</h2>
     <div class="row">
-      <div><label>Cohort n</label><input id="f_cohort_n" type="number" min="0" /></div>
-      <div><label>Specimen type</label><select id="f_specimen"><option value=""></option><option>resection</option><option>core/small biopsy</option><option>cytology cell block</option></select></div>
-      <div><label>PD-L1 clone</label><select id="f_clone"><option value=""></option><option>22C3</option><option>28-8</option><option>SP263</option><option>SP142</option><option>other</option></select></div>
+      <div><label for="f_cohort_n">Cohort n</label><input id="f_cohort_n" type="number" min="0" /></div>
+      <div><label for="f_specimen">Specimen type</label><select id="f_specimen"><option value=""></option><option>resection</option><option>core/small biopsy</option><option>cytology cell block</option></select></div>
+      <div><label for="f_clone">PD-L1 clone</label><select id="f_clone"><option value=""></option><option>22C3</option><option>28-8</option><option>SP263</option><option>SP142</option><option>other</option></select></div>
     </div>
     <div class="row">
-      <div><label>Algorithm name</label><input id="f_algo" /></div>
-      <div><label>Version</label><input id="f_algo_v" /></div>
-      <div><label>Platform / scanner</label><input id="f_platform" /></div>
+      <div><label for="f_algo">Algorithm name</label><input id="f_algo" /></div>
+      <div><label for="f_algo_v">Version</label><input id="f_algo_v" /></div>
+      <div><label for="f_platform">Platform / scanner</label><input id="f_platform" /></div>
     </div>
     <div class="row">
-      <div><label>Reference standard</label><input id="f_ref" placeholder="e.g. >=2-pathologist consensus" /></div>
-      <div><label>Turn-around (min)</label><input id="f_tat" type="number" min="0" /></div>
-      <div><label>Funding / COI</label><input id="f_funding" /></div>
+      <div><label for="f_ref">Reference standard</label><input id="f_ref" placeholder="e.g. >=2-pathologist consensus" /></div>
+      <div><label for="f_tat">Turn-around (min)</label><input id="f_tat" type="number" min="0" /></div>
+      <div><label for="f_funding">Funding / COI</label><input id="f_funding" /></div>
     </div>
 
     <h2 style="margin-top:18px"><span class="n">2b</span>Per-cutoff accuracy <span class="muted" style="font-weight:400;font-size:12px">&mdash; enter a 2&times;2 where reconstructable; sens/spec/OPA auto-compute</span></h2>
@@ -198,10 +242,10 @@
       Records join on <span class="mono">record_id</span>; judgments get Cohen's &kappa;, counts an exact match, continuous
       values a tolerance. Only beyond-tolerance mismatches surface for adjudication &mdash; the human data source stands alone.</p>
     <div class="row" style="align-items:flex-end">
-      <div><label class="filebtn" style="display:inline-block;cursor:pointer"><input type="file" id="coFile" accept=".jsonl,.json,application/json" style="display:none"> <button class="ghost small" type="button" onclick="document.getElementById('coFile').click()">Load extractor B (jsonl)</button></label></div>
-      <div><label>Count tolerance (±)</label><input id="tolCounts" type="number" min="0" value="0"></div>
-      <div><label>Rate tolerance (± %pt)</label><input id="tolRate" type="number" min="0" step="0.5" value="1"></div>
-      <div><label>&kappa; tolerance (±)</label><input id="tolKappa" type="number" min="0" step="0.01" value="0.05"></div>
+      <div><label class="filebtn" style="display:inline-block;cursor:pointer"><input type="file" id="coFile" accept=".jsonl,.json,application/json" aria-label="Load second extractor's extraction.jsonl file" style="display:none"> <button class="ghost small" type="button" onclick="document.getElementById('coFile').click()">Load extractor B (jsonl)</button></label></div>
+      <div><label for="tolCounts">Count tolerance (±)</label><input id="tolCounts" type="number" min="0" value="0"></div>
+      <div><label for="tolRate">Rate tolerance (± %pt)</label><input id="tolRate" type="number" min="0" step="0.5" value="1"></div>
+      <div><label for="tolKappa">&kappa; tolerance (±)</label><input id="tolKappa" type="number" min="0" step="0.01" value="0.05"></div>
     </div>
     <p class="muted" id="coStatus" style="font-size:13px;margin-top:8px"></p>
     <div id="reconcileSummary"></div>
@@ -213,7 +257,7 @@
     <p class="hint">Load an <strong>agent pre-extraction</strong> file (same jsonl; each record carries a <span class="mono">model</span> id).
       It is <strong>sealed</strong> &mdash; never shown and never entered into your data. After you <em>commit</em> a study (Save),
       the agent's values for that study are revealed <strong>only as discrepancy flags to re-check</strong>. Audited: human-commit before reveal.</p>
-    <label class="filebtn" style="display:inline-block;cursor:pointer"><input type="file" id="sealFile" accept=".jsonl,.json,application/json" style="display:none"> <button class="ghost small" type="button" onclick="document.getElementById('sealFile').click()">Load sealed agent file (jsonl)</button></label>
+    <label class="filebtn" style="display:inline-block;cursor:pointer"><input type="file" id="sealFile" accept=".jsonl,.json,application/json" aria-label="Load sealed agent pre-extraction jsonl file" style="display:none"> <button class="ghost small" type="button" onclick="document.getElementById('sealFile').click()">Load sealed agent file (jsonl)</button></label>
     <span class="pill" id="sealPill" style="margin-left:8px"></span>
   </section>
 </main>
@@ -305,8 +349,8 @@ function renderStudy(){
       +'<div class="grid4">'
       +cell2x2(i,"tp","TP",cd.tp)+cell2x2(i,"fp","FP",cd.fp)+cell2x2(i,"fn","FN",cd.fn)+cell2x2(i,"tn","TN",cd.tn)
       +'</div><div class="row" style="margin-top:6px">'
-      +'<div><label>&kappa; (linear, optional)</label><input data-cut="'+i+'" data-fld="kappa" type="number" step="0.01" value="'+(cd.kappa==null?"":esc(cd.kappa))+'"></div>'
-      +'<div><label>OPA % (optional)</label><input data-cut="'+i+'" data-fld="opa" type="number" step="0.1" value="'+(cd.opa==null?"":esc(cd.opa))+'"></div>'
+      +'<div><label>&kappa; (linear, optional)</label><input data-cut="'+i+'" data-fld="kappa" type="number" step="0.01" aria-label="'+esc(c+" kappa linear")+'" value="'+(cd.kappa==null?"":esc(cd.kappa))+'"></div>'
+      +'<div><label>OPA % (optional)</label><input data-cut="'+i+'" data-fld="opa" type="number" step="0.1" aria-label="'+esc(c+" OPA percent")+'" value="'+(cd.opa==null?"":esc(cd.opa))+'"></div>'
       +'</div><div class="calc" id="calc'+i+'">'+esc(calcText(cd))+'</div></div>';
   }).join("");
   $("reclassBlocks").innerHTML=S.cutoffs.map((c,i)=>{
@@ -328,8 +372,8 @@ function renderStudy(){
   bindStudyInputs();
   $("savePill").textContent=e.done?"saved ✓":""; $("savePill").className="pill "+(e.done?"done":"");
 }
-function cell2x2(i,fld,lbl,v){ return '<div><label>'+lbl+'</label><input data-cut="'+i+'" data-fld="'+fld+'" type="number" min="0" value="'+(v==null?"":esc(v))+'"></div>'; }
-function cellRc(i,fld,lbl,v){ return '<div><label>'+lbl+'</label><input data-rc="'+i+'" data-fld="'+fld+'" type="number" min="0" value="'+(v==null?"":esc(v))+'"></div>'; }
+function cell2x2(i,fld,lbl,v){ return '<div><label>'+lbl+'</label><input data-cut="'+i+'" data-fld="'+fld+'" type="number" min="0" aria-label="'+esc((S.cutoffs[i]||"cutoff")+" "+lbl)+'" value="'+(v==null?"":esc(v))+'"></div>'; }
+function cellRc(i,fld,lbl,v){ return '<div><label>'+lbl+'</label><input data-rc="'+i+'" data-fld="'+fld+'" type="number" min="0" aria-label="'+esc((S.cutoffs[i]||"cutoff")+" reclassification "+lbl)+'" value="'+(v==null?"":esc(v))+'"></div>'; }
 function calcText(cd){
   const have=["tp","fp","fn","tn"].every(k=>cd[k]!==""&&cd[k]!=null&&!isNaN(+cd[k]));
   if(!have) return "enter the 2×2 → sens / spec / OPA";

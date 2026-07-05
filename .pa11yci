@@ -12,6 +12,7 @@
     "http://127.0.0.1:8080/about/",
     "http://127.0.0.1:8080/fullvahti/",
     "http://127.0.0.1:8080/synthvahti/",
+    "http://127.0.0.1:8080/extractvahti/",
     "http://127.0.0.1:8080/reviewvahti/",
     "http://127.0.0.1:8080/cite/",
     "http://127.0.0.1:8080/privacy/"

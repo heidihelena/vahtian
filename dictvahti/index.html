@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>DictVahti — REDCap Dictionary Linter</title>
-  <meta name="description" content="DictVahti audits a REDCap data dictionary CSV with 26 deterministic rules across naming, field types, choices, and branching logic — and proposes fixes. Free, in-browser." />
+  <meta name="description" content="DictVahti audits a REDCap data dictionary CSV with 28 deterministic rules across naming, field types, choices, and branching logic — and proposes fixes. Free, in-browser." />
   <link rel="canonical" href="https://vahtian.com/dictvahti/" />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://vahtian.com/dictvahti/" />
@@ -22,7 +22,7 @@
     "@type": "WebApplication",
     "name": "DictVahti",
     "url": "https://vahtian.com/dictvahti/",
-    "description": "REDCap data dictionary linter: runs 26 deterministic heuristic rules across naming, labels, field types, choices, branching logic, and completeness, and proposes specific fixes including a corrected CSV download. Runs entirely in the browser — no data leaves the machine.",
+    "description": "REDCap data dictionary linter: runs 28 deterministic heuristic rules across naming, labels, field types, choices, branching logic, and completeness, and proposes specific fixes including a corrected CSV download. Runs entirely in the browser — no data leaves the machine.",
     "applicationCategory": "Research software",
     "operatingSystem": "Any",
     "browserRequirements": "Requires JavaScript",
@@ -118,6 +118,11 @@
     }
     h1 { margin: 0; font-size: clamp(1.5rem, 2.5vw, 2.2rem); line-height: 1.05; }
     .statement p { max-width: 68rem; margin: .6rem 0 0; color: var(--sv-muted); font-size: 1rem; }
+    .wwh { max-width: 68rem; margin: .55rem 0 0; color: var(--sv-ink); font-size: .98rem; }
+    .faq { margin-top: 1rem; }
+    .faq details { border-top: 1px solid var(--sv-border); padding: .55rem 0; }
+    .faq summary { cursor: pointer; font-weight: 700; color: var(--sv-blue); font-size: .92rem; }
+    .faq details p { color: var(--sv-muted); font-size: .9rem; margin: .4rem 0 0; max-width: 62rem; }
 
     /* ── Drop zone ── */
     .dropzone {
@@ -339,11 +344,36 @@
     <div class="panel-body">
       <p class="eyebrow">REDCap data dictionary heuristic auditor</p>
       <h1>Find naming, structure, and logic problems before data collection starts.</h1>
-      <p>
-        Upload or paste a REDCap data dictionary CSV. DictVahti runs 26 deterministic
-        heuristic rules across naming, labels, field types, choices, branching logic,
-        and completeness — and proposes specific fixes. Nothing is sent anywhere.
-      </p>
+      <p class="wwh"><b>What.</b> DictVahti reads your REDCap data dictionary and runs 28 deterministic
+        checks across naming, labels, field types, choices, branching logic, and completeness — flagging
+        problems and proposing specific fixes, including a corrected CSV.</p>
+      <p class="wwh"><b>Why.</b> Dictionary mistakes are cheap to fix now and expensive after data
+        collection: a bad variable name breaks your R or Stata export, a broken branching reference
+        silently drops data, a calc field with no formula stores nothing. DictVahti catches them before a
+        single record is entered.</p>
+      <p class="wwh"><b>How.</b> Upload or paste the CSV (REDCap: Project Setup → Data Dictionary →
+        Download), or import a StudyVahti variable plan. Run the audit — each finding says what's wrong and
+        how to fix it — then download the corrected CSV. Nothing is sent anywhere.</p>
+      <div class="faq">
+        <details><summary>Does my dictionary get uploaded?</summary>
+          <p>No. DictVahti runs entirely in your browser — the CSV never leaves your machine, and there are
+            no accounts or trackers.</p></details>
+        <details><summary>Will it change my data?</summary>
+          <p>No. It audits the dictionary (the structure), never your records. The corrected CSV is a
+            proposed fix you review before importing — nothing is applied for you.</p></details>
+        <details><summary>What are the 28 checks?</summary>
+          <p>Naming (lowercase, no spaces, legal characters, no duplicates), labels, field types (calc
+            formulas, date validation), choices (defined, no duplicate codes), branching logic (valid
+            references, balanced brackets), and completeness (an identifier, an anchor date). The full list
+            is in the Rule reference below.</p></details>
+        <details><summary>Are these hard errors or suggestions?</summary>
+          <p>Both — findings are graded <b>error</b>, <b>warning</b>, or <b>note</b>. Errors (e.g. duplicate
+            names, a calc field with no formula) will break the REDCap import or the exported dataset;
+            notes are advice.</p></details>
+        <details><summary>What if I don't use REDCap?</summary>
+          <p>The naming, type, and choice checks apply to most codebooks. You can also paste a StudyVahti
+            variable plan and DictVahti will convert it to a REDCap CSV you can audit or download.</p></details>
+      </div>
     </div>
   </div>
 
@@ -365,7 +395,7 @@
       <!-- Upload tab -->
       <div id="tabUpload">
         <div class="dropzone" id="dropzone" role="button" tabindex="0" aria-label="Upload REDCap data dictionary CSV">
-          <input type="file" id="fileInput" accept=".csv,text/csv" />
+          <input type="file" id="fileInput" accept=".csv,text/csv" aria-label="Upload REDCap data dictionary CSV file" />
           <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
             <polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/>
@@ -474,7 +504,7 @@
     <div class="panel-head">
       <div>
         <h2>Rule reference</h2>
-        <p>All 26 heuristics DictVahti applies, with rationale.</p>
+        <p>All 28 heuristics DictVahti applies, with rationale.</p>
       </div>
     </div>
     <div class="panel-body">
