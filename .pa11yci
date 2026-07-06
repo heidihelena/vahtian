@@ -11,6 +11,7 @@
     "http://127.0.0.1:8080/methodvahti/claim-check/",
     "http://127.0.0.1:8080/methodvahti/codebook/",
     "http://127.0.0.1:8080/guidelinevahti/pilot/",
+    "http://127.0.0.1:8080/guidelinevahti/pilot/sample/",
     "http://127.0.0.1:8080/studyvahti/",
     "http://127.0.0.1:8080/about/",
     "http://127.0.0.1:8080/fullvahti/",
