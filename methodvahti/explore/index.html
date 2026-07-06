@@ -198,6 +198,11 @@
           <span><i style="background:var(--violet)"></i>synthesis</span>
           <span><i style="background:var(--lilac)"></i>stability band</span>
         </div>
+        <table class="kv" aria-label="What each model is based on">
+          <tr><td class="v">Linear saturation</td><td>saturation grows with heterogeneity and theme rarity — Guest et&nbsp;al. 2006; Hennink et&nbsp;al. 2017</td></tr>
+          <tr><td class="v">Network complexity</td><td>information power: a narrow aim, strong theory and rich dialogue lower N — Malterud et&nbsp;al. 2016</td></tr>
+          <tr><td class="v">Fuzzy-set QCA</td><td>configurational adequacy: enough cases to cover the plausible configurations — Ragin</td></tr>
+        </table>
       </div>
 
       <div class="card2">
@@ -227,7 +232,9 @@
       </div>
 
       <p class="note"><b>These are author-hypothesis models (Vahtian 2026), not externally
-        validated.</b> They are a transparent way to reason about trade-offs — the researcher
+        validated.</b> Each is anchored to a literature (above), but the models are
+        <em>author-calibrated</em> — the citations justify each model's shape and direction, not
+        its exact coefficients. They are a transparent way to reason about trade-offs; the researcher
         decides N. See the <a href="https://github.com/heidihelena/vahtian/blob/main/methodvahti/VALIDATION.md">open validation plan</a>.</p>
     </div>
   </div>
@@ -239,43 +246,11 @@
 
 </div>
 
-<script>
-"use strict";
-// ── Ported 1:1 from methodvahti_pdf.optimise_n (Python) ─────────────────────
-const DEPTH_BASE = {descriptive:9, explanatory:16, theoretical:24};
-const clamp01 = x => Math.max(0, Math.min(1, x));
-
-function modelLinear(base,H,p,Q){ return base*(1+0.9*H)*(1+0.5*(1-p))*(1-0.25*(Q-0.5)*2); }
-function modelNetwork(base,H,S,T,Q){ return base*(1+1.1*H)*(1-0.35*S)*(1-0.25*T)*(1-0.15*(Q-0.5)*2); }
-function modelFuzzy(base,H,S,floor){ let n=base*0.8+18*H*(1-S); return floor!=null?Math.max(n,floor):n; }
-
-function synth(P){
-  const base = DEPTH_BASE[P.depth] || DEPTH_BASE.explanatory;
-  const floor = (P.mixed && P.mdd) ? Math.ceil(2 + 1/Math.max(P.mdd,0.05)) : null;
-  const m = [Math.max(4,modelLinear(base,P.H,P.p,P.Q)),
-             Math.max(4,modelNetwork(base,P.H,P.S,P.T,P.Q)),
-             Math.max(4,modelFuzzy(base,P.H,P.S,floor))];
-  const center = (m[0]+m[1]+m[2])/3;
-  const ip = (P.S+P.T+P.Q+(1-P.H))/4;
-  const ipF = 1-0.20*(ip-0.5)*2;
-  const powF = 1+0.50*(P.power-0.80);
-  return {optimal: center*ipF*powF, models:m, ip, floor};
-}
-
-function optimise(P){
-  const r = synth(P);
-  const optimal_n = Math.ceil(r.optimal);
-  // stability: perturb H,p,S,T,Q by ±0.05 one at a time
-  const keys=['H','p','S','T','Q']; let vals=[optimal_n];
-  for(const k of keys){ for(const d of [-0.05,0.05]){
-    const Q2=Object.assign({},P); Q2[k]=clamp01(P[k]+d);
-    vals.push(Math.ceil(synth(Q2).optimal));
-  }}
-  const lo=Math.min(...vals), hi=Math.max(...vals);
-  const stable=(hi-lo)<=Math.max(1,Math.round(0.10*optimal_n));
-  return {optimal_n, stable, lo, hi, ip:r.ip,
-          models:{linear:Math.ceil(r.models[0]), network:Math.ceil(r.models[1]), fuzzy:Math.ceil(r.models[2])}};
-}
+<script type="module">
+// The sample-size core is the shared module methodvahti/optimise.mjs — the same
+// code the CI parity test checks against the Python reference (optimise_n).
+// Only the charts and DOM wiring live inline here.
+import { DEPTH_BASE, clamp01, synth, optimise } from "../optimise.mjs";
 
 // ── Read controls ───────────────────────────────────────────────────────────
 const $ = id => document.getElementById(id);
@@ -347,6 +322,10 @@ function drawTornado(P,baseN){
     const lbl=(r.hi>0?'+':'')+r.hi+' / '+(r.lo>0?'+':'')+r.lo;
     svg.appendChild(el('text',{x:Math.max(x1,x2)+6,y:y+barH/2+4,'font-size':10.5,fill:C.muted},lbl));
   });
+  svg.setAttribute('aria-label',
+    'Sensitivity of N to a ±0.10 shift in each parameter, largest first: '+
+    rows.map(r=>`${r.label} moves N by ${r.hi} to ${r.lo}`).join('; ')+
+    `. Baseline N=${baseN}. N is most sensitive to ${rows[0].label}.`);
 }
 
 // ── Render: sweep (N vs heterogeneity) ───────────────────────────────────────
@@ -446,6 +425,12 @@ function render(reseed, runSim){
   const chip=$('stchip'); chip.textContent=o.stable?'stable':'sensitive';
   chip.className='chip '+(o.stable?'stable':'sensitive');
   drawBars(o); drawTornado(P,o.optimal_n); drawSweep(P,o.optimal_n);
+  // Screen-reader summaries: charts are decorative SVG, so carry the numbers on aria-label.
+  $('bars').setAttribute('aria-label',
+    `Three sample-size models: linear saturation N=${o.models.linear}, network complexity N=${o.models.network}, `+
+    `fuzzy-set QCA N=${o.models.fuzzy}. Synthesis N=${o.optimal_n}, ${o.stable?'stable':'sensitive'}, range ${o.lo} to ${o.hi}.`);
+  $('sweep').setAttribute('aria-label',
+    `Synthesised N versus heterogeneity, other parameters fixed. At the current heterogeneity ${P.H.toFixed(2)}, N=${o.optimal_n}.`);
   if(runSim) drawSat(P,o,reseed);
 }
 

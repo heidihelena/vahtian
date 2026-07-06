@@ -52,6 +52,26 @@ jobs:
           cp synthvahti/fixtures/golden.csv extraction.csv
           Rscript synthesis.golden.R
 
+  # MethodVahti parity: regenerate the golden sample-size values from the Python
+  # reference (methodvahti_pdf.optimise_n — pure stdlib), then assert the browser
+  # core (methodvahti/optimise.mjs) that the Explorer imports reproduces them
+  # exactly. The free explorer and the paid report must agree on N.
+  method-stats:
+    name: MethodVahti stats parity
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Regenerate golden values from the Python reference
+        run: python3 tools/golden_method.py
+      - name: JS optimise core matches Python (golden parity + edge cases)
+        run: node tools/method-test.mjs
+
   # Informative: quality budgets. continue-on-error so score variance never
   # blocks a merge; tighten the thresholds in lighthouserc.json over time.
   lighthouse:
