@@ -1,0 +1,270 @@
+[
+  {
+    "name": "defaults",
+    "params": {
+      "H": 0.35,
+      "p": 0.3,
+      "S": 0.65,
+      "T": 0.5,
+      "Q": 0.75,
+      "power": 0.8,
+      "depth": "explanatory"
+    },
+    "optimal_n": 17,
+    "stable": true,
+    "stability_range": [
+      17,
+      18
+    ],
+    "models": {
+      "linear_saturation": 25,
+      "network_complexity": 14,
+      "fuzzy_set_qca": 16
+    },
+    "information_power_index": 0.637
+  },
+  {
+    "name": "homogeneous_descriptive",
+    "params": {
+      "H": 0.1,
+      "p": 0.5,
+      "S": 0.8,
+      "T": 0.7,
+      "Q": 0.85,
+      "power": 0.8,
+      "depth": "descriptive"
+    },
+    "optimal_n": 7,
+    "stable": true,
+    "stability_range": [
+      7,
+      7
+    ],
+    "models": {
+      "linear_saturation": 11,
+      "network_complexity": 6,
+      "fuzzy_set_qca": 8
+    },
+    "information_power_index": 0.812
+  },
+  {
+    "name": "heterogeneous_theoretical",
+    "params": {
+      "H": 0.9,
+      "p": 0.15,
+      "S": 0.3,
+      "T": 0.3,
+      "Q": 0.55,
+      "power": 0.9,
+      "depth": "theoretical"
+    },
+    "optimal_n": 49,
+    "stable": true,
+    "stability_range": [
+      48,
+      51
+    ],
+    "models": {
+      "linear_saturation": 61,
+      "network_complexity": 39,
+      "fuzzy_set_qca": 31
+    },
+    "information_power_index": 0.312
+  },
+  {
+    "name": "rare_theme",
+    "params": {
+      "H": 0.5,
+      "p": 0.05,
+      "S": 0.5,
+      "T": 0.5,
+      "Q": 0.6,
+      "power": 0.8,
+      "depth": "explanatory"
+    },
+    "optimal_n": 23,
+    "stable": true,
+    "stability_range": [
+      22,
+      23
+    ],
+    "models": {
+      "linear_saturation": 33,
+      "network_complexity": 18,
+      "fuzzy_set_qca": 18
+    },
+    "information_power_index": 0.525
+  },
+  {
+    "name": "high_power",
+    "params": {
+      "H": 0.4,
+      "p": 0.3,
+      "S": 0.6,
+      "T": 0.55,
+      "Q": 0.7,
+      "power": 0.99,
+      "depth": "explanatory"
+    },
+    "optimal_n": 20,
+    "stable": true,
+    "stability_range": [
+      20,
+      21
+    ],
+    "models": {
+      "linear_saturation": 27,
+      "network_complexity": 15,
+      "fuzzy_set_qca": 16
+    },
+    "information_power_index": 0.612
+  },
+  {
+    "name": "low_power",
+    "params": {
+      "H": 0.4,
+      "p": 0.3,
+      "S": 0.6,
+      "T": 0.55,
+      "Q": 0.7,
+      "power": 0.5,
+      "depth": "explanatory"
+    },
+    "optimal_n": 16,
+    "stable": true,
+    "stability_range": [
+      15,
+      16
+    ],
+    "models": {
+      "linear_saturation": 27,
+      "network_complexity": 15,
+      "fuzzy_set_qca": 16
+    },
+    "information_power_index": 0.612
+  },
+  {
+    "name": "mixed_methods",
+    "params": {
+      "H": 0.45,
+      "p": 0.25,
+      "S": 0.55,
+      "T": 0.5,
+      "Q": 0.65,
+      "power": 0.8,
+      "depth": "explanatory",
+      "mixed": true,
+      "mdd": 0.2
+    },
+    "optimal_n": 20,
+    "stable": true,
+    "stability_range": [
+      20,
+      21
+    ],
+    "models": {
+      "linear_saturation": 29,
+      "network_complexity": 17,
+      "fuzzy_set_qca": 17
+    },
+    "information_power_index": 0.562
+  },
+  {
+    "name": "mixed_small_diff",
+    "params": {
+      "H": 0.45,
+      "p": 0.25,
+      "S": 0.55,
+      "T": 0.5,
+      "Q": 0.65,
+      "power": 0.8,
+      "depth": "explanatory",
+      "mixed": true,
+      "mdd": 0.08
+    },
+    "optimal_n": 20,
+    "stable": true,
+    "stability_range": [
+      20,
+      21
+    ],
+    "models": {
+      "linear_saturation": 29,
+      "network_complexity": 17,
+      "fuzzy_set_qca": 17
+    },
+    "information_power_index": 0.562
+  },
+  {
+    "name": "boundary_rounding",
+    "params": {
+      "H": 0.6,
+      "p": 0.2,
+      "S": 0.4,
+      "T": 0.4,
+      "Q": 0.6,
+      "power": 0.8,
+      "depth": "theoretical"
+    },
+    "optimal_n": 36,
+    "stable": true,
+    "stability_range": [
+      35,
+      37
+    ],
+    "models": {
+      "linear_saturation": 50,
+      "network_complexity": 30,
+      "fuzzy_set_qca": 26
+    },
+    "information_power_index": 0.45
+  },
+  {
+    "name": "extreme_homogeneous",
+    "params": {
+      "H": 0.0,
+      "p": 0.8,
+      "S": 0.95,
+      "T": 0.9,
+      "Q": 0.95,
+      "power": 0.8,
+      "depth": "descriptive"
+    },
+    "optimal_n": 6,
+    "stable": true,
+    "stability_range": [
+      6,
+      6
+    ],
+    "models": {
+      "linear_saturation": 8,
+      "network_complexity": 5,
+      "fuzzy_set_qca": 8
+    },
+    "information_power_index": 0.95
+  },
+  {
+    "name": "extreme_heterogeneous",
+    "params": {
+      "H": 1.0,
+      "p": 0.1,
+      "S": 0.1,
+      "T": 0.1,
+      "Q": 0.4,
+      "power": 0.95,
+      "depth": "theoretical"
+    },
+    "optimal_n": 63,
+    "stable": true,
+    "stability_range": [
+      61,
+      65
+    ],
+    "models": {
+      "linear_saturation": 70,
+      "network_complexity": 49,
+      "fuzzy_set_qca": 36
+    },
+    "information_power_index": 0.15
+  }
+]

@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<!--
+  GuidelineVahti — SAMPLE consensus record. Synthetic, illustrative deliverable
+  for the Delphi pilot funnel. Static; no JS, no network calls. Print or save as
+  PDF from the browser.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="theme-color" content="#2D2440" />
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; img-src 'self' data:; base-uri 'none'; form-action 'none'" />
+<meta name="referrer" content="no-referrer" />
+<link rel="canonical" href="https://vahtian.com/guidelinevahti/pilot/sample/" />
+<title>Sample consensus record — GuidelineVahti Delphi pilot</title>
+<meta name="description" content="A synthetic sample of what a GuidelineVahti Delphi pilot delivers: round summary, anonymized rating distributions, median/IQR, RAND/UCLA classification, chance-corrected agreement, an implementation priority map, the final statement table, and methods-appendix text. Illustrative only." />
+<meta property="og:title" content="Sample consensus record — GuidelineVahti" />
+<meta property="og:description" content="Exactly what a Delphi pilot delivers — round summary, distributions, RAND/UCLA consensus, agreement, priority map, statement table, methods appendix. A synthetic example." />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://vahtian.com/guidelinevahti/pilot/sample/" />
+<meta property="og:image" content="https://vahtian.com/brand/cards/guidelinevahti-card.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="Sample consensus record — GuidelineVahti Delphi pilot." />
+<meta property="og:site_name" content="Vahtian" />
+<meta name="twitter:card" content="summary_large_image" />
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"WebPage",
+  "name":"Sample consensus record — GuidelineVahti Delphi pilot",
+  "url":"https://vahtian.com/guidelinevahti/pilot/sample/",
+  "description":"A synthetic, illustrative sample of a GuidelineVahti Delphi pilot deliverable: round summary, anonymized rating distributions, median and IQR, RAND/UCLA classification, chance-corrected agreement, an implementation priority map, the final statement table, and methods-appendix text. The panel decides; the record documents what the panel decided.",
+  "isPartOf":{"@type":"WebSite","name":"Vahtian","url":"https://vahtian.com/"},
+  "publisher":{"@type":"Organization","name":"Vahtian","url":"https://vahtian.com/"}
+}
+</script>
+<style>
+  :root{
+    --navy:#2D2440; --violet:#8B6FC9; --lilac:#C5B8E8; --lilac-soft:#EFEBF8;
+    --ink:#1C1830; --muted:#5B5570; --bg:#FAF9FC; --card:#FFFFFF; --line:#E7E3F0;
+    --amber:#C98A00; --amber-fill:#FFF2D8; --amber-text:#5A4300; --link:#6F52B8;
+    --shadow:0 12px 30px rgba(45,36,64,.10); --radius:14px;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,ui-sans-serif,system-ui,sans-serif;
+    font-size:16px;line-height:1.55}
+  header{background:var(--navy);color:#fff;padding:20px 18px;padding-top:max(20px,env(safe-area-inset-top))}
+  .wrap{max-width:840px;margin:0 auto}
+  .up{display:block;font-size:12.5px;color:var(--lilac);text-decoration:none;margin:0 0 12px}
+  .brand{display:flex;align-items:center;gap:11px}
+  .brand h1{margin:0;font-size:20px;font-weight:650}
+  .brand .sub{margin:2px 0 0;font-size:13px;color:var(--lilac)}
+  .synthetic{max-width:840px;margin:14px auto 0;font-size:13px;color:#241b3a;background:var(--amber-fill);
+    border:1px solid #e6c980;border-radius:9px;padding:9px 12px}
+  .printnote{max-width:840px;margin:10px auto 0;font-size:12.5px;color:var(--lilac)}
+  main{max-width:840px;margin:0 auto;padding:16px}
+  section{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+    padding:18px;margin:0 0 14px;box-shadow:var(--shadow)}
+  h2{font-size:13px;text-transform:uppercase;letter-spacing:.7px;color:var(--link);margin:0 0 4px;font-weight:650}
+  .sect-lede{color:var(--muted);font-size:13.5px;margin:0 0 10px}
+  .muted{color:var(--muted);font-size:13px}
+  a{color:var(--link)}
+  .meta{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:6px}
+  @media(max-width:560px){.meta{grid-template-columns:1fr 1fr}}
+  .meta .m{border:1px solid var(--line);border-radius:10px;padding:10px 12px;background:var(--bg)}
+  .meta .m .k{font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);font-weight:700}
+  .meta .m .v{font-size:16px;font-weight:650;margin-top:2px}
+  .scard{border:1px solid var(--line);border-radius:12px;padding:14px;margin-top:12px}
+  .scard .st{margin:0 0 4px;font-size:14.5px;font-weight:600}
+  .state{display:inline-block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;padding:3px 9px;border-radius:999px;margin-left:6px}
+  .state.for{background:var(--lilac-soft);color:#3a2c6b;border:1px solid var(--violet)}
+  .state.against{background:var(--bg);color:var(--muted);border:1px solid var(--line)}
+  .state.nocon{background:var(--amber-fill);color:var(--amber-text);border:1px solid #e6c980}
+  .agg{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+  .ab{flex:1 1 110px;border:1px solid var(--line);border-radius:10px;padding:9px 11px;background:var(--bg)}
+  .ab .k{font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);font-weight:700}
+  .ab .v{font-size:20px;font-weight:650;margin-top:2px}
+  .hist{display:flex;align-items:flex-end;gap:3px;height:54px;margin-top:14px;margin-bottom:20px}
+  .hist .bar{flex:1;border-radius:3px 3px 0 0;min-height:2px;position:relative}
+  .hist .bar.against{background:#c9c2dc}
+  .hist .bar.uncertain{background:#e6cf9a}
+  .hist .bar.for{background:var(--violet)}
+  .hist .bl{position:absolute;bottom:-17px;left:0;right:0;text-align:center;font-size:10px;color:var(--muted)}
+  .grade{margin-top:6px;font-size:13.5px;border:1px solid var(--line);border-left:3px solid var(--violet);border-radius:8px;padding:9px 12px;background:var(--bg)}
+  .grade .glab{font-size:10.5px;text-transform:uppercase;letter-spacing:.5px;color:var(--link);font-weight:700;margin-right:6px}
+  .pmap{border:1px solid var(--line);border-radius:12px;padding:14px;margin-top:6px;background:var(--card)}
+  .pmap svg{display:block;margin:0 auto}
+  table.rec{width:100%;border-collapse:collapse;font-size:13px;margin-top:6px}
+  table.rec th,table.rec td{text-align:left;padding:8px 9px;border-bottom:1px solid var(--line);vertical-align:top}
+  table.rec th{color:var(--muted);font-weight:650;font-size:11.5px;text-transform:uppercase;letter-spacing:.4px}
+  table.rec td.n{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;white-space:nowrap}
+  .appendix{font-size:13.5px;color:#332c47;line-height:1.62}
+  .appendix p{margin:0 0 10px}
+  .note{border:1px solid var(--line);border-left:3px solid var(--amber);border-radius:9px;padding:12px 14px;background:var(--bg);font-size:13.5px;color:#332c47}
+  .note b{color:var(--ink)}
+  .backcta{display:inline-block;margin-top:2px;padding:11px 17px;border-radius:10px;font-weight:600;font-size:14.5px;text-decoration:none;background:var(--navy);color:#fff}
+  footer{max-width:840px;margin:8px auto 30px;padding:0 16px;font-size:12px;color:var(--muted);line-height:1.6}
+  footer a{color:var(--muted)}
+  @media print{
+    header{background:#fff;color:#000;border-bottom:2px solid #000}
+    .up,.printnote,.brand .sub{display:none}
+    .brand h1{color:#000}.synthetic{color:#000}
+    section{box-shadow:none;break-inside:avoid}
+    .backcta{display:none}
+  }
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <a class="up" href="/guidelinevahti/pilot/">&larr; Delphi pilots</a>
+    <div class="brand">
+      <a href="/" aria-label="Vahtian — home" style="display:flex"><svg width="34" height="34" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#3A2F57"/><g fill="none" stroke="#8B6FC9" stroke-width="2.2" stroke-linecap="round"><path d="M8 11 H24"/><path d="M8 16 H24"/><path d="M8 21 H18"/></g><circle cx="23" cy="21" r="2.3" fill="#C5B8E8"/></svg></a>
+      <div><h1>Sample consensus record</h1><p class="sub">GuidelineVahti &middot; Delphi pilot deliverable</p></div>
+    </div>
+  </div>
+  <p class="synthetic"><b>Synthetic example.</b> Fictional statements, panel and votes, for illustration only — not a
+    real guideline and not clinical advice. It shows the shape of what a pilot delivers.</p>
+  <p class="printnote">Tip: print or save as PDF from your browser (&#8984;/Ctrl&#8202;+&#8202;P).</p>
+</header>
+<main>
+
+  <section>
+    <h2>Round summary</h2>
+    <p class="sect-lede">Modified-Delphi / RAND&ndash;UCLA appropriateness, two rounds. Topic: surveillance of
+      incidental pulmonary nodules (illustrative).</p>
+    <div class="meta">
+      <div class="m"><div class="k">Panelists</div><div class="v">12</div></div>
+      <div class="m"><div class="k">Statements</div><div class="v">5</div></div>
+      <div class="m"><div class="k">Rounds</div><div class="v">2</div></div>
+      <div class="m"><div class="k">Consensus reached</div><div class="v">4 of 5</div></div>
+      <div class="m"><div class="k">Threshold</div><div class="v">median 7&ndash;9, &ge;75% in-region</div></div>
+      <div class="m"><div class="k">Agreement (α)</div><div class="v">0.71</div></div>
+    </div>
+    <p class="muted" style="margin-top:12px">Chance-corrected ordinal agreement is interval Krippendorff&rsquo;s
+      &alpha; across the statement set (0.71 &mdash; substantial). One statement did not reach consensus and is
+      carried to a further round rather than forced to a recommendation.</p>
+  </section>
+
+  <section>
+    <h2>Per-statement result</h2>
+    <p class="sect-lede">Median, IQR, the share of votes in the appropriate region, the RAND/UCLA classification, and the resulting GRADE recommendation.</p>
+
+    <div class="scard">
+      <p class="st">S4. Acquire nodule CT at slice thickness &le; 1.5&nbsp;mm.
+        <span class="state for">Consensus &middot; for</span></p>
+      <div class="agg">
+        <div class="ab"><div class="k">Median</div><div class="v">9</div><div class="muted">IQR 0.5</div></div>
+        <div class="ab"><div class="k">% for (7–9)</div><div class="v">100%</div></div>
+        <div class="ab"><div class="k">Certainty</div><div class="v" style="font-size:15px">high</div></div>
+        <div class="ab"><div class="k">Votes</div><div class="v">12</div></div>
+      </div>
+      <div class="hist"><div class="bar against" style="height:2px"><span class="bl">1–3 · 0</span></div><div class="bar uncertain" style="height:2px"><span class="bl">4–6 · 0</span></div><div class="bar for" style="height:52px"><span class="bl">7–9 · 12</span></div></div>
+      <div class="grade"><span class="glab">GRADE</span><b>Recommend (strong, high certainty)</b></div>
+    </div>
+
+    <div class="scard">
+      <p class="st">S1. Use volumetry (not diameter) as the primary growth metric for solid nodules 6&ndash;15&nbsp;mm.
+        <span class="state for">Consensus &middot; for</span></p>
+      <div class="agg">
+        <div class="ab"><div class="k">Median</div><div class="v">8</div><div class="muted">IQR 1</div></div>
+        <div class="ab"><div class="k">% for (7–9)</div><div class="v">92%</div></div>
+        <div class="ab"><div class="k">Certainty</div><div class="v" style="font-size:15px">moderate</div></div>
+        <div class="ab"><div class="k">Votes</div><div class="v">12</div></div>
+      </div>
+      <div class="hist"><div class="bar against" style="height:2px"><span class="bl">1–3 · 0</span></div><div class="bar uncertain" style="height:10px"><span class="bl">4–6 · 1</span></div><div class="bar for" style="height:52px"><span class="bl">7–9 · 11</span></div></div>
+      <div class="grade"><span class="glab">GRADE</span><b>Recommend (strong, moderate certainty)</b></div>
+    </div>
+
+    <div class="scard">
+      <p class="st">S5. Apply a validated baseline malignancy-risk model (e.g. Brock).
+        <span class="state for">Consensus &middot; for</span></p>
+      <div class="agg">
+        <div class="ab"><div class="k">Median</div><div class="v">8</div><div class="muted">IQR 1.5</div></div>
+        <div class="ab"><div class="k">% for (7–9)</div><div class="v">83%</div></div>
+        <div class="ab"><div class="k">Certainty</div><div class="v" style="font-size:15px">low</div></div>
+        <div class="ab"><div class="k">Votes</div><div class="v">12</div></div>
+      </div>
+      <div class="hist"><div class="bar against" style="height:2px"><span class="bl">1–3 · 0</span></div><div class="bar uncertain" style="height:18px"><span class="bl">4–6 · 2</span></div><div class="bar for" style="height:52px"><span class="bl">7–9 · 10</span></div></div>
+      <div class="grade"><span class="glab">GRADE</span><b>Suggest (conditional, low certainty)</b> <span class="muted">— the panel agrees, but low certainty holds it to conditional</span></div>
+    </div>
+
+    <div class="scard">
+      <p class="st">S2. Report incidental micro-nodules &lt; 4&nbsp;mm without measuring them.
+        <span class="state for">Consensus &middot; for</span></p>
+      <div class="agg">
+        <div class="ab"><div class="k">Median</div><div class="v">7</div><div class="muted">IQR 2</div></div>
+        <div class="ab"><div class="k">% for (7–9)</div><div class="v">75%</div></div>
+        <div class="ab"><div class="k">Certainty</div><div class="v" style="font-size:15px">low</div></div>
+        <div class="ab"><div class="k">Votes</div><div class="v">12</div></div>
+      </div>
+      <div class="hist"><div class="bar against" style="height:2px"><span class="bl">1–3 · 0</span></div><div class="bar uncertain" style="height:26px"><span class="bl">4–6 · 3</span></div><div class="bar for" style="height:46px"><span class="bl">7–9 · 9</span></div></div>
+      <div class="grade"><span class="glab">GRADE</span><b>Suggest (conditional, low certainty)</b></div>
+    </div>
+
+    <div class="scard">
+      <p class="st">S3. Discharge a stable solid nodule after 12 months of follow-up.
+        <span class="state nocon">No consensus &middot; re-vote</span></p>
+      <div class="agg">
+        <div class="ab"><div class="k">Median</div><div class="v">5</div><div class="muted">IQR 6</div></div>
+        <div class="ab"><div class="k">% for (7–9)</div><div class="v">50%</div></div>
+        <div class="ab"><div class="k">Certainty</div><div class="v" style="font-size:15px">—</div></div>
+        <div class="ab"><div class="k">Votes</div><div class="v">12</div></div>
+      </div>
+      <div class="hist"><div class="bar against" style="height:50px"><span class="bl">1–3 · 6</span></div><div class="bar uncertain" style="height:2px"><span class="bl">4–6 · 0</span></div><div class="bar for" style="height:50px"><span class="bl">7–9 · 6</span></div></div>
+      <div class="grade"><span class="glab">GRADE</span><b>No recommendation — consensus not reached</b> <span class="muted">— the panel is split (extreme-disagreement rule); carried to a further round</span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Implementation priority</h2>
+    <p class="sect-lede">Importance &times; feasibility (median, cut at 7). The split statement (S3) is omitted until it resolves.</p>
+    <div class="pmap">
+      <svg viewBox="0 0 360 360" width="100%" style="max-width:380px" role="img" aria-label="Importance by feasibility. S4: importance 9, feasibility 8, implement first. S1: importance 8, feasibility 4, high value lower feasibility. S5: importance 8, feasibility 7. S2: importance 6, feasibility 8, feasible lower importance.">
+        <rect x="269.5" y="14" width="76.5" height="77" fill="#EFEBF8"/>
+        <rect x="40" y="14" width="306" height="308" fill="none" stroke="#E7E3F0"/>
+        <line x1="269.5" y1="14" x2="269.5" y2="322" stroke="#8B6FC9" stroke-dasharray="4 3"/>
+        <line x1="40" y1="91" x2="346" y2="91" stroke="#8B6FC9" stroke-dasharray="4 3"/>
+        <text x="78.5" y="336" font-size="9" fill="#5B5570" text-anchor="middle">1</text>
+        <text x="193" y="336" font-size="9" fill="#5B5570" text-anchor="middle">5</text>
+        <text x="307.5" y="336" font-size="9" fill="#5B5570" text-anchor="middle">9</text>
+        <text x="34" y="325" font-size="9" fill="#5B5570" text-anchor="end">1</text>
+        <text x="34" y="171" font-size="9" fill="#5B5570" text-anchor="end">5</text>
+        <text x="34" y="17" font-size="9" fill="#5B5570" text-anchor="end">9</text>
+        <text x="193" y="356" font-size="10" fill="#5B5570" text-anchor="middle">Feasibility &rarr;</text>
+        <text x="12" y="168" font-size="10" fill="#5B5570" text-anchor="middle" transform="rotate(-90 12 168)">Importance &uarr;</text>
+        <circle cx="288.5" cy="14" r="4" fill="#2D2440"/><text x="295" y="12" font-size="10" font-weight="700" fill="#2D2440">S4</text>
+        <circle cx="154.75" cy="52.5" r="4" fill="#2D2440"/><text x="161" y="50" font-size="10" font-weight="700" fill="#2D2440">S1</text>
+        <circle cx="250.5" cy="52.5" r="4" fill="#2D2440"/><text x="257" y="50" font-size="10" font-weight="700" fill="#2D2440">S5</text>
+        <circle cx="307.5" cy="129.5" r="4" fill="#2D2440"/><text x="296" y="127" font-size="10" font-weight="700" fill="#2D2440">S2</text>
+      </svg>
+      <div style="margin-top:10px">
+        <div class="muted" style="font-weight:600;font-size:12px">Implement first — high importance · feasible</div>
+        <div style="font-size:13px;padding:2px 0"><b>S4</b> — imp 9 · feas 8 — slice thickness ≤ 1.5 mm</div>
+        <div class="muted" style="font-weight:600;font-size:12px;margin-top:8px">High importance · lower feasibility — enable, then do</div>
+        <div style="font-size:13px;padding:2px 0"><b>S1</b> — imp 8 · feas 4 — volumetry as the primary growth metric</div>
+        <div class="muted" style="font-weight:600;font-size:12px;margin-top:8px">Feasible · lower importance — optional quick win</div>
+        <div style="font-size:13px;padding:2px 0"><b>S2</b> — imp 6 · feas 8 — report micro-nodules without measuring</div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Final statement table</h2>
+    <table class="rec">
+      <thead><tr><th>#</th><th>Statement</th><th>Median (IQR)</th><th>% 7–9</th><th>Classification</th><th>GRADE</th></tr></thead>
+      <tbody>
+        <tr><td class="n">S4</td><td>Slice thickness ≤ 1.5 mm</td><td class="n">9 (0.5)</td><td class="n">100%</td><td>Consensus · for</td><td>Recommend (strong, high)</td></tr>
+        <tr><td class="n">S1</td><td>Volumetry as primary growth metric</td><td class="n">8 (1)</td><td class="n">92%</td><td>Consensus · for</td><td>Recommend (strong, moderate)</td></tr>
+        <tr><td class="n">S5</td><td>Validated baseline risk model</td><td class="n">8 (1.5)</td><td class="n">83%</td><td>Consensus · for</td><td>Suggest (conditional, low)</td></tr>
+        <tr><td class="n">S2</td><td>Report micro-nodules without measuring</td><td class="n">7 (2)</td><td class="n">75%</td><td>Consensus · for</td><td>Suggest (conditional, low)</td></tr>
+        <tr><td class="n">S3</td><td>Discharge stable nodule at 12 months</td><td class="n">5 (6)</td><td class="n">50%</td><td>No consensus</td><td>No recommendation — re-vote</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>Methods appendix (draft text)</h2>
+    <div class="appendix">
+      <p>Panel consensus was established using a modified-Delphi / RAND&ndash;UCLA appropriateness method. Twelve
+        panelists independently rated each statement from 1 (strongly inappropriate) to 9 (strongly appropriate)
+        across two rounds. Between rounds, each panelist received their own prior rating and the anonymized group
+        distribution; no panelist was identified at any stage.</p>
+      <p>A statement was classified as consensus (for) when the group median fell in 7&ndash;9 with at least 75% of
+        ratings in that region, consensus (against) for the symmetric 1&ndash;3 case, and no consensus otherwise,
+        with an extreme-disagreement rule for bimodal distributions. Ordinal agreement across the statement set was
+        summarised with interval Krippendorff&rsquo;s &alpha; (&alpha; = 0.71). Recommendations were graded by
+        combining the panel&rsquo;s consensus direction with the certainty of evidence using GRADE / Evidence-to-Decision,
+        yielding strong (&ldquo;recommend&rdquo;) or conditional (&ldquo;suggest&rdquo;) recommendations; statements
+        without consensus received no recommendation and were carried to a further round.</p>
+      <p>Analyses were computed in GuidelineVahti, in the browser, on aggregate ratings only, with a versioned data
+        file retained as the source record. The panel and its chairs are responsible for the recommendations; the
+        tool records what the panel decided and does not certify that a recommendation is correct.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>Run a pilot on your own statements</h2>
+    <p class="sect-lede" style="margin-bottom:12px">This is a synthetic example. To produce a record like this from
+      your panel, start with a scoped pilot — from &euro;1,500.</p>
+    <a class="backcta" href="/guidelinevahti/pilot/">See the pilot tiers &rarr;</a>
+  </section>
+
+</main>
+<footer>
+  &copy; 2026 Vahtian &middot; GuidelineVahti &middot; sample consensus record (synthetic, illustrative). The panel
+  decides; the record documents what the panel decided — it does not certify that a guideline is correct.
+  <a href="/guidelinevahti/pilot/">Delphi pilots</a> &middot; <a href="/guidelinevahti/">GuidelineVahti</a> &middot;
+  <a href="/cite/">Cite</a> &middot; <a href="/privacy/">Privacy</a>
+</footer>
+</body>
+</html>
