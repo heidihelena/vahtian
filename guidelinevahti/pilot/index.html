@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<!--
+  GuidelineVahti — Delphi pilot offer page. Static; no tool logic, no JS, no
+  network calls. Booking is plain email while the first cohort is hand-tailored.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="theme-color" content="#2D2440" />
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; img-src 'self' data:; base-uri 'none'; form-action 'none'" />
+<meta name="referrer" content="no-referrer" />
+<link rel="canonical" href="https://vahtian.com/guidelinevahti/pilot/" />
+<title>Run a Delphi pilot — GuidelineVahti</title>
+<meta name="description" content="Run your next modified-Delphi / RAND-UCLA consensus round with GuidelineVahti and get an auditable record instead of spreadsheet chaos: consensus, an implementation priority map, GRADE/EtD recommendations, and a methods appendix. Three pilot tiers from €1,500. Panel votes stay anonymous." />
+<meta property="og:title" content="Run a Delphi pilot — GuidelineVahti" />
+<meta property="og:description" content="A facilitated Delphi / RAND-UCLA consensus round with an auditable record — consensus, priority map, GRADE recommendations, methods appendix. Pilot tiers from €1,500. Anonymous voting; nothing uploads." />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://vahtian.com/guidelinevahti/pilot/" />
+<meta property="og:image" content="https://vahtian.com/brand/cards/guidelinevahti-card.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="GuidelineVahti Delphi pilots — a product of Vahtian." />
+<meta property="og:site_name" content="Vahtian" />
+<meta name="twitter:card" content="summary_large_image" />
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"Service",
+  "name":"GuidelineVahti Delphi pilot",
+  "serviceType":"Facilitated modified-Delphi / RAND-UCLA consensus round for guideline panels",
+  "url":"https://vahtian.com/guidelinevahti/pilot/",
+  "description":"A facilitated Delphi / RAND-UCLA appropriateness round run in GuidelineVahti, producing an auditable consensus record: RAND/UCLA consensus, an importance×feasibility priority map, chance-corrected agreement, GRADE/EtD recommendations, round history and a methods appendix. Panel votes are anonymous; nothing uploads. The tool records what the panel decided; it does not certify that a guideline is correct.",
+  "provider":{"@type":"Organization","name":"Vahtian","url":"https://vahtian.com/"},
+  "offers":[
+    {"@type":"Offer","name":"Single pilot round","price":"1500","priceCurrency":"EUR","description":"One RAND/UCLA round, up to 15 panelists, with a consensus and priority summary."},
+    {"@type":"Offer","name":"Two-round Delphi with report","price":"4500","priceCurrency":"EUR","description":"A full two-round Delphi with between-round feedback and a written report."},
+    {"@type":"Offer","name":"Guideline group package","price":"9500","priceCurrency":"EUR","description":"Multi-statement guideline package with GRADE/EtD, a versioned archive and a methods appendix."}
+  ]
+}
+</script>
+<style>
+  :root{
+    --navy:#2D2440; --violet:#8B6FC9; --lilac:#C5B8E8; --lilac-soft:#EFEBF8;
+    --ink:#1C1830; --muted:#5B5570; --bg:#FAF9FC; --card:#FFFFFF; --line:#E7E3F0;
+    --amber:#C98A00; --amber-fill:#FFF2D8; --amber-text:#5A4300; --link:#6F52B8;
+    --shadow:0 12px 30px rgba(45,36,64,.10); --radius:14px;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,ui-sans-serif,system-ui,sans-serif;
+    font-size:16px;line-height:1.55}
+  header{background:var(--navy);color:#fff;padding:20px 18px 20px;padding-top:max(20px,env(safe-area-inset-top))}
+  .wrap{max-width:840px;margin:0 auto}
+  .brand{display:flex;align-items:center;gap:11px}
+  .brand h1{margin:0;font-size:21px;font-weight:650;letter-spacing:.2px}
+  .brand .sub{margin:2px 0 0;font-size:13px;color:var(--lilac)}
+  .up{display:block;font-size:12.5px;color:var(--lilac);text-decoration:none;margin:0 0 12px}
+  .hero-h{max-width:840px;margin:14px auto 0;font-size:clamp(22px,4vw,30px);line-height:1.16;font-weight:680;letter-spacing:-.01em}
+  .lede{max-width:840px;margin:12px auto 0;font-size:15.5px;color:#e7e2f4;line-height:1.55}
+  .pill{display:inline-block;font-size:11.5px;padding:2px 9px;border-radius:999px;
+    border:1px solid rgba(197,184,232,.4);color:var(--lilac);margin:9px 5px 0 0}
+  .cta-row{margin:18px auto 0;max-width:840px;display:flex;gap:11px;flex-wrap:wrap}
+  .btn{display:inline-block;padding:11px 17px;border-radius:10px;font-weight:600;font-size:14.5px;text-decoration:none}
+  .btn.primary{background:#fff;color:var(--navy)}
+  .btn.ghost{border:1px solid rgba(197,184,232,.5);color:#fff}
+  main{max-width:840px;margin:0 auto;padding:16px}
+  section{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+    padding:18px;margin:0 0 14px;box-shadow:var(--shadow)}
+  h2{font-size:13px;text-transform:uppercase;letter-spacing:.7px;color:var(--link);margin:0 0 4px;font-weight:650}
+  .sect-lede{color:var(--muted);font-size:13.5px;margin:0 0 10px}
+  .muted{color:var(--muted);font-size:13px}
+  a{color:var(--link)}
+  ol.steps{margin:6px 0 0;padding-left:20px;display:grid;gap:8px;font-size:14.5px}
+  ol.steps b{color:var(--ink)}
+  ul.feat{list-style:none;padding:0;margin:6px 0 0;display:grid;gap:9px}
+  ul.feat li{padding-left:24px;position:relative;font-size:14px}
+  ul.feat li::before{content:"◆";position:absolute;left:2px;color:var(--violet);font-size:11px;top:3px}
+  ul.feat b{color:var(--ink)}
+  /* tiers */
+  .tiers{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:6px}
+  @media(max-width:720px){.tiers{grid-template-columns:1fr}}
+  .tier{border:1px solid var(--line);border-radius:12px;padding:15px;background:var(--bg);display:flex;flex-direction:column}
+  .tier.feature{border-color:var(--violet);box-shadow:0 0 0 1px var(--violet) inset;background:var(--card)}
+  .tier .tag{font-size:10.5px;text-transform:uppercase;letter-spacing:.6px;font-weight:700;color:var(--link);margin:0 0 6px;min-height:13px}
+  .tier h3{margin:0 0 2px;font-size:15.5px}
+  .tier .price{font-size:22px;font-weight:700;margin:4px 0 2px;letter-spacing:-.01em}
+  .tier .cap{font-size:12px;color:var(--muted);margin:0 0 10px}
+  .tier ul{list-style:none;padding:0;margin:0 0 14px;display:grid;gap:6px;font-size:13px}
+  .tier ul li{padding-left:18px;position:relative;color:#332c47}
+  .tier ul li::before{content:"–";position:absolute;left:2px;color:var(--violet)}
+  .tier .book{margin-top:auto}
+  .tier .book a{display:inline-block;width:100%;text-align:center;padding:9px 12px;border-radius:9px;font-weight:600;font-size:13.5px;text-decoration:none;background:var(--navy);color:#fff}
+  .tier.feature .book a{background:var(--violet)}
+  .pricenote{font-size:12px;color:var(--muted);margin:12px 0 0}
+  .note{border:1px solid var(--line);border-left:3px solid var(--violet);border-radius:9px;padding:12px 14px;background:var(--bg);font-size:13.8px;color:#332c47;margin-top:2px}
+  .note.warn{border-left-color:var(--amber)}
+  .note b{color:var(--ink)}
+  .who{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:6px}
+  @media(max-width:560px){.who{grid-template-columns:1fr}}
+  .who .box{border:1px solid var(--line);border-radius:10px;padding:11px 13px;background:var(--bg);font-size:13.5px}
+  .who .box b{display:block;margin-bottom:2px}
+  details{border:1px solid var(--line);border-radius:10px;background:var(--bg);margin:0 0 9px;padding:0 14px}
+  summary{cursor:pointer;font-weight:600;font-size:14.5px;padding:12px 0;color:var(--link);list-style:none}
+  summary::-webkit-details-marker{display:none}
+  summary::after{content:"+";float:right;color:var(--muted);font-weight:400;font-size:17px;line-height:1}
+  details[open] summary::after{content:"–"}
+  details[open] summary{border-bottom:1px solid var(--line)}
+  details p{margin:11px 0;color:#3a3450;font-size:14px;line-height:1.6}
+  footer{max-width:840px;margin:8px auto 30px;padding:0 16px;font-size:12px;color:var(--muted);line-height:1.6}
+  footer a{color:var(--muted)}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <a class="up" href="/guidelinevahti/">&larr; GuidelineVahti</a>
+    <div class="brand">
+      <a href="/" aria-label="Vahtian — home" style="display:flex"><svg width="36" height="36" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#3A2F57"/><g fill="none" stroke="#8B6FC9" stroke-width="2.2" stroke-linecap="round"><path d="M8 11 H24"/><path d="M8 16 H24"/><path d="M8 21 H18"/></g><circle cx="23" cy="21" r="2.3" fill="#C5B8E8"/></svg></a>
+      <div><h1>GuidelineVahti &middot; Delphi pilots</h1><p class="sub">A facilitated consensus round with an auditable record</p></div>
+    </div>
+  </div>
+  <p class="hero-h">Run your next Delphi round without spreadsheet chaos.</p>
+  <p class="lede">Bring your statements and your panel. We run a modified-Delphi / RAND&ndash;UCLA round in
+    GuidelineVahti and hand you the <b>auditable record</b>: consensus, an implementation priority map,
+    chance-corrected agreement, and GRADE/EtD recommendations &mdash; with the full round history and a methods
+    appendix. Votes stay <b>anonymous</b>; nothing uploads.</p>
+  <div class="wrap">
+    <span class="pill">anonymous &middot; aggregates only</span><span class="pill">auditable methods record</span><span class="pill">GRADE / EtD</span><span class="pill">first cohort &middot; hands-on</span>
+  </div>
+  <div class="cta-row">
+    <a class="btn primary" href="mailto:hello@vahtian.com?subject=GuidelineVahti%20Delphi%20pilot%20%E2%80%94%20enquiry&amp;body=Tell%20us%20about%20your%20panel%3A%20topic%2C%20number%20of%20statements%2C%20number%20of%20panelists%2C%20and%20your%20timeline.">Email us about a pilot &rarr;</a>
+    <a class="btn ghost" href="#tiers">See the tiers &darr;</a>
+  </div>
+</header>
+<main>
+
+  <section>
+    <h2>How a pilot works</h2>
+    <p class="sect-lede">Four steps, one auditable output. You keep the decisions; the tool keeps the record.</p>
+    <ol class="steps">
+      <li><b>Scope.</b> We agree the statements, the panel, the consensus threshold and the stop rule with you.</li>
+      <li><b>Vote.</b> Each panelist rates statements 1&ndash;9 in the browser, anonymously &mdash; no account, nothing uploaded.</li>
+      <li><b>Analyse.</b> GuidelineVahti computes RAND/UCLA consensus, the importance&times;feasibility priority map, chance-corrected agreement, and GRADE/EtD recommendations, with between-round feedback if you run a second round.</li>
+      <li><b>Deliver.</b> You get the consensus record, the priority map, the round history, and a methods appendix you can cite &mdash; a defensible, reproducible account of what the panel decided.</li>
+    </ol>
+  </section>
+
+  <section id="tiers">
+    <h2>Pilot tiers</h2>
+    <p class="sect-lede">Fixed-scope pilots so you can start small and see the record before committing a full guideline.</p>
+    <div class="tiers">
+
+      <div class="tier">
+        <p class="tag">Try it</p>
+        <h3>Single pilot round</h3>
+        <p class="price">€1,500</p>
+        <p class="cap">up to 15 panelists · one round</p>
+        <ul>
+          <li>One RAND/UCLA appropriateness round</li>
+          <li>Consensus, IQR &amp; distribution per statement</li>
+          <li>Importance×feasibility priority map</li>
+          <li>Anonymous browser voting, set up for you</li>
+          <li>A short summary of the result</li>
+        </ul>
+        <div class="book"><a href="mailto:hello@vahtian.com?subject=GuidelineVahti%20pilot%20%E2%80%94%20single%20round%20(%E2%82%AC1%2C500)&amp;body=Topic%3A%0APanelists%3A%0AStatements%3A%0ATimeline%3A">Enquire →</a></div>
+      </div>
+
+      <div class="tier feature">
+        <p class="tag">Most chosen</p>
+        <h3>Two-round Delphi + report</h3>
+        <p class="price">€4,500</p>
+        <p class="cap">full two rounds · written report</p>
+        <ul>
+          <li>Everything in the single round</li>
+          <li>Two Delphi rounds with between-round feedback</li>
+          <li>Round-to-round trajectory &amp; stability</li>
+          <li>Chance-corrected agreement (Krippendorff's α)</li>
+          <li>A written report of the consensus process</li>
+        </ul>
+        <div class="book"><a href="mailto:hello@vahtian.com?subject=GuidelineVahti%20pilot%20%E2%80%94%20two-round%20Delphi%20(%E2%82%AC4%2C500)&amp;body=Topic%3A%0APanelists%3A%0AStatements%3A%0ATimeline%3A">Enquire →</a></div>
+      </div>
+
+      <div class="tier">
+        <p class="tag">Full guideline</p>
+        <h3>Guideline group package</h3>
+        <p class="price">€9,500+</p>
+        <p class="cap">multi-statement · versioned archive</p>
+        <ul>
+          <li>Everything in the two-round Delphi</li>
+          <li>GRADE / Evidence-to-Decision per recommendation</li>
+          <li>Full statement set across the guideline</li>
+          <li>Versioned archive — the data file is the source of truth</li>
+          <li>A methods appendix for your manuscript or guideline</li>
+        </ul>
+        <div class="book"><a href="mailto:hello@vahtian.com?subject=GuidelineVahti%20pilot%20%E2%80%94%20guideline%20group%20package%20(%E2%82%AC9%2C500%2B)&amp;body=Topic%3A%0APanelists%3A%0AStatements%3A%0ATimeline%3A">Enquire →</a></div>
+      </div>
+
+    </div>
+    <p class="pricenote">Prices in EUR, excluding VAT. The first cohort of pilots is small and hands-on — we tailor
+      each one with you, so scope and timing are agreed before anything is booked. Living-guideline programmes that
+      re-vote each cycle: ask about an ongoing arrangement.</p>
+  </section>
+
+  <section>
+    <h2>What a pilot is — and is not</h2>
+    <p class="note"><b>What you get.</b> An auditable, reproducible record of your panel's consensus process:
+      the numbers, the round history, the priority ranking, the GRADE/EtD recommendations the panel reached, and a
+      methods appendix documenting how. It's built to satisfy a methods reviewer and to disclose exactly how the
+      consensus was formed.</p>
+    <p class="note warn" style="margin-top:10px"><b>What it is not.</b> GuidelineVahti records <b>what the panel
+      decided</b>; it does not certify that a guideline is correct, that a recommendation is clinically valid, or
+      that the evidence is sufficient. The panel decides; the AI is <b>never</b> a panelist. Final responsibility
+      for the guideline stays with the panel, the chairs, and the commissioning organisation.</p>
+  </section>
+
+  <section>
+    <h2>Who it's for</h2>
+    <div class="who">
+      <div class="box"><b>Specialty societies &amp; guideline groups</b>Run a modified-Delphi/RAND consensus with auditable numbers, not a spreadsheet.</div>
+      <div class="box"><b>Guideline methodologists</b>Consensus, priority, agreement and GRADE in one place, in the browser.</div>
+      <div class="box"><b>Medical-communications teams</b>A defensible, reproducible consensus record for a client guideline.</div>
+      <div class="box"><b>Living-guideline programmes</b>Re-vote affected statements each cycle; the data file is the versioned source of truth.</div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Common questions</h2>
+    <details>
+      <summary>How long does a round take?</summary>
+      <p>Panelists usually vote in a single sitting, and the analysis is immediate once votes are in. Calendar time
+        is mostly scheduling: a single round can run in a week or two; a two-round Delphi depends on how quickly the
+        panel completes each round. We agree the timeline with you at scoping.</p>
+    </details>
+    <details>
+      <summary>How many panelists do we need?</summary>
+      <p>The single-round pilot is set up for up to 15 panelists, which suits most modified-Delphi panels. Larger
+        panels and multi-statement guideline sets fit the group package — tell us your numbers and we'll confirm.</p>
+    </details>
+    <details>
+      <summary>Is voting really anonymous, and does anything upload?</summary>
+      <p>Yes. The tool works with aggregates only — no panelist is ever named — and it runs entirely in the browser
+        with no network calls. Between-round feedback shows each panelist their own prior vote and the group
+        distribution, nothing more.</p>
+    </details>
+    <details>
+      <summary>Do you decide the recommendations?</summary>
+      <p>No. The panel votes; GuidelineVahti applies your agreed consensus threshold and the GRADE logic to what the
+        panel decided. Where the panel is split, it says so rather than manufacturing a recommendation. We
+        facilitate and record — we don't adjudicate the clinical content.</p>
+    </details>
+    <details>
+      <summary>What do we actually receive at the end?</summary>
+      <p>The consensus result per statement, the importance×feasibility priority map, the round history and
+        agreement scores, the GRADE/EtD recommendations, and a methods appendix describing the process — in a form
+        you can put in front of a methods reviewer or into a manuscript.</p>
+    </details>
+  </section>
+
+  <section>
+    <h2>Start a pilot</h2>
+    <p class="sect-lede" style="margin-bottom:12px">Tell us your topic, roughly how many statements and panelists,
+      and your timeline. We'll reply with a scoped plan — no obligation.</p>
+    <a class="btn primary" style="background:var(--navy);color:#fff" href="mailto:hello@vahtian.com?subject=GuidelineVahti%20Delphi%20pilot%20%E2%80%94%20enquiry&amp;body=Topic%3A%0AStatements%20(approx)%3A%0APanelists%20(approx)%3A%0ARounds%20(1%20or%202)%3A%0ATimeline%3A">Email us about a pilot &rarr;</a>
+  </section>
+
+</main>
+<footer>
+  &copy; 2026 Vahtian &middot; GuidelineVahti Delphi pilots &middot; part of the <a href="/">Vahtian</a> house.
+  Facilitated consensus with an auditable record; the panel decides, the tool records — it does not certify that a
+  guideline is correct. <a href="/guidelinevahti/">GuidelineVahti</a> &middot;
+  <a href="https://github.com/heidihelena/vahtian">source</a> &middot; <a href="/cite/">Cite</a> &middot; <a href="/privacy/">Privacy</a>
+</footer>
+</body>
+</html>
