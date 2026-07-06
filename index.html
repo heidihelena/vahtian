@@ -79,7 +79,11 @@
        so the flagship (START) and the roadmap card read as deliberate emphasis */
     @media(min-width:660px){
       .products{grid-template-columns:1fr 1fr}
-      .products .p:last-child:nth-child(odd){grid-column:1/-1}
+      .products .p:last-child:nth-child(odd){grid-column:1/-1;padding-right:15px}
+      /* On a full-width lone/trailing card the top-right arrow would float far
+         to the right, orphaned — looking like it belongs to the next column.
+         Drop it there; the underlined name + explicit CTA carry the link. */
+      .products .p:last-child:nth-child(odd)::before{display:none}
     }
     .p{position:relative;display:grid;grid-template-columns:auto 1fr;gap:13px;align-items:start;
        background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 34px 14px 15px;
