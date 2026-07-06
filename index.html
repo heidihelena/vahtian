@@ -160,6 +160,15 @@
       .hero-scrim{background:linear-gradient(180deg,rgba(20,14,38,.5),rgba(20,14,38,.86))}}
     footer{padding:30px 0 50px;color:var(--muted);font-size:13px;border-top:1px solid var(--line);margin-top:36px}
     footer a{color:var(--muted)}
+    /* forskai product callout */
+    .kitcallout{display:flex;gap:20px;justify-content:space-between;align-items:center;flex-wrap:wrap;
+      background:#10211B;color:#EAF3EF;border-radius:15px;padding:22px 24px}
+    .kitcallout .kkick{font:600 12px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:#54D6B6;text-transform:uppercase;letter-spacing:.1em;margin:0 0 9px}
+    .kitcallout h3{margin:0 0 6px;font-size:19px;color:#fff}
+    .kitcallout p{margin:0;color:#c6ddd4;font-size:14.5px;max-width:54ch}
+    .kitcallout .kbtn{display:inline-block;padding:12px 20px;border-radius:10px;font-weight:700;text-decoration:none;
+      background:#DFF5EE;color:#093528;font-size:15px;white-space:nowrap}
+    @media(max-width:560px){.kitcallout{flex-direction:column;align-items:flex-start}}
   </style>
 </head>
 <body>
@@ -342,6 +351,18 @@
       <div class="box"><h3>Open core, local-first</h3><p>The core is Apache-2.0 and runs on your laptop. We never paywall a researcher’s ability to verify their own work.</p></div>
     </div>
     <p class="vahti lower"><b>vahti</b> — Finnish for <i>sentinel / guard</i>. The watch over what gets cited.</p>
+  </section>
+
+  <section>
+    <div class="kitcallout">
+      <div>
+        <p class="kkick">New · a forskai product</p>
+        <h3>AI Disclosure Kit for Researchers</h3>
+        <p>You used AI — now disclose it properly. Manuscript, thesis, grant, and peer-review templates,
+          a verified publisher-policy directory, and an AI-use log. 10 files · €29.</p>
+      </div>
+      <a class="kbtn" href="/ai-disclosure-kit/">Get the kit →</a>
+    </div>
   </section>
 
   <section class="contact">
