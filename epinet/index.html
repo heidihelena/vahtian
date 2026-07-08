@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>EpiNet — the Epistemic Network toolkit</title>
+  <meta name="description" content="EpiNet is a transparent node/edge network and feature-space analysis toolkit for graph-shaped data, where honest evaluation is the default: a label-permutation null, calibration, and community-aware splitting run alongside the headline metric, so a good score reflects real signal rather than leakage or chance. A research and education demonstrator — not clinical decision support. Python, MIT. A Vahtian project.">
+  <meta name="theme-color" content="#2D2440">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="canonical" href="https://vahtian.com/epinet/">
+  <meta name="robots" content="index,follow">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://vahtian.com/epinet/">
+  <meta property="og:title" content="EpiNet — the Epistemic Network toolkit">
+  <meta property="og:description" content="Transparent graph + feature-space analysis where honest evaluation is the default — permutation null, calibration, community-aware splitting, and contestability travel with every run. A research demonstrator, not clinical decision support.">
+  <meta property="og:image" content="https://vahtian.com/brand/cards/vahtian-card.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="EpiNet — the Epistemic Network toolkit. A Vahtian project.">
+  <meta property="og:site_name" content="Vahtian">
+  <meta name="twitter:card" content="summary_large_image">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "EpiNet",
+    "alternateName": "Epistemic Network toolkit",
+    "url": "https://vahtian.com/epinet/",
+    "description": "A transparent node/edge network and feature-space analysis toolkit for graph-shaped datasets. Honest evaluation is the default path: a label-permutation null, calibration, bootstrap intervals and community-aware splitting run alongside every headline metric, with a contestability lens and a TRIPOD+AI-flavoured model card. A research and education demonstrator, not clinical decision support.",
+    "applicationCategory": "Research software",
+    "operatingSystem": "Any (Python 3.10–3.12)",
+    "license": "https://opensource.org/licenses/MIT",
+    "softwareRequirements": "Python 3.10–3.12",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "EUR" },
+    "sameAs": "https://github.com/heidihelena/epinet",
+    "publisher": { "@type": "Organization", "name": "Vahtian", "url": "https://vahtian.com/" }
+  }
+  </script>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232D2440'/%3E%3Cg fill='none' stroke='%238273C0' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M10 22 L16 11 L22 20'/%3E%3C/g%3E%3Cg fill='%23C5B8E8'%3E%3Ccircle cx='10' cy='22' r='2.4'/%3E%3Ccircle cx='16' cy='11' r='2.4'/%3E%3Ccircle cx='22' cy='20' r='2.4'/%3E%3C/g%3E%3C/svg%3E">
+  <style>
+    :root{--navy:#2D2440;--violet:#8B6FC9;--lilac:#C5B8E8;--indigo:#5E4F99;--amber:#C98A00;--teal:#1E9E8A;
+          --ink:#1c1830;--muted:#4A4460;--bg:#faf9fc;--card:#fff;--line:#e7e3f0;--link:#6F52B8;
+          --amber-fill:#FFF2D8;--amber-text:#5A4300}
+    *{box-sizing:border-box}
+    body{margin:0;font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,ui-sans-serif,system-ui,sans-serif;
+         color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased}
+    a{color:var(--link)}
+    a:focus-visible{outline:3px solid var(--violet);outline-offset:2px}
+    code{font:13px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;background:#f1eef9;padding:1px 5px;border-radius:5px}
+    .wrap{max-width:760px;margin:0 auto;padding:0 22px}
+    header{padding:24px 0 4px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:18px}
+    .mark{width:30px;height:30px;flex:0 0 30px}
+    .up{font-size:13px;color:var(--muted);text-decoration:none}
+    .hero{padding:38px 0 8px}
+    .kicker{font:600 12.5px/1 ui-monospace,monospace;color:var(--indigo);text-transform:uppercase;letter-spacing:.09em;margin:0 0 14px}
+    h1{font-size:clamp(30px,6vw,44px);line-height:1.1;letter-spacing:-.02em;margin:0 0 14px}
+    .lede{font-size:clamp(17px,2.5vw,20px);color:#3a3450;margin:0 0 20px;max-width:64ch}
+    .cta{display:flex;flex-wrap:wrap;gap:12px;margin:0 0 6px}
+    .btn{display:inline-block;padding:11px 18px;border-radius:9px;font-weight:600;text-decoration:none;font-size:15px}
+    .btn.primary{background:var(--navy);color:#fff}
+    .btn.ghost{border:1px solid var(--line);color:var(--ink);background:var(--card)}
+    .badges{display:flex;flex-wrap:wrap;gap:8px;margin:20px 0 0}
+    .badge{font:600 12px/1 ui-monospace,monospace;padding:6px 10px;border-radius:7px;border:1px solid var(--line);background:var(--card);color:#3a3450}
+    section{padding:32px 0;border-top:1px solid var(--line);margin-top:30px}
+    h2{font-size:22px;letter-spacing:-.01em;margin:0 0 12px}
+    h2 .s{display:block;font-size:14px;font-weight:400;color:var(--muted);margin-top:4px}
+    p{margin:0 0 14px}
+    ul.feat{list-style:none;padding:0;margin:6px 0 0;display:grid;gap:12px}
+    ul.feat li{padding-left:24px;position:relative;color:#322c47;font-size:15px}
+    ul.feat li::before{content:"";position:absolute;left:2px;top:.6em;width:9px;height:9px;border-radius:50%;background:var(--indigo)}
+    ul.feat b{color:var(--ink)}
+    pre{background:var(--navy);color:#e8e3f5;border-radius:10px;padding:14px 16px;overflow:auto;font:13px/1.6 ui-monospace,monospace;margin:0 0 14px}
+    pre .c{color:#9b93b8}
+    .note{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--indigo);border-radius:9px;padding:14px 16px;color:#3a3450;font-size:14.5px}
+    .note.warn{border-left-color:var(--amber)}
+    .note b{color:var(--ink)}
+    .faq{margin:8px 0 0}
+    .faq details{border:1px solid var(--line);border-radius:10px;background:var(--card);margin:0 0 9px;padding:0 15px}
+    .faq summary{cursor:pointer;font-weight:600;font-size:15px;padding:13px 0;color:var(--link);list-style:none}
+    .faq summary::-webkit-details-marker{display:none}
+    .faq summary::after{content:"+";float:right;color:var(--muted);font-weight:400;font-size:18px;line-height:1}
+    .faq details[open] summary::after{content:"–"}
+    .faq details[open] summary{border-bottom:1px solid var(--line)}
+    .faq details p{margin:12px 0;color:#3a3450;font-size:14.5px}
+    footer{padding:28px 0 50px;color:var(--muted);font-size:13px;border-top:1px solid var(--line);margin-top:34px;line-height:1.7}
+    footer a{color:var(--muted)}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand">
+      <a href="/" aria-label="Vahtian — home" style="display:flex"><svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#2D2440"/><g fill="none" stroke="#8273C0" stroke-width="2" stroke-linecap="round"><path d="M10 22 L16 11 L22 20"/></g><g fill="#C5B8E8"><circle cx="10" cy="22" r="2.4"/><circle cx="16" cy="11" r="2.4"/><circle cx="22" cy="20" r="2.4"/></g></svg></a>
+      <span>EpiNet</span>
+    </div>
+    <a class="up" href="/">← Vahtian</a>
+  </header>
+
+<main>
+  <div class="hero">
+    <p class="kicker">A Vahtian project · open source</p>
+    <h1>EpiNet — the Epistemic Network toolkit</h1>
+    <p class="lede">A transparent node/edge network and feature-space analysis toolkit for graph-shaped data.
+      The name reads <em>Epistemic Network</em>: the question is not just what the model predicts, but how
+      well-founded each call is — how contestable, how calibrated, how well it transports.</p>
+    <div class="cta">
+      <a class="btn primary" href="https://github.com/heidihelena/epinet">View on GitHub →</a>
+      <a class="btn ghost" href="#install">Install</a>
+    </div>
+    <div class="badges">
+      <span class="badge">Python 3.10–3.12</span>
+      <span class="badge">pip install vahtian-epinet</span>
+      <span class="badge">MIT licensed</span>
+      <span class="badge">Research demonstrator</span>
+    </div>
+  </div>
+
+  <section>
+    <h2>Honest evaluation is the default, not an afterthought</h2>
+    <p>Where most modelling code optimizes a headline number, EpiNet is built to resist fooling itself. A
+      label-permutation null, calibration, bootstrap intervals, and community-aware splitting run alongside every
+      headline metric, so a good score reflects real signal rather than leakage or chance. Contestability makes each
+      call inspectable; an optional federated layer shares findings across sites without pooling records.</p>
+    <p>EpiNet's contribution is <b>methodological reproducibility, not a new predictor</b>: the model is a standard
+      random forest, and the value is the conservative, auditable evaluation workflow wrapped around it — so the same
+      checks travel with every analysis.</p>
+    <p class="note warn"><b>Scope: research and education only.</b> EpiNet is not clinical or public-health decision
+      support. Any model it produces must be validated on independent, outcome-linked data before it means anything
+      clinically. It does not infer causality, outbreak dynamics, clinical risk, or intervention effects — use the
+      outputs as exploratory evidence, not as decisions.</p>
+  </section>
+
+  <section>
+    <h2>What it does</h2>
+    <p>You load entities and relationships from CSVs; EpiNet computes graph features, honestly evaluates an outcome
+      model, finds shortest paths, clusters nodes in feature space, and scores how contestable each call is — with
+      publication-quality figures and a model card.</p>
+    <ul class="feat">
+      <li><b>Graph features</b> — degree, weighted degree, clustering, component size, isolate flag, and optional betweenness / closeness / PageRank.</li>
+      <li><b>Honest outcome model</b> — a random forest over graph features + node attributes, reported with discrimination (AUROC, AUPRC), calibration (Brier; slope/intercept for binary outcomes), bootstrap CIs, permutation importance, a label-permutation null, community-aware splitting, small-cohort warnings, a provenance block, and a TRIPOD+AI-flavoured model card.</li>
+      <li><b>Contestability</b> — the closed-form smallest feature-space move that flips a node's nearest-centroid class, plus a per-feature value-of-information ranking.</li>
+      <li><b>Shortest paths &amp; feature-space clustering</b> — source-to-target paths with per-target coverage; k-means centroids with per-node distance to each outcome-class centroid.</li>
+      <li><b>Baselines &amp; external validation</b> — compare graph features against a node-embedding baseline and a no-information floor under the same harness, and validate a model on an independent cohort.</li>
+      <li><b>Federated pipeline (optional)</b> — reconstruct the scaler, centroids, and contestability from per-site aggregates only, behind a fail-closed governance gate.</li>
+      <li><b>LLMvahti (experimental)</b> — the same contestability lens pointed at LLM-as-judge verdicts: a blinded second-rater audit where the human rates first, with bootstrapped inter-rater agreement and judge-confidence calibration.</li>
+    </ul>
+  </section>
+
+  <section id="install">
+    <h2>Install</h2>
+    <pre>pip install vahtian-epinet   <span class="c"># the package + the `epinet` command</span></pre>
+    <p style="font-size:14.5px;color:var(--muted)">From a source checkout, <code>pip install -e ".[dev]"</code> adds
+      pytest, ruff and hypothesis; <code>".[lidc]"</code> and <code>".[excel]"</code> add the example extras.</p>
+    <h2 style="margin-top:24px">Quick start</h2>
+    <pre>epinet \
+  --nodes synthetic_nodes.csv \
+  --edges synthetic_edges.csv \
+  --outcome-column Outcome \
+  --target-outcome 1 \
+  --output-dir epinet_outputs</pre>
+    <p>This runs graph-feature generation, an honestly-evaluated outcome model, and shortest-path summaries side by
+      side. Outputs include <code>model_metrics.json</code>, a human-readable <code>model_card.md</code>,
+      <code>node_features.csv</code>, <code>provenance.json</code>, and calibration / learning-curve / network plots.
+      Full data format and methods are in the <a href="https://github.com/heidihelena/epinet#documentation">docs</a>.</p>
+  </section>
+
+  <section>
+    <h2>EpiNet Workbench <span class="s">Local CSV-to-report — plan → run → optional UI</span></h2>
+    <p>The Workbench is a local interface that writes a reviewable <code>analysis.yaml</code> and runs the same EpiNet
+      engine as the CLI, so every interactive run is reproducible without the interface. It is not AutoML — it never
+      searches models or chases a metric. The config, not hidden UI state, is the source of truth.</p>
+    <pre>epinet-workbench plan --nodes nodes.csv --edges edges.csv --outcome Outcome --output analysis.yaml
+epinet-workbench run  --config analysis.yaml
+epinet-workbench ui   <span class="c"># optional local Streamlit workbench</span></pre>
+    <p>Every run distils its diagnostics into plain-language <b>claim gates</b> — permutation null, split sensitivity,
+      baseline floor (paired per split with a Nadeau–Bengio-corrected interval: beats floor / at floor / not resolvable
+      at this n), and external validation — written into the model card, <code>claims_check.json</code>, and a
+      self-contained offline HTML report. A standing "do not claim clinical utility unless…" caveat is generated into
+      every report and cannot be removed by theming.</p>
+  </section>
+
+  <section>
+    <h2>Scope and caveats</h2>
+    <p class="note">The model is intentionally simple. Network features can be useful descriptors, but they can also
+      encode sampling bias, measurement bias, and structural confounding. Before using EpiNet for health, education,
+      welfare, employment, or public-sector decisions, add: domain-specific data validation; directed / temporal
+      assumptions; uncertainty and sensitivity checks; external validation on independent outcome-linked data; privacy
+      and governance review; and human review of any operational recommendation. For clinical prediction, align
+      reporting with <a href="https://doi.org/10.1136/bmj-2023-078378">TRIPOD+AI</a>.</p>
+  </section>
+
+  <section>
+    <h2>Questions</h2>
+    <div class="faq">
+      <details>
+        <summary>Is EpiNet a new prediction model?</summary>
+        <p>No. The model is a standard random forest. EpiNet's contribution is the conservative, auditable evaluation
+          workflow wrapped around it — the same honesty checks travel with every analysis, so a headline score is
+          harder to fool yourself with.</p>
+      </details>
+      <details>
+        <summary>Can I use it for clinical or public-health decisions?</summary>
+        <p>No. It is a research and education demonstrator. Any model it produces must be validated on independent,
+          outcome-linked data before it means anything clinically, and operational use needs the additions listed
+          under Scope and caveats.</p>
+      </details>
+      <details>
+        <summary>How is EpiNet related to CiteVahti?</summary>
+        <p>They share the same brand principles — human review, provenance, caveats, and no unsupported claims.
+          CiteVahti checks whether claims in a manuscript are supported by their cited evidence; EpiNet checks whether
+          graph-shaped analytical claims survive basic methodological stress tests.</p>
+      </details>
+      <details>
+        <summary>What is "contestability"?</summary>
+        <p>The smallest feature-space move that would flip a node's predicted class, plus which features most drive
+          those boundary flips. It turns a prediction into an inspectable call: how far it is from changing, and why.</p>
+      </details>
+    </div>
+  </section>
+</main>
+
+  <footer>
+    <p>© 2026 Vahtian · EpiNet · MIT licensed · <a href="https://github.com/heidihelena/epinet">source</a> ·
+      <a href="/blog/">Blog</a> · <a href="/cite/">Cite</a> · <a href="/privacy/">Privacy</a> · <a href="/">vahtian.com</a></p>
+    <p>A research and education demonstrator for graph-shaped data. It produces calibrated, caveated,
+      provenance-rich reports; it is <b>not</b> clinical or public-health decision support, and does not infer
+      causality — validate any model on independent, outcome-linked data before it means anything clinically.</p>
+  </footer>
+</div>
+</body>
+</html>
