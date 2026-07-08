@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Search — Vahtian</title>
+  <meta name="description" content="Search vahtian.com — tools, guides, packages, and blog posts. Runs entirely in your browser over a built-in page index; nothing is sent anywhere.">
+  <meta name="theme-color" content="#2D2440">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="canonical" href="https://vahtian.com/search/">
+  <meta name="robots" content="index,follow">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://vahtian.com/search/">
+  <meta property="og:title" content="Search — Vahtian">
+  <meta property="og:description" content="Search vahtian.com in your browser — nothing is sent anywhere.">
+  <meta property="og:image" content="https://vahtian.com/brand/cards/vahtian-card.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Search Vahtian.">
+  <meta property="og:site_name" content="Vahtian">
+  <meta name="twitter:card" content="summary_large_image">
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"WebPage","name":"Search — Vahtian","url":"https://vahtian.com/search/","description":"Client-side search over vahtian.com pages.","isPartOf":{"@type":"WebSite","name":"Vahtian","url":"https://vahtian.com/"}}
+  </script>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232D2440'/%3E%3Cg fill='none' stroke='%238B6FC9' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 9 H9 V23 H12'/%3E%3Cpath d='M20 9 H23 V23 H20'/%3E%3C/g%3E%3Cpath d='M16 10.3 L19.6 12 L19.6 15 L16 19.6 L12.4 15 L12.4 12 Z' fill='none' stroke='%23C5B8E8' stroke-width='1.8' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <style>
+    :root{--navy:#2D2440;--violet:#8B6FC9;--lilac:#C5B8E8;--ink:#1c1830;--muted:#4A4460;
+          --bg:#faf9fc;--card:#fff;--line:#e7e3f0;--link:#6F52B8}
+    *{box-sizing:border-box}
+    body{margin:0;font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,ui-sans-serif,system-ui,sans-serif;
+         color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased}
+    a{color:var(--link)}
+    a:focus-visible,input:focus-visible{outline:3px solid var(--violet);outline-offset:2px}
+    .wrap{max-width:720px;margin:0 auto;padding:0 22px}
+    header{padding:22px 0 6px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:18px}
+    .mark{width:30px;height:30px;flex:0 0 30px}
+    nav.nav{display:flex;align-items:center;gap:16px;flex-wrap:wrap;font-size:14.5px}
+    nav.nav a{color:var(--ink);text-decoration:none;font-weight:600}
+    nav.nav a:hover{color:var(--link)}
+    nav.nav .ext{color:var(--muted)}
+    nav.nav .util{display:flex;align-items:center;gap:13px;padding-left:15px;border-left:1px solid var(--line)}
+    nav.nav .util .ic{display:flex;color:var(--muted)}
+    nav.nav .util .ic:hover{color:var(--link)}
+    nav.nav .buy{background:var(--navy);color:#fff;padding:7px 13px;border-radius:8px;font-size:13.5px;font-weight:700}
+    @media(max-width:680px){nav.nav{gap:13px;font-size:13.5px}}
+    h1{font-size:clamp(28px,5vw,36px);letter-spacing:-.02em;margin:32px 0 8px}
+    .sub{color:var(--muted);font-size:14.5px;margin:0 0 20px}
+    input[type=search]{width:100%;padding:13px 16px;border:1px solid var(--line);border-radius:11px;
+      font:17px/1.4 inherit;font-family:inherit;background:var(--card);color:var(--ink)}
+    #res{margin-top:20px;display:grid;gap:10px}
+    .hit{display:block;background:var(--card);border:1px solid var(--line);border-left:3px solid var(--violet);
+      border-radius:11px;padding:12px 15px;text-decoration:none;color:var(--ink)}
+    .hit:hover{border-color:var(--violet)}
+    .hit b{display:block;font-size:15px}
+    .hit span{color:var(--muted);font-size:13.5px;display:block;margin-top:2px}
+    .hit .u{color:var(--link);font-size:12.5px;font-family:ui-monospace,Menlo,monospace}
+    .none{color:var(--muted);font-size:14.5px;padding:8px 2px}
+    footer{padding:28px 0 50px;color:var(--muted);font-size:13px;border-top:1px solid var(--line);margin-top:44px;line-height:1.7}
+    footer a{color:var(--muted)}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand">
+      <a href="/" aria-label="Vahtian — home" style="display:flex"><svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#2D2440"/><g fill="none" stroke="#8B6FC9" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9 H9 V23 H12"/><path d="M20 9 H23 V23 H20"/></g><path d="M16 10.3 L19.6 12 L19.6 15 L16 19.6 L12.4 15 L12.4 12 Z" fill="none" stroke="#C5B8E8" stroke-width="1.8" stroke-linejoin="round"/></svg></a>
+      <span>Vahtian</span>
+    </div>
+    <nav class="nav" aria-label="Primary">
+      <a href="/#tools">Tools</a>
+      <a href="/learn/">Learn</a>
+      <a href="/blog/">Blog</a>
+      <a href="/about/">About</a>
+      <a class="ext" href="https://forskai.com">ForskAI <span aria-hidden="true">↗</span></a>
+      <span class="util">
+        <a class="ic" href="https://github.com/heidihelena/vahtian" aria-label="Vahtian on GitHub"><svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 012-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg></a>
+        <a class="ic" href="/search/" aria-label="Search vahtian.com"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.3" y2="16.3"/></svg></a>
+        <a class="ic" href="/download/" aria-label="Download Vahtian software"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4 V15"/><path d="M7 11 L12 16 L17 11"/><path d="M4 20 H20"/></svg></a>
+        <a class="buy" href="/ai-disclosure-kit/">Buy</a>
+      </span>
+    </nav>
+  </header>
+
+<main>
+  <h1>Search</h1>
+  <p class="sub">Search vahtian.com — runs in your browser over a built-in page index. Nothing is sent anywhere.</p>
+  <input type="search" id="q" placeholder="Try: codebook, Delphi, sample size, disclosure…" aria-label="Search vahtian.com">
+  <div id="res" role="region" aria-live="polite" aria-label="Search results"></div>
+</main>
+
+  <footer>
+    <p>© 2026 Vahtian · <a href="/learn/">Learn</a> · <a href="/blog/">Blog</a> · <a href="/about/">About</a> ·
+      <a href="/cite/">Cite</a> · <a href="/privacy/">Privacy</a> · <a href="/">vahtian.com</a></p>
+    <p>Client-side search over the page index; no query leaves your browser.</p>
+  </footer>
+</div>
+<script>
+"use strict";
+var PAGES=[{"u":"/about/","t":"About Vahtian — research software built by a researcher","d":"Vahtian develops software for researchers who want AI to accelerate their work without making their evidence less transparent. Built by Heidi Andersén, MD, PhD, a clinician-scienti"},{"u":"/agents/","t":"Vahtian for LLMs & agents — great research-support work, human-first","d":"Your AI assistant can drive Vahtian's open tools to search the literature, screen it blinded, reconcile reviewers, retrieve full text, and check whether a source supports a claim b"},{"u":"/ai-disclosure-kit/","t":"AI Disclosure Kit for Researchers — forskai","d":"Manuscript, thesis, grant, and peer-review templates for responsible AI use. Log as you go, check the venue's policy once, disclose from templates. 10 files (Word, Excel, PDF, Mark"},{"u":"/blog/","t":"Blog","d":"The Vahtian blog: research methods in plain language. Statistics, machine learning, study design, and research integrity — practical ideas that help researchers design stronger stu"},{"u":"/blog/why-vahtian-exists/","t":"Why Vahtian Exists","d":"Science changes lives, but a study design that looked fine at first may never have been strong enough to answer the question. Why Vahtian exists: open-source tools and plain-langua"},{"u":"/cite/","t":"How to cite Vahtian","d":"How to cite Vahtian's research-integrity tools (CiteVahti, StudyVahti, ReviewVahti, and the rest) in your methods and references — APA software citations and BibTeX."},{"u":"/citevahti/","t":"CiteVahti — check the source supports the claim","d":"CiteVahti checks whether the cited source supports each manuscript claim, before you cite it: a blinded human → AI → adjudication workflow with an auditable, undoable Zotero write."},{"u":"/citevahti/privacy/","t":"CiteVahti privacy","d":"How the CiteVahti app handles your data: no accounts, no telemetry, no analytics. Local-first — your manuscript, claims, and ratings stay on your device; data leaves only for the l"},{"u":"/citevahti/quick-check/","t":"Citation Integrity Quick Check — CiteVahti","d":"Paste a manuscript paragraph and check for citation-risk signals before submission: uncited claims, vague evidence wording, overclaiming, citation pile-ups, numeric claims, and gui"},{"u":"/dictvahti/","t":"DictVahti — REDCap Dictionary Linter","d":"DictVahti audits a REDCap data dictionary CSV with 28 deterministic rules across naming, field types, choices, and branching logic — and proposes fixes. Free, in-browser."},{"u":"/epinet/","t":"EpiNet — the Epistemic Network toolkit","d":"EpiNet is a transparent node/edge network and feature-space analysis toolkit for graph-shaped data, where honest evaluation is the default: a label-permutation null, calibration, a"},{"u":"/fullvahti/","t":"FullVahti — find open-access PDFs for your Zotero library","d":"FullVahti is a Zotero plugin that finds open-access full-text PDFs for your references via Unpaywall and PubMed Central — in two clicks, with an honest report of what's still missi"},{"u":"/guidelinevahti/","t":"GuidelineVahti — panel consensus for guideline groups (preview)","d":"GuidelineVahti turns a guideline panel's RAND/UCLA votes into consensus, an implementation priority map, and GRADE recommendations — anonymous, in the browser. Early access."},{"u":"/guidelinevahti/pilot/","t":"Run a Delphi pilot — GuidelineVahti","d":"Run your next modified-Delphi / RAND-UCLA consensus round with GuidelineVahti and get an auditable record instead of spreadsheet chaos: consensus, an implementation priority map, G"},{"u":"/guidelinevahti/pilot/sample/","t":"Sample consensus record — GuidelineVahti Delphi pilot","d":"A synthetic sample of what a GuidelineVahti Delphi pilot delivers: round summary, anonymized rating distributions, median/IQR, RAND/UCLA classification, chance-corrected agreement,"},{"u":"/","t":"Vahtian — research citation integrity","d":"Vahtian checks whether each manuscript claim is supported by the source cited for it — a blinded human → AI → adjudication workflow with a decision-gated, undoable write and a hash"},{"u":"/learn/","t":"Learn — how to use Vahtian","d":"How to actually use Vahtian: browser tools you can try now (citation and qualitative claim checks, a codebook builder, the sample-size explorer), guides for each product, and the o"},{"u":"/matchvahti-lite/","t":"MatchVahti-Lite — capture abstract sentences for Zotero","d":"MatchVahti-Lite: search PubMed, read one abstract, tap the sentences worth citing, tag them, and append them to a reviewable Zotero .ris. Single-file, browser-only, free; the only "},{"u":"/methodvahti/claim-check/","t":"Qualitative Claim Quick Check — MethodVahti","d":"Paste your qualitative findings or discussion and check for wording that reviewers question: themes stated without a quote, quantifying language, generalizing beyond the sample, ca"},{"u":"/methodvahti/codebook/","t":"Codebook Builder &amp; Check — MethodVahti","d":"Build a rigorous thematic-analysis codebook in your browser: for each code, a definition, inclusion and exclusion criteria, an example quote and a counter-example. A quality check "},{"u":"/methodvahti/explore/","t":"MethodVahti Explorer — see how your sample-size choices move N","d":"An interactive, browser-only explorer for qualitative sample-size reasoning: move the design parameters and watch three sample-size models, a stability tornado, and a Monte-Carlo s"},{"u":"/methodvahti/","t":"MethodVahti — defend your qualitative sampling decision, honestly","d":"MethodVahti starts from your situation — planning an N, justifying one already chosen, answering a reviewer, reading pilot data, or writing methods text — and helps you build a def"},{"u":"/privacy/","t":"Privacy","d":"How vahtian.com handles your data: no accounts, no advertising trackers, cookieless analytics, and local-first tools."},{"u":"/recoverlite/","t":"RecoverLite — pre-data recovery tests for planned study designs","d":"RecoverLite runs the recovery test: a standardized pre-data simulation protocol that checks whether a planned study design can recover the scientific question it was built to answe"},{"u":"/reviewvahti/","t":"ReviewVahti — screening reliability (kappa, in your browser)","d":"ReviewVahti computes screening-reliability statistics — Cohen's κ, PABAK, Gwet's AC1, Krippendorff's α and Fleiss' κ — across 2–7 reviewers' systematic-review ballots, in your brow"},{"u":"/studyvahti/","t":"StudyVahti by Vahtian — protocol-readiness for clinical study ideas","d":"StudyVahti turns a rough clinical study idea into a protocol-ready checklist: PICOTS, reporting standards, bias domains, estimands, and feasibility. Free and local."},{"u":"/synthvahti/","t":"SynthVahti — browser-side DTA agreement synthesis (HSROC stays in R)","d":"Pool agreement (OPA, sensitivity, specificity, decision impact) from an ExtractVahti CSV with random-effects meta-analysis, and export forest and funnel figures as PNG. The headlin"}];
+(function(){
+  var q=document.getElementById("q"),res=document.getElementById("res");
+  function esc(s){return String(s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];});}
+  function render(list,query){
+    if(!query){res.innerHTML="";return;}
+    if(!list.length){res.innerHTML='<p class="none">No pages match "'+esc(query)+'". Try a product name or a method term.</p>';return;}
+    res.innerHTML=list.map(function(p){
+      return '<a class="hit" href="'+esc(p.u)+'"><b>'+esc(p.t)+'</b><span>'+esc(p.d)+'</span><span class="u">'+esc(p.u)+'</span></a>';
+    }).join("");
+  }
+  function search(){
+    var query=q.value.trim().toLowerCase();
+    if(!query){render([],"");return;}
+    var words=query.split(/\s+/);
+    var scored=PAGES.map(function(p){
+      var hay=(p.t+" "+p.d+" "+p.u).toLowerCase(),score=0;
+      for(var i=0;i<words.length;i++){
+        if(hay.indexOf(words[i])<0){return null;}
+        if(p.t.toLowerCase().indexOf(words[i])>=0)score+=3;else score+=1;
+      }
+      return {p:p,s:score};
+    }).filter(Boolean).sort(function(a,b){return b.s-a.s;}).slice(0,12).map(function(x){return x.p;});
+    render(scored,q.value.trim());
+  }
+  q.addEventListener("input",search);
+  q.focus();
+})();
+</script>
+</body>
+</html>
