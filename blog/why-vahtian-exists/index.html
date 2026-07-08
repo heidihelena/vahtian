@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Why Vahtian Exists — Vahtian blog</title>
+  <meta name="description" content="Science changes lives, but a study design that looked fine at first may never have been strong enough to answer the question. Why Vahtian exists: open-source tools and plain-language methods writing that help researchers ask — can we trust this result? By Heidi Andersén, MD PhD.">
+  <meta name="theme-color" content="#2D2440">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="canonical" href="https://vahtian.com/blog/why-vahtian-exists/">
+  <meta name="robots" content="index,follow">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://vahtian.com/blog/why-vahtian-exists/">
+  <meta property="og:title" content="Why Vahtian Exists">
+  <meta property="og:description" content="Good science helps us understand disease and make better decisions — but a study design that looked fine at first may never have been strong enough to answer the question. Why Vahtian exists, by a clinician-scientist.">
+  <meta property="og:image" content="https://vahtian.com/brand/cards/vahtian-card.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Vahtian — research citation integrity.">
+  <meta property="og:site_name" content="Vahtian">
+  <meta property="article:published_time" content="2026-07-06">
+  <meta property="article:author" content="Heidi Andersén">
+  <meta name="twitter:card" content="summary_large_image">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "Why Vahtian Exists",
+    "description": "Why Vahtian exists: open-source tools and plain-language methods writing that help researchers ask whether a result can be trusted — because the evidence has been tested honestly, not because of fame, accuracy scores, or p-values.",
+    "url": "https://vahtian.com/blog/why-vahtian-exists/",
+    "datePublished": "2026-07-06",
+    "dateModified": "2026-07-06",
+    "author": {
+      "@type": "Person",
+      "name": "Heidi Andersén",
+      "honorificSuffix": "MD, PhD",
+      "url": "https://vahtian.com/about/"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Vahtian",
+      "url": "https://vahtian.com/"
+    },
+    "image": "https://vahtian.com/brand/cards/vahtian-card.png",
+    "isPartOf": { "@type": "Blog", "name": "Vahtian blog", "url": "https://vahtian.com/blog/" },
+    "mainEntityOfPage": "https://vahtian.com/blog/why-vahtian-exists/"
+  }
+  </script>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232D2440'/%3E%3Cg fill='none' stroke='%238B6FC9' stroke-width='2.2' stroke-linecap='round'%3E%3Cpath d='M8 11 H24'/%3E%3Cpath d='M8 16 H24'/%3E%3Cpath d='M8 21 H18'/%3E%3C/g%3E%3Ccircle cx='23' cy='21' r='2.3' fill='%23C5B8E8'/%3E%3C/svg%3E">
+  <style>
+    :root{--navy:#2D2440;--violet:#8B6FC9;--lilac:#C5B8E8;--ink:#1c1830;--muted:#5b5570;
+          --bg:#faf9fc;--card:#fff;--line:#e7e3f0;--link:#6F52B8}
+    *{box-sizing:border-box}
+    body{margin:0;font:17px/1.7 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,ui-sans-serif,system-ui,sans-serif;
+         color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased}
+    a{color:var(--link)}
+    a:focus-visible{outline:3px solid var(--violet);outline-offset:2px}
+    .wrap{max-width:700px;margin:0 auto;padding:0 22px}
+    header{padding:24px 0 4px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:18px}
+    .mark{width:30px;height:30px;flex:0 0 30px}
+    .up{font-size:13px;color:var(--muted);text-decoration:none}
+    .meta{font:600 13px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--link);margin:34px 0 10px;text-transform:uppercase;letter-spacing:.08em}
+    h1{font-size:clamp(30px,6vw,42px);line-height:1.12;letter-spacing:-.02em;margin:0 0 10px}
+    .byline{color:var(--muted);font-size:14.5px;margin:0 0 34px}
+    .byline a{color:var(--muted)}
+    article p{margin:0 0 18px}
+    article h2{font-size:23px;letter-spacing:-.01em;margin:38px 0 14px}
+    article ul{margin:0 0 18px;padding-left:24px;display:grid;gap:8px}
+    article li b{color:var(--ink)}
+    .credo{border-left:3px solid var(--violet);padding:4px 0 4px 20px;margin:0 0 18px}
+    .credo p{margin:0 0 8px;color:#3a3450}
+    .credo p:last-child{margin:0;color:var(--ink);font-weight:600}
+    .pull{font-size:clamp(19px,3vw,23px);font-weight:650;letter-spacing:-.01em;color:var(--ink);margin:0 0 18px}
+    .sig{margin:34px 0 0;font-weight:600}
+    .backrow{margin:44px 0 0;padding-top:22px;border-top:1px solid var(--line)}
+    .backrow a{font-weight:600;font-size:15px}
+    footer{padding:28px 0 50px;color:var(--muted);font-size:13px;border-top:1px solid var(--line);margin-top:36px;line-height:1.7}
+    footer a{color:var(--muted)}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand">
+      <a href="/" aria-label="Vahtian — home" style="display:flex"><svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#2D2440"/><g fill="none" stroke="#8B6FC9" stroke-width="2.2" stroke-linecap="round"><path d="M8 11 H24"/><path d="M8 16 H24"/><path d="M8 21 H18"/></g><circle cx="23" cy="21" r="2.3" fill="#C5B8E8"/></svg></a>
+      <span>Vahtian</span>
+    </div>
+    <a class="up" href="/blog/">← Blog</a>
+  </header>
+
+<main>
+  <p class="meta">Vahtian blog · 6 July 2026</p>
+  <h1>Why Vahtian Exists</h1>
+  <p class="byline">By <a href="/about/">Heidi Andersén, MD PhD</a> — clinician-scientist in respiratory
+    medicine, oncology, and clinical research.</p>
+
+  <article>
+    <p>Science changes lives. Good science helps us understand disease, improve treatments, and make better
+      decisions. But science is done by people, and people can make mistakes. Sometimes the biggest problem is
+      not bad intentions. It is a study design that looked fine at first but was never strong enough to answer
+      the question.</p>
+
+    <p>That is why I started Vahtian.</p>
+
+    <p>Vahtian is a home for open-source tools and practical ideas that help researchers ask a simple question:</p>
+
+    <p class="pull">Can we trust this result?</p>
+
+    <div class="credo">
+      <p>Not because someone famous said so.</p>
+      <p>Not because a model has high accuracy.</p>
+      <p>Not because the p-value is below 0.05.</p>
+      <p>Because the evidence has been tested honestly.</p>
+    </div>
+
+    <h2>Better science starts before the data</h2>
+
+    <p>Many research problems begin long before the first participant is recruited.</p>
+
+    <ul>
+      <li>A study may be too small.</li>
+      <li>Measurements may be unreliable.</li>
+      <li>Missing data may change the question the study is actually answering.</li>
+      <li>A machine-learning model may appear impressive because of data leakage instead of real signal.</li>
+    </ul>
+
+    <p>These problems are often easier to fix before data are collected than after a paper is published.</p>
+
+    <p>That is where Vahtian focuses.</p>
+
+    <h2>Open tools for researchers</h2>
+
+    <p>The software published through Vahtian is open source because better research methods should be easy to
+      inspect, improve, and reproduce.</p>
+
+    <p>Current projects include:</p>
+
+    <ul>
+      <li><b>RecoverLite</b> — checks whether a planned study design is likely to recover the scientific question
+        it was built to answer, before data collection begins.</li>
+      <li><b><a href="https://github.com/heidihelena/epinet">EpiNet</a></b> — evaluates graph-based analyses with
+        calibration, permutation testing, contestability, and transparent reporting instead of only reporting a
+        single performance score.</li>
+      <li><b><a href="/citevahti/">CiteVahti</a></b> — helps examine whether scientific claims are supported by
+        the evidence presented in a manuscript.</li>
+    </ul>
+
+    <p>These projects are different tools, but they share the same idea.</p>
+
+    <p class="pull">Every important scientific claim should come with evidence, uncertainty, provenance, and
+      clear caveats.</p>
+
+    <h2>Open source and professional support</h2>
+
+    <p>Not every research team has time to build simulations, audit study designs, or review complex statistical
+      methods.</p>
+
+    <p>That is why <a href="https://forskai.com">ForskAI by Vahtian</a> also exists.</p>
+
+    <p>ForskAI provides independent research-methods support for universities, research groups, funders, and
+      organizations. Services include study-design review, simulation-based design diagnosis, methodological
+      audits, and statistical consulting.</p>
+
+    <p>The open-source projects remain open. Professional services help researchers apply those ideas to their
+      own studies.</p>
+
+    <h2>What you can expect here</h2>
+
+    <p>This blog will explain research methods in plain language.</p>
+
+    <p>No unnecessary jargon. No hype. Just practical ideas that help researchers design stronger studies,
+      understand their analyses, and avoid common mistakes.</p>
+
+    <p>Sometimes we will discuss statistics. Sometimes machine learning. Sometimes study design. Sometimes
+      research integrity.</p>
+
+    <p>The goal is always the same:</p>
+
+    <p class="pull">Help researchers make stronger scientific evidence.</p>
+
+    <p class="sig">Welcome to Vahtian.</p>
+  </article>
+
+  <div class="backrow">
+    <a href="/blog/">← All posts</a> · <a href="/">vahtian.com</a>
+  </div>
+</main>
+
+  <footer>
+    <p>© 2026 Vahtian · <a href="/blog/">Blog</a> · <a href="/about/">About</a> ·
+      <a href="/cite/">Cite</a> · <a href="/privacy/">Privacy</a> · <a href="/">vahtian.com</a></p>
+    <p>Vahtian records the blinded human → AI → adjudication workflow with provenance; it does not assert truth.</p>
+  </footer>
+</div>
+</body>
+</html>
