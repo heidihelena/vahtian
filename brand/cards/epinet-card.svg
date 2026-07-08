@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#150f28"/><stop offset="0.62" stop-color="#1d1630"/><stop offset="1" stop-color="#171127"/></linearGradient>
+    <radialGradient id="nodeG"><stop offset="0" stop-color="#C5B8E8" stop-opacity="0.5"/><stop offset="1" stop-color="#C5B8E8" stop-opacity="0"/></radialGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <!-- graph network motif, right -->
+  <g stroke="#8273C0" stroke-width="1.6" opacity="0.55">
+    <line x1="900" y1="170" x2="1010" y2="250"/><line x1="1010" y1="250" x2="960" y2="380"/>
+    <line x1="960" y1="380" x2="840" y2="430"/><line x1="840" y1="430" x2="820" y2="300"/>
+    <line x1="820" y1="300" x2="900" y2="170"/><line x1="820" y1="300" x2="960" y2="380"/>
+    <line x1="1010" y1="250" x2="1090" y2="410"/><line x1="960" y1="380" x2="1090" y2="410"/>
+  </g>
+  <g>
+    <circle cx="900" cy="170" r="26" fill="url(#nodeG)"/><circle cx="1010" cy="250" r="30" fill="url(#nodeG)"/>
+    <circle cx="960" cy="380" r="34" fill="url(#nodeG)"/><circle cx="840" cy="430" r="24" fill="url(#nodeG)"/>
+    <circle cx="820" cy="300" r="22" fill="url(#nodeG)"/><circle cx="1090" cy="410" r="20" fill="url(#nodeG)"/>
+    <circle cx="900" cy="170" r="6.5" fill="#C5B8E8"/><circle cx="1010" cy="250" r="7.5" fill="#C5B8E8"/>
+    <circle cx="960" cy="380" r="8.5" fill="#F5F2FB"/><circle cx="840" cy="430" r="6" fill="#C5B8E8"/>
+    <circle cx="820" cy="300" r="5.5" fill="#C5B8E8"/><circle cx="1090" cy="410" r="5" fill="#C5B8E8"/>
+  </g>
+  <!-- left text -->
+  <text x="70" y="120" font-size="40" font-weight="800" fill="#F5F2FB">EpiNet</text>
+  <text x="72" y="196" font-size="16.5" font-weight="700" letter-spacing="3.5" fill="#B7A6E4" font-family="ui-monospace,Menlo,monospace">THE EPISTEMIC NETWORK TOOLKIT</text>
+  <text x="68" y="292" font-size="58" font-weight="800" letter-spacing="-1.5" fill="#F5F2FB">Honest evaluation,</text>
+  <text x="68" y="358" font-size="58" font-weight="800" letter-spacing="-1.5" fill="#F5F2FB">by default.</text>
+  <text x="70" y="418" font-size="23" fill="#cfc6e6">Transparent graph &amp; feature-space analysis where the</text>
+  <text x="70" y="450" font-size="23" fill="#cfc6e6">honesty checks travel with every run.</text>
+  <rect x="70" y="486" width="78" height="4" rx="2" fill="#8B6FC9"/>
+  <text x="70" y="548" font-size="16" font-weight="600" letter-spacing="2" fill="#9385b8" font-family="ui-monospace,Menlo,monospace">PYTHON · MIT · A VAHTIAN PROJECT</text>
+</svg>
