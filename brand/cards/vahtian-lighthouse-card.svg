@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#140e26"/><stop offset="0.62" stop-color="#1c1531"/><stop offset="1" stop-color="#221b39"/></linearGradient>
+    <linearGradient id="sea" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#241d3d"/><stop offset="1" stop-color="#181230"/></linearGradient>
+    <radialGradient id="lamp"><stop offset="0" stop-color="#F7F3FC" stop-opacity="0.95"/><stop offset="0.42" stop-color="#C5B8E8" stop-opacity="0.55"/><stop offset="1" stop-color="#C5B8E8" stop-opacity="0"/></radialGradient>
+    <linearGradient id="beam" gradientUnits="userSpaceOnUse" x1="775" y1="232" x2="180" y2="470"><stop offset="0" stop-color="#EAE3F7" stop-opacity="0.32"/><stop offset="0.5" stop-color="#8B6FC9" stop-opacity="0.08"/><stop offset="1" stop-color="#8B6FC9" stop-opacity="0"/></linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#C5B8E8" stop-opacity="0.14"/><stop offset="1" stop-color="#C5B8E8" stop-opacity="0"/></radialGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#sky)"/>
+  <!-- stars -->
+  <g fill="#C5B8E8"><circle cx="150" cy="86" r="1.4" opacity=".7"/><circle cx="300" cy="140" r="1" opacity=".5"/><circle cx="470" cy="70" r="1.4" opacity=".75"/><circle cx="640" cy="120" r="1" opacity=".5"/><circle cx="900" cy="80" r="1.3" opacity=".7"/><circle cx="1050" cy="150" r="1" opacity=".5"/><circle cx="1120" cy="70" r="1.2" opacity=".6"/><circle cx="820" cy="150" r="1" opacity=".45"/></g>
+  <!-- beam sweeping from the lantern (golden line) down to the rower -->
+  <path d="M775 232 L175 442 L175 512 L775 262 Z" fill="url(#beam)"/>
+  <!-- sea: horizon on the golden horizontal (~y389) -->
+  <rect x="0" y="389" width="1200" height="241" fill="url(#sea)"/>
+  <g stroke="#372f55" stroke-width="1.3" opacity="0.5"><line x1="0" y1="430" x2="1200" y2="430"/><line x1="0" y1="470" x2="1200" y2="470"/><line x1="0" y1="520" x2="1200" y2="520"/><line x1="0" y1="580" x2="1200" y2="580"/></g>
+  <!-- faint light reflection on the water below the lighthouse -->
+  <ellipse cx="775" cy="470" rx="26" ry="70" fill="url(#glow)"/>
+  <!-- islet + lighthouse, focal at the right golden intersection (~742–778, 232) -->
+  <path d="M700 389 Q778 372 852 389 L852 405 L700 405 Z" fill="#171026"/>
+  <g>
+    <path d="M758 256 L792 256 L804 389 L746 389 Z" fill="#2c2447"/>
+    <path d="M758 256 L792 256 L795 300 L755 300 Z" fill="#3a2f57"/>
+    <path d="M755 300 L795 300 L799 344 L751 344 Z" fill="#2c2447"/>
+    <rect x="750" y="344" width="52" height="5" fill="#3a2f57"/>
+    <rect x="748" y="248" width="56" height="9" rx="2" fill="#3a2f57"/>
+    <circle cx="775" cy="232" r="54" fill="url(#lamp)"/>
+    <rect x="762" y="219" width="26" height="29" rx="2" fill="#0f0a1e"/>
+    <rect x="766" y="223" width="18" height="21" rx="1.5" fill="#F3EEFA"/>
+    <path d="M758 219 L792 219 L775 205 Z" fill="#3a2f57"/>
+  </g>
+  <!-- rower, lower-left golden area, bow pointed toward the lighthouse -->
+  <g transform="translate(415 468) rotate(-4)">
+    <ellipse cx="0" cy="30" rx="66" ry="7" fill="#0e0a1c" opacity="0.55"/>
+    <path d="M-56 6 Q0 26 56 4 L47 20 Q0 36 -47 20 Z" fill="#0c0917"/>
+    <path d="M-4 6 L-4 -16 Q-4 -24 4 -24 Q12 -24 12 -16 L12 6 Z" fill="#0c0917"/>
+    <circle cx="4" cy="-29" r="7" fill="#0c0917"/>
+    <g stroke="#0c0917" stroke-width="3" stroke-linecap="round"><line x1="4" y1="-8" x2="-38" y2="8"/><line x1="4" y1="-8" x2="42" y2="6"/></g>
+  </g>
+  <!-- text -->
+  <text x="70" y="118" font-size="16" font-weight="700" letter-spacing="3.8" fill="#B7A6E4" font-family="ui-monospace,Menlo,monospace">RESEARCH INTEGRITY, FROM THE INSIDE</text>
+  <text x="68" y="205" font-size="56" font-weight="800" letter-spacing="-1.5" fill="#F5F2FB">Vahtian builds</text>
+  <text x="68" y="270" font-size="56" font-weight="800" letter-spacing="-1.5" fill="#F5F2FB">research infrastructure.</text>
+  <text x="70" y="600" font-size="16" font-weight="600" letter-spacing="2" fill="#8a7cb0" font-family="ui-monospace,Menlo,monospace">VAHTIAN.COM</text>
+</svg>
