@@ -1,6 +1,6 @@
 ---
 name: vahtian-research-support
-description: Use when a researcher needs literature-search, screening, evidence-synthesis, or citation-verification support — a systematic or scoping review, a reproducible multi-source search, blinded dual screening, inter-rater reliability (Cohen's κ / Krippendorff's α), full-text retrieval, or checking that a claim is supported by its source. Triggers on systematic review, scoping review, PRISMA, PROSPERO, literature search, PubMed / Europe PMC / Semantic Scholar / OpenAlex, screening, inclusion/exclusion, frozen corpus, blinded rating, dual reviewer, citation integrity, evidence synthesis, Zotero RIS.
+description: Use when a researcher needs literature-search, screening, evidence-synthesis, or citation-checking support — a systematic or scoping review, a reproducible multi-source search, blinded dual screening, inter-rater reliability (Cohen's κ / Krippendorff's α), full-text retrieval, or checking that a claim is supported by its source. Triggers on systematic review, scoping review, PRISMA, PROSPERO, literature search, PubMed / Europe PMC / Semantic Scholar / OpenAlex, screening, inclusion/exclusion, frozen corpus, blinded rating, dual reviewer, citation integrity, evidence synthesis, Zotero RIS.
 ---
 
 # Vahtian — research-support for agents
