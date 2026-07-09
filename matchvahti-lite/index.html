@@ -10,7 +10,7 @@
 
   What it is:  capture a quotable sentence with provenance, get it into Zotero.
   What it is NOT:  it produces no MatchResult, no support rating, no AI verdict, no
-  Atlas graph, no poolable corpus record. Highlights are abstract-level and unverified.
+  Atlas graph, no poolable corpus record. Highlights are abstract-level and unchecked against full text.
   The [oo] closer-look flag and stars are PRIVATE salience ("how much I want to cite this"),
   never a verdict on the study. They live in a cite: namespace and never touch the
   measurement scale.
@@ -204,7 +204,7 @@
     border-radius:9px;padding:8px 11px;line-height:1.45}
   .absbadge{display:inline-block;margin:8px 0 0;font-size:11px;font-weight:650;color:#5A4300;
     background:var(--amber-fill);border:1px solid var(--amber-line);border-radius:999px;padding:3px 11px}
-  /* pipeline strip — where Lite sits: capture → retrieve → verify → write */
+  /* pipeline strip — where Lite sits: capture → retrieve → check → write */
   .pipeline{display:flex;flex-wrap:wrap;align-items:center;gap:6px 7px;margin:0 0 16px;padding:11px 13px;
     background:#fff;border:1px solid var(--line);border-radius:12px}
   .pstep{font-size:11.5px;font-weight:600;padding:4px 10px;border-radius:999px;border:1px solid var(--line);
@@ -329,7 +329,7 @@
 
 <main>
 
-  <!-- where Lite sits in the house pipeline: capture → retrieve → verify → write -->
+  <!-- where Lite sits in the house pipeline: capture → retrieve → check → write -->
   <nav class="pipeline" aria-label="Where MatchVahti-Lite sits in the workflow">
     <span class="pstep on">Search PubMed</span><span class="parrow">→</span>
     <span class="pstep on">Tap sentence</span><span class="parrow">→</span>
@@ -337,7 +337,7 @@
     <span class="pstep on">Import to Zotero</span><span class="parrow">→</span>
     <span class="pstep next">Pull PDF <em>· FullVahti</em></span><span class="parrow">→</span>
     <span class="pstep next">Check the claim <em>· CiteVahti</em></span>
-    <span class="pcap">Capture first &middot; verify before citing</span>
+    <span class="pcap">Capture first &middot; check before citing</span>
   </nav>
 
   <!-- ============ SEARCH ============ -->
@@ -424,7 +424,7 @@
       </div>
       <input type="text" id="noteInput" placeholder="Optional free note — e.g. compare with the registrational trial estimate" style="margin-top:8px" />
 
-      <p class="absonly">Captured text is from the <b>abstract only</b> — verify against the full text before citing.</p>
+      <p class="absonly">Captured text is from the <b>abstract only</b> — check against the full text before citing.</p>
       <div class="actions">
         <button class="grow" id="saveBtn" disabled>Add sentence(s) to RIS note</button>
         <button class="skip" id="skipBtn" type="button">Clear</button>
@@ -456,7 +456,7 @@
 
     <div class="spine" style="margin-top:14px">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5B5570" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 6v6c0 5 3.5 8 8 10 4.5-2 8-5 8-10V6z"/></svg>
-      <span>No silent writes. Each reference is added once (dedup by PMID/DOI); re-reading the same paper appends new sentences to its note. Captured sentences and your note go in the RIS <span class="mono">N1</span> field; tags in <span class="mono">KW</span>. Every record is tagged <span class="mono">cite:abstract-only</span> — abstract-level and unverified against full text.</span>
+      <span>No silent writes. Each reference is added once (dedup by PMID/DOI); re-reading the same paper appends new sentences to its note. Captured sentences and your note go in the RIS <span class="mono">N1</span> field; tags in <span class="mono">KW</span>. Every record is tagged <span class="mono">cite:abstract-only</span> — abstract-level and unchecked against full text.</span>
     </div>
 
     <details class="explain">
@@ -678,7 +678,7 @@ function toRIS(ref){
     if(cap.stars) sal.push("★".repeat(cap.stars));
     if(cap.raccoon) sal.push("[oo]");
     const head = "MatchVahti-Lite" + (cap.at ? " · " + cap.at : "") + (sal.length ? " · " + sal.join(" ") : "") +
-                 " · abstract only, not verified vs full text";
+                 " · abstract only, not checked vs full text";
     L.push("N1  - " + head);
     cap.claims.forEach(c=>L.push('N1  - “' + c.replace(/\s+/g," ").trim() + '”'));
     if(cap.note) L.push("N1  - note: " + cap.note);
