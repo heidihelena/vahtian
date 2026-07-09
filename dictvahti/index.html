@@ -964,7 +964,7 @@ function runBranchingRules(fields) {
         if (refForm && refForm !== f.formName && !f.choices.includes(`][${ref}]`))
           findings.push(makeFinding('B4', f,
             `Calc references [${ref}] which is on a different form ("${refForm}"). No event scoping detected.`,
-            `In longitudinal projects use [event_name][${ref}] syntax. Verify this instrument is not longitudinal, or add event scoping.`
+            `In longitudinal projects use [event_name][${ref}] syntax. Check this instrument is not longitudinal, or add event scoping.`
           ));
       });
     });
@@ -1455,7 +1455,7 @@ function renderRenameNote(fields) {
   el.innerHTML =
     `<div class="info-box" style="margin:.75rem 1rem 0;border-color:var(--border-warn);background:var(--bg-warning);color:#5A4300;">
       <strong>Heads up — duplicate field names.</strong> “Download fixed CSV” will auto-number these so REDCap accepts the import: ${items}.
-      Verify they are genuinely different fields; if one is an accidental copy, delete it instead of keeping both.
+      Check they are genuinely different fields; if one is an accidental copy, delete it instead of keeping both.
     </div>`;
 }
 
