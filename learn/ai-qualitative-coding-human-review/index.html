@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>How to code qualitative interviews with a local AI model (free, human-reviewed, step by step) — Vahtian Learn</title>
+  <meta name="description" content="Use a local AI model to suggest first-cycle codes for interview data, review every one yourself, and keep an audit trail — on your own computer, free. The four review statuses, why model confidence is not accuracy, and how to keep the human in charge of meaning.">
+  <meta name="theme-color" content="#2D2440">
+  <link rel="canonical" href="https://vahtian.com/learn/ai-qualitative-coding-human-review/">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://vahtian.com/learn/ai-qualitative-coding-human-review/">
+  <meta property="og:title" content="How to code qualitative interviews with a local AI model (human-reviewed)">
+  <meta property="og:description" content="Local AI suggests first-cycle codes; you review every one. The four review statuses, why confidence is not accuracy, and how the human keeps control of meaning.">
+  <meta property="og:site_name" content="Vahtian">
+  <meta name="twitter:card" content="summary">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "How to code qualitative interviews with a local AI model (human-reviewed)",
+    "description": "Use a local large language model to suggest first-cycle codes for qualitative interview data, under full human review, with an audit trail. Covers the four review statuses, why model confidence is a self-report, model choice by hardware, and provenance rules for the prompt.",
+    "url": "https://vahtian.com/learn/ai-qualitative-coding-human-review/",
+    "datePublished": "2026-07-09",
+    "inLanguage": "en",
+    "author": { "@type": "Organization", "name": "Vahtian", "url": "https://vahtian.com/" },
+    "publisher": { "@id": "https://vahtian.com/#org" }
+  }
+  </script>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232D2440'/%3E%3Cg fill='none' stroke='%238B6FC9' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 9 H9 V23 H12'/%3E%3Cpath d='M20 9 H23 V23 H20'/%3E%3C/g%3E%3Cpath d='M16 10.3 L19.6 12 L19.6 15 L16 19.6 L12.4 15 L12.4 12 Z' fill='none' stroke='%23C5B8E8' stroke-width='1.8' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <style>
+    :root{
+      --navy:#2D2440; --violet:#8B6FC9; --lilac:#C5B8E8;
+      --ink:#1c1830; --muted:#5b5570; --bg:#faf9fc; --card:#fff; --line:#e7e3f0;
+      --link:#6F52B8;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,ui-sans-serif,system-ui,sans-serif;
+         color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased}
+    a{color:var(--link)}
+    .wrap{max-width:720px;margin:0 auto;padding:0 22px}
+    header{padding:26px 0 4px}
+    .crumbs{font-size:14px;color:var(--muted)}
+    .crumbs a{color:var(--muted);text-decoration:none}
+    .kicker{font:600 13px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--violet);
+            text-transform:uppercase;letter-spacing:.08em;margin:34px 0 14px}
+    h1{font-size:clamp(27px,5.2vw,38px);line-height:1.14;letter-spacing:-.02em;margin:0 0 16px}
+    .lede{font-size:clamp(17px,2.4vw,19px);color:#3a3450;margin:0 0 6px}
+    h2{font-size:21px;margin:42px 0 12px;letter-spacing:-.01em}
+    p{margin:0 0 14px}
+    ol,ul{margin:0 0 14px;padding-left:24px}
+    li{margin:0 0 8px}
+    code{font:14px ui-monospace,SFMono-Regular,Menlo,monospace;background:#f0edf7;
+         border-radius:5px;padding:1px 6px}
+    table{border-collapse:collapse;width:100%;margin:0 0 16px;font-size:15px}
+    th,td{border:1px solid var(--line);padding:8px 12px;text-align:left;vertical-align:top}
+    th{background:#f0edf7}
+    .note{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--violet);
+          border-radius:10px;padding:14px 18px;margin:0 0 16px}
+    .note.personal{border-left-color:var(--lilac);color:#3a3450}
+    .outcomes{background:var(--card);border:1px solid var(--line);border-radius:12px;
+              padding:16px 20px;margin:22px 0}
+    .outcomes p{font-weight:650;margin:0 0 8px}
+    .outcomes ul{margin:0;padding-left:22px}
+    .time{font:600 12.5px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--muted);
+          text-transform:uppercase;letter-spacing:.06em}
+    .fig{margin:22px 0 24px}
+    .cta{background:var(--card);border:1px solid var(--line);border-radius:12px;
+         padding:20px 22px;margin:34px 0 0}
+    .btn{display:inline-block;padding:11px 18px;border-radius:9px;font-weight:600;
+         text-decoration:none;font-size:15px;background:var(--navy);color:#fff;margin-top:6px}
+    footer{margin:56px 0 40px;padding-top:22px;border-top:1px solid var(--line);
+           color:var(--muted);font-size:14px}
+    footer a{color:var(--muted)}
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <nav class="crumbs"><a href="/">vahtian.com</a> · <a href="/learn/">learn</a> · AI qualitative coding with human review</nav>
+</header>
+
+<p class="kicker">Learn · Qualitative coding</p>
+<h1>How to code qualitative interviews with a local AI model (free, human-reviewed)</h1>
+<p class="lede">A local AI model can suggest first-cycle codes for your interview data — on your own computer, free, with no transcript sent to a cloud service. This guide shows how to get useful suggestions, and the more important part: how to review every one so the analysis stays yours. The model proposes labels. You decide what anything means.</p>
+
+<div class="outcomes">
+  <p>After this guide you will be able to:</p>
+  <ul>
+    <li>Get first-cycle code suggestions from a local model, with no data leaving your machine.</li>
+    <li>Review each suggestion with a clear four-status system.</li>
+    <li>Explain why a model's confidence score is not evidence a code is right.</li>
+    <li>Keep an audit trail your reviewers and co-authors can follow.</li>
+  </ul>
+</div>
+
+<h2>What AI can and cannot do in coding</h2>
+<div class="note personal"><p style="margin:0"><strong>From our own coding.</strong> Across one small study, a local model's suggestions broke down like this: a handful we accepted as written, about half we edited, and a large share we rejected. The model has habits — it reaches for emotion words ("waiting anxiety") where the data calls for a situation ("waiting for results"), and it splits one idea into three labels. None of that is a flaw to hide. Rejecting suggestions is not the tool failing; it is the method working.</p></div>
+<p>So the honest frame: a local model is fast at proposing candidate labels and blind to what they mean. It has read no ethics application, met no participant, and holds no theory. It is a tireless first-pass labeller whose every output is a draft. The value comes from a human reading each draft against the data — which is exactly where interpretation lives, and exactly what a reviewer will want to see you did.</p>
+
+<h2>The four review statuses</h2>
+<p>Give every suggested code exactly one status. There is no score for "true" — the model does not know truth, and neither status system should pretend it does.</p>
+
+<div class="fig">
+  <svg viewBox="0 0 680 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A suggested code splits into four human decisions: accepted, edited, rejected, unclear">
+    <g font-family="-apple-system,Segoe UI,Roboto,sans-serif" font-size="13.5">
+      <rect x="250" y="8" width="180" height="46" rx="10" fill="#2D2440"/>
+      <text x="340" y="30" text-anchor="middle" fill="#fff">suggested code</text>
+      <text x="340" y="46" text-anchor="middle" fill="#C5B8E8" font-size="11">from the local model</text>
+      <path d="M340 54 V78 M100 78 H580 M100 78 V96 M260 78 V96 M420 78 V96 M580 78 V96" stroke="#8B6FC9" stroke-width="2" fill="none"/>
+      <rect x="24" y="96" width="152" height="70" rx="10" fill="#8B6FC9"/>
+      <text x="100" y="124" text-anchor="middle" fill="#fff" font-weight="600">accepted</text>
+      <text x="100" y="144" text-anchor="middle" fill="#efeaf8" font-size="11.5">the label is right</text>
+      <rect x="184" y="96" width="152" height="70" rx="10" fill="#C5B8E8"/>
+      <text x="260" y="124" text-anchor="middle" fill="#2D2440" font-weight="600">edited</text>
+      <text x="260" y="144" text-anchor="middle" fill="#3a3450" font-size="11.5">your better label</text>
+      <rect x="344" y="96" width="152" height="70" rx="10" fill="#fff" stroke="#5b5570" stroke-width="1.5"/>
+      <text x="420" y="124" text-anchor="middle" fill="#1c1830" font-weight="600">rejected</text>
+      <text x="420" y="144" text-anchor="middle" fill="#5b5570" font-size="11.5">wrong or vague</text>
+      <rect x="504" y="96" width="152" height="70" rx="10" fill="#fff" stroke="#8B6FC9" stroke-width="1.5" stroke-dasharray="5 4"/>
+      <text x="580" y="124" text-anchor="middle" fill="#1c1830" font-weight="600">unclear</text>
+      <text x="580" y="144" text-anchor="middle" fill="#5b5570" font-size="11.5">decide later</text>
+    </g>
+  </svg>
+</div>
+
+<table>
+  <tr><th>Status</th><th>Meaning</th></tr>
+  <tr><td><strong>accepted</strong></td><td>the suggested code fits the excerpt as written</td></tr>
+  <tr><td><strong>edited</strong></td><td>close, but your label is better — you write the final code</td></tr>
+  <tr><td><strong>rejected</strong></td><td>wrong, too vague to reuse, or a duplicate of another code</td></tr>
+  <tr><td><strong>unclear</strong></td><td>you cannot decide yet — a legitimate resting place, revisited later</td></tr>
+</table>
+<p>Only <code>accepted</code> and <code>edited</code> rows should feed anything downstream — your codebook, your frequency counts, your themes. Rejected and unclear rows stay in the record but out of the analysis. Keeping them visible, rather than deleting them, is part of the audit trail: a reader can see what the model proposed and what you did with it.</p>
+
+<h2>One row, worked</h2>
+<p>Here is a single excerpt through the whole pass, the way it looks in practice:</p>
+<table>
+  <tr><th>Field</th><th>Value</th></tr>
+  <tr><td>Excerpt</td><td>"The waiting for the phone call is worse than the scan… once it was nine days."</td></tr>
+  <tr><td>Model suggested</td><td><code>waiting anxiety</code> (self-reported confidence 0.8)</td></tr>
+  <tr><td>Your status</td><td><strong>edited</strong></td></tr>
+  <tr><td>Final code</td><td><code>waiting-for-results</code></td></tr>
+  <tr><td>Note</td><td>code the situation, not the emotion; "anxiety" is an interpretation to make later, not a first-cycle label</td></tr>
+</table>
+<p>The confidence was high and the label was plausible — and you still changed it, because the discipline is to name what is in the excerpt, not what the model felt about it. That note in the last row is worth more than the code: it is the reason a co-author or reviewer can follow your decision.</p>
+
+<h2>Why "confidence" is not accuracy</h2>
+<p>Local models often attach a confidence number to each suggestion. Treat it as a self-report, not a measurement. A model can be confidently wrong, and — this is the one that matters — the model agreeing with your reading is not evidence your reading is correct. Two readers who share the same blind spot will agree all day. If you want a genuine check, it has to come from a different source: a second coder, a second model, or the data pushing back through a negative case. Agreement is cheap; independence is what counts.</p>
+
+<h2>Choosing a local model <span class="time">· matched to your computer</span></h2>
+<p>Bigger models write better first-pass labels but need more memory. Because you review every suggestion anyway, a small model is a safe place to start — a weaker model means you edit more, not that your analysis is worse.</p>
+<table>
+  <tr><th>Your RAM</th><th>Start with</th></tr>
+  <tr><td>8 GB</td><td>a 3–4B model (e.g. <code>llama3.2:3b</code>, <code>qwen3:4b</code>)</td></tr>
+  <tr><td>16 GB</td><td>an 8B model (e.g. <code>hermes3:8b</code>, <code>qwen3:8b</code>)</td></tr>
+  <tr><td>32 GB+</td><td>a 14B model (e.g. <code>qwen3:14b</code>)</td></tr>
+</table>
+<p>Run them locally with <a href="https://ollama.com">Ollama</a> (free). For non-English interviews, the larger models are noticeably better at smaller languages — try your own language before deciding.</p>
+
+<h2>The prompt matters: force provenance</h2>
+<p>A coding prompt should pin the model to the text and forbid invention. The rules that keep it honest:</p>
+<ul>
+  <li>Use only the excerpt given. Do not bring in outside knowledge about the topic.</li>
+  <li>Do not invent participant details, and do not guess demographics unless they are stated.</li>
+  <li>Keep the code (what is in the excerpt) separate from interpretation (what it means for the study).</li>
+  <li>Mark uncertainty, and quote the words in the excerpt that triggered the code.</li>
+  <li>Return contradictions and near-misses rather than smoothing them over.</li>
+</ul>
+<p>A model told to quote its trigger words is far easier to review — you can see at a glance whether the label actually comes from the text or from the model's imagination.</p>
+
+<h2>An honest caveat</h2>
+<p>This workflow speeds up first-cycle labelling. It does not find your themes. A pile of frequent codes is not a theme, and a cluster a model draws is not a theme — a theme is a patterned meaning you construct, state in a sentence, support with evidence, and test against the cases that do not fit. Frequency describes how often a code was applied; it is not importance. Keep those two apart in your writing, and the AI stays a labeller while you stay the analyst.</p>
+
+<div class="cta">
+  <p><strong>You can build this yourself</strong> with Ollama, a coding prompt, and a spreadsheet for the review statuses.</p>
+  <p>If you would rather have it ready — the prompt with provenance rules, the four-status review file, a codebook that never gets overwritten, an audit trail, and a worked demo study — <strong>QualiVahti Local</strong> packages the whole local workflow around this exact discipline.</p>
+  <a class="btn" href="/qualivahti-local/">See QualiVahti Local — €49</a>
+</div>
+
+<h2>Related guides</h2>
+<p>Upstream: <a href="/learn/transcribe-interviews-locally/">transcribe interviews offline with Whisper</a>. Downstream: <a href="/learn/cite-your-analysis-code/">make your analysis code citable</a>. More on the <a href="/learn/">Learn page</a>.</p>
+
+<footer>
+  <p><a href="/learn/">← All Learn guides</a> · <a href="/">vahtian.com</a> — local-first research integrity tools. This page loads nothing from anywhere: no remote fonts, no tracking, no scripts.</p>
+</footer>
+
+</div>
+</body>
+</html>
