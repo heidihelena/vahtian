@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Can a local AI model check your citations? What we found testing two on a laptop · Vahtian Learn</title>
+  <meta name="description" content="We tested two local language models (qwen3:14b and hermes3:8b) as citation prescreeners on 120 claim-vs-source pairs. Here is where a laptop model helps, the one category where it fails, and why 'the models agreed' is not reassurance.">
+  <meta name="theme-color" content="#2D2440">
+  <link rel="canonical" href="https://vahtian.com/learn/local-models-check-citations/">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://vahtian.com/learn/local-models-check-citations/">
+  <meta property="og:image" content="https://vahtian.com/brand/cards/vahtian-card.png">
+  <meta property="og:title" content="Can a local AI model check your citations? What we found testing two on a laptop">
+  <meta property="og:description" content="Two local models as citation prescreeners on 120 claim-vs-source pairs: where a laptop model helps, the one category where it fails, and why agreement is not accuracy.">
+  <meta property="og:site_name" content="Vahtian">
+  <meta name="twitter:card" content="summary">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "Can a local AI model check your citations? What we found testing two on a laptop",
+    "description": "A small benchmark of two local language models as citation prescreeners on 120 claim-vs-source pairs across three lung-cancer topics: agreement with an independent reference, the 'unclear' blind spot, and why agreement is not accuracy.",
+    "url": "https://vahtian.com/learn/local-models-check-citations/",
+    "datePublished": "2026-07-09",
+    "inLanguage": "en",
+    "author": { "@type": "Organization", "name": "Vahtian", "url": "https://vahtian.com/" },
+    "publisher": { "@id": "https://vahtian.com/#org" }
+  }
+  </script>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232D2440'/%3E%3Cg fill='none' stroke='%238B6FC9' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 9 H9 V23 H12'/%3E%3Cpath d='M20 9 H23 V23 H20'/%3E%3C/g%3E%3Cpath d='M16 10.3 L19.6 12 L19.6 15 L16 19.6 L12.4 15 L12.4 12 Z' fill='none' stroke='%23C5B8E8' stroke-width='1.8' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <style>
+    :root{
+      --navy:#2D2440; --violet:#8B6FC9; --lilac:#C5B8E8;
+      --ink:#1c1830; --muted:#5b5570; --bg:#faf9fc; --card:#fff; --line:#e7e3f0;
+      --link:#6F52B8;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,ui-sans-serif,system-ui,sans-serif;
+         color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased}
+    a{color:var(--link)}
+    .wrap{max-width:720px;margin:0 auto;padding:0 22px}
+    header{padding:26px 0 4px}
+    .crumbs{font-size:14px;color:var(--muted)}
+    .crumbs a{color:var(--muted);text-decoration:none}
+    .kicker{font:600 13px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--violet);
+            text-transform:uppercase;letter-spacing:.08em;margin:34px 0 14px}
+    h1{font-size:clamp(27px,5.2vw,38px);line-height:1.14;letter-spacing:-.02em;margin:0 0 16px}
+    .lede{font-size:clamp(17px,2.4vw,19px);color:#3a3450;margin:0 0 6px}
+    h2{font-size:21px;margin:42px 0 12px;letter-spacing:-.01em}
+    p{margin:0 0 14px}
+    ol,ul{margin:0 0 14px;padding-left:24px}
+    li{margin:0 0 8px}
+    code{font:14px ui-monospace,SFMono-Regular,Menlo,monospace;background:#f0edf7;
+         border-radius:5px;padding:1px 6px}
+    table{border-collapse:collapse;width:100%;margin:0 0 16px;font-size:15px}
+    th,td{border:1px solid var(--line);padding:8px 12px;text-align:left;vertical-align:top}
+    th{background:#f0edf7}
+    .num{text-align:right;font-variant-numeric:tabular-nums}
+    .note{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--violet);
+          border-radius:10px;padding:14px 18px;margin:0 0 16px}
+    .note.personal{border-left-color:var(--lilac);color:#3a3450}
+    .outcomes{background:var(--card);border:1px solid var(--line);border-radius:12px;
+              padding:16px 20px;margin:22px 0}
+    .outcomes p{font-weight:650;margin:0 0 8px}
+    .outcomes ul{margin:0;padding-left:22px}
+    details{background:var(--card);border:1px solid var(--line);border-radius:10px;
+            padding:12px 18px;margin:0 0 16px}
+    summary{cursor:pointer;font-weight:600;color:var(--link)}
+    details[open] summary{margin-bottom:10px}
+    .fig{margin:20px 0 22px}
+    .cta{background:var(--card);border:1px solid var(--line);border-radius:12px;
+         padding:20px 22px;margin:34px 0 0}
+    .btn{display:inline-block;padding:11px 18px;border-radius:9px;font-weight:600;
+         text-decoration:none;font-size:15px;background:var(--navy);color:#fff;margin-top:6px}
+    footer{margin:56px 0 40px;padding-top:22px;border-top:1px solid var(--line);
+           color:var(--muted);font-size:14px}
+    footer a{color:var(--muted)}
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <nav class="crumbs"><a href="/">vahtian.com</a> · <a href="/learn/">learn</a> · local models for citation checking</nav>
+</header>
+
+<p class="kicker">Learn · Research integrity</p>
+<h1>Can a local AI model check your citations? What we found testing two on a laptop</h1>
+<p class="lede">You can run capable language models entirely on your own computer, offline and free. We wanted to know whether a laptop-sized model can do something useful for research integrity: take a claim and the paper it cites, and judge whether the source actually supports the claim. We tested two, on 120 real examples. Here is where a local model helps, the one place it reliably fails, and the rule that keeps it honest.</p>
+
+<div class="outcomes">
+  <p>After this report you will be able to:</p>
+  <ul>
+    <li>Say what a local model can and cannot do for citation checking.</li>
+    <li>Recognise the one category of claim where these models go wrong.</li>
+    <li>Understand why "both models agreed" is not reassurance.</li>
+    <li>Set the human-in-the-loop rule that makes the tool safe to use.</li>
+  </ul>
+</div>
+
+<div class="fig">
+  <svg viewBox="0 0 680 92" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Pipeline: a claim and its cited source to a local model on your computer to a human decision to a checked citation">
+    <g font-family="-apple-system,Segoe UI,Roboto,sans-serif" font-size="14">
+      <rect x="4" y="22" width="150" height="48" rx="10" fill="#fff" stroke="#e7e3f0"/>
+      <text x="79" y="44" text-anchor="middle" fill="#1c1830">claim + source</text>
+      <text x="79" y="61" text-anchor="middle" fill="#5b5570" font-size="11.5">does it support it?</text>
+      <path d="M158 46 h26" stroke="#8B6FC9" stroke-width="2"/>
+      <rect x="188" y="22" width="150" height="48" rx="10" fill="#2D2440"/>
+      <text x="263" y="44" text-anchor="middle" fill="#fff">local model</text>
+      <text x="263" y="61" text-anchor="middle" fill="#C5B8E8" font-size="11.5">on your computer</text>
+      <path d="M342 46 h26" stroke="#8B6FC9" stroke-width="2"/>
+      <rect x="372" y="22" width="150" height="48" rx="10" fill="#fff" stroke="#8B6FC9"/>
+      <text x="447" y="44" text-anchor="middle" fill="#1c1830">you decide</text>
+      <text x="447" y="61" text-anchor="middle" fill="#5b5570" font-size="11.5">rate it first, blind</text>
+      <path d="M526 46 h26" stroke="#8B6FC9" stroke-width="2"/>
+      <rect x="556" y="22" width="120" height="48" rx="10" fill="#fff" stroke="#e7e3f0"/>
+      <text x="616" y="44" text-anchor="middle" fill="#1c1830">checked</text>
+      <text x="616" y="61" text-anchor="middle" fill="#5b5570" font-size="11.5">with provenance</text>
+    </g>
+  </svg>
+</div>
+
+<h2>What we tested</h2>
+<p>We wrote 120 short pairs. Each is a <strong>claim</strong> and a <strong>snippet from the source it cites</strong>, across three lung-cancer topics: nodule management, risk factors, and neoadjuvant therapy. Every pair got a reference label drawn from guidelines and trial reports, using four plain verdicts:</p>
+<ul>
+  <li><strong>Supports</strong> means the source backs the claim.</li>
+  <li><strong>Contrasts</strong> means the source says the opposite.</li>
+  <li><strong>Unclear</strong> means the source is on-topic but does not settle it (evidence limited, mixed, or "not established").</li>
+  <li><strong>Not relevant</strong> means the source is about something else.</li>
+</ul>
+<p>Two local models read each pair <em>blind</em> and gave a verdict: <code>qwen3:14b</code> (a 14-billion-parameter model) and <code>hermes3:8b</code> (8 billion). Both run on an ordinary laptop through <a href="https://ollama.com">Ollama</a>, offline, at roughly two seconds per pair once loaded. For comparison we also had a large cloud model (Claude) rate the same pairs.</p>
+
+<h2>Where a laptop model is strong</h2>
+<p>On clear cases, the local models did well. When a source plainly supports or plainly contradicts a claim, both models usually got it, and quickly. Their agreement with the reference:</p>
+<table>
+  <tr><th>Topic (40 pairs each)</th><th class="num">qwen3:14b</th><th class="num">hermes3:8b</th></tr>
+  <tr><td>Nodule management</td><td class="num">88%</td><td class="num">80%</td></tr>
+  <tr><td>Risk factors</td><td class="num">95%</td><td class="num">82%</td></tr>
+  <tr><td>Neoadjuvant therapy</td><td class="num">85%</td><td class="num">90%</td></tr>
+</table>
+<p>For a tool that costs nothing, runs offline, and keeps every claim on your own machine, that is a genuinely useful first pass. Notice, too, that neither model was consistently the better one. The 14B won two topics and the 8B won the third. "Bigger" did not settle it.</p>
+
+<h2>Where it fails: the "unclear" claim</h2>
+<p>The models had one consistent blind spot, and it is the important one. When a source neither confirms nor refutes a claim, when the honest answer is <em>unclear</em>, the small models rarely said so. They forced a verdict instead.</p>
+<p>They forced it in opposite directions. The 14B model tended to read "the evidence has not established this" as a <em>contradiction</em>. The 8B model tended to wave the same claim through as <em>support</em>. Across all 120 pairs, <strong>every single case where both models broke from the reference was an "unclear" case</strong>. The clear claims they mostly handled; the honestly uncertain ones they could not sit with.</p>
+<p>This matters because "unclear" is exactly where a citation most needs a careful human. A claim that overstates what its source shows, or leans on evidence that is still contested, is the kind of citation problem worth catching, and it is the kind the laptop model is least equipped to flag on its own.</p>
+
+<div class="note personal"><p style="margin:0"><strong>An honest limit of this test.</strong> We wrote both the claims and the reference labels. That means the cloud model, which reasons the way we do, looked near-perfect partly because it was in effect agreeing with its own author, not because it had proven anything. Treat these numbers as indicative, not a validation. The honest version of this study needs the reference labels written by someone who did not write the claims. We say so here because a citation tool that hid its own weak evidence would be failing its own test.</p></div>
+
+<h2>Why "both models agreed" is not reassurance</h2>
+<p>It is tempting to trust a verdict more when two models land on it. Our data says do not. In the handful of cases where the two local models agreed <em>with each other</em> but against the reference, they were <strong>both wrong</strong>, agreeing on the same mistake. Agreement between models measures how alike they are, not how right they are. The only thing that tells you a citation holds up is an independent check, and a record of who checked it.</p>
+
+<h2>A better prompt helped, up to a point</h2>
+<p>Some of the failure was instruction, not ability. When we spelled out the rule, that "not established" means unclear rather than contradicted, the 14B model jumped from 85% to 98% on the neoadjuvant topic, recovering almost all of its unclear cases. The 8B model improved on unclear too, but then started mislabelling genuine contradictions: fixing one branch broke another. A mid-size model could be taught the distinction; the smaller one hit a ceiling. So the practical lesson is twofold. Prompt these models carefully, and do not assume a smaller model will follow a more careful instruction.</p>
+
+<h2>The rule that keeps it honest</h2>
+<p>A local model is a fast first pass, not a verdict. Use it to triage, to sort the obvious supports and obvious contradictions from the pile so your attention goes where it is needed. But the human rates the claim, especially any claim where the source hedges. And you record which verdict came from the model and which from you, so the reasoning is auditable later. Models suggest; you decide. On the "unclear" claims, that is not a nicety. It is the whole job.</p>
+
+<div class="cta">
+  <p><strong>This is exactly what CiteVahti does, locally.</strong></p>
+  <p>CiteVahti runs the local model as a blinded prescreener over the claims in your manuscript, but has <em>you</em> rate each one first, before it reveals the model's opinion, so the model cannot anchor your judgement. Every rating is logged with its provenance. It never asserts a citation is true, only whether the source supports the claim, on the record.</p>
+  <a class="btn" href="/citevahti/">See how CiteVahti checks your citations</a>
+</div>
+
+<h2>Related guides</h2>
+<p>See also <a href="/learn/ai-qualitative-coding-human-review/">AI qualitative coding, human-reviewed</a>, the same principle for coding interview data: the local model suggests, you review every one, and confidence is not accuracy. More local-first guides are on the <a href="/learn/">Learn page</a>.</p>
+
+<footer>
+  <p><a href="/learn/">← All Learn guides</a> &middot; <a href="/privacy/">Privacy</a> · <a href="/">vahtian.com</a> · local-first research integrity tools. This page loads nothing from anywhere: no remote fonts, no tracking, no scripts.</p>
+</footer>
+
+</div>
+</body>
+</html>
