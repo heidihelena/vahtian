@@ -225,10 +225,10 @@
      find:function(s){ return hasCite(s)?collect(BROAD,"gi",s):[]; }},
     {key:"guideline", label:"Guideline-type claim",
      why:"Check the date, country, population, and whether the cited source is actually a guideline.",
-     step:"verify the cited source is the guideline, and still current.",
+     step:"check the cited source is the guideline, and still current.",
      find:function(s){ return collect(GUIDE,"gi",s); }},
     {key:"numeric", label:"Numeric claim",
-     why:"Verify the number, its denominator, the population, and the source table.",
+     why:"Check the number, its denominator, the population, and the source table.",
      step:"trace the number to the cited source.",
      find:function(s){ var out=[]; for(var i=0;i<NUM.length;i++) out=out.concat(collect(NUM[i],"gi",s)); return out; }}
   ];
