@@ -173,7 +173,9 @@
     /* forskai paid kits */
     .kitsintro{color:var(--muted);font-size:15px;margin:0 0 16px;max-width:62ch}
     .kits{display:grid;gap:12px}
-    @media(min-width:660px){.kits{grid-template-columns:1fr 1fr}}
+    @media(min-width:660px){.kits{grid-template-columns:1fr 1fr}
+      /* a lone trailing odd card spans full width — same deliberate emphasis as .products */
+      .kits .kit:last-child:nth-child(odd){grid-column:1/-1}}
     .kit{display:flex;flex-direction:column;align-items:flex-start;gap:9px;
       background:#10211B;color:#EAF3EF;border-radius:15px;padding:22px 24px}
     .kit .kkick{font:600 12px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:#54D6B6;text-transform:uppercase;letter-spacing:.1em;margin:0}
@@ -413,6 +415,14 @@
           templates, a publisher-policy directory, and an AI-use log. 10 files, instant
           download.</p>
         <a class="kbtn" href="/ai-disclosure-kit/">See the kit · €29 →</a>
+      </div>
+      <div class="kit">
+        <p class="kkick">Research planning</p>
+        <h3>Research Domain Cube</h3>
+        <p>Find the next paper, the grant angle, and the real gap in your field. One core
+          thesis, three axes, twenty-seven project cells, each audited: evidenced, assumed,
+          unknown, or real field gap. One payment.</p>
+        <a class="kbtn" href="/research-domain-cube/">See the Research Domain Cube · €29 →</a>
       </div>
     </div>
   </section>

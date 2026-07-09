@@ -46,6 +46,7 @@ Vahtian records the **blinded human → AI → adjudication** workflow with prov
 ## Paid products (forskai by Vahtian)
 - [QualiVahti Local](https://vahtian.com/qualivahti-local/) (€49, one payment): local-first qualitative analysis vault — Obsidian + Python/R scripts, Whisper transcription, AI-suggested coding under full human review, codebook discipline, evidence maps, audit trail, complete demo study. Interviews never leave the researcher's computer.
 - [AI Disclosure Kit for Researchers](https://vahtian.com/ai-disclosure-kit/) (€29, one payment): manuscript, thesis, grant, and peer-review disclosure templates, a publisher-policy directory, and an AI-use log. 10 files, instant download.
+- [Research Domain Cube](https://vahtian.com/research-domain-cube/) (€29, one payment): a research-planning kit that turns scattered ideas, datasets, papers, half-projects, and AI suggestions into a structured research map — one core thesis, three axes, nine zones, twenty-seven project cells, each audited as evidenced / assumed / unknown / real field gap. For deciding what to write, pitch, or abandon next; the judgment stays with the researcher.
 - [GuidelineVahti facilitated pilot](https://vahtian.com/guidelinevahti/pilot/) (three tiers, €1,500 / €4,500 / €9,500+): a facilitated Delphi / RAND-UCLA consensus round for guideline groups with an auditable record — consensus results, an implementation priority map, GRADE/EtD recommendations, and a methods appendix. Panel votes stay anonymous; nothing uploads.
 
 ## More
