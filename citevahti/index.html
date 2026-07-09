@@ -80,7 +80,7 @@
     pre{background:var(--navy);color:#e8e3f5;border-radius:10px;padding:14px 16px;overflow:auto;font:13px/1.6 ui-monospace,monospace}
     pre .c{color:#9b93b8}
     .note{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--violet);border-radius:9px;padding:13px 15px;color:#3a3450;font-size:14.5px}
-    /* Full-bleed lighthouse hero — self-contained canvas, claim-verification scene */
+    /* Full-bleed lighthouse hero — self-contained canvas, claim-checking scene */
     .hero-band{position:relative;overflow:hidden;background:#1b1530;min-height:460px;margin-top:14px}
     .hero-band canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
     .hero-scrim{position:absolute;inset:0;pointer-events:none;
@@ -177,7 +177,7 @@
         <a class="ic" href="https://github.com/heidihelena/vahtian" aria-label="Vahtian on GitHub"><svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 012-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg></a>
         <a class="ic" href="/search/" aria-label="Search vahtian.com"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.3" y2="16.3"/></svg></a>
         <a class="ic" href="/download/" aria-label="Download Vahtian software"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4 V15"/><path d="M7 11 L12 16 L17 11"/><path d="M4 20 H20"/></svg></a>
-        <a class="buy" href="/ai-disclosure-kit/">Buy</a>
+        <a class="buy" href="/#kits">Paid kits</a>
       </span>
     </nav>
   </header>
@@ -200,7 +200,7 @@
       <a class="btn ghost" href="#start">Get started</a>
     </div>
     <div class="chips" aria-label="The four claim states">
-      <span class="chip v">[oo] verified</span>
+      <span class="chip v">[oo] accepted</span>
       <span class="chip n">[o] needs support</span>
       <span class="chip r">[r] review needed</span>
       <span class="chip d">[d] decision recorded</span>
@@ -358,8 +358,8 @@ citevahti run    <span class="c"># review panel on your own manuscript</span></p
     <pre>Run claim tests on my manuscript.docx with CiteVahti.
 Which of my claims have no citation, or overstate the source?
 Check whether this citation supports the sentence — rate it blind first.
-Write the verified references to Zotero, and let me confirm each one.
-Draft this paragraph using only my verified claims.</pre>
+Write the accepted references to Zotero, and let me confirm each one.
+Draft this paragraph using only my accepted claims.</pre>
     <p style="font-size:14px;color:var(--muted);margin:8px 0 0">You stay the decider: CiteVahti stages the
       evidence and gives a blinded second opinion, but nothing is rated or written to Zotero without you.</p>
 
@@ -496,7 +496,7 @@ Draft this paragraph using only my verified claims.</pre>
   decBtns.forEach(function(b){b.addEventListener('click',function(){
     decBtns.forEach(function(x){x.classList.toggle('sel',x===b);x.disabled=true;});
     var d=b.getAttribute('data-d');
-    var map={revise:['v','[oo] verified'],caution:['r','[r] review needed'],reject:['d','[d] decision recorded']};
+    var map={revise:['v','[oo] accepted'],caution:['r','[r] review needed'],reject:['d','[d] decision recorded']};
     var decLabel={revise:'revise→accept',caution:'caution',reject:'reject'}[d];
     document.getElementById('reviseBox').hidden=(d!=='revise');
     var chip=document.getElementById('stateChip');chip.className='chip '+map[d][0];chip.textContent=map[d][1];

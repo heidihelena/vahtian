@@ -53,7 +53,7 @@ opinion — that is all.
 | Screen (blinded) | MatchVahti | rate each paper × each claim; your rating stays **sealed** until the human commits |
 | Reconcile | ReviewVahti | load each reviewer's ballot → per-claim Cohen's κ, PABAK, AC1 / Krippendorff's α |
 | Retrieve | FullVahti / `vahtian_fulltext.py` | fetch open-access full text for flagged items |
-| Verify | CiteVahti | check each claim against its source; decision-gated, undoable Zotero write-back; hash-chained audit |
+| Check | CiteVahti | assess each claim against its source; decision-gated, undoable Zotero write-back; hash-chained audit |
 
 ## Expected artifacts per stage
 
@@ -66,13 +66,13 @@ Screen    → blinded ballot files (one per reviewer; AI ratings sealed, model+v
 Reconcile → agreement report (κ / α) + adjudication list (unresolved disagreements)
 Retrieve  → full-text manifest (open-access PDFs found / missing / check-needed)
 Extract   → tidy extraction CSV + RoB traffic-light table
-Verify    → claim–source audit ledger (hash-chained) + a methods paragraph
+Check     → claim–source audit ledger (hash-chained) + a methods paragraph
 ```
 
 The **`vahtian` package** (`pip install vahtian`; R from r-universe) is the reusable core for
 these artifacts: `freeze()` produces the content-hashed, provenance-stamped corpus, `verify()`
-proves it is untampered, and the audit ledger is hash-chained. It is **byte-identical across
-Python and R**, so a corpus frozen in one language verifies in the other.
+checks it is untampered, and the audit ledger is hash-chained. It is **byte-identical across
+Python and R**, so a corpus frozen in one language passes `verify()` in the other.
 
 ## Failure modes (non-negotiable)
 
@@ -106,7 +106,7 @@ Produces:
 - `outdir/search-report.md` — per source: retrieved · relevant · net-new vs prior sources.
 
 To adapt it to a new question, edit the concept blocks (`PUBMED_QUERY`, `BLOCK_LUNG/PDL1/AI`, `SEEDS`)
-at the top of the script. **MeSH check first:** verify each term maps to a real MeSH heading before
+at the top of the script. **MeSH check first:** check each term maps to a real MeSH heading before
 trusting it — e.g. "PD-L1" is indexed as *"B7-H1 Antigen"[MeSH]*, and "tumor proportion score" has
 **no** MeSH heading (text-word only). Propose headings to the human; let them confirm.
 
@@ -116,7 +116,7 @@ filtered at screening, not silently dropped here.
 
 ## When to use / not use
 **Use** for: building or updating a review, a reproducible search, screening support, reliability
-stats, full-text retrieval, claim-by-source verification.
+stats, full-text retrieval, claim-by-source checking.
 **Do not** use to: decide inclusion for the human, fabricate a reference standard, present your own
 rating as consensus, or auto-query paywalled databases.
 
@@ -124,6 +124,6 @@ rating as consensus, or auto-query paywalled databases.
 - Agent guide: https://vahtian.com/agents/
 - Machine map: https://vahtian.com/llms.txt
 - Source + tools: https://github.com/heidihelena/vahtian
-- CiteVahti (claim verification): https://github.com/heidihelena/citevahti
+- CiteVahti (claim checking): https://github.com/heidihelena/citevahti
 
 `vahti` (Finnish) = sentinel / guard. Human-first. AI-second. Auditable.
