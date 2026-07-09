@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>QualiVahti Local — offline qualitative analysis vault (NVivo alternative) | Vahtian</title>
+  <meta name="description" content="Transcribe, code, and map qualitative interviews entirely on your own computer. An Obsidian vault with Python and R scripts, local AI coding under full human review, audit trail, and a complete demo study. One payment, €49 launch. No cloud, no subscription.">
+  <meta name="theme-color" content="#2D2440">
+  <link rel="canonical" href="https://vahtian.com/qualivahti-local/">
+  <meta property="og:type" content="product">
+  <meta property="og:url" content="https://vahtian.com/qualivahti-local/">
+  <meta property="og:title" content="QualiVahti Local — a coded, auditable analysis you can defend">
+  <meta property="og:description" content="Local qualitative analysis: interviews never leave your computer. Obsidian vault + Python/R scripts + local AI under human review. €49 launch.">
+  <meta property="og:image" content="https://vahtian.com/qualivahti-local/cover.png">
+  <meta property="og:image:width" content="1920">
+  <meta property="og:image:height" content="1080">
+  <meta property="og:site_name" content="Vahtian">
+  <meta name="twitter:card" content="summary_large_image">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": "QualiVahti Local",
+    "description": "Local-first qualitative analysis vault: Obsidian + Python/R scripts, local AI coding under full human review, codebook discipline, evidence maps, audit trail, complete demo study.",
+    "url": "https://vahtian.com/qualivahti-local/",
+    "image": "https://vahtian.com/qualivahti-local/cover.png",
+    "brand": { "@type": "Brand", "name": "forskai by Vahtian" },
+    "offers": {
+      "@type": "Offer",
+      "price": "49",
+      "priceCurrency": "EUR",
+      "availability": "https://schema.org/InStock",
+      "url": "https://vahtian.com/qualivahti-local/"
+    }
+  }
+  </script>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232D2440'/%3E%3Cg fill='none' stroke='%238B6FC9' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 9 H9 V23 H12'/%3E%3Cpath d='M20 9 H23 V23 H20'/%3E%3C/g%3E%3Cpath d='M16 10.3 L19.6 12 L19.6 15 L16 19.6 L12.4 15 L12.4 12 Z' fill='none' stroke='%23C5B8E8' stroke-width='1.8' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <style>
+    :root{
+      --navy:#2D2440; --violet:#8B6FC9; --lilac:#C5B8E8;
+      --ink:#1c1830; --muted:#5b5570; --bg:#faf9fc; --card:#fff; --line:#e7e3f0;
+      --link:#6F52B8;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,ui-sans-serif,system-ui,sans-serif;
+         color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased}
+    a{color:var(--link)}
+    .wrap{max-width:760px;margin:0 auto;padding:0 22px}
+    header{padding:26px 0 4px}
+    .crumbs{font-size:14px;color:var(--muted)}
+    .crumbs a{color:var(--muted);text-decoration:none}
+    .kicker{font:600 13px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--violet);
+            text-transform:uppercase;letter-spacing:.08em;margin:34px 0 14px}
+    h1{font-size:clamp(28px,5.4vw,42px);line-height:1.1;letter-spacing:-.02em;margin:0 0 16px}
+    .lede{font-size:clamp(17px,2.5vw,20px);color:#3a3450;margin:0 0 18px;max-width:60ch}
+    h2{font-size:21px;margin:42px 0 12px;letter-spacing:-.01em}
+    p{margin:0 0 14px}
+    ul{margin:0 0 14px;padding-left:24px}
+    li{margin:0 0 8px}
+    table{border-collapse:collapse;width:100%;margin:0 0 16px;font-size:15px}
+    th,td{border:1px solid var(--line);padding:8px 12px;text-align:left;vertical-align:top}
+    th{background:#f0edf7}
+    .btn{display:inline-block;padding:13px 22px;border-radius:9px;font-weight:650;
+         text-decoration:none;font-size:16px;background:var(--navy);color:#fff}
+    .btn.small{font-size:15px;padding:11px 18px}
+    .price{color:var(--muted);font-size:14.5px;margin:10px 0 0}
+    .covershot{width:100%;height:auto;border-radius:14px;border:1px solid var(--line);margin:26px 0 8px;display:block}
+    .rule{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--violet);
+          border-radius:10px;padding:14px 18px;margin:0 0 16px}
+    .honest{color:#3a3450}
+    .cta{background:var(--card);border:1px solid var(--line);border-radius:14px;
+         padding:24px;margin:40px 0 0;text-align:center}
+    .cta p{max-width:56ch;margin:0 auto 14px}
+    details{background:var(--card);border:1px solid var(--line);border-radius:10px;
+            padding:12px 18px;margin:0 0 12px}
+    summary{cursor:pointer;font-weight:600;color:var(--link)}
+    details[open] summary{margin-bottom:8px}
+    footer{margin:56px 0 40px;padding-top:22px;border-top:1px solid var(--line);
+           color:var(--muted);font-size:14px}
+    footer a{color:var(--muted)}
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <nav class="crumbs"><a href="/">vahtian.com</a> · qualivahti local</nav>
+</header>
+
+<p class="kicker">A forskai product by Vahtian</p>
+<h1>QualiVahti Local</h1>
+<p class="lede">Transcribe, code, and map your interview study entirely on your own computer. A coded, auditable qualitative analysis you can defend — and interviews that never leave your machine.</p>
+
+<a class="btn" href="https://buy.polar.sh/polar_cl_KV8qYq4RKYV8OiiAQ85wBiplJTdkdq4GgLvRa1Xnzfj">Get QualiVahti Local — €49</a>
+<p class="price">Launch price · regular €99 · one payment, all 1.x updates included · 14-day refund if it does not get your first interview transcribed, coded, and reviewed</p>
+
+<img class="covershot" src="/qualivahti-local/cover.png" width="1920" height="1080" alt="QualiVahti Local: an evidence map with a theme card showing grounding counts, linked code chips, and a negative case marked in red">
+
+<h2>The problem it solves</h2>
+<p>Your ethics approval says the interviews stay local, so cloud AI tools are off the table. Qualitative analysis software wants a subscription your project does not have. The coding backlog grows by ninety minutes for every hour of audio, and the honest workaround — coding less carefully — is the one a reviewer will notice.</p>
+
+<h2>What you walk away with</h2>
+<table>
+  <tr><td><strong>Corrected transcripts</strong></td><td>local Whisper transcription, pseudonymized, a cleaning log for every change</td></tr>
+  <tr><td><strong>A reviewed coding file</strong></td><td>every AI suggestion accepted, edited, or rejected by you, with reasons</td></tr>
+  <tr><td><strong>A disciplined codebook</strong></td><td>definitions, inclusion and exclusion rules, anchor quotes, revision history</td></tr>
+  <tr><td><strong>Themes with grounding</strong></td><td>codes, quotes, participants, negative cases — signed by you</td></tr>
+  <tr><td><strong>Tables and maps</strong></td><td>code frequencies, code × participant matrix, co-occurrence network, an evidence map where every node is a live note</td></tr>
+  <tr><td><strong>Draft scaffolds</strong></td><td>methods and results drafts with the AI-disclosure paragraph already shaped</td></tr>
+  <tr><td><strong>An audit trail</strong></td><td>every script run with model and version, every decision dated</td></tr>
+</table>
+
+<h2>How it stays honest</h2>
+<div class="rule"><p style="margin:0"><strong>Models suggest structure. You decide interpretation.</strong> Local AI transcribes, proposes codes with rationale and marked uncertainty, clusters, and argues against your themes on request. Not one of its words becomes analysis until you accept, edit, or reject it.</p></div>
+<p class="honest">The second opinion is deliberately a second model — a different one than the coder, because agreement from the same reader is not a second opinion. Frequency charts carry the words "frequency is not importance" on the chart itself. The evidence map shows grounding, never a confidence score.</p>
+
+<h2>See it finished before you start</h2>
+<p>A complete fabricated demo study ships inside: three interviews and a focus group taken from error-ridden raw transcript to methods draft. The model's raw suggestions sit next to every human review decision and its reason, including two calls left honestly unresolved. Twenty minutes of reading and you know what every stage of your own study should look like.</p>
+
+<h2>Requirements</h2>
+<ul>
+  <li>Mac, Windows, or Linux · 8 GB RAM minimum, 16 GB comfortable · ~15 GB disk for the free local models</li>
+  <li>Free software throughout: Obsidian, Python, R, Ollama — setup is five copy-paste parts, under an hour, written for people who have never opened a terminal</li>
+  <li>No account, no subscription, no upload. Analysis works with the internet switched off</li>
+</ul>
+
+<h2>Common questions</h2>
+<details><summary>Does my data touch any server?</summary><p>No. The only network address in the scripts is localhost — your machine talking to itself. Setup downloads are the only fetches, and no research data is involved in them.</p></details>
+<details><summary>My interviews are in Finnish or Swedish.</summary><p>Whisper handles both, and about 100 more languages. For dialects and mixed-language interviews, expect to correct more — our own honest error-rate account is in the <a href="/learn/transcribe-interviews-locally/">free transcription guide</a>. The workflow assumes correction; that is the method, not a flaw.</p></details>
+<details><summary>Is this an NVivo replacement?</summary><p>It is an NVivo alternative for studies where the data was never allowed to reach a cloud tool anyway. It is a method-disciplined workflow, not a feature checklist, and it costs one payment instead of a yearly subscription.</p></details>
+<details><summary>What exactly is the AI allowed to do?</summary><p>Transcribe (you correct), suggest codes (you review every row), cluster codes into candidate groupings (you decide themes), argue against your themes (you weigh it), and draft scaffolds from your facts (you write the meaning). Every model run is logged with name and version.</p></details>
+<details><summary>My journal requires the analysis code with submission.</summary><p>Covered. The analysis scripts are open source (Apache-2.0) with a citable version, so you can include them in supplements and repositories freely. The vault ships a how-to-cite guide with ready methods sentences, software citations, and code/data availability statements a reviewer will accept.</p></details>
+
+<h2>What it is not</h2>
+<ul>
+  <li>Not a theme generator, and not a claim that your codes are true — it records what you decided and why, which is what can be defended.</li>
+  <li>Not a SaaS. You own the files, permanently.</li>
+  <li>Not a medical device, and not clinical or ethics advice.</li>
+</ul>
+
+<div class="cta">
+  <p><strong>If you only need transcription, the <a href="/learn/transcribe-interviews-locally/">free guide</a> is enough.</strong> If you also need coding, a codebook, audit trails, evidence maps, and drafts — QualiVahti Local packages the complete workflow.</p>
+  
+  <a class="btn" href="https://buy.polar.sh/polar_cl_KV8qYq4RKYV8OiiAQ85wBiplJTdkdq4GgLvRa1Xnzfj">Get QualiVahti Local — €49</a>
+  <p class="price">Secure checkout by Polar (merchant of record, handles EU VAT). Instant download. Lab and doctoral-school licenses: hello@vahtian.com</p>
+</div>
+
+<footer>
+  <p><a href="/">vahtian.com</a> — local-first research integrity tools · also at <a href="https://forskai.com">forskai.com</a>. This page loads nothing from anywhere: no remote fonts, no tracking, no scripts. Checkout happens on Polar only after you click.</p>
+</footer>
+
+</div>
+</body>
+</html>
