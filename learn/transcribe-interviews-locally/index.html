@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>How to transcribe research interviews offline with Whisper (free, step by step) — Vahtian Learn</title>
+  <meta name="description" content="Free local interview transcription for qualitative research: install Whisper in about 10 minutes, transcribe interviews offline on your own computer, and correct the transcript. Recordings never leave your machine. Includes honest error rates for dialects and mixed-language audio.">
+  <meta name="theme-color" content="#2D2440">
+  <link rel="canonical" href="https://vahtian.com/learn/transcribe-interviews-locally/">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://vahtian.com/learn/transcribe-interviews-locally/">
+  <meta property="og:title" content="How to transcribe research interviews offline with Whisper (free, step by step)">
+  <meta property="og:description" content="Free local interview transcription for qualitative research. About 10 minutes to install, works offline, recordings stay on your computer. With honest error rates for dialects.">
+  <meta property="og:site_name" content="Vahtian">
+  <meta name="twitter:card" content="summary">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "How to transcribe research interviews offline with Whisper (free, step by step)",
+    "description": "Free local interview transcription for qualitative research: install faster-whisper, transcribe interviews offline, correct the transcript with a change log. Includes model choice by hardware and honest error rates for dialects and mixed-language interviews.",
+    "url": "https://vahtian.com/learn/transcribe-interviews-locally/",
+    "datePublished": "2026-07-09",
+    "inLanguage": "en",
+    "author": { "@type": "Organization", "name": "Vahtian", "url": "https://vahtian.com/" },
+    "publisher": { "@id": "https://vahtian.com/#org" }
+  }
+  </script>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232D2440'/%3E%3Cg fill='none' stroke='%238B6FC9' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 9 H9 V23 H12'/%3E%3Cpath d='M20 9 H23 V23 H20'/%3E%3C/g%3E%3Cpath d='M16 10.3 L19.6 12 L19.6 15 L16 19.6 L12.4 15 L12.4 12 Z' fill='none' stroke='%23C5B8E8' stroke-width='1.8' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <style>
+    :root{
+      --navy:#2D2440; --violet:#8B6FC9; --lilac:#C5B8E8;
+      --ink:#1c1830; --muted:#5b5570; --bg:#faf9fc; --card:#fff; --line:#e7e3f0;
+      --link:#6F52B8;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,ui-sans-serif,system-ui,sans-serif;
+         color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased}
+    a{color:var(--link)}
+    .wrap{max-width:720px;margin:0 auto;padding:0 22px}
+    header{padding:26px 0 4px}
+    .crumbs{font-size:14px;color:var(--muted)}
+    .crumbs a{color:var(--muted);text-decoration:none}
+    .kicker{font:600 13px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--violet);
+            text-transform:uppercase;letter-spacing:.08em;margin:34px 0 14px}
+    h1{font-size:clamp(27px,5.2vw,38px);line-height:1.14;letter-spacing:-.02em;margin:0 0 16px}
+    .lede{font-size:clamp(17px,2.4vw,19px);color:#3a3450;margin:0 0 6px}
+    h2{font-size:21px;margin:42px 0 12px;letter-spacing:-.01em}
+    p{margin:0 0 14px}
+    ol,ul{margin:0 0 14px;padding-left:24px}
+    li{margin:0 0 8px}
+    code{font:14px ui-monospace,SFMono-Regular,Menlo,monospace;background:#f0edf7;
+         border-radius:5px;padding:1px 6px}
+    pre{background:var(--navy);color:#efeaf8;border-radius:12px;padding:16px 18px;
+        overflow-x:auto;font:13.5px/1.55 ui-monospace,SFMono-Regular,Menlo,monospace;margin:10px 0 6px}
+    pre code{background:none;padding:0;color:inherit;font-size:inherit}
+    table{border-collapse:collapse;width:100%;margin:0 0 16px;font-size:15px}
+    th,td{border:1px solid var(--line);padding:8px 12px;text-align:left;vertical-align:top}
+    th{background:#f0edf7}
+    .note{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--violet);
+          border-radius:10px;padding:14px 18px;margin:0 0 16px}
+    .note.personal{border-left-color:var(--lilac);color:#3a3450}
+    .outcomes{background:var(--card);border:1px solid var(--line);border-radius:12px;
+              padding:16px 20px;margin:22px 0}
+    .outcomes p{font-weight:650;margin:0 0 8px}
+    .outcomes ul{margin:0;padding-left:22px}
+    details{background:var(--card);border:1px solid var(--line);border-radius:10px;
+            padding:12px 18px;margin:0 0 16px}
+    summary{cursor:pointer;font-weight:600;color:var(--link)}
+    details[open] summary{margin-bottom:10px}
+    .time{font:600 12.5px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--muted);
+          text-transform:uppercase;letter-spacing:.06em}
+    .fig{margin:20px 0 22px}
+    .cta{background:var(--card);border:1px solid var(--line);border-radius:12px;
+         padding:20px 22px;margin:34px 0 0}
+    .btn{display:inline-block;padding:11px 18px;border-radius:9px;font-weight:600;
+         text-decoration:none;font-size:15px;background:var(--navy);color:#fff;margin-top:6px}
+    footer{margin:56px 0 40px;padding-top:22px;border-top:1px solid var(--line);
+           color:var(--muted);font-size:14px}
+    footer a{color:var(--muted)}
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <nav class="crumbs"><a href="/">vahtian.com</a> · <a href="/learn/">learn</a> · offline interview transcription</nav>
+</header>
+
+<p class="kicker">Learn · Qualitative research</p>
+<h1>How to transcribe research interviews offline with Whisper (free, step by step)</h1>
+<p class="lede">You can transcribe qualitative research interviews entirely on your own computer with Whisper. The software is free, it works offline after installation, and your recordings never leave your machine. This guide shows exactly how to install it, run it, and correct the transcript. Setup takes about 10 minutes and needs no programming experience.</p>
+
+<div class="outcomes">
+  <p>After this guide you will be able to:</p>
+  <ul>
+    <li>Install Whisper in about 10 minutes, free.</li>
+    <li>Transcribe interview audio completely offline.</li>
+    <li>Keep participant recordings on your own computer.</li>
+    <li>Produce a timestamped transcript ready for human checking.</li>
+    <li>Judge when Whisper is reliable, and when hand transcription is still the honest choice.</li>
+  </ul>
+</div>
+
+<div class="fig">
+  <svg viewBox="0 0 680 92" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Pipeline: audio file to Whisper on your computer to human correction to citable transcript">
+    <g font-family="-apple-system,Segoe UI,Roboto,sans-serif" font-size="14">
+      <rect x="4" y="22" width="130" height="48" rx="10" fill="#fff" stroke="#e7e3f0"/>
+      <text x="69" y="50" text-anchor="middle" fill="#1c1830">audio file</text>
+      <path d="M138 46 h28" stroke="#8B6FC9" stroke-width="2"/>
+      <rect x="170" y="22" width="150" height="48" rx="10" fill="#2D2440"/>
+      <text x="245" y="44" text-anchor="middle" fill="#fff">Whisper</text>
+      <text x="245" y="61" text-anchor="middle" fill="#C5B8E8" font-size="11.5">on your computer</text>
+      <path d="M324 46 h28" stroke="#8B6FC9" stroke-width="2"/>
+      <rect x="356" y="22" width="150" height="48" rx="10" fill="#fff" stroke="#8B6FC9"/>
+      <text x="431" y="44" text-anchor="middle" fill="#1c1830">human correction</text>
+      <text x="431" y="61" text-anchor="middle" fill="#5b5570" font-size="11.5">with a change log</text>
+      <path d="M510 46 h28" stroke="#8B6FC9" stroke-width="2"/>
+      <rect x="542" y="22" width="134" height="48" rx="10" fill="#fff" stroke="#e7e3f0"/>
+      <text x="609" y="44" text-anchor="middle" fill="#1c1830">transcript</text>
+      <text x="609" y="61" text-anchor="middle" fill="#5b5570" font-size="11.5">citable in methods</text>
+    </g>
+  </svg>
+</div>
+
+<h2>What to expect with real interview audio</h2>
+<div class="note personal"><p style="margin:0"><strong>From our own work.</strong> We ran Whisper on interviews with Finland-Swedish speakers. Roughly half the lines needed correction, because the model heard standard Swedish where the speakers were not speaking standard Swedish. In the end we transcribed by hand, using the machine draft as scaffolding. That number belongs in a tutorial just as much as the install commands do.</p></div>
+<p>So calibrate interview transcription by language, not by hype:</p>
+<table>
+  <tr><th>Audio</th><th>Expectation</th></tr>
+  <tr><td>English, clear recording</td><td>Very good. Fix names, terms, and numbers.</td></tr>
+  <tr><td>Standard Swedish</td><td>Good with the largest model.</td></tr>
+  <tr><td>Standard Finnish</td><td>Good with the largest model.</td></tr>
+  <tr><td>Dialects and minority variants</td><td>Needs substantial correction. Treat as a first draft.</td></tr>
+  <tr><td>Mixed languages, code-switching</td><td>Human review essential. Sometimes hand transcription wins.</td></tr>
+</table>
+<p>A machine transcript you correct on your own computer is a normal research task. A polished-looking transcript from a cloud service, with the audio already elsewhere, is a methods problem wearing a convenience costume.</p>
+
+<h2>Why local transcription is easier to defend</h2>
+<p>Interview recordings are directly identifying data. Voice is identity. Keeping transcription on your own computer means no participant audio is uploaded to a third-party service, which is usually far easier to justify during ethics review. Offline transcription makes the disclosure question disappear instead of answering it.</p>
+<details>
+  <summary>Read more: ethics boards, the GDPR, and interview audio</summary>
+  <p>Research ethics boards apply this strictly. In one of our own projects the board's position meant we could not release even ten-second audio snippets for teaching purposes. Under the GDPR, sending audio to a cloud transcription service is a disclosure of identifying personal data that you must justify, name in consent forms, and cover with processor agreements. The EU AI Act has sharpened the frame around voice and biometric data further. None of this is legal advice, and your board's word beats this page. But if your approval says the data stays local, this workflow is built around that sentence.</p>
+</details>
+
+<h2>What you need</h2>
+<ul>
+  <li>A Mac, Windows, or Linux computer with 8 GB of memory. No account, no license, no internet after setup.</li>
+  <li>About 3 GB of disk space for the best model (smaller options below).</li>
+  <li>Your recording as a file: mp3, m4a, wav, and most other formats work.</li>
+</ul>
+
+<h2>Step 1 — install Whisper <span class="time">· about 10 minutes</span></h2>
+<p>Install Python 3 from <a href="https://www.python.org">python.org</a>. On Windows, tick "Add python.exe to PATH" in the installer.</p>
+<p>Then open the command window. On a Mac: press <code>cmd + space</code>, type <code>Terminal</code>, press Enter. On Windows: open PowerShell. Paste this line and press Enter:</p>
+<pre><code>pip3 install faster-whisper</code></pre>
+<p>That is the whole installation. The speech model downloads itself the first time you transcribe, then lives in a cache on your machine and works offline.</p>
+
+<h2>Step 2 — pick a model size</h2>
+<table>
+  <tr><th>Model</th><th>Download</th><th>Use it when</th></tr>
+  <tr><td><code>large-v3</code></td><td>~3 GB</td><td>the research default: best accuracy, best outside English, best on messy audio</td></tr>
+  <tr><td><code>medium</code></td><td>~1.5 GB</td><td>good accuracy, faster, smaller disk</td></tr>
+  <tr><td><code>small</code></td><td>~460 MB</td><td>quick drafts of clear English audio</td></tr>
+</table>
+
+<h2>Step 3 — run the transcription</h2>
+<p>Copy the script below into a plain-text file called <code>transcribe.py</code>, saved in the same folder as your audio. Then, in Terminal, move into that folder (type <code>cd </code> with a space, drag the folder into the window, press Enter) and run:</p>
+<pre><code>python3 transcribe.py</code></pre>
+<details>
+  <summary>Show the script (about 15 lines, copy-paste)</summary>
+<pre><code>from faster_whisper import WhisperModel
+
+model = WhisperModel("large-v3", device="cpu", compute_type="int8")
+
+segments, info = model.transcribe(
+    "interview1.mp3",
+    language="sv",        # force the language; leave out to auto-detect
+    initial_prompt=(      # your study's words: places, names, clinical terms
+        "Vasa, Korsholm, cellgiftsbehandling, pemetrexed, kontrollbesök"
+    ),
+)
+
+with open("interview1_raw.txt", "w", encoding="utf-8") as out:
+    for s in segments:
+        t = int(s.start)
+        stamp = f"{t//3600:02d}:{t%3600//60:02d}:{t%60:02d}"
+        out.write(f"[{stamp}] ?: {s.text.strip()}\n")
+
+print("done - now correct it against the audio")</code></pre>
+</details>
+<p>Two lines in there earn their keep:</p>
+<ul>
+  <li><strong><code>language=</code></strong> forces the language. Do this for bilingual interviews; auto-detection can flip mid-file when speakers code-switch.</li>
+  <li><strong><code>initial_prompt=</code></strong> takes a short line of your study's own vocabulary. The model spells proper nouns and domain terms far better when it has seen them once. Municipalities, drug names, local institutions: put them here.</li>
+</ul>
+<p>Transcription runs at roughly the speed of the recording on a normal laptop. A one-hour interview takes about an hour. Start it, work on something else.</p>
+
+<h2>Step 4 — correct the transcript and log every change</h2>
+<p>The <code>?</code> on every line is deliberate. The model does not know who is speaking, and it should not pretend to. The human pass is part of the method:</p>
+<ol>
+  <li>Listen with the transcript beside you. Fix misheard words. Names, terms, numbers, and doses get checked every time.</li>
+  <li>Replace every <code>?</code> with the speaker (<code>Interviewer</code>, <code>P01</code>). Pseudonymize names in the text as you go.</li>
+  <li>Keep a change log, one row per correction. Minutes of work, and it turns "transcripts were checked" from a claim into a record:</li>
+</ol>
+<table>
+  <tr><th>Time</th><th>Original</th><th>Corrected</th><th>Reason</th></tr>
+  <tr><td>00:02:09</td><td>electric city</td><td>electricity</td><td>misheard, checked against audio</td></tr>
+  <tr><td>00:00:06</td><td>Marja</td><td>P01</td><td>name pseudonymized</td></tr>
+</table>
+<p>Do not tidy how people actually speak. Hesitations, repairs, and dialect are data. The corrected transcript, with its change log, is the citable object.</p>
+
+<h2>What offline transcription does not do</h2>
+<ul>
+  <li>It does not separate speakers automatically. You assign them, which for interview data is minutes of work. Cloud services do not do this reliably either.</li>
+  <li>It does not make the transcript true. It makes a draft; the human pass makes it usable.</li>
+  <li>It does not replace your ethics board or your judgment. It removes one disclosure they would otherwise have to weigh.</li>
+</ul>
+
+<div class="cta">
+  <p><strong>If you only need transcription, this guide is enough.</strong></p>
+  <p>If you also need coding, a codebook, AI-suggested codes under full human review, an audit trail, and visual evidence maps in an Obsidian research vault, <strong>QualiVahti Local</strong> packages the complete qualitative workflow. One payment, runs on the same machine, same rule throughout: models suggest, you decide.</p>
+  <!-- Swap href to the vahtian.com/qualivahti-local checkout page when the Polar link is live -->
+  <a class="btn" href="https://forskai.com">Get QualiVahti Local — €49</a>
+</div>
+
+<h2>Related guides</h2>
+<p>More local-first qualitative research guides are on the way: anonymizing transcripts, Obsidian for qualitative analysis, AI-assisted coding with human review, and building an audit trail. They will appear on the <a href="/learn/">Learn page</a>.</p>
+
+<footer>
+  <p><a href="/learn/">← All Learn guides</a> · <a href="/">vahtian.com</a> — local-first research integrity tools. This page loads nothing from anywhere: no remote fonts, no tracking, no scripts.</p>
+</footer>
+
+</div>
+</body>
+</html>

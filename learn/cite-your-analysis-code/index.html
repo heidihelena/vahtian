@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>How to make your analysis code citable: GitHub, a Zenodo DOI, and an R package (step by step) — Vahtian Learn</title>
+  <meta name="description" content="Journals now ask for your analysis code. Here is how to make it citable and reproducible: a GitHub repository with a licence and CITATION file, a free Zenodo DOI on release, and an installable R package. With a real worked example and copyable files.">
+  <meta name="theme-color" content="#2D2440">
+  <link rel="canonical" href="https://vahtian.com/learn/cite-your-analysis-code/">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://vahtian.com/learn/cite-your-analysis-code/">
+  <meta property="og:title" content="How to make your analysis code citable: GitHub, a Zenodo DOI, and an R package">
+  <meta property="og:description" content="Make your research code citable and reproducible — a free DOI on release, an installable package, and the availability statement reviewers accept.">
+  <meta property="og:site_name" content="Vahtian">
+  <meta name="twitter:card" content="summary">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "How to make your analysis code citable: GitHub, a Zenodo DOI, and an R package",
+    "description": "Make research analysis code citable and reproducible with a GitHub repository, a licence, a CITATION.cff file, a Zenodo DOI on release, and an installable R package via R-universe.",
+    "url": "https://vahtian.com/learn/cite-your-analysis-code/",
+    "datePublished": "2026-07-09",
+    "inLanguage": "en",
+    "author": { "@type": "Organization", "name": "Vahtian", "url": "https://vahtian.com/" },
+    "publisher": { "@id": "https://vahtian.com/#org" }
+  }
+  </script>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232D2440'/%3E%3Cg fill='none' stroke='%238B6FC9' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 9 H9 V23 H12'/%3E%3Cpath d='M20 9 H23 V23 H20'/%3E%3C/g%3E%3Cpath d='M16 10.3 L19.6 12 L19.6 15 L16 19.6 L12.4 15 L12.4 12 Z' fill='none' stroke='%23C5B8E8' stroke-width='1.8' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <style>
+    :root{
+      --navy:#2D2440; --violet:#8B6FC9; --lilac:#C5B8E8;
+      --ink:#1c1830; --muted:#5b5570; --bg:#faf9fc; --card:#fff; --line:#e7e3f0;
+      --link:#6F52B8;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,ui-sans-serif,system-ui,sans-serif;
+         color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased}
+    a{color:var(--link)}
+    .wrap{max-width:720px;margin:0 auto;padding:0 22px}
+    header{padding:26px 0 4px}
+    .crumbs{font-size:14px;color:var(--muted)}
+    .crumbs a{color:var(--muted);text-decoration:none}
+    .kicker{font:600 13px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--violet);
+            text-transform:uppercase;letter-spacing:.08em;margin:34px 0 14px}
+    h1{font-size:clamp(27px,5.2vw,38px);line-height:1.14;letter-spacing:-.02em;margin:0 0 16px}
+    .lede{font-size:clamp(17px,2.4vw,19px);color:#3a3450;margin:0 0 6px}
+    h2{font-size:21px;margin:42px 0 12px;letter-spacing:-.01em}
+    p{margin:0 0 14px}
+    ol,ul{margin:0 0 14px;padding-left:24px}
+    li{margin:0 0 8px}
+    code{font:14px ui-monospace,SFMono-Regular,Menlo,monospace;background:#f0edf7;
+         border-radius:5px;padding:1px 6px}
+    pre{background:var(--navy);color:#efeaf8;border-radius:12px;padding:16px 18px;
+        overflow-x:auto;font:13.5px/1.55 ui-monospace,SFMono-Regular,Menlo,monospace;margin:10px 0 6px}
+    pre code{background:none;padding:0;color:inherit;font-size:inherit}
+    table{border-collapse:collapse;width:100%;margin:0 0 16px;font-size:15px}
+    th,td{border:1px solid var(--line);padding:8px 12px;text-align:left;vertical-align:top}
+    th{background:#f0edf7}
+    .note{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--violet);
+          border-radius:10px;padding:14px 18px;margin:0 0 16px}
+    .outcomes{background:var(--card);border:1px solid var(--line);border-radius:12px;
+              padding:16px 20px;margin:22px 0}
+    .outcomes p{font-weight:650;margin:0 0 8px}
+    .outcomes ul{margin:0;padding-left:22px}
+    details{background:var(--card);border:1px solid var(--line);border-radius:10px;
+            padding:12px 18px;margin:0 0 16px}
+    summary{cursor:pointer;font-weight:600;color:var(--link)}
+    details[open] summary{margin-bottom:10px}
+    .time{font:600 12.5px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--muted);
+          text-transform:uppercase;letter-spacing:.06em}
+    .fig{margin:20px 0 22px}
+    .cta{background:var(--card);border:1px solid var(--line);border-radius:12px;
+         padding:20px 22px;margin:34px 0 0}
+    .btn{display:inline-block;padding:11px 18px;border-radius:9px;font-weight:600;
+         text-decoration:none;font-size:15px;background:var(--navy);color:#fff;margin-top:6px}
+    footer{margin:56px 0 40px;padding-top:22px;border-top:1px solid var(--line);
+           color:var(--muted);font-size:14px}
+    footer a{color:var(--muted)}
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <nav class="crumbs"><a href="/">vahtian.com</a> · <a href="/learn/">learn</a> · cite your analysis code</nav>
+</header>
+
+<p class="kicker">Learn · Methods, in the open</p>
+<h1>How to make your analysis code citable: GitHub, a Zenodo DOI, and an R package</h1>
+<p class="lede">More journals now ask for your analysis code at submission. You can give it a permanent, citable identity for free — a GitHub repository, a Zenodo DOI that never breaks, and, if you want it, an installable R package other people can run. This guide is the exact route, with a real worked example. No prior packaging experience needed.</p>
+
+<div class="outcomes">
+  <p>After this guide you will be able to:</p>
+  <ul>
+    <li>Put your analysis scripts in a public repository with a licence, in about 15 minutes.</li>
+    <li>Get a free, permanent Zenodo DOI that points to a frozen version.</li>
+    <li>Write a code-availability statement a reviewer will accept.</li>
+    <li>Optionally wrap your R scripts as a package others install with one line.</li>
+  </ul>
+</div>
+
+<div class="fig">
+  <svg viewBox="0 0 680 96" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Pipeline: scripts to a licensed repository to a tagged release to a permanent Zenodo DOI">
+    <g font-family="-apple-system,Segoe UI,Roboto,sans-serif" font-size="13.5">
+      <rect x="2" y="24" width="118" height="48" rx="10" fill="#fff" stroke="#e7e3f0"/>
+      <text x="61" y="45" text-anchor="middle" fill="#1c1830">your scripts</text>
+      <text x="61" y="61" text-anchor="middle" fill="#5b5570" font-size="11">.R / .py</text>
+      <path d="M122 48 h24" stroke="#8B6FC9" stroke-width="2"/>
+      <rect x="148" y="24" width="150" height="48" rx="10" fill="#fff" stroke="#8B6FC9"/>
+      <text x="223" y="45" text-anchor="middle" fill="#1c1830">public repo</text>
+      <text x="223" y="61" text-anchor="middle" fill="#5b5570" font-size="11">+ licence + CITATION</text>
+      <path d="M300 48 h24" stroke="#8B6FC9" stroke-width="2"/>
+      <rect x="326" y="24" width="140" height="48" rx="10" fill="#fff" stroke="#e7e3f0"/>
+      <text x="396" y="45" text-anchor="middle" fill="#1c1830">tagged release</text>
+      <text x="396" y="61" text-anchor="middle" fill="#5b5570" font-size="11">v1.0.0, frozen</text>
+      <path d="M468 48 h24" stroke="#8B6FC9" stroke-width="2"/>
+      <rect x="494" y="24" width="184" height="48" rx="10" fill="#2D2440"/>
+      <text x="586" y="45" text-anchor="middle" fill="#fff">permanent DOI</text>
+      <text x="586" y="61" text-anchor="middle" fill="#C5B8E8" font-size="11">cite it forever</text>
+    </g>
+  </svg>
+</div>
+
+<h2>Why a DOI, not just a GitHub link</h2>
+<p>A GitHub link points at whatever the code looks like today. It can move, change, or disappear, and a reviewer three years from now may find something different from what you ran. A DOI (digital object identifier) points at a frozen snapshot that never changes. Zenodo, run by CERN, mints one for free and keeps the archive. That is the difference between "here is my code, probably" and a citation.</p>
+<p>There is a second, quieter payoff. Every time someone cites your code DOI, that is a citation with your name on it — for the method you actually built, separate from the paper.</p>
+
+<div class="note"><p style="margin:0"><strong>A worked example you can inspect.</strong> The analysis scripts behind our own <a href="/qualivahti-local/">QualiVahti Local</a> vault are public under an open licence, with a Zenodo DOI (<code>10.5281/zenodo.21274892</code>) and an installable R package. Everything below is exactly how they were published — you can open the repository and copy the structure.</p></div>
+
+<h2>Step 1 — a public repository with a licence <span class="time">· about 15 minutes</span></h2>
+<p>Put your scripts in a folder, add two small files, and push it to GitHub. The two files do the heavy lifting:</p>
+<ul>
+  <li><strong>A <code>LICENSE</code> file.</strong> Without one, code is "all rights reserved" and others cannot legally reuse it. For research scripts, a permissive licence such as Apache-2.0 or MIT lets people run and cite your code while you keep authorship. Pick one at <a href="https://choosealicense.com">choosealicense.com</a>.</li>
+  <li><strong>A <code>CITATION.cff</code> file.</strong> This is a small plain-text file that tells GitHub, and humans, exactly how to cite the code. GitHub shows a "Cite this repository" button when it is present.</li>
+</ul>
+<details>
+  <summary>Show a copyable CITATION.cff</summary>
+<pre><code>cff-version: 1.2.0
+message: "If you use these scripts, please cite them as below."
+title: "My analysis scripts"
+type: software
+version: 1.0.0
+date-released: 2026-07-09
+license: Apache-2.0
+authors:
+  - family-names: "Surname"
+    given-names: "First"
+    orcid: "https://orcid.org/0000-0000-0000-0000"
+abstract: >-
+  One or two sentences on what the scripts do.</code></pre>
+</details>
+
+<h2>Step 2 — connect Zenodo and make a release <span class="time">· about 10 minutes</span></h2>
+<ol>
+  <li>Sign in to <a href="https://zenodo.org">zenodo.org</a> with your GitHub account.</li>
+  <li>In Zenodo's GitHub settings, find your repository and switch it <strong>on</strong>. Do this <em>before</em> the next step — Zenodo only archives releases created after the switch is flipped.</li>
+  <li>On GitHub, create a release: <em>Releases → Draft a new release</em>. Give it a tag such as <code>v1.0.0</code>, a title, and a short note. Publish it.</li>
+</ol>
+<p>Within a few minutes Zenodo archives that release and mints a DOI. You actually get two: a <strong>version DOI</strong> for this exact release, and a <strong>concept DOI</strong> that always points to the latest version. Cite the concept DOI in a paper unless you need to pin one version.</p>
+
+<h2>Step 3 — write the availability statement</h2>
+<p>Now the sentence the reviewer is looking for. Adapt it:</p>
+<div class="note"><p style="margin:0"><strong>Code availability.</strong> The analysis code is openly available under the Apache-2.0 licence at [GitHub URL] and archived at [DOI]. Interview recordings and transcripts are not shared, as audio is directly identifying and participants did not consent to data sharing.</p></div>
+<p>That single paragraph answers the three things a reviewer checks: is the code available, is it permanent, and why is the raw data not attached. The honest data sentence is not a weakness — stating why identifying data stays private is exactly what a careful reader wants to see.</p>
+
+<h2>Optional — make it installable as an R package <span class="time">· about 30 minutes</span></h2>
+<p>Scripts in a repo are enough for citation. But if you want other researchers to <em>run</em> your analysis with one line, wrap the R side as a package. The minimum is a folder with a <code>DESCRIPTION</code> file (name, version, author, licence), your functions in <code>R/</code>, and a <code>NAMESPACE</code> listing what is exported. Then <code>R CMD check</code> tells you what is missing.</p>
+<p>To let people install it without CRAN's review queue, register the repository with <a href="https://r-universe.dev">R-universe</a> — a free build service. Once registered, anyone runs:</p>
+<pre><code>install.packages("yourpackage",
+  repos = "https://youruser.r-universe.dev")</code></pre>
+<details>
+  <summary>The smallest DESCRIPTION file that works</summary>
+<pre><code>Package: yourpackage
+Type: Package
+Title: What It Does In A Line
+Version: 1.0.0
+Authors@R: person("First", "Surname",
+    email = "you@example.org", role = c("aut", "cre"),
+    comment = c(ORCID = "0000-0000-0000-0000"))
+Description: A sentence or two, ending with a full stop.
+License: Apache License (>= 2)
+Encoding: UTF-8</code></pre>
+</details>
+<p>Our own qualitative-analysis package is published this way — a citable DOI for the archive, and <code>install.packages("qualivahti", repos = "https://heidihelena.r-universe.dev")</code> for anyone who wants to run it. The Python side sits on PyPI by the same logic.</p>
+
+<h2>An honest caveat</h2>
+<p>Publishing code is not the same as documenting it. A DOI on an unreadable script is still a step forward, but the value shows when someone can actually follow it. Spend the extra hour on a README that says what each script does and what it expects as input. And check your own scripts for anything private — file paths with names, a stray data sample, an API key — before the repository goes public. Once it is pushed and archived, it is permanent by design.</p>
+
+<div class="cta">
+  <p><strong>You do not need our tools to do any of this.</strong> The steps above work for any analysis code, in any field.</p>
+  <p>If you work with interviews and want the whole local workflow — transcription, AI-assisted coding under human review, an audit trail, and analysis scripts already published with a DOI — <strong>QualiVahti Local</strong> packages it, and ships the exact citation guide its buyers put in their methods sections.</p>
+  <a class="btn" href="/qualivahti-local/">See QualiVahti Local — €49</a>
+</div>
+
+<h2>Related guides</h2>
+<p>Start upstream with <a href="/learn/transcribe-interviews-locally/">transcribing interviews offline with Whisper</a>. More local-first research guides are on the <a href="/learn/">Learn page</a>.</p>
+
+<footer>
+  <p><a href="/learn/">← All Learn guides</a> · <a href="/">vahtian.com</a> — local-first research integrity tools. This page loads nothing from anywhere: no remote fonts, no tracking, no scripts.</p>
+</footer>
+
+</div>
+</body>
+</html>
