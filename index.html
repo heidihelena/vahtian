@@ -170,15 +170,17 @@
       .hero-scrim{background:linear-gradient(180deg,rgba(20,14,38,.5),rgba(20,14,38,.86))}}
     footer{padding:30px 0 50px;color:var(--muted);font-size:13px;border-top:1px solid var(--line);margin-top:36px}
     footer a{color:var(--muted)}
-    /* forskai product callout */
-    .kitcallout{display:flex;gap:20px;justify-content:space-between;align-items:center;flex-wrap:wrap;
+    /* forskai paid kits */
+    .kitsintro{color:var(--muted);font-size:15px;margin:0 0 16px;max-width:62ch}
+    .kits{display:grid;gap:12px}
+    @media(min-width:660px){.kits{grid-template-columns:1fr 1fr}}
+    .kit{display:flex;flex-direction:column;align-items:flex-start;gap:9px;
       background:#10211B;color:#EAF3EF;border-radius:15px;padding:22px 24px}
-    .kitcallout .kkick{font:600 12px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:#54D6B6;text-transform:uppercase;letter-spacing:.1em;margin:0 0 9px}
-    .kitcallout h3{margin:0 0 6px;font-size:19px;color:#fff}
-    .kitcallout p{margin:0;color:#c6ddd4;font-size:14.5px;max-width:54ch}
-    .kitcallout .kbtn{display:inline-block;padding:12px 20px;border-radius:10px;font-weight:700;text-decoration:none;
+    .kit .kkick{font:600 12px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:#54D6B6;text-transform:uppercase;letter-spacing:.1em;margin:0}
+    .kit h3{margin:0;font-size:19px;color:#fff}
+    .kit p{margin:0;color:#c6ddd4;font-size:14.5px;max-width:54ch}
+    .kit .kbtn{display:inline-block;margin-top:auto;padding:12px 20px;border-radius:10px;font-weight:700;text-decoration:none;
       background:#DFF5EE;color:#093528;font-size:15px;white-space:nowrap}
-    @media(max-width:560px){.kitcallout{flex-direction:column;align-items:flex-start}}
   </style>
 </head>
 <body>
@@ -205,7 +207,7 @@
         <a class="ic" href="https://github.com/heidihelena/vahtian" aria-label="Vahtian on GitHub"><svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 012-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg></a>
         <a class="ic" href="/search/" aria-label="Search vahtian.com"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.3" y2="16.3"/></svg></a>
         <a class="ic" href="/download/" aria-label="Download Vahtian software"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4 V15"/><path d="M7 11 L12 16 L17 11"/><path d="M4 20 H20"/></svg></a>
-        <a class="buy" href="/ai-disclosure-kit/">Buy</a>
+        <a class="buy" href="/#kits">Paid kits</a>
       </span>
     </nav>
   </header>
@@ -392,15 +394,27 @@
     <p class="vahti lower"><b>vahti</b> — Finnish for <i>sentinel / guard</i>. The watch over what gets cited.</p>
   </section>
 
-  <section>
-    <div class="kitcallout">
-      <div>
-        <p class="kkick">New · a forskai product</p>
-        <h3>AI Disclosure Kit for Researchers</h3>
-        <p>You used AI — now disclose it properly. Manuscript, thesis, grant, and peer-review templates,
-          a verified publisher-policy directory, and an AI-use log. 10 files · €29.</p>
+  <section id="kits">
+    <h2>Paid workflow kits <span class="sub">forskai by Vahtian</span></h2>
+    <p class="kitsintro">The checking tools above are free and stay free. The paid kits package
+      the structure, documentation, and audit trail around them.</p>
+    <div class="kits">
+      <div class="kit">
+        <p class="kkick">Qualitative studies</p>
+        <h3>QualiVahti Local</h3>
+        <p>Transcribe, code, and map interviews on your own computer. Local AI suggests
+          first-cycle codes, and you review every one. Codebook, evidence maps, and audit
+          trail included. One payment, no subscription.</p>
+        <a class="kbtn" href="/qualivahti-local/">See QualiVahti Local · €49 →</a>
       </div>
-      <a class="kbtn" href="/ai-disclosure-kit/">Get the kit →</a>
+      <div class="kit">
+        <p class="kkick">AI disclosure</p>
+        <h3>AI Disclosure Kit for Researchers</h3>
+        <p>You used AI. Now disclose it properly. Manuscript, thesis, grant, and peer-review
+          templates, a publisher-policy directory, and an AI-use log. 10 files, instant
+          download.</p>
+        <a class="kbtn" href="/ai-disclosure-kit/">See the kit · €29 →</a>
+      </div>
     </div>
   </section>
 
