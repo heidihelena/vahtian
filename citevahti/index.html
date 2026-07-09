@@ -80,7 +80,7 @@
     pre{background:var(--navy);color:#e8e3f5;border-radius:10px;padding:14px 16px;overflow:auto;font:13px/1.6 ui-monospace,monospace}
     pre .c{color:#9b93b8}
     .note{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--violet);border-radius:9px;padding:13px 15px;color:#3a3450;font-size:14.5px}
-    /* Full-bleed lighthouse hero — self-contained canvas, claim-verification scene */
+    /* Full-bleed lighthouse hero — self-contained canvas, claim-checking scene */
     .hero-band{position:relative;overflow:hidden;background:#1b1530;min-height:460px;margin-top:14px}
     .hero-band canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
     .hero-scrim{position:absolute;inset:0;pointer-events:none;
@@ -200,7 +200,7 @@
       <a class="btn ghost" href="#start">Get started</a>
     </div>
     <div class="chips" aria-label="The four claim states">
-      <span class="chip v">[oo] verified</span>
+      <span class="chip v">[oo] accepted</span>
       <span class="chip n">[o] needs support</span>
       <span class="chip r">[r] review needed</span>
       <span class="chip d">[d] decision recorded</span>
@@ -358,8 +358,8 @@ citevahti run    <span class="c"># review panel on your own manuscript</span></p
     <pre>Run claim tests on my manuscript.docx with CiteVahti.
 Which of my claims have no citation, or overstate the source?
 Check whether this citation supports the sentence — rate it blind first.
-Write the verified references to Zotero, and let me confirm each one.
-Draft this paragraph using only my verified claims.</pre>
+Write the accepted references to Zotero, and let me confirm each one.
+Draft this paragraph using only my accepted claims.</pre>
     <p style="font-size:14px;color:var(--muted);margin:8px 0 0">You stay the decider: CiteVahti stages the
       evidence and gives a blinded second opinion, but nothing is rated or written to Zotero without you.</p>
 
@@ -496,7 +496,7 @@ Draft this paragraph using only my verified claims.</pre>
   decBtns.forEach(function(b){b.addEventListener('click',function(){
     decBtns.forEach(function(x){x.classList.toggle('sel',x===b);x.disabled=true;});
     var d=b.getAttribute('data-d');
-    var map={revise:['v','[oo] verified'],caution:['r','[r] review needed'],reject:['d','[d] decision recorded']};
+    var map={revise:['v','[oo] accepted'],caution:['r','[r] review needed'],reject:['d','[d] decision recorded']};
     var decLabel={revise:'revise→accept',caution:'caution',reject:'reject'}[d];
     document.getElementById('reviseBox').hidden=(d!=='revise');
     var chip=document.getElementById('stateChip');chip.className='chip '+map[d][0];chip.textContent=map[d][1];
