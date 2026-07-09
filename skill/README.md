@@ -15,7 +15,7 @@ skill teaches the agent the open evidence pipeline and the invariants that keep 
 3. **Screen, blinded** — rate papers against claims; the AI rating stays sealed until the human commits
 4. **Reconcile** — inter-rater reliability (Cohen's κ, PABAK, AC1, Krippendorff's α) via ReviewVahti
 5. **Retrieve** — open-access full text via FullVahti
-6. **Verify** — claim-by-source checking with decision-gated, undoable Zotero write-back (CiteVahti)
+6. **Check** — claim-by-source assessment with decision-gated, undoable Zotero write-back (CiteVahti)
 
 The agent does the heavy lifting; the human keeps every judgement.
 
