@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Obsidian Canvas as an evidence map: where every box is data (an NVivo alternative) — Vahtian Learn</title>
+  <meta name="description" content="Turn Obsidian Canvas into an evidence map for qualitative analysis: every node is a live note, not a drawing. Drag a code onto the canvas and it shows its real quotes and counts. The advantage traditional CAQDAS tools like NVivo and MAXQDA cannot match.">
+  <meta name="theme-color" content="#2D2440">
+  <link rel="canonical" href="https://vahtian.com/learn/obsidian-canvas-evidence-map/">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://vahtian.com/learn/obsidian-canvas-evidence-map/">
+  <meta property="og:image" content="https://vahtian.com/brand/cards/vahtian-card.png">
+  <meta property="og:title" content="Obsidian Canvas as an evidence map: where every box is data">
+  <meta property="og:description" content="Every node is a live note, not a drawing. Drag a code onto the canvas and read its real quotes. The CAQDAS advantage NVivo and MAXQDA cannot match.">
+  <meta property="og:site_name" content="Vahtian">
+  <meta name="twitter:card" content="summary">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "Obsidian Canvas as an evidence map: where every box is data",
+    "description": "Use Obsidian Canvas as an evidence-aware map for qualitative analysis, where every node is a live note linking to real quotes and counts — an advantage over traditional CAQDAS whiteboards in NVivo and MAXQDA.",
+    "url": "https://vahtian.com/learn/obsidian-canvas-evidence-map/",
+    "datePublished": "2026-07-09",
+    "inLanguage": "en",
+    "author": { "@type": "Organization", "name": "Vahtian", "url": "https://vahtian.com/" },
+    "publisher": { "@id": "https://vahtian.com/#org" }
+  }
+  </script>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232D2440'/%3E%3Cg fill='none' stroke='%238B6FC9' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 9 H9 V23 H12'/%3E%3Cpath d='M20 9 H23 V23 H20'/%3E%3C/g%3E%3Cpath d='M16 10.3 L19.6 12 L19.6 15 L16 19.6 L12.4 15 L12.4 12 Z' fill='none' stroke='%23C5B8E8' stroke-width='1.8' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <style>
+    :root{
+      --navy:#2D2440; --violet:#8B6FC9; --lilac:#C5B8E8;
+      --ink:#1c1830; --muted:#5b5570; --bg:#faf9fc; --card:#fff; --line:#e7e3f0;
+      --link:#6F52B8;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,ui-sans-serif,system-ui,sans-serif;
+         color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased}
+    a{color:var(--link)}
+    .wrap{max-width:720px;margin:0 auto;padding:0 22px}
+    header{padding:26px 0 4px}
+    .crumbs{font-size:14px;color:var(--muted)}
+    .crumbs a{color:var(--muted);text-decoration:none}
+    .kicker{font:600 13px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--violet);
+            text-transform:uppercase;letter-spacing:.08em;margin:34px 0 14px}
+    h1{font-size:clamp(27px,5.2vw,38px);line-height:1.14;letter-spacing:-.02em;margin:0 0 16px}
+    .lede{font-size:clamp(17px,2.4vw,19px);color:#3a3450;margin:0 0 6px}
+    h2{font-size:21px;margin:42px 0 12px;letter-spacing:-.01em}
+    p{margin:0 0 14px}
+    ol,ul{margin:0 0 14px;padding-left:24px}
+    li{margin:0 0 8px}
+    code{font:14px ui-monospace,SFMono-Regular,Menlo,monospace;background:#f0edf7;
+         border-radius:5px;padding:1px 6px}
+    table{border-collapse:collapse;width:100%;margin:0 0 16px;font-size:15px}
+    th,td{border:1px solid var(--line);padding:8px 12px;text-align:left;vertical-align:top}
+    th{background:#f0edf7}
+    .outcomes{background:var(--card);border:1px solid var(--line);border-radius:12px;
+              padding:16px 20px;margin:22px 0}
+    .outcomes p{font-weight:650;margin:0 0 8px}
+    .outcomes ul{margin:0;padding-left:22px}
+    .note{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--violet);
+          border-radius:10px;padding:14px 18px;margin:0 0 16px}
+    .fig{margin:22px 0 24px}
+    .cta{background:var(--card);border:1px solid var(--line);border-radius:12px;
+         padding:20px 22px;margin:34px 0 0}
+    .btn{display:inline-block;padding:11px 18px;border-radius:9px;font-weight:600;
+         text-decoration:none;font-size:15px;background:var(--navy);color:#fff;margin-top:6px}
+    footer{margin:56px 0 40px;padding-top:22px;border-top:1px solid var(--line);
+           color:var(--muted);font-size:14px}
+    footer a{color:var(--muted)}
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <nav class="crumbs"><a href="/">vahtian.com</a> · <a href="/learn/">learn</a> · obsidian canvas as an evidence map</nav>
+</header>
+
+<p class="kicker">Learn · Obsidian for researchers</p>
+<h1>Obsidian Canvas as an evidence map: where every box is data</h1>
+<p class="lede">Most qualitative software gives you a whiteboard: you drag boxes around and the boxes know nothing. Obsidian Canvas can do something those tools cannot — because every box can be a real note, dragging a code onto the canvas brings its actual quotes and counts with it. The map stops being a picture of your analysis and becomes your analysis, arranged.</p>
+
+<div class="outcomes">
+  <p>After this guide you will be able to:</p>
+  <ul>
+    <li>Build a canvas where each node opens the real note behind it.</li>
+    <li>See a theme's grounding — its codes, quotes, and participants — at a glance.</li>
+    <li>Explain why this beats the manual whiteboards in NVivo and MAXQDA.</li>
+    <li>Keep the map honest: grounding, not a confidence score.</li>
+  </ul>
+</div>
+
+<h2>The difference: a drawing vs a live object</h2>
+<p>In a traditional CAQDAS whiteboard, a box labelled "waiting" is a drawing of the word "waiting". It has no connection to the excerpts you coded. If you rename the code or add ten quotes, the box does not change — it is a picture, and pictures go stale.</p>
+<p>On an Obsidian canvas, you drop the actual <em>note</em> for that code onto the board. It shows the note's live contents; double-click and you are reading the coded quotes themselves. Rename the code, add excerpts, and the node reflects it, because the node <strong>is</strong> the note. Nothing is a representation of your data. It is the data, placed where you can see how it connects.</p>
+
+<h2>What an evidence map looks like</h2>
+<p>Lay out one column per theme. At the top of each, the theme's note, with a small card above it summarizing its grounding. Beneath, the code notes that feed it, each carrying its own live counts. Attach the negative cases in a different colour, with an edge that says "complicates".</p>
+
+<div class="fig">
+  <svg viewBox="0 0 680 250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A theme node with a grounding card, linked to code nodes below and a negative case attached in red">
+    <g font-family="-apple-system,Segoe UI,Roboto,sans-serif" font-size="12.5">
+      <rect x="230" y="6" width="220" height="60" rx="10" fill="#fff" stroke="#8B6FC9" stroke-width="1.5"/>
+      <text x="246" y="26" fill="#2D2440" font-weight="700">Theme — waiting reshapes time</text>
+      <text x="246" y="44" fill="#5b5570" font-size="11.5">codes 3 · quotes 7 · participants 4</text>
+      <text x="246" y="58" fill="#5b5570" font-size="11.5">negative cases 2 · signed: yes</text>
+      <path d="M340 66 V92 M120 92 H560 M120 92 V112 M340 92 V112 M560 92 V112" stroke="#8B6FC9" stroke-width="1.6" fill="none"/>
+      <rect x="44" y="112" width="152" height="52" rx="9" fill="#fff" stroke="#e7e3f0"/>
+      <text x="120" y="134" text-anchor="middle" fill="#2D2440">living-scan-to-scan</text>
+      <text x="120" y="150" text-anchor="middle" fill="#5b5570" font-size="11">3 excerpts</text>
+      <rect x="264" y="112" width="152" height="52" rx="9" fill="#fff" stroke="#e7e3f0"/>
+      <text x="340" y="134" text-anchor="middle" fill="#2D2440">conditional-living</text>
+      <text x="340" y="150" text-anchor="middle" fill="#5b5570" font-size="11">2 excerpts</text>
+      <rect x="484" y="112" width="152" height="52" rx="9" fill="#fff" stroke="#e7e3f0"/>
+      <text x="560" y="134" text-anchor="middle" fill="#2D2440">waiting-for-results</text>
+      <text x="560" y="150" text-anchor="middle" fill="#5b5570" font-size="11">2 excerpts</text>
+      <path d="M340 210 V164" stroke="#C24D7E" stroke-width="1.8" fill="none" stroke-dasharray="5 4"/>
+      <text x="350" y="192" fill="#C24D7E" font-size="11">complicates</text>
+      <rect x="230" y="210" width="220" height="34" rx="9" fill="#fff" stroke="#C24D7E" stroke-width="1.5"/>
+      <text x="340" y="231" text-anchor="middle" fill="#2D2440">Negative case — the reassured patient</text>
+    </g>
+  </svg>
+</div>
+
+<p>Now the map earns its keep. You can see, without opening anything, that this theme rests on three codes and seven quotes across four participants, that two negative cases push against it, and that a human has signed it. Click any box to check the claim against the real excerpts underneath.</p>
+
+<h2>Grounding, not confidence</h2>
+<p>One discipline keeps an evidence map honest: the card shows <em>grounding</em> — how much evidence sits under a theme and whether counter-evidence has been sought — never a score for whether the theme is "true". No number can certify a theme, and a map that displayed one would be inviting you to trust the layout instead of the data. Read "negative cases: none linked" as a task you have not done yet, not a clean bill of health.</p>
+
+<h2>How to read the map for problems</h2>
+<p>An evidence map is most useful when it shows you what is wrong. Three patterns to look for:</p>
+<ul>
+  <li><strong>A crowded theme</strong> — a dozen codes crammed under one theme usually means the theme is doing too much and should split into two. If you cannot state it in one sentence, the map is telling you so.</li>
+  <li><strong>An orphan code</strong> — a code note sitting off to the side, attached to no theme. That is not failure; it is often your most interesting finding, or the seed of a theme you have not named yet. Do not force it into a nearby cluster to tidy the picture.</li>
+  <li><strong>A theme with no negative cases</strong> — a column with only supporting quotes and nothing marked "complicates". Nine times in ten that means nobody hunted for counter-evidence, not that none exists. The empty space is a task.</li>
+</ul>
+<p>Because you rearrange the map by dragging real notes, thinking through these problems <em>is</em> the analysis — you are not annotating a picture of your work, you are moving the work itself.</p>
+
+<h2>Why this is Obsidian's real advantage over NVivo and MAXQDA</h2>
+<table>
+  <tr><th></th><th>Traditional CAQDAS map</th><th>Obsidian evidence map</th></tr>
+  <tr><td>The node is</td><td>a drawn shape with a label</td><td>a live note</td></tr>
+  <tr><td>Click it</td><td>nothing, or an editable box</td><td>opens the real coded quotes</td></tr>
+  <tr><td>When data changes</td><td>the drawing goes stale</td><td>the node reflects it</td></tr>
+  <tr><td>Portability</td><td>proprietary project file</td><td>plain files you own</td></tr>
+</table>
+<p>The big tools treat visual mapping as a side feature — a whiteboard bolted onto a database. Because every object in Obsidian already exists as a linked Markdown note, the map and the data are the same thing. That is not a cheaper imitation of NVivo's map. It is a different, and for auditability a better, kind of object.</p>
+
+<div class="note"><p style="margin:0"><strong>Building it by hand:</strong> in Obsidian, create a new Canvas, then drag notes from the file list straight onto it — each becomes a live card. Add a plain text card above a theme for its grounding summary, and colour the negative-case cards to stand apart. It is manual, but it is real: every card you place is a note you can open.</p></div>
+
+<div class="cta">
+  <p><strong>You can assemble an evidence map yourself</strong> by dragging your code and theme notes onto a Canvas.</p>
+  <p>If you want it generated — a map drawn automatically from your reviewed coding, with grounding cards, negative cases attached, and codes not yet in any theme grouped honestly — <strong>QualiVahti Local</strong> builds exactly this evidence map, and ships a worked demo study so you can see a finished one first.</p>
+  <a class="btn" href="/qualivahti-local/">See QualiVahti Local — €49</a>
+</div>
+
+<h2>Read next</h2>
+<p>The set: <a href="/learn/obsidian-for-researchers/">Obsidian for researchers — 5 questions no guide answers</a> and <a href="/learn/build-qualitative-codebook-obsidian/">build a qualitative codebook in Obsidian</a>. More on the <a href="/learn/">Learn page</a>.</p>
+
+<footer>
+  <p><a href="/learn/">← All Learn guides</a> &middot; <a href="/privacy/">Privacy</a> · <a href="/">vahtian.com</a> — local-first research integrity tools. This page loads nothing from anywhere: no remote fonts, no tracking, no scripts.</p>
+</footer>
+
+</div>
+</body>
+</html>

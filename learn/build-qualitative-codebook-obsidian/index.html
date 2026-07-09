@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>How to build a qualitative codebook in Obsidian (free, step by step) — Vahtian Learn</title>
+  <meta name="description" content="Build a disciplined qualitative codebook in Obsidian: one note per code with a definition, inclusion and exclusion rules, an anchor quote, and a revision history. Uses plain Markdown, YAML frontmatter, and Dataview — free, local, and future-proof.">
+  <meta name="theme-color" content="#2D2440">
+  <link rel="canonical" href="https://vahtian.com/learn/build-qualitative-codebook-obsidian/">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://vahtian.com/learn/build-qualitative-codebook-obsidian/">
+  <meta property="og:image" content="https://vahtian.com/brand/cards/vahtian-card.png">
+  <meta property="og:title" content="How to build a qualitative codebook in Obsidian (step by step)">
+  <meta property="og:description" content="One note per code — definition, inclusion, exclusion, anchor quote, revision history. Plain Markdown and Dataview. Free and local.">
+  <meta property="og:site_name" content="Vahtian">
+  <meta name="twitter:card" content="summary">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "How to build a qualitative codebook in Obsidian (free, step by step)",
+    "description": "Build a disciplined qualitative codebook in Obsidian with one note per code — definition, inclusion and exclusion criteria, anchor quote, revision history — using YAML frontmatter and Dataview.",
+    "url": "https://vahtian.com/learn/build-qualitative-codebook-obsidian/",
+    "datePublished": "2026-07-09",
+    "inLanguage": "en",
+    "author": { "@type": "Organization", "name": "Vahtian", "url": "https://vahtian.com/" },
+    "publisher": { "@id": "https://vahtian.com/#org" }
+  }
+  </script>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232D2440'/%3E%3Cg fill='none' stroke='%238B6FC9' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 9 H9 V23 H12'/%3E%3Cpath d='M20 9 H23 V23 H20'/%3E%3C/g%3E%3Cpath d='M16 10.3 L19.6 12 L19.6 15 L16 19.6 L12.4 15 L12.4 12 Z' fill='none' stroke='%23C5B8E8' stroke-width='1.8' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <style>
+    :root{
+      --navy:#2D2440; --violet:#8B6FC9; --lilac:#C5B8E8;
+      --ink:#1c1830; --muted:#5b5570; --bg:#faf9fc; --card:#fff; --line:#e7e3f0;
+      --link:#6F52B8;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,ui-sans-serif,system-ui,sans-serif;
+         color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased}
+    a{color:var(--link)}
+    .wrap{max-width:720px;margin:0 auto;padding:0 22px}
+    header{padding:26px 0 4px}
+    .crumbs{font-size:14px;color:var(--muted)}
+    .crumbs a{color:var(--muted);text-decoration:none}
+    .kicker{font:600 13px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--violet);
+            text-transform:uppercase;letter-spacing:.08em;margin:34px 0 14px}
+    h1{font-size:clamp(27px,5.2vw,38px);line-height:1.14;letter-spacing:-.02em;margin:0 0 16px}
+    .lede{font-size:clamp(17px,2.4vw,19px);color:#3a3450;margin:0 0 6px}
+    h2{font-size:21px;margin:42px 0 12px;letter-spacing:-.01em}
+    h3{font-size:16.5px;margin:26px 0 8px}
+    p{margin:0 0 14px}
+    ol,ul{margin:0 0 14px;padding-left:24px}
+    li{margin:0 0 8px}
+    code{font:14px ui-monospace,SFMono-Regular,Menlo,monospace;background:#f0edf7;
+         border-radius:5px;padding:1px 6px}
+    pre{background:var(--navy);color:#efeaf8;border-radius:12px;padding:16px 18px;
+        overflow-x:auto;font:13px/1.55 ui-monospace,SFMono-Regular,Menlo,monospace;margin:10px 0 6px}
+    pre code{background:none;padding:0;color:inherit;font-size:inherit}
+    .outcomes{background:var(--card);border:1px solid var(--line);border-radius:12px;
+              padding:16px 20px;margin:22px 0}
+    .outcomes p{font-weight:650;margin:0 0 8px}
+    .outcomes ul{margin:0;padding-left:22px}
+    .note{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--violet);
+          border-radius:10px;padding:14px 18px;margin:0 0 16px}
+    details{background:var(--card);border:1px solid var(--line);border-radius:10px;
+            padding:12px 18px;margin:0 0 16px}
+    summary{cursor:pointer;font-weight:600;color:var(--link)}
+    details[open] summary{margin-bottom:10px}
+    .cta{background:var(--card);border:1px solid var(--line);border-radius:12px;
+         padding:20px 22px;margin:34px 0 0}
+    .btn{display:inline-block;padding:11px 18px;border-radius:9px;font-weight:600;
+         text-decoration:none;font-size:15px;background:var(--navy);color:#fff;margin-top:6px}
+    footer{margin:56px 0 40px;padding-top:22px;border-top:1px solid var(--line);
+           color:var(--muted);font-size:14px}
+    footer a{color:var(--muted)}
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <nav class="crumbs"><a href="/">vahtian.com</a> · <a href="/learn/">learn</a> · build a codebook in obsidian</nav>
+</header>
+
+<p class="kicker">Learn · Obsidian for researchers</p>
+<h1>How to build a qualitative codebook in Obsidian (free, step by step)</h1>
+<p class="lede">A codebook is what makes your coding consistent — for a second coder, for a reviewer, and for you six months from now. You can build a disciplined one in Obsidian with nothing but plain Markdown: one note per code, a fixed structure, and a small Dataview table that watches the whole set. Free, local, and future-proof.</p>
+
+<div class="outcomes">
+  <p>After this guide you will be able to:</p>
+  <ul>
+    <li>Give every code a definition, inclusion and exclusion rules, and an anchor quote.</li>
+    <li>Keep a revision history so every merge, split, and rename is traceable.</li>
+    <li>See your whole codebook in one auto-updating table.</li>
+    <li>Explain the difference between a code, a category, and a theme.</li>
+  </ul>
+</div>
+
+<h2>What a codebook entry needs</h2>
+<p>A code is a short label you attach to a unit of meaning in your data. A codebook makes that label usable by someone other than you, on a day other than today. The minimum that achieves is four things: a <strong>definition</strong>, an <strong>inclusion rule</strong> (what must be present to apply it), an <strong>exclusion rule</strong> (the near-misses, and which code takes over), and an <strong>anchor example</strong> — one real excerpt that is unmistakably this code. Add a revision history and you can defend every change in your methods section.</p>
+
+<h2>Step 1 — one note per code, with a fixed shape</h2>
+<p>Make a folder, <code>Codebook/</code>, and one note per code. Give every note the same structure so they stay comparable. The YAML block at the top (the <code>---</code> fenced section, called frontmatter) is what a Dataview table will read later.</p>
+<details>
+  <summary>Show a copyable codebook entry</summary>
+<pre><code>---
+type: codebook-entry
+code: waiting-for-results
+status: stable        # candidate / stable / merged / retired
+created: 2026-07-09
+last_revised: 2026-07-09
+---
+
+# Code — waiting-for-results
+
+## Definition
+The bounded period between a test and its result, experienced
+as its own thing: its length, its open-endedness, what it does
+to the person.
+
+## Use when (inclusion)
+Talk about the days between scan and answer — phone-watching,
+sleepless nights over a pending report, the wish for a fixed date.
+
+## Do NOT use when (exclusion)
+The long rhythm between visits (use [[Code — living-scan-to-scan]])
+or preferences about how results arrive (use [[Code — information-on-own-terms]]).
+
+## Anchor example
+&gt; "Five days, once it was nine days. Nine days!"
+&gt; — P01 (I01-e002)
+
+## Revision history
+| Date | Change | Reason |
+|------|--------|--------|
+| 2026-07-09 | created | first appearance |
+</code></pre>
+</details>
+<p>The <code>[[double-bracket]]</code> links in the exclusion section matter: they connect each code to its neighbours, so the boundaries between codes become visible in the graph, not just described in prose.</p>
+
+<h2>Step 2 — a dashboard that watches the whole set</h2>
+<p>Install the <strong>Dataview</strong> community plugin (Settings → Community plugins). Then a single note can show your entire codebook as a live table that updates itself as you add or revise codes:</p>
+<pre><code>```dataview
+TABLE code, status, last_revised
+FROM "Codebook"
+WHERE type = "codebook-entry"
+SORT status ASC, code ASC
+```</code></pre>
+<p>Now you can see at a glance which codes are still <code>candidate</code>, which are <code>stable</code>, and which have not been revised since you last sharpened your definitions. A second query filtered to <code>status = "candidate"</code> becomes your to-do list.</p>
+
+<h2>Step 3 — keep merges and splits in the history</h2>
+<p>Codebooks change as you code — that is not drift to hide, it is analysis to record. When two codes keep overlapping and you merge them, do not delete the loser: set its <code>status: merged</code>, add a <code>merged_into:</code> field, and write the reason in its revision history. When one code is pulling in two directions and you split it, record that too. A reviewer who can read <em>why</em> a code changed trusts the coding far more than one shown a tidy final list with no history.</p>
+
+<div class="note"><p style="margin:0"><strong>Code, category, theme — keep them straight.</strong> A code labels what is in an excerpt. A <em>category</em> is a group of codes that share an idea — a step of abstraction you take deliberately, in a memo. A <em>theme</em> is a patterned meaning you construct and can state in one sentence, support with evidence, and test against the cases that do not fit. The codebook holds codes. It does not, by itself, produce themes — that is your work, and frequency is not a shortcut to it.</p></div>
+
+<h2>Three mistakes that make a codebook fail</h2>
+<ul>
+  <li><strong>Definitions too broad to exclude anything.</strong> If a code could apply to half your excerpts, it is not a code, it is a topic. A good test: if you cannot write the "do not use when" section, the definition is not sharp enough yet.</li>
+  <li><strong>No exclusion rules.</strong> Inclusion tells you where a code fits; exclusion tells you where it stops and which neighbour takes over. Without it, two coders — or you on two different days — will apply overlapping codes inconsistently, and no one will be able to see why.</li>
+  <li><strong>Deleting codes you merged or dropped.</strong> A codebook's history is evidence you were thinking. Retire codes with a status and a reason; never erase them. The tidy final list with no history is exactly what makes a reviewer suspicious.</li>
+</ul>
+
+<h2>Why plain Markdown, not dedicated software</h2>
+<p>NVivo, ATLAS.ti, and MAXQDA hold your codebook in a proprietary project file. Obsidian holds it as ordinary text files you own, that open in any editor, that version-control cleanly, and that no licence expiry can lock you out of. For a codebook — a document you may need to produce years later for a reviewer or a replication — that durability is not a minor convenience. It is the point.</p>
+
+<div class="cta">
+  <p><strong>You can build all of this by hand</strong> with a folder, a template, and Dataview.</p>
+  <p>If you would rather start from a set that already enforces the discipline — codebook, memo, theme, negative-case, and saturation templates, each with teaching notes, plus scripts that draft entries from your reviewed coding — <strong>QualiVahti Local</strong> is the ready version, with a worked demo study inside.</p>
+  <a class="btn" href="/qualivahti-local/">See QualiVahti Local — €49</a>
+</div>
+
+<h2>Read next</h2>
+<p>Before the codebook: <a href="/learn/ai-qualitative-coding-human-review/">AI-assisted coding with human review</a>. Alongside it: <a href="/learn/obsidian-canvas-evidence-map/">Obsidian Canvas as an evidence map</a> and the <a href="/learn/obsidian-for-researchers/">Obsidian for researchers FAQ</a>.</p>
+
+<footer>
+  <p><a href="/learn/">← All Learn guides</a> &middot; <a href="/privacy/">Privacy</a> · <a href="/">vahtian.com</a> — local-first research integrity tools. This page loads nothing from anywhere: no remote fonts, no tracking, no scripts.</p>
+</footer>
+
+</div>
+</body>
+</html>
