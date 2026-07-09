@@ -1,6 +1,6 @@
 ---
 name: run-vahtian
-description: Run, serve, and screenshot the Vahtian static site (vahtian.com) locally. Use when asked to launch, preview, build, or take a screenshot of the Vahtian homepage or any product page (CiteVahti, StudyVahti, MethodVahti, DictVahti, MatchVahti-Lite, ReviewVahti, ExtractVahti, GuidelineVahti), or to see a UI/UX/copy change rendered before committing. Driver serves the static files exactly as Cloudflare does and shoots desktop + mobile PNGs with headless Chromium.
+description: Run, serve, and screenshot the Vahtian static site (vahtian.com) locally. Use when asked to launch, preview, build, or take a screenshot of the Vahtian homepage or any product page (CiteVahti, StudyVahti, MethodVahti, DictVahti, MatchVahti-Lite, ReviewVahti, ExtractVahti, GuidelineVahti, FullVahti, SynthVahti), or to see a UI/UX/copy change rendered before committing. Driver serves the static files exactly as Cloudflare does and shoots desktop + mobile PNGs with headless Chromium.
 ---
 
 # Run Vahtian

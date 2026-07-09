@@ -32,6 +32,11 @@ const GLYPHS = {
   dictvahti: `<g fill="none" stroke="${VIOLET}" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M13 13 H19"/><path d="M13 16 H19"/><path d="M13 19 H16"/></g>`,
   'matchvahti-lite': `<circle cx="13.9" cy="16" r="1.9" fill="${VIOLET}"/><circle cx="18.1" cy="16" r="1.9" fill="${VIOLET}"/><path d="M13.9 16 H18.1" stroke="${VIOLET}" stroke-width="2.3" stroke-linecap="round"/>`,
   methodvahti: `<g fill="${VIOLET}"><circle cx="14" cy="14" r="1.5"/><circle cx="18" cy="14" r="1.5"/><circle cx="14" cy="18" r="1.5"/><circle cx="18" cy="18" r="1.5"/></g>`,
+  reviewvahti: `<ellipse cx="16" cy="16" rx="4.4" ry="2.8" fill="none" stroke="${VIOLET}" stroke-width="1.7"/><circle cx="16" cy="16" r="1.5" fill="${VIOLET}"/>`,
+  extractvahti: `<g fill="none" stroke="${VIOLET}" stroke-width="1.7" stroke-linejoin="round"><rect x="11.5" y="11.5" width="9" height="9" rx="1.2"/><path d="M16 11.5 V20.5 M11.5 16 H20.5"/></g>`,
+  guidelinevahti: `<path d="M12.8 16 L15.2 18.5 L19.3 13" fill="none" stroke="${VIOLET}" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>`,
+  synthvahti: `<path d="M12 19 L15 14 L18 16 L20 11" fill="none" stroke="${VIOLET}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>`,
+  fullvahti: `<g fill="none" stroke="${VIOLET}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 10.5 V17"/><path d="M13 14.5 L16 17.5 L19 14.5"/><path d="M12.2 20.5 H19.8"/></g>`,
 };
 
 // Light tile (pale ground, navy brackets) — reads as the mark *on* the navy card.
@@ -128,6 +133,36 @@ const CARDS = [
     kicker: 'METHODVAHTI — FOR QUALITATIVE RESEARCHERS',
     title: ['Justify your', 'sample size,', 'honestly.'],
     sub: ['Three sample-size models + a heterogeneity score,', 'into a COREQ/SRQR methods PDF. Free beta.'],
+  },
+  {
+    name: 'reviewvahti',
+    kicker: 'REVIEWVAHTI — SCREENING RELIABILITY',
+    title: ['How well did your', 'reviewers agree?'],
+    sub: ['Cohen’s κ, PABAK, AC1, Krippendorff’s α', 'across 2–7 reviewers. In your browser.'],
+  },
+  {
+    name: 'extractvahti',
+    kicker: 'EXTRACTVAHTI — DTA EXTRACTION + RISK OF BIAS',
+    title: ['Extract once.', 'Appraise once.'],
+    sub: ['QUADAS-2 / QUADAS-C / PROBAST-AI, into tidy', 'CSV for meta-analysis in R. Local-first.'],
+  },
+  {
+    name: 'guidelinevahti',
+    kicker: 'GUIDELINEVAHTI — PANEL CONSENSUS',
+    title: ['Turn panel votes', 'into consensus.'],
+    sub: ['RAND/UCLA · Delphi · GRADE recommendations,', 'anonymous, in the browser.'],
+  },
+  {
+    name: 'synthvahti',
+    kicker: 'SYNTHVAHTI — DTA AGREEMENT SYNTHESIS',
+    title: ['Pool agreement.', 'Keep HSROC in R.'],
+    sub: ['Random-effects pooling + forest/funnel figures', 'in the browser; a versioned R script for the rest.'],
+  },
+  {
+    name: 'fullvahti',
+    kicker: 'FULLVAHTI — ZOTERO PLUGIN',
+    title: ['Find the', 'open-access PDF.'],
+    sub: ['Unpaywall + PMC, in two clicks, with an honest', 'report of what’s missing. Never bypasses a paywall.'],
   },
 ];
 

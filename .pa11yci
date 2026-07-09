@@ -1,0 +1,34 @@
+{
+  "defaults": {
+    "standard": "WCAG2AA",
+    "timeout": 60000,
+    "chromeLaunchConfig": { "args": ["--no-sandbox", "--disable-dev-shm-usage"] }
+  },
+  "urls": [
+    "http://127.0.0.1:8080/",
+    "http://127.0.0.1:8080/citevahti/",
+    "http://127.0.0.1:8080/citevahti/quick-check/",
+    "http://127.0.0.1:8080/methodvahti/claim-check/",
+    "http://127.0.0.1:8080/methodvahti/codebook/",
+    "http://127.0.0.1:8080/guidelinevahti/pilot/",
+    "http://127.0.0.1:8080/guidelinevahti/pilot/sample/",
+    "http://127.0.0.1:8080/ai-disclosure-kit/",
+    "http://127.0.0.1:8080/ai-disclosure-kit/success/",
+    "http://127.0.0.1:8080/learn/",
+    "http://127.0.0.1:8080/learn/zotero/",
+    "http://127.0.0.1:8080/download/",
+    "http://127.0.0.1:8080/search/",
+    "http://127.0.0.1:8080/blog/",
+    "http://127.0.0.1:8080/blog/why-vahtian-exists/",
+    "http://127.0.0.1:8080/epinet/",
+    "http://127.0.0.1:8080/recoverlite/",
+    "http://127.0.0.1:8080/studyvahti/",
+    "http://127.0.0.1:8080/about/",
+    "http://127.0.0.1:8080/fullvahti/",
+    "http://127.0.0.1:8080/synthvahti/",
+    "http://127.0.0.1:8080/extractvahti/",
+    "http://127.0.0.1:8080/reviewvahti/",
+    "http://127.0.0.1:8080/cite/",
+    "http://127.0.0.1:8080/privacy/"
+  ]
+}

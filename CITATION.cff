@@ -1,0 +1,24 @@
+cff-version: 1.2.0
+message: "If you use a Vahtian tool in your research, please cite the specific tool you used (see https://vahtian.com/cite/)."
+title: "Vahtian: human-first, auditable research-integrity tools"
+abstract: >-
+  Vahtian builds local-first, human-first research-integrity tools that assess
+  whether a cited source supports a claim and record auditable decisions —
+  CiteVahti, StudyVahti, MethodVahti, DictVahti, MatchVahti-Lite, ReviewVahti,
+  ExtractVahti, GuidelineVahti, SynthVahti. It does not certify scientific truth.
+type: software
+authors:
+  - family-names: Andersén
+    given-names: Heidi Helena
+    orcid: "https://orcid.org/0000-0001-5923-5865"
+year: 2026
+url: "https://vahtian.com/"
+repository-code: "https://github.com/heidihelena/vahtian"
+license: Apache-2.0
+keywords:
+  - research integrity
+  - citation integrity
+  - systematic review
+  - evidence synthesis
+  - local-first
+# doi: "10.5281/zenodo.XXXXX"   # TODO: add the Zenodo concept DOI when minted

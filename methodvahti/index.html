@@ -114,6 +114,40 @@
     .panel .pcta{display:flex;flex-wrap:wrap;gap:10px;margin-top:2px}
     footer{padding:28px 0 50px;color:var(--muted);font-size:13px;border-top:1px solid var(--line);margin-top:32px}
     footer a{color:var(--muted)}
+    /* teaching / discovery layer */
+    .wwh{display:grid;gap:14px;grid-template-columns:1fr 1fr;margin:4px 0 0}
+    @media(max-width:640px){.wwh{grid-template-columns:1fr}}
+    .wwh .box{background:var(--card);border:1px solid var(--line);border-radius:11px;padding:15px 16px}
+    .wwh h3{margin:0 0 6px;font-size:13px;color:var(--indigo);text-transform:uppercase;letter-spacing:.05em}
+    .wwh p{margin:0;color:#3a3450;font-size:14.5px}
+    .egbox{background:#f6f4fb;border:1px solid var(--line);border-radius:11px;padding:15px 16px;margin:18px 0 0}
+    .egbox h3{margin:0 0 8px;font-size:14px}
+    .egbox p{margin:0 0 9px;color:#322c47;font-size:14px;line-height:1.6}
+    .egbox p:last-child{margin-bottom:0}
+    .egbox b{color:var(--ink)}
+    .faq{margin:20px 0 0}
+    .faq details{border:1px solid var(--line);border-radius:10px;background:var(--card);margin:0 0 9px;padding:0 15px}
+    .faq summary{cursor:pointer;font-weight:600;font-size:15px;padding:13px 0;color:var(--indigo);list-style:none}
+    .faq summary::-webkit-details-marker{display:none}
+    .faq summary::after{content:"+";float:right;color:var(--muted);font-weight:400;font-size:18px;line-height:1}
+    .faq details[open] summary::after{content:"–"}
+    .faq details[open] summary{border-bottom:1px solid var(--line)}
+    .faq details p{margin:12px 0;color:#3a3450;font-size:14.5px;line-height:1.62}
+    .terms{margin:20px 0 0}
+    .terms dt{font-weight:700;color:var(--ink);font-size:14.5px;margin:14px 0 3px}
+    .terms dd{margin:0;color:#3a3450;font-size:14px;line-height:1.58}
+    .terms dd + dt{border-top:1px solid var(--line);padding-top:12px}
+  
+    /* site nav */
+    nav.nav{display:flex;align-items:center;gap:16px;flex-wrap:wrap;font-size:14.5px}
+    nav.nav a{color:#1c1830;text-decoration:none;font-weight:600}
+    nav.nav a:hover{color:#6F52B8}
+    nav.nav .ext{color:#514a68}
+    nav.nav .util{display:flex;align-items:center;gap:13px;padding-left:15px;border-left:1px solid #e7e3f0}
+    nav.nav .util .ic{display:flex;color:#514a68}
+    nav.nav .util .ic:hover{color:#6F52B8}
+    nav.nav .buy{background:#2D2440;color:#fff;padding:7px 13px;border-radius:8px;font-size:13.5px;font-weight:700}
+    @media(max-width:680px){nav.nav{gap:13px;font-size:13.5px}}
   </style>
 </head>
 <body>
@@ -121,17 +155,29 @@
 
   <header>
     <div class="brand">
-      <svg class="mark" viewBox="0 0 32 32" aria-hidden="true">
+      <a href="/" aria-label="Vahtian — home" style="display:flex"><svg class="mark" viewBox="0 0 32 32" aria-hidden="true">
         <rect width="32" height="32" rx="7" fill="#2D2440"/>
         <g fill="none" stroke="#5566B5" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
           <path d="M12 9 H9 V23 H12"/><path d="M20 9 H23 V23 H20"/></g>
         <g fill="#C5B8E8">
           <circle cx="14" cy="14" r="1.5"/><circle cx="18" cy="14" r="1.5"/>
           <circle cx="14" cy="18" r="1.5"/><circle cx="18" cy="18" r="1.5"/></g>
-      </svg>
+      </svg></a>
       <span>MethodVahti</span>
     </div>
-    <a class="up" href="/">← Vahtian</a>
+    <nav class="nav" aria-label="Primary">
+      <a href="/#tools">Tools</a>
+      <a href="/learn/">Learn</a>
+      <a href="/blog/">Blog</a>
+      <a href="/about/">About</a>
+      <a class="ext" href="https://forskai.com">ForskAI <span aria-hidden="true">↗</span></a>
+      <span class="util">
+        <a class="ic" href="https://github.com/heidihelena/vahtian" aria-label="Vahtian on GitHub"><svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 012-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg></a>
+        <a class="ic" href="/search/" aria-label="Search vahtian.com"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.3" y2="16.3"/></svg></a>
+        <a class="ic" href="/download/" aria-label="Download Vahtian software"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4 V15"/><path d="M7 11 L12 16 L17 11"/><path d="M4 20 H20"/></svg></a>
+        <a class="buy" href="/ai-disclosure-kit/">Buy</a>
+      </span>
+    </nav>
   </header>
 <main>
 
@@ -147,6 +193,8 @@
       <a class="btn primary" href="#situations">Start from your situation ↓</a>
       <a class="btn ghost" href="/methodvahti/sample-report.pdf">See a sample report (PDF) →</a>
       <a class="btn ghost" href="/methodvahti/explore/">Try the live simulations →</a>
+      <a class="btn ghost" href="/methodvahti/claim-check/">Free wording check for findings →</a>
+      <a class="btn ghost" href="/methodvahti/codebook/">Free codebook builder →</a>
     </div>
     <div class="badges" aria-label="Evidence basis — every claim is graded">
       <span class="badge"><b>◆</b> Consensus</span>
@@ -284,11 +332,144 @@
     <p class="note warn">Honest limits: MethodVahti does not infer causality, does not validate study
       quality, and does not replace researcher judgment. The number is a synthesis you defend — not a verdict it issues.</p>
   </section>
+
+  <section id="learn">
+    <h2>Understand qualitative sampling <span class="sub">Plain-language answers to the questions behind “how many participants do I need?” — with the terms defined.</span></h2>
+
+    <div class="wwh">
+      <div class="box">
+        <h3>What it is</h3>
+        <p>MethodVahti helps you decide and <em>defend</em> a qualitative sample size. You describe your study; it
+          synthesises three published sample-size models, estimates how varied your sample is, and drafts the
+          methods argument — with every claim marked by how well evidence backs it.</p>
+      </div>
+      <div class="box">
+        <h3>Why it matters</h3>
+        <p>Qualitative sample size has no single formula, so reviewers push on it. “Saturation” is easy to assert
+          and hard to evidence. MethodVahti replaces a bare number with a reasoned range and a written rationale,
+          so your N is a decision you can stand behind — not a guess.</p>
+      </div>
+      <div class="box">
+        <h3>How to use it</h3>
+        <p>Pick the situation you’re in — planning an N, justifying one already set, answering a reviewer, reading
+          pilot data, or writing methods text. It asks only for what that route needs, then returns
+          submission-ready wording mapped to COREQ/SRQR and an audit trail of who decided what.</p>
+      </div>
+      <div class="box">
+        <h3>Who it’s for</h3>
+        <p>Master’s and PhD students and their supervisors; nurses and clinician-researchers running interview or
+          focus-group studies; anyone writing an ethics application, a protocol, a reviewer response, or a
+          qualitative manuscript who needs the sampling section to hold up.</p>
+      </div>
+    </div>
+
+    <div class="egbox">
+      <h3>A worked example</h3>
+      <p>A master’s student plans interviews with ward nurses about <b>moral distress</b>. A reviewer will ask why
+        the N is what it is. Instead of writing “we interviewed 12 nurses until saturation”, MethodVahti works from
+        the study: a fairly <b>specific</b> sample (one ward, one role), a <b>narrow</b> aim, and an
+        interpretative analysis. Under <b>information power</b>, that combination needs relatively few participants —
+        so a range of roughly 10–16 is defensible, and the report says <em>why</em>, cites the models, and notes
+        where the case is thin.</p>
+      <p>The output isn’t a verdict that the study is sound. It’s the argument the student defends — and the record
+        of every assumption behind it, which is exactly what COREQ and SRQR reviewers look for.</p>
+    </div>
+
+    <h2 style="margin-top:32px">Frequently asked</h2>
+    <div class="faq">
+      <details>
+        <summary>How many participants do I need for a qualitative study?</summary>
+        <p>There is no fixed number and no formula that settles it. Common ranges exist by design — often around
+          6–12 for a focused interpretative study, more for broader or more heterogeneous aims — but the honest
+          answer depends on your research question, how specific your sample is, and how deep your analysis goes.
+          MethodVahti turns those factors into a defensible <em>range</em> with the reasoning attached, rather than
+          a single number you’d have to defend on faith.</p>
+      </details>
+      <details>
+        <summary>What is data saturation — and how do I know I’ve reached it?</summary>
+        <p>Saturation is the point at which new interviews stop adding anything new. It’s useful to separate
+          <b>code saturation</b> (you’ve seen the range of issues) from <b>meaning saturation</b> (you fully
+          understand each one) — meaning saturation usually needs more data. You can’t truly know you’ve reached it
+          in advance, which is why planning on saturation alone is weak. MethodVahti helps you set an expectation
+          up front and evidence the judgment afterwards from your coded records.</p>
+      </details>
+      <details>
+        <summary>What is “information power”?</summary>
+        <p>Information power (Malterud, Siwe &amp; Guassora, 2016) is a way to reason about sample size without
+          waiting for saturation. The idea: the more relevant information your sample holds, the fewer participants
+          you need. It rises with a narrow aim, a specific sample, strong existing theory, high-quality interview
+          dialogue, and a case-focused analysis — and falls when any of those is broad or thin. MethodVahti uses
+          it as one of the three models behind its range.</p>
+      </details>
+      <details>
+        <summary>A reviewer said my sample is too small. What can I do?</summary>
+        <p>Don’t just add participants reflexively. Build the argument: state your aim’s breadth, your sample’s
+          specificity, your analytic depth, and what saturation or information power implies for your N — and
+          concede honestly any point that’s genuinely weak. A structured, evidence-graded rebuttal is more
+          persuasive than a bigger number. That’s the “respond to reviewer criticism” route in MethodVahti.</p>
+      </details>
+      <details>
+        <summary>Should I justify my sample size before or after data collection?</summary>
+        <p>Both, and they’re different jobs. <b>Before</b> (in a protocol or ethics application) you argue for a
+          planned range and a stopping rule. <b>After</b> (in the manuscript) you evidence what actually happened —
+          whether you reached your stopping criterion and what the data supported. MethodVahti has separate routes
+          for planning an N and for justifying one already set.</p>
+      </details>
+      <details>
+        <summary>What’s the difference between COREQ and SRQR?</summary>
+        <p><b>COREQ</b> (Consolidated Criteria for Reporting Qualitative Research, Tong et al., 2007) is a 32-item
+          checklist specifically for interview and focus-group studies. <b>SRQR</b> (Standards for Reporting
+          Qualitative Research, O’Brien et al., 2014) is a broader 21-item standard covering more qualitative
+          designs. Many journals ask for one or the other; MethodVahti maps its output to both.</p>
+      </details>
+      <details>
+        <summary>Isn’t qualitative research just “biased”? What is reflexivity?</summary>
+        <p>Qualitative research is interpretative by design — the researcher is part of how meaning is made, and
+          that’s a method, not a flaw. <b>Reflexivity</b> is the practice of examining how your position,
+          assumptions, and role shape the study and reporting it openly. Far from being an admission of bias, it’s
+          a rigor marker reviewers look for. MethodVahti records these decisions so they’re visible, not hidden.</p>
+      </details>
+    </div>
+
+    <h2 style="margin-top:32px">Terms, defined</h2>
+    <dl class="terms">
+      <dt>Purposive (purposeful) sampling</dt>
+      <dd>Choosing participants deliberately because they can speak to your question — not at random. The standard
+        approach in qualitative work; it’s why a qualitative sample isn’t meant to be statistically representative.</dd>
+      <dt>Maximum variation sampling</dt>
+      <dd>A purposive strategy that deliberately spans a wide range of cases, so common patterns that hold across
+        difference stand out. It typically calls for a larger N.</dd>
+      <dt>Data saturation</dt>
+      <dd>The point where additional data no longer reveals new codes or themes. Often split into code saturation
+        (range seen) and meaning saturation (each theme fully understood).</dd>
+      <dt>Information power</dt>
+      <dd>A model (Malterud et al., 2016) for judging sample size from how much relevant information the sample
+        holds — the more it holds, the fewer participants you need.</dd>
+      <dt>COREQ</dt>
+      <dd>A 32-item reporting checklist for interview and focus-group studies (Tong et al., 2007).</dd>
+      <dt>SRQR</dt>
+      <dd>A 21-item reporting standard for qualitative research across designs (O’Brien et al., 2014).</dd>
+      <dt>Reflexivity</dt>
+      <dd>Examining and reporting how the researcher’s position and assumptions shape the study. A rigor practice,
+        not a confession of bias.</dd>
+      <dt>Member checking</dt>
+      <dd>Returning findings or interpretations to participants to check they ring true. One way to strengthen
+        credibility.</dd>
+      <dt>Triangulation</dt>
+      <dd>Using more than one source, method, analyst, or theory to examine a phenomenon, so conclusions don’t rest
+        on a single vantage point.</dd>
+      <dt>Thematic analysis</dt>
+      <dd>A widely used method for identifying, analysing, and reporting patterns (themes) across qualitative data.</dd>
+      <dt>Interpretative Phenomenological Analysis (IPA)</dt>
+      <dd>A method focused on how specific people make sense of a significant experience. It favours small, fairly
+        homogeneous samples analysed in depth.</dd>
+    </dl>
+  </section>
 </main>
 
   <footer>
     <p>© 2026 Vahtian · MethodVahti · Apache-2.0 core ·
-      <a href="https://github.com/heidihelena/epinet">source</a> · <a href="/">vahtian.com</a></p>
+      <a href="https://github.com/heidihelena/epinet">source</a> · <a href="/">vahtian.com</a> · <a href="/cite/">Cite</a> · <a href="/privacy/">Privacy</a></p>
     <p>Part of the EpiNet toolkit. Records every methodological decision with an evidence-graded audit trail; it does not assert truth.</p>
   </footer>
 

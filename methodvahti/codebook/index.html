@@ -1,0 +1,504 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Codebook Builder &amp; Check — MethodVahti</title>
+  <meta name="description" content="Build a rigorous thematic-analysis codebook in your browser: for each code, a definition, inclusion and exclusion criteria, an example quote and a counter-example. A quality check flags codes with no definition, no example, or overlapping meaning; export to CSV or Markdown. Nothing uploads. A MethodVahti tool.">
+  <meta name="theme-color" content="#2D2440">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="canonical" href="https://vahtian.com/methodvahti/codebook/">
+  <meta name="robots" content="index,follow">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://vahtian.com/methodvahti/codebook/">
+  <meta property="og:title" content="Codebook Builder &amp; Check — MethodVahti">
+  <meta property="og:description" content="Build a thematic-analysis codebook with definitions, inclusion/exclusion criteria, and examples; a quality check flags gaps and overlap. Export to CSV or Markdown. Runs in your browser; it checks structure, it doesn't judge your analysis.">
+  <meta property="og:image" content="https://vahtian.com/brand/cards/methodvahti-card.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Codebook Builder & Check — a MethodVahti tool">
+  <meta property="og:site_name" content="Vahtian">
+  <meta name="twitter:card" content="summary_large_image">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Codebook Builder & Check",
+    "applicationCategory": "HealthApplication",
+    "operatingSystem": "Any (web browser)",
+    "url": "https://vahtian.com/methodvahti/codebook/",
+    "description": "Browser-side builder for a thematic-analysis codebook — each code carries a definition, inclusion and exclusion criteria, an example quote and a counter-example — with a quality check that flags codes lacking a definition or example, near-duplicate names, and overlapping definitions. Exports CSV and Markdown. It checks a codebook's structure and completeness; it does not read data or judge whether the analysis is sound.",
+    "isPartOf": { "@type": "WebSite", "name": "Vahtian", "url": "https://vahtian.com/" },
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "EUR" }
+  }
+  </script>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232D2440'/%3E%3Cg fill='none' stroke='%235566B5' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 9 H9 V23 H12'/%3E%3Cpath d='M20 9 H23 V23 H20'/%3E%3C/g%3E%3Cg fill='%23C5B8E8'%3E%3Ccircle cx='14' cy='14' r='1.5'/%3E%3Ccircle cx='18' cy='14' r='1.5'/%3E%3Ccircle cx='14' cy='18' r='1.5'/%3E%3Ccircle cx='18' cy='18' r='1.5'/%3E%3C/g%3E%3C/svg%3E">
+  <style>
+    :root{--navy:#2D2440;--violet:#8B6FC9;--lilac:#C5B8E8;--indigo:#5566B5;--amber:#C98A00;--teal:#1E9E8A;--rose:#C24D7E;
+          --ink:#1c1830;--muted:#4A4460;--bg:#faf9fc;--card:#fff;--line:#e7e3f0;--link:#6F52B8;
+          --amber-fill:#FFF2D8;--amber-text:#5A4300;--teal-fill:#D8F4ED;--teal-text:#08544A}
+    *{box-sizing:border-box}
+    body{margin:0;font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,ui-sans-serif,system-ui,sans-serif;
+         color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased}
+    a{color:var(--link)}
+    code{font:13px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;background:#f1eef9;padding:1px 5px;border-radius:5px}
+    .wrap{max-width:900px;margin:0 auto;padding:0 22px}
+    a:focus-visible,button:focus-visible,textarea:focus-visible,input:focus-visible{outline:3px solid var(--indigo);outline-offset:2px}
+    header{padding:24px 0 4px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:18px}
+    .mark{width:30px;height:30px;flex:0 0 30px}
+    .up{font-size:13px;color:var(--muted);text-decoration:none}
+    h1{font-size:clamp(26px,4.6vw,36px);line-height:1.12;letter-spacing:-.02em;margin:22px 0 8px}
+    .sub{font-size:clamp(16px,2.2vw,18px);color:#3a3450;margin:0 0 10px;max-width:64ch}
+    .bound{font-size:14px;color:var(--muted);max-width:70ch;margin:0 0 22px}
+    .toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:0 0 14px}
+    button{font:inherit;font-weight:600;border:0;border-radius:9px;padding:10px 15px;background:var(--navy);color:#fff;cursor:pointer;font-size:14.5px}
+    button.ghost{background:#fff;color:var(--ink);border:1px solid var(--line)}
+    button.sm{padding:6px 10px;font-size:12.5px}
+    button:disabled{opacity:.5;cursor:not-allowed}
+    .priv{font-size:12.5px;color:var(--muted);margin:2px 0 0}
+    /* code cards */
+    .codes{display:grid;gap:14px}
+    .codecard{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:15px 16px;box-shadow:0 8px 22px rgba(45,36,64,.05)}
+    .codehead{display:flex;align-items:center;gap:10px;margin:0 0 12px}
+    .codehead .idx{font:700 12px/1 ui-monospace,monospace;color:#fff;background:var(--indigo);border-radius:6px;padding:6px 9px;flex:0 0 auto}
+    .codehead .nm{flex:1}
+    .fieldgrid{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+    @media(max-width:640px){.fieldgrid{grid-template-columns:1fr}}
+    .field label{display:block;font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:var(--indigo);margin:0 0 4px}
+    .field .req{color:var(--rose)}
+    input[type=text],textarea{width:100%;padding:9px 11px;border:1px solid var(--line);border-radius:9px;
+      font:14px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:#fff;color:var(--ink);resize:vertical}
+    input[type=text].name{font-weight:700;font-size:15px}
+    textarea{min-height:52px}
+    .full{grid-column:1 / -1}
+    .cbtns{display:flex;justify-content:flex-end;margin-top:10px}
+    button.del{background:#fff;color:var(--rose);border:1px solid var(--line)}
+    /* results */
+    #report{margin-top:20px}
+    .rsum{display:flex;flex-wrap:wrap;align-items:center;gap:9px;margin:0 0 14px}
+    .rtot{font-weight:700;font-size:15px}
+    .rpill{font:600 12px/1 ui-monospace,monospace;padding:6px 10px;border-radius:999px;background:#F1EEF9;border:1px solid var(--line);color:#432C7A}
+    .rpill.ok{background:var(--teal-fill);border-color:var(--teal);color:var(--teal-text)}
+    .rcard{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--amber);border-radius:11px;padding:13px 15px;margin:0 0 10px}
+    .rcard.clean{border-left-color:var(--teal)}
+    .rcard h4{margin:0 0 8px;font-size:14.5px}
+    .rcard h4 .cn{font:700 13px/1 ui-monospace,monospace;background:#f1eef9;border-radius:5px;padding:2px 7px;margin-right:7px}
+    .rflags{display:grid;gap:7px;margin:0}
+    .rflag{display:grid;grid-template-columns:auto 1fr;gap:9px;align-items:start;font-size:13.5px;color:#322c47}
+    .rflag .tag{font:600 11px/1.4 ui-monospace,monospace;padding:4px 8px;border-radius:6px;background:var(--amber-fill);border:1px solid var(--amber);color:var(--amber-text);white-space:nowrap}
+    .rflag.good .tag{background:var(--teal-fill);border-color:var(--teal);color:var(--teal-text)}
+    .clean-all{background:var(--teal-fill);border:1px solid var(--teal);border-radius:11px;padding:14px 16px;color:var(--teal-text);font-size:14.5px}
+    /* bridge */
+    .bridge{background:var(--navy);border-radius:13px;padding:20px 22px;margin:22px 0 4px}
+    .bridge h2{color:#fff;font-size:clamp(18px,3vw,22px);margin:0 0 8px;letter-spacing:-.01em}
+    .bridge p{color:#d9d3ea;font-size:14.5px;line-height:1.6;margin:0 0 16px;max-width:66ch}
+    .bridge p b{color:#fff}
+    .btn{display:inline-block;padding:12px 18px;border-radius:9px;font-weight:600;text-decoration:none;font-size:15px;background:#C5B8E8;color:#241b3a}
+    .btn.ghost{background:transparent;border:1px solid rgba(197,184,232,.5);color:#C5B8E8;margin-left:8px}
+    /* teaching */
+    section.info{border-top:1px solid var(--line);margin-top:38px;padding-top:26px}
+    section.info h2{font-size:20px;margin:0 0 6px}
+    section.info h2 .s{display:block;font-size:14px;font-weight:400;color:var(--muted);margin-top:4px}
+    .wwh{display:grid;gap:14px;grid-template-columns:1fr 1fr;margin:6px 0 0}
+    @media(max-width:640px){.wwh{grid-template-columns:1fr}}
+    .wwh .box{background:var(--card);border:1px solid var(--line);border-radius:11px;padding:15px 16px}
+    .wwh h3{margin:0 0 6px;font-size:13px;color:var(--indigo);text-transform:uppercase;letter-spacing:.05em}
+    .wwh p{margin:0;color:#3a3450;font-size:14.5px}
+    ol.phases{margin:16px 0 0;padding-left:20px;display:grid;gap:7px;color:#322c47;font-size:14.5px}
+    ol.phases b{color:var(--ink)}
+    .faq{margin:18px 0 0}
+    .faq details{border:1px solid var(--line);border-radius:10px;background:var(--card);margin:0 0 9px;padding:0 15px}
+    .faq summary{cursor:pointer;font-weight:600;font-size:15px;padding:13px 0;color:var(--indigo);list-style:none}
+    .faq summary::-webkit-details-marker{display:none}
+    .faq summary::after{content:"+";float:right;color:var(--muted);font-weight:400;font-size:18px;line-height:1}
+    .faq details[open] summary::after{content:"–"}
+    .faq details[open] summary{border-bottom:1px solid var(--line)}
+    .faq details p{margin:12px 0;color:#3a3450;font-size:14.5px;line-height:1.62}
+    .terms{margin:18px 0 0}
+    .terms dt{font-weight:700;color:var(--ink);font-size:14.5px;margin:14px 0 3px}
+    .terms dd{margin:0;color:#3a3450;font-size:14px;line-height:1.58}
+    .terms dd + dt{border-top:1px solid var(--line);padding-top:12px}
+    .cant{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--amber);border-radius:10px;padding:13px 15px;color:#3a3450;font-size:14px;margin-top:18px}
+    footer{padding:28px 0 50px;color:var(--muted);font-size:13px;border-top:1px solid var(--line);margin-top:34px;line-height:1.7}
+    footer a{color:var(--muted)}
+  
+    /* site nav */
+    nav.nav{display:flex;align-items:center;gap:16px;flex-wrap:wrap;font-size:14.5px}
+    nav.nav a{color:#1c1830;text-decoration:none;font-weight:600}
+    nav.nav a:hover{color:#6F52B8}
+    nav.nav .ext{color:#514a68}
+    nav.nav .util{display:flex;align-items:center;gap:13px;padding-left:15px;border-left:1px solid #e7e3f0}
+    nav.nav .util .ic{display:flex;color:#514a68}
+    nav.nav .util .ic:hover{color:#6F52B8}
+    nav.nav .buy{background:#2D2440;color:#fff;padding:7px 13px;border-radius:8px;font-size:13.5px;font-weight:700}
+    @media(max-width:680px){nav.nav{gap:13px;font-size:13.5px}}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand">
+      <a href="/methodvahti/" aria-label="MethodVahti — home" style="display:flex"><svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#2D2440"/><g fill="none" stroke="#5566B5" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9 H9 V23 H12"/><path d="M20 9 H23 V23 H20"/></g><g fill="#C5B8E8"><circle cx="14" cy="14" r="1.5"/><circle cx="18" cy="14" r="1.5"/><circle cx="14" cy="18" r="1.5"/><circle cx="18" cy="18" r="1.5"/></g></svg></a>
+      <span>MethodVahti</span>
+    </div>
+    <nav class="nav" aria-label="Primary">
+      <a href="/#tools">Tools</a>
+      <a href="/learn/">Learn</a>
+      <a href="/blog/">Blog</a>
+      <a href="/about/">About</a>
+      <a class="ext" href="https://forskai.com">ForskAI <span aria-hidden="true">↗</span></a>
+      <span class="util">
+        <a class="ic" href="https://github.com/heidihelena/vahtian" aria-label="Vahtian on GitHub"><svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 012-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg></a>
+        <a class="ic" href="/search/" aria-label="Search vahtian.com"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.3" y2="16.3"/></svg></a>
+        <a class="ic" href="/download/" aria-label="Download Vahtian software"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4 V15"/><path d="M7 11 L12 16 L17 11"/><path d="M4 20 H20"/></svg></a>
+        <a class="buy" href="/ai-disclosure-kit/">Buy</a>
+      </span>
+    </nav>
+  </header>
+
+<main>
+  <h1>Codebook Builder &amp; Check</h1>
+  <p class="sub">Build a thematic-analysis codebook that a co-author or reviewer can actually follow.</p>
+  <p class="bound">Give each code a definition, when to apply it, when <em>not</em> to, and an example — the discipline that
+    makes coding consistent and auditable. The quality check flags codes missing a definition or example, near-duplicate
+    names, and definitions that overlap. It runs entirely in your browser and <b>checks structure, not substance</b>: it
+    does not read your data and does not decide whether your codes are the right ones. Nothing is uploaded. Export to CSV
+    or Markdown any time.</p>
+
+  <div class="toolbar">
+    <button id="add" type="button">+ Add a code</button>
+    <button id="check" class="ghost" type="button">Run quality check</button>
+    <button id="ex" class="ghost" type="button">Load example</button>
+    <button id="csv" class="ghost" type="button">Export CSV</button>
+    <button id="md" class="ghost" type="button">Export Markdown</button>
+    <button id="clr" class="ghost" type="button">Clear</button>
+  </div>
+  <p class="priv">No account · no upload · nothing leaves your browser. Export saves a file to your device.</p>
+
+  <div id="report" role="region" aria-live="polite" aria-label="Codebook quality check results"></div>
+
+  <div class="codes" id="codes"></div>
+
+  <section class="info">
+    <h2>Thematic analysis &amp; codebooks, in plain terms
+      <span class="s">What a codebook is, why it matters, and the terms — written for people learning the method.</span></h2>
+
+    <div class="wwh">
+      <div class="box">
+        <h3>What a codebook is</h3>
+        <p>A living document that lists each <b>code</b>, defines it, says when to apply it and when not to, and shows an
+          example from the data. It’s what lets a second coder — or a reviewer — apply your codes the same way you would.</p>
+      </div>
+      <div class="box">
+        <h3>Why it matters</h3>
+        <p>Without written definitions, “coding” drifts: the same label means different things across interviews or
+          across coders. A clear codebook makes the analysis consistent, auditable, and defensible — a rigor marker
+          reviewers look for.</p>
+      </div>
+      <div class="box">
+        <h3>Code vs theme vs category</h3>
+        <p>A <b>code</b> is a small label on a data segment (“voicelessness”). A <b>category</b> groups related codes. A
+          <b>theme</b> is a broader pattern of shared meaning built from them. Codebooks live mostly at the code level.</p>
+      </div>
+      <div class="box">
+        <h3>Inductive vs deductive</h3>
+        <p><b>Inductive</b> coding builds codes up from the data; <b>deductive</b> starts from a framework or prior theory.
+          Most studies mix both. Either way, writing definitions down is what keeps it honest.</p>
+      </div>
+    </div>
+
+    <h2 style="margin-top:30px">Braun &amp; Clarke’s six phases <span class="s">The most widely taught route through reflexive thematic analysis — the codebook supports phases 2–4.</span></h2>
+    <ol class="phases">
+      <li><b>Familiarisation</b> — read and re-read the data; note first impressions.</li>
+      <li><b>Generating codes</b> — label meaningful segments. <em>This is where the codebook starts.</em></li>
+      <li><b>Constructing themes</b> — cluster codes into candidate patterns of meaning.</li>
+      <li><b>Reviewing themes</b> — check themes against the coded data and the whole dataset.</li>
+      <li><b>Defining &amp; naming themes</b> — write a clear definition for each; refine the codebook.</li>
+      <li><b>Writing up</b> — build the narrative, with quotes that evidence each theme.</li>
+    </ol>
+
+    <h2 style="margin-top:30px">Frequently asked</h2>
+    <div class="faq">
+      <details>
+        <summary>What makes a good code definition?</summary>
+        <p>A good definition says what the code <em>means</em>, gives <b>inclusion criteria</b> (when to apply it) and
+          <b>exclusion criteria</b> (when not to — often the hardest and most useful part), and shows at least one
+          verbatim example. A counter-example — a near-miss that should <em>not</em> be coded — sharpens the boundary
+          further. If a definition just restates the code name, it isn’t doing any work.</p>
+      </details>
+      <details>
+        <summary>How many codes should a codebook have?</summary>
+        <p>There’s no target. Early inductive coding often produces many fine-grained codes, which you then merge and
+          organise into categories and themes. If you have dozens of codes with no grouping, that’s usually a sign to
+          consolidate — not a rule, but worth a deliberate look.</p>
+      </details>
+      <details>
+        <summary>Do I need a second coder, and what is intercoder agreement?</summary>
+        <p>Not always. In reflexive thematic analysis, coding is interpretative and a second coder is not required — a
+          clear audit trail can matter more than a statistic. In more codebook- or framework-driven work, a second coder
+          and an <b>intercoder agreement</b> measure (percent agreement, Cohen’s κ) are common. If you want to compute κ
+          on two coders’ labels, Vahtian’s <a href="/extractvahti/">ExtractVahti</a> and <a href="/reviewvahti/">ReviewVahti</a>
+          already do that.</p>
+      </details>
+      <details>
+        <summary>Should my codes be inductive or deductive?</summary>
+        <p>Both are legitimate; the choice follows your question and stance. Exploratory work leans inductive (codes
+          emerge from the data); theory-testing or applied work often starts deductive (codes come from a framework).
+          Many studies use a hybrid. What matters for rigor is that you state which you did and define the codes either
+          way.</p>
+      </details>
+      <details>
+        <summary>What’s the difference between a codebook and a coding frame?</summary>
+        <p>They overlap. “Coding frame” usually means the structured set of codes (often hierarchical) you apply,
+          common in framework analysis and content analysis. “Codebook” emphasises the definitions and rules behind each
+          code. In practice a good codebook <em>is</em> a documented coding frame.</p>
+      </details>
+    </div>
+
+    <h2 style="margin-top:30px">Terms, defined</h2>
+    <dl class="terms">
+      <dt>Code</dt>
+      <dd>A short label attached to a segment of data that captures something meaningful about it.</dd>
+      <dt>Codebook</dt>
+      <dd>The document defining every code — its meaning, inclusion and exclusion criteria, and examples — so coding is
+        consistent and auditable.</dd>
+      <dt>Theme</dt>
+      <dd>A broader pattern of shared meaning across the data, constructed from codes and categories.</dd>
+      <dt>Category</dt>
+      <dd>A grouping of related codes that sits between individual codes and higher-level themes.</dd>
+      <dt>Inclusion criteria</dt>
+      <dd>The rule for when a code applies — what a segment must show to be coded this way.</dd>
+      <dt>Exclusion criteria</dt>
+      <dd>The rule for when a code does <em>not</em> apply, including look-alike cases that belong to another code.</dd>
+      <dt>Inductive coding</dt>
+      <dd>Building codes up from the data itself, without a pre-set framework.</dd>
+      <dt>Deductive coding</dt>
+      <dd>Applying codes drawn from existing theory, a framework, or prior research.</dd>
+      <dt>Reflexive thematic analysis</dt>
+      <dd>Braun &amp; Clarke’s approach, which treats the researcher’s interpretation as central and codes as analytic
+        outputs rather than fixed measurements.</dd>
+      <dt>Intercoder agreement</dt>
+      <dd>How consistently two or more coders apply the same codes — reported as percent agreement or a chance-corrected
+        statistic such as Cohen’s κ.</dd>
+    </dl>
+
+    <div class="cant"><b>What this can’t do.</b> The check sees the <em>structure</em> of your codebook — whether codes
+      have definitions, examples, and distinct boundaries. It cannot read your transcripts, tell whether a code fits the
+      data, or judge whether your themes are right. Those are interpretative judgements for you, your co-authors, and
+      your reviewers.</div>
+  </section>
+
+  <div class="bridge">
+    <h2>Turn the codebook into a defensible methods section</h2>
+    <p>A clear codebook is the evidence behind your analysis. The next question reviewers ask is whether the whole
+      approach — sampling, saturation, and reporting — holds together. <b>MethodVahti</b> builds that COREQ/SRQR-grounded
+      methods argument, with an audit trail of who decided what.</p>
+    <a class="btn" href="/methodvahti/">See what MethodVahti does →</a>
+    <a class="btn ghost" href="/methodvahti/claim-check/">Check your findings’ wording</a>
+  </div>
+</main>
+
+  <footer>
+    <p>© 2026 Vahtian · MethodVahti · Powered by MethodVahti heuristics ·
+      <a href="https://github.com/heidihelena/epinet">source</a> · <a href="/methodvahti/">MethodVahti</a> ·
+      <a href="/cite/">Cite</a> · <a href="/privacy/">Privacy</a> · <a href="/">vahtian.com</a></p>
+    <p>A browser-side builder and structural check for a thematic-analysis codebook. It flags where codes lack a
+      definition, example, or clear boundary; it <b>does not</b> read data, verify that codes fit, or judge whether the
+      analysis is sound — that responsibility stays with the author, co-authors, supervisor, reviewers, or institution.</p>
+  </footer>
+</div>
+
+<script>
+"use strict";
+(function(){
+  var $=function(id){return document.getElementById(id);};
+  function esc(s){return String(s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];});}
+
+  var FIELDS=[
+    {key:"name",  label:"Code name",           req:true,  ta:false, ph:"e.g. voicelessness"},
+    {key:"def",   label:"Definition",          req:true,  ta:true,  ph:"What this code means."},
+    {key:"incl",  label:"Inclusion — apply when", req:false, ta:true, ph:"When a segment should be coded this way."},
+    {key:"excl",  label:"Exclusion — not when",   req:false, ta:true, ph:"When it should NOT be coded (look-alikes that belong elsewhere)."},
+    {key:"ex",    label:"Example quote",        req:false, ta:true,  ph:"A verbatim excerpt that fits."},
+    {key:"anti",  label:"Counter-example",      req:false, ta:true,  ph:"A near-miss that should not be coded."}
+  ];
+
+  var codes=[]; var uid=0;
+  function blank(){ return {id:++uid, name:"", def:"", incl:"", excl:"", ex:"", anti:""}; }
+
+  function fieldHtml(c, f, i){
+    var id="f_"+c.id+"_"+f.key;
+    var lbl=esc(f.label)+(f.req?' <span class="req" aria-hidden="true">*</span>':'');
+    var aria=esc(f.label+" for code "+i);
+    var control = f.ta
+      ? '<textarea id="'+id+'" data-cid="'+c.id+'" data-key="'+f.key+'" aria-label="'+aria+'" placeholder="'+esc(f.ph)+'">'+esc(c[f.key])+'</textarea>'
+      : '<input type="text" id="'+id+'" class="name" data-cid="'+c.id+'" data-key="'+f.key+'" aria-label="'+aria+'" placeholder="'+esc(f.ph)+'" value="'+esc(c[f.key])+'">';
+    var cls = (f.key==="name") ? "field full" : "field"+(f.key==="def"?" full":"");
+    return '<div class="'+cls+'"><label for="'+id+'">'+lbl+'</label>'+control+'</div>';
+  }
+
+  function render(){
+    var wrap=$("codes"); var html="";
+    for(var i=0;i<codes.length;i++){
+      var c=codes[i];
+      html+='<div class="codecard" data-cid="'+c.id+'">'+
+              '<div class="codehead"><span class="idx" aria-hidden="true">'+(i+1)+'</span>'+
+              '<span class="nm">'+fieldHtml(c,FIELDS[0],i+1)+'</span></div>'+
+              '<div class="fieldgrid">';
+      for(var f=1;f<FIELDS.length;f++) html+=fieldHtml(c,FIELDS[f],i+1);
+      html+='</div><div class="cbtns"><button type="button" class="del sm" data-del="'+c.id+'" aria-label="Delete code '+(i+1)+'">Delete code</button></div></div>';
+    }
+    wrap.innerHTML=html;
+  }
+
+  // ── live editing (event delegation) ───────────────────────────────────────
+  $("codes").addEventListener("input", function(e){
+    var t=e.target, cid=t.getAttribute("data-cid"), key=t.getAttribute("data-key");
+    if(cid==null||key==null) return;
+    var c=codes.find(function(x){return x.id==cid;}); if(c) c[key]=t.value;
+  });
+  $("codes").addEventListener("click", function(e){
+    var d=e.target.getAttribute && e.target.getAttribute("data-del"); if(d==null) return;
+    codes=codes.filter(function(x){return x.id!=d;}); render();
+  });
+
+  // ── quality check ─────────────────────────────────────────────────────────
+  var STOP=("a an the and or but of to in on for with without as is are was were be been being this that these those it its "+
+    "they them their he she his her you your we our i my not no so if then when while about into over under from at by "+
+    "code coded coding participant participants theme data segment").split(/\s+/);
+  var STOPSET={}; STOP.forEach(function(w){STOPSET[w]=1;});
+  function words(s){ return String(s||"").toLowerCase().replace(/[^a-z0-9\s]/g," ").split(/\s+/).filter(Boolean); }
+  function contentWords(s){ var o={}; words(s).forEach(function(w){ if(w.length>3 && !STOPSET[w]) o[w]=1; }); return Object.keys(o); }
+  function norm(s){ return String(s||"").trim().toLowerCase().replace(/\s+/g," "); }
+
+  function check(){
+    var named=codes.filter(function(c){return norm(c.name);});
+    // precompute content-word sets for definitions
+    var defWords=named.map(function(c){return contentWords(c.def);});
+    // duplicate names
+    var nameCount={}; named.forEach(function(c){var n=norm(c.name); nameCount[n]=(nameCount[n]||0)+1;});
+
+    var rows=[], nIssues=0, nClean=0;
+    for(var i=0;i<named.length;i++){
+      var c=named[i], flags=[];
+      if(!norm(c.def)) flags.push(["Missing definition","This code has a name but no definition. A code without a written definition drifts between coders and interviews."]);
+      else if(words(c.def).length<5) flags.push(["Definition may be thin","The definition is very short. Say what the code means and how to recognise it, not just a rephrasing of the name."]);
+      else if(contentWords(c.def).length===0 || (contentWords(c.def).length<=norm(c.name).split(" ").length && contentWords(c.def).every(function(w){return norm(c.name).indexOf(w)>=0;})))
+        flags.push(["Definition restates the name","The definition mostly repeats the code name. Add what it means and when it applies."]);
+      if(!norm(c.ex)) flags.push(["No example quote","Add a verbatim excerpt. Examples anchor a code to the data and make it teachable to a second coder."]);
+      if(!norm(c.incl) && !norm(c.excl)) flags.push(["No inclusion/exclusion rule","Neither when-to-apply nor when-not-to is set. Exclusion criteria in particular sharpen the boundary with look-alike codes."]);
+      else if(!norm(c.excl)) flags.push(["No exclusion criteria","Say when this code should NOT be applied — the boundary with neighbouring codes is where coders disagree most."]);
+      if(nameCount[norm(c.name)]>1) flags.push(["Duplicate code name","Another code shares this name. Give each code a distinct label or merge them deliberately."]);
+      // theme-shaped name
+      var nw=words(c.name);
+      if(nw.length>=5 || /\band\b|\/|,|;/.test(" "+norm(c.name)+" "))
+        flags.push(["Reads like a theme, not a code","This label carries more than one idea. Codes are usually a single concept; split it, or promote it to a theme with codes under it."]);
+      // overlap with another definition
+      var mine=defWords[i];
+      if(mine.length>=3){
+        for(var j=0;j<named.length;j++){ if(j===i) continue;
+          var other=defWords[j]; if(other.length<3) continue;
+          var oset={}; other.forEach(function(w){oset[w]=1;});
+          var shared=mine.filter(function(w){return oset[w];});
+          if(shared.length>=3){
+            flags.push(["Overlaps with “"+esc(named[j].name)+"”","These two definitions share several distinctive words ("+esc(shared.slice(0,4).join(", "))+"). Check the codes are genuinely distinct, or merge them."]);
+            break;
+          }
+        }
+      }
+      if(flags.length){ nIssues++; } else { nClean++; }
+      rows.push({name:c.name, flags:flags});
+    }
+    renderReport(rows, named.length, codes.length-named.length, nIssues, nClean);
+  }
+
+  function renderReport(rows, nNamed, nUnnamed, nIssues, nClean){
+    var out=$("report");
+    if(!nNamed){ out.innerHTML='<div class="clean-all">Add at least one code (with a name), then run the check.</div>'; return; }
+    var html='<div class="rsum"><span class="rtot">'+nNamed+' code'+(nNamed===1?'':'s')+' checked</span>'+
+      (nIssues?'<span class="rpill">'+nIssues+' with flags</span>':'')+
+      '<span class="rpill ok">'+nClean+' clean</span>'+
+      (nUnnamed?'<span class="rpill">'+nUnnamed+' unnamed — skipped</span>':'')+'</div>';
+    if(!nIssues){
+      html+='<div class="clean-all"><b>Every named code has a definition, an example, and a boundary rule.</b> '+
+            'That’s a well-structured codebook — the check can’t tell you the codes are the <em>right</em> ones, but nothing structural is missing.</div>';
+    }
+    for(var i=0;i<rows.length;i++){
+      var r=rows[i];
+      if(!r.flags.length){
+        html+='<div class="rcard clean"><h4><span class="cn">'+esc(r.name)+'</span></h4><div class="rflags">'+
+              '<div class="rflag good"><span class="tag">complete</span><span>Has a definition, example, and a boundary rule.</span></div></div></div>';
+        continue;
+      }
+      html+='<div class="rcard"><h4><span class="cn">'+esc(r.name)+'</span></h4><div class="rflags">';
+      for(var k=0;k<r.flags.length;k++)
+        html+='<div class="rflag"><span class="tag">'+r.flags[k][0]+'</span><span>'+r.flags[k][1]+'</span></div>';
+      html+='</div></div>';
+    }
+    out.innerHTML=html;
+    out.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'nearest'});
+  }
+
+  // ── export ────────────────────────────────────────────────────────────────
+  function download(name, mime, text){
+    var blob=new Blob([text],{type:mime}), url=URL.createObjectURL(blob);
+    var a=document.createElement("a"); a.href=url; a.download=name; document.body.appendChild(a); a.click();
+    document.body.removeChild(a); setTimeout(function(){URL.revokeObjectURL(url);}, 0);
+  }
+  function csvCell(s){ s=String(s==null?"":s); return /[",\n]/.test(s)?'"'+s.replace(/"/g,'""')+'"':s; }
+  function exportCsv(){
+    var head=["code","definition","inclusion","exclusion","example","counter_example"];
+    var lines=[head.join(",")];
+    codes.filter(function(c){return norm(c.name);}).forEach(function(c){
+      lines.push([c.name,c.def,c.incl,c.excl,c.ex,c.anti].map(csvCell).join(","));
+    });
+    download("codebook.csv","text/csv;charset=utf-8",lines.join("\r\n"));
+  }
+  function exportMd(){
+    var out="# Codebook\n\n";
+    var named=codes.filter(function(c){return norm(c.name);});
+    named.forEach(function(c){
+      out+="## "+c.name+"\n\n";
+      out+="**Definition.** "+(c.def||"_(none)_")+"\n\n";
+      if(norm(c.incl)) out+="**Apply when.** "+c.incl+"\n\n";
+      if(norm(c.excl)) out+="**Do not apply when.** "+c.excl+"\n\n";
+      if(norm(c.ex))   out+="**Example.** “"+c.ex+"”\n\n";
+      if(norm(c.anti)) out+="**Counter-example.** "+c.anti+"\n\n";
+    });
+    out+="\n---\n_Structure drafted with the MethodVahti Codebook Builder. Definitions and examples are the researcher’s._\n";
+    download("codebook.md","text/markdown;charset=utf-8",out);
+  }
+
+  var EXAMPLE=[
+    {name:"staffing_pressure", def:"Talk about being short-staffed or stretched, and the strain that creates on care.",
+     incl:"Explicit mention of workload, ratios, or not enough staff to deliver care.",
+     excl:"General tiredness with no link to staffing (code as burnout_general).",
+     ex:"There were three of us for the whole ward — you just can’t give people what they need.", anti:"I was exhausted after a long weekend of my own."},
+    {name:"voicelessness", def:"A sense that raising a concern would not be heard or would carry a cost.",
+     incl:"Says speaking up feels futile, risky, or ignored.",
+     excl:"Simply not having spoken up, with no sense of futility or risk.",
+     ex:"I stopped saying anything. Nothing changes, and it just marks you out.", anti:"I hadn’t got round to emailing the manager yet."},
+    {name:"moral_residue", def:"Lingering distress from having acted against one’s judgement of the right thing.",
+     incl:"Describes ongoing guilt, regret, or being haunted by a specific care decision.",
+     excl:"", ex:"I still think about that patient. I knew what she needed and I couldn’t give it.", anti:""}
+  ];
+
+  function loadExample(){ codes=EXAMPLE.map(function(e){var c=blank(); for(var k in e) c[k]=e[k]; return c;}); render(); check(); }
+
+  $("add").addEventListener("click", function(){ codes.push(blank()); render();
+    var cards=$("codes").querySelectorAll(".codecard"); var last=cards[cards.length-1];
+    if(last){ var inp=last.querySelector("input"); if(inp) inp.focus(); } });
+  $("check").addEventListener("click", check);
+  $("ex").addEventListener("click", loadExample);
+  $("csv").addEventListener("click", exportCsv);
+  $("md").addEventListener("click", exportMd);
+  $("clr").addEventListener("click", function(){ codes=[blank()]; render(); $("report").innerHTML=""; });
+
+  // start with two empty codes
+  codes=[blank(), blank()]; render();
+})();
+</script>
+</body>
+</html>

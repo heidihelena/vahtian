@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Thank you — AI Disclosure Kit — forskai</title>
+  <meta name="description" content="Your purchase of the AI Disclosure Kit for Researchers is confirmed.">
+  <meta name="theme-color" content="#10211B">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="canonical" href="https://vahtian.com/ai-disclosure-kit/success/">
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2310211B'/%3E%3Ctext x='16' y='22' font-family='-apple-system,Segoe UI,Roboto,sans-serif' font-size='15' font-weight='700' text-anchor='middle' fill='%23EAF3EF'%3Ef%3Ctspan fill='%2340C6A2'%3Eai%3C/tspan%3E%3C/text%3E%3C/svg%3E">
+  <style>
+    :root{--dark:#10211B;--teal:#1E9E8A;--teal-br:#54D6B6;--ink:#17211D;--muted:#4b5a54;--bg:#f7faf9;
+          --card:#fff;--line:#e2ebe7;--link:#0A6E5B;--teal-fill:#DFF5EE;--teal-text:#0B4033}
+    *{box-sizing:border-box}
+    body{margin:0;font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,ui-sans-serif,system-ui,sans-serif;
+         color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased}
+    a{color:var(--link)}
+    a:focus-visible{outline:3px solid var(--teal);outline-offset:2px}
+    .top{background:var(--dark);color:#EAF3EF}
+    .wrap{max-width:640px;margin:0 auto;padding:0 22px}
+    header{padding:20px 0}
+    .brand{font-weight:800;font-size:20px;color:#EAF3EF;text-decoration:none}
+    .brand .ai{color:var(--teal-br)}
+    main{padding:40px 0 20px}
+    .check{width:52px;height:52px;border-radius:50%;background:var(--teal-fill);border:1px solid #bfe6d9;
+           display:flex;align-items:center;justify-content:center;color:var(--teal-text);font-size:26px;font-weight:800;margin:0 0 18px}
+    h1{font-size:clamp(24px,4.5vw,32px);letter-spacing:-.02em;margin:0 0 10px}
+    .lede{color:#333f3a;font-size:16.5px;margin:0 0 22px;max-width:56ch}
+    .card{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:18px 20px;margin:0 0 16px}
+    .card h2{font-size:14px;text-transform:uppercase;letter-spacing:.05em;color:var(--link);margin:0 0 10px}
+    ol.next{margin:0;padding-left:20px;display:grid;gap:9px;color:#333f3a;font-size:15px}
+    ol.next b{color:var(--ink)}
+    .ref{font:13px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--muted);margin:14px 0 0}
+    .ref b{color:var(--ink)}
+    .btn{display:inline-block;padding:12px 20px;border-radius:10px;font-weight:700;text-decoration:none;font-size:15px;background:var(--dark);color:#EAF3EF}
+    .help{font-size:14px;color:var(--muted);margin:18px 0 0}
+    footer{padding:26px 0 50px;color:var(--muted);font-size:13px;border-top:1px solid var(--line);line-height:1.7;margin-top:20px}
+    footer a{color:var(--muted)}
+  </style>
+</head>
+<body>
+<div class="top">
+  <div class="wrap"><header><a class="brand" href="/ai-disclosure-kit/">forsk<span class="ai">ai</span></a></header></div>
+</div>
+<div class="wrap">
+<main>
+  <div class="check" aria-hidden="true">✓</div>
+  <h1>Thank you — your purchase is confirmed.</h1>
+  <p class="lede">You now have the AI Disclosure Kit for Researchers. Here's how to get started.</p>
+
+  <div class="card">
+    <h2>What happens next</h2>
+    <ol class="next">
+      <li><b>Check your email.</b> Polar has sent your download link for the kit's zip. If it's not there in a few minutes, check spam.</li>
+      <li><b>Open the Quick start guide first.</b> It's the 15-minute setup — the defaults table and the 30-second disclosure decision.</li>
+      <li><b>Start the AI use log today.</b> A dated record from now on is what makes your disclosure statement write itself later.</li>
+    </ol>
+    <p class="ref" id="ref" hidden>Order reference: <b id="refid"></b></p>
+  </div>
+
+  <p><a class="btn" href="/ai-disclosure-kit/">← Back to the kit</a></p>
+  <p class="help">Download didn't arrive, or need a group license? Email <a href="mailto:hello@forskai.com">hello@forskai.com</a> with your order reference.</p>
+</main>
+
+  <footer>
+    <p>A <b>forskai</b> product · <a href="https://forskai.com">forskai.com</a> · part of the
+      <a href="/">Vahtian</a> house · <a href="/privacy/">Privacy</a></p>
+    <p>Checkout and delivery are handled by Polar. The kit helps you document and disclose AI use; it does not replace
+      journal, funder, or institutional rules and is not legal advice.</p>
+  </footer>
+</div>
+<script>
+  // Surface the Polar checkout_id from the success URL as an order reference.
+  // Purely cosmetic; no network calls. Fails silently if absent.
+  (function(){
+    try{
+      var id=new URLSearchParams(location.search).get("checkout_id");
+      if(id && /^[\w-]{6,80}$/.test(id)){
+        document.getElementById("refid").textContent=id;
+        document.getElementById("ref").hidden=false;
+      }
+    }catch(e){}
+  })();
+</script>
+</body>
+</html>

@@ -52,9 +52,9 @@ how many researchers hit them × how badly it blocks the decision.
   decide truth") visible, not buried?
 - Does the **mobile** layout work — readable line length, tap targets, no
   horizontal scroll, hero legible at 390px?
-- Are headings hierarchical (one `h1`, ordered `h2`/`h3`, no skips)?
-- Are links descriptive ("verify your manuscript's citations", not "click here")?
-- Are buttons visually distinguishable from body links?
+- Do the a11y semantics hold — heading order, descriptive links, buttons
+  distinguishable from body links? (Diagnose only; the fix-side rules live in
+  `vahtian-frontend-implementer`.)
 - Is the page still static, fast, and tracker-free?
 
 ## Output format
@@ -74,8 +74,9 @@ consistency → docs/`llms.txt` alignment.
 
 ## Hard constraints (don't recommend violating these)
 
-- Don't recommend making AI the judge, or any copy implying Vahtian certifies
-  scientific truth.
+- Copy rules belong to `vahtian-brand-safety` — never recommend wording that
+  breaks its invariant (its tables are canonical; don't work from memory), and
+  route every copy change through it.
 - Don't recommend telemetry, trackers, or analytics.
 - Don't weaken local-first / human-first / audit-ledger messaging to "simplify".
 - Don't propose redesigning everything at once or swapping in a framework.

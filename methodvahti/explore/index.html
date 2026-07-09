@@ -19,6 +19,17 @@
   <meta property="og:image:height" content="630">
   <meta property="og:site_name" content="Vahtian">
   <meta name="twitter:card" content="summary_large_image">
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"WebPage",
+    "name":"MethodVahti Explorer — see how your sample-size choices move N",
+    "url":"https://vahtian.com/methodvahti/explore/",
+    "description":"An interactive, browser-only explorer for qualitative sample-size reasoning: move the design parameters and watch three sample-size models, a stability tornado, and a Monte-Carlo saturation curve respond. Nothing is uploaded.",
+    "isPartOf":{"@type":"WebSite","name":"Vahtian","url":"https://vahtian.com/"},
+    "publisher":{"@type":"Organization","name":"Vahtian","url":"https://vahtian.com/"}
+  }
+  </script>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232D2440'/%3E%3Cg fill='none' stroke='%235566B5' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 9 H9 V23 H12'/%3E%3Cpath d='M20 9 H23 V23 H20'/%3E%3C/g%3E%3Cg fill='%23C5B8E8'%3E%3Ccircle cx='14' cy='14' r='1.5'/%3E%3Ccircle cx='18' cy='14' r='1.5'/%3E%3Ccircle cx='14' cy='18' r='1.5'/%3E%3Ccircle cx='18' cy='18' r='1.5'/%3E%3C/g%3E%3C/svg%3E">
   <style>
     :root{--navy:#2D2440;--violet:#8B6FC9;--lilac:#C5B8E8;--indigo:#5566B5;--amber:#C98A00;--teal:#1E9E8A;--rose:#C24D7E;
@@ -71,6 +82,17 @@
     table.kv{border-collapse:collapse;font-size:12.5px;margin-top:10px}
     table.kv td{padding:3px 10px 3px 0;color:var(--muted)}
     table.kv td.v{color:var(--ink);font-weight:600;font-family:ui-monospace,Menlo,monospace}
+  
+    /* site nav */
+    nav.nav{display:flex;align-items:center;gap:16px;flex-wrap:wrap;font-size:14.5px}
+    nav.nav a{color:#1c1830;text-decoration:none;font-weight:600}
+    nav.nav a:hover{color:#6F52B8}
+    nav.nav .ext{color:#514a68}
+    nav.nav .util{display:flex;align-items:center;gap:13px;padding-left:15px;border-left:1px solid #e7e3f0}
+    nav.nav .util .ic{display:flex;color:#514a68}
+    nav.nav .util .ic:hover{color:#6F52B8}
+    nav.nav .buy{background:#2D2440;color:#fff;padding:7px 13px;border-radius:8px;font-size:13.5px;font-weight:700}
+    @media(max-width:680px){nav.nav{gap:13px;font-size:13.5px}}
   </style>
 </head>
 <body>
@@ -88,7 +110,19 @@
       </svg>
       <span>MethodVahti · Explorer</span>
     </div>
-    <a class="up" href="/methodvahti/">← MethodVahti</a>
+    <nav class="nav" aria-label="Primary">
+      <a href="/#tools">Tools</a>
+      <a href="/learn/">Learn</a>
+      <a href="/blog/">Blog</a>
+      <a href="/about/">About</a>
+      <a class="ext" href="https://forskai.com">ForskAI <span aria-hidden="true">↗</span></a>
+      <span class="util">
+        <a class="ic" href="https://github.com/heidihelena/vahtian" aria-label="Vahtian on GitHub"><svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 012-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg></a>
+        <a class="ic" href="/search/" aria-label="Search vahtian.com"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.3" y2="16.3"/></svg></a>
+        <a class="ic" href="/download/" aria-label="Download Vahtian software"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4 V15"/><path d="M7 11 L12 16 L17 11"/><path d="M4 20 H20"/></svg></a>
+        <a class="buy" href="/ai-disclosure-kit/">Buy</a>
+      </span>
+    </nav>
   </header>
 
   <div class="hero">
@@ -187,6 +221,11 @@
           <span><i style="background:var(--violet)"></i>synthesis</span>
           <span><i style="background:var(--lilac)"></i>stability band</span>
         </div>
+        <table class="kv" aria-label="What each model is based on">
+          <tr><td class="v">Linear saturation</td><td>saturation grows with heterogeneity and theme rarity — Guest et&nbsp;al. 2006; Hennink et&nbsp;al. 2017</td></tr>
+          <tr><td class="v">Network complexity</td><td>information power: a narrow aim, strong theory and rich dialogue lower N — Malterud et&nbsp;al. 2016</td></tr>
+          <tr><td class="v">Fuzzy-set QCA</td><td>configurational adequacy: enough cases to cover the plausible configurations — Ragin</td></tr>
+        </table>
       </div>
 
       <div class="card2">
@@ -216,55 +255,25 @@
       </div>
 
       <p class="note"><b>These are author-hypothesis models (Vahtian 2026), not externally
-        validated.</b> They are a transparent way to reason about trade-offs — the researcher
+        validated.</b> Each is anchored to a literature (above), but the models are
+        <em>author-calibrated</em> — the citations justify each model's shape and direction, not
+        its exact coefficients. They are a transparent way to reason about trade-offs; the researcher
         decides N. See the <a href="https://github.com/heidihelena/vahtian/blob/main/methodvahti/VALIDATION.md">open validation plan</a>.</p>
     </div>
   </div>
 
   <footer>
     <p>© 2026 Vahtian · MethodVahti Explorer · Apache-2.0 core · runs entirely in your browser ·
-      <a href="/methodvahti/">MethodVahti</a> · <a href="/">vahtian.com</a></p>
+      <a href="/methodvahti/">MethodVahti</a> · <a href="/">vahtian.com</a> · <a href="https://github.com/heidihelena/vahtian">source</a> · <a href="/about/">About</a> · <a href="/cite/">Cite</a> · <a href="/privacy/">Privacy</a></p>
   </footer>
 
 </div>
 
-<script>
-"use strict";
-// ── Ported 1:1 from methodvahti_pdf.optimise_n (Python) ─────────────────────
-const DEPTH_BASE = {descriptive:9, explanatory:16, theoretical:24};
-const clamp01 = x => Math.max(0, Math.min(1, x));
-
-function modelLinear(base,H,p,Q){ return base*(1+0.9*H)*(1+0.5*(1-p))*(1-0.25*(Q-0.5)*2); }
-function modelNetwork(base,H,S,T,Q){ return base*(1+1.1*H)*(1-0.35*S)*(1-0.25*T)*(1-0.15*(Q-0.5)*2); }
-function modelFuzzy(base,H,S,floor){ let n=base*0.8+18*H*(1-S); return floor!=null?Math.max(n,floor):n; }
-
-function synth(P){
-  const base = DEPTH_BASE[P.depth] || DEPTH_BASE.explanatory;
-  const floor = (P.mixed && P.mdd) ? Math.ceil(2 + 1/Math.max(P.mdd,0.05)) : null;
-  const m = [Math.max(4,modelLinear(base,P.H,P.p,P.Q)),
-             Math.max(4,modelNetwork(base,P.H,P.S,P.T,P.Q)),
-             Math.max(4,modelFuzzy(base,P.H,P.S,floor))];
-  const center = (m[0]+m[1]+m[2])/3;
-  const ip = (P.S+P.T+P.Q+(1-P.H))/4;
-  const ipF = 1-0.20*(ip-0.5)*2;
-  const powF = 1+0.50*(P.power-0.80);
-  return {optimal: center*ipF*powF, models:m, ip, floor};
-}
-
-function optimise(P){
-  const r = synth(P);
-  const optimal_n = Math.ceil(r.optimal);
-  // stability: perturb H,p,S,T,Q by ±0.05 one at a time
-  const keys=['H','p','S','T','Q']; let vals=[optimal_n];
-  for(const k of keys){ for(const d of [-0.05,0.05]){
-    const Q2=Object.assign({},P); Q2[k]=clamp01(P[k]+d);
-    vals.push(Math.ceil(synth(Q2).optimal));
-  }}
-  const lo=Math.min(...vals), hi=Math.max(...vals);
-  const stable=(hi-lo)<=Math.max(1,Math.round(0.10*optimal_n));
-  return {optimal_n, stable, lo, hi, ip:r.ip,
-          models:{linear:Math.ceil(r.models[0]), network:Math.ceil(r.models[1]), fuzzy:Math.ceil(r.models[2])}};
-}
+<script type="module">
+// The sample-size core is the shared module methodvahti/optimise.mjs — the same
+// code the CI parity test checks against the Python reference (optimise_n).
+// Only the charts and DOM wiring live inline here.
+import { DEPTH_BASE, clamp01, synth, optimise } from "../optimise.mjs";
 
 // ── Read controls ───────────────────────────────────────────────────────────
 const $ = id => document.getElementById(id);
@@ -336,6 +345,10 @@ function drawTornado(P,baseN){
     const lbl=(r.hi>0?'+':'')+r.hi+' / '+(r.lo>0?'+':'')+r.lo;
     svg.appendChild(el('text',{x:Math.max(x1,x2)+6,y:y+barH/2+4,'font-size':10.5,fill:C.muted},lbl));
   });
+  svg.setAttribute('aria-label',
+    'Sensitivity of N to a ±0.10 shift in each parameter, largest first: '+
+    rows.map(r=>`${r.label} moves N by ${r.hi} to ${r.lo}`).join('; ')+
+    `. Baseline N=${baseN}. N is most sensitive to ${rows[0].label}.`);
 }
 
 // ── Render: sweep (N vs heterogeneity) ───────────────────────────────────────
@@ -435,6 +448,12 @@ function render(reseed, runSim){
   const chip=$('stchip'); chip.textContent=o.stable?'stable':'sensitive';
   chip.className='chip '+(o.stable?'stable':'sensitive');
   drawBars(o); drawTornado(P,o.optimal_n); drawSweep(P,o.optimal_n);
+  // Screen-reader summaries: charts are decorative SVG, so carry the numbers on aria-label.
+  $('bars').setAttribute('aria-label',
+    `Three sample-size models: linear saturation N=${o.models.linear}, network complexity N=${o.models.network}, `+
+    `fuzzy-set QCA N=${o.models.fuzzy}. Synthesis N=${o.optimal_n}, ${o.stable?'stable':'sensitive'}, range ${o.lo} to ${o.hi}.`);
+  $('sweep').setAttribute('aria-label',
+    `Synthesised N versus heterogeneity, other parameters fixed. At the current heterogeneity ${P.H.toFixed(2)}, N=${o.optimal_n}.`);
   if(runSim) drawSat(P,o,reseed);
 }
 

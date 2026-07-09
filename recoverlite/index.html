@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>RecoverLite — pre-data recovery tests for planned study designs</title>
+  <meta name="description" content="RecoverLite runs the recovery test: a standardized pre-data simulation protocol that checks whether a planned study design can recover the scientific question it was built to answer — before data collection. Declare the estimand, assumptions, data and analysis strategy; simulate under a crossed scenario grid; get a PASS / RISK / FAIL verdict. An R package (Apache-2.0). A Vahtian project.">
+  <meta name="theme-color" content="#2D2440">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="canonical" href="https://vahtian.com/recoverlite/">
+  <meta name="robots" content="index,follow">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://vahtian.com/recoverlite/">
+  <meta property="og:title" content="RecoverLite — pre-data recovery tests for planned study designs">
+  <meta property="og:description" content="Check whether a planned study can recover the question it was built to answer — before data collection. Declare, simulate under a crossed null/target × declared/pessimistic grid, get a PASS / RISK / FAIL verdict. An R package.">
+  <meta property="og:image" content="https://vahtian.com/brand/cards/recoverlite-card.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="RecoverLite — pre-data recovery tests. A Vahtian project.">
+  <meta property="og:site_name" content="Vahtian">
+  <meta name="twitter:card" content="summary_large_image">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "RecoverLite",
+    "url": "https://vahtian.com/recoverlite/",
+    "description": "A prototype implementation of the recovery test: a standardized pre-data simulation protocol. Researchers declare the estimand, data-generating assumptions, data strategy, missing-data process, and analysis strategy before simulation; data are generated under a crossed scenario grid (null and target effects, each under declared and pessimistically perturbed assumptions); the planned analysis is applied to each dataset; and the diagnosands become a PASS / RISK / FAIL verdict under a pre-specified, versioned threshold profile. A PASS is evidence about the instrument, not about the world.",
+    "applicationCategory": "Research software",
+    "operatingSystem": "R",
+    "license": "https://www.apache.org/licenses/LICENSE-2.0",
+    "softwareRequirements": "R",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "EUR" },
+    "sameAs": "https://github.com/heidihelena/recoverlite",
+    "publisher": { "@type": "Organization", "name": "Vahtian", "url": "https://vahtian.com/" }
+  }
+  </script>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232D2440'/%3E%3Cg fill='none' stroke='%235566B5' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 20 L14 14 L18 17 L23 10'/%3E%3C/g%3E%3Ccircle cx='23' cy='10' r='2.2' fill='%23C5B8E8'/%3E%3C/svg%3E">
+  <style>
+    :root{--navy:#2D2440;--violet:#8B6FC9;--lilac:#C5B8E8;--blue:#5566B5;--amber:#C98A00;--teal:#1E9E8A;--rose:#C24D7E;
+          --ink:#1c1830;--muted:#4A4460;--bg:#faf9fc;--card:#fff;--line:#e7e3f0;--link:#6F52B8;
+          --amber-fill:#FFF2D8;--amber-text:#5A4300;--teal-fill:#D8F4ED;--teal-text:#08544A;--rose-fill:#FBE0EA;--rose-text:#7A1F45}
+    *{box-sizing:border-box}
+    body{margin:0;font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,ui-sans-serif,system-ui,sans-serif;
+         color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased}
+    a{color:var(--link)}
+    a:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+    code{font:13px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;background:#eef0f8;padding:1px 5px;border-radius:5px}
+    .wrap{max-width:760px;margin:0 auto;padding:0 22px}
+    header{padding:24px 0 4px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:18px}
+    .mark{width:30px;height:30px;flex:0 0 30px}
+    .up{font-size:13px;color:var(--muted);text-decoration:none}
+    .hero{padding:38px 0 8px}
+    .kicker{font:600 12.5px/1 ui-monospace,monospace;color:var(--blue);text-transform:uppercase;letter-spacing:.09em;margin:0 0 14px}
+    h1{font-size:clamp(28px,5.4vw,42px);line-height:1.12;letter-spacing:-.02em;margin:0 0 14px}
+    .lede{font-size:clamp(17px,2.5vw,20px);color:#3a3450;margin:0 0 20px;max-width:64ch}
+    .cta{display:flex;flex-wrap:wrap;gap:12px;margin:0 0 6px}
+    .btn{display:inline-block;padding:11px 18px;border-radius:9px;font-weight:600;text-decoration:none;font-size:15px}
+    .btn.primary{background:var(--navy);color:#fff}
+    .btn.ghost{border:1px solid var(--line);color:var(--ink);background:var(--card)}
+    .badges{display:flex;flex-wrap:wrap;gap:8px;margin:20px 0 0}
+    .badge{font:600 12px/1 ui-monospace,monospace;padding:6px 10px;border-radius:7px;border:1px solid var(--line);background:var(--card);color:#3a3450}
+    section{padding:32px 0;border-top:1px solid var(--line);margin-top:30px}
+    h2{font-size:22px;letter-spacing:-.01em;margin:0 0 12px}
+    h2 .s{display:block;font-size:14px;font-weight:400;color:var(--muted);margin-top:4px}
+    p{margin:0 0 14px}
+    ul.feat{list-style:none;padding:0;margin:6px 0 0;display:grid;gap:12px}
+    ul.feat li{padding-left:24px;position:relative;color:#322c47;font-size:15px}
+    ul.feat li::before{content:"";position:absolute;left:2px;top:.6em;width:9px;height:9px;border-radius:50%;background:var(--blue)}
+    ul.feat b{color:var(--ink)}
+    pre{background:var(--navy);color:#e8e3f5;border-radius:10px;padding:14px 16px;overflow:auto;font:13px/1.6 ui-monospace,monospace;margin:0 0 14px}
+    pre .c{color:#9b93b8}
+    .verdicts{display:grid;gap:11px;margin:6px 0 0}
+    .v{border:1px solid var(--line);border-left:4px solid var(--line);border-radius:10px;padding:12px 15px;font-size:14.5px;color:#3a3450}
+    .v b{font:700 12px/1 ui-monospace,monospace;text-transform:uppercase;letter-spacing:.06em;display:inline-block;margin-right:8px}
+    .v.pass{border-left-color:var(--teal);background:var(--teal-fill)} .v.pass b{color:var(--teal-text)}
+    .v.risk{border-left-color:var(--amber);background:var(--amber-fill)} .v.risk b{color:var(--amber-text)}
+    .v.fail{border-left-color:var(--rose);background:var(--rose-fill)} .v.fail b{color:var(--rose-text)}
+    .note{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--blue);border-radius:9px;padding:14px 16px;color:#3a3450;font-size:14.5px}
+    .note.warn{border-left-color:var(--amber)}
+    .note b{color:var(--ink)}
+    .methods{background:#f6f4fb;border:1px solid var(--line);border-radius:11px;padding:15px 17px;font-size:14.5px;color:#322c47}
+    .methods b{color:var(--ink)}
+    .faq{margin:8px 0 0}
+    .faq details{border:1px solid var(--line);border-radius:10px;background:var(--card);margin:0 0 9px;padding:0 15px}
+    .faq summary{cursor:pointer;font-weight:600;font-size:15px;padding:13px 0;color:var(--link);list-style:none}
+    .faq summary::-webkit-details-marker{display:none}
+    .faq summary::after{content:"+";float:right;color:var(--muted);font-weight:400;font-size:18px;line-height:1}
+    .faq details[open] summary::after{content:"–"}
+    .faq details[open] summary{border-bottom:1px solid var(--line)}
+    .faq details p{margin:12px 0;color:#3a3450;font-size:14.5px}
+    footer{padding:28px 0 50px;color:var(--muted);font-size:13px;border-top:1px solid var(--line);margin-top:34px;line-height:1.7}
+    footer a{color:var(--muted)}
+  
+    /* site nav */
+    nav.nav{display:flex;align-items:center;gap:16px;flex-wrap:wrap;font-size:14.5px}
+    nav.nav a{color:#1c1830;text-decoration:none;font-weight:600}
+    nav.nav a:hover{color:#6F52B8}
+    nav.nav .ext{color:#514a68}
+    nav.nav .util{display:flex;align-items:center;gap:13px;padding-left:15px;border-left:1px solid #e7e3f0}
+    nav.nav .util .ic{display:flex;color:#514a68}
+    nav.nav .util .ic:hover{color:#6F52B8}
+    nav.nav .buy{background:#2D2440;color:#fff;padding:7px 13px;border-radius:8px;font-size:13.5px;font-weight:700}
+    @media(max-width:680px){nav.nav{gap:13px;font-size:13.5px}}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand">
+      <a href="/" aria-label="Vahtian — home" style="display:flex"><svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#2D2440"/><g fill="none" stroke="#5566B5" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M9 20 L14 14 L18 17 L23 10"/></g><circle cx="23" cy="10" r="2.2" fill="#C5B8E8"/></svg></a>
+      <span>RecoverLite</span>
+    </div>
+    <nav class="nav" aria-label="Primary">
+      <a href="/#tools">Tools</a>
+      <a href="/learn/">Learn</a>
+      <a href="/blog/">Blog</a>
+      <a href="/about/">About</a>
+      <a class="ext" href="https://forskai.com">ForskAI <span aria-hidden="true">↗</span></a>
+      <span class="util">
+        <a class="ic" href="https://github.com/heidihelena/vahtian" aria-label="Vahtian on GitHub"><svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 012-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg></a>
+        <a class="ic" href="/search/" aria-label="Search vahtian.com"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.3" y2="16.3"/></svg></a>
+        <a class="ic" href="/download/" aria-label="Download Vahtian software"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4 V15"/><path d="M7 11 L12 16 L17 11"/><path d="M4 20 H20"/></svg></a>
+        <a class="buy" href="/ai-disclosure-kit/">Buy</a>
+      </span>
+    </nav>
+  </header>
+
+<main>
+  <div class="hero">
+    <p class="kicker">A Vahtian project · open source</p>
+    <h1>Pre-data recovery tests for planned study designs</h1>
+    <p class="lede">A planned study can be unable to support its intended inferential claim even when your
+      substantive assumptions are correct. RecoverLite runs the <b>recovery test</b> — a standardized pre-data
+      simulation that checks whether the design can recover the question it was built to answer, before you
+      collect data.</p>
+    <div class="cta">
+      <a class="btn primary" href="https://github.com/heidihelena/recoverlite">View on GitHub →</a>
+      <a class="btn ghost" href="#install">Install</a>
+    </div>
+    <div class="badges">
+      <span class="badge">R package</span>
+      <span class="badge">r-universe · GitHub</span>
+      <span class="badge">Apache-2.0</span>
+      <span class="badge">DeclareDesign · lme4</span>
+    </div>
+  </div>
+
+  <section>
+    <h2>Why power analysis isn't enough</h2>
+    <p>Sampling, measurement, missingness, assignment, and analysis can yield estimates that are biased, poorly
+      calibrated, unstable, or exaggerated conditional on detection. Attrition and exclusions can change the
+      <em>estimand</em> itself: a study may retain precision while quietly answering a different question.
+      Conventional power analysis rarely diagnoses these failures.</p>
+    <p>The recovery test does. You declare the estimand, data-generating assumptions, data strategy, missing-data
+      process, and analysis strategy <b>before</b> simulation. Data are generated under a crossed scenario grid —
+      null and target effects, each under declared and pessimistically perturbed assumptions — the planned analysis
+      is applied to every simulated dataset, and the diagnosands become a verdict.</p>
+  </section>
+
+  <section>
+    <h2>The verdict</h2>
+    <p>The report converts the diagnosands into a PASS / RISK / FAIL verdict under a pre-specified, <b>versioned
+      threshold profile</b> — a decision convention, not a validity classification — and recomputes it under the
+      shipped strict and lenient profiles. A verdict that flips across profiles is itself a finding.</p>
+    <div class="verdicts">
+      <div class="v pass"><b>Pass</b> All required thresholds met under every scenario row the profile requires, with every margin more than 2 MCSE clear.</div>
+      <div class="v risk"><b>Risk</b> Passes declared-nuisance rows but fails a pessimistic row — or a margin sits within 2 MCSE, or a required conditional diagnosand is too unstable to confirm.</div>
+      <div class="v fail"><b>Fail</b> Any required threshold fails under a declared-nuisance row, including an inflated target-null rejection rate.</div>
+    </div>
+    <p class="note warn" style="margin-top:16px"><b>A PASS is evidence about the instrument, not about the world.</b>
+      RecoverLite checks whether your planned design and analysis can recover a declared estimand under stated
+      assumptions. It does not validate the assumptions, and it is a prototype implementation of a working-draft
+      protocol (Andersén, 2026).</p>
+  </section>
+
+  <section id="install">
+    <h2>Install</h2>
+    <pre><span class="c"># from the r-universe (recommended):</span>
+install.packages("recoverlite",
+                 repos = c("https://heidihelena.r-universe.dev",
+                           "https://cloud.r-project.org"))
+
+<span class="c"># or the development version from GitHub:</span>
+remotes::install_github("heidihelena/recoverlite")</pre>
+    <p style="font-size:14.5px;color:var(--muted)">Not yet on CRAN. Design declaration and data generation follow the
+      DeclareDesign grammar; mixed-model answer strategies use lme4 with lmerTest (Satterthwaite) and pbkrtest
+      (Kenward–Roger).</p>
+  </section>
+
+  <section>
+    <h2>The workflow in one block</h2>
+    <pre>library(recoverlite)
+
+design &lt;- declare_recovery(
+  target = target_estimand(
+    estimand = "ITT mean difference at 12 weeks",
+    scale    = "latent-outcome standardized mean difference",
+    sesoi    = 0.40
+  ),
+  data_strategy   = two_arm_trial(n_per_arm = 115, allocation = 0.5),
+  measurement     = measured_outcome(reliability = 0.70),
+  missingness     = attrition_model(rate = 0.15, mechanism = "differential"),
+  answer_strategy = planned_analysis(
+    estimator = "linear_model",
+    formula   = y_observed ~ treatment
+  )
+)
+
+result &lt;- recovery_test(design, sims = 2000,
+                        scenarios = "confirmatory_grid", seed = 1)
+verdict(result)   <span class="c"># PASS / RISK / FAIL under the selected profile</span>
+report(result)    <span class="c"># standalone recovery report; always travels with the verdict</span></pre>
+    <p>Cluster-randomized designs use <code>cluster_trial()</code> with a mixed-model or cluster-level answer strategy
+      and an explicit inference method — with few clusters, the inference method is not a detail, it is the design.</p>
+  </section>
+
+  <section>
+    <h2>What the protocol fixes before results are known</h2>
+    <ul class="feat">
+      <li><b>A crossed scenario grid</b> — null-declared, null-pessimistic, target-declared, target-pessimistic. The null rows are required verdict rows, so an analysis that misbehaves under realistic nuisance shows up in false-positive behaviour, not only in power.</li>
+      <li><b>Estimand drift as a diagnosand</b> — target bias decomposes into estimator bias plus estimand drift (what the data strategy does to the question). An unbiased estimator aimed at a displaced contrast is a design problem, and resources repair precision, not drift.</li>
+      <li><b>Pessimistic values by an evidence hierarchy</b> — empirical &gt; prior-study &gt; elicited &gt; package defaults, each labelled with its tier. The target effect is never shrunk automatically; effect-size and nuisance fragility are separate curves, outside the verdict.</li>
+      <li><b>A classified failure taxonomy</b> — fatal errors, nonconvergence, degenerate fits, and diagnostic warnings reported separately; whether degenerate fits count is pre-specified.</li>
+      <li><b>Monte Carlo uncertainty in the verdict</b> — every diagnosand carries an MCSE; a margin within 2 MCSE of its threshold caps the verdict at RISK.</li>
+      <li><b>Threshold profiles, not thresholds</b> — shipped lenient / default / strict profiles; the report shows the signed margin to every threshold and recomputes the verdict under strict and lenient.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Scope of the current prototype</h2>
+    <p><b>Supported:</b> two-arm parallel trials with an observed baseline, classical additive measurement error,
+      MCAR or baseline-dependent (MAR) differential attrition, optional one-sided noncompliance; complete-case linear
+      model and baseline-adjusted multiple imputation; cluster-randomized parallel trials with random-intercept mixed
+      models (Wald z / Satterthwaite / Kenward–Roger) and the cluster-level t-test.</p>
+    <p style="margin-bottom:0"><b>Not yet supported:</b> crossed and longitudinal random-effects structures, Bayesian
+      answer strategies, prediction models, and latent-variable measurement models.</p>
+  </section>
+
+  <section>
+    <h2>For preregistrations and grants</h2>
+    <p>A reusable methods sentence ships with the package:</p>
+    <p class="methods">"Design feasibility was evaluated using a <b>pre-data recovery test</b>, in which the planned
+      design and analysis were simulated under declared assumptions and pessimistic perturbations to assess power,
+      bias, coverage, precision, and model stability."</p>
+    <p style="font-size:14px;color:var(--muted);margin-top:14px">Cite via <code>citation("recoverlite")</code>.
+      Andersén, H. H. (2026). <em>Recovery before data: pre-data simulation diagnosis of planned study designs.</em>
+      Working paper; preprint forthcoming. Versioned releases are archived on Zenodo
+      (<a href="https://doi.org/10.5281/zenodo.21195920">doi:10.5281/zenodo.21195920</a>).</p>
+  </section>
+
+  <section>
+    <h2>Want it run on your design?</h2>
+    <p>RecoverLite is open source — run it yourself. If you'd rather have the recovery test set up, run, and
+      interpreted on your specific design, <b>ForskAI</b> — independent research-methods support from Vahtian — can
+      do it with you: study-design review, simulation-based design diagnosis, and a report you can put in a protocol
+      or grant application. You keep the decisions; the analysis and the audit trail come with it.</p>
+    <p style="margin-bottom:0"><a class="btn primary" href="https://forskai.com">Have ForskAI run it for you →</a>
+      <a class="btn ghost" href="https://github.com/heidihelena/recoverlite" style="margin-left:8px">Or run it yourself →</a></p>
+  </section>
+
+  <section>
+    <h2>Questions</h2>
+    <div class="faq">
+      <details>
+        <summary>How is this different from a power analysis?</summary>
+        <p>Power analysis asks whether you can detect an effect. The recovery test also asks whether the estimate
+          would be unbiased, well-calibrated, stable, and aimed at the intended estimand — and whether the null
+          behaves — under both declared and pessimistically perturbed assumptions. It reports power as one diagnosand
+          among several, and treats false-positive behaviour under the null as a required verdict row.</p>
+      </details>
+      <details>
+        <summary>Does a PASS mean my study will work?</summary>
+        <p>No. A PASS is evidence about the instrument — that the planned design and analysis can recover a declared
+          estimand under the stated assumptions — not about the world. It does not validate the assumptions
+          themselves, and the verdict is a decision convention under a versioned threshold profile.</p>
+      </details>
+      <details>
+        <summary>What designs does it support today?</summary>
+        <p>Two-arm parallel trials (with baseline, measurement error, MAR/MCAR attrition, optional noncompliance) and
+          cluster-randomized parallel trials with random-intercept mixed models or a cluster-level t-test. Crossed /
+          longitudinal random effects, Bayesian strategies, prediction models, and latent-variable measurement are
+          not yet supported.</p>
+      </details>
+    </div>
+  </section>
+</main>
+
+  <footer>
+    <p>© 2026 Vahtian · RecoverLite · Apache-2.0 · <a href="https://github.com/heidihelena/recoverlite">source</a> ·
+      <a href="/blog/">Blog</a> · <a href="/cite/">Cite</a> · <a href="/privacy/">Privacy</a> · <a href="/">vahtian.com</a></p>
+    <p>A prototype implementation of the recovery test, a pre-data simulation protocol. It checks whether a planned
+      design can recover a declared estimand under stated assumptions; a PASS is evidence about the instrument, not
+      about the world, and it does not validate the assumptions themselves.</p>
+  </footer>
+</div>
+</body>
+</html>

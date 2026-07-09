@@ -19,6 +19,26 @@
 <meta property="og:description" content="RAND/UCLA voting · Delphi rounds · importance×feasibility priorities · GRADE recommendations. Anonymous; nothing uploads. Early access." />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://vahtian.com/guidelinevahti/" />
+ <meta property="og:image" content="https://vahtian.com/brand/cards/guidelinevahti-card.png" />
+ <meta property="og:image:width" content="1200" />
+ <meta property="og:image:height" content="630" />
+ <meta property="og:image:alt" content="GuidelineVahti — turn panel votes into consensus. A product of Vahtian." />
+ <meta property="og:site_name" content="Vahtian" />
+ <meta name="twitter:card" content="summary_large_image" />
+ <script type="application/ld+json">
+ {
+   "@context":"https://schema.org",
+   "@type":"SoftwareApplication",
+   "name":"GuidelineVahti",
+   "url":"https://vahtian.com/guidelinevahti/",
+   "description":"Panel consensus for guideline groups: RAND/UCLA appropriateness voting, Delphi rounds, importance×feasibility priorities and GRADE recommendations, computed anonymously in the browser. Nothing uploads.",
+   "applicationCategory":"Research software",
+   "operatingSystem":"Any (web browser)",
+   "offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},
+   "license":"https://www.apache.org/licenses/LICENSE-2.0",
+   "publisher":{"@type":"Organization","name":"Vahtian","url":"https://vahtian.com/"}
+ }
+ </script>
 <style>
   :root{
     --navy:#2D2440; --violet:#8B6FC9; --lilac:#C5B8E8; --lilac-soft:#EFEBF8;
@@ -85,13 +105,43 @@
   .who .box b{display:block;margin-bottom:2px}
   a{color:var(--link)}
   footer{max-width:840px;margin:8px auto 30px;padding:0 16px;font-size:12px;color:var(--muted);line-height:1.6}
-</style>
+
+    /* site nav band (dark) */
+    .sitenav{background:#2D2440;border-bottom:1px solid rgba(197,184,232,.22)}
+    .sitenav .in{max-width:1100px;margin:0 auto;padding:10px 22px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
+    .sitenav .snbrand{font-weight:800;font-size:15px;color:#fff;text-decoration:none;letter-spacing:-.01em}
+    nav.nav{display:flex;align-items:center;gap:16px;flex-wrap:wrap;font-size:14.5px}
+    nav.nav a{color:#E7E2F4;text-decoration:none;font-weight:600}
+    nav.nav a:hover{color:#C5B8E8}
+    nav.nav .ext{color:#C5B8E8}
+    nav.nav .util{display:flex;align-items:center;gap:13px;padding-left:15px;border-left:1px solid rgba(197,184,232,.35)}
+    nav.nav .util .ic{display:flex;color:#C5B8E8}
+    nav.nav .util .ic:hover{color:#fff}
+    nav.nav .buy{background:#C5B8E8;color:#241b3a;padding:7px 13px;border-radius:8px;font-size:13.5px;font-weight:700}
+    @media(max-width:680px){nav.nav{gap:13px;font-size:13.5px}}
+  </style>
 </head>
 <body>
+<div class="sitenav"><div class="in">
+  <a class="snbrand" href="/" aria-label="Vahtian — home">Vahtian</a>
+  <nav class="nav" aria-label="Primary">
+    <a href="/#tools">Tools</a>
+    <a href="/learn/">Learn</a>
+    <a href="/blog/">Blog</a>
+    <a href="/about/">About</a>
+    <a class="ext" href="https://forskai.com">ForskAI <span aria-hidden="true">↗</span></a>
+    <span class="util">
+      <a class="ic" href="https://github.com/heidihelena/vahtian" aria-label="Vahtian on GitHub"><svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 012-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg></a>
+      <a class="ic" href="/search/" aria-label="Search vahtian.com"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.3" y2="16.3"/></svg></a>
+      <a class="ic" href="/download/" aria-label="Download Vahtian software"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4 V15"/><path d="M7 11 L12 16 L17 11"/><path d="M4 20 H20"/></svg></a>
+      <a class="buy" href="/ai-disclosure-kit/">Buy</a>
+    </span>
+    </nav>
+</div></div>
 <header>
   <div class="wrap">
     <div class="brand">
-      <svg width="36" height="36" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#3A2F57"/><g fill="none" stroke="#8B6FC9" stroke-width="2.2" stroke-linecap="round"><path d="M8 11 H24"/><path d="M8 16 H24"/><path d="M8 21 H18"/></g><circle cx="23" cy="21" r="2.3" fill="#C5B8E8"/></svg>
+      <a href="/" aria-label="Vahtian — home" style="display:flex"><svg width="36" height="36" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#3A2F57"/><g fill="none" stroke="#8B6FC9" stroke-width="2.2" stroke-linecap="round"><path d="M8 11 H24"/><path d="M8 16 H24"/><path d="M8 21 H18"/></g><circle cx="23" cy="21" r="2.3" fill="#C5B8E8"/></svg></a>
       <div><h1>GuidelineVahti</h1><p class="sub">Panel consensus for guideline groups &middot; in the browser</p></div>
     </div>
   </div>
@@ -103,7 +153,8 @@
     <span class="pill">anonymous &middot; aggregates only</span><span class="pill">nothing uploads</span><span class="pill">no backend</span><span class="pill">Layer 3 of the Vahtian evidence ladder</span>
   </div>
   <div class="cta-row">
-    <a class="btn primary" href="mailto:hello@vahtian.com?subject=GuidelineVahti%20early%20access">Request early access &rarr;</a>
+    <a class="btn primary" href="/guidelinevahti/pilot/">Run a Delphi pilot &rarr;</a>
+    <a class="btn ghost" href="mailto:hello@vahtian.com?subject=GuidelineVahti%20early%20access">Request early access</a>
     <a class="btn ghost" href="/">The Vahtian house &rarr;</a>
   </div>
 </header>
@@ -254,15 +305,19 @@
   </section>
 
   <section>
-    <h2>Early access</h2>
-    <p class="sect-lede" style="margin-bottom:10px">GuidelineVahti is complete and in early access. Pilot partners welcome &mdash; pricing on request.</p>
-    <a class="btn primary" style="background:var(--navy);color:#fff" href="mailto:hello@vahtian.com?subject=GuidelineVahti%20early%20access">Request early access &rarr;</a>
+    <h2>Run a Delphi pilot</h2>
+    <p class="sect-lede" style="margin-bottom:10px">GuidelineVahti is complete and in early access. The fastest way to use it is a
+      facilitated <b>Delphi pilot</b> &mdash; bring your statements and panel, and get back an auditable consensus
+      record. Fixed-scope tiers from &euro;1,500.</p>
+    <a class="btn primary" style="background:var(--navy);color:#fff" href="/guidelinevahti/pilot/">See the pilot tiers &rarr;</a>
+    <p class="muted" style="margin-top:10px">Just want the tool for your own group? <a href="mailto:hello@vahtian.com?subject=GuidelineVahti%20early%20access">Request early access</a>.</p>
   </section>
 
 </main>
 <footer>
-  GuidelineVahti &middot; part of the <a href="/">Vahtian</a> house (the evidence ladder: CiteVahti &rarr; MatchVahti &rarr; ReviewVahti &rarr; GuidelineVahti).
+  &copy; 2026 Vahtian &middot; GuidelineVahti &middot; part of the <a href="/">Vahtian</a> house (the evidence ladder: CiteVahti &rarr; MatchVahti &rarr; ReviewVahti &rarr; GuidelineVahti).
   This preview shows a sample result; the working tool runs entirely in your browser, anonymously, with no network calls.
+  <br><a href="https://github.com/heidihelena/vahtian">source</a> &middot; <a href="/cite/">Cite</a> &middot; <a href="/privacy/">Privacy</a>
 </footer>
 </body>
 </html>

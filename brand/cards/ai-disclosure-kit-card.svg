@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif">
+  <rect width="1200" height="630" fill="#10211B"/>
+  <!-- right-side document mockup -->
+  <g>
+    <g transform="rotate(7 980 350)">
+      <rect x="852" y="150" width="300" height="392" rx="10" fill="#f4f7f5" opacity="0.55"/>
+    </g>
+    <g transform="rotate(-3 950 350)">
+      <rect x="800" y="150" width="316" height="404" rx="10" fill="#ffffff"/>
+      <text x="820" y="196" font-size="22" font-weight="800" fill="#10211B">forsk<tspan fill="#1E9E8A">ai</tspan></text>
+      <text x="820" y="222" font-size="9" letter-spacing="1.5" fill="#5B7A70" font-family="ui-monospace,Menlo,monospace">AI DISCLOSURE KIT · POLICY MODULE</text>
+      <text x="820" y="262" font-size="17" font-weight="700" fill="#10211B">Publisher AI-policy directory</text>
+      <text x="820" y="284" font-size="10" fill="#5B7A70">Verified links · 12 major policies · one view</text>
+      <!-- matrix -->
+      <g>
+        <rect x="820" y="304" width="70" height="200" fill="#eef4f1"/>
+        <rect x="892" y="304" width="70" height="200" fill="#e6f2ec"/>
+        <rect x="964" y="304" width="70" height="200" fill="#fdeede"/>
+        <rect x="1036" y="304" width="60" height="200" fill="#f7e7ef"/>
+        <g stroke="#ffffff" stroke-width="2">
+          <line x1="820" y1="329" x2="1096" y2="329"/><line x1="820" y1="354" x2="1096" y2="354"/>
+          <line x1="820" y1="379" x2="1096" y2="379"/><line x1="820" y1="404" x2="1096" y2="404"/>
+          <line x1="820" y1="429" x2="1096" y2="429"/><line x1="820" y1="454" x2="1096" y2="454"/>
+          <line x1="820" y1="479" x2="1096" y2="479"/>
+          <line x1="892" y1="304" x2="892" y2="504"/><line x1="964" y1="304" x2="964" y2="504"/><line x1="1036" y1="304" x2="1036" y2="504"/>
+        </g>
+      </g>
+    </g>
+  </g>
+  <!-- left text column -->
+  <text x="70" y="118" font-size="44" font-weight="800" letter-spacing="-.5" fill="#EAF3EF">forsk<tspan fill="#54D6B6">ai</tspan></text>
+  <text x="72" y="196" font-size="17" font-weight="700" letter-spacing="4" fill="#54D6B6" font-family="ui-monospace,Menlo,monospace">RESEARCH DOCUMENTATION KIT</text>
+  <text x="68" y="286" font-size="66" font-weight="800" letter-spacing="-1.5" fill="#F4F7F5">AI Disclosure Kit</text>
+  <text x="68" y="356" font-size="66" font-weight="800" letter-spacing="-1.5" fill="#F4F7F5">for Researchers</text>
+  <text x="70" y="418" font-size="24" fill="#cfe3dc">Manuscript, thesis, grant, and peer-review</text>
+  <text x="70" y="450" font-size="24" fill="#cfe3dc">templates for responsible AI use.</text>
+  <rect x="70" y="486" width="78" height="4" rx="2" fill="#1E9E8A"/>
+  <text x="70" y="546" font-size="16" font-weight="600" letter-spacing="2" fill="#7FA294" font-family="ui-monospace,Menlo,monospace">10 FILES · VERSION 1.0 · FORSKAI.COM</text>
+</svg>

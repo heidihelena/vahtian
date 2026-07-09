@@ -25,6 +25,33 @@
 <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src 'self' data:; connect-src 'none'; base-uri 'none'; form-action 'none'" />
 <meta name="referrer" content="no-referrer" />
 <title>ReviewVahti — screening reliability (kappa, in your browser)</title>
+ <meta name="description" content="ReviewVahti computes screening-reliability statistics — Cohen's κ, PABAK, Gwet's AC1, Krippendorff's α and Fleiss' κ — across 2–7 reviewers' systematic-review ballots, in your browser. The AI is excluded; nothing uploads." />
+ <link rel="canonical" href="https://vahtian.com/reviewvahti/" />
+ <meta property="og:type" content="website" />
+ <meta property="og:url" content="https://vahtian.com/reviewvahti/" />
+ <meta property="og:title" content="ReviewVahti — screening reliability, in your browser" />
+ <meta property="og:description" content="Inter-rater reliability for systematic-review screening — κ, PABAK, AC1, α — across 2–7 reviewers. Nothing uploads." />
+ <meta property="og:image" content="https://vahtian.com/brand/cards/reviewvahti-card.png" />
+ <meta property="og:image:width" content="1200" />
+ <meta property="og:image:height" content="630" />
+ <meta property="og:image:alt" content="ReviewVahti — how well did your reviewers agree? A product of Vahtian." />
+ <meta property="og:site_name" content="Vahtian" />
+ <meta name="twitter:card" content="summary_large_image" />
+ <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232D2440'/%3E%3Cg fill='none' stroke='%231E9E8A' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 9 H9 V23 H12'/%3E%3Cpath d='M20 9 H23 V23 H20'/%3E%3C/g%3E%3Cellipse cx='16' cy='16' rx='4.4' ry='2.8' fill='none' stroke='%23C5B8E8' stroke-width='1.7'/%3E%3Ccircle cx='16' cy='16' r='1.5' fill='%23C5B8E8'/%3E%3C/svg%3E" />
+ <script type="application/ld+json">
+ {
+   "@context":"https://schema.org",
+   "@type":"SoftwareApplication",
+   "name":"ReviewVahti",
+   "url":"https://vahtian.com/reviewvahti/",
+   "description":"Inter-rater reliability for systematic-review screening: Cohen's κ, PABAK, Gwet's AC1, Krippendorff's α and Fleiss' κ across 2–7 reviewers' ballots, computed in the browser. The AI is excluded; nothing uploads.",
+   "applicationCategory":"Research software",
+   "operatingSystem":"Any (web browser)",
+   "offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},
+   "license":"https://www.apache.org/licenses/LICENSE-2.0",
+   "publisher":{"@type":"Organization","name":"Vahtian","url":"https://vahtian.com/"}
+ }
+ </script>
 <style>
   :root{
     --navy:#2D2440; --violet:#8B6FC9; --lilac:#C5B8E8; --lilac-soft:#EFEBF8;
@@ -73,7 +100,7 @@
   .action{margin-top:10px;font-size:13.5px;background:var(--lilac-soft);border-radius:8px;padding:10px 12px;color:var(--ink)}
   .action.ok{background:var(--bg);color:var(--muted)}
   .detail{margin-top:10px;border-top:1px dashed var(--line);padding-top:6px}
-  .detail summary{cursor:pointer;color:var(--violet);font-weight:600;font-size:12.5px}
+  .detail summary{cursor:pointer;color:var(--link);font-weight:600;font-size:12.5px}
   .detail[open] summary{margin-bottom:4px}
   .stats{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
   .stat{flex:1 1 120px;border:1px solid var(--line);border-radius:10px;padding:9px 11px;background:var(--bg)}
@@ -90,12 +117,43 @@
   a{color:var(--link)}
   footer{max-width:820px;margin:8px auto 28px;padding:0 16px;font-size:12px;color:var(--muted);line-height:1.5}
   @media (max-width:560px){ main{padding:12px} section{padding:14px} }
-</style>
+
+    /* site nav band */
+    .sitenav{background:#faf9fc;border-bottom:1px solid #e7e3f0}
+    .sitenav .in{max-width:1100px;margin:0 auto;padding:10px 22px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
+    .sitenav .snbrand{font-weight:800;font-size:15px;color:#1c1830;text-decoration:none;letter-spacing:-.01em}
+    /* site nav */
+    nav.nav{display:flex;align-items:center;gap:16px;flex-wrap:wrap;font-size:14.5px}
+    nav.nav a{color:#1c1830;text-decoration:none;font-weight:600}
+    nav.nav a:hover{color:#6F52B8}
+    nav.nav .ext{color:#514a68}
+    nav.nav .util{display:flex;align-items:center;gap:13px;padding-left:15px;border-left:1px solid #e7e3f0}
+    nav.nav .util .ic{display:flex;color:#514a68}
+    nav.nav .util .ic:hover{color:#6F52B8}
+    nav.nav .buy{background:#2D2440;color:#fff;padding:7px 13px;border-radius:8px;font-size:13.5px;font-weight:700}
+    @media(max-width:680px){nav.nav{gap:13px;font-size:13.5px}}
+  </style>
 </head>
 <body>
+<div class="sitenav"><div class="in">
+  <a class="snbrand" href="/" aria-label="Vahtian — home">Vahtian</a>
+  <nav class="nav" aria-label="Primary">
+    <a href="/#tools">Tools</a>
+    <a href="/learn/">Learn</a>
+    <a href="/blog/">Blog</a>
+    <a href="/about/">About</a>
+    <a class="ext" href="https://forskai.com">ForskAI <span aria-hidden="true">↗</span></a>
+    <span class="util">
+      <a class="ic" href="https://github.com/heidihelena/vahtian" aria-label="Vahtian on GitHub"><svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 012-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg></a>
+      <a class="ic" href="/search/" aria-label="Search vahtian.com"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.3" y2="16.3"/></svg></a>
+      <a class="ic" href="/download/" aria-label="Download Vahtian software"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4 V15"/><path d="M7 11 L12 16 L17 11"/><path d="M4 20 H20"/></svg></a>
+      <a class="buy" href="/ai-disclosure-kit/">Buy</a>
+    </span>
+    </nav>
+</div></div>
 <header>
   <div class="brand">
-    <svg width="34" height="34" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#3A2F57"/><g fill="none" stroke="#8B6FC9" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M9 10 V22"/><path d="M16 10 V22"/><path d="M23 10 V22"/></g><path d="M9 16 H23" stroke="#C5B8E8" stroke-width="1.8" stroke-linecap="round"/></svg>
+    <a href="/" aria-label="Vahtian — home" style="display:flex"><svg width="34" height="34" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#3A2F57"/><g fill="none" stroke="#8B6FC9" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M9 10 V22"/><path d="M16 10 V22"/><path d="M23 10 V22"/></g><path d="M9 16 H23" stroke="#C5B8E8" stroke-width="1.8" stroke-linecap="round"/></svg></a>
     <div><h1>ReviewVahti</h1><p class="sub">Screening reliability &middot; 2&ndash;7 reviewers &middot; in your browser</p></div>
   </div>
   <div class="hwrap">
@@ -106,12 +164,54 @@
 </header>
 <main>
   <section>
+    <h2>What this is</h2>
+    <p><b>What.</b> When two or more people screen the same papers for a review, they won't agree on
+      every one. ReviewVahti measures how much they actually agreed — per claim, in your browser — so
+      you can report it and find the papers to reconcile.</p>
+    <p><b>Why.</b> A systematic review is only as trustworthy as its screening. PRISMA and most journals
+      expect a reliability statistic, and disagreement you can't quantify is a reviewer red flag.
+      ReviewVahti gives you the number, and the list of conflicts to resolve.</p>
+    <p><b>How.</b> Each reviewer screens the same papers in their own MatchVahti and exports a file. Load
+      every reviewer's files here together; ReviewVahti checks they used the same protocol, then reports
+      per-claim agreement — raw&nbsp;% and Cohen&rsquo;s&nbsp;&kappa; (with PABAK and AC1) for a pair,
+      Krippendorff&rsquo;s&nbsp;&alpha; for three or more.</p>
+    <p class="hint" style="margin-top:10px">New to this? Use <b>Load a worked example</b> below to see a
+      filled-in result with no files.</p>
+
+    <details class="detail"><summary>Which number do I report?</summary>
+      <p class="hint">For <b>two</b> reviewers, report raw&nbsp;% agreement with Cohen&rsquo;s&nbsp;&kappa; —
+        and read PABAK and AC1 alongside, because &kappa; alone understates agreement when almost every
+        paper is excluded (the &ldquo;kappa paradox&rdquo;). For <b>three or more</b>, report
+        Krippendorff&rsquo;s&nbsp;&alpha; (&ge;&nbsp;0.80 reliable, 0.667&ndash;0.80 tentative).</p></details>
+    <details class="detail"><summary>How many reviewers can I load?</summary>
+      <p class="hint">Two to seven. Two gives &kappa;, PABAK, AC1 and a bootstrap CI; three or more gives
+        Krippendorff&rsquo;s&nbsp;&alpha;, Fleiss&rsquo;&nbsp;&kappa; (when everyone rated every paper), and a
+        pairwise matrix showing which pair diverged most.</p></details>
+    <details class="detail"><summary>What do I load, and where does it come from?</summary>
+      <p class="hint">The protocol and ballot files (or the <span class="mono">.zip</span>) each reviewer
+        exports from MatchVahti after screening the <b>same</b> papers under the <b>same</b> protocol.
+        ReviewVahti matches them by a fingerprint (<span class="mono">protocol_hash</span>) and flags any
+        ballot that doesn&rsquo;t match, rather than scoring it silently.</p></details>
+    <details class="detail"><summary>Does my data leave the browser?</summary>
+      <p class="hint">No. ReviewVahti makes <b>no network calls at all</b> — it reads only the files you
+        load, computes everything on your device, and uploads nothing.</p></details>
+    <details class="detail"><summary>Does the AI count toward agreement?</summary>
+      <p class="hint">No. Reliability is measured over human reviewers only. If an AI ballot is present, it
+        is scored <b>separately</b> against the records where the humans agree, and never enters &kappa; or
+        &alpha;.</p></details>
+    <details class="detail"><summary>What is the &ldquo;kappa paradox&rdquo;?</summary>
+      <p class="hint">When almost every paper is excluded, chance agreement is high, so &kappa; can read low
+        even when reviewers agree on nearly every paper. That is why ReviewVahti always shows &kappa; next
+        to raw&nbsp;%, PABAK, and AC1 — never alone.</p></details>
+  </section>
+
+  <section>
     <h2>1 &middot; Load reviewers' files</h2>
     <div class="drop" id="drop" role="button" tabindex="0" aria-label="Choose protocol and ballot files to load">
       <b>Drop protocol + ballot files here</b><br>
       <span class="muted">or click to choose &mdash; <span class="mono">protocol-*.json</span>, <span class="mono">ballot-*.json</span>, or the <span class="mono">reviewvahti-*.zip</span> MatchVahti exports</span>
     </div>
-    <input type="file" id="file" multiple accept=".json,.zip,application/json,application/zip" />
+    <input type="file" id="file" multiple accept=".json,.zip,application/json,application/zip" aria-label="Choose protocol and ballot files — protocol-*.json, ballot-*.json, or reviewvahti-*.zip" />
     <div class="actions">
       <button class="ghost" id="loadExample">▶ Load a worked example</button>
       <button class="ghost" id="clearAll" style="display:none">Clear</button>
@@ -140,8 +240,9 @@
   </section>
 </main>
 <footer>
-  ReviewVahti &middot; static, in-browser, no telemetry, no outbound calls &middot; reads only the files you load.
+  &copy; 2026 Vahtian &middot; ReviewVahti &middot; static, in-browser, no telemetry, no outbound calls &middot; reads only the files you load.
   Reliability is measured over human reviewers; the AI second opinion is advisory and never counts toward &kappa;.
+  <br><a href="/">vahtian.com</a> &middot; <a href="https://github.com/heidihelena/vahtian">source</a> &middot; <a href="/cite/">Cite</a> &middot; <a href="/privacy/">Privacy</a>
 </footer>
 
 <script>

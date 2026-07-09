@@ -1,0 +1,104 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # Hard gate: the repo-specific drift audit (meta, JSON-LD, sitemap, footers,
+  # internal links). Encodes the vahtian-site skill's §Verify. Must pass.
+  drift:
+    name: Drift audit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Run drift audit
+        run: bash .github/scripts/audit.sh
+
+  # Hard gate: SynthVahti statistics parity. Regenerates the golden values from
+  # metafor (R), then asserts the browser pooling core (synthvahti/synth.mjs)
+  # reproduces them within 1e-4, and runs the generated synthesis.R end-to-end.
+  # An integrity brand cannot ship unverified meta-analysis math.
+  synth-stats:
+    name: SynthVahti stats parity
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - uses: r-lib/actions/setup-r@v2
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: any::metafor, any::jsonlite, any::mada
+      - name: Regenerate golden values from metafor
+        run: Rscript tools/golden_synth.R
+      - name: JS pooling core matches metafor (golden parity + edge cases)
+        run: node tools/synth-test.mjs
+      - name: Generated synthesis.R runs end-to-end
+        run: |
+          node tools/gen-synthesis-r.mjs > synthesis.golden.R
+          cp synthvahti/fixtures/golden.csv extraction.csv
+          Rscript synthesis.golden.R
+
+  # MethodVahti parity: regenerate the golden sample-size values from the Python
+  # reference (methodvahti_pdf.optimise_n — pure stdlib), then assert the browser
+  # core (methodvahti/optimise.mjs) that the Explorer imports reproduces them
+  # exactly. The free explorer and the paid report must agree on N.
+  method-stats:
+    name: MethodVahti stats parity
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Regenerate golden values from the Python reference
+        run: python3 tools/golden_method.py
+      - name: JS optimise core matches Python (golden parity + edge cases)
+        run: node tools/method-test.mjs
+
+  # Informative: quality budgets. continue-on-error so score variance never
+  # blocks a merge; tighten the thresholds in lighthouserc.json over time.
+  lighthouse:
+    name: Lighthouse CI
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Lighthouse CI (performance / a11y / SEO budgets)
+        run: npx --yes @lhci/cli@0.14.x autorun
+
+  # Hard gate: accessibility (WCAG 2.2 AA) on the key pages, via a local static
+  # server. Promoted from informative to blocking now that it is consistently
+  # green — an a11y regression on a covered page fails the build.
+  a11y:
+    name: Accessibility (pa11y-ci)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Serve site + WCAG2AA scan
+        run: |
+          npx --yes serve@14 -l 8080 . &
+          npx --yes wait-on@7 http://127.0.0.1:8080
+          npx --yes pa11y-ci@3

@@ -7,6 +7,16 @@
 <meta name="description" content="Extract once, appraise once: per-study diagnostic-accuracy data extraction and risk-of-bias (QUADAS-2 / QUADAS-C / PROBAST-AI), exporting tidy CSV for meta-analysis in R. Local-first, nothing uploads." />
 <meta name="theme-color" content="#2D2440" />
 <meta name="robots" content="noindex" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://vahtian.com/extractvahti/" />
+<meta property="og:title" content="ExtractVahti — DTA data extraction + risk of bias" />
+<meta property="og:description" content="Extract once, appraise once: QUADAS-2 / QUADAS-C / PROBAST-AI, exporting tidy CSV for meta-analysis in R. Local-first; nothing uploads." />
+<meta property="og:image" content="https://vahtian.com/brand/cards/extractvahti-card.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="ExtractVahti — extract once, appraise once. A product of Vahtian." />
+<meta property="og:site_name" content="Vahtian" />
+<meta name="twitter:card" content="summary_large_image" />
 <!--
   ExtractVahti v0.1 — the DTA back-half tool. Per-study data extraction + risk-of-bias appraisal,
   exporting tidy data for meta-analysis in R. Single-file, local-first, no external requests.
@@ -41,8 +51,13 @@
   .chip{font:600 11px/1 ui-monospace,Menlo,monospace;padding:5px 9px;border-radius:999px;border:1px solid #4a4068;color:#cfc7e6}
   section{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px;margin:18px 0;box-shadow:var(--shadow)}
   h2{font-size:16px;margin:0 0 4px;letter-spacing:-.01em}
-  h2 .n{color:var(--violet);font:600 13px/1 ui-monospace,monospace;margin-right:6px}
+  h2 .n{color:var(--link);font:600 13px/1 ui-monospace,monospace;margin-right:6px}
   .hint{color:var(--muted);font-size:13px;margin:4px 0 12px;max-width:64ch}
+  .wwh{font-size:14px;margin:6px 0 0;color:var(--ink);max-width:66ch}
+  .faq{margin-top:14px}
+  .faq details{border-top:1px solid var(--line);padding:8px 0}
+  .faq summary{cursor:pointer;font-weight:600;color:var(--link);font-size:13.5px}
+  .faq details p{color:var(--muted);font-size:13px;margin:6px 0 0;max-width:62ch}
   label{display:block;font-weight:600;font-size:13px;margin:10px 0 3px}
   input,select,textarea{width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:9px;font:inherit;background:#fff;color:var(--ink)}
   textarea{min-height:60px;resize:vertical}
@@ -79,13 +94,44 @@
   footer{color:var(--muted);font-size:12.5px;padding:8px 0 40px;text-align:center}
   .pill{font:600 11px/1 ui-monospace,monospace;padding:4px 8px;border-radius:6px}
   .pill.done{background:var(--teal-fill);color:var(--teal-text)} .pill.todo{background:#f2f0f7;color:var(--muted)}
-</style>
+
+    /* site nav band */
+    .sitenav{background:#faf9fc;border-bottom:1px solid #e7e3f0}
+    .sitenav .in{max-width:1100px;margin:0 auto;padding:10px 22px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
+    .sitenav .snbrand{font-weight:800;font-size:15px;color:#1c1830;text-decoration:none;letter-spacing:-.01em}
+    /* site nav */
+    nav.nav{display:flex;align-items:center;gap:16px;flex-wrap:wrap;font-size:14.5px}
+    nav.nav a{color:#1c1830;text-decoration:none;font-weight:600}
+    nav.nav a:hover{color:#6F52B8}
+    nav.nav .ext{color:#514a68}
+    nav.nav .util{display:flex;align-items:center;gap:13px;padding-left:15px;border-left:1px solid #e7e3f0}
+    nav.nav .util .ic{display:flex;color:#514a68}
+    nav.nav .util .ic:hover{color:#6F52B8}
+    nav.nav .buy{background:#2D2440;color:#fff;padding:7px 13px;border-radius:8px;font-size:13.5px;font-weight:700}
+    @media(max-width:680px){nav.nav{gap:13px;font-size:13.5px}}
+  </style>
 </head>
 <body>
+<div class="sitenav"><div class="in">
+  <a class="snbrand" href="/" aria-label="Vahtian — home">Vahtian</a>
+  <nav class="nav" aria-label="Primary">
+    <a href="/#tools">Tools</a>
+    <a href="/learn/">Learn</a>
+    <a href="/blog/">Blog</a>
+    <a href="/about/">About</a>
+    <a class="ext" href="https://forskai.com">ForskAI <span aria-hidden="true">↗</span></a>
+    <span class="util">
+      <a class="ic" href="https://github.com/heidihelena/vahtian" aria-label="Vahtian on GitHub"><svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 012-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg></a>
+      <a class="ic" href="/search/" aria-label="Search vahtian.com"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.3" y2="16.3"/></svg></a>
+      <a class="ic" href="/download/" aria-label="Download Vahtian software"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4 V15"/><path d="M7 11 L12 16 L17 11"/><path d="M4 20 H20"/></svg></a>
+      <a class="buy" href="/ai-disclosure-kit/">Buy</a>
+    </span>
+    </nav>
+</div></div>
 <header>
   <div class="wrap">
     <div class="brand">
-      <svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#2D2440"/><g fill="none" stroke="#5566B5" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9 H9 V23 H12"/><path d="M20 9 H23 V23 H20"/></g><g fill="none" stroke="#C5B8E8" stroke-width="1.7"><rect x="11.5" y="11.5" width="9" height="9" rx="1.2"/><path d="M16 11.5 V20.5 M11.5 16 H20.5"/></g></svg>
+      <a href="/" aria-label="Vahtian — home" style="display:flex"><svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#2D2440"/><g fill="none" stroke="#5566B5" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9 H9 V23 H12"/><path d="M20 9 H23 V23 H20"/></g><g fill="none" stroke="#C5B8E8" stroke-width="1.7"><rect x="11.5" y="11.5" width="9" height="9" rx="1.2"/><path d="M16 11.5 V20.5 M11.5 16 H20.5"/></g></svg></a>
       <div><h1>ExtractVahti</h1><p class="sub">Extract once, appraise once &mdash; tidy data + risk-of-bias your meta-analysis can trust</p></div>
     </div>
     <div class="chips"><span class="chip">v0.3</span><span class="chip">κ / Krippendorff α</span><span class="chip">RoB SVG</span><span class="chip">local-first</span><span class="chip">DTA</span></div>
@@ -94,6 +140,45 @@
 
 <div class="wrap">
 <main>
+
+  <section>
+    <h2>What this is</h2>
+    <p class="wwh"><b>What.</b> ExtractVahti is the extraction-and-appraisal step of a diagnostic-test-accuracy
+      review. For each included study you enter the 2&times;2 counts (it computes sensitivity, specificity, and
+      overall agreement), record the study details, and rate risk of bias with QUADAS-2 / QUADAS-C /
+      PROBAST-AI — then export tidy CSVs for meta-analysis in R.</p>
+    <p class="wwh"><b>Why.</b> Extraction is where DTA reviews leak errors: a mis-transcribed 2&times;2, an
+      inconsistent reference standard, a bias domain nobody appraised. Doing it once, in a structured form
+      that computes the accuracy for you and keeps a risk-of-bias traffic-light, is what a reproducible
+      review needs — and it hands the headline model straight to R.</p>
+    <p class="wwh"><b>How.</b> Paste your included studies from MatchVahti (or load the example). For each
+      study: enter the 2&times;2 per cutoff, note the decision impact, and rate each risk-of-bias domain, then
+      Save and move on. Export <span class="mono">extraction.csv</span> / <span class="mono">rob.csv</span>
+      and the traffic-light SVG. A second extractor&rsquo;s file can be reconciled. Nothing uploads.</p>
+
+    <div class="faq">
+      <details><summary>Is my data uploaded?</summary>
+        <p>No. ExtractVahti runs entirely in your browser and saves to your device&rsquo;s local storage —
+          nothing leaves your machine, and there are no accounts or trackers.</p></details>
+      <details><summary>What does it compute, and what stays in R?</summary>
+        <p>From a 2&times;2 (TP/FP/FN/TN) it computes sensitivity, specificity, and overall percent agreement;
+          with two or more extractors it computes Cohen&rsquo;s &kappa; (or Krippendorff&rsquo;s &alpha; for 3+)
+          on the judgments. The headline HSROC / bivariate model runs in R on the exported CSV
+          (<span class="mono">mada</span> / <span class="mono">metadta</span>).</p></details>
+      <details><summary>Which risk-of-bias tools?</summary>
+        <p>QUADAS-2 and QUADAS-C by default; PROBAST-AI / TRIPOD-AI / CLAIM when the index test is AI
+          (toggle it on in step 1). The reference-standard domain is high-concern by design when the
+          reference standard is imperfect.</p></details>
+      <details><summary>What do I get out?</summary>
+        <p><span class="mono">extraction.csv</span> and <span class="mono">reclassification.csv</span> for R,
+          <span class="mono">rob.csv</span>, a risk-of-bias traffic-light SVG, and a de-identified
+          validation file. All downloadable, reviewable, and local.</p></details>
+      <details><summary>Can two people extract independently?</summary>
+        <p>Yes. Load a second extractor&rsquo;s <span class="mono">extraction.jsonl</span> in the Reconcile
+          step — only beyond-tolerance mismatches surface for adjudication, and each person&rsquo;s data
+          stands alone.</p></details>
+    </div>
+  </section>
 
   <section id="setupSection">
     <h2><span class="n">1</span>Included studies &amp; protocol</h2>
@@ -128,19 +213,19 @@
 
     <h2><span class="n">2</span>Extract &mdash; study data</h2>
     <div class="row">
-      <div><label>Cohort n</label><input id="f_cohort_n" type="number" min="0" /></div>
-      <div><label>Specimen type</label><select id="f_specimen"><option value=""></option><option>resection</option><option>core/small biopsy</option><option>cytology cell block</option></select></div>
-      <div><label>PD-L1 clone</label><select id="f_clone"><option value=""></option><option>22C3</option><option>28-8</option><option>SP263</option><option>SP142</option><option>other</option></select></div>
+      <div><label for="f_cohort_n">Cohort n</label><input id="f_cohort_n" type="number" min="0" /></div>
+      <div><label for="f_specimen">Specimen type</label><select id="f_specimen"><option value=""></option><option>resection</option><option>core/small biopsy</option><option>cytology cell block</option></select></div>
+      <div><label for="f_clone">PD-L1 clone</label><select id="f_clone"><option value=""></option><option>22C3</option><option>28-8</option><option>SP263</option><option>SP142</option><option>other</option></select></div>
     </div>
     <div class="row">
-      <div><label>Algorithm name</label><input id="f_algo" /></div>
-      <div><label>Version</label><input id="f_algo_v" /></div>
-      <div><label>Platform / scanner</label><input id="f_platform" /></div>
+      <div><label for="f_algo">Algorithm name</label><input id="f_algo" /></div>
+      <div><label for="f_algo_v">Version</label><input id="f_algo_v" /></div>
+      <div><label for="f_platform">Platform / scanner</label><input id="f_platform" /></div>
     </div>
     <div class="row">
-      <div><label>Reference standard</label><input id="f_ref" placeholder="e.g. >=2-pathologist consensus" /></div>
-      <div><label>Turn-around (min)</label><input id="f_tat" type="number" min="0" /></div>
-      <div><label>Funding / COI</label><input id="f_funding" /></div>
+      <div><label for="f_ref">Reference standard</label><input id="f_ref" placeholder="e.g. >=2-pathologist consensus" /></div>
+      <div><label for="f_tat">Turn-around (min)</label><input id="f_tat" type="number" min="0" /></div>
+      <div><label for="f_funding">Funding / COI</label><input id="f_funding" /></div>
     </div>
 
     <h2 style="margin-top:18px"><span class="n">2b</span>Per-cutoff accuracy <span class="muted" style="font-weight:400;font-size:12px">&mdash; enter a 2&times;2 where reconstructable; sens/spec/OPA auto-compute</span></h2>
@@ -188,10 +273,10 @@
       Records join on <span class="mono">record_id</span>; judgments get Cohen's &kappa;, counts an exact match, continuous
       values a tolerance. Only beyond-tolerance mismatches surface for adjudication &mdash; the human data source stands alone.</p>
     <div class="row" style="align-items:flex-end">
-      <div><label class="filebtn" style="display:inline-block;cursor:pointer"><input type="file" id="coFile" accept=".jsonl,.json,application/json" style="display:none"> <button class="ghost small" type="button" onclick="document.getElementById('coFile').click()">Load extractor B (jsonl)</button></label></div>
-      <div><label>Count tolerance (±)</label><input id="tolCounts" type="number" min="0" value="0"></div>
-      <div><label>Rate tolerance (± %pt)</label><input id="tolRate" type="number" min="0" step="0.5" value="1"></div>
-      <div><label>&kappa; tolerance (±)</label><input id="tolKappa" type="number" min="0" step="0.01" value="0.05"></div>
+      <div><label class="filebtn" style="display:inline-block;cursor:pointer"><input type="file" id="coFile" accept=".jsonl,.json,application/json" aria-label="Load second extractor's extraction.jsonl file" style="display:none"> <button class="ghost small" type="button" onclick="document.getElementById('coFile').click()">Load extractor B (jsonl)</button></label></div>
+      <div><label for="tolCounts">Count tolerance (±)</label><input id="tolCounts" type="number" min="0" value="0"></div>
+      <div><label for="tolRate">Rate tolerance (± %pt)</label><input id="tolRate" type="number" min="0" step="0.5" value="1"></div>
+      <div><label for="tolKappa">&kappa; tolerance (±)</label><input id="tolKappa" type="number" min="0" step="0.01" value="0.05"></div>
     </div>
     <p class="muted" id="coStatus" style="font-size:13px;margin-top:8px"></p>
     <div id="reconcileSummary"></div>
@@ -203,14 +288,13 @@
     <p class="hint">Load an <strong>agent pre-extraction</strong> file (same jsonl; each record carries a <span class="mono">model</span> id).
       It is <strong>sealed</strong> &mdash; never shown and never entered into your data. After you <em>commit</em> a study (Save),
       the agent's values for that study are revealed <strong>only as discrepancy flags to re-check</strong>. Audited: human-commit before reveal.</p>
-    <label class="filebtn" style="display:inline-block;cursor:pointer"><input type="file" id="sealFile" accept=".jsonl,.json,application/json" style="display:none"> <button class="ghost small" type="button" onclick="document.getElementById('sealFile').click()">Load sealed agent file (jsonl)</button></label>
+    <label class="filebtn" style="display:inline-block;cursor:pointer"><input type="file" id="sealFile" accept=".jsonl,.json,application/json" aria-label="Load sealed agent pre-extraction jsonl file" style="display:none"> <button class="ghost small" type="button" onclick="document.getElementById('sealFile').click()">Load sealed agent file (jsonl)</button></label>
     <span class="pill" id="sealPill" style="margin-left:8px"></span>
   </section>
 </main>
 
   <footer>
-    ExtractVahti &middot; a product of <a href="/">Vahtian</a> &middot; local-first, nothing uploads &middot; spec in
-    <a href="https://github.com/heidihelena/matchvahti/blob/main/docs/extractvahti-design.md">matchvahti/docs</a>
+    &copy; 2026 Vahtian &middot; ExtractVahti &middot; a product of <a href="/">Vahtian</a> &middot; local-first, nothing uploads &middot; <a href="https://github.com/heidihelena/vahtian">source</a> &middot; <a href="/cite/">Cite</a> &middot; <a href="/privacy/">Privacy</a>
   </footer>
 </div>
 
@@ -296,8 +380,8 @@ function renderStudy(){
       +'<div class="grid4">'
       +cell2x2(i,"tp","TP",cd.tp)+cell2x2(i,"fp","FP",cd.fp)+cell2x2(i,"fn","FN",cd.fn)+cell2x2(i,"tn","TN",cd.tn)
       +'</div><div class="row" style="margin-top:6px">'
-      +'<div><label>&kappa; (linear, optional)</label><input data-cut="'+i+'" data-fld="kappa" type="number" step="0.01" value="'+(cd.kappa==null?"":esc(cd.kappa))+'"></div>'
-      +'<div><label>OPA % (optional)</label><input data-cut="'+i+'" data-fld="opa" type="number" step="0.1" value="'+(cd.opa==null?"":esc(cd.opa))+'"></div>'
+      +'<div><label>&kappa; (linear, optional)</label><input data-cut="'+i+'" data-fld="kappa" type="number" step="0.01" aria-label="'+esc(c+" kappa linear")+'" value="'+(cd.kappa==null?"":esc(cd.kappa))+'"></div>'
+      +'<div><label>OPA % (optional)</label><input data-cut="'+i+'" data-fld="opa" type="number" step="0.1" aria-label="'+esc(c+" OPA percent")+'" value="'+(cd.opa==null?"":esc(cd.opa))+'"></div>'
       +'</div><div class="calc" id="calc'+i+'">'+esc(calcText(cd))+'</div></div>';
   }).join("");
   $("reclassBlocks").innerHTML=S.cutoffs.map((c,i)=>{
@@ -319,8 +403,8 @@ function renderStudy(){
   bindStudyInputs();
   $("savePill").textContent=e.done?"saved ✓":""; $("savePill").className="pill "+(e.done?"done":"");
 }
-function cell2x2(i,fld,lbl,v){ return '<div><label>'+lbl+'</label><input data-cut="'+i+'" data-fld="'+fld+'" type="number" min="0" value="'+(v==null?"":esc(v))+'"></div>'; }
-function cellRc(i,fld,lbl,v){ return '<div><label>'+lbl+'</label><input data-rc="'+i+'" data-fld="'+fld+'" type="number" min="0" value="'+(v==null?"":esc(v))+'"></div>'; }
+function cell2x2(i,fld,lbl,v){ return '<div><label>'+lbl+'</label><input data-cut="'+i+'" data-fld="'+fld+'" type="number" min="0" aria-label="'+esc((S.cutoffs[i]||"cutoff")+" "+lbl)+'" value="'+(v==null?"":esc(v))+'"></div>'; }
+function cellRc(i,fld,lbl,v){ return '<div><label>'+lbl+'</label><input data-rc="'+i+'" data-fld="'+fld+'" type="number" min="0" aria-label="'+esc((S.cutoffs[i]||"cutoff")+" reclassification "+lbl)+'" value="'+(v==null?"":esc(v))+'"></div>'; }
 function calcText(cd){
   const have=["tp","fp","fn","tn"].every(k=>cd[k]!==""&&cd[k]!=null&&!isNaN(+cd[k]));
   if(!have) return "enter the 2×2 → sens / spec / OPA";

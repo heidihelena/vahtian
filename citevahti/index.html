@@ -56,7 +56,7 @@
     .mark{width:32px;height:32px;flex:0 0 32px}
     .up{font-size:13px;color:var(--muted);text-decoration:none}
     .hero{padding:46px 0 12px}
-    .kicker{font:600 13px/1 ui-monospace,monospace;color:var(--violet);text-transform:uppercase;letter-spacing:.08em;margin:0 0 14px}
+    .kicker{font:600 13px/1 ui-monospace,monospace;color:var(--link);text-transform:uppercase;letter-spacing:.08em;margin:0 0 14px}
     h1{font-size:clamp(30px,6vw,46px);line-height:1.1;letter-spacing:-.02em;margin:0 0 16px}
     .lede{font-size:clamp(17px,2.6vw,20px);color:#3a3450;margin:0 0 24px;max-width:60ch}
     .cta{display:flex;flex-wrap:wrap;gap:12px}
@@ -104,9 +104,9 @@
     .demo .steps li.on{border-color:var(--violet);color:#432C7A;background:#ECE3FF}
     .demo .steps li.done{border-color:var(--teal);color:#08544A;background:#D8F4ED}
     .claimcard{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 18px 8px;box-shadow:0 1px 0 rgba(45,36,64,.03)}
-    .clbl{font:600 11px/1 ui-monospace,monospace;text-transform:uppercase;letter-spacing:.07em;color:var(--violet);margin-bottom:7px}
+    .clbl{font:600 11px/1 ui-monospace,monospace;text-transform:uppercase;letter-spacing:.07em;color:var(--link);margin-bottom:7px}
     .claimtext{font-size:18px;line-height:1.5;margin:0 0 4px;color:var(--ink)}
-    .claimtext sup{color:var(--violet);font-weight:700}
+    .claimtext sup{color:var(--link);font-weight:700}
     .src{border-top:1px dashed var(--line);margin-top:14px;padding:14px 0 6px}
     .src .clbl{color:var(--muted)}
     .src p{margin:0;font-size:14.5px;color:#3a3450}
@@ -121,7 +121,7 @@
     .blindnote{font-size:13.5px;color:var(--muted);margin:13px 0 0}
     .yourated{font-size:14.5px;color:#3a3450;margin:18px 0 12px}
     .ai{background:#F6F2FF;border:1px solid var(--line);border-left:3px solid var(--violet);border-radius:10px;padding:14px 16px}
-    .ai .clbl{color:var(--violet);margin-bottom:6px}
+    .ai .clbl{color:var(--link);margin-bottom:6px}
     .ai p{margin:0;font-size:14.5px;color:#322c47}
     .agree{font-weight:600;font-size:14.5px;margin:14px 0 4px}
     .agree.same{color:#08544A}.agree.diff{color:#7A1F45}
@@ -141,6 +141,17 @@
     .ledger pre .k{color:#9b93b8}.ledger pre .ok{color:#7fd9c5}
     .cta-final{margin-top:18px}
     .cta-final p{font-size:15px;color:#322c47;max-width:62ch}
+  
+    /* site nav */
+    nav.nav{display:flex;align-items:center;gap:16px;flex-wrap:wrap;font-size:14.5px}
+    nav.nav a{color:#1c1830;text-decoration:none;font-weight:600}
+    nav.nav a:hover{color:#6F52B8}
+    nav.nav .ext{color:#514a68}
+    nav.nav .util{display:flex;align-items:center;gap:13px;padding-left:15px;border-left:1px solid #e7e3f0}
+    nav.nav .util .ic{display:flex;color:#514a68}
+    nav.nav .util .ic:hover{color:#6F52B8}
+    nav.nav .buy{background:#2D2440;color:#fff;padding:7px 13px;border-radius:8px;font-size:13.5px;font-weight:700}
+    @media(max-width:680px){nav.nav{gap:13px;font-size:13.5px}}
   </style>
 </head>
 <body>
@@ -148,15 +159,27 @@
 
   <header>
     <div class="brand">
-      <svg class="mark" viewBox="0 0 32 32" aria-hidden="true">
+      <a href="/" aria-label="Vahtian — home" style="display:flex"><svg class="mark" viewBox="0 0 32 32" aria-hidden="true">
         <rect width="32" height="32" rx="7" fill="#2D2440"/>
         <g fill="none" stroke="#8B6FC9" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
           <path d="M12 9 H9 V23 H12"/><path d="M20 9 H23 V23 H20"/></g>
         <circle cx="13.9" cy="16" r="1.7" fill="#C5B8E8"/><circle cx="18.1" cy="16" r="1.7" fill="#C5B8E8"/>
-      </svg>
+      </svg></a>
       <span>CiteVahti</span>
     </div>
-    <a class="up" href="/">← Vahtian</a>
+    <nav class="nav" aria-label="Primary">
+      <a href="/#tools">Tools</a>
+      <a href="/learn/">Learn</a>
+      <a href="/blog/">Blog</a>
+      <a href="/about/">About</a>
+      <a class="ext" href="https://forskai.com">ForskAI <span aria-hidden="true">↗</span></a>
+      <span class="util">
+        <a class="ic" href="https://github.com/heidihelena/vahtian" aria-label="Vahtian on GitHub"><svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 012-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg></a>
+        <a class="ic" href="/search/" aria-label="Search vahtian.com"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.3" y2="16.3"/></svg></a>
+        <a class="ic" href="/download/" aria-label="Download Vahtian software"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4 V15"/><path d="M7 11 L12 16 L17 11"/><path d="M4 20 H20"/></svg></a>
+        <a class="buy" href="/ai-disclosure-kit/">Buy</a>
+      </span>
+    </nav>
   </header>
 </div><!-- /wrap -->
 
@@ -173,6 +196,7 @@
       decision. Free and local-first.</p>
     <div class="cta">
       <a class="btn primary" href="#try">Check one claim ↓</a>
+      <a class="btn ghost" href="/citevahti/quick-check/">Quick-check your paragraph →</a>
       <a class="btn ghost" href="#start">Get started</a>
     </div>
     <div class="chips" aria-label="The four claim states">
@@ -278,7 +302,7 @@
     <h2>How it works — the manuscript as a test suite</h2>
     <ol class="flow">
       <li><b>Claim detected.</b> Each manuscript claim becomes a test case.</li>
-      <li><b>Evidence found.</b> Staged from PubMed — candidates, not citations; often abstracts, which are leads to confirm in the full text, not proof.</li>
+      <li><b>Evidence found.</b> Staged from PubMed, OpenAlex, Semantic Scholar, and Crossref — candidates, not citations; often abstracts, which are leads to confirm in the full text, not proof.</li>
       <li><b>Support, not just topic.</b> Does the paper actually support <em>this</em> claim? (PICO match)</li>
       <li><b>You decide — blinded.</b> The AI's opinion stays hidden until you rate. The human is the decider.</li>
       <li><b>Guarded write.</b> Preview → confirm → write to Zotero, with undo. No silent writes; dedupe fails closed.</li>
@@ -286,22 +310,64 @@
     </ol>
   </section>
 
+  <section>
+    <h2>Not a reference manager</h2>
+    <p>Zotero and EndNote store and format your references. CiteVahti does the part they don't: it
+      checks whether the paper you cited actually <b>supports the sentence</b> you attached it to —
+      claim by claim — and records who decided what. It reads your Zotero library and writes back to
+      it; it doesn't replace it.</p>
+    <ul class="feat">
+      <li><b>Your reference manager</b> answers "is this reference stored and formatted right?"</li>
+      <li><b>CiteVahti</b> answers "does this source support this claim, as written?" — the question a reviewer asks.</li>
+    </ul>
+    <p class="note" style="margin-top:16px">Doing a systematic review? CiteVahti checks the claims; its
+      siblings handle the rest — <a href="/reviewvahti/">ReviewVahti</a> for reviewer agreement,
+      <a href="/extractvahti/">ExtractVahti</a> for data extraction, and <a href="/synthvahti/">SynthVahti</a>
+      for synthesis.</p>
+  </section>
+
   <section id="start">
     <h2>Get started</h2>
-    <p class="note"><b>Free beta — local-first.</b> Your manuscript never leaves your
-      device unless you choose to use an external AI model.</p>
+    <p class="note"><b>Free while in beta.</b> No account, no card. The core is open-source and runs on
+      your machine, so checking your own manuscript stays free — a good time to try it is now, before
+      you're mid-submission. Works on a Word (<code>.docx</code>) or Markdown manuscript, or pasted text;
+      nothing has to leave your device.</p>
 
-    <p style="font-weight:700;margin:18px 0 6px">No terminal — Claude Desktop</p>
-    <p>Download the CiteVahti extension for your computer from the
-      <a href="https://github.com/heidihelena/citevahti/releases/latest">latest release</a>,
-      double-click it, choose a CiteVahti folder, then ask Claude:
-      <em>“Run claim tests on my manuscript using CiteVahti.”</em>
-      Builds for Windows, Linux, and macOS (Apple Silicon — signed &amp; notarized).</p>
+    <p style="font-weight:700;margin:18px 0 6px">macOS app — no terminal</p>
+    <p>Download <code>CiteVahti.app</code> from the
+      <a href="https://github.com/heidihelena/citevahti/releases/latest">latest release</a>
+      (Apple Silicon, signed &amp; notarized), drag it to Applications, and open it.</p>
+
+    <p style="font-weight:700;margin:20px 0 6px">Claude Desktop — no terminal</p>
+    <p>Download the CiteVahti extension (<code>.mcpb</code>) for macOS, Windows, or Linux from the
+      same release, double-click to install, choose a CiteVahti folder, then ask Claude:
+      <em>“Run claim tests on my manuscript using CiteVahti.”</em></p>
 
     <p style="font-weight:700;margin:20px 0 6px">Prefer the terminal?</p>
     <pre>pip install "citevahti[mcp]"
-citevahti run</pre>
-    <p style="font-size:14px;color:var(--muted);margin:8px 0 0">Installs from PyPI, then opens the local review panel — it names the next step for you.</p>
+citevahti demo   <span class="c"># 3-minute worked example — no Zotero, AI, or setup</span>
+citevahti run    <span class="c"># review panel on your own manuscript</span></pre>
+    <p style="font-size:14px;color:var(--muted);margin:8px 0 0">Installs from PyPI. <code>run</code>
+      opens the local review panel and names the next step for you.</p>
+
+    <p style="font-weight:700;margin:20px 0 6px">Using CiteVahti in Claude Code or Claude Desktop</p>
+    <p>Install the MCP server (<code>pip install "citevahti[mcp]"</code>) and connect it in Claude Code, or
+      double-click the Claude Desktop extension — the
+      <a href="https://github.com/heidihelena/citevahti/blob/main/docs/QUICKSTART.md">Quickstart</a> has the
+      exact steps. Then you drive it in plain language: ask for the outcome, not a command.</p>
+    <pre>Run claim tests on my manuscript.docx with CiteVahti.
+Which of my claims have no citation, or overstate the source?
+Check whether this citation supports the sentence — rate it blind first.
+Write the verified references to Zotero, and let me confirm each one.
+Draft this paragraph using only my verified claims.</pre>
+    <p style="font-size:14px;color:var(--muted);margin:8px 0 0">You stay the decider: CiteVahti stages the
+      evidence and gives a blinded second opinion, but nothing is rated or written to Zotero without you.</p>
+
+    <p style="font-weight:700;margin:20px 0 6px">Keep the AI on-device (optional)</p>
+    <p>The AI second opinion is off by default. Point it at your own API key, or run a local model
+      with <a href="https://ollama.com">Ollama</a> (<code>ollama pull qwen2.5</code>) — then even
+      the second opinion stays on your machine.</p>
+
     <p style="margin-top:14px"><a class="btn ghost" href="https://github.com/heidihelena/citevahti/blob/main/docs/QUICKSTART.md">Read the Quickstart →</a></p>
   </section>
 
@@ -313,12 +379,15 @@ citevahti run</pre>
       <li><b>Your key is yours.</b> Stored only in the OS keychain; reads need no key at all.</li>
       <li><b>Local-first &amp; private.</b> Runs on your laptop. No account, no telemetry, no fabricated citations.</li>
       <li><b>Auditable.</b> A hash-chained log records the reasoning — reportable in a methods section.</li>
+      <li><b>Made to disclose.</b> Export the audit trail for your methods, and tell your supervisor or
+        journal you used it — there's a ready template in the
+        <a href="https://github.com/heidihelena/citevahti/blob/main/docs/DISCLOSURE.md">disclosure guide</a>.</li>
     </ul>
   </section>
 
   <footer>
     <p>© 2026 Vahtian · CiteVahti · Apache-2.0 core ·
-      <a href="https://github.com/heidihelena/citevahti">source</a> · <a href="/privacy/">Privacy</a> · <a href="/">vahtian.com</a></p>
+      <a href="https://github.com/heidihelena/citevahti">source</a> · <a href="/cite/">Cite</a> · <a href="/citevahti/privacy/">CiteVahti privacy</a> · <a href="/privacy/">Website privacy</a> · <a href="/">vahtian.com</a></p>
     <p>A local-first citation-support audit tool for manuscript claims. It records a documented
       human → AI → adjudication workflow with provenance; it <b>does not certify</b> scientific
       truth, manuscript quality, or publication suitability — final responsibility stays with the
