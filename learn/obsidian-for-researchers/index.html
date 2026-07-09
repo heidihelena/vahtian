@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Obsidian for researchers: 5 questions no guide answers (one vault, tags, Zotero, thesis, graph view) — Vahtian Learn</title>
+  <meta name="description" content="Direct answers to the five questions researchers actually ask about Obsidian: one vault or split, folders vs tags vs links, where Zotero ends and Obsidian begins, whether to write a thesis in it, and how to use the graph view to find research gaps.">
+  <meta name="theme-color" content="#2D2440">
+  <link rel="canonical" href="https://vahtian.com/learn/obsidian-for-researchers/">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://vahtian.com/learn/obsidian-for-researchers/">
+  <meta property="og:title" content="Obsidian for researchers: 5 questions no guide answers">
+  <meta property="og:description" content="One vault or split? Folders vs tags vs links? Where does Zotero end? Thesis in Obsidian? Graph view for gaps? Direct answers, one page.">
+  <meta property="og:site_name" content="Vahtian">
+  <meta name="twitter:card" content="summary">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Should I use one massive vault for all my research, or split it by project?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Use one single vault. Splitting vaults breaks the internal links between projects, so you lose the ability to see how a concept from an old paper connects to something you are drafting today. Only split for strictly client-confidential data or a shared team repository." }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I balance folders, tags, and links without making a mess?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Links for ideas, folders for access and file type, tags only for status. Link concepts inside your sentences to build an organic web; keep folders minimal (Sources, Drafts, Templates); use tags strictly for workflow status such as to-read or needs-citation, not for topics." }
+      },
+      {
+        "@type": "Question",
+        "name": "Where should I draw the line between Zotero and Obsidian?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Zotero stores the data; Obsidian synthesizes the thinking. Zotero captures PDFs, metadata, bibliographies, and raw highlights. Obsidian is where you write notes in your own words, break arguments into atomic concepts, and cross-reference papers, importing highlights via the Zotero Integration plugin." }
+      },
+      {
+        "@type": "Question",
+        "name": "Is it safe to write my entire thesis or dissertation inside Obsidian?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Yes for drafting and outlining, no for final formatting. Draft and assemble chapters in Obsidian (plugins like Longform help); because notes are plain Markdown you will not lose work. For formal layout and peer-review tracking, export to Pandoc, LaTeX, or Word." }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I use the graph view to find research gaps?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Look for isolated islands (notes with no links: literature you read but never integrated), sparse hubs (a major concept with few connected papers: a gap or an area needing deeper reading), and long bridges (two clusters joined by one or two links: cross-disciplinary opportunities)." }
+      }
+    ]
+  }
+  </script>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232D2440'/%3E%3Cg fill='none' stroke='%238B6FC9' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 9 H9 V23 H12'/%3E%3Cpath d='M20 9 H23 V23 H20'/%3E%3C/g%3E%3Cpath d='M16 10.3 L19.6 12 L19.6 15 L16 19.6 L12.4 15 L12.4 12 Z' fill='none' stroke='%23C5B8E8' stroke-width='1.8' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <style>
+    :root{
+      --navy:#2D2440; --violet:#8B6FC9; --lilac:#C5B8E8;
+      --ink:#1c1830; --muted:#5b5570; --bg:#faf9fc; --card:#fff; --line:#e7e3f0;
+      --link:#6F52B8;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,ui-sans-serif,system-ui,sans-serif;
+         color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased}
+    a{color:var(--link)}
+    .wrap{max-width:720px;margin:0 auto;padding:0 22px}
+    header{padding:26px 0 4px}
+    .crumbs{font-size:14px;color:var(--muted)}
+    .crumbs a{color:var(--muted);text-decoration:none}
+    .kicker{font:600 13px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--violet);
+            text-transform:uppercase;letter-spacing:.08em;margin:34px 0 14px}
+    h1{font-size:clamp(27px,5.2vw,38px);line-height:1.14;letter-spacing:-.02em;margin:0 0 16px}
+    .lede{font-size:clamp(17px,2.4vw,19px);color:#3a3450;margin:0 0 6px}
+    h2{font-size:20px;margin:40px 0 10px;letter-spacing:-.01em}
+    p{margin:0 0 14px}
+    ol,ul{margin:0 0 14px;padding-left:24px}
+    li{margin:0 0 8px}
+    code{font:14px ui-monospace,SFMono-Regular,Menlo,monospace;background:#f0edf7;
+         border-radius:5px;padding:1px 6px}
+    .tldr{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin:24px 0}
+    .tldr p{font-weight:650;margin:0 0 10px}
+    .tldr ol{margin:0;padding-left:20px}
+    .tldr li{margin:0 0 8px}
+    .tldr b{color:var(--ink)}
+    .answer{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--violet);
+            border-radius:10px;padding:12px 16px;margin:0 0 14px;font-weight:600}
+    .cta{background:var(--card);border:1px solid var(--line);border-radius:12px;
+         padding:20px 22px;margin:34px 0 0}
+    .btn{display:inline-block;padding:11px 18px;border-radius:9px;font-weight:600;
+         text-decoration:none;font-size:15px;background:var(--navy);color:#fff;margin-top:6px}
+    footer{margin:56px 0 40px;padding-top:22px;border-top:1px solid var(--line);
+           color:var(--muted);font-size:14px}
+    footer a{color:var(--muted)}
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <nav class="crumbs"><a href="/">vahtian.com</a> · <a href="/learn/">learn</a> · obsidian for researchers</nav>
+</header>
+
+<p class="kicker">Learn · Obsidian for researchers</p>
+<h1>Obsidian for researchers: 5 questions no guide answers</h1>
+<p class="lede">Researchers hit the same structural dilemmas with Obsidian, and most guides answer them for note-taking hobbyists, not for people managing literature, data, and a thesis. Here are direct answers to the five questions researchers actually ask — one vault or many, how to handle folders and tags, where Zotero stops, whether to write a dissertation in it, and how to read the graph view for gaps.</p>
+
+<div class="tldr">
+  <p>The short answers:</p>
+  <ol>
+    <li><b>One vault, not many.</b> Splitting breaks the links between projects.</li>
+    <li><b>Links for ideas, folders for access, tags only for status.</b> Never tag topics.</li>
+    <li><b>Zotero stores the data; Obsidian synthesizes the thinking.</b></li>
+    <li><b>Draft the thesis in Obsidian; format it elsewhere.</b> Markdown is future-proof.</li>
+    <li><b>Read the graph for islands, sparse hubs, and long bridges.</b> Each marks a gap.</li>
+  </ol>
+</div>
+
+<h2>1. One massive vault, or split by project?</h2>
+<p class="answer">Use one single vault.</p>
+<p>Splitting vaults breaks your internal links. The whole value of Obsidian for research is that a concept from a paper you read in 2024 can surface, unbidden, next to a draft you are writing today — because they link to the same note. Separate vaults cannot see each other, so you lose exactly the cross-project connections that make the tool worth using.</p>
+<p><strong>The exception:</strong> create a separate vault only for strictly client- or patient-confidential data, or when you are actively collaborating with a team through a shared repository. Isolation there is a feature, not a cost.</p>
+
+<h2>2. Folders, tags, and links without making a mess?</h2>
+<p class="answer">Links for ideas, folders for access and file type, tags only for status.</p>
+<ul>
+  <li><strong>Links</strong> are your primary connective tissue. Link concepts directly inside your sentences — <code>[[neuroplasticity]]</code> — to build an organic web that grows as you write.</li>
+  <li><strong>Folders</strong> stay minimal. Use them for file types or processing stages: <code>/Sources</code>, <code>/Drafts</code>, <code>/Templates</code>. Not for topics.</li>
+  <li><strong>Tags</strong> are for workflow status only: <code>#to-read</code>, <code>#needs-citation</code>. Topic tags like <code>#psychology</code> multiply until they are noise; links do that job better.</li>
+</ul>
+<p>The rule of thumb: if you would ever want to <em>see the connection</em>, use a link. If you just need to <em>find the file</em>, a folder is enough. If it describes <em>where the note is in your process</em>, a tag.</p>
+
+<h2>3. Where does Zotero end and Obsidian begin?</h2>
+<p class="answer">Zotero stores the data; Obsidian synthesizes the thinking.</p>
+<p>Keep them in their lanes and neither fights the other:</p>
+<ul>
+  <li><strong>Zotero</strong> captures PDFs, holds complete metadata, generates your final bibliography, and is where you do raw, colour-coded highlighting as you read.</li>
+  <li><strong>Obsidian</strong> is where you write notes in your own words, break arguments into atomic concepts, and cross-reference several papers against each other. Use the Zotero Integration plugin to pull your highlights across.</li>
+</ul>
+<p>A working line: highlighting is capture, and belongs in Zotero; putting the idea in your own words is thinking, and belongs in Obsidian. If you are copying a quote, that is Zotero's job; if you are arguing with it, that is Obsidian's. New to Zotero itself? Start with our <a href="/learn/zotero/">Zotero for researchers</a> guide.</p>
+
+<h2>4. Is it safe to write a whole thesis in Obsidian?</h2>
+<p class="answer">Yes for drafting and outlining; no for final formatting.</p>
+<p>Draft freely. Brainstorm structure on the Canvas, collect your references, and assemble chapters with a plugin like Longform. Because Obsidian stores everything as plain, standard Markdown text files, your work is future-proof — no proprietary format can trap or corrupt it, and it will open in any editor in twenty years.</p>
+<p><strong>The export:</strong> when it is time for formal layout, style checks, and peer-review tracking, move the raw text out to Pandoc, LaTeX, or Word. Obsidian is where the thesis is thought and written; those tools are where it is dressed for submission. Keeping the two stages separate is a strength — you never fight a page-layout tool while you are still thinking.</p>
+
+<h2>5. How do I use the graph view to find research gaps?</h2>
+<p class="answer">Look for isolated islands, sparse hubs, and long bridges.</p>
+<p>The graph view is not decoration; read it as a map of your own thinking:</p>
+<ul>
+  <li><strong>Isolated islands</strong> — notes floating alone with no links. These are papers you read but never integrated into your core argument. Connect them or ask why they resist connection.</li>
+  <li><strong>Sparse hubs</strong> — a major concept note with very few papers attached. That thinness reveals either a gap in the literature or an area you have not read deeply enough yet.</li>
+  <li><strong>Long bridges</strong> — two dense clusters joined by only one or two links. Those thin connections are where original, cross-disciplinary work lives: you are one of the few people standing between two fields.</li>
+</ul>
+<p>Qualitative analysts can push this further — instead of the whole vault, filter the graph to your codes and see which ones travel together and which stand alone. That is the idea behind an <a href="/learn/obsidian-canvas-evidence-map/">evidence map</a>.</p>
+
+<h2>Putting it together: a minimal research vault</h2>
+<p>If you are starting from an empty vault, this is the smallest structure that follows all five answers and scales to a whole PhD:</p>
+<ul>
+  <li><strong>Three folders, no more to begin with:</strong> <code>/Sources</code> (one note per paper, with its Zotero highlights imported), <code>/Notes</code> (your own atomic concept notes), <code>/Drafts</code> (chapters and manuscripts). Add <code>/Templates</code> once you repeat a note shape.</li>
+  <li><strong>Two or three status tags, and no topic tags:</strong> <code>#to-read</code>, <code>#needs-citation</code>, maybe <code>#revisit</code>. That is the whole tag system.</li>
+  <li><strong>Links from day one:</strong> every time you write a concept in a note, wrap it in <code>[[brackets]]</code>. The web builds itself as you work, and the graph view starts telling you things within a few weeks.</li>
+</ul>
+<p>Everything else — folders for sub-topics, elaborate tag hierarchies, nested categories — is structure you can add later if a real need appears. Most researchers find they never do. The links carry the load.</p>
+
+<div class="cta">
+  <p><strong>These answers work for any research vault.</strong> No tool required.</p>
+  <p>If your research is qualitative — interviews, focus groups, field notes — the same structure has a purpose-built version. <strong>QualiVahti Local</strong> is an Obsidian vault set up for local transcription, AI-assisted coding under human review, a codebook, and an evidence map, with a worked demo study inside.</p>
+  <a class="btn" href="/qualivahti-local/">See QualiVahti Local — €49</a>
+</div>
+
+<h2>Read next</h2>
+<p>Practical setup: <a href="/learn/build-qualitative-codebook-obsidian/">build a qualitative codebook in Obsidian</a> and <a href="/learn/obsidian-canvas-evidence-map/">use Obsidian Canvas as an evidence map</a>. More on the <a href="/learn/">Learn page</a>.</p>
+
+<footer>
+  <p><a href="/learn/">← All Learn guides</a> · <a href="/">vahtian.com</a> — local-first research integrity tools. This page loads nothing from anywhere: no remote fonts, no tracking, no scripts.</p>
+</footer>
+
+</div>
+</body>
+</html>
