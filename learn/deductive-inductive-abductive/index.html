@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Deductive, inductive, abductive: three kinds of reasoning, and when to use each · Vahtian Learn</title>
+  <meta name="description" content="If these three words never felt intuitive, you are not alone. The concepts are simple; the labels are not. Each one in plain terms, with an example, and why mixing them up weakens your argument.">
+  <meta name="theme-color" content="#2D2440">
+  <link rel="canonical" href="https://vahtian.com/learn/deductive-inductive-abductive/">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://vahtian.com/learn/deductive-inductive-abductive/">
+  <meta property="og:image" content="https://vahtian.com/brand/cards/vahtian-card.png">
+  <meta property="og:title" content="Deductive, inductive, abductive: three kinds of reasoning, and when to use each">
+  <meta property="og:description" content="Each of the three kinds of reasoning in plain terms, with an example, and why mixing them up weakens your argument.">
+  <meta property="og:site_name" content="Vahtian">
+  <meta name="twitter:card" content="summary">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "Deductive, inductive, abductive: three kinds of reasoning, and when to use each",
+    "description": "Each of the three kinds of reasoning in plain terms, with an example, and why mixing them up weakens a research argument.",
+    "url": "https://vahtian.com/learn/deductive-inductive-abductive/",
+    "datePublished": "2026-07-10",
+    "inLanguage": "en",
+    "author": { "@type": "Organization", "name": "Vahtian", "url": "https://vahtian.com/" },
+    "publisher": { "@id": "https://vahtian.com/#org" }
+  }
+  </script>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232D2440'/%3E%3Cg fill='none' stroke='%238B6FC9' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 9 H9 V23 H12'/%3E%3Cpath d='M20 9 H23 V23 H20'/%3E%3C/g%3E%3Cpath d='M16 10.3 L19.6 12 L19.6 15 L16 19.6 L12.4 15 L12.4 12 Z' fill='none' stroke='%23C5B8E8' stroke-width='1.8' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <style>
+    :root{
+      --navy:#2D2440; --violet:#8B6FC9; --lilac:#C5B8E8;
+      --ink:#1c1830; --muted:#5b5570; --bg:#faf9fc; --card:#fff; --line:#e7e3f0;
+      --link:#6F52B8;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,ui-sans-serif,system-ui,sans-serif;
+         color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased}
+    a{color:var(--link)}
+    .wrap{max-width:720px;margin:0 auto;padding:0 22px}
+    header{padding:26px 0 4px}
+    .crumbs{font-size:14px;color:var(--muted)}
+    .crumbs a{color:var(--muted);text-decoration:none}
+    .kicker{font:600 13px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--violet);
+            text-transform:uppercase;letter-spacing:.08em;margin:34px 0 14px}
+    h1{font-size:clamp(27px,5.2vw,38px);line-height:1.14;letter-spacing:-.02em;margin:0 0 16px}
+    .lede{font-size:clamp(17px,2.4vw,19px);color:#3a3450;margin:0 0 6px}
+    h2{font-size:21px;margin:42px 0 12px;letter-spacing:-.01em}
+    p{margin:0 0 14px}
+    ol,ul{margin:0 0 14px;padding-left:24px}
+    li{margin:0 0 8px}
+    code{font:14px ui-monospace,SFMono-Regular,Menlo,monospace;background:#f0edf7;
+         border-radius:5px;padding:1px 6px}
+    table{border-collapse:collapse;width:100%;margin:0 0 16px;font-size:15px}
+    th,td{border:1px solid var(--line);padding:9px 12px;text-align:left;vertical-align:top}
+    th{background:#f0edf7}
+    .note{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--violet);
+          border-radius:10px;padding:14px 18px;margin:0 0 16px}
+    .note.personal{border-left-color:var(--lilac);color:#3a3450}
+    .outcomes{background:var(--card);border:1px solid var(--line);border-radius:12px;
+              padding:16px 20px;margin:22px 0}
+    .outcomes p{font-weight:650;margin:0 0 8px}
+    .outcomes ul{margin:0;padding-left:22px}
+    .cta{background:var(--card);border:1px solid var(--line);border-radius:12px;
+         padding:20px 22px;margin:34px 0 0}
+    .btn{display:inline-block;padding:11px 18px;border-radius:9px;font-weight:600;
+         text-decoration:none;font-size:15px;background:var(--navy);color:#fff;margin-top:6px}
+    footer{margin:56px 0 40px;padding-top:22px;border-top:1px solid var(--line);
+           color:var(--muted);font-size:14px}
+    footer a{color:var(--muted)}
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <nav class="crumbs"><a href="/">vahtian.com</a> · <a href="/learn/">learn</a> · deductive, inductive, abductive</nav>
+</header>
+
+<p class="kicker">Learn · Qualitative methods</p>
+<h1>Deductive, inductive, abductive: three kinds of reasoning, and when to use each</h1>
+<p class="lede">If these three words never felt intuitive, you are not alone. The concepts are simple. The labels are not. Here is each one in plain terms, with an example, and why mixing them up weakens your argument.</p>
+
+<div class="outcomes">
+  <p>After this guide you will be able to:</p>
+  <ul>
+    <li>Name the reasoning you are actually using.</li>
+    <li>Match your sampling and coding to that reasoning.</li>
+    <li>Spot when a paper claims one and does another.</li>
+  </ul>
+</div>
+
+<h2>The three, side by side</h2>
+<table>
+  <tr><th>Reasoning</th><th>In plain terms</th><th>Example</th><th>Use it to</th></tr>
+  <tr>
+    <td><strong>Deductive</strong></td>
+    <td>Top-down. Start with a theory, then test it. If the premises hold, the conclusion follows.</td>
+    <td>Theory: social support lowers stress. Study: do people with high support score lower on stress?</td>
+    <td>test or confirm an existing theory</td>
+  </tr>
+  <tr>
+    <td><strong>Inductive</strong></td>
+    <td>Bottom-up. Gather observations, find patterns, build a theory. The conclusion is probable, not certain.</td>
+    <td>Interviews produce categories, then themes, then a theory of the phenomenon.</td>
+    <td>build theory when little is known</td>
+  </tr>
+  <tr>
+    <td><strong>Abductive</strong></td>
+    <td>Best explanation. Move between theory and data, adjusting as you go. Plausible, not watertight.</td>
+    <td>A doctor reads the symptoms, infers the most likely cause, then tests it.</td>
+    <td>explain a surprising pattern</td>
+  </tr>
+</table>
+
+<p>Abduction sits between the other two. It is sometimes miscalled "adductive". You may start from established concepts, but you have to be willing to adjust them, or invent new ones, when the data push back. That back-and-forth is what bridges theory and emergent insight, and it is also why abductive conclusions stay tentative until other evidence backs them up.</p>
+
+<h2>Why it matters</h2>
+<p>Deduction tests, induction builds, abduction explains. Use one word while you are really doing another, and the logic of your argument blurs. That is how a paper ends up making claims its design cannot support. For example, do not reach for an inductive term like "code saturation" when your analysis is reflexive thematic analysis. The word has to belong to the method.</p>
+
+<div class="note personal"><p style="margin:0"><strong>If the words were the hard part, that is normal.</strong> The reasoning here is something you already do. A detective, a doctor, a mechanic all move between theory and evidence every day. The difficulty is almost never the idea. It is that the labels are unintuitive and rarely explained. Once the word is yours, the logic snaps into place.</p></div>
+
+<div class="cta">
+  <p><strong>Keep the reasoning and the words aligned.</strong></p>
+  <p>You called your study "inductive", and a reviewer pointed out you actually started from an existing framework. That is not carelessness. These terms overlap in practice and travel loosely between traditions, so almost everyone conflates them at some point. The fix is to name the reasoning you actually used, and keep your methods section consistent with it from protocol to write-up. MethodVahti checks that your stated method, your terminology, and your written claims line up. It flags the mismatch. It does not decide which reasoning fits your question. That stays yours.</p>
+  <a class="btn" href="/methodvahti/">See MethodVahti</a>
+</div>
+
+<h2>Related guides</h2>
+<p>See also <a href="/learn/code-vs-meaning-saturation/">code vs meaning saturation</a> and <a href="/learn/three-questions-qualitative-rigour/">the three questions that make qualitative research rigorous</a>. More guides are on the <a href="/learn/">Learn page</a>.</p>
+
+<footer>
+  <p><a href="/learn/">← All Learn guides</a> &middot; <a href="/privacy/">Privacy</a> · <a href="/">vahtian.com</a> · local-first research integrity tools. This page loads nothing from anywhere: no remote fonts, no tracking, no scripts.</p>
+</footer>
+
+</div>
+</body>
+</html>

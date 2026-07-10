@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Code saturation vs meaning saturation: how to know when to stop · Vahtian Learn</title>
+  <meta name="description" content="Saturation is not a number of interviews. It is two different kinds of enough: code saturation (no new topics) and meaning saturation (you understand why). The difference, how to decide when to stop, and how to document it so a reviewer accepts it.">
+  <meta name="theme-color" content="#2D2440">
+  <link rel="canonical" href="https://vahtian.com/learn/code-vs-meaning-saturation/">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://vahtian.com/learn/code-vs-meaning-saturation/">
+  <meta property="og:image" content="https://vahtian.com/brand/cards/vahtian-card.png">
+  <meta property="og:title" content="Code saturation vs meaning saturation: how to know when to stop">
+  <meta property="og:description" content="Two kinds of enough: code saturation (no new topics) and meaning saturation (you understand why). How to decide when to stop, and document it.">
+  <meta property="og:site_name" content="Vahtian">
+  <meta name="twitter:card" content="summary">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "Code saturation vs meaning saturation: how to know when to stop",
+    "description": "Saturation is not a number of interviews. It is two kinds of enough: code saturation (no new topics) and meaning saturation (you understand why). The difference, how to decide when to stop, and how to document it.",
+    "url": "https://vahtian.com/learn/code-vs-meaning-saturation/",
+    "datePublished": "2026-07-10",
+    "inLanguage": "en",
+    "author": { "@type": "Organization", "name": "Vahtian", "url": "https://vahtian.com/" },
+    "publisher": { "@id": "https://vahtian.com/#org" }
+  }
+  </script>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232D2440'/%3E%3Cg fill='none' stroke='%238B6FC9' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 9 H9 V23 H12'/%3E%3Cpath d='M20 9 H23 V23 H20'/%3E%3C/g%3E%3Cpath d='M16 10.3 L19.6 12 L19.6 15 L16 19.6 L12.4 15 L12.4 12 Z' fill='none' stroke='%23C5B8E8' stroke-width='1.8' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <style>
+    :root{
+      --navy:#2D2440; --violet:#8B6FC9; --lilac:#C5B8E8;
+      --ink:#1c1830; --muted:#5b5570; --bg:#faf9fc; --card:#fff; --line:#e7e3f0;
+      --link:#6F52B8;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,ui-sans-serif,system-ui,sans-serif;
+         color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased}
+    a{color:var(--link)}
+    .wrap{max-width:720px;margin:0 auto;padding:0 22px}
+    header{padding:26px 0 4px}
+    .crumbs{font-size:14px;color:var(--muted)}
+    .crumbs a{color:var(--muted);text-decoration:none}
+    .kicker{font:600 13px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--violet);
+            text-transform:uppercase;letter-spacing:.08em;margin:34px 0 14px}
+    h1{font-size:clamp(27px,5.2vw,38px);line-height:1.14;letter-spacing:-.02em;margin:0 0 16px}
+    .lede{font-size:clamp(17px,2.4vw,19px);color:#3a3450;margin:0 0 6px}
+    h2{font-size:21px;margin:42px 0 12px;letter-spacing:-.01em}
+    p{margin:0 0 14px}
+    ol,ul{margin:0 0 14px;padding-left:24px}
+    li{margin:0 0 8px}
+    code{font:14px ui-monospace,SFMono-Regular,Menlo,monospace;background:#f0edf7;
+         border-radius:5px;padding:1px 6px}
+    .note{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--violet);
+          border-radius:10px;padding:14px 18px;margin:0 0 16px}
+    .note.personal{border-left-color:var(--lilac);color:#3a3450}
+    .outcomes{background:var(--card);border:1px solid var(--line);border-radius:12px;
+              padding:16px 20px;margin:22px 0}
+    .outcomes p{font-weight:650;margin:0 0 8px}
+    .outcomes ul{margin:0;padding-left:22px}
+    .cta{background:var(--card);border:1px solid var(--line);border-radius:12px;
+         padding:20px 22px;margin:34px 0 0}
+    .btn{display:inline-block;padding:11px 18px;border-radius:9px;font-weight:600;
+         text-decoration:none;font-size:15px;background:var(--navy);color:#fff;margin-top:6px}
+    footer{margin:56px 0 40px;padding-top:22px;border-top:1px solid var(--line);
+           color:var(--muted);font-size:14px}
+    footer a{color:var(--muted)}
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <nav class="crumbs"><a href="/">vahtian.com</a> · <a href="/learn/">learn</a> · code vs meaning saturation</nav>
+</header>
+
+<p class="kicker">Learn · Qualitative methods</p>
+<h1>Code saturation vs meaning saturation: how to know when to stop</h1>
+<p class="lede">Saturation is not a number of interviews. It is two different kinds of "enough", and most papers only reach the shallow one. Here is the difference, how to decide when to stop, and how to document it so a reviewer accepts it.</p>
+
+<div class="outcomes">
+  <p>After this guide you will be able to:</p>
+  <ul>
+    <li>Tell code saturation from meaning saturation.</li>
+    <li>Defend your stopping point to a reviewer.</li>
+    <li>Keep a saturation record as you collect, not after.</li>
+  </ul>
+</div>
+
+<h2>Code saturation is the surface</h2>
+<p>Code saturation is the point where no new <em>topics</em> appear. You keep hearing the same issues, the same observations, the same surface-level problems. It answers a useful question: have I heard everything? It does not answer the deeper one: do I understand it?</p>
+
+<h2>Meaning saturation is the depth</h2>
+<p>Meaning saturation is when you understand <em>why</em> participants act as they do, and how the themes relate to each other. It needs nuance, variation, and context. So it usually takes more data than code saturation, and here is the trap: you can reach code saturation without ever reaching meaning saturation. The topics stop being new long before you understand them.</p>
+
+<h2>So how many interviews?</h2>
+<p>There is no fixed number. Saturation depends on how rich and how repetitive your data are, not on a target of 12 or 20. So do not pre-commit to a number. Start with a focused question, estimate from similar studies, and stay flexible as you go.</p>
+<p>The work is to analyse as you collect. Track new codes in a saturation table, one row per interview. When the last few interviews add nothing substantial and your categories are well developed, you can justifiably stop. Then write down how you decided: how many new codes each interview added, and why you stopped there.</p>
+
+<div class="note personal"><p style="margin:0"><strong>The honest version.</strong> "Saturation was reached" is a claim, not evidence. The record behind it is the evidence: the question, the saturation table, the new codes per interview, the reason you stopped. That record is more rigorous than the sentence, and it is what a careful reviewer actually wants to see.</p></div>
+
+<div class="cta">
+  <p><strong>Say what saturated, and show when.</strong></p>
+  <p>You wrote "saturation was reached", and a reviewer wrote back: "saturated for what?" That is not sloppiness. The word travels between traditions without its definition attached, so everyone inherits the term and few inherit the rule. The fix is to name what saturated and show the record. MethodVahti helps you justify your sample size and draft a COREQ or SRQR methods section before you collect, so the claim is documented as you go, not reconstructed at review. It checks that your method, your terms, and your written claims line up. It does not decide your themes are right. That stays yours.</p>
+  <a class="btn" href="/methodvahti/">See MethodVahti</a>
+</div>
+
+<h2>Related guides</h2>
+<p>See also <a href="/learn/build-qualitative-codebook-obsidian/">build a qualitative codebook</a> for the codes themselves, and <a href="/learn/history-of-qualitative-research/">a short history of qualitative research</a> for where "saturation" came from. More guides are on the <a href="/learn/">Learn page</a>.</p>
+
+<footer>
+  <p><a href="/learn/">← All Learn guides</a> &middot; <a href="/privacy/">Privacy</a> · <a href="/">vahtian.com</a> · local-first research integrity tools. This page loads nothing from anywhere: no remote fonts, no tracking, no scripts.</p>
+</footer>
+
+</div>
+</body>
+</html>
