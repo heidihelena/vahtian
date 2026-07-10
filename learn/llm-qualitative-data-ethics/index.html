@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Is it ethical to put interview data into an AI model? What to check first · Vahtian Learn</title>
+  <meta name="description" content="Uploading qualitative transcripts to a cloud AI can break confidentiality, consent, and your ethics approval, even after names are removed. The three real risks, four checks before any AI touches your data, and the local alternative.">
+  <meta name="theme-color" content="#2D2440">
+  <link rel="canonical" href="https://vahtian.com/learn/llm-qualitative-data-ethics/">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://vahtian.com/learn/llm-qualitative-data-ethics/">
+  <meta property="og:image" content="https://vahtian.com/brand/cards/vahtian-card.png">
+  <meta property="og:title" content="Is it ethical to put interview data into an AI model?">
+  <meta property="og:description" content="The three real risks of putting qualitative transcripts through a cloud AI, four checks before any AI touches your data, and the local alternative.">
+  <meta property="og:site_name" content="Vahtian">
+  <meta name="twitter:card" content="summary">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "Is it ethical to put interview data into an AI model? What to check first",
+    "description": "Uploading qualitative transcripts to a cloud AI can break confidentiality, consent, and ethics approval even after names are removed. The three real risks, four checks before any AI touches your data, and the local alternative.",
+    "url": "https://vahtian.com/learn/llm-qualitative-data-ethics/",
+    "datePublished": "2026-07-10",
+    "inLanguage": "en",
+    "author": { "@type": "Organization", "name": "Vahtian", "url": "https://vahtian.com/" },
+    "publisher": { "@id": "https://vahtian.com/#org" }
+  }
+  </script>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232D2440'/%3E%3Cg fill='none' stroke='%238B6FC9' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 9 H9 V23 H12'/%3E%3Cpath d='M20 9 H23 V23 H20'/%3E%3C/g%3E%3Cpath d='M16 10.3 L19.6 12 L19.6 15 L16 19.6 L12.4 15 L12.4 12 Z' fill='none' stroke='%23C5B8E8' stroke-width='1.8' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <style>
+    :root{
+      --navy:#2D2440; --violet:#8B6FC9; --lilac:#C5B8E8;
+      --ink:#1c1830; --muted:#5b5570; --bg:#faf9fc; --card:#fff; --line:#e7e3f0;
+      --link:#6F52B8;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,ui-sans-serif,system-ui,sans-serif;
+         color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased}
+    a{color:var(--link)}
+    .wrap{max-width:720px;margin:0 auto;padding:0 22px}
+    header{padding:26px 0 4px}
+    .crumbs{font-size:14px;color:var(--muted)}
+    .crumbs a{color:var(--muted);text-decoration:none}
+    .kicker{font:600 13px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--violet);
+            text-transform:uppercase;letter-spacing:.08em;margin:34px 0 14px}
+    h1{font-size:clamp(27px,5.2vw,38px);line-height:1.14;letter-spacing:-.02em;margin:0 0 16px}
+    .lede{font-size:clamp(17px,2.4vw,19px);color:#3a3450;margin:0 0 6px}
+    h2{font-size:21px;margin:42px 0 12px;letter-spacing:-.01em}
+    p{margin:0 0 14px}
+    ol,ul{margin:0 0 14px;padding-left:24px}
+    li{margin:0 0 8px}
+    code{font:14px ui-monospace,SFMono-Regular,Menlo,monospace;background:#f0edf7;
+         border-radius:5px;padding:1px 6px}
+    .note{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--violet);
+          border-radius:10px;padding:14px 18px;margin:0 0 16px}
+    .note.personal{border-left-color:var(--lilac);color:#3a3450}
+    .outcomes{background:var(--card);border:1px solid var(--line);border-radius:12px;
+              padding:16px 20px;margin:22px 0}
+    .outcomes p{font-weight:650;margin:0 0 8px}
+    .outcomes ul{margin:0;padding-left:22px}
+    .cta{background:var(--card);border:1px solid var(--line);border-radius:12px;
+         padding:20px 22px;margin:34px 0 0}
+    .btn{display:inline-block;padding:11px 18px;border-radius:9px;font-weight:600;
+         text-decoration:none;font-size:15px;background:var(--navy);color:#fff;margin-top:6px}
+    footer{margin:56px 0 40px;padding-top:22px;border-top:1px solid var(--line);
+           color:var(--muted);font-size:14px}
+    footer a{color:var(--muted)}
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <nav class="crumbs"><a href="/">vahtian.com</a> · <a href="/learn/">learn</a> · LLMs and qualitative data ethics</nav>
+</header>
+
+<p class="kicker">Learn · Qualitative methods</p>
+<h1>Is it ethical to put your interview data into an AI model?</h1>
+<p class="lede">Short answer: not into a cloud model, and not without checking three things first. Your transcripts are promises you made to participants. Here is what quietly breaks those promises, and the local option that does not.</p>
+
+<div class="outcomes">
+  <p>After this guide you will be able to:</p>
+  <ul>
+    <li>Name the three real risks of putting transcripts through a cloud AI.</li>
+    <li>Run four checks before any model touches your data.</li>
+    <li>Explain why "I removed the names" is not the same as anonymous.</li>
+    <li>Choose a workflow that keeps the data, and the decision, yours.</li>
+  </ul>
+</div>
+
+<h2>Risk 1: confidentiality</h2>
+<p>This is the big one. Qualitative datasets hold sensitive narratives, and the moment you paste a transcript into a cloud service, the data leaves your machine. That can breach the consent you obtained, your data-protection plan, your institution's policy, or your ethics approval. Removing names does not settle it. De-identified is not anonymous: a small town, a job title, and a diagnosis can still point to one person.</p>
+
+<h2>Risk 2: consent and training data</h2>
+<p>Models run by commercial providers may fold what you type into future training data. Your participants agreed to take part in your study. They did not agree to have their words absorbed by an AI company. That gap between what was consented and what actually happens is the ethical problem, and it is easy to miss because the upload feels private.</p>
+
+<h2>Risk 3: opacity and instability</h2>
+<p>Even setting privacy aside, a cloud model is hard to account for. The training data are undisclosed, so you cannot trace how a given output was produced. The same prompt can return different answers on different runs, which undermines reproducibility. And the model can state a fabricated theme, or a quote it invented, with complete confidence. Confidence is a self-report, not accuracy.</p>
+
+<h2>Four checks before any AI touches your data</h2>
+<ol>
+  <li><strong>Do not share identifiable data with public models.</strong> If it could point to a person, it does not go to a cloud service.</li>
+  <li><strong>Prefer a local model.</strong> One that runs on your own computer, offline, so the transcript never leaves the machine.</li>
+  <li><strong>Document exactly how AI was used.</strong> Which model, which version, what it saw, what you decided. A record you could show an ethics board.</li>
+  <li><strong>Get participant consent for automated analysis.</strong> If AI will read their words, say so in the consent form, in plain language.</li>
+</ol>
+
+<div class="note personal"><p style="margin:0"><strong>A limit worth stating.</strong> A local model is the privacy answer, not the interpretation answer. It still does not understand your participants. It suggests; you decide what their words mean. Keeping the data on your machine protects them. Keeping the judgment human protects the work.</p></div>
+
+<h2>The rule underneath all four</h2>
+<p>The question is not whether you used AI. It is who controlled the model, the data, and the final interpretation. Keep all three on your side, and AI becomes a tool you can defend. Send them to a cloud service, and you are answering to it instead.</p>
+
+<div class="cta">
+  <p><strong>This is exactly why QualiVahti Local runs offline.</strong></p>
+  <p>You want the speed of AI on thirty transcripts, but pasting them into a cloud chatbot would break your ethics approval. That is not a personal failing: the popular tools are cloud tools, and consent forms almost never cover "uploaded to an AI company." QualiVahti Local runs the whole workflow on your own machine instead. Local transcription, AI-suggested codes you review, a codebook, and a logged trail of what the model saw and what you decided. Interviews never leave your computer. It suggests the codes; you decide the meaning, and you make the ethics call, on the record. €49 once, with a worked demo study inside.</p>
+  <a class="btn" href="/qualivahti-local/">See QualiVahti Local · €49</a>
+</div>
+
+<h2>Related guides</h2>
+<p>See also <a href="/learn/ai-qualitative-coding-human-review/">AI qualitative coding, human-reviewed</a> for the coding discipline itself, and <a href="/learn/transcribe-interviews-locally/">transcribe interviews offline</a> for keeping the audio local too. More guides are on the <a href="/learn/">Learn page</a>.</p>
+
+<footer>
+  <p><a href="/learn/">← All Learn guides</a> &middot; <a href="/privacy/">Privacy</a> · <a href="/">vahtian.com</a> · local-first research integrity tools. This page loads nothing from anywhere: no remote fonts, no tracking, no scripts.</p>
+</footer>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>A minimal model for qualitative text, and how to judge it honestly · Vahtian Learn</title>
+  <meta name="description" content="You do not need a giant transformer to get signal from interview text. A small, interpretable TF-IDF and linear model can classify themes and show which words drive each code, and EpiNet tells you honestly whether the result holds up, with calibration, permutation-null tests, and leakage-aware splits.">
+  <meta name="theme-color" content="#2D2440">
+  <link rel="canonical" href="https://vahtian.com/learn/minimal-model-qualitative-text/">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://vahtian.com/learn/minimal-model-qualitative-text/">
+  <meta property="og:image" content="https://vahtian.com/brand/cards/vahtian-card.png">
+  <meta property="og:title" content="A minimal model for qualitative text, and how to judge it honestly">
+  <meta property="og:description" content="A small, interpretable TF-IDF and linear model for coding interview text, and how EpiNet checks whether the result holds up rather than reporting a single accuracy number.">
+  <meta property="og:site_name" content="Vahtian">
+  <meta name="twitter:card" content="summary">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "A minimal model for qualitative text, and how to judge it honestly",
+    "description": "A small, interpretable TF-IDF and linear model for coding interview text, and how EpiNet checks whether the result holds up rather than reporting a single accuracy number.",
+    "url": "https://vahtian.com/learn/minimal-model-qualitative-text/",
+    "datePublished": "2026-07-10",
+    "inLanguage": "en",
+    "author": { "@type": "Organization", "name": "Vahtian", "url": "https://vahtian.com/" },
+    "publisher": { "@id": "https://vahtian.com/#org" }
+  }
+  </script>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232D2440'/%3E%3Cg fill='none' stroke='%238B6FC9' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 9 H9 V23 H12'/%3E%3Cpath d='M20 9 H23 V23 H20'/%3E%3C/g%3E%3Cpath d='M16 10.3 L19.6 12 L19.6 15 L16 19.6 L12.4 15 L12.4 12 Z' fill='none' stroke='%23C5B8E8' stroke-width='1.8' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <style>
+    :root{
+      --navy:#2D2440; --violet:#8B6FC9; --lilac:#C5B8E8;
+      --ink:#1c1830; --muted:#5b5570; --bg:#faf9fc; --card:#fff; --line:#e7e3f0;
+      --link:#6F52B8;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,ui-sans-serif,system-ui,sans-serif;
+         color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased}
+    a{color:var(--link)}
+    .wrap{max-width:720px;margin:0 auto;padding:0 22px}
+    header{padding:26px 0 4px}
+    .crumbs{font-size:14px;color:var(--muted)}
+    .crumbs a{color:var(--muted);text-decoration:none}
+    .kicker{font:600 13px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--violet);
+            text-transform:uppercase;letter-spacing:.08em;margin:34px 0 14px}
+    h1{font-size:clamp(27px,5.2vw,38px);line-height:1.14;letter-spacing:-.02em;margin:0 0 16px}
+    .lede{font-size:clamp(17px,2.4vw,19px);color:#3a3450;margin:0 0 6px}
+    h2{font-size:21px;margin:42px 0 12px;letter-spacing:-.01em}
+    p{margin:0 0 14px}
+    ol,ul{margin:0 0 14px;padding-left:24px}
+    li{margin:0 0 8px}
+    code{font:14px ui-monospace,SFMono-Regular,Menlo,monospace;background:#f0edf7;
+         border-radius:5px;padding:1px 6px}
+    pre{background:var(--navy);color:#eee;border-radius:10px;padding:15px 18px;margin:0 0 16px;
+        overflow-x:auto;font:13px/1.55 ui-monospace,SFMono-Regular,Menlo,monospace}
+    pre code{background:none;padding:0;color:inherit;font-size:inherit}
+    .note{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--violet);
+          border-radius:10px;padding:14px 18px;margin:0 0 16px}
+    .note.personal{border-left-color:var(--lilac);color:#3a3450}
+    .outcomes{background:var(--card);border:1px solid var(--line);border-radius:12px;
+              padding:16px 20px;margin:22px 0}
+    .outcomes p{font-weight:650;margin:0 0 8px}
+    .outcomes ul{margin:0;padding-left:22px}
+    .cta{background:var(--card);border:1px solid var(--line);border-radius:12px;
+         padding:20px 22px;margin:34px 0 0}
+    .btn{display:inline-block;padding:11px 18px;border-radius:9px;font-weight:600;
+         text-decoration:none;font-size:15px;background:var(--navy);color:#fff;margin-top:6px}
+    footer{margin:56px 0 40px;padding-top:22px;border-top:1px solid var(--line);
+           color:var(--muted);font-size:14px}
+    footer a{color:var(--muted)}
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <nav class="crumbs"><a href="/">vahtian.com</a> · <a href="/learn/">learn</a> · a minimal model for qualitative text</nav>
+</header>
+
+<p class="kicker">Learn · Methods in the open</p>
+<h1>A minimal model for qualitative text, and how to judge it honestly</h1>
+<p class="lede">You do not need a giant transformer to get signal from interview text. A small, interpretable model can sort responses by theme, and you can read exactly which words drive each code. But a model that classifies is not the same as a model you can rely on. Here is the small model, and how EpiNet tells you whether it holds up.</p>
+
+<div class="outcomes">
+  <p>After this guide you will be able to:</p>
+  <ul>
+    <li>Build a simple, readable classifier for coded text.</li>
+    <li>Read the model's weights to see which words drive each code.</li>
+    <li>Check whether its accuracy is real, or leakage and chance.</li>
+  </ul>
+</div>
+
+<h2>Why start small</h2>
+<p>A big model hides its reasoning. A small one shows it. If you represent each document as word counts and train a single linear layer, the model learns one weight per word per class. Inspecting those weights tells you which words push a response toward each code. For a lot of qualitative coding tasks, that is enough signal, and the transparency is worth more than a few points of accuracy you cannot explain.</p>
+
+<h2>The pipeline</h2>
+<ol>
+  <li><strong>Preprocess.</strong> Lowercase the text, strip punctuation and stop-words, and tokenise. Build a small vocabulary from your own corpus.</li>
+  <li><strong>Vectorise.</strong> Turn each document into a bag-of-words or TF-IDF vector. TF-IDF (term frequency&ndash;inverse document frequency) weights a word up when it is frequent in one document but rare across the rest, so distinctive words count for more.</li>
+  <li><strong>Model.</strong> For labelled data, one fully connected layer with a softmax or sigmoid output is enough:</li>
+</ol>
+
+<pre><code>import torch
+import torch.nn as nn
+
+class MinimalQualModel(nn.Module):
+    def __init__(self, vocab_size, num_classes):
+        super().__init__()
+        self.linear = nn.Linear(vocab_size, num_classes)
+    def forward(self, x):
+        return self.linear(x)</code></pre>
+
+<ol start="4">
+  <li><strong>Train.</strong> Fit with cross-entropy loss and stochastic gradient descent. With TF-IDF inputs and a little regularisation, this often competes well on high-level coding tasks.</li>
+  <li><strong>Interpret.</strong> Read the weight matrix. Because the model is linear, you can map each weight straight back to a word, which is what makes it transparent. For a bit more nuance without much cost, swap bag-of-words for averaged word embeddings and use a one-hidden-layer network. The principle holds: simplicity buys interpretability, and it is enough for many tasks.</li>
+</ol>
+
+<div class="note"><p style="margin:0"><strong>Same rule as the rest of the workflow.</strong> A model that assigns a theme label is a suggestion, not a finding. It sorts text by surface pattern. Whether a code is right, and whether it means anything, is still your call.</p></div>
+
+<h2>The catch: classifying is not the same as holding up</h2>
+<p>Your model reports 85% accuracy. Is that real? A small cohort makes it easy to get an impressive number that hides three problems: the data leaked between train and test, the result is no better than chance, or the scores rank documents well but are numerically off. You only find out by evaluating the model honestly, not by trusting the single number.</p>
+
+<h2>Judge it with EpiNet</h2>
+<p>EpiNet does not change your model. It wraps any node-level model in a reproducible evaluation harness and reports calibration, permutation-null tests, and bootstrap confidence intervals instead of one accuracy score. To judge the minimal model:</p>
+<ol>
+  <li><strong>Format the data as a graph.</strong> Treat each document or participant as a node with a unique id, the theme label as the outcome, and the word-frequency vector as attributes. If you can define links between documents, such as lexical similarity above a threshold, record them as edges. EpiNet computes graph features like degree and component size from that.</li>
+  <li><strong>Run it.</strong> Install <code>vahtian-epinet</code> and point the command line at your CSV files:</li>
+</ol>
+
+<pre><code>epinet \
+  --nodes my_nodes.csv --edges my_edges.csv \
+  --outcome-column Theme --target-outcome 1 \
+  --model logistic_regression \
+  --split-strategy community --permutation-test 100 \
+  --output-dir model_report</code></pre>
+
+<p>Use <code>--model logistic_regression</code> to mirror your minimal linear model. EpiNet runs the same evaluation either way.</p>
+<ol start="3">
+  <li><strong>Read the outputs.</strong> A JSON file reports discrimination (AUROC, AUPRC, balanced accuracy, MCC, F1) and calibration (Brier score, calibration slope and intercept) with bootstrap intervals. A permutation-null test checks whether your score beats chance. The <code>model_card.md</code> summarises it in plain language and flags data-quality warnings. Contestability analysis reports how far each prediction sits from flipping, and which features drive that.</li>
+  <li><strong>Compare against baselines.</strong> Because EpiNet runs several estimators under one harness, you can see whether your model's interpretability costs you any discrimination. Community-aware splitting checks that the result is not driven by leakage between linked documents.</li>
+</ol>
+
+<div class="note personal"><p style="margin:0"><strong>What EpiNet does and does not do.</strong> It does not make your model better, and it does not decide that your themes are correct. It enforces an honest evaluation and writes a reproducible model card, so you can say whether the result holds up, and show your working. The interpretation stays yours.</p></div>
+
+<div class="cta">
+  <p><strong>Get one honest number, not one flattering one.</strong></p>
+  <p>Your simple theme classifier hits 85%, and you cannot tell if that is real or an artifact of leakage and chance. That is not on you: standard tools hand you a single cross-validated score and hide whether it beats chance or is calibrated. EpiNet wraps your model in community-aware splitting, a permutation null, calibration reported next to discrimination, and bootstrap intervals, then writes a model card you can publish. It will not inflate your model or bless your themes. It tells you, on the record, whether the result holds up. <code>pip install vahtian-epinet</code>.</p>
+  <a class="btn" href="/epinet/">See EpiNet</a>
+</div>
+
+<h2>Related guides</h2>
+<p>See also <a href="/learn/cite-your-analysis-code/">make your analysis code citable</a> for publishing the model with a DOI, and <a href="/learn/ai-qualitative-coding-human-review/">AI qualitative coding, human-reviewed</a> for producing the labels in the first place. More guides are on the <a href="/learn/">Learn page</a>.</p>
+
+<footer>
+  <p><a href="/learn/">← All Learn guides</a> &middot; <a href="/privacy/">Privacy</a> · <a href="/">vahtian.com</a> · local-first research integrity tools. This page loads nothing from anywhere: no remote fonts, no tracking, no scripts.</p>
+</footer>
+
+</div>
+</body>
+</html>
