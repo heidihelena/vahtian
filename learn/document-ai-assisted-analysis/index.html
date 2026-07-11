@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>How to document an AI-assisted analysis · Vahtian Learn</title>
+  <meta name="description" content="A reviewer will ask why the exclusion happened, and the decision lives in a chat you can no longer find. What to record while you analyse — provenance, decisions, runs, and claims — with a plain-text method you can start today, and the checks to run before submission.">
+  <meta name="theme-color" content="#2D2440">
+  <link rel="canonical" href="https://vahtian.com/learn/document-ai-assisted-analysis/">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://vahtian.com/learn/document-ai-assisted-analysis/">
+  <meta property="og:image" content="https://vahtian.com/brand/cards/auditlite-card.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="AuditLite — can the analysis be reconstructed? A Vahtian project.">
+  <meta property="og:title" content="How to document an AI-assisted analysis (so you can defend it later)">
+  <meta property="og:description" content="Rerun is not reconstruct. The four things to record while you analyse — provenance, decisions, runs, claims — with a plain-text method that needs no tools, and the checks to run before submission.">
+  <meta property="og:site_name" content="Vahtian">
+  <meta name="twitter:card" content="summary_large_image">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "How to document an AI-assisted analysis (so you can defend it later)",
+    "description": "What to record while running an AI-assisted analysis so the reasoning path can be reconstructed and defended: declared code provenance, analytic decisions with rationales, fingerprinted executions, and manuscript claims tied to runs. Includes a plain-text method requiring no tools and pre-submission consistency checks.",
+    "url": "https://vahtian.com/learn/document-ai-assisted-analysis/",
+    "datePublished": "2026-07-11",
+    "inLanguage": "en",
+    "author": { "@type": "Organization", "name": "Vahtian", "url": "https://vahtian.com/" },
+    "publisher": { "@id": "https://vahtian.com/#org" }
+  }
+  </script>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232D2440'/%3E%3Cg fill='none' stroke='%238B6FC9' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 9 H9 V23 H12'/%3E%3Cpath d='M20 9 H23 V23 H20'/%3E%3C/g%3E%3Cpath d='M16 10.3 L19.6 12 L19.6 15 L16 19.6 L12.4 15 L12.4 12 Z' fill='none' stroke='%23C5B8E8' stroke-width='1.8' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <style>
+    :root{
+      --navy:#2D2440; --violet:#8B6FC9; --lilac:#C5B8E8;
+      --ink:#1c1830; --muted:#5b5570; --bg:#faf9fc; --card:#fff; --line:#e7e3f0;
+      --link:#6F52B8;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,ui-sans-serif,system-ui,sans-serif;
+         color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased}
+    a{color:var(--link)}
+    .wrap{max-width:720px;margin:0 auto;padding:0 22px}
+    header{padding:26px 0 4px}
+    .crumbs{font-size:14px;color:var(--muted)}
+    .crumbs a{color:var(--muted);text-decoration:none}
+    .kicker{font:600 13px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--link);
+            text-transform:uppercase;letter-spacing:.08em;margin:34px 0 14px}
+    h1{font-size:clamp(27px,5.2vw,38px);line-height:1.14;letter-spacing:-.02em;margin:0 0 16px}
+    .lede{font-size:clamp(17px,2.4vw,19px);color:#3a3450;margin:0 0 6px}
+    h2{font-size:21px;margin:42px 0 12px;letter-spacing:-.01em}
+    p{margin:0 0 14px}
+    ol,ul{margin:0 0 14px;padding-left:24px}
+    li{margin:0 0 8px}
+    code{font:14px ui-monospace,SFMono-Regular,Menlo,monospace;background:#f0edf7;
+         border-radius:5px;padding:1px 6px}
+    pre{background:var(--navy);color:#efeaf8;border-radius:12px;padding:16px 18px;
+        overflow-x:auto;font:13.5px/1.55 ui-monospace,SFMono-Regular,Menlo,monospace;margin:10px 0 6px}
+    pre code{background:none;padding:0;color:inherit;font-size:inherit}
+    table{border-collapse:collapse;width:100%;margin:0 0 16px;font-size:15px}
+    th,td{border:1px solid var(--line);padding:8px 12px;text-align:left;vertical-align:top}
+    th{background:#f0edf7}
+    .note{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--violet);
+          border-radius:10px;padding:14px 18px;margin:0 0 16px}
+    .outcomes{background:var(--card);border:1px solid var(--line);border-radius:12px;
+              padding:16px 20px;margin:22px 0}
+    .outcomes p{font-weight:650;margin:0 0 8px}
+    .outcomes ul{margin:0;padding-left:22px}
+    details{background:var(--card);border:1px solid var(--line);border-radius:10px;
+            padding:12px 18px;margin:0 0 16px}
+    summary{cursor:pointer;font-weight:600;color:var(--link)}
+    details[open] summary{margin-bottom:10px}
+    .fig{margin:20px 0 22px}
+    .cta{background:var(--card);border:1px solid var(--line);border-radius:12px;
+         padding:20px 22px;margin:34px 0 0}
+    .btn{display:inline-block;padding:11px 18px;border-radius:9px;font-weight:600;
+         text-decoration:none;font-size:15px;background:var(--navy);color:#fff;margin-top:6px}
+    footer{margin:56px 0 40px;padding-top:22px;border-top:1px solid var(--line);
+           color:var(--muted);font-size:14px}
+    footer a{color:var(--muted)}
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <nav class="crumbs"><a href="/">vahtian.com</a> · <a href="/learn/">learn</a> · document an AI-assisted analysis</nav>
+</header>
+
+<p class="kicker">Learn · Research integrity</p>
+<h1>How to document an AI-assisted analysis (so you can defend it later)</h1>
+<p class="lede">A reviewer asks why the exclusion happened. The decision lives in a chat prompt you can no longer
+  find. The analysis itself runs fine — but which code the model wrote, why that variable was transformed, and
+  whether Table 1 still comes from the current script all live in memory. Here is what to record while you work,
+  a plain-text way to do it today, and the checks to run before submission.</p>
+
+<div class="outcomes">
+  <p>After this guide you will be able to:</p>
+  <ul>
+    <li>Name the four things worth recording in an AI-assisted analysis — and record them as they happen.</li>
+    <li>Keep the record in a plain text file, with three rules that keep it defensible.</li>
+    <li>Make the record tamper-evident, so later edits are visible instead of silent.</li>
+    <li>Check, before submission, whether the manuscript still matches the current analysis.</li>
+  </ul>
+</div>
+
+<h2>Rerun is not reconstruct</h2>
+<p>Reproducibility guidance asks one question of your analysis: can someone rerun it? AI-assisted work adds a
+  second question that rerunning cannot answer: can someone <em>reconstruct</em> it? A rerun shows the code
+  produces the numbers. It does not show which code was model-written, which analytic decisions were the
+  model's suggestions, or why an exclusion that is not in the protocol appeared in the final script.</p>
+<p>This is not carelessness. Nothing in an ordinary workflow records the path — prompts sit in one tool, code in
+  another, decisions in nobody's file. So reconstruction falls to memory, months later, under a deadline.
+  A bench scientist would recognise the fix immediately: it is a lab notebook. Contemporaneous, dated, and
+  never rewritten. The analysis side of research mostly skipped that habit, and AI assistance is what makes the
+  gap visible.</p>
+
+<h2>The four things to record</h2>
+<table>
+  <tr><th>Record</th><th>What it answers</th><th>What to write down</th></tr>
+  <tr><td><strong>Provenance</strong></td><td>Who or what wrote this code?</td>
+      <td>File, declared origin (human-written / AI-generated / AI-modified), model and version, the prompt,
+          what files the model saw.</td></tr>
+  <tr><td><strong>Decisions</strong></td><td>Why is the analysis shaped this way?</td>
+      <td>What was chosen (variable, model, exclusion, transformation, sensitivity analysis), the reason, and —
+          if it started as an AI suggestion — whether you accepted, edited, or rejected it.</td></tr>
+  <tr><td><strong>Runs</strong></td><td>What actually executed?</td>
+      <td>Which script version, on which data, with which package versions and seeds, producing which outputs.</td></tr>
+  <tr><td><strong>Claims</strong></td><td>Does the manuscript still match?</td>
+      <td>Each table and figure, tied to the run and file it came from. Plus any deviation from the analysis
+          plan, with the reason.</td></tr>
+</table>
+<p>The decision record earns its keep most. Reviewers rarely ask "show me your terminal history"; they ask
+  <em>why</em> — why this denominator, why drop those three patients, why a sensitivity analysis appeared in
+  revision. A one-line rationale written at the moment of the decision answers in seconds what memory cannot
+  answer in a week. And when the AI proposed the decision, saying so plainly — accepted, edited, or rejected —
+  is exactly the part a careful reader wants to see.</p>
+
+<h2>The plain-text version — start today, no tools</h2>
+<p>A dated log file next to the analysis is enough to begin. One entry per event, appended at the moment it
+  happens:</p>
+<pre><code>## 2026-07-11 14:05 · decision (exclusion)
+Dropped ECOG 4 stratum. Why: n=3, prespecified minimum is 10.
+Source: AI-suggested; edited (model proposed dropping ECOG 3-4).
+
+## 2026-07-11 14:20 · provenance
+survival_analysis.py rewritten by claude-sonnet-5 from prompt
+"primary survival analysis per SAP v2". Model saw: sap_v2.md, codebook.csv.
+
+## 2026-07-11 14:31 · run
+python survival_analysis.py on data_2026-07-04.csv, seed 42.
+Outputs: table1.csv, fig2.png.</code></pre>
+<p>Three rules keep it defensible:</p>
+<ol>
+  <li><strong>Record at the moment, not at submission.</strong> A record reconstructed later is a guess with
+      dates on it.</li>
+  <li><strong>Append, never rewrite.</strong> If an entry was wrong, add a correcting entry. A log whose past
+      changes under its own history has stopped being a record.</li>
+  <li><strong>Write the why, not just the what.</strong> "Dropped ECOG 4" is a fact; "n=3, prespecified minimum
+      is 10" is a defence.</li>
+</ol>
+<p>This costs perhaps a minute per event, against an evening of archaeology per reviewer question. If you adopt
+  nothing else from this guide, adopt the file.</p>
+
+<h2>Making the record tamper-evident</h2>
+<p>A plain log has one honest weakness: nothing shows whether it was quietly edited afterwards. The standard fix
+  is a hash chain — each entry carries a cryptographic fingerprint of the entry before it, so anything edited,
+  deleted, or reordered later breaks the chain visibly from that point on. Tamper-<em>evident</em>, not
+  tamper-proof: it cannot stop a rewrite, but it cannot be rewritten silently.</p>
+<p><a href="/auditlite/">AuditLite</a>, our open-source tool, keeps exactly this record as one command per
+  event — and adds what a text file cannot do by itself: it fingerprints every run (script hash, data hash,
+  package versions, seeds, outputs) and then <em>checks</em> the record against your project:</p>
+<pre><code>auditlite decision --what exclusion --choice "drop ECOG 4" \
+    --why "n=3 in stratum, prespecified minimum is 10" \
+    --source ai_suggested --disposition edited
+
+auditlite run --input data.csv --output table1.csv -- python survival_analysis.py
+
+auditlite check   # before submission</code></pre>
+<p><code>auditlite check</code> answers seven questions, each three ways (ok, flag, or not checkable): is the
+  chain intact, were scripts edited after their last recorded run, does the data on disk still match what the
+  runs consumed, were outputs modified outside a recorded run, do manuscript tables still match their files,
+  did any script run without a declared origin, does every decision carry a reason. A hand-edited results table
+  — the classic quiet disaster — comes back as a flag, not a surprise in review. It is free, Apache-2.0, works
+  from Python and R on the same trail, and everything stays on your machine.</p>
+
+<h2>At submission, the disclosure writes itself</h2>
+<p>Journals increasingly require an AI-use disclosure statement, and the statements that get authors in trouble
+  are the vague ones written from memory. If you kept the record above, the statement is a summary, not a
+  reconstruction: which tools, which versions, what they were used for, what you reviewed and take
+  responsibility for — all of it is already in the trail with dates attached. How to phrase the statement
+  itself, and where journal policies disagree, is its own guide:
+  <a href="/learn/ai-use-disclosure-statement/">how to write an AI-use disclosure statement</a>.</p>
+
+<h2>An honest caveat</h2>
+<p>A record shows support for reconstruction, not correctness. An intact chain shows the trail was not rewritten
+  — not that the recorded events are true, and not that the analysis is right. Nothing here detects AI-written
+  code either: provenance is declared by you, and the useful property is that missing declarations become
+  visible rather than invisible. The science stays your judgement. The record just makes that judgement
+  defensible.</p>
+
+<div class="cta">
+  <p><strong>You do not need our tools for this.</strong> The dated log file and the three rules work with any
+    analysis, in any language, today.</p>
+  <p>If you want the record kept for you — hash-chained trail, fingerprinted runs, and the pre-submission
+    checks — <strong>AuditLite</strong> is free and open source. And when the journal asks for the disclosure
+    statement, the <strong>AI Disclosure Kit</strong> turns a dated AI-use log into the statement, with
+    manuscript, thesis, and grant templates and a 12-publisher policy directory.</p>
+  <a class="btn" href="/auditlite/">AuditLite — free, Python &amp; R</a>
+  <a class="btn" href="/ai-disclosure-kit/" style="background:#fff;color:var(--ink);border:1px solid var(--line);margin-left:8px">AI Disclosure Kit · €29</a>
+</div>
+
+<h2>Related guides</h2>
+<p>At submission: <a href="/learn/ai-use-disclosure-statement/">write the AI-use disclosure statement</a>.
+  For the code itself: <a href="/learn/cite-your-analysis-code/">make your analysis code citable</a> with a
+  Zenodo DOI. More local-first research guides are on the <a href="/learn/">Learn page</a>.</p>
+
+<footer>
+  <p><a href="/learn/">← All Learn guides</a> &middot; <a href="/privacy/">Privacy</a> · <a href="/">vahtian.com</a> — local-first research integrity tools. This page loads nothing from anywhere: no remote fonts, no tracking, no scripts.</p>
+</footer>
+
+</div>
+</body>
+</html>
