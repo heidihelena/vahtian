@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>How to write a scientific paper, in the order experienced authors use · Vahtian Learn</title>
+  <meta name="description" content="Experienced authors do not write a paper top to bottom. They write it backwards, from what they found: figures and methods first, the introduction near the end, the abstract last. The write-order, why it works, and the two checks that catch what sinks most revisions.">
+  <meta name="theme-color" content="#2D2440">
+  <link rel="canonical" href="https://vahtian.com/learn/how-to-write-a-scientific-paper/">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://vahtian.com/learn/how-to-write-a-scientific-paper/">
+  <meta property="og:image" content="https://vahtian.com/brand/cards/vahtian-card.png">
+  <meta property="og:title" content="How to write a scientific paper, in the order experienced authors use">
+  <meta property="og:description" content="Write the paper backwards, from what you found: figures and methods first, introduction near the end, abstract last. The write-order and the two checks that save a revision.">
+  <meta property="og:site_name" content="Vahtian">
+  <meta name="twitter:card" content="summary">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "How to write a scientific paper, in the order experienced authors use",
+    "description": "Experienced authors write a paper backwards, from what they found: figures and methods first, the introduction near the end, the abstract last. The write-order, why it works, and the two checks that catch what sinks most revisions.",
+    "url": "https://vahtian.com/learn/how-to-write-a-scientific-paper/",
+    "datePublished": "2026-07-11",
+    "inLanguage": "en",
+    "author": { "@type": "Organization", "name": "Vahtian", "url": "https://vahtian.com/" },
+    "publisher": { "@id": "https://vahtian.com/#org" }
+  }
+  </script>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232D2440'/%3E%3Cg fill='none' stroke='%238B6FC9' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 9 H9 V23 H12'/%3E%3Cpath d='M20 9 H23 V23 H20'/%3E%3C/g%3E%3Cpath d='M16 10.3 L19.6 12 L19.6 15 L16 19.6 L12.4 15 L12.4 12 Z' fill='none' stroke='%23C5B8E8' stroke-width='1.8' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <style>
+    :root{
+      --navy:#2D2440; --violet:#8B6FC9; --lilac:#C5B8E8;
+      --ink:#1c1830; --muted:#5b5570; --bg:#faf9fc; --card:#fff; --line:#e7e3f0;
+      --link:#6F52B8;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,ui-sans-serif,system-ui,sans-serif;
+         color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased}
+    a{color:var(--link)}
+    .wrap{max-width:720px;margin:0 auto;padding:0 22px}
+    header{padding:26px 0 4px}
+    .crumbs{font-size:14px;color:var(--muted)}
+    .crumbs a{color:var(--muted);text-decoration:none}
+    .kicker{font:600 13px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--violet);
+            text-transform:uppercase;letter-spacing:.08em;margin:34px 0 14px}
+    h1{font-size:clamp(27px,5.2vw,38px);line-height:1.14;letter-spacing:-.02em;margin:0 0 16px}
+    .lede{font-size:clamp(17px,2.4vw,19px);color:#3a3450;margin:0 0 6px}
+    h2{font-size:21px;margin:42px 0 12px;letter-spacing:-.01em}
+    p{margin:0 0 14px}
+    ol,ul{margin:0 0 14px;padding-left:24px}
+    li{margin:0 0 8px}
+    code{font:14px ui-monospace,SFMono-Regular,Menlo,monospace;background:#f0edf7;
+         border-radius:5px;padding:1px 6px}
+    .order{list-style:none;padding:0;margin:0 0 16px;counter-reset:step}
+    .order li{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 16px 12px 46px;
+              margin:0 0 8px;position:relative}
+    .order li::before{counter-increment:step;content:counter(step);position:absolute;left:14px;top:12px;
+              width:22px;height:22px;border-radius:6px;background:#f0edf7;color:var(--link);
+              font:700 12px/22px ui-monospace,monospace;text-align:center}
+    .order b{color:var(--ink)}
+    .note{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--violet);
+          border-radius:10px;padding:14px 18px;margin:0 0 16px}
+    .note.personal{border-left-color:var(--lilac);color:#3a3450}
+    .outcomes{background:var(--card);border:1px solid var(--line);border-radius:12px;
+              padding:16px 20px;margin:22px 0}
+    .outcomes p{font-weight:650;margin:0 0 8px}
+    .outcomes ul{margin:0;padding-left:22px}
+    .cta{background:var(--card);border:1px solid var(--line);border-radius:12px;
+         padding:20px 22px;margin:34px 0 0}
+    .btn{display:inline-block;padding:11px 18px;border-radius:9px;font-weight:600;
+         text-decoration:none;font-size:15px;background:var(--navy);color:#fff;margin-top:6px}
+    footer{margin:56px 0 40px;padding-top:22px;border-top:1px solid var(--line);
+           color:var(--muted);font-size:14px}
+    footer a{color:var(--muted)}
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <nav class="crumbs"><a href="/">vahtian.com</a> · <a href="/learn/">learn</a> · how to write a scientific paper</nav>
+</header>
+
+<p class="kicker">Learn · Scientific writing</p>
+<h1>How to write a scientific paper, in the order experienced authors use</h1>
+<p class="lede">Experienced authors do not write a paper top to bottom. They write it backwards, from what they found. Here is that order, why it works, and the two checks that catch what sinks most revisions.</p>
+
+<div class="outcomes">
+  <p>After this guide you will be able to:</p>
+  <ul>
+    <li>Write the sections in an order that actually moves.</li>
+    <li>Match every aim with a conclusion, and every claim with your design.</li>
+    <li>Pick the reporting guideline your paper needs.</li>
+  </ul>
+</div>
+
+<h2>Why the blank page is so hard</h2>
+<p>The blank document is the hardest part of the whole degree. You have the data, the analysis, and a supervisor who says "just write it up", and no clear idea of where to start. The trap is trying to write from the top, introduction first. You end up introducing a paper you have not written yet, and the aim drifts from what you actually did.</p>
+
+<h2>The write-order</h2>
+<p>Do not start at the introduction. Start from what you found, and work outward. Each step below is easier because the one before it is already done.</p>
+<ol class="order">
+  <li><b>Figures and tables.</b> Decide what you actually found. The figures are the paper's spine; everything else explains them.</li>
+  <li><b>Methods.</b> The most factual section, and the easiest to write. Say what you did, in enough detail to repeat.</li>
+  <li><b>Results.</b> Describe the figures in words. What happened, not what it means. Keep interpretation out.</li>
+  <li><b>Discussion.</b> Now interpret. What the results mean, how they sit with other work, the limits, and a conclusion for each aim.</li>
+  <li><b>Introduction.</b> Written near the end, because now you know exactly what you are introducing. Set up the gap your paper fills, and state the aim your discussion answers.</li>
+  <li><b>Abstract.</b> Written last. It is a summary of a finished paper, so you cannot write it well until the paper exists.</li>
+  <li><b>Title.</b> Last, once you know the single thing the paper says.</li>
+</ol>
+
+<h2>Why writing backwards works</h2>
+<p>Writing from the results out keeps the paper honest. The introduction and abstract are the most-read and most-overclaimed parts, and they are the ones you should write when you know the least about your own findings. So write them when you know the most, at the end. The order is not a style preference. It is a way to stop the paper promising more than it delivers.</p>
+
+<h2>The two checks that save a revision</h2>
+<p>Most revisions fail on one of two faults. Both are easy to catch before you submit, and painful to fix after.</p>
+<p><b>An orphaned aim.</b> The introduction promises to examine something the paper never answers. This is the first thing a reviewer notices. Fix it by pairing each aim with a conclusion. If an aim has no matching conclusion, either answer it or drop it.</p>
+<p><b>An unearned claim.</b> A causal verb, like "reduced", "led to", or "caused", sitting under a design that supports only association. If your study observed a link, say there is an association, not a cause. Over-generalising a small sample to a whole population is the same error in another form: claiming more than the evidence supports.</p>
+<div class="note personal"><p style="margin:0"><strong>The discipline underneath both.</strong> Record what your evidence supports, and no more. It reads as modest, but it is the strongest position you can take, because it is the one a reviewer cannot dismantle.</p></div>
+
+<h2>Pick your reporting guideline early</h2>
+<p>Journals expect a reporting checklist that matches your design, and it is far easier to write to one than to retrofit it. Choose by paradigm: for quantitative work, <b>CONSORT</b> (trials), <b>STROBE</b> (observational studies), or <b>PRISMA</b> (systematic reviews). For qualitative work, <b>COREQ</b> (interviews and focus groups) or <b>SRQR</b> (broader qualitative designs). Name yours in the methods, and let it shape what you report.</p>
+
+<div class="cta">
+  <p><strong>Turn the write-order into your outline.</strong></p>
+  <p>Knowing the order is one thing. Sitting in front of the blank document and doing it is another. The Manuscript Kit walks you through each move in write-order, builds a reading-order outline you fill with prose, and runs the two checks while you draft: it pairs your aims with your conclusions and flags the orphan, and it warns when a causal verb sits under a design that supports only association. It also builds your participant-flow figure with alt text drafted from your numbers. Local-first, nothing uploads. It teaches the moves and checks coherence. The claims, and their limits, stay yours.</p>
+  <a class="btn" href="/manuscript-kit/">See the Manuscript Kit · €49</a>
+</div>
+
+<h2>Related guides</h2>
+<p>See also <a href="/learn/code-vs-meaning-saturation/">code vs meaning saturation</a> for defending your sample, and <a href="/learn/cite-your-analysis-code/">make your analysis code citable</a> for the code-availability statement. More guides are on the <a href="/learn/">Learn page</a>.</p>
+
+<footer>
+  <p><a href="/learn/">← All Learn guides</a> &middot; <a href="/privacy/">Privacy</a> · <a href="/">vahtian.com</a> · local-first research integrity tools. This page loads nothing from anywhere: no remote fonts, no tracking, no scripts.</p>
+</footer>
+
+</div>
+</body>
+</html>
