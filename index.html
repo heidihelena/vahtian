@@ -170,18 +170,20 @@
       .hero-scrim{background:linear-gradient(180deg,rgba(20,14,38,.5),rgba(20,14,38,.86))}}
     footer{padding:30px 0 50px;color:var(--muted);font-size:13px;border-top:1px solid var(--line);margin-top:36px}
     footer a{color:var(--muted)}
-    /* forskai paid kits */
+    /* Vahtian paid kits */
     .kitsintro{color:var(--muted);font-size:15px;margin:0 0 16px;max-width:62ch}
     .kits{display:grid;gap:12px}
     @media(min-width:660px){.kits{grid-template-columns:1fr 1fr}
       .kit.flagship{grid-column:1/-1}}
     .kit{display:flex;flex-direction:column;align-items:flex-start;gap:9px;
-      background:#10211B;color:#EAF3EF;border-radius:15px;padding:22px 24px}
-    .kit .kkick{font:600 12px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:#54D6B6;text-transform:uppercase;letter-spacing:.1em;margin:0}
-    .kit h3{margin:0;font-size:19px;color:#fff}
-    .kit p{margin:0;color:#c6ddd4;font-size:14.5px;max-width:54ch}
-    .kit .kbtn{display:inline-block;margin-top:auto;padding:12px 20px;border-radius:10px;font-weight:700;text-decoration:none;
-      background:#DFF5EE;color:#093528;font-size:15px;white-space:nowrap}
+      background:var(--card);color:var(--ink);border:1px solid var(--line);
+      border-left:3px solid var(--violet);border-radius:12px;padding:20px 22px}
+    .kit.flagship{border-left-color:var(--lime);background:#f6f3fc}
+    .kit .kkick{font:600 12px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--olive);text-transform:uppercase;letter-spacing:.1em;margin:0}
+    .kit h3{margin:0;font-size:19px;color:var(--navy)}
+    .kit p{margin:0;color:var(--ink);font-size:14.5px;max-width:54ch}
+    .kit .kbtn{display:inline-block;margin-top:auto;padding:11px 18px;border-radius:9px;font-weight:700;text-decoration:none;
+      background:var(--navy);color:#fff;font-size:15px;white-space:nowrap}
   </style>
 </head>
 <body>
@@ -395,10 +397,10 @@
   </section>
 
   <section id="kits">
-    <h2>Paid workflow kits <span class="sub">forskai by Vahtian</span></h2>
+    <h2>Paid workflow kits <span class="sub">— yours to keep, no subscription</span></h2>
     <p class="kitsintro">The checking tools above are free and stay free. The paid kits package
       the structure, documentation, and audit trail around them. One complete workflow vault,
-      plus focused kits for qualitative sampling, AI disclosure, and research planning.</p>
+      plus focused kits for qualitative sampling, scientific writing, AI disclosure, and research planning.</p>
     <div class="kits">
       <div class="kit flagship">
         <p class="kkick">Complete workflow · qualitative studies</p>
@@ -416,6 +418,15 @@
           defence templates, and a local builder. The documented sampling decision,
           in a kit you own.</p>
         <a class="kbtn" href="/methodvahti/#access">See the Sample Defence Pack · €49 →</a>
+      </div>
+      <div class="kit">
+        <p class="kkick">Focused kit · scientific writing</p>
+        <h3>Manuscript Kit</h3>
+        <p>Write your paper in the order that works — figures and methods first,
+          the introduction near the end, the abstract last. Two local-first tools
+          build your outline and your flow figure, and check the two faults that
+          sink revisions.</p>
+        <a class="kbtn" href="/manuscript-kit/">See the Manuscript Kit · €49 →</a>
       </div>
       <div class="kit">
         <p class="kkick">Focused kit · AI disclosure</p>
