@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#150f28"/><stop offset="0.62" stop-color="#1d1630"/><stop offset="1" stop-color="#171127"/></linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <!-- check-status chips, right -->
+  <g font-family="ui-monospace,Menlo,monospace" font-weight="700" font-size="27" letter-spacing="4" text-anchor="middle">
+    <rect x="852" y="150" width="278" height="70" rx="13" fill="#123b33" stroke="#1E9E8A" stroke-width="1.6"/>
+    <text x="991" y="195" fill="#5FD3B2">OK</text>
+    <rect x="852" y="282" width="278" height="70" rx="13" fill="#3a1626" stroke="#C24D7E" stroke-width="1.6"/>
+    <text x="991" y="327" fill="#E58AAE">FLAG</text>
+    <rect x="852" y="414" width="278" height="70" rx="13" fill="#3a2f12" stroke="#C98A00" stroke-width="1.6"/>
+    <text x="991" y="459" fill="#E7B24A" font-size="20" letter-spacing="2.5">NOT CHECKABLE</text>
+  </g>
+  <!-- left text -->
+  <text x="70" y="120" font-size="40" font-weight="800" fill="#F5F2FB">AuditLite</text>
+  <text x="72" y="196" font-size="16.5" font-weight="700" letter-spacing="3.5" fill="#A7B4E4" font-family="ui-monospace,Menlo,monospace">CHAIN-OF-CUSTODY FOR ANALYSES</text>
+  <text x="68" y="292" font-size="54" font-weight="800" letter-spacing="-1.5" fill="#F5F2FB">Can the analysis</text>
+  <text x="68" y="356" font-size="54" font-weight="800" letter-spacing="-1.5" fill="#F5F2FB">be reconstructed?</text>
+  <text x="70" y="416" font-size="23" fill="#cfc6e6">Provenance, decisions, and runs in one hash-chained</text>
+  <text x="70" y="448" font-size="23" fill="#cfc6e6">trail — with checks that flag what no longer follows.</text>
+  <rect x="70" y="484" width="78" height="4" rx="2" fill="#5566B5"/>
+  <text x="70" y="546" font-size="16" font-weight="600" letter-spacing="2" fill="#9385b8" font-family="ui-monospace,Menlo,monospace">PYTHON · R · APACHE-2.0 · A VAHTIAN PROJECT</text>
+</svg>
