@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Research Domain Cube · Vahtian</title>
   <meta name="description" content="Turn scattered ideas, papers, and datasets into a structured research map: one core thesis, three axes, twenty-seven cells, each audited. A Vahtian product. €29.">
-  <meta name="theme-color" content="#10211B">
+  <meta name="theme-color" content="#2D2440">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
   <link rel="canonical" href="https://vahtian.com/research-domain-cube/">
@@ -14,9 +14,9 @@
   <meta property="og:url" content="https://vahtian.com/research-domain-cube/">
   <meta property="og:title" content="Research Domain Cube · Vahtian">
   <meta property="og:description" content="Find the next paper, the grant angle, and the real gap in your field. One structured research map with an audit of every cell. €29, one payment.">
-  <meta property="og:image" content="https://vahtian.com/research-domain-cube/cover.png">
-  <meta property="og:image:width" content="1920">
-  <meta property="og:image:height" content="1080">
+  <meta property="og:image" content="https://vahtian.com/brand/cards/vahtian-card.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Research Domain Cube. The 1-3-9-27 research map kit by Vahtian. One field, three axes, nine zones, twenty-seven project cells.">
   <meta property="og:site_name" content="Vahtian">
   <meta name="twitter:card" content="summary_large_image">
@@ -29,7 +29,7 @@
     "brand": { "@type": "Brand", "name": "Vahtian" },
     "category": "Research planning",
     "url": "https://vahtian.com/research-domain-cube/",
-    "image": "https://vahtian.com/research-domain-cube/cover.png",
+    "image": "https://vahtian.com/brand/cards/vahtian-card.png",
     "offers": {
       "@type": "Offer",
       "price": "29",
@@ -41,9 +41,12 @@
   </script>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2310211B'/%3E%3Ctext x='16' y='22' font-family='-apple-system,Segoe UI,Roboto,sans-serif' font-size='15' font-weight='700' text-anchor='middle' fill='%23EAF3EF'%3Ef%3Ctspan fill='%2340C6A2'%3Eai%3C/tspan%3E%3C/text%3E%3C/svg%3E">
   <style>
-    :root{--dark:#10211B;--dark2:#183129;--teal:#1E9E8A;--teal-br:#54D6B6;--gold:#C98A00;
-          --ink:#17211D;--muted:#4b5a54;--bg:#f7faf9;--card:#fff;--line:#e2ebe7;
-          --link:#0A6E5B;--teal-fill:#DFF5EE;--teal-text:#0B4033}
+    :root{--navy:#2D2440;--navy2:#241d38;--violet:#8B6FC9;--lilac:#C5B8E8;--lime:#A2C05C;
+          --ink:#1c1830;--muted:#5b5570;--bg:#faf9fc;--card:#fff;--line:#e7e3f0;--link:#6F52B8;
+          --fill:#ECE3FF;--fill-text:#432C7A;--amber:#C98A00;
+          /* legacy names aliased to Vahtian tokens so existing rules re-skin */
+          --dark:var(--navy);--dark2:var(--navy2);--teal:var(--violet);--teal-br:var(--lilac);
+          --gold:var(--amber);--teal-fill:var(--fill);--teal-text:var(--fill-text)}
     *{box-sizing:border-box}
     body{margin:0;font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,ui-sans-serif,system-ui,sans-serif;
          color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased}
@@ -51,29 +54,29 @@
     .wrap{max-width:860px;margin:0 auto;padding:0 22px}
     a:focus-visible,button:focus-visible{outline:3px solid var(--teal-br);outline-offset:2px}
     /* header + hero */
-    .top{background:var(--dark);color:#EAF3EF}
+    .top{background:var(--dark);color:#EDE9F6}
     header{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:20px 0 6px}
-    .brand{font-weight:800;font-size:20px;letter-spacing:-.01em;color:#EAF3EF;text-decoration:none}
+    .brand{font-weight:800;font-size:20px;letter-spacing:-.01em;color:#EDE9F6;text-decoration:none}
     .brand .ai{color:var(--teal-br)}
-    .up{font-size:13px;color:#9FB8AF;text-decoration:none}
+    .up{font-size:13px;color:#b9aee0;text-decoration:none}
     .hero{padding:28px 0 40px}
     .kicker{font:600 12.5px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--teal-br);text-transform:uppercase;letter-spacing:.12em;margin:0 0 16px}
     h1{font-size:clamp(30px,6vw,46px);line-height:1.08;letter-spacing:-.02em;margin:0 0 14px;color:#fff}
-    .tag{font-size:clamp(16px,2.3vw,19px);color:#cfe3dc;margin:0 0 22px;max-width:60ch}
+    .tag{font-size:clamp(16px,2.3vw,19px);color:#d5cbef;margin:0 0 22px;max-width:60ch}
     .buy{display:flex;flex-wrap:wrap;gap:14px;align-items:center}
     .btn{display:inline-block;padding:13px 22px;border-radius:10px;font-weight:700;text-decoration:none;font-size:16px}
-    .btn.primary{background:var(--teal-fill);color:#093528}
+    .btn.primary{background:var(--teal-fill);color:#2b1c53}
     .price{display:flex;align-items:baseline;gap:9px}
     .price .now{font-size:26px;font-weight:800;color:#fff;letter-spacing:-.01em}
-    .price .lbl{font-size:12.5px;color:var(--teal-br);font-weight:600}
-    .metaline{margin:16px 0 0;font-size:13px;color:#9FB8AF}
+    .price .lbl{font-size:12.5px;color:var(--lime);font-weight:600}
+    .metaline{margin:16px 0 0;font-size:13px;color:#b9aee0}
     .covershot{width:100%;height:auto;border-radius:14px;border:1px solid #2b4a3e;margin:26px 0 2px;display:block}
     /* body */
     main{padding:8px 0 0}
     section{padding:34px 0;border-top:1px solid var(--line)}
     section:first-child{border-top:0}
     h2{font-size:22px;letter-spacing:-.01em;margin:0 0 8px}
-    .lede{color:#333f3a;font-size:16px;max-width:66ch;margin:0 0 14px}
+    .lede{color:#39324e;font-size:16px;max-width:66ch;margin:0 0 14px}
     .lede b{color:var(--ink)}
     .habits{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-top:6px}
     @media(max-width:640px){.habits{grid-template-columns:1fr}.buyblock{flex-direction:column;align-items:flex-start!important}}
@@ -81,14 +84,14 @@
     .habit .n{font:700 12px/1 ui-monospace,monospace;color:var(--link);text-transform:uppercase;letter-spacing:.05em}
     .habit h3{margin:6px 0 5px;font-size:15px}
     .habit p{margin:0;color:var(--muted);font-size:14px}
-    ul.plain{margin:6px 0 0;padding-left:20px;color:#333f3a;display:grid;gap:8px}
+    ul.plain{margin:6px 0 0;padding-left:20px;color:#39324e;display:grid;gap:8px}
     ul.plain b{color:var(--ink)}
     .isnot{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--gold);border-radius:11px;padding:15px 17px;margin-top:6px}
-    .isnot ul{margin:8px 0 0;padding-left:20px;color:#333f3a;display:grid;gap:7px;font-size:14.5px}
+    .isnot ul{margin:8px 0 0;padding-left:20px;color:#39324e;display:grid;gap:7px;font-size:14.5px}
     .isnot b{color:var(--ink)}
-    .buyblock{background:var(--dark);color:#EAF3EF;border-radius:15px;padding:24px;display:flex;gap:20px;justify-content:space-between;align-items:center;flex-wrap:wrap;margin-top:6px}
+    .buyblock{background:var(--dark);color:#EDE9F6;border-radius:15px;padding:24px;display:flex;gap:20px;justify-content:space-between;align-items:center;flex-wrap:wrap;margin-top:6px}
     .buyblock h2{color:#fff;margin:0 0 6px}
-    .buyblock p{margin:0;color:#bcd3cb;font-size:14px;max-width:46ch}
+    .buyblock p{margin:0;color:#c7bce9;font-size:14px;max-width:46ch}
     .faq{margin-top:6px}
     .faq details{border:1px solid var(--line);border-radius:10px;background:var(--card);margin:0 0 9px;padding:0 15px}
     .faq summary{cursor:pointer;font-weight:600;font-size:15px;padding:13px 0;color:var(--link);list-style:none}
@@ -96,7 +99,7 @@
     .faq summary::after{content:"+";float:right;color:var(--muted);font-weight:400;font-size:18px;line-height:1}
     .faq details[open] summary::after{content:"–"}
     .faq details[open] summary{border-bottom:1px solid var(--line)}
-    .faq details p{margin:12px 0;color:#333f3a;font-size:14.5px;line-height:1.62}
+    .faq details p{margin:12px 0;color:#39324e;font-size:14.5px;line-height:1.62}
     footer{padding:26px 0 50px;color:var(--muted);font-size:13px;border-top:1px solid var(--line);line-height:1.7}
     footer a{color:var(--muted)}
   </style>
@@ -105,7 +108,7 @@
 <div class="top">
   <div class="wrap">
     <header>
-      <a class="brand" href="/research-domain-cube/">forsk<span class="ai">ai</span></a>
+      <a class="brand" href="/research-domain-cube/">Vahtian</a>
       <a class="up" href="/">part of the Vahtian house →</a>
     </header>
     <div class="hero">
@@ -119,8 +122,6 @@
         <div class="price"><span class="now">€29</span><span class="lbl">one payment</span></div>
       </div>
       <p class="metaline">digital download · one payment · checkout by Polar</p>
-      <img class="covershot" src="/research-domain-cube/cover.png" width="1920" height="1080"
-        alt="Research Domain Cube. The 1-3-9-27 research map kit by Vahtian. One field, three axes, nine zones, twenty-seven project cells." loading="lazy">
     </div>
   </div>
 </div>
@@ -227,7 +228,7 @@
 </main>
 
   <footer>
-    <p>A <b>forskai</b> product · <a href="https://forskai.com">forskai.com</a> · part of the
+    <p>A <b>Vahtian</b> product · part of the
       <a href="/">Vahtian</a> house · <a href="/cite/">Cite</a> · <a href="/privacy/">Privacy</a></p>
     <p>By Vahtian. Built for local-first, auditable research planning. The cube structures and audits
       your ideas; the decisions stay with you.</p>
