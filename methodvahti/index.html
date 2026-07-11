@@ -227,7 +227,7 @@
       </dl>
       <div class="pcta">
         <a class="btn primary" href="/methodvahti/explore/">Open the planning explorer →</a>
-        <a class="btn ghost" href="mailto:hello@vahtian.com?subject=MethodVahti%20%E2%80%94%20plan%20a%20sample%20size">Get the documented version</a>
+        <a class="btn ghost" href="/methodvahti/#access">See the Sample Defence Pack →</a>
       </div>
     </div>
   </section>
@@ -296,7 +296,7 @@
   </section>
 
   <section id="access">
-    <h2>Access <span class="sub">Free for individuals during beta — not free forever, and not free for institutions.</span></h2>
+    <h2>Access <span class="sub">free browser tools, a €49 pack you own, or an institutional licence</span></h2>
 
     <div class="tier pack" style="border-color:var(--violet);box-shadow:0 0 0 1px var(--violet) inset;margin-bottom:14px">
       <span class="ptag" style="background:#ECE3FF;border:1px solid var(--violet);color:#432C7A">€49 launch · €79 regular</span>
@@ -314,16 +314,16 @@
 
     <div class="tiers">
       <div class="tier beta">
-        <span class="ptag free">free beta</span>
-        <h3>Individual researchers</h3>
-        <p class="price">Free while in beta</p>
+        <span class="ptag free">free</span>
+        <h3>Free browser tools</h3>
+        <p class="price">Free, nothing uploads</p>
         <ul>
-          <li>Start from any of the five situations</li>
-          <li>The planning explorer + guided methods drafting</li>
-          <li>Beta users keep beta terms for the project they start under it</li>
+          <li>The planning explorer, to see how your choices move N</li>
+          <li>The qualitative claim check and the codebook builder</li>
+          <li>The sample report, so you see the shape before you commit</li>
         </ul>
-        <p style="margin:0 0 12px;color:var(--muted);font-size:13px">Individual pricing arrives at 1.0. Beta is the time to use it free and tell us what's wrong with it.</p>
-        <a class="btn primary" href="#situations">Start from your situation →</a>
+        <p style="margin:0 0 12px;color:var(--muted);font-size:13px">The free tools run in your browser and upload nothing. When you need the documented, defensible version, that is the Sample Defence Pack above.</p>
+        <a class="btn primary" href="/methodvahti/explore/">Open the planning explorer →</a>
       </div>
       <div class="tier">
         <span class="ptag inst">project licence</span>
@@ -498,7 +498,7 @@
 
 <script>
 "use strict";
-var MAIL = "mailto:hello@vahtian.com?subject=";
+var PACK = "/methodvahti/#access";
 var SITS = {
   plan: {
     voice: "“I’m writing the protocol and need an N I can defend.”",
@@ -506,14 +506,14 @@ var SITS = {
     asks: "Your orientation, how varied the sample is, target analytic depth, and any pilot signal.",
     stance: "A defensible range with the reasoning — not a single magic number.",
     primary: { label: "Open the planning explorer →", href: "/methodvahti/explore/" },
-    alt: { label: "Get the documented version", href: MAIL + "MethodVahti%20%E2%80%94%20plan%20a%20sample%20size" }
+    alt: { label: "See the Sample Defence Pack →", href: PACK }
   },
   justify: {
     voice: "“My N is fixed by funding or feasibility — I need to defend it.”",
     get: "A written defence that names where your N is well-supported and, honestly, where it’s thin — built on information-power and saturation.",
     asks: "Your chosen N, the design, and your stopping criterion.",
     stance: "We won’t rubber-stamp a weak N. You get the strongest honest case and the residual risk, stated.",
-    primary: { label: "Start this defence →", href: MAIL + "MethodVahti%20%E2%80%94%20justify%20a%20chosen%20N" },
+    primary: { label: "See the Sample Defence Pack →", href: PACK },
     alt: { label: "Sanity-check in the explorer", href: "/methodvahti/explore/" }
   },
   reviewer: {
@@ -521,7 +521,8 @@ var SITS = {
     get: "A structured, evidence-graded rebuttal addressing the specific objection — grounded in the saturation / information-power literature, ready for your response letter.",
     asks: "The reviewer’s exact comment, your design, and your N.",
     stance: "Grounded in the methods literature — and it flags any point you genuinely should concede.",
-    primary: { label: "Draft the response →", href: MAIL + "MethodVahti%20%E2%80%94%20reviewer%20response" }
+    primary: { label: "See the Sample Defence Pack →", href: PACK },
+    alt: { label: "Try the explorer →", href: "/methodvahti/explore/" }
   },
   pilot: {
     voice: "“I’ve coded some interviews — am I near saturation?”",
@@ -529,14 +530,15 @@ var SITS = {
     asks: "Your coded records or pilot themes, and the design dimensions.",
     stance: "Saturation is a judgment we help you evidence — not a number we declare.",
     primary: { label: "See saturation in the explorer →", href: "/methodvahti/explore/" },
-    alt: { label: "Run it on your records", href: MAIL + "MethodVahti%20%E2%80%94%20interpret%20pilot%20data" }
+    alt: { label: "See the Sample Defence Pack →", href: PACK }
   },
   wording: {
     voice: "“I need COREQ/SRQR methods text I can submit.”",
     get: "Submission-ready methods wording mapped to COREQ (32 items) and SRQR, with every claim’s epistemic status marked.",
     asks: "Your design details and which document — ethics, protocol, or manuscript.",
     stance: "Wording you can stand behind, with an evidence-graded audit trail attached.",
-    primary: { label: "Generate the wording →", href: MAIL + "MethodVahti%20%E2%80%94%20methods%20wording" }
+    primary: { label: "See the Sample Defence Pack →", href: PACK },
+    alt: { label: "Try the explorer →", href: "/methodvahti/explore/" }
   }
 };
 var panel = document.getElementById("sitpanel");
