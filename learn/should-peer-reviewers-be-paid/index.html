@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Should peer reviewers be paid, or should we just publish on repositories? · Vahtian Learn</title>
+  <meta name="description" content="Peer review is under strain, and there are two popular fixes: pay the reviewers, or move publishing to open repositories. A neutral explainer of why both sides have a point, why PhD students still need peer-reviewed papers, and where the money authors already pay actually goes.">
+  <meta name="theme-color" content="#2D2440">
+  <link rel="canonical" href="https://vahtian.com/learn/should-peer-reviewers-be-paid/">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://vahtian.com/learn/should-peer-reviewers-be-paid/">
+  <meta property="og:image" content="https://vahtian.com/brand/cards/vahtian-card.png">
+  <meta property="og:title" content="Should peer reviewers be paid, or should we just publish on repositories?">
+  <meta property="og:description" content="A neutral explainer of why both sides have a point: PhD students still need peer-reviewed papers, authors already pay, and the question is where that money goes.">
+  <meta property="og:site_name" content="Vahtian">
+  <meta name="twitter:card" content="summary">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "Should peer reviewers be paid, or should we just publish on repositories?",
+    "description": "A neutral explainer of the two proposed fixes for strained peer review: paying reviewers, and open publish-review-curate on repositories. Why both have a point, why PhD students still need peer-reviewed papers, and where the money authors already pay goes.",
+    "url": "https://vahtian.com/learn/should-peer-reviewers-be-paid/",
+    "datePublished": "2026-07-12",
+    "inLanguage": "en",
+    "author": { "@type": "Organization", "name": "Vahtian", "url": "https://vahtian.com/" },
+    "publisher": { "@id": "https://vahtian.com/#org" }
+  }
+  </script>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232D2440'/%3E%3Cg fill='none' stroke='%238B6FC9' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 9 H9 V23 H12'/%3E%3Cpath d='M20 9 H23 V23 H20'/%3E%3C/g%3E%3Cpath d='M16 10.3 L19.6 12 L19.6 15 L16 19.6 L12.4 15 L12.4 12 Z' fill='none' stroke='%23C5B8E8' stroke-width='1.8' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <style>
+    :root{
+      --navy:#2D2440; --violet:#8B6FC9; --lilac:#C5B8E8;
+      --ink:#1c1830; --muted:#5b5570; --bg:#faf9fc; --card:#fff; --line:#e7e3f0;
+      --link:#6F52B8;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,ui-sans-serif,system-ui,sans-serif;
+         color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased}
+    a{color:var(--link)}
+    .wrap{max-width:720px;margin:0 auto;padding:0 22px}
+    header{padding:26px 0 4px}
+    .crumbs{font-size:14px;color:var(--muted)}
+    .crumbs a{color:var(--muted);text-decoration:none}
+    .kicker{font:600 13px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--violet);
+            text-transform:uppercase;letter-spacing:.08em;margin:34px 0 14px}
+    h1{font-size:clamp(27px,5.2vw,38px);line-height:1.14;letter-spacing:-.02em;margin:0 0 16px}
+    .lede{font-size:clamp(17px,2.4vw,19px);color:#3a3450;margin:0 0 6px}
+    h2{font-size:21px;margin:42px 0 12px;letter-spacing:-.01em}
+    p{margin:0 0 14px}
+    ol,ul{margin:0 0 14px;padding-left:24px}
+    li{margin:0 0 8px}
+    .cols{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:0 0 16px}
+    @media(max-width:600px){.cols{grid-template-columns:1fr}}
+    .cols .box{background:var(--card);border:1px solid var(--line);border-radius:11px;padding:15px 17px}
+    .cols h3{margin:0 0 8px;font-size:15px}
+    .cols .for{color:#2f5a3a;font-weight:600;font-size:13px}
+    .cols .against{color:#8a3a3a;font-weight:600;font-size:13px;margin-top:10px}
+    .cols p{margin:4px 0 0;font-size:14.5px;color:#39324e}
+    .note{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--violet);
+          border-radius:10px;padding:14px 18px;margin:0 0 16px}
+    .note.personal{border-left-color:var(--lilac);color:#3a3450}
+    .outcomes{background:var(--card);border:1px solid var(--line);border-radius:12px;
+              padding:16px 20px;margin:22px 0}
+    .outcomes p{font-weight:650;margin:0 0 8px}
+    .outcomes ul{margin:0;padding-left:22px}
+    .cta{background:var(--card);border:1px solid var(--line);border-radius:12px;
+         padding:20px 22px;margin:34px 0 0}
+    .btn{display:inline-block;padding:11px 18px;border-radius:9px;font-weight:600;
+         text-decoration:none;font-size:15px;background:var(--navy);color:#fff;margin-top:6px}
+    footer{margin:56px 0 40px;padding-top:22px;border-top:1px solid var(--line);
+           color:var(--muted);font-size:14px}
+    footer a{color:var(--muted)}
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <nav class="crumbs"><a href="/">vahtian.com</a> · <a href="/learn/">learn</a> · should peer reviewers be paid</nav>
+</header>
+
+<p class="kicker">Learn · Publishing</p>
+<h1>Should peer reviewers be paid, or should we just publish on repositories?</h1>
+<p class="lede">Peer review is under strain, and there are two popular fixes: pay the reviewers, or move publishing to open repositories. Both have a point, and they are less opposed than they look. Here is why, and where the money actually is.</p>
+
+<div class="outcomes">
+  <p>After this guide you will be able to:</p>
+  <ul>
+    <li>Explain the case for and against paying reviewers.</li>
+    <li>Explain what "publish, review, curate" on repositories means.</li>
+    <li>See the point both sides share about where the money goes.</li>
+  </ul>
+</div>
+
+<h2>First, why we cannot just abolish it</h2>
+<p>Whatever the system becomes, a peer-reviewed paper still decides careers today. A PhD student needs peer-reviewed publications for the thesis, the first job, the fellowship, the grant. For the person who has to publish this year, "let us replace journals" is not a plan they can use. So peer review is not going away. The question is how to fix the strain on it, not whether to keep it.</p>
+
+<h2>The case for paying reviewers</h2>
+<div class="cols">
+  <div class="box">
+    <h3>Pay the reviewers</h3>
+    <p class="for">Why it has a point</p>
+    <p>Reviewing is skilled, unpaid work. A good review takes hours and genuinely improves the paper. Demand outstrips supply, reviewer fatigue is real, and publisher profit margins are high, so paying the experts who do the work looks fair.</p>
+    <p class="against">Why people worry</p>
+    <p>The money has to come from somewhere. If it lands on authors as higher fees, publishing gets more expensive for those who can least afford it. And a fee can attract fast, shallow reviews, or "reviewer mills". Publisher trials in 2025 gave mixed results.</p>
+  </div>
+  <div class="box">
+    <h3>Publish on repositories</h3>
+    <p class="for">Why it has a point</p>
+    <p>In "publish, review, curate", you post the preprint to a repository, review it in the open, and curate the good work. Journals like eLife now publish every reviewed paper together with its reviews. The review becomes open, credited, and attached to the paper. It is cheaper and faster.</p>
+    <p class="against">Why people worry</p>
+    <p>Someone still pays. Open access shifts the cost from readers to authors: an article processing charge (APC, the fee an author pays to publish open-access) can run into thousands. And open review still relies on unpaid reviewers. Recognition is not a wage.</p>
+  </div>
+</div>
+
+<h2>Where both sides are right: the money already exists</h2>
+<p>Here is the point the two debates share. The system is not short of money. Authors already pay, through article processing charges, page charges, and their institutions' subscriptions. So the question is not whether there is money for review. It is where the author's money goes.</p>
+<p>Today, much of it becomes publisher margin, and little or none reaches the reviewer who did the work. Seen that way, "pay the reviewers" and "cheaper open publishing" are not really opposites. A growing number of researchers argue they are the same request: that the cost authors already carry should fund the review and the open record, not the margin. That is why both sides can have a point at once. One names who deserves paying; the other names where the money should come from.</p>
+
+<div class="note personal"><p style="margin:0"><strong>What this does not settle.</strong> This is a systems debate, and no single journal will end it. But notice what does not depend on the outcome: the review you write. Paid or unpaid, on a journal or a repository, a signed, fair, confidential review is worth more than a fast one, and that part is entirely in your hands.</p></div>
+
+<div class="cta">
+  <p><strong>Whatever the economics settle on, review well now.</strong></p>
+  <p>You cannot fix the incentives of academic publishing on your own. You can control the quality of the review you write: telling a real methodological flaw from a preference, keeping the manuscript confidential, and writing a review you would sign. The <a href="/reviewers-notebook/">Reviewer's Notebook</a> is the field guide and a local-first triage tool for exactly that, so that whether or not reviewers are ever paid, the review you give is one that improves the paper and holds up.</p>
+  <a class="btn" href="/reviewers-notebook/">See the Reviewer's Notebook · €39</a>
+</div>
+
+<h2>Related guides</h2>
+<p>See also <a href="/learn/how-to-peer-review-a-paper/">how to peer review a paper</a> and <a href="/learn/how-to-respond-to-reviewers/">how to respond to reviewers</a>, the two sides of the review itself. More guides are on the <a href="/learn/">Learn page</a>.</p>
+
+<footer>
+  <p><a href="/learn/">← All Learn guides</a> &middot; <a href="/privacy/">Privacy</a> · <a href="/">vahtian.com</a> · local-first research integrity tools. This page loads nothing from anywhere: no remote fonts, no tracking, no scripts.</p>
+</footer>
+
+</div>
+</body>
+</html>
