@@ -257,19 +257,9 @@
   </section>
 
   <section id="tools">
-    <h2>One system, three stages <span class="sub">— start where you are, grow into infrastructure</span></h2>
+    <h2>Tools across the research workflow <span class="sub">— grouped by the problem they solve</span></h2>
 
-    <div class="tierhead"><span class="t">Start</span><span class="d">Check the claims in your own manuscript.</span></div>
-    <div class="products">
-      <div class="p cite">
-        <img class="pmark" src="brand/marks/citevahti.svg" width="46" height="46" alt="" loading="lazy">
-        <span><a class="name" href="/citevahti/">CiteVahti</a> <span class="tag beta">free beta</span>
-          <span class="for">Does the paper you cited actually support the sentence? Checking every claim by hand before submission is tedious — CiteVahti tests each one against its cited source and keeps an auditable trail. A Claude Desktop extension or macOS app; no terminal.</span>
-          <a class="notify" href="/citevahti/quick-check/">Paste a paragraph — see which claims may be unsupported &rarr;</a></span>
-      </div>
-    </div>
-
-    <div class="tierhead"><span class="t">Prepare</span><span class="d">Get the study and its evidence right before analysis.</span></div>
+    <div class="tierhead"><span class="t">Plan and document</span><span class="d">Get the study, its sampling, and its data right before analysis.</span></div>
     <div class="products">
       <div class="p study">
         <img class="pmark" src="brand/marks/studyvahti.svg" width="46" height="46" alt="" loading="lazy">
@@ -288,7 +278,7 @@
           </g>
         </svg>
         <span><a class="name" href="/methodvahti">MethodVahti</a> <span class="tag free">free · live</span>
-          <span class="for">Justify your sample size and generate a COREQ/SRQR methods PDF before you collect qualitative data.</span></span>
+          <span class="for">Build and document a qualitative sampling rationale, mapped to COREQ and SRQR reporting items, before you collect data. In your browser; nothing uploads.</span></span>
       </div>
       <div class="p dict">
         <svg class="pmark" viewBox="0 0 32 32" aria-hidden="true">
@@ -303,6 +293,16 @@
         <span><a class="name" href="/dictvahti">DictVahti</a> <span class="tag free">free · live</span>
           <span class="for">Clean the REDCap data dictionary before analysis — 28 deterministic checks with one-click fixes. In your browser; nothing uploads.</span></span>
       </div>
+    </div>
+
+    <div class="tierhead"><span class="t">Find and verify evidence</span><span class="d">Find sources, capture what supports a claim, and check that it does.</span></div>
+    <div class="products">
+      <div class="p cite">
+        <img class="pmark" src="brand/marks/citevahti.svg" width="46" height="46" alt="" loading="lazy">
+        <span><a class="name" href="/citevahti/">CiteVahti</a> <span class="tag beta">free beta</span>
+          <span class="for">Does the paper you cited actually support the sentence? Checking every claim by hand before submission is tedious — CiteVahti tests each one against its cited source and keeps an auditable trail. A Claude Desktop extension or macOS app; no terminal.</span>
+          <a class="notify" href="/citevahti/quick-check/">Paste a paragraph — see which claims may be unsupported &rarr;</a></span>
+      </div>
       <div class="p matchlite">
         <svg class="pmark" viewBox="0 0 32 32" aria-hidden="true">
           <rect width="32" height="32" rx="7" fill="#2D2440"/>
@@ -314,15 +314,6 @@
         </svg>
         <span><a class="name" href="/matchvahti-lite/">MatchVahti-Lite</a> <span class="tag free">free · live</span>
           <span class="for">Capture citation-worthy evidence from PubMed abstracts, with provenance, into a reviewable Zotero <span style="font-family:ui-monospace,Menlo,monospace">.ris</span>. Local-first; nothing uploads.</span></span>
-      </div>
-    </div>
-
-    <div class="tierhead"><span class="t">Scale</span><span class="d">Claim-checking as governed infrastructure.</span></div>
-    <div class="products">
-      <div class="p review">
-        <img class="pmark" src="brand/marks/reviewvahti.svg" width="46" height="46" alt="" loading="lazy">
-        <span><a class="name" href="/reviewvahti/">ReviewVahti</a> <span class="tag live">live</span>
-          <span class="for">Inter-rater reliability for systematic-review screening — load each reviewer's MatchVahti ballots and get per-claim agreement (Cohen&rsquo;s &kappa;, PABAK, AC1) in the browser. Nothing uploads.</span></span>
       </div>
       <div class="p full">
         <svg class="pmark" viewBox="0 0 32 32" aria-hidden="true">
@@ -337,16 +328,35 @@
         <span><a class="name" href="/fullvahti/">FullVahti</a> <span class="tag free">free · open source</span>
           <span class="for">Find open-access full-text PDFs for your Zotero library (Unpaywall + PMC) and get an honest report of what's missing — it never bypasses a paywall. A Zotero plugin.</span></span>
       </div>
+    </div>
+
+    <div class="tierhead"><span class="t">Analyse and test</span><span class="d">Synthesise and stress-test the evidence.</span></div>
+    <div class="products">
+      <div class="p synth">
+        <svg class="pmark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#2D2440"/><g fill="none" stroke="#1E9E8A" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9 H9 V23 H12"/><path d="M20 9 H23 V23 H20"/></g><g fill="none" stroke="#C5B8E8" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19 L15 14 L18 16 L20 11"/></g></svg>
+        <span><a class="name" href="/synthvahti/">SynthVahti</a> <span class="tag beta">free beta</span>
+          <span class="for">Check 2&times;2 tables from your ExtractVahti CSV and pool overall, positive, and negative agreement — forest figures in the browser; the joint bivariate model and SROC curve run in R via a generated, versioned script. Nothing uploads.</span></span>
+      </div>
+      <div class="p atlas">
+        <img class="pmark" src="brand/marks/atlasvahti.svg" width="46" height="46" alt="" loading="lazy">
+        <span><span class="name">AtlasVahti</span> <span class="tag soon">roadmap</span>
+          <span class="for">De-identified validation-pattern analytics — consented, governed, API-accessible.</span>
+          <a class="notify" href="mailto:hello@vahtian.com?subject=AtlasVahti%20interest">Get notified →</a></span>
+      </div>
+    </div>
+
+    <div class="tierhead"><span class="t">Review and reconcile</span><span class="d">Screen, extract, and reach a documented consensus.</span></div>
+    <div class="products">
+      <div class="p review">
+        <img class="pmark" src="brand/marks/reviewvahti.svg" width="46" height="46" alt="" loading="lazy">
+        <span><a class="name" href="/reviewvahti/">ReviewVahti</a> <span class="tag live">live</span>
+          <span class="for">Inter-rater reliability for systematic-review screening — load each reviewer's MatchVahti ballots and get overall agreement (Cohen&rsquo;s &kappa;, PABAK, AC1) in the browser. Nothing uploads.</span></span>
+      </div>
       <div class="p extract">
         <img class="pmark" src="brand/marks/extractvahti.svg" width="46" height="46" alt="" loading="lazy">
         <span><a class="name" href="/extractvahti/">ExtractVahti</a> <span class="tag beta">early access</span>
           <span class="for">Data extraction &amp; risk-of-bias for diagnostic-accuracy reviews — appraise with QUADAS-2 / QUADAS-C / PROBAST-AI and export tidy CSV for meta-analysis in R. Local-first; nothing uploads.</span>
           <a class="notify" href="/extractvahti/">See the ExtractVahti preview &rarr;</a></span>
-      </div>
-      <div class="p synth">
-        <svg class="pmark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#2D2440"/><g fill="none" stroke="#1E9E8A" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9 H9 V23 H12"/><path d="M20 9 H23 V23 H20"/></g><g fill="none" stroke="#C5B8E8" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19 L15 14 L18 16 L20 11"/></g></svg>
-        <span><a class="name" href="/synthvahti/">SynthVahti</a> <span class="tag beta">free beta</span>
-          <span class="for">Check 2&times;2 tables from your ExtractVahti CSV and pool overall, positive, and negative agreement — forest figures in the browser; the joint bivariate model and SROC curve run in R via a generated, versioned script. Nothing uploads.</span></span>
       </div>
       <div class="p guide">
         <img class="pmark" src="brand/marks/guidelinevahti.svg" width="46" height="46" alt="" loading="lazy">
@@ -354,11 +364,13 @@
           <span class="for">Panel consensus for guideline groups — RAND/UCLA + Delphi voting and GRADE recommendations, in the browser. Nothing uploads.</span>
           <a class="notify" href="/guidelinevahti/">See the GuidelineVahti preview &rarr;</a></span>
       </div>
-      <div class="p atlas">
-        <img class="pmark" src="brand/marks/atlasvahti.svg" width="46" height="46" alt="" loading="lazy">
-        <span><span class="name">AtlasVahti</span> <span class="tag soon">roadmap</span>
-          <span class="for">De-identified validation-pattern analytics — consented, governed, API-accessible.</span>
-          <a class="notify" href="mailto:hello@vahtian.com?subject=AtlasVahti%20interest">Get notified →</a></span>
+    </div>
+
+    <div class="tierhead"><span class="t">Write and disclose</span><span class="d">Turn a finished study into a submittable, disclosed manuscript.</span></div>
+    <div class="products">
+      <div class="p">
+        <span><span class="name">Writing &amp; disclosure kits</span>
+          <span class="for">The write-order outline, the reviewer-response builder, and the AI-use disclosure kit are paid workflow kits — <a href="#kits">see the kits below</a>.</span></span>
       </div>
     </div>
   </section>
@@ -374,7 +386,7 @@
       <div class="p recoverlite">
         <svg class="pmark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#2D2440"/><g fill="none" stroke="#5566B5" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M9 20 L14 14 L18 17 L23 10"/></g><circle cx="23" cy="10" r="2.2" fill="#C5B8E8"/></svg>
         <span><a class="name" href="/recoverlite/">RecoverLite</a> <span class="tag free">open source</span>
-          <span class="for">Pre-data recovery tests for planned study designs — declare the estimand and analysis, simulate under a crossed grid, and get a PASS / RISK / FAIL verdict before you collect data. R; Apache-2.0.</span></span>
+          <span class="for">Pre-data recovery tests for planned study designs — declare the estimand and analysis, simulate under a crossed grid, and classify recovery as PASS, RISK, or FAIL under the declared scenarios and thresholds before you collect data. A result about the instrument, not the real study. R; Apache-2.0.</span></span>
       </div>
       <div class="p auditlite">
         <svg class="pmark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#2D2440"/><g fill="none" stroke="#5566B5" stroke-width="2.1" stroke-linecap="round"><rect x="8.5" y="13.9" width="8.2" height="4.2" rx="2.1"/><rect x="15.3" y="13.9" width="8.2" height="4.2" rx="2.1"/></g><circle cx="16" cy="16" r="1.6" fill="#C5B8E8"/></svg>
@@ -396,7 +408,7 @@
       <div class="box"><h3>Deterministic operations are inspectable</h3><p>Parsing, calculations, checks, and exports record what was done, so a step can be re-run and read.</p></div>
       <div class="box"><h3>AI assessments remain advisory</h3><p>Where AI evaluates evidence or text, its output does not silently become a scientific decision.</p></div>
       <div class="box"><h3>Consequential judgments remain accountable</h3><p>The researcher or designated reviewer approves decisions that affect interpretation, inclusion, or reporting.</p></div>
-      <div class="box"><h3>Open core, local-first</h3><p>The open core is Apache-2.0 and runs on your laptop. We never paywall a researcher’s ability to check their own work.</p></div>
+      <div class="box"><h3>Open core, local-first</h3><p>The open core — the free browser tools and open-source packages — is permissively licensed (primarily Apache-2.0) and runs on your laptop; each repository states its licence. We never paywall a researcher’s ability to check their own work.</p></div>
     </div>
     <p class="vahti lower"><b>vahti</b> — Finnish for <i>sentinel / guard</i>. The watch over what gets cited.</p>
   </section>
@@ -496,7 +508,7 @@
 
 <div class="wrap">
   <footer>
-    <p>© 2026 Vahtian · Citation-integrity infrastructure · <a href="/LICENSE">Apache-2.0</a> core · <a href="/blog/">Blog</a> · <a href="/agents/">For LLMs &amp; agents</a> · <a href="/about/">About</a> · <a href="/cite/">Cite</a> · <a href="/privacy/">Privacy</a></p>
+    <p>© 2026 Vahtian · Auditable research workflow infrastructure · <a href="/LICENSE">Apache-2.0</a> open core · <a href="/blog/">Blog</a> · <a href="/agents/">For LLMs &amp; agents</a> · <a href="/about/">About</a> · <a href="/cite/">Cite</a> · <a href="/privacy/">Privacy</a></p>
     <p>Vahtian builds local-first tools that keep research inputs, decisions, and outputs open to review. The tools support judgment; they do not establish scientific truth.</p>
   </footer>
 </div>
