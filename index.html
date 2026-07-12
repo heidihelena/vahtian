@@ -14,7 +14,7 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://vahtian.com/">
   <meta property="og:title" content="Vahtian: local-first tools for auditable research">
-  <meta property="og:description" content="Local-first tools for auditable research workflows. You decide, the AI assists, and every decision is recorded. Free checking tools, plus paid kits for qualitative analysis and AI disclosure.">
+  <meta property="og:description" content="Local-first tools for auditable research workflows. Free checking tools, plus paid kits for qualitative analysis and AI disclosure. The tools support judgment; they do not establish scientific truth.">
   <meta property="og:image" content="https://vahtian.com/brand/cards/vahtian-card.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
@@ -31,7 +31,7 @@
         "name": "Vahtian",
         "url": "https://vahtian.com/",
         "logo": "https://vahtian.com/brand/marks/png/vahtian.png",
-        "description": "Vahtian builds local-first tools for auditable research workflows: free checking tools and paid workflow kits, with the human deciding, AI assisting, and hash-chained audit trails.",
+        "description": "Vahtian builds local-first tools for auditable research workflows: free checking tools and paid workflow kits that keep research inputs, decisions, and outputs open to review. The tools support judgment; they do not establish scientific truth.",
         "email": "hello@vahtian.com",
         "sameAs": ["https://github.com/heidihelena/vahtian","https://github.com/heidihelena/citevahti"]
       },
@@ -225,9 +225,9 @@
    <div class="hero-copy">
     <p class="kicker">Auditable research workflows</p>
     <h1>When a reviewer asks how you did it, what will you show?</h1>
-    <p class="lede">Vahtian builds local-first tools that record your research decisions as you
+    <p class="lede">Vahtian builds local-first tools that help you record research decisions as you
       make them. Citations checked against their sources. Interviews coded under
-      <b>your</b> review. Every decision dated and kept. Research you can defend.</p>
+      <b>your</b> review. Important decisions can be recorded with their inputs, outputs, and dates.</p>
     <div class="stack3">
       <span><b>Human-first. AI-second. Auditable by design.</b></span>
       <span>Free checking tools to start. They stay free.</span>
@@ -244,14 +244,14 @@
 <div class="wrap">
 
   <section id="workflow">
-    <h2>The audit workflow <span class="sub">— blinded human → AI → adjudication</span></h2>
+    <h2>CiteVahti’s audit workflow <span class="sub">— blinded human → AI → adjudication</span></h2>
     <ol class="flow">
       <li><b>Claim becomes a test.</b> Each manuscript claim is checked against the source cited for it.</li>
-      <li><b>Evidence, not topic.</b> Does the cited paper actually support <em>this</em> claim? (PICO-level match, not keyword overlap.)</li>
+      <li><b>Evidence, not topic.</b> Does the cited source support the population, construct, comparison, outcome, direction, and strength of the claim, rather than merely discuss the same topic?</li>
       <li><b>You decide — blinded.</b> The AI rates too, but its opinion stays hidden until you’ve rated. The human is the decider.</li>
       <li><b>Disagreements adjudicated.</b> When human and AI differ, it routes to a person — never silently resolved.</li>
-      <li><b>Guarded write.</b> A reference enters your library only as the audited, undoable last step of your decision.</li>
-      <li><b>Recorded.</b> A hash-chained audit trail of who rated what, what the AI advised, and what was finally written.</li>
+      <li><b>Guarded write.</b> Any write-back to Zotero or the manuscript occurs only after preview and confirmation, with an undo record.</li>
+      <li><b>Recorded.</b> An append-only, hash-linked record of who rated what, what the AI advised, and what was finally written — enough to reveal later changes to the record, not to prove it complete or the science correct.</li>
     </ol>
     <p><a class="notify" href="/citevahti/">Run it on your manuscript with CiteVahti →</a></p>
   </section>
@@ -388,16 +388,15 @@
     <h2>The trust contract</h2>
     <div class="contract">
       <h3>Vahtian does not decide scientific truth.</h3>
-      <p>It records whether a cited source supports a specific claim:
-        <b>who rated it</b>, <b>what the AI advised</b>, <b>how disagreements were
-        adjudicated</b>, and <b>what was finally written</b>. The judgment stays
-        with the researcher; Vahtian keeps the evidence of how it was made.</p>
+      <p>Vahtian builds local-first tools that keep research inputs, decisions, and
+        outputs open to review. The tools support judgment; they do not establish
+        scientific truth. What that means in practice depends on the tool:</p>
     </div>
     <div class="principle" style="margin-top:16px">
-      <div class="box"><h3>The human decides</h3><p>AI is a blinded, advisory second rater — never decisive, never silently propagated. Disagreements route to a person.</p></div>
-      <div class="box"><h3>No silent writes</h3><p>References enter your library only as the audited, undoable last step of a human decision. Dedupe fails closed.</p></div>
-      <div class="box"><h3>The reasoning is recorded</h3><p>A hash-chained audit trail, so the workflow can be reported transparently in a methods section.</p></div>
-      <div class="box"><h3>Open core, local-first</h3><p>The core is Apache-2.0 and runs on your laptop. We never paywall a researcher’s ability to check their own work.</p></div>
+      <div class="box"><h3>Deterministic operations are inspectable</h3><p>Parsing, calculations, checks, and exports record what was done, so a step can be re-run and read.</p></div>
+      <div class="box"><h3>AI assessments remain advisory</h3><p>Where AI evaluates evidence or text, its output does not silently become a scientific decision.</p></div>
+      <div class="box"><h3>Consequential judgments remain accountable</h3><p>The researcher or designated reviewer approves decisions that affect interpretation, inclusion, or reporting.</p></div>
+      <div class="box"><h3>Open core, local-first</h3><p>The open core is Apache-2.0 and runs on your laptop. We never paywall a researcher’s ability to check their own work.</p></div>
     </div>
     <p class="vahti lower"><b>vahti</b> — Finnish for <i>sentinel / guard</i>. The watch over what gets cited.</p>
   </section>
@@ -498,7 +497,7 @@
 <div class="wrap">
   <footer>
     <p>© 2026 Vahtian · Citation-integrity infrastructure · <a href="/LICENSE">Apache-2.0</a> core · <a href="/blog/">Blog</a> · <a href="/agents/">For LLMs &amp; agents</a> · <a href="/about/">About</a> · <a href="/cite/">Cite</a> · <a href="/privacy/">Privacy</a></p>
-    <p>Vahtian records the blinded human → AI → adjudication workflow with provenance; it does not assert truth.</p>
+    <p>Vahtian builds local-first tools that keep research inputs, decisions, and outputs open to review. The tools support judgment; they do not establish scientific truth.</p>
   </footer>
 </div>
 <script>
