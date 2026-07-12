@@ -74,6 +74,10 @@ relationship where relevant**. Canonical statement + ready-to-adapt methods text
 
 Canonical conventions for all Vahtian copy. When a page conflicts with this list, fix the page.
 
+### Keep it short
+
+The tool is useful — let it speak. Prefer the shortest copy that stays accurate: one plain sentence over three, a verb over a noun phrase, a caveat in a clause rather than a paragraph. Cut hedging and restated invariants down to one clear instance. Length is not credibility; the safety caveats must survive, but they can be brief.
+
 ### Word hierarchy — say the precise property, not the brand word
 
 Reserve strong positioning words for exactly what they mean:
