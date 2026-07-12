@@ -141,7 +141,7 @@ class MinimalQualModel(nn.Module):
   <li><strong>Compare against baselines.</strong> Because EpiNet runs several estimators under one harness, you can see whether your model's interpretability costs you any discrimination. Community-aware splitting checks that the result is not driven by leakage between linked documents.</li>
 </ol>
 
-<div class="note personal"><p style="margin:0"><strong>What EpiNet does and does not do.</strong> It does not make your model better, and it does not decide that your themes are correct. It enforces an honest evaluation and writes a reproducible model card, so you can say whether the result holds up, and show your working. The interpretation stays yours.</p></div>
+<div class="note personal"><p style="margin:0"><strong>What EpiNet does and does not do.</strong> It does not make your model better, and it does not decide that your themes are correct. It enforces a leakage-aware evaluation and writes a reproducible model card, so you can say whether the result holds up, and show your working. The interpretation stays yours.</p></div>
 
 <div class="cta">
   <p><strong>Get one honest number, not one flattering one.</strong></p>

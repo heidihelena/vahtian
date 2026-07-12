@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>EpiNet — the Epistemic Network toolkit</title>
-  <meta name="description" content="EpiNet is a transparent node/edge network and feature-space analysis toolkit for graph-shaped data, where honest evaluation is the default: a label-permutation null, calibration, and community-aware splitting run alongside the headline metric, so a good score reflects real signal rather than leakage or chance. A research and education demonstrator — not clinical decision support. Python, Apache-2.0. A Vahtian project.">
+  <meta name="description" content="EpiNet is a transparent node/edge network and feature-space analysis toolkit for graph-shaped data, where leakage-aware evaluation is the default: a label-permutation null, calibration, and community-aware splitting run alongside the headline metric, so a good score reflects real signal rather than leakage or chance. A research and education demonstrator — not clinical decision support. Python, Apache-2.0. A Vahtian project.">
   <meta name="theme-color" content="#2D2440">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
@@ -13,7 +13,7 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://vahtian.com/epinet/">
   <meta property="og:title" content="EpiNet — the Epistemic Network toolkit">
-  <meta property="og:description" content="Transparent graph + feature-space analysis where honest evaluation is the default — permutation null, calibration, community-aware splitting, and contestability travel with every run. A research demonstrator, not clinical decision support.">
+  <meta property="og:description" content="Transparent graph + feature-space analysis where leakage-aware evaluation is the default — permutation null, calibration, community-aware splitting, and contestability travel with every run. A research demonstrator, not clinical decision support.">
   <meta property="og:image" content="https://vahtian.com/brand/cards/epinet-card.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
@@ -158,7 +158,7 @@
 
   <section>
     <h2>What it does</h2>
-    <p>You load entities and relationships from CSVs; EpiNet computes graph features, honestly evaluates an outcome
+    <p>You load entities and relationships from CSVs; EpiNet computes graph features, evaluates an outcome with a permutation null and calibration
       model, finds shortest paths, clusters nodes in feature space, and scores how contestable each call is — with
       publication-quality figures and a model card.</p>
     <ul class="feat">
@@ -184,7 +184,7 @@
   --outcome-column Outcome \
   --target-outcome 1 \
   --output-dir epinet_outputs</pre>
-    <p>This runs graph-feature generation, an honestly-evaluated outcome model, and shortest-path summaries side by
+    <p>This runs graph-feature generation, a leakage-aware outcome model, and shortest-path summaries side by
       side. Outputs include <code>model_metrics.json</code>, a human-readable <code>model_card.md</code>,
       <code>node_features.csv</code>, <code>provenance.json</code>, and calibration / learning-curve / network plots.
       Full data format and methods are in the <a href="https://github.com/heidihelena/epinet#documentation">docs</a>.</p>

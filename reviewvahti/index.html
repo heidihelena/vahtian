@@ -179,7 +179,7 @@
       filled-in result with no files.</p>
 
     <details class="detail"><summary>Which number do I report?</summary>
-      <p class="hint">For <b>two</b> reviewers, report raw&nbsp;% agreement with Cohen&rsquo;s&nbsp;&kappa; —
+      <p class="hint">For <b>two</b> reviewers, report raw&nbsp;% agreement with Cohen&rsquo;s&nbsp;&kappa;,
         and read PABAK and AC1 alongside, because &kappa; alone understates agreement when almost every
         paper is excluded (the &ldquo;kappa paradox&rdquo;). For <b>three or more</b>, report
         Krippendorff&rsquo;s&nbsp;&alpha; (&ge;&nbsp;0.80 reliable, 0.667&ndash;0.80 tentative).</p></details>
@@ -727,7 +727,7 @@ function prismaHtml(r){
   const box=function(label,n,note){ return `<div class="pbox"><div class="pn">${n==null?"—":n}</div><div class="pl">${label}${note?` <span class="muted">${note}</span>`:""}</div></div>`; };
   const dbNote = p.databases && p.databases.length ? p.databases.map(function(d){ return esc(d.name||"?")+(typeof d.hits==="number"?(" "+d.hits):""); }).join(", ") : "";
   return `<details class="detail" style="margin-top:10px"><summary>PRISMA — title/abstract screening flow</summary>
-    <p class="muted" style="margin-top:6px">ReviewVahti owns the title/abstract stage. <b>Screened / excluded / sought</b> are computed from the ballots; <b>identified / duplicates</b> come from your database search — shown when the protocol carries them, otherwise enter them from your search log. Full-text exclusions belong to the later retrieval stage.</p>
+    <p class="muted" style="margin-top:6px">ReviewVahti owns the title/abstract stage. <b>Screened / excluded / sought</b> are computed from the ballots; <b>identified / duplicates</b> come from your database search, shown when the protocol carries them, otherwise enter them from your search log. Full-text exclusions belong to the later retrieval stage.</p>
     <div class="prisma">
       ${box("Records identified (databases)", p.identified, p.identified==null?"— from your search log":(dbNote?"· "+dbNote:""))}
       <div class="parrow">↓ removed before screening</div>

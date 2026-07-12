@@ -69,3 +69,45 @@ relationship where relevant**. Canonical statement + ready-to-adapt methods text
 - The honest caveat, where space allows: *"checks citation support, not truth."*
 - Link to [known limitations](https://github.com/heidihelena/citevahti/blob/main/docs/KNOWN_LIMITATIONS.md).
 - CTA for an early/1-star tool: **"Try the 3-minute demo"** converts better than "Install."
+
+## Terminology & style (source of truth)
+
+Canonical conventions for all Vahtian copy. When a page conflicts with this list, fix the page.
+
+### Keep it short
+
+The tool is useful — let it speak. Prefer the shortest copy that stays accurate: one plain sentence over three, a verb over a noun phrase, a caveat in a clause rather than a paragraph. Cut hedging and restated invariants down to one clear instance. Length is not credibility; the safety caveats must survive, but they can be brief.
+
+### Word hierarchy — say the precise property, not the brand word
+
+Reserve strong positioning words for exactly what they mean:
+
+| Use | For |
+|---|---|
+| **traceable** | provenance — you can see where something came from |
+| **reproducible** | a computation that repeats under the same inputs/environment |
+| **reviewable / inspectable** | a decision or record a person can open and check |
+| **documented** | a rationale that has been written down |
+| **defensible** | *only* the resulting **human argument** — never a tool, form, study, or output as a property |
+
+- Don't call a tool, study, form, or output "defensible." A tool helps you *build and document* a rationale; the researcher's argument is what may be defensible. (So: "document your sampling decision," not "defensible study"/"defend your sample" as a tool promise.)
+- Replace **"honest"** as a quality claim with the measurable property: "a **complete** report of what's missing," "**leakage-aware** evaluation," "**explicit** missing-item report," "**declared** assumptions," "**scenario-specific** evaluation," "no **silent** imputation," "no paywall **bypass**." Keep "honest/honestly" only as ordinary candid voice in essays, not as a product claim.
+
+### Never / always
+
+- **Never "anonymous"** as a data or privacy claim (re-identification is rarely provable). Use **"de-identified,"** "aggregates only," or, for Delphi, "blinded voting." Contribution of any data is opt-in, default-off.
+- The invariant words stay: *support* (not truth), *records/keeps* (not certifies), *human decides / AI second*.
+
+### Canonical names & punctuation
+
+- Product names: **CiteVahti, StudyVahti, MethodVahti, DictVahti, MatchVahti-Lite** (hyphen), **ReviewVahti, FullVahti, ExtractVahti, SynthVahti, GuidelineVahti, AtlasVahti**; packages **EpiNet, RecoverLite, AuditLite**. Kits: **QualiVahti Local, Research Domain Cube, Manuscript Kit, Reviewer Response Builder, Reviewer's Notebook, AI Disclosure Kit, MethodVahti Sample Defence Pack**.
+- **"open-source"** as an adjective (open-source tools); **"open source"** as a noun (released as open source).
+- Author credential: **"MD, PhD"** (comma), everywhere — bylines, meta, and JSON-LD `honorificSuffix`.
+- **"risk-of-bias"** hyphenated as a modifier (risk-of-bias assessment).
+- **"full text"** noun / **"full-text"** adjective (full-text PDF).
+- Category line: **"auditable research workflow infrastructure"** (org-level); CiteVahti remains the citation-integrity flagship.
+- **Local-first labels** (see `/privacy/#local-first`): *Fully offline* · *Local processing, external metadata lookup* · *Browser-local, no upload*.
+
+### Punctuation
+
+- **No em dashes** in new or edited copy — use a colon, comma, or parentheses. (A mechanical sitewide sweep of legacy em dashes is a pending cleanup; do not add new ones.)
