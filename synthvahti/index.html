@@ -3,18 +3,18 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<title>SynthVahti — browser-side DTA agreement synthesis (HSROC stays in R)</title>
-<meta name="description" content="Pool agreement (OPA, sensitivity, specificity, decision impact) from an ExtractVahti CSV with random-effects meta-analysis, and export forest and funnel figures as PNG. The headline HSROC / bivariate / publication-bias models stay in R, with a generated, package-versioned script. Local-first; nothing uploads." />
+<title>SynthVahti — index-vs-reference agreement synthesis (bivariate model in R)</title>
+<meta name="description" content="Combine studies that compare an index assessment with a reference. Check the extracted 2×2 tables and get exploratory overall, positive, and negative agreement with forest plots in your browser; export an R script for the joint bivariate random-effects model and SROC curve. Local-first; nothing uploads." />
 <meta name="theme-color" content="#2D2440" />
 <link rel="canonical" href="https://vahtian.com/synthvahti/" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://vahtian.com/synthvahti/" />
-<meta property="og:title" content="SynthVahti — browser-side DTA agreement synthesis" />
-<meta property="og:description" content="Random-effects pooling of OPA / sensitivity / specificity with forest and funnel figures in the browser; the headline HSROC / bivariate models stay in R via a generated, versioned script. Local-first; nothing uploads." />
+<meta property="og:title" content="SynthVahti — index-vs-reference agreement synthesis" />
+<meta property="og:description" content="Check extracted 2×2 tables and pool overall, positive, and negative agreement in the browser; export an R script for the joint bivariate random-effects model and SROC curve. Local-first; nothing uploads." />
 <meta property="og:image" content="https://vahtian.com/brand/cards/synthvahti-card.png" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
-<meta property="og:image:alt" content="SynthVahti — pool agreement, keep HSROC in R. A product of Vahtian." />
+<meta property="og:image:alt" content="SynthVahti — index-vs-reference agreement synthesis, joint bivariate model in R. A product of Vahtian." />
 <meta property="og:site_name" content="Vahtian" />
 <meta name="twitter:card" content="summary_large_image" />
 <script type="application/ld+json">
@@ -25,7 +25,7 @@
   "applicationCategory": "HealthApplication",
   "operatingSystem": "Any (web browser)",
   "url": "https://vahtian.com/synthvahti/",
-  "description": "Browser-side random-effects pooling of diagnostic-test-accuracy agreement (OPA, sensitivity, specificity) from an ExtractVahti CSV, with forest and funnel figures exported as PNG. The headline HSROC / bivariate / publication-bias models run in R via a generated, package-versioned script. Local-first; nothing uploads.",
+  "description": "Browser-side checking and exploratory random-effects pooling of overall, positive, and negative agreement between an index and a reference assessment, from an ExtractVahti CSV, with forest figures exported as PNG. The joint bivariate random-effects model and SROC curve run in R via a generated, package-versioned script. Local-first; nothing uploads.",
   "isPartOf": { "@type": "WebSite", "name": "Vahtian", "url": "https://vahtian.com/" },
   "offers": { "@type": "Offer", "price": "0", "priceCurrency": "EUR" }
 }
@@ -33,10 +33,11 @@
 <!--
   SynthVahti v0.1 — the browser half of the hybrid synthesis stage.
   JS (synth.mjs) does the achievable, self-contained part: random-effects (DerSimonian–Laird, logit)
-  pooling of OPA / sensitivity / specificity / decision-impact proportions, with I²/τ², forest + funnel
+  pooling of overall / positive / negative agreement proportions, with I²/τ², forest
   figures exported as PNG, and a results report. The pooling core is golden-tested against metafor in CI.
-  R keeps the headline: HSROC, the bivariate DTA model, complex random effects, sensitivity analyses,
-  publication-bias methods (Deeks), and package-versioned reproducibility — via a generated synthesis.R.
+  R keeps the preferred final analysis: the joint bivariate random-effects model that models positive and
+  negative agreement together, the SROC curve and summary region, pre-specified sensitivity/subgroup
+  analyses, and package-versioned reproducibility — via a generated synthesis.R.
   Estimates here are agreement against an imperfect reference, NOT accuracy (the review's framing).
   Local-first: your data never leaves the browser, nothing uploads. Zero external requests.
 -->
@@ -135,9 +136,9 @@
   <div class="wrap">
     <div class="brand">
       <a href="/" aria-label="Vahtian — home" style="display:flex"><svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#2D2440"/><g fill="none" stroke="#1E9E8A" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9 H9 V23 H12"/><path d="M20 9 H23 V23 H20"/></g><g fill="none" stroke="#C5B8E8" stroke-width="1.7"><path d="M12 19 L15 14 L18 16 L20 11"/></g></svg></a>
-      <div><h1>SynthVahti</h1><p class="sub">Pool agreement across studies and get forest &amp; funnel figures in your browser — the headline HSROC / bivariate / publication-bias models stay in R, package-versioned.</p></div>
+      <div><h1>SynthVahti</h1><p class="sub">Combine studies that compare an index assessment with a reference. Check the extracted 2&times;2 tables and pool overall, positive, and negative agreement in your browser; the joint bivariate random-effects model and SROC curve run in R, package-versioned.</p></div>
     </div>
-    <div class="chips"><span class="chip">v0.1</span><span class="chip">hybrid · R for HSROC</span><span class="chip">local-first</span><span class="chip">nothing uploads</span></div>
+    <div class="chips"><span class="chip">v0.1</span><span class="chip">hybrid · R for the bivariate model</span><span class="chip">local-first</span><span class="chip">nothing uploads</span></div>
   </div>
 </header>
 
@@ -154,7 +155,7 @@
       <p class="hint" style="margin-top:12px">Header row required. Give <b>either</b> a full 2&times;2 count
         (<span class="mono">tp,fp,fn,tn</span>) <b>or</b> a precomputed proportion with its denominator
         (<span class="mono">opa</span> + <span class="mono">n</span>). The 2&times;2 is preferred — it lets
-        SynthVahti pool sensitivity and specificity too, not just overall agreement.</p>
+        SynthVahti pool positive and negative agreement too, not just overall agreement.</p>
       <table class="cols">
         <thead><tr><th>column</th><th>meaning</th><th>required?</th></tr></thead>
         <tbody>
@@ -188,10 +189,22 @@ Smith-2021,>=1%,85,10,5,100,200,0.925,0.78
   </section>
 
   <section id="resultsSection" class="hide">
-    <h2><span class="n">2</span>Results — random-effects agreement synthesis</h2>
-    <div class="caveat"><strong>Reads as agreement, not accuracy.</strong> Sensitivity/specificity here are agreement against an
-      <em>imperfect reference</em> (a &ge;2-pathologist consensus shares error with the comparator). Pooling is random-effects
-      DerSimonian–Laird on the logit scale; &kappa; is descriptive only. <strong>This is the browser half</strong> — see the R hand-off below for the headline models.</div>
+    <h2><span class="n">2</span>Results — exploratory agreement synthesis</h2>
+    <div class="caveat"><strong>Reads as agreement, not accuracy.</strong> Positive and negative agreement here describe agreement with the
+      chosen reference; SynthVahti does not assume the reference is error-free. Pooling is random-effects
+      DerSimonian–Laird on the logit scale, and treats positive and negative agreement independently; &kappa; is descriptive only.
+      <strong>This is the exploratory browser half</strong> — the preferred final synthesis is the joint bivariate model in the R hand-off below.</div>
+    <details class="teach">
+      <summary><span class="tw">READ</span>What the results mean</summary>
+      <ul class="hint" style="margin:12px 0 0;padding-left:18px;line-height:1.5">
+        <li><b>Overall agreement</b> is the proportion of all classifications that agree.</li>
+        <li><b>Positive agreement</b> is the proportion of reference-positive cases the index assessment classifies as positive.</li>
+        <li><b>Negative agreement</b> is the proportion of reference-negative cases the index assessment classifies as negative.</li>
+        <li>The <b>bivariate model</b> (in R) estimates positive and negative agreement <em>jointly</em> across studies, because changing the threshold can raise one while lowering the other; pooling them independently here is for inspection only.</li>
+        <li>The <b>SROC curve</b> (in R) summarizes their relationship across studies and thresholds.</li>
+      </ul>
+      <p class="example-note" style="margin-top:10px">These results describe comparative classification performance against the declared reference. They do not establish biological truth, clinical utility, or freedom from reference-standard bias.</p>
+    </details>
     <div id="summary"></div>
     <h3>Figures <span class="muted" style="font-weight:400;font-size:12.5px">— formatted for print; export PNG at 2&times; below</span></h3>
     <div id="figures"></div>
@@ -202,17 +215,17 @@ Smith-2021,>=1%,85,10,5,100,200,0.925,0.78
     <div class="actions">
       <button id="expPng">Figures &rarr; PNG (2&times;)</button>
       <button id="expReport" class="ghost">report.md</button>
-      <button id="expR" class="ghost">synthesis.R (HSROC + pub-bias)</button>
+      <button id="expR" class="ghost">synthesis.R (bivariate + SROC)</button>
     </div>
-    <div class="rnote"><strong>R hand-off — the headline analysis.</strong> <span class="mono">synthesis.R</span> reads the same
-      <span class="mono">extraction.csv</span> and runs, in R: the <strong>bivariate / HSROC</strong> model (<span class="mono">mada</span>),
-      <strong>complex random effects</strong>, pre-specified <strong>sensitivity analyses</strong>, and <strong>publication-bias</strong> methods (Deeks' funnel
-      asymmetry — the DTA-appropriate test, not the symmetric funnel shown here). It records <span class="mono">sessionInfo()</span> +
+    <div class="rnote"><strong>R hand-off — the preferred final analysis.</strong> <span class="mono">synthesis.R</span> reads the same
+      <span class="mono">extraction.csv</span> and runs, in R: the <strong>joint bivariate random-effects model</strong> (<span class="mono">mada</span>) that
+      models positive and negative agreement together, the <strong>SROC curve and summary region</strong>, and any pre-specified
+      <strong>sensitivity or subgroup analyses</strong>. It records <span class="mono">sessionInfo()</span> +
       an <span class="mono">renv</span> note so the analysis is <strong>package-versioned and reproducible</strong>.</div>
   </section>
 </main>
 
-  <footer>&copy; 2026 Vahtian · SynthVahti · a product of <a href="/">Vahtian</a> · local-first, nothing uploads · the hybrid synthesis stage (R keeps HSROC) · <a href="https://github.com/heidihelena/vahtian">source</a> · <a href="/cite/">Cite</a> · <a href="/privacy/">Privacy</a></footer>
+  <footer>&copy; 2026 Vahtian · SynthVahti · a product of <a href="/">Vahtian</a> · local-first, nothing uploads · the hybrid synthesis stage (R runs the joint bivariate model) · <a href="https://github.com/heidihelena/vahtian">source</a> · <a href="/cite/">Cite</a> · <a href="/privacy/">Privacy</a></footer>
 </div>
 
 <script type="module">
@@ -223,7 +236,7 @@ let MODEL=null;
 
 function render(){
   const M=MODEL; let html='';
-  html+='<table><tr><th class="l">cutoff</th><th>studies</th><th>pooled OPA</th><th>I²</th><th>pooled sens*</th><th>pooled spec*</th><th>κ (mean, range)</th></tr>';
+  html+='<table><tr><th class="l">cutoff</th><th>studies</th><th>pooled overall agr.</th><th>I²</th><th>pooled pos. agr.*</th><th>pooled neg. agr.*</th><th>κ (mean, range)</th></tr>';
   for(const c of M.cutoffs){
     html+=`<tr><td class="l mono">${esc(c.cutoff)}</td><td>${c.k}</td>`+
       `<td>${c.opa?pct(c.opa.pooled)+'<br><span class="muted" style="font-size:10.5px">['+pct(c.opa.lo)+', '+pct(c.opa.hi)+']</span>':'—'}</td>`+
@@ -231,7 +244,7 @@ function render(){
       `<td>${c.sens?pct(c.sens.pooled):'—'}</td><td>${c.spec?pct(c.spec.pooled):'—'}</td>`+
       `<td>${c.kappa?c.kappa.mean.toFixed(2)+' ('+c.kappa.min.toFixed(2)+'–'+c.kappa.max.toFixed(2)+')':'—'}</td></tr>`;
   }
-  html+='</table><p class="hint">* sens/spec = agreement vs an imperfect reference, not accuracy. Decision-impact pooling and the bivariate model live in synthesis.R.</p>';
+  html+='</table><p class="hint">* positive / negative agreement with the chosen reference (not accuracy; the reference is not assumed error-free). The joint bivariate model and SROC curve live in synthesis.R.</p>';
   if(M.skipped && M.skipped.length){
     html+=`<p class="hint" style="color:var(--amber-text)">Skipped ${M.skipped.length} row(s) that had neither a full 2×2 nor opa+n: `+
       esc(M.skipped.map(s=>`row ${s.row} (${s.label})`).join(', '))+`.</p>`;
@@ -242,7 +255,7 @@ function render(){
   for(const c of M.cutoffs){
     const slug=c.cutoff.replace(/\W/g,'');
     if(c.opa){ figs+=`<div class="fig">${forestSvg('Overall agreement — '+c.cutoff, c.opa, pct)}</div>`; }
-    if(c.sens&&c.spec){ figs+=`<div class="fig">${forestSvg('Sensitivity — '+c.cutoff+' (agreement vs imperfect ref)', c.sens, pct)}${forestSvg('Specificity — '+c.cutoff, c.spec, pct)}</div>`; }
+    if(c.sens&&c.spec){ figs+=`<div class="fig">${forestSvg('Positive agreement — '+c.cutoff, c.sens, pct)}${forestSvg('Negative agreement — '+c.cutoff, c.spec, pct)}</div>`; }
     if(c.opa&&c.opa.k>=3){ figs+=`<div class="fig">${funnelSvg('Funnel (OPA) — '+c.cutoff, c.opa)}</div>`; }
   }
   $("figures").innerHTML=figs;
