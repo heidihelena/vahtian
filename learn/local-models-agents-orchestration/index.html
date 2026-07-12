@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Local models, agents & orchestration for research · Vahtian Learn</title>
+  <meta name="description" content="A deeper, plain-language guide to running AI models locally, giving them tools (agents), and coordinating those tools (orchestration) for research: what each is, why a private human-first workflow wants it, and where the judgment stays with you.">
+  <meta name="theme-color" content="#2D2440">
+  <link rel="canonical" href="https://vahtian.com/learn/local-models-agents-orchestration/">
+  <meta name="robots" content="index,follow">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://vahtian.com/learn/local-models-agents-orchestration/">
+  <meta property="og:title" content="Local models, agents & orchestration for research">
+  <meta property="og:description" content="What running models locally, agents, and orchestration are for in research, and where judgment stays with the human. A what/why/how guide.">
+  <meta property="og:image" content="https://vahtian.com/brand/cards/vahtian-card.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Local models, agents, and orchestration for research, and where the human decides.">
+  <meta property="og:site_name" content="Vahtian">
+  <meta name="twitter:card" content="summary_large_image">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "Local models, agents & orchestration for research",
+    "description": "A what/why/how guide to running AI models locally, agents, and agent orchestration for research, and where judgment stays with the human.",
+    "url": "https://vahtian.com/learn/local-models-agents-orchestration/",
+    "datePublished": "2026-07-12",
+    "inLanguage": "en",
+    "author": { "@type": "Organization", "name": "Vahtian", "url": "https://vahtian.com/" },
+    "publisher": { "@id": "https://vahtian.com/#org" }
+  }
+  </script>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232D2440'/%3E%3Cg fill='none' stroke='%238B6FC9' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 9 H9 V23 H12'/%3E%3Cpath d='M20 9 H23 V23 H20'/%3E%3C/g%3E%3Cpath d='M16 10.3 L19.6 12 L19.6 15 L16 19.6 L12.4 15 L12.4 12 Z' fill='none' stroke='%23C5B8E8' stroke-width='1.8' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <style>
+    :root{
+      --navy:#2D2440; --violet:#8B6FC9; --lilac:#C5B8E8;
+      --ink:#1c1830; --muted:#5b5570; --bg:#faf9fc; --card:#fff; --line:#e7e3f0;
+      --link:#6F52B8;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,ui-sans-serif,system-ui,sans-serif;
+         color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased}
+    a{color:var(--link)}
+    a:focus-visible{outline:3px solid var(--violet);outline-offset:2px}
+    .wrap{max-width:760px;margin:0 auto;padding:0 22px}
+    header{padding:26px 0 4px}
+    .crumbs{font-size:14px;color:var(--muted)}
+    .crumbs a{color:var(--muted);text-decoration:none}
+    .kicker{font:600 13px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--link);
+            text-transform:uppercase;letter-spacing:.08em;margin:34px 0 14px}
+    h1{font-size:clamp(27px,5.2vw,38px);line-height:1.14;letter-spacing:-.02em;margin:0 0 16px}
+    .lede{font-size:clamp(17px,2.4vw,19px);color:#3a3450;margin:0 0 6px}
+    h2{font-size:22px;margin:46px 0 6px;letter-spacing:-.01em}
+    h2 .tag{display:inline-block;font:600 12px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--link);
+            vertical-align:middle;margin-left:10px;padding:3px 8px;border:1px solid var(--line);border-radius:6px;text-transform:uppercase;letter-spacing:.05em}
+    h3{font-size:15px;margin:20px 0 4px;color:var(--navy);text-transform:uppercase;letter-spacing:.04em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+    p{margin:0 0 14px}
+    ol,ul{margin:0 0 14px;padding-left:24px}
+    li{margin:0 0 8px}
+    code{font:13.5px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;background:#f0edf7;padding:1px 5px;border-radius:5px}
+    .seq{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 20px;margin:22px 0}
+    .seq p{font-weight:650;margin:0 0 8px}
+    .seq ol{margin:0;padding-left:22px}
+    .seq li{margin:0 0 4px;font-size:14.5px}
+    .seq a{text-decoration:none}
+    .seq a:hover{text-decoration:underline}
+    .outcomes{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 20px;margin:22px 0}
+    .outcomes p{font-weight:650;margin:0 0 8px}
+    .outcomes ul{margin:0;padding-left:22px}
+    .roles{display:grid;grid-template-columns:1fr;gap:11px;margin:16px 0}
+    .role{background:var(--card);border:1px solid var(--line);border-radius:11px;padding:13px 16px}
+    .role .rl{font:600 12px/1 ui-monospace,SFMono-Regular,Menlo,monospace;text-transform:uppercase;letter-spacing:.05em}
+    .role.exec{border-left:3px solid #1E9E8A}
+    .role.exec .rl{color:#08544A}
+    .role.assess{border-left:3px solid #8B6FC9}
+    .role.assess .rl{color:#432C7A}
+    .role.human{border-left:3px solid #C98A00}
+    .role.human .rl{color:#5A4300}
+    .role p{margin:5px 0 0;font-size:14.5px;color:#39324e}
+    .note{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--violet);border-radius:10px;padding:14px 18px;margin:0 0 16px}
+    .note.key{border-left-color:var(--lilac)}
+    .note .h{font-weight:700;color:var(--navy)}
+    .naught{color:#8a3a3a;font-weight:600}
+    .cta{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px 22px;margin:34px 0 0}
+    .cta .btnrow{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}
+    .btn{display:inline-block;padding:11px 18px;border-radius:9px;font-weight:600;text-decoration:none;font-size:15px;background:var(--navy);color:#fff}
+    .btn.alt{background:#fff;color:var(--navy);border:1px solid var(--line)}
+    footer{margin:56px 0 40px;padding-top:22px;border-top:1px solid var(--line);color:var(--muted);font-size:14px}
+    footer a{color:var(--muted)}
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <nav class="crumbs"><a href="/">vahtian.com</a> · <a href="/learn/">learn</a> · local models, agents &amp; orchestration</nav>
+</header>
+
+<p class="kicker">Learn · AI methods</p>
+<h1>Local models, agents, and orchestration for research</h1>
+<p class="lede">The <a href="/learn/ai-concepts-for-researchers/">concept map</a> showed what each AI idea does and does not establish. This page goes deeper on the three that matter most for a private, human-first workflow: running a model on your own machine, giving it tools, and coordinating those tools, and at every step, where the judgment stays with you.</p>
+
+<div class="outcomes">
+  <p>After this guide you will be able to:</p>
+  <ul>
+    <li>Say what "local model", "agent", and "orchestration" mean, and why a researcher would want each.</li>
+    <li>Split a workflow into steps a machine may run, steps it may only propose, and steps a human must decide.</li>
+    <li>See why a private, agentic, well-orchestrated system is still not an "AI researcher".</li>
+  </ul>
+</div>
+
+<div class="seq" aria-label="On this page">
+  <p>On this page</p>
+  <ol>
+    <li><a href="#local">Local models: what, why, how</a></li>
+    <li><a href="#agents">Agents: what, why, how</a></li>
+    <li><a href="#orchestration">Orchestration: what, why, how</a></li>
+    <li><a href="#memory">Where memory, RAG, and GraphRAG fit</a></li>
+    <li><a href="#notai">Why this is still not an "AI researcher"</a></li>
+  </ol>
+</div>
+
+<h2 id="local">Local models <span class="tag">what · why · how</span></h2>
+<h3>What</h3>
+<p>A local model is an AI model that runs on your own computer instead of a company's server, with no cloud call, no API key, and no account. Runners like Ollama and llama.cpp now put open models in the 7-to-8-billion-parameter class within reach of a modern laptop, and smaller task-specific models run on almost anything.</p>
+<h3>Why, for research</h3>
+<ul>
+  <li><strong>Privacy by construction.</strong> Interview transcripts, unpublished manuscripts, and sensitive records never leave your device, because there is nowhere for them to go. This is the difference that <a href="/learn/llm-qualitative-data-ethics/">makes AI ethical to use on interview data</a> and lets you <a href="/learn/transcribe-interviews-locally/">transcribe offline</a>.</li>
+  <li><strong>No telemetry, no lock-in.</strong> Nothing is logged to a vendor; you are not one policy change away from losing access.</li>
+  <li><strong>Reproducibility.</strong> You can pin the exact model and version and record it, so an analysis can be re-run and described honestly in a methods section.</li>
+  <li><strong>Structure can substitute for scale.</strong> A July 2026 study of a control framework called Atomic Task Graph (arXiv:2607.01942) reported that 7-8B local models, given an explicit task structure, matched or beat the same models under weaker control, and on some tasks exceeded a much larger model using a simpler method, across three interactive benchmarks. Read honestly, that is not "small models now equal frontier models". It is narrower and more useful: <em>a local model becomes far more capable when its work is bounded, decomposed, and checked</em>, which is exactly how a research tool should use one.</li>
+</ul>
+<h3>How</h3>
+<p>Install a runner, pull a model, and point it at one bounded question at a time: draft first-cycle codes, suggest which passage of a source bears on a claim, flag inconsistent terminology. The model answers a narrow local question; the record and the decision stay with you.</p>
+<p class="naught">What it does not do: decide truth. A local model is still a language model, and fluent output is not supported output. Our own laptop test found the honest limits: <a href="/learn/local-models-check-citations/">can a local model check your citations?</a></p>
+
+<h2 id="agents">Agents <span class="tag">what · why · how</span></h2>
+<h3>What</h3>
+<p>An agent is a model given tools and a loop: it decides an action, takes it, observes the result, and decides the next one. With the right tools it can retrieve a source, run an analysis, and write out a table, pursuing a goal over several steps rather than answering a single prompt.</p>
+<h3>Why, for research</h3>
+<p>Real research work is multi-step, and the steps depend on each other. An agent can carry a chore across those steps (fetch, extract, compute, format) without you hand-copying between tools. That is genuinely useful for the mechanical parts of a workflow.</p>
+<h3>How: the part that protects the work</h3>
+<p>The safe way to use an agent in research is to decide, in advance, what it is allowed to do on its own. Sort every step into three kinds of node:</p>
+<div class="roles">
+  <div class="role exec"><span class="rl">Machine-executable · may run on its own</span><p>Deterministic, checkable work: parse a citation file, compute an effect estimate, render a plot, hash a protocol, compare two files.</p></div>
+  <div class="role assess"><span class="rl">Machine-assessment · may propose, never finalize</span><p>Judgement-shaped work offered as a suggestion: classify a study design, flag a citation that may not support its claim, propose assumptions to check. Output is a proposal or a warning, not a verdict.</p></div>
+  <div class="role human"><span class="rl">Human-decision · a gate</span><p>Consequential calls that block what comes after them: approve the research question, accept an inclusion decision, judge risk of bias, sign off on an interpretation. These wait for a qualified person.</p></div>
+</div>
+<p class="naught">What it does not have: authority. Being able to perform a step is not the same as being entitled to decide it, and only the second protects a research record. The agent proposes and does the mechanical work; a person disposes and signs.</p>
+
+<h2 id="orchestration">Orchestration <span class="tag">what · why · how</span></h2>
+<h3>What</h3>
+<p>Orchestration is coordinating several bounded tools and agents over a graph (a defined order of steps with their dependencies) instead of asking one large model to do everything at once. Think of it as a workflow diagram the system actually runs, not a single "do my research" prompt.</p>
+<h3>Why, for research</h3>
+<ul>
+  <li><strong>Small, replaceable, inspectable beats a monolith.</strong> When each step is a bounded tool, you can see what it did, swap a better one in, and improve one part without rebuilding the whole system.</li>
+  <li><strong>Independent steps can run in parallel</strong>, and when one step fails you can repair that part rather than restarting everything.</li>
+  <li><strong>Change becomes visible.</strong> The most useful thing an orchestrated research graph can do is answer "if this changes, what must I look at again?". When an upstream object changes (a construct is redefined, a cited source is retracted) the system can trace the dependencies and flag the specific downstream items that now need review, instead of leaving stale conclusions standing.</li>
+</ul>
+<h3>How</h3>
+<p>Under the hood this needs three things working together, covered next: a place to keep the graph (memory), a way to retrieve from your own material (RAG), and a way to retrieve along relationships (GraphRAG). The orchestration layer walks that structure and routes what it finds to the right node type: automatic for executable steps, a flag for assessments, a gate for human decisions.</p>
+<p class="naught">What it does not guarantee: that the workflow is scientifically appropriate. A perfectly coordinated graph can still be built around the wrong question. Orchestration keeps the work orderly and its consequences traceable; it does not make the design sound.</p>
+
+<h2 id="memory">Where memory, RAG, and GraphRAG fit</h2>
+<p>These three are the machinery that makes local orchestration worth having, each closing a gap the one before it leaves:</p>
+<ul>
+  <li><strong>Memory</strong> is a persistent record of the work, the graph of objects and decisions, so the workflow, not a disappearing chat log, is the thing you keep and can audit.</li>
+  <li><strong>RAG (retrieval-augmented generation)</strong> lets a model answer from <em>your</em> material (your vault, your papers) instead of its training data alone, and cite what it used.</li>
+  <li><strong>GraphRAG</strong> retrieves along the relationships between objects (this claim, the source it cites, the analysis that source rests on) so questions about how things connect can be answered, which plain chunk retrieval does not reliably do.</li>
+</ul>
+<p>Put together, locally: your material stays on your device, the model works from it, the relationships are explicit, and a change anywhere can be traced to what it affects. Each of these is explained from the ground up in the <a href="/learn/ai-concepts-for-researchers/">concept map</a>.</p>
+
+<h2 id="notai">Why this is still not an "AI researcher"</h2>
+<p>Stack all of it (a private local model, given tools, coordinated over a graph with memory, RAG, and GraphRAG) and you have a capable, private, inspectable assistant. You still do not have something that can be the researcher.</p>
+<p>Every layer here decides <em>where to look and what to show you</em>, faster and more privately than before. Not one of them decides <em>what is true or what is sound</em>, because that is a judgment made by a qualified person about a specific claim, in light of specific evidence and assumptions. Running the model locally does not move that judgment onto the machine; it just keeps the work on your device. Making it agentic does not grant it authority; it only lets it do more steps. Orchestrating it well does not make the science right; it makes the consequences of a change visible so a person can review them.</p>
+
+<div class="note key"><p style="margin:0"><span class="h">The one line to keep.</span> Local, agentic, and orchestrated change <em>where the work runs and how well it is tracked</em>, not <em>who decides</em>. Done honestly, this stack does not replace the researcher's judgment; it makes that judgment better-documented and easier to defend.</p></div>
+
+<div class="cta">
+  <p><strong>See the local, human-first approach in the tools.</strong></p>
+  <p>Vahtian's research tools are built on exactly this division of labour: run on your own device, keep the human deciding, and record the trail. StudyVahti helps you plan a defensible study before data collection; QualiVahti Local is the packaged local qualitative workflow: transcription, coding under your review, a codebook, evidence maps, and an audit trail, on your own computer.</p>
+  <div class="btnrow">
+    <a class="btn" href="/studyvahti/">See StudyVahti · free</a>
+    <a class="btn alt" href="/qualivahti-local/">QualiVahti Local · €49</a>
+  </div>
+</div>
+
+<h2>Related guides</h2>
+<p>Start with the <a href="/learn/ai-concepts-for-researchers/">AI-concepts map</a> for the whole stack in one table. Then see <a href="/learn/local-models-check-citations/">can a local model check your citations?</a> for an honest laptop-model test, <a href="/learn/llm-qualitative-data-ethics/">is it ethical to use AI on interview data?</a> for the privacy case, and <a href="/learn/ai-qualitative-coding-human-review/">AI qualitative coding, human-reviewed</a> for the division of labour in practice. More guides are on the <a href="/learn/">Learn page</a>.</p>
+
+<footer>
+  <p><a href="/learn/">← All Learn guides</a> &middot; <a href="/about/">About</a> · <a href="/cite/">Cite</a> · <a href="/privacy/">Privacy</a> · <a href="/">vahtian.com</a> · local-first research integrity tools.</p>
+  <p>This page explains what these techniques do and do not establish; it does not claim any of them, or Vahtian, decides scientific truth. It loads nothing from anywhere: no remote fonts, no tracking, no scripts.</p>
+</footer>
+
+</div>
+</body>
+</html>
