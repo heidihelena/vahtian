@@ -5,7 +5,13 @@
 Not user-facing copy; anything derived for marketing or product UI goes
 through `vahtian-brand-safety` and must remain consistent with `AD_CLAIMS.md`.
 
-**Date:** 2026-07-12
+**Version:** 2 (2026-07-12). Version 1 captured the founder's initial model
+with four amendments flagged at capture. This version incorporates the
+founder's resolutions: **A1** (budgeted horizon; hard triggers escape the
+six-hop bound) changes the model materially; **A2** (fragility vs.
+consequence) and **A3** (parameters as protocol objects) are necessary
+cleanup; **A4** (max-over-paths) remains deferred, with all qualifying paths
+recorded.
 
 ---
 
@@ -19,7 +25,7 @@ retracted — and the governing question is *what must now be looked at again*.
 
 So Vahtian builds the mathematics around **change propagation, not task
 completion**. Change upstream; look downstream. Everything is connected by
-six.
+six — but six limits *search*, never *invalidation*.
 
 ---
 
@@ -40,33 +46,50 @@ where $\tau$ is the dependency type and $w \in [0,1]$ is dependency strength.
 
 $$\tau \in \{\text{computational}, \text{semantic}, \text{evidential}, \text{inferential}, \text{governance}, \text{provenance}\}$$
 
+Partition the edge types:
+
+$$E_{\text{persistent}} = \{\text{semantic}, \text{governance}\}$$
+
+$$E_{\text{decaying}} = E \setminus E_{\text{persistent}}$$
+
+The six-hop limit applies only to decaying transitions.
+
 ---
 
-## 2. The six-step principle
+## 2. The six-step principle, budgeted
 
-Treat six as the **maximum default propagation depth**:
+Six is the **maximum default review-search depth for decaying propagation** —
+a practical horizon, not a universal law. Most meaningful downstream research
+consequences of ordinary weak changes should become visible within six typed
+transformations.
 
-$$d(u,v) \leq 6$$
+### Budgeted path length (A1 resolution)
 
-When node $u$ changes, inspect all reachable nodes within six dependency
-steps:
+Replace ordinary path length with a review-horizon budget. For a path
+$p = (e_1, \ldots, e_k)$ define its cost:
 
-$$R_6(u) = \{v \in V : 1 \leq d(u,v) \leq 6\}$$
+$$b(p) = \sum_{j=1}^{k} c(\tau_j), \qquad c(\tau) = \begin{cases} 0, & \tau \in E_{\text{persistent}} \\ 1, & \tau \in E_{\text{decaying}} \end{cases}$$
 
-This is not because six is a universal law. It is a practical review horizon:
-most meaningful downstream research consequences should become visible within
-six typed transformations.
+The admissible path set is:
 
-Example:
+$$\mathcal{P}_6(u,v) = \{p : u \leadsto v,\ b(p) \leq 6\}$$
 
-$$\text{construct} \rightarrow \text{variable} \rightarrow \text{analysis dataset} \rightarrow \text{model} \rightarrow \text{result} \rightarrow \text{claim} \rightarrow \text{conclusion}$$
+A semantic or governance edge does not consume the six-hop budget. This
+allows
 
-The conclusion is six edges downstream from the construct definition.
+$$\text{retracted source} \rightarrow \text{evidence assessment} \rightarrow \text{interpretation} \rightarrow \text{recommendation} \rightarrow \cdots$$
+
+to propagate indefinitely through persistent dependencies. **Six remains a
+search horizon for ordinary weak propagation, not an invalidation boundary.**
+
+> *Implementation note.* $\mathcal{P}_6$ is computed by shortest-budget
+> traversal (Dijkstra over $c(\tau)$ costs): persistent edges cost 0, decaying
+> edges cost 1, and a node is admissible if its minimum budget from $u$ is at
+> most 6. The graph is a DAG (see the ARTG note), so traversal terminates.
 
 ### The six-layer justification
 
-"Everything is connected by six" is made precise by six transformation
-layers:
+The number six is grounded in six transformation layers:
 
 1. **Intent** — research question, estimand, construct
 2. **Design** — protocol, eligibility, sampling, measurement
@@ -75,19 +98,23 @@ layers:
 5. **Evidence** — result, table, figure, quotation, source passage
 6. **Assertion** — claim, interpretation, conclusion, recommendation
 
-A change can cross up to six epistemic transformations from intent to
-assertion. Six layers give five inter-layer transitions, so a six-hop horizon
-covers the full intent-to-assertion traversal with one intra-layer step to
-spare. That gives six a defensible structural meaning — better than invoking
-six degrees of separation loosely.
+Six layers give five inter-layer transitions, so a six-hop budget covers the
+full intent-to-assertion traversal with one intra-layer step to spare. That
+gives six a defensible structural meaning — better than invoking six degrees
+of separation loosely.
 
 ---
 
-## 3. Change magnitude
+## 3. Change events and magnitude
 
-Every change receives a magnitude:
+A change is an event, not just a node:
 
-$$\Delta(u) \in [0,1]$$
+$$z = (u, \kappa, t)$$
+
+where $u$ is the changed node, $\kappa$ is the change class, and $t$ is the
+event time or version.
+
+Every change receives a magnitude $\Delta(u) \in [0,1]$:
 
 | Change | $\Delta$ |
 |---|---|
@@ -100,86 +127,24 @@ $$\Delta(u) \in [0,1]$$
 
 ---
 
-## 4. Propagated impact
+## 4. Hard-trigger propagation is stateful
 
-Impact decreases with distance but increases with dependency strength. For a
-path
+A hard trigger is not a pairwise indicator $H(u,v)$. It is a **propagated
+state** initiated by a change event.
 
-$$p = (u = v_0, v_1, \ldots, v_k = v)$$
+Let $h_z(v) \in \{0,1\}$ indicate whether the hard-trigger state from event
+$z$ has reached node $v$. Initialize $h_z(u) = 1$. The state propagates
+across edge $e = (x, y, \tau, w)$ — that is, $h_z(y) = 1$ — when
+$h_z(x) = 1$ and at least one of:
 
-define path impact with **per-edge, type-specific decay**:
+- $\tau \in E_{\text{persistent}}$;
+- $b(p_{u \leadsto y}) \leq 6$ for the traversed path;
+- the change class $\kappa$ has an explicit global invalidation rule.
 
-$$I_p(u,v) = \Delta(u) \prod_{j=1}^{k} w_j \, \lambda_{\tau_j}$$
+This separates ordinary impact **scoring** from invalidation **state**. Hard
+invalidation must not depend on a continuous impact score.
 
-where $\lambda_{\tau} \in (0,1]$ is the decay parameter of edge type $\tau$.
-A reasonable default for decaying types is $\lambda = 0.85$.
-
-> **Convention note (normalized at capture).** The founder draft gave two
-> forms: a uniform $\lambda^{k-1}$ (no decay on the first hop) and the typed
-> per-edge product above (decay on every hop). This document adopts the typed
-> per-edge form as canonical, since the semantic override (§6) requires decay
-> to be a property of each edge, not of path length. The uniform form is the
-> special case where every edge has the same $\lambda$, differing only by one
-> factor of $\lambda$.
-
-If multiple paths connect $u$ and $v$, use the strongest path:
-
-$$I(u,v) = \max_{p\,:\,u \leadsto v,\ |p| \leq 6} I_p(u,v)$$
-
-Taking the maximum avoids incorrectly adding several correlated paths.
-
----
-
-## 5. Node sensitivity and review pressure
-
-Some downstream objects require review even after a small upstream change.
-Assign each node a sensitivity $s(v) \in [0,1]$:
-
-| Node | Sensitivity |
-|---|---|
-| working note | 0.10 |
-| exploratory plot | 0.25 |
-| primary analysis | 0.80 |
-| abstract result | 0.90 |
-| conclusion | 1.00 |
-| clinical recommendation | 1.00 |
-
-Define **review pressure**:
-
-$$P(u,v) = I(u,v)\, s(v)$$
-
-### Trigger rules
-
-Three levels, with initial defaults $\theta_1 = 0.10$, $\theta_2 = 0.30$:
-
-| Condition | Action |
-|---|---|
-| $P(u,v) < \theta_1$ | No review |
-| $\theta_1 \leq P(u,v) < \theta_2$ | Inspect |
-| $P(u,v) \geq \theta_2$ | Mandatory review |
-
----
-
-## 6. Semantic override
-
-Distance decay must not apply normally to certain edge types. A semantic
-change can invalidate distant outputs completely.
-
-- For **semantic** or **governance** dependencies: $\lambda_{\tau} = 1$
-- For formatting or weak provenance links: $\lambda_{\tau} < 1$
-
-This is why decay is typed per edge (§4) rather than one universal parameter.
-
----
-
-## 7. Hard invalidation rules
-
-Some changes trigger mandatory review regardless of calculated score. Define
-an override indicator $H(u,v) \in \{0,1\}$. Then review is required if
-
-$$P(u,v) \geq \theta_2 \quad \text{or} \quad H(u,v) = 1$$
-
-Hard triggers include:
+Hard-trigger change classes include:
 
 - research question changed
 - construct definition changed
@@ -194,14 +159,136 @@ Hard triggers include:
 
 ---
 
+## 5. Human gates stop propagation only after re-clearance
+
+A governance gate does not automatically stop traversal. Let
+
+$$g(v, z) \in \{\text{not\_required}, \text{pending}, \text{cleared}, \text{rejected}\}$$
+
+Propagation **continues through** a gate while $g(v,z) = \text{pending}$ or
+$g(v,z) = \text{rejected}$. It may terminate at that branch only when
+$g(v,z) = \text{cleared}$ **and the clearance explicitly applies to the
+triggering change event $z$**.
+
+This matters because an old approval is not valid for a new upstream change.
+A gate is event-specific. The clearance object binds
+
+$$(\text{gate node}, \text{change event}, \text{reviewer}, \text{time}, \text{rationale})$$
+
+For example:
+
+```yaml
+clearance_id: clr_0042
+gate_node: clinical_recommendation_07
+change_event: source_retraction_2026_014
+status: cleared
+reviewer: human_12
+rationale: >
+  recommendation unchanged because the retracted source was
+  non-contributory
+reviewed_inputs:
+  - evidence_table_v8
+  - recommendation_text_v3
+protocol_hash: sha256:...
+timestamp: 2026-07-12T14:32:00+03:00
+```
+
+> *Implementation note.* When a gate transitions to `cleared` for event $z$,
+> the hard-trigger state $h_z$ is recomputed: nodes downstream of the gate
+> lose the flag **via that branch**, but keep it if reached through another
+> still-uncleared path. Clearance prunes one branch; it does not globally
+> extinguish the event.
+
+---
+
+## 6. Impact function (non-hard propagation)
+
+$$I_p(u,v) = \Delta(u) \prod_{j=1}^{k} w_j \, \lambda_{\tau_j}$$
+
+with type-specific decay:
+
+$$\lambda_\tau = 1 \ \text{for persistent edge types}, \qquad 0 < \lambda_\tau < 1 \ \text{for decaying edge types}$$
+
+Aggregate over admissible paths by maximum:
+
+$$I(u,v) = \max_{p \in \mathcal{P}_6(u,v)} I_p(u,v)$$
+
+The hard-trigger state $h_z(v)$ remains separate from this score.
+
+---
+
+## 7. Node fragility, consequence, and authority (A2 resolution)
+
+Keep both terms, defined narrowly so nothing is double-counted:
+
+**Epistemic fragility** $s(v) \in [0,1]$ — how easily the node's validity is
+disturbed by upstream change. Raw immutable source file: low; derived
+exposure classification: high; causal interpretation: high; formatting-only
+object: low.
+
+**Consequence severity** $c(v) \in [0,1]$ — the cost if the node remains
+wrong. Exploratory plot: low; abstract conclusion: moderate to high; clinical
+recommendation: very high; regulatory submission statement: very high.
+
+**Authority factor** $a(v)$ — whether specialist or formal sign-off is
+required (governance burden).
+
+**Review pressure** (epistemic):
+
+$$P(u,v) = I(u,v)\, s(v)$$
+
+**Operational priority**:
+
+$$\pi(u,v) = P(u,v) \cdot c(v) \cdot a(v)$$
+
+The interpretation:
+
+$$\text{priority} = \text{likelihood of being affected} \times \text{cost if wrong} \times \text{required authority}$$
+
+There is no double-counting when $s$ means susceptibility to invalidation,
+$c$ means harm if wrong, and $a$ means governance burden.
+
+### Trigger thresholds
+
+With initial defaults $\theta_1 = 0.10$, $\theta_2 = 0.30$:
+
+| Condition | Action |
+|---|---|
+| $P(u,v) < \theta_1$ | No review |
+| $\theta_1 \leq P(u,v) < \theta_2$ | Inspect |
+| $P(u,v) \geq \theta_2$ | Mandatory review |
+
+### Hard reviews override priority
+
+Priority controls **order, not obligation**. For hard-triggered nodes
+($h_z(v) = 1$), mandatory review remains mandatory even if $\pi(u,v)$ is
+low. A retracted source may propagate to a low-consequence supplementary
+sentence; that sentence still requires review because the evidential chain is
+invalidated. The score may place it later in the queue, but cannot remove it.
+
+---
+
 ## 8. The review set
 
-For a changed node $u$, the system produces
+For event $z$ originating at $u$:
 
-$$\mathcal{Q}(u) = \{v \in R(u) : P(u,v) \geq \theta_1 \ \lor\ H(u,v) = 1\}$$
+$$\mathcal{Q}(z) = \mathcal{Q}_{\text{scored}}(z) \cup \mathcal{Q}_{\text{hard}}(z)$$
 
-divided into $\mathcal{Q}_{\text{inspect}}(u)$ and
-$\mathcal{Q}_{\text{mandatory}}(u)$.
+where
+
+$$\mathcal{Q}_{\text{scored}}(z) = \{v : \exists p \in \mathcal{P}_6(u,v),\ P(u,v) \geq \theta_1\}$$
+
+$$\mathcal{Q}_{\text{hard}}(z) = \{v : h_z(v) = 1\}$$
+
+A node can be outside the six-hop scored region and still belong to the
+mandatory hard-review set — this removes the version-1 contradiction.
+
+Mandatory review:
+
+$$\mathcal{Q}_{\text{mandatory}}(z) = \{v : P(u,v) \geq \theta_2\} \cup \mathcal{Q}_{\text{hard}}(z)$$
+
+except nodes with a valid **event-specific** clearance
+$g(v,z) = \text{cleared}$.
 
 The user sees:
 
@@ -228,42 +315,146 @@ Unaffected:
   - background references
 ```
 
----
-
-## 9. Review ordering
-
-Review upstream objects before downstream objects. For each affected node:
-
-$$\text{priority}(v) = P(u,v) \times c(v) \times a(v)$$
-
-where $c(v)$ is consequence severity and $a(v)$ is authority requirement.
-Then sort by:
-
-1. shortest dependency distance;
-2. highest priority;
-3. governance gate status.
-
-This prevents reviewing the conclusion before fixing the analysis.
+Review upstream objects before downstream objects: sort by shortest
+dependency distance, then highest priority $\pi$, then governance gate
+status. This prevents reviewing the conclusion before fixing the analysis.
 
 ---
 
-## 10. Multiple simultaneous changes
+## 9. Multiple simultaneous changes
 
-For a set of changed nodes $C$, combine impacts with a noisy-OR:
+For a set of change events $C$, combine impacts with a noisy-OR:
 
-$$I_C(v) = 1 - \prod_{u \in C} \bigl(1 - I(u,v)\bigr)$$
+$$I_C(v) = 1 - \prod_{u \in C} \bigl(1 - I(u,v)\bigr), \qquad P_C(v) = I_C(v)\, s(v)$$
 
-$$P_C(v) = I_C(v)\, s(v)$$
-
-This gives a bounded, probability-like combined score. It is preferable to
-simple addition because the score remains within $[0,1]$.
+Bounded and probability-like; preferable to simple addition because the score
+remains within $[0,1]$. Hard-trigger states from distinct events remain
+distinct — each $h_z$ requires its own event-specific clearance.
 
 ---
 
-## 11. Core Vahtian rule
+## 10. Propagation parameters are protocol objects (A3 resolution)
+
+All parameters belong to a versioned policy object:
+
+$$\Theta = (\lambda_\tau,\ \theta_1,\ \theta_2,\ w,\ s,\ c,\ a,\ c(\tau),\ H_\kappa)$$
+
+where $H_\kappa$ contains hard-trigger rules by change class:
+
+```yaml
+policy_id: propagation-params-v1
+version: 1.0.0
+horizon:
+  decaying_edge_budget: 6
+edge_budget_cost:
+  semantic: 0
+  governance: 0
+  computational: 1
+  evidential: 1
+  inferential: 1
+  provenance: 1
+decay:
+  semantic: 1.00
+  governance: 1.00
+  computational: 0.85
+  evidential: 0.90
+  inferential: 0.90
+  provenance: 0.75
+thresholds:
+  inspect: 0.10
+  mandatory: 0.30
+hard_trigger_rules:
+  source_retracted:
+    propagate_over:
+      - semantic
+      - evidential
+      - inferential
+      - governance
+    stop_condition: event_specific_human_clearance
+  primary_outcome_changed:
+    propagate_over:
+      - semantic
+      - computational
+      - inferential
+      - governance
+    stop_condition: event_specific_human_clearance
+scoring:
+  path_aggregation: max
+  multi_event_aggregation: noisy_or
+created_by: human
+approved_by: methods_owner
+created_at: 2026-07-12
+```
+
+Canonicalize and hash it:
+
+$$h_\Theta = \operatorname{SHA256}(\operatorname{canonicalJSON}(\Theta))$$
+
+Every review decision stores:
+
+```yaml
+propagation_policy:
+  policy_id: propagation-params-v1
+  hash: sha256:...
+```
+
+Then the system can answer *"Why was this node not flagged?"* with: the
+active policy version; traversed paths; exhausted horizon budget; edge types;
+scores; thresholds; hard-trigger state; gate clearance status.
+
+### Parameter changes must themselves trigger review
+
+A changed propagation policy can alter previous review sets, so the policy
+object is itself a graph node. If $\Theta_1 \rightarrow \Theta_2$, prior
+events may need replay:
+
+$$\mathcal{E}_{\text{replay}} = \{z : \mathcal{Q}_{\Theta_1}(z) \neq \mathcal{Q}_{\Theta_2}(z)\}$$
+
+In practice, recompute previous unresolved or high-consequence change events
+under the new policy. Otherwise a threshold adjustment could silently alter
+what the system considers safe.
+
+---
+
+## 11. Path aggregation: max-over-paths as version 1 (A4, deferred)
+
+Keep $I(u,v) = \max_p I_p(u,v)$ for the initial model. Three advantages:
+interpretable; conservative against artificial inflation; explainable through
+one dominant path.
+
+**Record all qualifying paths**, even though only the maximum path controls
+the score. The audit output can then say:
+
+```
+Primary trigger path:
+  source retraction
+  → evidence assessment
+  → pooled estimate
+  → abstract conclusion
+Additional supporting paths: 2
+Aggregation rule: maximum path impact
+```
+
+A later alternative could distinguish correlated and independent paths. For
+independent paths:
+
+$$I_{\text{combined}}(u,v) = 1 - \prod_{p} \bigl(1 - I_p(u,v)\bigr)$$
+
+But independence is rarely known. Using this by default would create
+pseudo-precision.
+
+---
+
+## 12. Core Vahtian rules
 
 > **A change must trigger review wherever it can alter meaning, evidence,
 > computation, or authority.**
+
+> **Six limits decaying review search, never semantic or governance
+> invalidation.**
+
+> **A hard trigger propagates until every affected branch reaches an
+> event-specific human clearance.**
 
 The system never claims that an affected node is *wrong*. It states:
 
@@ -275,11 +466,12 @@ The system never claims that an affected node is *wrong*. It states:
 
 The product is therefore not an automatic invalidation engine. It is a
 **dependency-aware review trigger system**. Clearing a flag is always a human
-decision, recorded with actor, rationale, and timestamp in the audit trail.
+decision, bound to the specific change event and recorded with actor,
+rationale, and timestamp in the audit trail.
 
 ---
 
-## 12. Naming
+## 13. Naming
 
 The mathematical object:
 
@@ -287,53 +479,3 @@ The mathematical object:
 - memorably: **Six-Hop Epistemic Change Propagation**
 - technically: **Typed Epistemic Dependency Graph with bounded change
   propagation**
-
----
-
-## Amendments proposed at capture
-
-Flagged during transcription for founder decision; none silently applied
-except the notation convention in §4.
-
-### A1. Hard triggers must escape the six-hop horizon (structural)
-
-As drafted, the review set is restricted to $R_6(u)$, so a node seven or more
-hops downstream is never flagged — *even when* $H(u,v) = 1$ or every edge on
-the path is semantic with $\lambda_\tau = 1$ and $w = 1$, meaning the model
-itself says impact does not decay. A retracted source feeding a long chain of
-semantic dependencies would silently escape review beyond hop six.
-
-Proposed resolution: the six-hop horizon applies only to **decaying** edge
-types. Traversal along non-decaying edges ($\lambda_\tau = 1$: semantic,
-governance) does not consume horizon budget; equivalently, hard triggers
-propagate until they reach a human gate that has been explicitly re-cleared,
-regardless of distance. §8 above already writes $R(u)$ rather than $R_6(u)$
-in anticipation of this amendment.
-
-### A2. $c(v)$ versus $s(v)$ (possible redundancy)
-
-§5 introduces sensitivity $s(v)$ ("requires review even after small
-changes"); §9 introduces consequence severity $c(v)$ in the priority formula,
-where $P(u,v)$ already contains $s(v)$. If $c$ and $s$ measure the same thing,
-priority double-counts it as $s(v)^2$. Either define the distinction
-(e.g. $s$ = epistemic fragility of the object, $c$ = real-world cost of it
-being wrong — a clinical recommendation is high on both, an exploratory plot
-high on neither) or drop $c(v)$ from the priority formula.
-
-### A3. Parameters are themselves auditable decisions
-
-$\Delta$ assignments, $s(v)$, $w$, $\lambda_\tau$, $\theta_1$, $\theta_2$ are
-not physical constants; they are calibration choices. Consistent with the
-invariant, each parameter set should be versioned and hash-recorded like a
-protocol (`propagation-params-v1`), so "why was this node *not* flagged?" has
-an auditable answer. Defaults ship as proposals; a study can tighten them; the
-audit trail records who set them.
-
-### A4. Max-path is conservative in the right direction, with one caveat
-
-Taking $\max$ over paths (§4) under-counts genuinely independent convergent
-evidence paths (noisy-OR over paths would count them, but over-counts
-correlated ones). Max is the safer default for a *trigger* system only in the
-sense that it never inflates scores; note that it can *under*-flag a node
-reached by many individually-weak paths. If that pattern shows up in practice,
-revisit with a correlation-aware combination. Not blocking.
