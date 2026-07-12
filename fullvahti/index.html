@@ -26,7 +26,7 @@
     "url":"https://vahtian.com/fullvahti/",
     "description":"A Zotero plugin that finds open-access full-text PDFs for library references via Unpaywall and PubMed Central, labels each item, and reports what is still missing. It never bypasses a paywall; it also flags retractions (PubMed, Crossref/Retraction Watch) and runs a read-only citation-metadata check against Crossref.",
     "applicationCategory":"Research software",
-    "operatingSystem":"Zotero 7–9 (macOS, Linux, Windows)",
+    "operatingSystem":"Zotero (see GitHub releases for supported versions); macOS, Linux, Windows",
     "offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},
     "license":"https://www.apache.org/licenses/LICENSE-2.0",
     "softwareHelp":"https://github.com/heidihelena/fullvahti",
@@ -169,8 +169,10 @@
       <div class="box">
         <h3>Retraction flags</h3>
         <p>Cross-checks each item against PubMed and Crossref / Retraction Watch, tagging
-          <code>retraction:retracted</code>, <code>retraction:none</code>, or
-          <code>retraction:check-needed</code> — catching mass retractions that PubMed alone can miss.</p>
+          <code>retraction:found</code>, <code>retraction:not-found</code>, or
+          <code>retraction:check-needed</code> — catching mass retractions that PubMed alone can miss.
+          <em>Not-found</em> means no retraction record was returned by the queried sources at the time of
+          the check, not that the item is proven not retracted.</p>
       </div>
       <div class="box">
         <h3>Citation metadata check</h3>
@@ -198,18 +200,20 @@
         <a href="https://github.com/heidihelena/fullvahti/releases/latest">GitHub releases page</a>.</li>
       <li>In Zotero: <strong>Tools → Plugins</strong>, click the gear ⚙️, then
         <strong>Install Plugin From File…</strong> and choose the <code>.xpi</code>.</li>
-      <li>On first run, enter your email — it's sent only to the open services that ask for it
-        (Unpaywall, NCBI, Crossref), never to PDF hosts.</li>
+      <li>On first run, enter an optional contact email — it may be included in requests to the open
+        metadata services where their guidance recommends it (e.g. Unpaywall, Crossref, NCBI).</li>
       <li>Optional: set a tag for batch processing, and your library's OpenURL resolver, in Settings.</li>
     </ol>
-    <p class="sub">Requires <strong>Zotero 7–9</strong>. Updates automatically once installed.</p>
+    <p class="sub">Compatible Zotero versions are listed on the current <a href="https://github.com/heidihelena/fullvahti/releases/latest">GitHub release</a>. Updates automatically once installed.</p>
   </section>
 
   <section>
     <h2>Privacy</h2>
-    <p>Nothing leaves your machine except the DOI / PMID lookups to the open services named above.
-      <strong>No accounts, no analytics, no Vahtian server.</strong> Your contact email is shared only
-      with the APIs that require it, and never with PDF sources. The work stays in your Zotero.</p>
+    <p>Bibliographic identifiers are sent to the named metadata services. When a PDF is retrieved, your
+      computer connects to the repository or publisher hosting that file. Vahtian does not receive the
+      identifiers, files, or usage data. <strong>No accounts, no analytics, no Vahtian server.</strong>
+      An optional contact email may be included in API requests where service guidance recommends it.
+      The work stays in your Zotero.</p>
   </section>
 
   <section>

@@ -2,11 +2,11 @@
 <!--
   ReviewVahti — inter-rater reliability for blinded screening (Layer 2 · n 2–7).
   Static, single-file, no backend. Reads the protocol + ballot files MatchVahti exports
-  (record_id + protocol_hash keystone) and computes per-claim agreement IN YOUR BROWSER.
+  (record_id + protocol_hash keystone) and computes overall inter-rater agreement IN YOUR BROWSER.
   Nothing uploads — ReviewVahti makes NO network calls at all (connect-src 'none').
 
   Load protocol + ballot JSON (or the STORE .zip MatchVahti emits), validate every ballot
-  against its protocol_hash, and report per claim — raw % agreement + Cohen's kappa + PABAK +
+  against its protocol_hash, compare reviewers record by record, and report overall agreement — raw % agreement + Cohen's kappa + PABAK +
   Gwet's AC1 (+ a bootstrap CI) for a 2-rater panel; Krippendorff's alpha (primary) + Fleiss' kappa
   (equal coverage) + a pairwise kappa matrix for 3+ reviewers; an AI performance panel vs the
   human-agreed reference; a PRISMA title/abstract screening flow; and a .zip report bundle.
@@ -157,8 +157,8 @@
     <div><h1>ReviewVahti</h1><p class="sub">Screening reliability &middot; 2&ndash;7 reviewers &middot; in your browser</p></div>
   </div>
   <div class="hwrap">
-    Load each reviewer's MatchVahti export (protocol + ballot) and ReviewVahti reports the per-claim
-    agreement &mdash; raw %, Cohen&rsquo;s &kappa;, PABAK, AC1 for a pair; Krippendorff&rsquo;s &alpha; for 3+.<br>
+    Load each reviewer's MatchVahti export (protocol + ballot) and ReviewVahti compares them record by
+    record, then reports overall agreement &mdash; raw %, Cohen&rsquo;s &kappa;, PABAK, AC1 for a pair; Krippendorff&rsquo;s &alpha; for 3+.<br>
     <span class="pill">nothing uploads</span><span class="pill">no network at all</span><span class="pill">Layer 2 &middot; review</span><span class="pill">human-only &kappa;</span>
   </div>
 </header>
@@ -166,15 +166,15 @@
   <section>
     <h2>What this is</h2>
     <p><b>What.</b> When two or more people screen the same papers for a review, they won't agree on
-      every one. ReviewVahti measures how much they actually agreed — per claim, in your browser — so
-      you can report it and find the papers to reconcile.</p>
+      every one. ReviewVahti compares them record by record and reports how much they agreed overall, in your browser — so
+      you can report the statistic and find the papers to reconcile.</p>
     <p><b>Why.</b> A systematic review is only as trustworthy as its screening. PRISMA and most journals
       expect a reliability statistic, and disagreement you can't quantify is a reviewer red flag.
       ReviewVahti gives you the number, and the list of conflicts to resolve.</p>
     <p><b>How.</b> Each reviewer screens the same papers in their own MatchVahti and exports a file. Load
-      every reviewer's files here together; ReviewVahti checks they used the same protocol, then reports
-      per-claim agreement — raw&nbsp;% and Cohen&rsquo;s&nbsp;&kappa; (with PABAK and AC1) for a pair,
-      Krippendorff&rsquo;s&nbsp;&alpha; for three or more.</p>
+      every reviewer's files here together; ReviewVahti checks they used the same protocol, compares them
+      record by record, then reports overall agreement — raw&nbsp;% and Cohen&rsquo;s&nbsp;&kappa; (with PABAK and AC1) for a pair,
+      Krippendorff&rsquo;s&nbsp;&alpha; for three or more. These statistics summarise the whole set of decisions, not a single record.</p>
     <p class="hint" style="margin-top:10px">New to this? Use <b>Load a worked example</b> below to see a
       filled-in result with no files.</p>
 
