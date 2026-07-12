@@ -5,13 +5,15 @@
 Not user-facing copy; anything derived for marketing or product UI goes
 through `vahtian-brand-safety` and must remain consistent with `AD_CLAIMS.md`.
 
-**Version:** 2 (2026-07-12). Version 1 captured the founder's initial model
-with four amendments flagged at capture. This version incorporates the
-founder's resolutions: **A1** (budgeted horizon; hard triggers escape the
-six-hop bound) changes the model materially; **A2** (fragility vs.
-consequence) and **A3** (parameters as protocol objects) are necessary
-cleanup; **A4** (max-over-paths) remains deferred, with all qualifying paths
-recorded.
+**Version:** 3 (2026-07-12). Version 1 captured the founder's initial model
+with four amendments flagged at capture. Version 2 incorporated the founder's
+resolutions: **A1** (budgeted horizon; hard triggers escape the six-hop
+bound) changed the model materially; **A2** (fragility vs. consequence) and
+**A3** (parameters as protocol objects) were necessary cleanup; **A4**
+(max-over-paths) remains deferred, with all qualifying paths recorded.
+Version 3 adds the detection-theoretic justification of six: the horizon
+derives from a miss-probability bound, and the unit of review is six
+**distinct dependency channels**, not six adjacent nodes.
 
 ---
 
@@ -87,21 +89,129 @@ search horizon for ordinary weak propagation, not an invalidation boundary.**
 > edges cost 1, and a node is admissible if its minimum budget from $u$ is at
 > most 6. The graph is a DAG (see the ARTG note), so traversal terminates.
 
-### The six-layer justification
+### Why six — from heuristic to detection model
 
-The number six is grounded in six transformation layers:
+There is no universal probability. "Six nearest nodes are unaffected" only
+becomes informative after defining how effects propagate. The cleanest model
+estimates the probability that a change remains **undetected** beyond the
+first six relevant downstream nodes.
 
-1. **Intent** — research question, estimand, construct
+Let
+
+$$q_i = P(\text{node } i \text{ is unaffected} \mid \text{change has reached its predecessor})$$
+
+Under conditional independence,
+
+$$P(\text{first six nodes are all unaffected}) = \prod_{i=1}^{6} q_i$$
+
+and if every node has the same unaffected probability $q$, then
+$P_6 = q^6$:
+
+| $q$ (each node unaffected) | $P_6$ (all six unaffected) |
+|---|---|
+| 0.9 | 53.1% |
+| 0.8 | 26.2% |
+| 0.7 | 11.8% |
+| 0.6 | 4.7% |
+| 0.5 | 1.6% |
+| 0.4 | 0.41% |
+| 0.3 | 0.073% |
+
+So six is compelling only if each downstream dependency has a meaningful
+chance of being affected. Formalize by choosing an acceptable miss
+probability $\alpha$ and requiring $q^h \leq \alpha$, giving the required
+horizon:
+
+$$h \geq \frac{\log \alpha}{\log q}$$
+
+For $\alpha = 0.05$:
+
+| $q$ | Minimum horizon $h$ |
+|---|---|
+| 0.9 | 29 |
+| 0.8 | 14 |
+| 0.7 | 9 |
+| 0.6 | 6 |
+| 0.5 | 5 |
+| 0.4 | 4 |
+
+This reveals the real meaning of six: **it corresponds to a model in which
+each relevant dependency has no more than a 60% probability of remaining
+unaffected** — at least a 40% probability of transmitting meaningful change —
+at a 5% miss tolerance.
+
+#### Correlation breaks the naive count
+
+Independence is usually false. Nearby research objects are correlated: six
+manuscript claims may all derive from the same table, so they are not six
+independent opportunities to detect impact. Use an effective number of
+independent nodes:
+
+$$n_{\text{eff}} = \frac{n}{1 + (n-1)\rho}$$
+
+where $\rho$ is average correlation between impact states, and
+
+$$P(\text{all unaffected}) \approx q^{\,n_{\text{eff}}}$$
+
+For six nodes with $q = 0.6$:
+
+| $\rho$ | $n_{\text{eff}}$ | $P(\text{all appear unaffected})$ |
+|---|---|---|
+| 0 | 6 | 4.7% |
+| 0.2 | 3 | 21.6% |
+| 0.5 | ≈1.71 | 41.7% |
+| 0.8 | 1.2 | 54.2% |
+
+Therefore **six nearest nodes must not mean six arbitrary nodes.** They
+should be six independent dependency channels — six distinct epistemic
+transformations:
+
+1. **Intent** — semantic definition (research question, estimand, construct)
 2. **Design** — protocol, eligibility, sampling, measurement
 3. **Representation** — variables, coding, transcripts, datasets
 4. **Computation** — analysis, model, synthesis, visualisation
 5. **Evidence** — result, table, figure, quotation, source passage
 6. **Assertion** — claim, interpretation, conclusion, recommendation
 
-Six layers give five inter-layer transitions, so a six-hop budget covers the
-full intent-to-assertion traversal with one intra-layer step to spare. That
-gives six a defensible structural meaning — better than invoking six degrees
-of separation loosely.
+Each layer is a different *mechanism* through which change can appear. (Six
+layers also give five inter-layer transitions, so a six-hop budget covers the
+full intent-to-assertion traversal with one intra-layer step to spare — the
+structural and probabilistic readings of six coincide.)
+
+#### The channel rule
+
+> **Inspect at least six distinct dependency channels, not merely six
+> adjacent nodes.**
+
+Estimate the residual escape probability as
+
+$$P_{\text{escape}} = \prod_{k=1}^{6} (1 - r_k)$$
+
+where $r_k$ is the probability that channel $k$ reveals a meaningful
+consequence. If all six channels have detection probability $r$, requiring
+$(1-r)^6 \leq 0.05$ gives
+
+$$r \geq 1 - 0.05^{1/6} \approx 0.393$$
+
+— each channel must have roughly a 39% or greater chance of revealing
+impact.
+
+The defensible claim, stated with its assumptions:
+
+> Six is a minimum review depth **when** the six checks represent
+> sufficiently distinct dependency channels **and** each has at least about a
+> 40% probability of detecting meaningful propagation. Under those
+> assumptions, the chance that all six fail to reveal an effect is below 5%.
+> **Without those assumptions, six is a heuristic, not a probability
+> guarantee.**
+
+> *Implementation note.* This constrains traversal, not just doctrine: if the
+> six-hop budget is spent on many intra-layer hops (high $\rho$, few
+> channels), the review set has correlated coverage and the effective horizon
+> collapses toward $n_{\text{eff}} \approx 1$–2. Channel-aware traversal
+> should therefore prefer spending budget across distinct layers, and the
+> audit output should report which of the six channels the review set
+> actually covers.
 
 ---
 
@@ -455,6 +565,9 @@ pseudo-precision.
 
 > **A hard trigger propagates until every affected branch reaches an
 > event-specific human clearance.**
+
+> **Inspect at least six distinct dependency channels, not merely six
+> adjacent nodes.**
 
 The system never claims that an affected node is *wrong*. It states:
 
