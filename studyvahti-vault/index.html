@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>StudyVahti Vault — a defensible observational study, in one local vault | Vahtian</title>
+  <meta name="description" content="Run and document an observational study on your own machine: research question, variable dictionary, analysis plan, decisions, sensitivity analyses, outputs, and manuscript claims in one Obsidian vault — with 15 checks that flag drift between your question, data, analysis, and claims. Computed analysis, local AI assistant, audit trail, demo study. One payment, €49 launch.">
+  <meta name="theme-color" content="#2D2440">
+  <link rel="canonical" href="https://vahtian.com/studyvahti-vault/">
+  <meta property="og:type" content="product">
+  <meta property="og:url" content="https://vahtian.com/studyvahti-vault/">
+  <meta property="og:title" content="StudyVahti Vault — an observational study you can defend">
+  <meta property="og:description" content="One local vault, question to claim, checked end to end. Obsidian + Python/R, computed analysis, local AI under human review. €49 launch.">
+  <meta property="og:image" content="https://vahtian.com/brand/cards/vahtian-card.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:site_name" content="Vahtian">
+  <meta name="twitter:card" content="summary_large_image">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": "StudyVahti Vault",
+    "description": "Local-first observational-study workspace: Obsidian vault + Python/R scripts, computed analysis from your own notes, 15 deterministic defensibility checks, local AI assistant under human review, tamper-evident audit trail, provenance graph, complete demo study.",
+    "url": "https://vahtian.com/studyvahti-vault/",
+    "image": "https://vahtian.com/brand/cards/vahtian-card.png",
+    "brand": { "@type": "Brand", "name": "Vahtian" },
+    "offers": {
+      "@type": "Offer",
+      "price": "49",
+      "priceCurrency": "EUR",
+      "availability": "https://schema.org/InStock",
+      "url": "https://vahtian.com/studyvahti-vault/"
+    }
+  }
+  </script>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232D2440'/%3E%3Cg fill='none' stroke='%238B6FC9' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 9 H9 V23 H12'/%3E%3Cpath d='M20 9 H23 V23 H20'/%3E%3C/g%3E%3Cpath d='M16 10.3 L19.6 12 L19.6 15 L16 19.6 L12.4 15 L12.4 12 Z' fill='none' stroke='%23C5B8E8' stroke-width='1.8' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <style>
+    :root{
+      --navy:#2D2440; --violet:#8B6FC9; --lilac:#C5B8E8;
+      --ink:#1c1830; --muted:#5b5570; --bg:#faf9fc; --card:#fff; --line:#e7e3f0;
+      --link:#6F52B8;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,ui-sans-serif,system-ui,sans-serif;
+         color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased}
+    a{color:var(--link)}
+    .wrap{max-width:760px;margin:0 auto;padding:0 22px}
+    header{padding:26px 0 4px}
+    .crumbs{font-size:14px;color:var(--muted)}
+    .crumbs a{color:var(--muted);text-decoration:none}
+    .kicker{font:600 13px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--violet);
+            text-transform:uppercase;letter-spacing:.08em;margin:34px 0 14px}
+    h1{font-size:clamp(28px,5.4vw,42px);line-height:1.1;letter-spacing:-.02em;margin:0 0 16px}
+    .lede{font-size:clamp(17px,2.5vw,20px);color:#3a3450;margin:0 0 18px;max-width:60ch}
+    h2{font-size:21px;margin:42px 0 12px;letter-spacing:-.01em}
+    p{margin:0 0 14px}
+    ul{margin:0 0 14px;padding-left:24px}
+    li{margin:0 0 8px}
+    table{border-collapse:collapse;width:100%;margin:0 0 16px;font-size:15px}
+    th,td{border:1px solid var(--line);padding:8px 12px;text-align:left;vertical-align:top}
+    th{background:#f0edf7}
+    .btn{display:inline-block;padding:13px 22px;border-radius:9px;font-weight:650;
+         text-decoration:none;font-size:16px;background:var(--navy);color:#fff}
+    .btn.small{font-size:15px;padding:11px 18px}
+    .price{color:var(--muted);font-size:14.5px;margin:10px 0 0}
+    .ladder{display:flex;flex-wrap:wrap;gap:12px;margin:8px 0 6px}
+    .rung{flex:1 1 200px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+    .rung h3{margin:0 0 6px;font-size:16px}
+    .rung.mid{border-color:var(--violet);border-width:1.5px}
+    .rung .tag{font:600 11px/1 ui-monospace,SFMono-Regular,Menlo,monospace;text-transform:uppercase;
+               letter-spacing:.07em;color:var(--violet)}
+    .rule{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--violet);
+          border-radius:10px;padding:14px 18px;margin:0 0 16px}
+    .honest{color:#3a3450}
+    .cta{background:var(--card);border:1px solid var(--line);border-radius:14px;
+         padding:24px;margin:40px 0 0;text-align:center}
+    .cta p{max-width:56ch;margin:0 auto 14px}
+    details{background:var(--card);border:1px solid var(--line);border-radius:10px;
+            padding:12px 18px;margin:0 0 12px}
+    summary{cursor:pointer;font-weight:600;color:var(--link)}
+    details[open] summary{margin-bottom:8px}
+    footer{margin:56px 0 40px;padding-top:22px;border-top:1px solid var(--line);
+           color:var(--muted);font-size:14px}
+    footer a{color:var(--muted)}
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <nav class="crumbs"><a href="/">vahtian.com</a> · studyvahti vault</nav>
+</header>
+
+<p class="kicker">A Vahtian product</p>
+<h1>StudyVahti Vault</h1>
+<p class="lede">An AI-assisted analysis can look finished while the reasoning behind it is scattered across prompts, generated code, and reruns. StudyVahti Vault keeps the whole observational study in one local workspace — question to claim — and checks whether it still holds together. A study you can defend, on your own machine.</p>
+
+<!-- TODO(Heidi): replace href with the Polar checkout URL after listing (see PRODUCTS.md row 8). Do not deploy with the placeholder. -->
+<a class="btn" href="https://buy.polar.sh/REPLACE_AFTER_POLAR_LISTING" rel="noopener">Get StudyVahti Vault · €49</a>
+<p class="price">Launch price · regular €99 · one payment, all 1.x updates included · 14-day refund if the demo study does not run end to end on your machine</p>
+
+<h2>The problem it solves</h2>
+<p>The final analysis looks coherent, but the path to it is not. Which code the model wrote, why an exclusion happened, whether Table 1 still comes from the current script — the answers live in a chat you can no longer find. Traditional reproducibility asks whether the analysis can be rerun. AI-assisted work has to answer a harder question: can it be <em>reconstructed and defended</em>? StudyVahti Vault is built for that second question.</p>
+
+<h2>What you walk away with</h2>
+<table>
+  <tr><td><strong>The coherence chain, checked</strong></td><td>research question, dictionary, plan, decisions, outputs, and claims — linked, with 15 checks that flag drift between them</td></tr>
+  <tr><td><strong>Analysis from your own notes</strong></td><td>the engine fits the model (risk ratio, odds ratio, hazard ratio, mean difference), every sensitivity analysis, Table 1, participant-flow and missingness maps — no numbers typed by hand</td></tr>
+  <tr><td><strong>A causal diagram that checks itself</strong></td><td>draw the DAG; the vault flags a mediator or collider that slipped into the adjustment set</td></tr>
+  <tr><td><strong>A provenance graph + audit trail</strong></td><td>the visual, tamper-evident record of how the study holds together, from data to claim</td></tr>
+  <tr><td><strong>A study assistant built in</strong></td><td>drafts methods, proposes sensitivity analyses, checks consistency — on your local model or in Claude Code; it suggests, you decide</td></tr>
+  <tr><td><strong>A complete demo study</strong></td><td>a fabricated cohort worked end to end, so you learn the whole workflow by watching before you start</td></tr>
+</table>
+
+<h2>How it stays honest</h2>
+<div class="rule"><p style="margin:0"><strong>Models suggest structure. You decide the analysis.</strong> The assistant drafts, proposes, and checks — but every output lands as a suggestion for your review, and it flags what it cannot trace rather than inventing it. It records support for a study's defensibility, never whether its conclusions are true.</p></div>
+<p class="honest">Estimands are named before models. Verdicts are three-way — ok / flag / not checkable, and robust / not robust / not resolvable at this n — because a threshold on a noisy estimate should not be forced into pass or fail. Copy stays with <em>associated with</em>, not <em>causes</em>, unless the design earns it — and causal wording is flagged for your review. Your data never enters the vault: the Data Room keeps a fingerprint, never the rows.</p>
+
+<h2>Where it sits — the ladder</h2>
+<div class="ladder">
+  <div class="rung"><span class="tag">Free</span><h3><a href="/studyvahti/">StudyVahti Planner</a></h3><p style="margin:0;font-size:14.5px">Turn a study idea into a protocol-ready plan: PICOTS, estimands, reporting standards, feasibility.</p></div>
+  <div class="rung mid"><span class="tag">This product</span><h3>StudyVahti Vault</h3><p style="margin:0;font-size:14.5px">Run and document the study: computed analysis, decisions, sensitivity analyses, and 15 checks.</p></div>
+  <div class="rung"><span class="tag">Free</span><h3><a href="/auditlite/">AuditLite</a></h3><p style="margin:0;font-size:14.5px">Check the finished trail: a tamper-evident chain of custody for the whole analysis.</p></div>
+</div>
+<p style="font-size:14.5px;color:var(--muted)">Plan with the free Planner, run and document here, check the trail with the free AuditLite. The Vault is the middle rung.</p>
+
+<h2>See it finished before you start</h2>
+<p>A complete, fabricated cohort study ships inside — worse performance status and one-year mortality — worked from the research question all the way to the manuscript claims. You can see the computed forest plot, the reconciled participant flow, the provenance graph, and every check passing. Ten minutes of reading and you know what each stage of your own study should look like.</p>
+
+<h2>Requirements</h2>
+<ul>
+  <li>Mac, Windows, or Linux · Obsidian (free) to open the vault · Python 3 and R for the analysis and figures</li>
+  <li>The assistant runs on a local model (Ollama) or in Claude Code — a local model is enough, no subscription. The audit trail uses the free <code>auditlite</code> package</li>
+  <li>No account, no subscription, no upload. Your data never enters the vault; the workflow runs with the internet switched off</li>
+</ul>
+
+<h2>Common questions</h2>
+<details><summary>Does my data touch any server?</summary><p>No. Your rows never enter the vault at all — the Data Room records only where the data lives and its SHA-256 fingerprint. The only network address in the scripts is localhost, and the assistant runs on a model on your own machine.</p></details>
+<details><summary>Do I need to know statistics or coding?</summary><p>You need to know your study. The Vault structures the analysis and computes the common models (risk ratio, odds ratio, hazard ratio, mean difference) and the sensitivity analyses from your own notes. It does not choose your science, and it does not replace a statistician — it makes the analysis you run easier to check and defend.</p></details>
+<details><summary>Is this a replacement for my stats software?</summary><p>No. You still run your models in R, Stata, or SAS if you prefer. The Vault is the workspace that keeps the question, the decisions, the outputs, and the claims coherent and traceable — and it can compute and check the common models for you.</p></details>
+<details><summary>My journal requires the analysis code and a reporting checklist.</summary><p>Covered. The scripts are open source (Apache-2.0), and the vault builds STROBE coverage and methods and results drafts from your own notes, each sentence traceable to a note.</p></details>
+<details><summary>How is this different from QualiVahti Local?</summary><p><a href="/qualivahti-local/">QualiVahti Local</a> is the same local-first, human-first workspace idea for qualitative interview studies. StudyVahti Vault is for quantitative observational studies — the unit of work is the variable and the analytic decision, not the transcript and the code.</p></details>
+
+<h2>What it is not</h2>
+<ul>
+  <li>Not a statistics course and not a replacement for a statistician — it structures and checks the analysis you run.</li>
+  <li>Not an AI detector, and not a truth machine. It records what supports a study's defensibility, never whether its conclusions are correct.</li>
+  <li>Not a data store. Your rows never enter it, by design. Not a medical device, and not clinical advice.</li>
+  <li>Not a guarantee of acceptance. No tool can promise that; this one makes your study easier to defend.</li>
+</ul>
+
+<div class="cta">
+  <p><strong>Plan the study for free with <a href="/studyvahti/">StudyVahti Planner</a>.</strong> When you are running and writing it up — and want the analysis computed, the decisions logged, and the whole thing checked for drift — StudyVahti Vault is the workspace.</p>
+  <a class="btn" href="https://buy.polar.sh/REPLACE_AFTER_POLAR_LISTING" rel="noopener">Get StudyVahti Vault · €49</a>
+  <p class="price">Secure checkout by Polar (merchant of record, handles EU VAT). Instant download. Lab and doctoral-school licenses: hello@vahtian.com</p>
+</div>
+
+<footer>
+  <p><a href="/">vahtian.com</a> — local-first research integrity tools · also at <a href="https://forskai.com">forskai.com</a> &middot; <a href="/privacy/">Privacy</a>. This page loads nothing from anywhere: no remote fonts, no tracking, no scripts. Checkout happens on Polar only after you click.</p>
+</footer>
+
+</div>
+</body>
+</html>
