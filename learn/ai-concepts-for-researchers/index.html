@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ML, LLM, RAG, GraphRAG, DAG, agents — a researcher's map · Vahtian Learn</title>
+  <meta name="description" content="One plain-language comparison of the AI ideas behind research tools — machine learning, LLMs, retrieval-augmented generation, knowledge graphs, GraphRAG, DAGs, and agents — with what each is for and, just as important, what each does not guarantee.">
+  <meta name="theme-color" content="#2D2440">
+  <link rel="canonical" href="https://vahtian.com/learn/ai-concepts-for-researchers/">
+  <meta name="robots" content="index,follow">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://vahtian.com/learn/ai-concepts-for-researchers/">
+  <meta property="og:title" content="ML, LLM, RAG, GraphRAG, DAG, agents — a researcher's map">
+  <meta property="og:description" content="What each AI idea behind research tools is for — and what each does not guarantee. A single comparison page, in plain language.">
+  <meta property="og:image" content="https://vahtian.com/brand/cards/vahtian-card.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="A comparison of AI concepts for researchers and what each does not guarantee.">
+  <meta property="og:site_name" content="Vahtian">
+  <meta name="twitter:card" content="summary_large_image">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "ML, LLM, RAG, GraphRAG, DAG, agents — a researcher's map",
+    "description": "A plain-language comparison of the AI ideas behind research tools — machine learning, LLMs, retrieval-augmented generation, knowledge graphs, GraphRAG, DAGs, and agents — with what each is for and what each does not guarantee.",
+    "url": "https://vahtian.com/learn/ai-concepts-for-researchers/",
+    "datePublished": "2026-07-12",
+    "inLanguage": "en",
+    "author": { "@type": "Organization", "name": "Vahtian", "url": "https://vahtian.com/" },
+    "publisher": { "@id": "https://vahtian.com/#org" }
+  }
+  </script>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232D2440'/%3E%3Cg fill='none' stroke='%238B6FC9' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 9 H9 V23 H12'/%3E%3Cpath d='M20 9 H23 V23 H20'/%3E%3C/g%3E%3Cpath d='M16 10.3 L19.6 12 L19.6 15 L16 19.6 L12.4 15 L12.4 12 Z' fill='none' stroke='%23C5B8E8' stroke-width='1.8' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <style>
+    :root{
+      --navy:#2D2440; --violet:#8B6FC9; --lilac:#C5B8E8;
+      --ink:#1c1830; --muted:#5b5570; --bg:#faf9fc; --card:#fff; --line:#e7e3f0;
+      --link:#6F52B8;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,ui-sans-serif,system-ui,sans-serif;
+         color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased}
+    a{color:var(--link)}
+    a:focus-visible{outline:3px solid var(--violet);outline-offset:2px}
+    .wrap{max-width:760px;margin:0 auto;padding:0 22px}
+    header{padding:26px 0 4px}
+    .crumbs{font-size:14px;color:var(--muted)}
+    .crumbs a{color:var(--muted);text-decoration:none}
+    .kicker{font:600 13px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--violet);
+            text-transform:uppercase;letter-spacing:.08em;margin:34px 0 14px}
+    h1{font-size:clamp(27px,5.2vw,38px);line-height:1.14;letter-spacing:-.02em;margin:0 0 16px}
+    .lede{font-size:clamp(17px,2.4vw,19px);color:#3a3450;margin:0 0 6px}
+    h2{font-size:21px;margin:44px 0 12px;letter-spacing:-.01em}
+    h3{font-size:16px;margin:22px 0 6px}
+    p{margin:0 0 14px}
+    ol,ul{margin:0 0 14px;padding-left:24px}
+    li{margin:0 0 8px}
+    code{font:13.5px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;background:#f0edf7;
+         padding:1px 5px;border-radius:5px}
+    .seq{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 20px;margin:22px 0}
+    .seq p{font-weight:650;margin:0 0 8px}
+    .seq ol{margin:0;padding-left:22px}
+    .seq li{margin:0 0 4px;font-size:14.5px}
+    .seq a{text-decoration:none}
+    .seq a:hover{text-decoration:underline}
+    .tablewrap{overflow-x:auto;margin:20px 0;border:1px solid var(--line);border-radius:12px;background:var(--card)}
+    table{border-collapse:collapse;width:100%;min-width:640px;font-size:14px}
+    caption{caption-side:top;text-align:left;font-size:13px;color:var(--muted);padding:12px 16px 0}
+    th,td{text-align:left;padding:11px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+    thead th{background:#f6f3fb;font-size:12.5px;text-transform:uppercase;letter-spacing:.04em;color:var(--navy)}
+    tbody th{font-weight:700;color:var(--navy);white-space:nowrap}
+    td.no{color:#8a3a3a}
+    tr:last-child td,tr:last-child th{border-bottom:none}
+    .note{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--violet);
+          border-radius:10px;padding:14px 18px;margin:0 0 16px}
+    .note.key{border-left-color:var(--lilac)}
+    .outcomes{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 20px;margin:22px 0}
+    .outcomes p{font-weight:650;margin:0 0 8px}
+    .outcomes ul{margin:0;padding-left:22px}
+    .cta{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px 22px;margin:34px 0 0}
+    .btn{display:inline-block;padding:11px 18px;border-radius:9px;font-weight:600;
+         text-decoration:none;font-size:15px;background:var(--navy);color:#fff;margin-top:6px}
+    footer{margin:56px 0 40px;padding-top:22px;border-top:1px solid var(--line);
+           color:var(--muted);font-size:14px}
+    footer a{color:var(--muted)}
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <nav class="crumbs"><a href="/">vahtian.com</a> · <a href="/learn/">learn</a> · AI concepts for researchers</nav>
+</header>
+
+<p class="kicker">Learn · AI methods</p>
+<h1>ML, LLM, RAG, GraphRAG, DAG, agents — a researcher's map</h1>
+<p class="lede">Every research-AI tool is built from a short stack of ideas. Each idea does one job well and leaves a specific gap. This is one page for the whole stack: what each is for, and — the part the marketing skips — what each does not guarantee.</p>
+
+<div class="outcomes">
+  <p>After this guide you will be able to:</p>
+  <ul>
+    <li>Say what machine learning, LLMs, RAG, knowledge graphs, GraphRAG, DAGs, and agents each actually do.</li>
+    <li>Name the gap each one leaves — the thing it does <em>not</em> establish.</li>
+    <li>See why stacking all of them still does not produce scientific correctness.</li>
+  </ul>
+</div>
+
+<p>The ideas build on one another in roughly this order. You can read straight through, or jump to the concept you came for.</p>
+
+<div class="seq" aria-label="Reading sequence">
+  <p>The sequence</p>
+  <ol>
+    <li><a href="#ml">From rules to machine learning</a></li>
+    <li><a href="#llm">What an LLM predicts</a></li>
+    <li><a href="#rag">What retrieval-augmented generation adds</a></li>
+    <li><a href="#rag-loss">Why ordinary RAG loses relationships</a></li>
+    <li><a href="#kg">What a knowledge graph represents</a></li>
+    <li><a href="#graphrag">What GraphRAG adds</a></li>
+    <li><a href="#dag">What a directed acyclic graph controls</a></li>
+    <li><a href="#agents">How agents use tools and workflows</a></li>
+    <li><a href="#provenance">Why provenance and audit trails matter</a></li>
+    <li><a href="#invariant">Why none of these proves scientific correctness</a></li>
+  </ol>
+</div>
+
+<h2>The map, in one table</h2>
+<p>Read the last column first. The middle columns tell you what a technique is for; the last column tells you the mistake to avoid making with it.</p>
+
+<div class="tablewrap">
+  <table>
+    <caption>Each technique, its main job, a research example, and the guarantee it does <strong>not</strong> provide.</caption>
+    <thead>
+      <tr><th scope="col">Term</th><th scope="col">Main purpose</th><th scope="col">Research example</th><th scope="col">What it does <em>not</em> guarantee</th></tr>
+    </thead>
+    <tbody>
+      <tr><th scope="row">ML</th><td>Learn patterns from data</td><td>Predict an outcome from features</td><td class="no">Causal or scientific validity</td></tr>
+      <tr><th scope="row">LLM</th><td>Predict and generate language</td><td>Summarize a paper</td><td class="no">Factual support for what it wrote</td></tr>
+      <tr><th scope="row">RAG</th><td>Retrieve text before answering</td><td>Search a local vault, then answer</td><td class="no">Correct retrieval or interpretation</td></tr>
+      <tr><th scope="row">Knowledge graph</th><td>Represent entities and relations</td><td>Link claims, sources, and analyses</td><td class="no">That the relations are true</td></tr>
+      <tr><th scope="row">GraphRAG</th><td>Retrieve through graph structure</td><td>Find connected evidence objects</td><td class="no">That the evidence supports the conclusion</td></tr>
+      <tr><th scope="row">DAG</th><td>Control dependencies and order</td><td>Run analyses before generating tables</td><td class="no">That the workflow is scientifically appropriate</td></tr>
+      <tr><th scope="row">Agent</th><td>Select and execute actions</td><td>Retrieve, analyse, and export</td><td class="no">Appropriate authority or judgment</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<h2 id="ml">1. From rules to machine learning</h2>
+<p>Older software followed rules a person wrote by hand: <em>if this, then that</em>. Machine learning (ML) flips it around. You give the system examples — inputs paired with known answers — and it fits a function that reproduces those answers and, you hope, generalizes to new inputs. A model predicting readmission from a patient's record is ML: nobody wrote the rule, the model inferred it from past cases.</p>
+<p>What it buys you is pattern detection at a scale no rule-writer could match. What it does not buy you is <strong>causation</strong>. A model can learn that an outcome co-occurs with a feature without that feature causing anything — the textbook case is the model that keys off a scanner's ID because sicker patients happened to use one machine. ML predicts; it does not explain, and it does not certify that the pattern is real science rather than an artefact of how the data were collected.</p>
+
+<h2 id="llm">2. What an LLM predicts</h2>
+<p>A large language model (LLM) is a particular kind of ML model trained on text. Its one native task is narrow: given the text so far, predict plausible next text. Everything it appears to "do" — summarize, answer, translate — is that one prediction task applied cleverly.</p>
+<p>This is why fluency and accuracy come apart. An LLM will write a confident, well-formed sentence whether or not the claim in it is supported, because its objective rewards plausibility, not truth. A summary of a paper can read perfectly and still misstate the finding. The gap the LLM leaves is <strong>factual support</strong>: it generates language, not verified claims.</p>
+
+<h2 id="rag">3. What retrieval-augmented generation adds</h2>
+<p>Retrieval-augmented generation (RAG) tries to close part of that gap. Before the model answers, the system retrieves relevant text — from your document vault, a paper set, a database — and puts it in front of the model to work from. Instead of answering from memory alone, the model answers from retrieved passages, and can quote them.</p>
+<p>This genuinely helps: it grounds answers in a source you control and can inspect, and it keeps the model current with material it was never trained on. But RAG adds two new places to go wrong. Retrieval can surface the wrong passage, and the model can still misread the right one. RAG does not guarantee <strong>correct retrieval or correct interpretation</strong> — it just makes both visible enough to check.</p>
+
+<h2 id="rag-loss">4. Why ordinary RAG loses relationships</h2>
+<p>Standard RAG treats your corpus as a bag of text chunks and retrieves whichever chunks look similar to the question. That works for "what does this passage say" and fails for "how do these things connect". The structure that matters in research — this claim cites that source, this result comes from that dataset, this conclusion depends on that assumption — lives <em>between</em> chunks, and chunk-similarity retrieval cannot see it.</p>
+<p>So a question like "which conclusions rest on the study that was just retracted" is exactly the kind ordinary RAG handles badly: the answer is a chain of relationships, not a similar-looking paragraph. The relationships were never represented, so they cannot be retrieved.</p>
+
+<h2 id="kg">5. What a knowledge graph represents</h2>
+<p>A knowledge graph makes the relationships first-class. Instead of loose text, you have <em>nodes</em> (a claim, a source, a variable, an analysis) joined by typed <em>edges</em> (<code>cites</code>, <code>derived-from</code>, <code>supports</code>, <code>contradicts</code>). Now "what depends on this source" is a graph you can traverse, not a search you hope works.</p>
+<p>The catch is that a graph represents relationships; it does not adjudicate them. An edge labelled <code>supports</code> asserts a relationship — it does not make the support real. A knowledge graph does not guarantee <strong>that its relations are true</strong>; it guarantees only that they are written down explicitly enough to be checked and argued with.</p>
+
+<h2 id="graphrag">6. What GraphRAG adds</h2>
+<p>GraphRAG is RAG that retrieves through the graph. Rather than fetching similar chunks, it follows edges — pull this claim, then the sources it cites, then the analyses those sources rest on — so the retrieved context is a connected neighbourhood of evidence instead of a pile of look-alike passages. For "trace everything downstream of X", this is the right tool.</p>
+<p>But retrieving a connected subgraph is not the same as judging it. GraphRAG can hand you the claim, its citation, and the cited passage side by side — and it still does not establish <strong>that the evidence supports the conclusion</strong>. It assembles the material for that judgment; the judgment is a separate act.</p>
+
+<h2 id="dag">7. What a directed acyclic graph controls</h2>
+<p>A directed acyclic graph (DAG) is a graph with direction and no cycles: work flows one way and never loops back on itself. Used as a workflow, it encodes dependencies — build the analysis dataset <em>before</em> the model, run the model <em>before</em> the table — so steps happen in a valid order and independent branches can run in parallel.</p>
+<p>A DAG guarantees the <em>order</em> is coherent. It says nothing about whether the order is <em>right for the science</em>. You can build a perfectly valid DAG around the wrong estimand, an inappropriate comparator, or a model that should never have been fit. The DAG does not guarantee <strong>that the workflow is scientifically appropriate</strong> — only that it is internally consistent and executable.</p>
+
+<h2 id="agents">8. How agents use tools and workflows</h2>
+<p>An agent is an LLM given tools and a loop: it decides which action to take, takes it, observes the result, and decides again. With the right tools it can retrieve a source, run an analysis, and export a table — chaining steps toward a goal instead of answering a single prompt.</p>
+<p>Capability is not authority. An agent can execute a consequential step — accept an inclusion decision, finalize a risk-of-bias rating, sign off on an interpretation — without being the right actor to make that call. The gap an agent leaves is <strong>appropriate authority and judgment</strong>: doing the action and being entitled to decide it are different things, and only the second protects a research record.</p>
+
+<h2 id="provenance">9. Why provenance and audit trails matter</h2>
+<p>Notice the pattern. Every technique above leaves a gap, and every gap is closed the same way — by a person, on the record. That is what provenance and an audit trail are for. Provenance is the answer to "where did this come from"; an audit trail is the answer to "who decided what, on what evidence, and when".</p>
+<p>This is the layer that makes the rest defensible. A retrieved passage is only as good as the record of which source it came from. A <code>supports</code> edge is only trustworthy if you can see who assessed it and why. An agent's action is only acceptable if the record shows a qualified human cleared it. None of the earlier techniques record this by default; it has to be designed in. When it is, "why should I believe this?" has a concrete answer instead of an appeal to the model.</p>
+
+<h2 id="invariant">10. Why none of these proves scientific correctness</h2>
+<p>Stack the whole thing — ML under an LLM, grounded by GraphRAG over a knowledge graph, orchestrated by a DAG, driven by an agent, all of it logged with provenance — and you have a powerful research system. You still do not have a truth machine.</p>
+<p>Each layer establishes something narrower than it looks: ML finds patterns, not causes; an LLM produces fluent text, not supported claims; RAG grounds an answer without guaranteeing the grounding is right; a knowledge graph states relations without making them true; GraphRAG gathers connected evidence without judging it; a DAG orders work without knowing if the work is sound; an agent acts without holding the authority to decide. Provenance records all of it faithfully — and a faithful record of a flawed analysis is still a flawed analysis.</p>
+<p>Scientific correctness is not a property any of these techniques can deliver, because it is not a computational property at all. It is a judgment made by qualified people, about a specific claim, in light of specific evidence and specific assumptions. The most an honest system can do is make that judgment <em>easier and better-documented</em>: put the claim next to its source, show the dependency chain, record who decided, and flag what still needs review. That is the job. Certifying the truth is not.</p>
+
+<div class="note key"><p style="margin:0"><strong>The one line to keep.</strong> These tools decide <em>where to look and what to show you</em>. They do not decide <em>what is true</em>. Any research tool — Vahtian included — that blurs that line is selling the wrong thing.</p></div>
+
+<div class="cta">
+  <p><strong>See the principle in a working tool.</strong></p>
+  <p>CiteVahti applies exactly this division of labour to one narrow question: does a cited source support the specific claim that cites it? The tool retrieves and lines up the claim and the source; you make the call; the decision is recorded with its provenance. It checks support and keeps the trail — it does not certify that the claim is true.</p>
+  <a class="btn" href="/citevahti/">See CiteVahti</a>
+</div>
+
+<h2>Related guides</h2>
+<p>For a hands-on test of where a laptop model helps and where it fails, see <a href="/learn/local-models-check-citations/">can a local model check your citations?</a> For the human-AI division of labour in practice, see <a href="/learn/ai-qualitative-coding-human-review/">AI qualitative coding, human-reviewed</a>. More guides are on the <a href="/learn/">Learn page</a>.</p>
+
+<footer>
+  <p><a href="/learn/">← All Learn guides</a> &middot; <a href="/about/">About</a> · <a href="/cite/">Cite</a> · <a href="/privacy/">Privacy</a> · <a href="/">vahtian.com</a> · local-first research integrity tools.</p>
+  <p>This page explains what these techniques do and do not establish; it does not claim any of them, or Vahtian, certifies scientific correctness. It loads nothing from anywhere: no remote fonts, no tracking, no scripts.</p>
+</footer>
+
+</div>
+</body>
+</html>
