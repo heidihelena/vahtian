@@ -357,7 +357,10 @@ canonical external trigger.)
 
 Semantic invalidation must propagate through all downstream nodes whose
 conclusions depend on the changed meaning, even when their files remain
-technically executable. This is a major Vahtian extension to ATG.
+technically executable. This is a major Vahtian extension to ATG. The
+propagation mathematics — typed edges, six-hop review horizon, change
+magnitude, review pressure, hard triggers — is specified in the companion
+note [`change-propagation-mathematics.md`](./change-propagation-mathematics.md).
 
 ---
 
