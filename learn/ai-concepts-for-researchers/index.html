@@ -3,15 +3,15 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>ML, LLM, RAG, GraphRAG, DAG, agents — a researcher's map · Vahtian Learn</title>
-  <meta name="description" content="One plain-language comparison of the AI ideas behind research tools — machine learning, LLMs, retrieval-augmented generation, knowledge graphs, GraphRAG, DAGs, and agents — with what each is for and, just as important, what each does not guarantee.">
+  <title>ML, LLM, RAG, GraphRAG, DAGs and agents: a researcher's map · Vahtian Learn</title>
+  <meta name="description" content="One plain-language comparison of the AI ideas behind research tools: machine learning, LLMs, retrieval-augmented generation, knowledge graphs, GraphRAG, DAGs, and agents. What each is for, and what each does not establish.">
   <meta name="theme-color" content="#2D2440">
   <link rel="canonical" href="https://vahtian.com/learn/ai-concepts-for-researchers/">
   <meta name="robots" content="index,follow">
   <meta property="og:type" content="article">
   <meta property="og:url" content="https://vahtian.com/learn/ai-concepts-for-researchers/">
-  <meta property="og:title" content="ML, LLM, RAG, GraphRAG, DAG, agents — a researcher's map">
-  <meta property="og:description" content="What each AI idea behind research tools is for — and what each does not guarantee. A single comparison page, in plain language.">
+  <meta property="og:title" content="ML, LLM, RAG, GraphRAG, DAGs and agents: a researcher's map">
+  <meta property="og:description" content="What each AI idea behind research tools is for, and what each does not establish. A single comparison page, in plain language.">
   <meta property="og:image" content="https://vahtian.com/brand/cards/vahtian-card.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
@@ -22,8 +22,8 @@
   {
     "@context": "https://schema.org",
     "@type": "TechArticle",
-    "headline": "ML, LLM, RAG, GraphRAG, DAG, agents — a researcher's map",
-    "description": "A plain-language comparison of the AI ideas behind research tools — machine learning, LLMs, retrieval-augmented generation, knowledge graphs, GraphRAG, DAGs, and agents — with what each is for and what each does not guarantee.",
+    "headline": "ML, LLM, RAG, GraphRAG, DAGs and agents: a researcher's map",
+    "description": "A plain-language comparison of the AI ideas behind research tools: machine learning, LLMs, retrieval-augmented generation, knowledge graphs, GraphRAG, DAGs, and agents. What each is for and what each does not establish.",
     "url": "https://vahtian.com/learn/ai-concepts-for-researchers/",
     "datePublished": "2026-07-12",
     "inLanguage": "en",
@@ -94,14 +94,14 @@
 </header>
 
 <p class="kicker">Learn · AI methods</p>
-<h1>ML, LLM, RAG, GraphRAG, DAG, agents — a researcher's map</h1>
-<p class="lede">Every research-AI tool is built from a short stack of ideas. Each idea does one job well and leaves a specific gap. This is one page for the whole stack: what each is for, and — the part the marketing skips — what each does not guarantee.</p>
+<h1>ML, LLM, RAG, GraphRAG, DAGs and agents: a researcher's map</h1>
+<p class="lede">Every research-AI tool is built from a short stack of ideas. Each idea does one job well and leaves a specific gap. This is one page for the whole stack: what each is for, and what each does not establish.</p>
 
 <div class="outcomes">
   <p>After this guide you will be able to:</p>
   <ul>
     <li>Say what machine learning, LLMs, RAG, knowledge graphs, GraphRAG, DAGs, and agents each actually do.</li>
-    <li>Name the gap each one leaves — the thing it does <em>not</em> establish.</li>
+    <li>Name the gap each one leaves: the thing it does <em>not</em> establish.</li>
     <li>See why stacking all of them still does not produce scientific correctness.</li>
   </ul>
 </div>
@@ -114,7 +114,7 @@
     <li><a href="#ml">From rules to machine learning</a></li>
     <li><a href="#llm">What an LLM predicts</a></li>
     <li><a href="#rag">What retrieval-augmented generation adds</a></li>
-    <li><a href="#rag-loss">Why ordinary RAG loses relationships</a></li>
+    <li><a href="#rag-loss">Why basic chunk-based RAG can lose relationships</a></li>
     <li><a href="#kg">What a knowledge graph represents</a></li>
     <li><a href="#graphrag">What GraphRAG adds</a></li>
     <li><a href="#dag">What a directed acyclic graph controls</a></li>
@@ -146,56 +146,56 @@
 </div>
 
 <h2 id="ml">1. From rules to machine learning</h2>
-<p>Older software followed rules a person wrote by hand: <em>if this, then that</em>. Machine learning (ML) flips it around. You give the system examples — inputs paired with known answers — and it fits a function that reproduces those answers and, you hope, generalizes to new inputs. A model predicting readmission from a patient's record is ML: nobody wrote the rule, the model inferred it from past cases.</p>
-<p>What it buys you is pattern detection at a scale no rule-writer could match. What it does not buy you is <strong>causation</strong>. A model can learn that an outcome co-occurs with a feature without that feature causing anything — the textbook case is the model that keys off a scanner's ID because sicker patients happened to use one machine. ML predicts; it does not explain, and it does not certify that the pattern is real science rather than an artefact of how the data were collected.</p>
+<p>Older software followed rules a person wrote by hand: <em>if this, then that</em>. Machine learning (ML) fits patterns or decision rules from data rather than requiring every rule to be written by hand. In supervised learning, the data include inputs paired with known outcomes, and the model fits a function that reproduces them and, you hope, generalizes to new inputs. Other forms of machine learning learn structure, representations, or actions without conventional labelled answers: clustering, dimensionality reduction, self-supervised and reinforcement learning. A model predicting readmission from a patient's record is supervised ML: nobody wrote the rule, the model inferred it from past cases.</p>
+<p>What it buys you is pattern and structure detection at a scale no rule-writer could match. What it does not buy you is <strong>causation</strong>. A model can learn that an outcome co-occurs with a feature without that feature causing anything: the textbook case is the model that keys off a scanner's ID because sicker patients happened to use one machine. Prediction alone does not establish explanation or causation, and it does not certify that the pattern is real science rather than an artefact of how the data were collected.</p>
 
 <h2 id="llm">2. What an LLM predicts</h2>
-<p>A large language model (LLM) is a particular kind of ML model trained on text. Its one native task is narrow: given the text so far, predict plausible next text. Everything it appears to "do" — summarize, answer, translate — is that one prediction task applied cleverly.</p>
-<p>This is why fluency and accuracy come apart. An LLM will write a confident, well-formed sentence whether or not the claim in it is supported, because its objective rewards plausibility, not truth. A summary of a paper can read perfectly and still misstate the finding. The gap the LLM leaves is <strong>factual support</strong>: it generates language, not verified claims.</p>
+<p>A large language model (LLM) is a kind of ML model trained on text. Most current generative LLMs are trained initially to predict the next token from the preceding context. Post-training then shapes how they follow instructions, use tools, and respond to people, and modern systems add retrieval, multimodal encoders, and external control logic on top. Their fluent output still does not provide evidence that a generated claim is correct.</p>
+<p>This is why fluency and accuracy come apart. An LLM will write a confident, well-formed sentence whether or not the claim in it is supported. Its training rewards successful prediction and response behaviour; it does not give the model a dependable internal test of whether each generated claim is supported. A summary of a paper can read perfectly and still misstate the finding. The gap the LLM leaves is <strong>factual support</strong>: it generates language, not verified claims.</p>
 
 <h2 id="rag">3. What retrieval-augmented generation adds</h2>
-<p>Retrieval-augmented generation (RAG) tries to close part of that gap. Before the model answers, the system retrieves relevant text — from your document vault, a paper set, a database — and puts it in front of the model to work from. Instead of answering from memory alone, the model answers from retrieved passages, and can quote them.</p>
-<p>This genuinely helps: it grounds answers in a source you control and can inspect, and it keeps the model current with material it was never trained on. But RAG adds two new places to go wrong. Retrieval can surface the wrong passage, and the model can still misread the right one. RAG does not guarantee <strong>correct retrieval or correct interpretation</strong> — it just makes both visible enough to check.</p>
+<p>Retrieval-augmented generation (RAG) tries to close part of that gap. Before the model answers, the system retrieves relevant text (from a document vault, a paper set, a database, or the web) and puts it in front of the model to work from. Instead of answering from memory alone, the model answers from retrieved passages, and may cite or quote them.</p>
+<p>This genuinely helps: it can ground an answer in retrieved sources that the system may expose for inspection, and it keeps the model current with material it was never trained on. In a local or well-designed research system, those sources can be controlled and versioned. But RAG adds two new places to go wrong. Retrieval can surface the wrong passage, and the model can still misread the right one, and a RAG system does not inherently produce faithful quotations. RAG does not guarantee <strong>correct retrieval or correct interpretation</strong>; at best it makes both visible enough to check.</p>
 
-<h2 id="rag-loss">4. Why ordinary RAG loses relationships</h2>
-<p>Standard RAG treats your corpus as a bag of text chunks and retrieves whichever chunks look similar to the question. That works for "what does this passage say" and fails for "how do these things connect". The structure that matters in research — this claim cites that source, this result comes from that dataset, this conclusion depends on that assumption — lives <em>between</em> chunks, and chunk-similarity retrieval cannot see it.</p>
-<p>So a question like "which conclusions rest on the study that was just retracted" is exactly the kind ordinary RAG handles badly: the answer is a chain of relationships, not a similar-looking paragraph. The relationships were never represented, so they cannot be retrieved.</p>
+<h2 id="rag-loss">4. Why basic chunk-based RAG can lose relationships</h2>
+<p>A basic vector RAG system divides a corpus into text chunks and retrieves chunks that appear semantically similar to a query. That works for "what does this passage say" and struggles with "how do these things connect". The structure that matters in research (this claim cites that source, this result comes from that dataset, this conclusion depends on that assumption) lives <em>between</em> chunks, and chunk-similarity retrieval will not reliably preserve it unless those relationships are represented in metadata, retrieval logic, or another structured layer.</p>
+<p>So a question like "which conclusions rest on the study that was just retracted" is exactly the kind a bare chunk index handles badly: the answer is a chain of relationships, not a similar-looking paragraph. Unless the relationships were represented somewhere, there is nothing structured to retrieve.</p>
 
 <h2 id="kg">5. What a knowledge graph represents</h2>
 <p>A knowledge graph makes the relationships first-class. Instead of loose text, you have <em>nodes</em> (a claim, a source, a variable, an analysis) joined by typed <em>edges</em> (<code>cites</code>, <code>derived-from</code>, <code>supports</code>, <code>contradicts</code>). Now "what depends on this source" is a graph you can traverse, not a search you hope works.</p>
-<p>The catch is that a graph represents relationships; it does not adjudicate them. An edge labelled <code>supports</code> asserts a relationship — it does not make the support real. A knowledge graph does not guarantee <strong>that its relations are true</strong>; it guarantees only that they are written down explicitly enough to be checked and argued with.</p>
+<p>The catch is that a graph represents relationships; it does not adjudicate them. An edge labelled <code>supports</code> asserts a relationship; it does not make the support real. A knowledge graph does not guarantee <strong>that its relations are true</strong>; it guarantees only that they are written down explicitly enough to be checked and argued with.</p>
 
 <h2 id="graphrag">6. What GraphRAG adds</h2>
-<p>GraphRAG is RAG that retrieves through the graph. Rather than fetching similar chunks, it follows edges — pull this claim, then the sources it cites, then the analyses those sources rest on — so the retrieved context is a connected neighbourhood of evidence instead of a pile of look-alike passages. For "trace everything downstream of X", this is the right tool.</p>
-<p>But retrieving a connected subgraph is not the same as judging it. GraphRAG can hand you the claim, its citation, and the cited passage side by side — and it still does not establish <strong>that the evidence supports the conclusion</strong>. It assembles the material for that judgment; the judgment is a separate act.</p>
+<p>GraphRAG is a family of methods that use graph structure during indexing, retrieval, or answer generation. Some systems traverse explicit relations (pull this claim, then the sources it cites, then the analyses those sources rest on). Others, like Microsoft's GraphRAG, build entity communities and retrieve graph-derived summaries for corpus-wide synthesis. It is useful when the answer depends on relationships or corpus-wide structure rather than on isolated similar passages.</p>
+<p>Match the method to the question. For an exact query such as "what is downstream of this source?", direct graph traversal in a graph database may be preferable and more reliable, and may need no language model at all. GraphRAG earns its place when those connected objects must also be retrieved, summarized, and explained in language. Either way, retrieving a connected subgraph is not the same as judging it: GraphRAG can hand you the claim, its citation, and the cited passage side by side, and it still does not establish <strong>that the evidence supports the conclusion</strong>. It assembles the material for that judgment; the judgment is a separate act.</p>
 
 <h2 id="dag">7. What a directed acyclic graph controls</h2>
-<p>A directed acyclic graph (DAG) is a graph with direction and no cycles: work flows one way and never loops back on itself. Used as a workflow, it encodes dependencies — build the analysis dataset <em>before</em> the model, run the model <em>before</em> the table — so steps happen in a valid order and independent branches can run in parallel.</p>
-<p>A DAG guarantees the <em>order</em> is coherent. It says nothing about whether the order is <em>right for the science</em>. You can build a perfectly valid DAG around the wrong estimand, an inappropriate comparator, or a model that should never have been fit. The DAG does not guarantee <strong>that the workflow is scientifically appropriate</strong> — only that it is internally consistent and executable.</p>
+<p>A directed acyclic graph (DAG) is a graph with direction and no cycles: work flows one way and never loops back on itself. Used as a workflow, it encodes dependencies (build the analysis dataset <em>before</em> the model, run the model <em>before</em> the table) so an execution system can schedule steps in an order consistent with the recorded dependencies, and independent branches can run in parallel.</p>
+<p>A correctly specified DAG makes dependencies explicit and permits a topological execution order. The absence of cycles does not prove that the dependencies are complete, correctly directed, or scientifically appropriate. You can build a perfectly valid DAG around the wrong estimand, an inappropriate comparator, or a model that should never have been fit. The DAG does not guarantee <strong>that the workflow is scientifically appropriate</strong>; only that, as recorded, it has no cycles and can be scheduled.</p>
 
 <h2 id="agents">8. How agents use tools and workflows</h2>
-<p>An agent is an LLM given tools and a loop: it decides which action to take, takes it, observes the result, and decides again. With the right tools it can retrieve a source, run an analysis, and export a table — chaining steps toward a goal instead of answering a single prompt.</p>
-<p>Capability is not authority. An agent can execute a consequential step — accept an inclusion decision, finalize a risk-of-bias rating, sign off on an interpretation — without being the right actor to make that call. The gap an agent leaves is <strong>appropriate authority and judgment</strong>: doing the action and being entitled to decide it are different things, and only the second protects a research record.</p>
+<p>An agent is an LLM given tools and a loop: it decides which action to take, takes it, observes the result, and decides again. With the right tools it can retrieve a source, run an analysis, and export a table, chaining steps toward a goal instead of answering a single prompt.</p>
+<p>Capability is not authority. An agent can execute a consequential step (accept an inclusion decision, finalize a risk-of-bias rating, sign off on an interpretation) without being the right actor to make that call. The gap an agent leaves is <strong>appropriate authority and judgment</strong>: doing the action and being entitled to decide it are different things, and only the second protects a research record.</p>
 
 <h2 id="provenance">9. Why provenance and audit trails matter</h2>
-<p>Notice the pattern. Every technique above leaves a gap, and every gap is closed the same way — by a person, on the record. That is what provenance and an audit trail are for. Provenance is the answer to "where did this come from"; an audit trail is the answer to "who decided what, on what evidence, and when".</p>
-<p>This is the layer that makes the rest defensible. A retrieved passage is only as good as the record of which source it came from. A <code>supports</code> edge is only trustworthy if you can see who assessed it and why. An agent's action is only acceptable if the record shows a qualified human cleared it. None of the earlier techniques record this by default; it has to be designed in. When it is, "why should I believe this?" has a concrete answer instead of an appeal to the model.</p>
+<p>Notice the pattern. Every technique above leaves a gap that must be addressed explicitly. Some gaps can be narrowed by deterministic checks, validation data, provenance, replication, or statistical diagnostics; consequential scientific judgments still require accountable human review. A person is not a universal repair mechanism, but they remain responsible for the calls that decide what a study claims. Provenance is the answer to "where did this come from"; an audit trail is the answer to "who decided what, on what evidence, and when".</p>
+<p>This is the layer that makes the rest traceable, and therefore open to review. A retrieved passage is only as good as the record of which source it came from. A <code>supports</code> edge is only trustworthy if you can see who assessed it and why. An agent's consequential judgment is acceptable only when its authority, review requirements, and human responsibility were defined in advance: routine deterministic operations may be automated, but scientific decisions require an accountable human gate. None of the earlier techniques record this by default; it has to be designed in. Traceability is necessary for defensibility, but it does not create defensibility by itself.</p>
 
 <h2 id="invariant">10. Why none of these proves scientific correctness</h2>
-<p>Stack the whole thing — ML under an LLM, grounded by GraphRAG over a knowledge graph, orchestrated by a DAG, driven by an agent, all of it logged with provenance — and you have a powerful research system. You still do not have a truth machine.</p>
-<p>Each layer establishes something narrower than it looks: ML finds patterns, not causes; an LLM produces fluent text, not supported claims; RAG grounds an answer without guaranteeing the grounding is right; a knowledge graph states relations without making them true; GraphRAG gathers connected evidence without judging it; a DAG orders work without knowing if the work is sound; an agent acts without holding the authority to decide. Provenance records all of it faithfully — and a faithful record of a flawed analysis is still a flawed analysis.</p>
-<p>Scientific correctness is not a property any of these techniques can deliver, because it is not a computational property at all. It is a judgment made by qualified people, about a specific claim, in light of specific evidence and specific assumptions. The most an honest system can do is make that judgment <em>easier and better-documented</em>: put the claim next to its source, show the dependency chain, record who decided, and flag what still needs review. That is the job. Certifying the truth is not.</p>
+<p>Stack the whole thing (ML under an LLM, grounded by GraphRAG over a knowledge graph, orchestrated by a DAG, driven by an agent, all of it logged with provenance) and you have a powerful research system. You still do not have a truth machine.</p>
+<p>Each layer establishes something narrower than it looks: ML finds patterns, not causes; an LLM produces fluent text, not supported claims; RAG grounds an answer without guaranteeing the grounding is right; a knowledge graph states relations without making them true; GraphRAG gathers connected evidence without judging it; a DAG orders work without knowing if the work is sound; an agent acts without holding the authority to decide. Provenance records all of it faithfully, and a faithful record of a flawed analysis is still a flawed analysis.</p>
+<p>Scientific validity is not reducible to one computational test. Parts of a research claim <em>can</em> be checked mechanically: a reported number matches the code output, a confidence interval was computed correctly, a cited paper contains the specified result, a dataset satisfies its schema, an analysis reproduces in the same environment. But deciding whether the claim is <em>warranted</em> (whether the estimand answers the question, whether the assumptions are defensible, whether the evidence supports a causal reading, whether the conclusion generalizes) requires evidence, assumptions, domain knowledge, and accountable judgment. The most an honest system can do is make that judgment easier and better-documented: run the mechanical checks, put the claim next to its source, show the dependency chain, record who decided, and flag what still needs review. That is the job. Certifying the truth is not.</p>
 
-<div class="note key"><p style="margin:0"><strong>The one line to keep.</strong> These tools decide <em>where to look and what to show you</em>. They do not decide <em>what is true</em>. Any research tool — Vahtian included — that blurs that line is selling the wrong thing.</p></div>
+<div class="note key"><p style="margin:0"><strong>The one line to keep.</strong> These tools decide <em>where to look and what to show you</em>. They do not decide <em>what is true or what is sound</em>. A research tool should state clearly which parts it retrieves, calculates, records, flags, or leaves for human judgment.</p></div>
 
 <div class="cta">
   <p><strong>See the principle in a working tool.</strong></p>
-  <p>CiteVahti applies exactly this division of labour to one narrow question: does a cited source support the specific claim that cites it? The tool retrieves and lines up the claim and the source; you make the call; the decision is recorded with its provenance. It checks support and keeps the trail — it does not certify that the claim is true.</p>
+  <p>CiteVahti applies exactly this division of labour to one narrow question: does a cited source support the specific claim that cites it? The tool retrieves and lines up the claim and the source; you make the call; the decision is recorded with its provenance. It checks support and keeps the trail; it does not certify that the claim is true.</p>
   <a class="btn" href="/citevahti/">See CiteVahti</a>
 </div>
 
 <h2>Related guides</h2>
-<p>Go one level deeper on the last few rows in <a href="/learn/local-models-agents-orchestration/">local models, agents &amp; orchestration</a> — what/why/how, and where the human keeps deciding. For a hands-on test of where a laptop model helps and where it fails, see <a href="/learn/local-models-check-citations/">can a local model check your citations?</a> For the human-AI division of labour in practice, see <a href="/learn/ai-qualitative-coding-human-review/">AI qualitative coding, human-reviewed</a>. More guides are on the <a href="/learn/">Learn page</a>.</p>
+<p>Go one level deeper on the last few rows in <a href="/learn/local-models-agents-orchestration/">local models, agents and orchestration</a>: what/why/how, and where the human keeps deciding. For a hands-on test of where a laptop model helps and where it fails, see <a href="/learn/local-models-check-citations/">can a local model check your citations?</a> For the human-AI division of labour in practice, see <a href="/learn/ai-qualitative-coding-human-review/">AI qualitative coding, human-reviewed</a>. More guides are on the <a href="/learn/">Learn page</a>.</p>
 
 <footer>
   <p><a href="/learn/">← All Learn guides</a> &middot; <a href="/about/">About</a> · <a href="/cite/">Cite</a> · <a href="/privacy/">Privacy</a> · <a href="/">vahtian.com</a> · local-first research integrity tools.</p>

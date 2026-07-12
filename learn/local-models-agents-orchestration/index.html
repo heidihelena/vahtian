@@ -4,14 +4,14 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Local models, agents & orchestration for research · Vahtian Learn</title>
-  <meta name="description" content="A deeper, plain-language guide to running AI models locally, giving them tools (agents), and coordinating those tools (orchestration) for research — what each is, why a private human-first workflow wants it, how to think about it, and where judgment stays with you.">
+  <meta name="description" content="A deeper, plain-language guide to running AI models locally, giving them tools (agents), and coordinating those tools (orchestration) for research: what each is, why a private human-first workflow wants it, and where the judgment stays with you.">
   <meta name="theme-color" content="#2D2440">
   <link rel="canonical" href="https://vahtian.com/learn/local-models-agents-orchestration/">
   <meta name="robots" content="index,follow">
   <meta property="og:type" content="article">
   <meta property="og:url" content="https://vahtian.com/learn/local-models-agents-orchestration/">
   <meta property="og:title" content="Local models, agents & orchestration for research">
-  <meta property="og:description" content="What running models locally, agents, and orchestration are for in research — and where judgment stays with the human. A what/why/how guide.">
+  <meta property="og:description" content="What running models locally, agents, and orchestration are for in research, and where judgment stays with the human. A what/why/how guide.">
   <meta property="og:image" content="https://vahtian.com/brand/cards/vahtian-card.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
@@ -23,7 +23,7 @@
     "@context": "https://schema.org",
     "@type": "TechArticle",
     "headline": "Local models, agents & orchestration for research",
-    "description": "A what/why/how guide to running AI models locally, agents, and agent orchestration for research — and where judgment stays with the human.",
+    "description": "A what/why/how guide to running AI models locally, agents, and agent orchestration for research, and where judgment stays with the human.",
     "url": "https://vahtian.com/learn/local-models-agents-orchestration/",
     "datePublished": "2026-07-12",
     "inLanguage": "en",
@@ -99,7 +99,7 @@
 
 <p class="kicker">Learn · AI methods</p>
 <h1>Local models, agents, and orchestration for research</h1>
-<p class="lede">The <a href="/learn/ai-concepts-for-researchers/">concept map</a> showed what each AI idea does and does not guarantee. This page goes deeper on the three that matter most for a private, human-first workflow: running a model on your own machine, giving it tools, and coordinating those tools — and, at every step, where the judgment stays with you.</p>
+<p class="lede">The <a href="/learn/ai-concepts-for-researchers/">concept map</a> showed what each AI idea does and does not establish. This page goes deeper on the three that matter most for a private, human-first workflow: running a model on your own machine, giving it tools, and coordinating those tools, and at every step, where the judgment stays with you.</p>
 
 <div class="outcomes">
   <p>After this guide you will be able to:</p>
@@ -113,9 +113,9 @@
 <div class="seq" aria-label="On this page">
   <p>On this page</p>
   <ol>
-    <li><a href="#local">Local models — what, why, how</a></li>
-    <li><a href="#agents">Agents — what, why, how</a></li>
-    <li><a href="#orchestration">Orchestration — what, why, how</a></li>
+    <li><a href="#local">Local models: what, why, how</a></li>
+    <li><a href="#agents">Agents: what, why, how</a></li>
+    <li><a href="#orchestration">Orchestration: what, why, how</a></li>
     <li><a href="#memory">Where memory, RAG, and GraphRAG fit</a></li>
     <li><a href="#notai">Why this is still not an "AI researcher"</a></li>
   </ol>
@@ -123,63 +123,63 @@
 
 <h2 id="local">Local models <span class="tag">what · why · how</span></h2>
 <h3>What</h3>
-<p>A local model is an AI model that runs on your own computer instead of a company's server — no cloud call, no API key, no account. Runners like Ollama and llama.cpp now put open models in the 7-to-8-billion-parameter class within reach of a modern laptop, and smaller task-specific models run on almost anything.</p>
-<h3>Why — for research</h3>
+<p>A local model is an AI model that runs on your own computer instead of a company's server, with no cloud call, no API key, and no account. Runners like Ollama and llama.cpp now put open models in the 7-to-8-billion-parameter class within reach of a modern laptop, and smaller task-specific models run on almost anything.</p>
+<h3>Why, for research</h3>
 <ul>
   <li><strong>Privacy by construction.</strong> Interview transcripts, unpublished manuscripts, and sensitive records never leave your device, because there is nowhere for them to go. This is the difference that <a href="/learn/llm-qualitative-data-ethics/">makes AI ethical to use on interview data</a> and lets you <a href="/learn/transcribe-interviews-locally/">transcribe offline</a>.</li>
   <li><strong>No telemetry, no lock-in.</strong> Nothing is logged to a vendor; you are not one policy change away from losing access.</li>
   <li><strong>Reproducibility.</strong> You can pin the exact model and version and record it, so an analysis can be re-run and described honestly in a methods section.</li>
-  <li><strong>Structure can substitute for scale.</strong> A July 2026 study of a control framework called Atomic Task Graph (arXiv:2607.01942) reported that 7-8B local models, given an explicit task structure, matched or beat the same models under weaker control — and on some tasks exceeded a much larger model using a simpler method — across three interactive benchmarks. Read honestly, that is not "small models now equal frontier models". It is narrower and more useful: <em>a local model becomes far more capable when its work is bounded, decomposed, and checked</em> — which is exactly how a research tool should use one.</li>
+  <li><strong>Structure can substitute for scale.</strong> A July 2026 study of a control framework called Atomic Task Graph (arXiv:2607.01942) reported that 7-8B local models, given an explicit task structure, matched or beat the same models under weaker control, and on some tasks exceeded a much larger model using a simpler method, across three interactive benchmarks. Read honestly, that is not "small models now equal frontier models". It is narrower and more useful: <em>a local model becomes far more capable when its work is bounded, decomposed, and checked</em>, which is exactly how a research tool should use one.</li>
 </ul>
 <h3>How</h3>
-<p>Install a runner, pull a model, and point it at one bounded question at a time — draft first-cycle codes, suggest which passage of a source bears on a claim, flag inconsistent terminology. The model answers a narrow local question; the record and the decision stay with you.</p>
-<p class="naught">What it does not do: decide truth. A local model is still a language model — fluent output is not supported output. Our own laptop test found the honest limits: <a href="/learn/local-models-check-citations/">can a local model check your citations?</a></p>
+<p>Install a runner, pull a model, and point it at one bounded question at a time: draft first-cycle codes, suggest which passage of a source bears on a claim, flag inconsistent terminology. The model answers a narrow local question; the record and the decision stay with you.</p>
+<p class="naught">What it does not do: decide truth. A local model is still a language model, and fluent output is not supported output. Our own laptop test found the honest limits: <a href="/learn/local-models-check-citations/">can a local model check your citations?</a></p>
 
 <h2 id="agents">Agents <span class="tag">what · why · how</span></h2>
 <h3>What</h3>
-<p>An agent is a model given tools and a loop: it decides an action, takes it, observes the result, and decides the next one. With the right tools it can retrieve a source, run an analysis, and write out a table — pursuing a goal over several steps rather than answering a single prompt.</p>
-<h3>Why — for research</h3>
-<p>Real research work is multi-step, and the steps depend on each other. An agent can carry a chore across those steps — fetch, extract, compute, format — without you hand-copying between tools. That is genuinely useful for the mechanical parts of a workflow.</p>
-<h3>How — the part that protects the work</h3>
+<p>An agent is a model given tools and a loop: it decides an action, takes it, observes the result, and decides the next one. With the right tools it can retrieve a source, run an analysis, and write out a table, pursuing a goal over several steps rather than answering a single prompt.</p>
+<h3>Why, for research</h3>
+<p>Real research work is multi-step, and the steps depend on each other. An agent can carry a chore across those steps (fetch, extract, compute, format) without you hand-copying between tools. That is genuinely useful for the mechanical parts of a workflow.</p>
+<h3>How: the part that protects the work</h3>
 <p>The safe way to use an agent in research is to decide, in advance, what it is allowed to do on its own. Sort every step into three kinds of node:</p>
 <div class="roles">
-  <div class="role exec"><span class="rl">Machine-executable — may run on its own</span><p>Deterministic, checkable work: parse a citation file, compute an effect estimate, render a plot, hash a protocol, compare two files.</p></div>
-  <div class="role assess"><span class="rl">Machine-assessment — may propose, never finalize</span><p>Judgement-shaped work offered as a suggestion: classify a study design, flag a citation that may not support its claim, propose assumptions to check. Output is a proposal or a warning, not a verdict.</p></div>
-  <div class="role human"><span class="rl">Human-decision — a gate</span><p>Consequential calls that block what comes after them: approve the research question, accept an inclusion decision, judge risk of bias, sign off on an interpretation. These wait for a qualified person.</p></div>
+  <div class="role exec"><span class="rl">Machine-executable · may run on its own</span><p>Deterministic, checkable work: parse a citation file, compute an effect estimate, render a plot, hash a protocol, compare two files.</p></div>
+  <div class="role assess"><span class="rl">Machine-assessment · may propose, never finalize</span><p>Judgement-shaped work offered as a suggestion: classify a study design, flag a citation that may not support its claim, propose assumptions to check. Output is a proposal or a warning, not a verdict.</p></div>
+  <div class="role human"><span class="rl">Human-decision · a gate</span><p>Consequential calls that block what comes after them: approve the research question, accept an inclusion decision, judge risk of bias, sign off on an interpretation. These wait for a qualified person.</p></div>
 </div>
-<p class="naught">What it does not have: authority. Being able to perform a step is not the same as being entitled to decide it — and only the second protects a research record. The agent proposes and does the mechanical work; a person disposes and signs.</p>
+<p class="naught">What it does not have: authority. Being able to perform a step is not the same as being entitled to decide it, and only the second protects a research record. The agent proposes and does the mechanical work; a person disposes and signs.</p>
 
 <h2 id="orchestration">Orchestration <span class="tag">what · why · how</span></h2>
 <h3>What</h3>
-<p>Orchestration is coordinating several bounded tools and agents over a graph — a defined order of steps with their dependencies — instead of asking one large model to do everything at once. Think of it as a workflow diagram the system actually runs, not a single "do my research" prompt.</p>
-<h3>Why — for research</h3>
+<p>Orchestration is coordinating several bounded tools and agents over a graph (a defined order of steps with their dependencies) instead of asking one large model to do everything at once. Think of it as a workflow diagram the system actually runs, not a single "do my research" prompt.</p>
+<h3>Why, for research</h3>
 <ul>
   <li><strong>Small, replaceable, inspectable beats a monolith.</strong> When each step is a bounded tool, you can see what it did, swap a better one in, and improve one part without rebuilding the whole system.</li>
   <li><strong>Independent steps can run in parallel</strong>, and when one step fails you can repair that part rather than restarting everything.</li>
-  <li><strong>Change becomes visible.</strong> The most useful thing an orchestrated research graph can do is answer "if this changes, what must I look at again?". When an upstream object changes — a construct is redefined, a cited source is retracted — the system can trace the dependencies and flag the specific downstream items that now need review, instead of leaving stale conclusions standing.</li>
+  <li><strong>Change becomes visible.</strong> The most useful thing an orchestrated research graph can do is answer "if this changes, what must I look at again?". When an upstream object changes (a construct is redefined, a cited source is retracted) the system can trace the dependencies and flag the specific downstream items that now need review, instead of leaving stale conclusions standing.</li>
 </ul>
 <h3>How</h3>
-<p>Under the hood this needs three things working together, covered next: a place to keep the graph (memory), a way to retrieve from your own material (RAG), and a way to retrieve along relationships (GraphRAG). The orchestration layer walks that structure and routes what it finds to the right node type — automatic for executable steps, a flag for assessments, a gate for human decisions.</p>
+<p>Under the hood this needs three things working together, covered next: a place to keep the graph (memory), a way to retrieve from your own material (RAG), and a way to retrieve along relationships (GraphRAG). The orchestration layer walks that structure and routes what it finds to the right node type: automatic for executable steps, a flag for assessments, a gate for human decisions.</p>
 <p class="naught">What it does not guarantee: that the workflow is scientifically appropriate. A perfectly coordinated graph can still be built around the wrong question. Orchestration keeps the work orderly and its consequences traceable; it does not make the design sound.</p>
 
 <h2 id="memory">Where memory, RAG, and GraphRAG fit</h2>
 <p>These three are the machinery that makes local orchestration worth having, each closing a gap the one before it leaves:</p>
 <ul>
-  <li><strong>Memory</strong> is a persistent record of the work — the graph of objects and decisions — so the workflow, not a disappearing chat log, is the thing you keep and can audit.</li>
-  <li><strong>RAG (retrieval-augmented generation)</strong> lets a model answer from <em>your</em> material — your vault, your papers — instead of its training data alone, and quote what it used.</li>
-  <li><strong>GraphRAG</strong> retrieves along the relationships between objects — this claim, the source it cites, the analysis that source rests on — so questions about how things connect can be answered, which plain retrieval cannot do.</li>
+  <li><strong>Memory</strong> is a persistent record of the work, the graph of objects and decisions, so the workflow, not a disappearing chat log, is the thing you keep and can audit.</li>
+  <li><strong>RAG (retrieval-augmented generation)</strong> lets a model answer from <em>your</em> material (your vault, your papers) instead of its training data alone, and cite what it used.</li>
+  <li><strong>GraphRAG</strong> retrieves along the relationships between objects (this claim, the source it cites, the analysis that source rests on) so questions about how things connect can be answered, which plain chunk retrieval does not reliably do.</li>
 </ul>
 <p>Put together, locally: your material stays on your device, the model works from it, the relationships are explicit, and a change anywhere can be traced to what it affects. Each of these is explained from the ground up in the <a href="/learn/ai-concepts-for-researchers/">concept map</a>.</p>
 
 <h2 id="notai">Why this is still not an "AI researcher"</h2>
-<p>Stack all of it — a private local model, given tools, coordinated over a graph with memory, RAG, and GraphRAG — and you have a capable, private, inspectable assistant. You still do not have something that can be the researcher.</p>
-<p>Every layer here decides <em>where to look and what to show you</em>, faster and more privately than before. Not one of them decides <em>what is true or what is sound</em> — because that is a judgment made by a qualified person about a specific claim, in light of specific evidence and assumptions. Running the model locally does not move that judgment onto the machine; it just keeps the work on your device. Making it agentic does not grant it authority; it only lets it do more steps. Orchestrating it well does not make the science right; it makes the consequences of a change visible so a person can review them.</p>
+<p>Stack all of it (a private local model, given tools, coordinated over a graph with memory, RAG, and GraphRAG) and you have a capable, private, inspectable assistant. You still do not have something that can be the researcher.</p>
+<p>Every layer here decides <em>where to look and what to show you</em>, faster and more privately than before. Not one of them decides <em>what is true or what is sound</em>, because that is a judgment made by a qualified person about a specific claim, in light of specific evidence and assumptions. Running the model locally does not move that judgment onto the machine; it just keeps the work on your device. Making it agentic does not grant it authority; it only lets it do more steps. Orchestrating it well does not make the science right; it makes the consequences of a change visible so a person can review them.</p>
 
-<div class="note key"><p style="margin:0"><span class="h">The one line to keep.</span> Local, agentic, and orchestrated change <em>where the work runs and how well it is tracked</em> — not <em>who decides</em>. Done honestly, this stack does not replace the researcher's judgment; it makes that judgment better-documented and easier to defend.</p></div>
+<div class="note key"><p style="margin:0"><span class="h">The one line to keep.</span> Local, agentic, and orchestrated change <em>where the work runs and how well it is tracked</em>, not <em>who decides</em>. Done honestly, this stack does not replace the researcher's judgment; it makes that judgment better-documented and easier to defend.</p></div>
 
 <div class="cta">
   <p><strong>See the local, human-first approach in the tools.</strong></p>
-  <p>Vahtian's research tools are built on exactly this division of labour: run on your own device, keep the human deciding, and record the trail. StudyVahti helps you plan a defensible study before data collection; QualiVahti Local is the packaged local qualitative workflow — transcription, coding under your review, a codebook, evidence maps, and an audit trail, on your own computer.</p>
+  <p>Vahtian's research tools are built on exactly this division of labour: run on your own device, keep the human deciding, and record the trail. StudyVahti helps you plan a defensible study before data collection; QualiVahti Local is the packaged local qualitative workflow: transcription, coding under your review, a codebook, evidence maps, and an audit trail, on your own computer.</p>
   <div class="btnrow">
     <a class="btn" href="/studyvahti/">See StudyVahti · free</a>
     <a class="btn alt" href="/qualivahti-local/">QualiVahti Local · €49</a>
