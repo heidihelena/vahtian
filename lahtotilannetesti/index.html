@@ -1,0 +1,303 @@
+<!doctype html>
+<html lang="fi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Artikkelin lähtötilannetesti · Vahtian</title>
+<style>
+  :root{--navy:#1C1830;--violet:#6F52B8;--violet-dk:#432C7A;--lilac:#C5B8E8;
+    --teal:#1E9E8A;--gold:#C98A00;--ink:#1C1830;--muted:#6A6280;
+    --paper:#FAF9FC;--card:#FFFFFF;--line:#E4DFF0;}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);
+    font:16px/1.55 -apple-system,Segoe UI,Roboto,Arial,sans-serif;}
+  .wrap{max-width:720px;margin:0 auto;padding:32px 20px 80px}
+  .eyebrow{font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--violet)}
+  h1{font-size:30px;line-height:1.2;margin:.3em 0 .1em}
+  .lede{color:var(--muted);font-size:17px;margin:0 0 8px}
+  .rail{color:var(--muted);font-size:14px;border-left:3px solid var(--line);padding-left:12px;margin:16px 0 22px}
+  .scalekey{font-size:13px;color:var(--muted);background:var(--card);border:1px solid var(--line);
+    border-radius:10px;padding:10px 14px;margin:0 0 20px}
+  .axis{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin:14px 0}
+  .axis h3{font-size:13px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--violet-dk);margin:0 0 12px}
+  .stmt{padding:8px 0;border-top:1px solid var(--paper)}
+  .stmt:first-of-type{border-top:0}
+  .stmt p{margin:0 0 7px;font-size:15px}
+  .scale{display:flex;gap:6px}
+  .scale label{flex:1;text-align:center;border:1px solid var(--line);border-radius:8px;padding:8px 0;
+    cursor:pointer;font-weight:700;color:var(--muted);font-size:14px;user-select:none;position:relative}
+  .scale input{position:absolute;opacity:0;width:0;height:0}
+  .scale label:has(input:checked){background:var(--violet);border-color:var(--violet);color:#fff}
+  .scale label:hover{border-color:var(--violet)}
+  .btn{display:inline-block;background:var(--violet);color:#fff;border:0;border-radius:10px;
+    padding:14px 22px;font-size:16px;font-weight:700;cursor:pointer;margin-top:8px;text-decoration:none}
+  .btn:disabled{background:#C9C1E0;cursor:not-allowed}
+  .btn.ghost{background:transparent;color:var(--violet-dk);border:1px solid var(--line);font-weight:600}
+  .miss{color:var(--gold);font-size:13px}
+  #result{display:none}
+  .block{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px 24px;margin:12px 0}
+  .block h2{font-size:20px;margin:.1em 0 .3em;color:var(--violet-dk)}
+  .kicker{font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase}
+  .k-strong{color:var(--teal)} .k-block{color:var(--gold)} .k-do{color:var(--violet)}
+  .sub{color:var(--muted);font-size:15px;margin:6px 0}
+  .task{background:var(--paper);border-radius:10px;padding:16px;margin:10px 0 0}
+  .task b{color:var(--violet-dk)}
+  .shape{font-size:14px;color:var(--muted);border-left:3px solid var(--line);padding-left:12px;margin:12px 0 0}
+  .note{font-size:13px;color:var(--muted);margin-top:8px}
+  .emailrow{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+  .emailrow input{flex:1;min-width:200px;padding:12px 14px;border:1px solid var(--line);border-radius:10px;font-size:15px}
+  .tools{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+  svg{display:block;margin:4px auto 8px;max-width:100%;height:auto}
+  .foot{color:var(--muted);font-size:12px;margin-top:40px}
+  /* ---- 4-page PDF report (näkyy vain tulostuksessa) ---- */
+  #report{display:none}
+  @media print{
+    .wrap > *{display:none!important}
+    #report{display:block!important}
+    body{background:#fff;color:#000}
+    .wrap{max-width:100%;padding:0}
+    .page{break-after:page;padding:24px 4px 0}
+    .page:last-child{break-after:auto}
+    .page h2{font-size:20px;color:#432C7A;margin:0 0 4px}
+    .page .lbl{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#6A6280;margin:14px 0 2px}
+    .page p{margin:2px 0 8px;font-size:14px}
+    .rbrand{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#6F52B8;font-weight:700}
+    .rline{border-top:1px solid #ddd;margin-top:24px;padding-top:8px;font-size:11px;color:#888}
+    a{color:#000;text-decoration:none}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="eyebrow">Vahtian · Agile Writing</div>
+  <h1>Mikä oikeasti estää tutkimusartikkeliasi valmistumasta?</h1>
+  <p class="lede">Tämä testi ei mittaa motivaatiota, lahjakkuutta tai sitä, oletko hyvä kirjoittaja. Se näyttää, missä työsi on vahvaa ja missä se on jumissa.</p>
+  <p class="rail">Arvioi jokainen väittämä sen mukaan, miten hyvin se kuvaa tilannettasi nyt. Testi laskee tuloksen omassa selaimessasi.</p>
+  <div class="scalekey"><b>Asteikko:</b> 1 = ei lainkaan, 2 = vähän, 3 = osittain, 4 = melko hyvin, 5 = täysin.</div>
+
+  <form id="test"></form>
+  <button class="btn" id="calc" disabled>Näytä tulokseni</button>
+  <p class="miss" id="progress"></p>
+
+  <div id="result"></div>
+  <div id="report"></div>
+  <p class="foot">Vahtian · vahtian.com. Tutkimus on tehty. Seuraava tehtävä on tehdä siitä artikkeli.</p>
+</div>
+
+<script>
+const AXES = [
+ {key:"A", name:"Selkärangan selkeys", short:"Selkäranka",
+  s:["Tutkimuskysymykseni on tarkasti rajattu.","Osaan nimetä yhden tärkeimmän tuloksen.",
+     "Osaan sanoa artikkelin pääviestin yhdellä lauseella.","Tiedän, mitä tämä artikkeli ei käsittele."]},
+ {key:"B", name:"Fokuksen tarkkuus", short:"Fokus",
+  s:["Tiedän, mikä taulukko tai kuvio kantaa artikkelin pääviestiä.","Olen asettanut tulokset tärkeysjärjestykseen.",
+     "Kaikki kiinnostavat havainnot eivät ole samassa artikkelissa.","Jokaisella osiolla on selvä tehtävä."]},
+ {key:"C", name:"Prosessin hallinta", short:"Prosessi",
+  s:["Tiedän aina seuraavan kirjoitustehtävän.","Olen jakanut työn lyhyisiin kirjoitusjaksoihin.",
+     "Teksti, taulukot ja kommentit ovat yhdessä paikassa.","En kuluta kirjoitusaikaa vanhan tekstin hiomiseen."]},
+ {key:"D", name:"Valmiuden tunnistaminen", short:"Valmius",
+  s:["Tiedän, milloin luonnos on valmis ohjaajalle.","Erotan välttämättömät korjaukset kosmeettisista.",
+     "Palaute johtaa rajattuun korjauskierrokseen.","Käsikirjoituksella on selvä seuraava kohde."]}
+];
+const STRENGTH = {
+ A:"Selkäranka on vahva: tiedät, mihin kysymykseen artikkeli vastaa. Se on paras mahdollinen lähtökohta.",
+ B:"Fokus on vahva: osaat valita, mikä kuuluu tähän artikkeliin ja mikä ei. Harvinaista ja arvokasta.",
+ C:"Prosessi on vahva: osaat pitää työn liikkeessä pienin askelin. Se kantaa vaikeiden vaiheiden yli.",
+ D:"Valmiuden tunnistaminen on vahva: erotat riittävän hyvän täydellisestä. Se estää loputtoman hiomisen."};
+const BLOCK = {
+ A:{h:"Selkärangan puute hidastaa etenemistäsi. Kyse on päätöksestä, ei kirjoittamisesta.",
+    sub:"Kun selkäranka ei ole selvä, seuraavat tehtävät jäävät liian suuriksi.",
+    task:"Päätä yksi kysymys ja yksi tärkein tulos, joiden varaan artikkeli rakentuu."},
+ B:{h:"Fokuksen puute hidastaa etenemistäsi. Artikkeli yrittää sanoa liian monta asiaa.",
+    sub:"Kun fokus ei ole selvä, rakenne ja kirjoitusjärjestys horjuvat.",
+    task:"Valitse yksi taulukko tai kuvio jutun ytimeksi."},
+ C:{h:"Hajonnut prosessi hidastaa etenemistäsi. Yksi iso tehtävä on liian suuri aloitettavaksi.",
+    sub:"Kun prosessi ei ole hallussa, selkeäkin artikkeli etenee nykien.",
+    task:"Pilko seuraava kirjoituskerta yhdeksi rajatuksi tehtäväksi."},
+ D:{h:"Valmiuden rajan puute hidastaa etenemistäsi. Käsikirjoitus on lähempänä valmista kuin arvaat.",
+    sub:"Kun valmiuden raja puuttuu, hyväkin käsikirjoitus jää kiertämään.",
+    task:"Päätä, mitä valmis tarkoittaa nyt: ohjaajalle lähetettävä versio."}
+};
+// 4-sivuisen raportin sisältö
+const INTERP = {
+ A:{m:"Artikkelin pääviesti ei ole vielä päätetty. Kyse on päätöksestä, ei kirjoittamisesta.",
+    n:"Se ei tarkoita, että et osaisi kirjoittaa tai että tutkimus olisi heikko.",
+    w:"Kirjoittaminen ei etene, ennen kuin on yksi kysymys ja yksi tulos, joiden varaan rakentaa. Ilman selkärankaa jokainen lause tuntuu keinotekoiselta."},
+ B:{m:"Materiaalia on, mutta hierarkia puuttuu. Artikkeli yrittää sanoa liian montaa asiaa.",
+    n:"Se ei tarkoita, että tulokset olisivat heikkoja tai että pitäisi kerätä lisää.",
+    w:"Rakenne ei vakiinnu, ennen kuin yksi ydintaulukko valitaan kantamaan viestiä. Monta tarinaa yhtä aikaa pysäyttää työn."},
+ C:{m:"Iso osa työstä on tehty, mutta tehtävät ovat liian suuria ja sekaisin.",
+    n:"Se ei tarkoita, että olisit laiska tai hidas.",
+    w:"Projektin kokoista tehtävää on vaikea aloittaa ja mahdoton lopettaa. Työ liikkuu vasta, kun jokaisella kerralla on yksi rajattu tulos."},
+ D:{m:"Käsikirjoitus on lähellä valmista, mutta valmiuden raja puuttuu.",
+    n:"Se ei tarkoita, että työ olisi keskeneräistä tai heikkoa.",
+    w:"Ilman rajaa jokainen korjaus tuo uuden. Valmis tarkoittaa palautekelpoista, ei täydellistä."},
+ LOW:{m:"Kaikki neljä aluetta ovat vielä matalia. Et ole vielä artikkelivaiheessa.",
+    n:"Se ei ole huono uutinen eikä tarkoita, että olisit myöhässä.",
+    w:"Ennen kirjoittamista tarvitaan tutkimuskysymyksen rajaus, aineisto ja analyysit. Se on eri työ, joka tulee ensin."},
+ HIGH:{m:"Kaikki neljä aluetta ovat vahvoja. Käsikirjoitus on lähellä palautekelpoista versiota.",
+    n:"Se ei tarkoita, että työ olisi täydellinen, vaan että se on valmis arvioitavaksi.",
+    w:"Rakenteellista pullonkaulaa ei ole. Seuraava askel on palaute, ei hiominen."}
+};
+const PLAN = {
+ A:{d:"Valitse yksi tutkimuskysymys ja yksi tärkein tulos.",
+    s:"Kirjoita neljä lausetta: Tutkimme, liittyykö… / Tärkein havaintomme oli… / Tämä tarkoittaa rajatusti, että… / Tämä artikkeli ei käsittele…",
+    a:"Yhden kappaleen pääviesti, joka nojaa yhteen tulokseen.", x:"Älä kirjoita johdantoa."},
+ B:{d:"Valitse yksi ydintaulukko tai kuvio, joka kantaa pääviestiä.",
+    s:"Kirjoita, mikä tutkimuskysymys tekee siitä tärkeän ja mitkä tulokset kuuluvat liitteeseen tai toiseen artikkeliin.",
+    a:"Tulosten tärkeysjärjestys ja pääviesti yhdellä lauseella.", x:"Älä yritä mahduttaa kaikkia löydöksiä samaan artikkeliin."},
+ C:{d:"Pilko seuraava kirjoituskerta yhdeksi rajatuksi tehtäväksi.",
+    s:"Kirjoita 150 sanan kappale yhden taulukon tärkeimmästä tuloksesta ilman tulkintaa.",
+    a:"Yksi valmis kappale ja lista seuraavista rajatuista tehtävistä.", x:"Älä hio vanhaa tekstiä, ennen kuin puuttuvat osat on kirjoitettu."},
+ D:{d:"Päätä, mitä valmis tarkoittaa nyt: palautekelpoinen versio ohjaajalle.",
+    s:"Käy läpi viisi tarkistuskohtaa ja korjaa vain ne, jotka estävät kokonaisarvion.",
+    a:"Palautekelpoinen versio ja lyhyt saate, jossa kerrot mitä palautetta pyydät.", x:"Älä avaa uutta korjauskierrosta ennen palautetta."},
+ LOW:{d:"Rajaa yksi tutkimuskysymys, johon aineistosi voi vastata.",
+    s:"Tarkista, mitä analyysejä kysymys vaatii ja mitä sinulla jo on.",
+    a:"Yhden sivun tutkimusasetelma: kysymys, aineisto, suunnitellut analyysit.", x:"Älä aloita artikkelin kirjoittamista vielä."},
+ HIGH:{d:"Päätä, kenelle lähetät version ja mitä palautetta pyydät.",
+    s:"Kirjoita yhden kappaleen saate ja lähetä käsikirjoitus tällä viikolla.",
+    a:"Lähetetty versio ja kirjattu palautepyyntö.", x:"Älä jää hiomaan yksityiskohtia ennen palautetta."}
+};
+
+// ---- PDF (window.print) + jako ----
+const SHARE_URL="https://vahtian.com/lahtotilannetesti"; // päivitä oikeaan osoitteeseen
+function shareResult(){
+  const text="Selvitin, mikä oikeasti estää ensimmäisen tutkimusartikkelini valmistumisen. Testaa omasi (noin 5 min):";
+  if(navigator.share){ navigator.share({title:"Artikkelin lähtötilannetesti", text, url:SHARE_URL}).catch(()=>{}); }
+  else { try{navigator.clipboard.writeText(text+" "+SHARE_URL);}catch(e){}
+    window.open("https://www.linkedin.com/sharing/share-offsite/?url="+encodeURIComponent(SHARE_URL),"_blank","noopener,noreferrer"); }
+}
+const BREVO_ACTION="https://f9b96982.sibforms.com/serve/MUIFAAB757rhu8MVhDJlN9BJPAGUYIdrnK641P-k4elvsNM_SXbaGlvw_mEKi_ZKSOL6s5su6kymXVQpef21lPp4LDjZIReEaDIJymWbRVSAAd04kHT9_7EC-j9Xu7kJHokQnE0gTHc2Anz4sil6wS9DCJC2lbDZNQAzDD9Pw9BCH0F6kZ46UpZhgEwuxAMFo3_oPAIItS58ChZCTw==";
+function sendReport(){
+  const el=document.getElementById("email"); const v=(el&&el.value||"").trim();
+  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v)){ el.focus(); el.style.borderColor="#B23A48"; return; }
+  // Brevo: lähetys vain käyttäjän omasta klikkauksesta (double opt-in vahvistaa listalle)
+  const fd=new FormData();
+  fd.append("EMAIL",v); fd.append("email_address_check",""); fd.append("locale","en"); fd.append("html_type","simple");
+  fetch(BREVO_ACTION,{method:"POST",mode:"no-cors",body:fd}).catch(()=>{});
+  const row=el.closest(".emailrow");
+  if(row) row.outerHTML="<p style='margin-top:10px;color:var(--teal);font-weight:600'>Melkein valmista: vahvista tilaus sähköpostiisi tulleesta linkistä, niin suunnitelma ja uusintatestin ohjeet lähtevät matkaan.</p>";
+  window.print(); // henkilökohtainen 4-sivuinen raportti tulostuu / tallentuu PDF:nä
+}
+
+// ---- build the form ----
+const form=document.getElementById("test");
+AXES.forEach((ax,ai)=>{
+  const d=document.createElement("div"); d.className="axis";
+  let h="<h3>"+ax.name+"</h3>";
+  ax.s.forEach((st,si)=>{ h+="<div class='stmt'><p>"+st+"</p><div class='scale'>";
+    for(let v=1;v<=5;v++) h+="<label><input type='radio' name='q"+ai+"_"+si+"' value='"+v+"'>"+v+"</label>";
+    h+="</div></div>"; });
+  d.innerHTML=h; form.appendChild(d);
+});
+const TOTAL=AXES.length*4;
+const calc=document.getElementById("calc"), prog=document.getElementById("progress");
+form.addEventListener("change",()=>{ const n=form.querySelectorAll("input:checked").length;
+  prog.textContent = n<TOTAL ? ("Vastattu "+n+" / "+TOTAL) : "Kaikki arvioitu."; calc.disabled=n<TOTAL; });
+
+// ---- radar (pure SVG; vals=null → tyhjä vertailupohja) ----
+function radar(vals){
+  const cx=160,cy=180,R=115, ang=[-Math.PI/2,0,Math.PI/2,Math.PI];
+  const pt=(i,r)=>[cx+r*Math.cos(ang[i]), cy+r*Math.sin(ang[i])];
+  let s='<svg viewBox="0 0 320 360" width="320" role="img" aria-label="Kirjoitusprofiili">';
+  for(let g=1;g<=5;g++){ const p=[0,1,2,3].map(i=>pt(i,R*g/5).map(n=>n.toFixed(1)).join(",")).join(" ");
+    s+='<polygon points="'+p+'" fill="none" stroke="#E4DFF0" stroke-width="1"/>'; }
+  [0,1,2,3].forEach(i=>{const[x,y]=pt(i,R);s+='<line x1="'+cx+'" y1="'+cy+'" x2="'+x.toFixed(1)+'" y2="'+y.toFixed(1)+'" stroke="#E4DFF0"/>';});
+  if(vals){ const dp=vals.map((v,i)=>pt(i,R*Math.max(v,0.2)/5).map(n=>n.toFixed(1)).join(",")).join(" ");
+    s+='<polygon points="'+dp+'" fill="#6F52B8" fill-opacity="0.22" stroke="#6F52B8" stroke-width="2"/>';
+    vals.forEach((v,i)=>{const[x,y]=pt(i,R*Math.max(v,0.2)/5);s+='<circle cx="'+x.toFixed(1)+'" cy="'+y.toFixed(1)+'" r="3.5" fill="#6F52B8"/>';}); }
+  const lab=[[160,44,30,"middle"],[314,178,193,"end"],[160,320,336,"middle"],[6,178,193,"start"]];
+  AXES.forEach((ax,i)=>{const[x,ny,sy,an]=lab[i];
+    s+='<text x="'+x+'" y="'+ny+'" text-anchor="'+an+'" font-size="12" font-weight="700" fill="#432C7A">'+ax.short+'</text>';
+    if(vals) s+='<text x="'+x+'" y="'+sy+'" text-anchor="'+an+'" font-size="11" fill="#6A6280">'+vals[i].toFixed(1)+' / 5</text>';});
+  return s+'</svg>';
+}
+
+calc.addEventListener("click",()=>{
+  const avg=AXES.map((ax,ai)=>{let sum=0;for(let si=0;si<4;si++)sum+=+form.querySelector('input[name="q'+ai+'_'+si+'"]:checked').value;return sum/4;});
+  const order=[0,1,2,3].sort((a,b)=>avg[a]-avg[b]);
+  const lowIdx=order[0], secIdx=order[1], hiIdx=order[3];
+  const maxV=Math.max(...avg), minV=Math.min(...avg);
+  const contentKey = maxV<2.5 ? "LOW" : (minV>=4 ? "HIGH" : AXES[lowIdx].key);
+  window.__seg = AXES[lowIdx].key; window.__scores = avg.map(v=>v.toFixed(1)).join(",");
+
+  // ---------- NÄYTTÖ: profiili → vahvuus → este → tehtävä → PDF → jako ----------
+  let html="<div class='block'><div class='kicker k-do'>Tulosprofiili</div>"+radar(avg)+"</div>";
+  html+="<div class='block'><div class='kicker k-strong'>Tässä olet vahva</div>";
+  html+="<p>"+STRENGTH[AXES[hiIdx].key]+" <span class='sub'>("+AXES[hiIdx].name+" "+avg[hiIdx].toFixed(1)+" / 5)</span></p></div>";
+
+  if(contentKey==="LOW"){
+    html+="<div class='block'><div class='kicker k-block'>Tämä hidastaa etenemistäsi</div>";
+    html+="<h2>Työ ei ole vielä kirjoitusvaiheessa</h2><p>Kaikki neljä aluetta ovat vielä matalia. Se tarkoittaa, ettet ole vielä artikkelivaiheessa. <b>Tarvitset tutkimussuunnittelua, et Agile Writingia.</b> Se on eri työ ja tulee ennen kirjoittamista.</p>";
+    html+="<p class='miss'>Jos sinulla ei vielä ole aineistoa tai analysoituja tuloksia, aloita niistä.</p></div>";
+  } else if(contentKey==="HIGH"){
+    html+="<div class='block'><div class='kicker k-block'>Tämä hidastaa etenemistäsi</div>";
+    html+="<h2>Ei rakenteellista pullonkaulaa</h2><p>Nelikulmio on tasainen ja suuri. Seuraava askel on lähettää käsikirjoitus palautteelle, ei jäädä hiomaan.</p></div>";
+  } else {
+    const b=BLOCK[contentKey];
+    html+="<div class='block'><div class='kicker k-block'>Tämä hidastaa etenemistäsi</div><h2>"+b.h+"</h2>";
+    html+="<p class='sub'><b>Pääpullonkaula:</b> "+AXES[lowIdx].name+" "+avg[lowIdx].toFixed(1)+" / 5</p>";
+    html+="<p class='sub'><b>Toissijainen:</b> "+AXES[secIdx].name+" "+avg[secIdx].toFixed(1)+" / 5. "+b.sub+"</p>";
+    if(Math.abs(avg[lowIdx]-avg[secIdx])<0.6)
+      html+="<p class='shape'>Kaksi aluetta on lähes yhtä matalalla. Ongelmat liittyvät toisiinsa. Ratkaise ensin pääasiallinen este, niin toinenkin kevenee itsestään.</p>";
+    else
+      html+="<p class='shape'>Yksi selvä viesti. Sinulla on yksi pullonkaula, ei hajanaista ongelmaa. Se on hyvä uutinen!</p>";
+    html+="</div>";
+  }
+  const pk=PLAN[contentKey];
+  html+="<div class='block'><div class='kicker k-do'>Tee tämä seuraavaksi</div><div class='task'>"+ (contentKey in BLOCK ? BLOCK[contentKey].task : pk.s) +"</div></div>";
+
+  // PDF-lohko (sähköposti vasta täydelliseen raporttiin) — ennen jakoa
+  html+="<div class='block'><div class='kicker k-do'>Tallenna henkilökohtainen suunnitelmasi</div>"
+   +"<p class='sub'>Perustuloksesi on jo yllä. Sähköpostilla saat tallennettavan raportin ja seitsemän päivän kirjoitussuunnitelman.</p>"
+   +"<div class='emailrow'><input id='email' type='email' inputmode='email' placeholder='sähköpostiosoitteesi' aria-label='sähköposti'>"
+   +"<button class='btn' type='button' onclick='sendReport()'>Lähetä minulle raportti ja 7 päivän suunnitelma</button></div>"
+   +"<p class='note'>Reilu vaihtokauppa: tulos on jo näkyvissä. Sähköpostilla saat tallennettavan ja toiminnallisen version. Voit poistua listalta milloin tahansa.</p></div>";
+
+  // Jako (kevyt kasvutoiminto, PDF:n jälkeen)
+  html+="<div class='block'><div class='kicker k-strong'>Jaa profiilisi halutessasi</div>"
+   +"<p class='sub'>Jako kutsuu muut testiin. Se ei paljasta pistemäärääsi.</p>"
+   +"<div class='tools'><button class='btn ghost' type='button' onclick='shareResult()'>Jaa tuloksesi</button></div></div>";
+
+  // kurssi
+  html+="<div class='block'><p><b>Agile Writing</b> vahvistaa neljää aluetta, joista toimiva käsikirjoitus rakentuu: artikkelin selkärankaa, fokusta, kirjoitusprosessia ja valmiuden tunnistamista.</p>"
+   +"<p>Kurssilla työskentelet oman artikkelisi kanssa. Määrittelet pääviestin, rakennat rakenteen, jaat työn hallittaviin kirjoitusjaksoihin ja viet käsikirjoituksen palautekelpoiseen muotoon.</p>"
+   +"<p>Kurssin lopussa teet testin uudelleen ja näet edistymisesi.</p>"
+   +"<a class='btn ghost' href='#'>Kerro Agile Writing -webinaarista</a></div>";
+
+  const out=document.getElementById("result"); out.innerHTML=html; out.style.display="block";
+
+  // ---------- 4-SIVUINEN PDF-RAPORTTI ----------
+  const it=INTERP[contentKey], pl=PLAN[contentKey];
+  const scores = AXES.map((ax,i)=>ax.short+" "+avg[i].toFixed(1)+" / 5").join(" · ");
+  const rep=
+   "<section class='page'><div class='rbrand'>Vahtian · Agile Writing</div>"
+   +"<h2>Oma kirjoitusprofiili</h2>"+radar(avg)
+   +"<p><b>Pisteet:</b> "+scores+"</p>"
+   +"<p><b>Pääpullonkaula:</b> "+AXES[lowIdx].name+" ("+avg[lowIdx].toFixed(1)+" / 5)</p>"
+   +"<p><b>Toissijainen pullonkaula:</b> "+AXES[secIdx].name+" ("+avg[secIdx].toFixed(1)+" / 5)</p>"
+   +"<p class='rline'>Tulos laskettu omassa selaimessasi. Ei kliininen eikä diagnostinen arvio.</p></section>"
+
+   +"<section class='page'><div class='rbrand'>Tulkinta</div>"
+   +"<div class='lbl'>Mitä tulos tarkoittaa</div><p>"+it.m+"</p>"
+   +"<div class='lbl'>Mitä se ei tarkoita</div><p>"+it.n+"</p>"
+   +"<div class='lbl'>Miksi artikkeli todennäköisesti pysähtyy tähän</div><p>"+it.w+"</p></section>"
+
+   +"<section class='page'><div class='rbrand'>Seitsemän päivän suunnitelma</div>"
+   +"<div class='lbl'>Yksi päätös</div><p>"+pl.d+"</p>"
+   +"<div class='lbl'>Yksi kirjoitusjakso</div><p>"+pl.s+"</p>"
+   +"<div class='lbl'>Yksi valmis artefakti</div><p>"+pl.a+"</p>"
+   +"<div class='lbl'>Yksi asia, jota et vielä tee</div><p>"+pl.x+"</p></section>"
+
+   +"<section class='page'><div class='rbrand'>Uusintatesti</div>"
+   +"<div class='lbl'>Päivämäärä</div><p>________________</p>"
+   +"<div class='lbl'>Tavoite seuraavalle mittaukselle</div><p>Nosta <b>"+AXES[lowIdx].name+"</b> tasolta "+avg[lowIdx].toFixed(1)+" tasolle ______.</p>"
+   +"<div class='lbl'>Tyhjä profiili vertailua varten</div>"+radar(null)+"</section>";
+  document.getElementById("report").innerHTML=rep;
+
+  out.scrollIntoView({behavior:"smooth"});
+});
+</script>
+</body>
+</html>
