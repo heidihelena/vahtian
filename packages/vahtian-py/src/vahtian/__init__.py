@@ -9,7 +9,7 @@ Human-first. AI-second. Auditable. Apache-2.0.
 from .provenance import Corpus, freeze, load, content_hash, record_id, SPEC_VERSION
 from .audit import Ledger
 
-__version__ = "0.1.0"
+__version__ = "0.1.1"
 __all__ = ["Corpus", "freeze", "load", "verify", "content_hash", "record_id",
            "Ledger", "SPEC_VERSION", "__version__"]
 
