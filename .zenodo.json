@@ -1,0 +1,32 @@
+{
+  "title": "Vahtian: human-first, auditable research-integrity tools",
+  "description": "Vahtian builds local-first, human-first research-integrity tools that assess whether a cited source supports a claim and record auditable decisions — CiteVahti, StudyVahti, MethodVahti, DictVahti, MatchVahti-Lite, ReviewVahti, ExtractVahti, GuidelineVahti, SynthVahti. It does not certify scientific truth.",
+  "upload_type": "software",
+  "access_right": "open",
+  "license": "Apache-2.0",
+  "creators": [
+    {
+      "name": "Andersén, Heidi Helena",
+      "orcid": "0000-0001-5923-5865"
+    }
+  ],
+  "keywords": [
+    "research integrity",
+    "citation integrity",
+    "systematic review",
+    "evidence synthesis",
+    "local-first"
+  ],
+  "related_identifiers": [
+    {
+      "identifier": "https://github.com/heidihelena/vahtian",
+      "relation": "isSupplementTo",
+      "scheme": "url"
+    },
+    {
+      "identifier": "https://vahtian.com",
+      "relation": "isDocumentedBy",
+      "scheme": "url"
+    }
+  ]
+}
