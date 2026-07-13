@@ -1,8 +1,10 @@
 # vahtian
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21339127.svg)](https://doi.org/10.5281/zenodo.21339127)
+
 Company site for **Vahtian** — research citation integrity.
 
-**Vahtian verifies whether each manuscript claim is supported by the evidence
+**Vahtian checks whether each manuscript claim is supported by the evidence
 cited for it** — through a blinded human → AI → adjudication workflow with a
 decision-gated, undoable write and a hash-chained audit trail.
 
@@ -15,8 +17,8 @@ infrastructure for journals, guideline groups, and research organizations.
 
 ## The product ladder
 
-**Start** — verify the claims in your own manuscript
-- **CiteVahti** — verify that each claim is supported by the source cited for it
+**Start** — check the claims in your own manuscript
+- **CiteVahti** — check that each claim is supported by the source cited for it
   *(free beta)*: https://github.com/heidihelena/citevahti
 
 **Prepare** — get the study and its evidence right before analysis
