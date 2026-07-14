@@ -188,14 +188,7 @@ const PLAN = {
     a:"Lähetetty versio ja kirjattu palautepyyntö.", x:"Älä jää hiomaan yksityiskohtia ennen palautetta."}
 };
 
-// ---- PDF (window.print) + jako ----
-const SHARE_URL="https://vahtian.com/lahtotilannetesti"; // päivitä oikeaan osoitteeseen
-function shareResult(){
-  const text="Selvitin, mikä oikeasti estää ensimmäisen tutkimusartikkelini valmistumisen. Testaa omasi (noin 5 min):";
-  if(navigator.share){ navigator.share({title:"Artikkelin lähtötilannetesti", text, url:SHARE_URL}).catch(()=>{}); }
-  else { try{navigator.clipboard.writeText(text+" "+SHARE_URL);}catch(e){}
-    window.open("https://www.linkedin.com/sharing/share-offsite/?url="+encodeURIComponent(SHARE_URL),"_blank","noopener,noreferrer"); }
-}
+// ---- PDF (window.print) ----
 const BREVO_ACTION="https://f9b96982.sibforms.com/serve/MUIFAAB757rhu8MVhDJlN9BJPAGUYIdrnK641P-k4elvsNM_SXbaGlvw_mEKi_ZKSOL6s5su6kymXVQpef21lPp4LDjZIReEaDIJymWbRVSAAd04kHT9_7EC-j9Xu7kJHokQnE0gTHc2Anz4sil6wS9DCJC2lbDZNQAzDD9Pw9BCH0F6kZ46UpZhgEwuxAMFo3_oPAIItS58ChZCTw==";
 function sendReport(){
   const el=document.getElementById("email"); const v=(el&&el.value||"").trim();
@@ -205,7 +198,7 @@ function sendReport(){
   fd.append("EMAIL",v); fd.append("email_address_check",""); fd.append("locale","en"); fd.append("html_type","simple");
   fetch(BREVO_ACTION,{method:"POST",mode:"no-cors",body:fd}).catch(()=>{});
   const row=el.closest(".emailrow");
-  if(row) row.outerHTML="<p style='margin-top:10px;color:var(--teal);font-weight:600'>Melkein valmista: vahvista tilaus sähköpostiisi tulleesta linkistä, niin suunnitelma ja uusintatestin ohjeet lähtevät matkaan.</p>";
+  if(row) row.outerHTML="<p style='margin-top:10px;color:var(--teal);font-weight:600'>Raportti tallentuu nyt laitteellesi. Vahvista vielä tilauksesi sähköpostiin tulleesta linkistä.</p>";
   window.print(); // henkilökohtainen 4-sivuinen raportti tulostuu / tallentuu PDF:nä
 }
 
@@ -278,15 +271,11 @@ calc.addEventListener("click",()=>{
 
   // PDF-lohko (sähköposti vasta täydelliseen raporttiin) — ennen jakoa
   html+="<div class='block'><div class='kicker k-do'>Tallenna henkilökohtainen suunnitelmasi</div>"
-   +"<p class='sub'>Perustuloksesi on jo yllä. Sähköpostilla saat tallennettavan raportin ja seitsemän päivän kirjoitussuunnitelman.</p>"
+   +"<p class='sub'>Raportti ja seitsemän päivän suunnitelma tallentuvat laitteellesi PDF:nä. Sähköpostiisi tulee vahvistuslinkki, ja vahvistamalla olet mukana, kun lyhyt kirjesarja artikkelin loppuun saattamisesta alkaa.</p>"
    +"<div class='emailrow'><input id='email' type='email' inputmode='email' placeholder='sähköpostiosoitteesi' aria-label='sähköposti'>"
-   +"<button class='btn' type='button' onclick='sendReport()'>Lähetä minulle raportti ja 7 päivän suunnitelma</button></div>"
-   +"<p class='note'>Reilu vaihtokauppa: tulos on jo näkyvissä. Sähköpostilla saat tallennettavan ja toiminnallisen version. Voit poistua listalta milloin tahansa.</p></div>";
+   +"<button class='btn' type='button' onclick='sendReport()'>Lataa raportti ja liity listalle</button></div>"
+   +"<p class='note'>Reilu vaihtokauppa: perustulos näkyy ilman sähköpostia, ja raportti tallentuu koneellesi, ei pilveen. Listalta voi poistua milloin tahansa.</p></div>";
 
-  // Jako (kevyt kasvutoiminto, PDF:n jälkeen)
-  html+="<div class='block'><div class='kicker k-strong'>Jaa profiilisi halutessasi</div>"
-   +"<p class='sub'>Jako kutsuu muut testiin. Se ei paljasta pistemäärääsi.</p>"
-   +"<div class='tools'><button class='btn ghost' type='button' onclick='shareResult()'>Jaa tuloksesi</button></div></div>";
 
   // kurssi
   html+="<div class='block'><p><b>Agile Writing</b> vahvistaa neljää aluetta, joista toimiva käsikirjoitus rakentuu: artikkelin selkärankaa, fokusta, kirjoitusprosessia ja valmiuden tunnistamista.</p>"
