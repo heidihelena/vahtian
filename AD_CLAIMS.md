@@ -100,7 +100,7 @@ Reserve strong positioning words for exactly what they mean:
 
 ### Canonical names & punctuation
 
-- Product names: **CiteVahti, StudyVahti, MethodVahti, DictVahti, MatchVahti-Lite** (hyphen), **ReviewVahti, FullVahti, ExtractVahti, SynthVahti, GuidelineVahti, AtlasVahti**; packages **EpiNet, RecoverLite, AuditLite**. Kits: **QualiVahti Local, Research Domain Cube, Manuscript Kit, Reviewer Response Builder, Reviewer's Notebook, AI Disclosure Kit, MethodVahti Sample Defence Pack**.
+- Product names: **CiteVahti, StudyVahti, MethodVahti, DictVahti, MatchVahti-Lite** (hyphen), **ReviewVahti, FullVahti, ExtractVahti, SynthVahti, GuidelineVahti, AtlasVahti**; packages **EpiNet, RecoverLite, AuditLite**. Kits: **QualiVahti Local, Research Strategy Kit, Manuscript Kit, Reviewer Response Builder, Reviewer's Notebook, AI Disclosure Kit, MethodVahti Sample Defence Pack**.
 - **"open-source"** as an adjective (open-source tools); **"open source"** as a noun (released as open source).
 - Author credential: **"MD, PhD"** (comma), everywhere — bylines, meta, and JSON-LD `honorificSuffix`.
 - **"risk-of-bias"** hyphenated as a modifier (risk-of-bias assessment).
