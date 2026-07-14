@@ -19,4 +19,30 @@ L.append("ai:opus/pv1", "advise", {"record_id": "pmid:12345", "value": "supporte
 assert L.verify()                     # retro-edits break the chain
 ```
 
+**Compare** a claim against a cited source's finding, deterministically. An
+assistant (AI or human — the ledger records which) reduces each to the same
+structured `Assertion`; `compare()` is plain code that reports where the two
+agree, conflict, or say nothing, and proposes a candidate label. A human makes
+the decision — the comparator never does — and every step lands in the ledger.
+It checks claim–source support, not truth.
+
+```python
+from dataclasses import asdict
+
+claim  = vahtian.Assertion(outcome="all-cause mortality", direction="decrease",
+                           effect_type="HR", effect_value=0.72,
+                           quote="cut mortality (HR 0.72)")
+source = vahtian.Assertion(outcome="all-cause mortality", direction="decrease",
+                           effect_type="HR", effect_value=0.72, locator="table 2")
+
+L.append("ai:opus/pv1", "extract_claim", asdict(claim))
+L.append("ai:opus/pv1", "extract_source", asdict(source))
+a = vahtian.compare(claim, source)    # deterministic; same inputs → same result
+a.record(L)                           # candidate "aligned", hashes of both inputs
+L.append("human:hha", "decide", {"decision": "supported",
+                                 "candidate": a.candidate,
+                                 "claim_hash": a.claim_hash})
+assert L.verify()
+```
+
 `vahti` (Finnish) = sentinel / guard. Human-first. AI-second. Auditable. Apache-2.0.

@@ -8,10 +8,12 @@ Human-first. AI-second. Auditable. Apache-2.0.
 """
 from .provenance import Corpus, freeze, load, content_hash, record_id, SPEC_VERSION
 from .audit import Ledger
+from .compare import Assertion, Assessment, compare, COMPARATOR_ID
 
 __version__ = "0.1.1"
 __all__ = ["Corpus", "freeze", "load", "verify", "content_hash", "record_id",
-           "Ledger", "SPEC_VERSION", "__version__"]
+           "Ledger", "SPEC_VERSION", "__version__",
+           "Assertion", "Assessment", "compare", "COMPARATOR_ID"]
 
 
 def verify(corpus: "Corpus") -> bool:
