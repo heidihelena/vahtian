@@ -54,6 +54,13 @@ it sells nothing here.
 **Structural tells** (the giveaways are shapes, not just words):
 - **The "not just X, but Y" / "it's not about X — it's about Y" pivot.** Overused
   by models. State the thing plainly instead.
+- **The "That is not X. It is Y." reversal.** ("That is not a minor convenience.
+  It is the point.") The July 2026 Learn audit found 10+ per section. At most one
+  per page; recast the rest as plain assertions ("That durability is the point.").
+- **The recycled CTA anecdote.** ("You wrote X, and a reviewer wrote back Y. That
+  is not carelessness: … It does not decide Z. That stays yours.") Fine once; the
+  audit found it byte-identical on three sibling pages. Check the pages this one
+  links to — if a signature sentence or CTA shape repeats, vary this one.
 - **"Whether you're a … or a …"** opener. Cut it; name the one reader you mean.
 - **Rule-of-three padding** — "fast, simple, and powerful". One true adjective
   beats three decorative ones. (A *real* triad like OPA / sensitivity / specificity
@@ -79,6 +86,38 @@ credible — and this house style *is* plain by design.
 correct — but AI overuses it. Two or more em-dashes in one short paragraph is a tell;
 keep one, turn the other into a period or a semicolon.
 
+## The fact pass — check before you polish
+
+Craft cannot save a false sentence, and this audience checks. Every one of these
+burned us in the July 2026 Learn audit; check them before wordsmithing:
+
+- **Copyable commands must actually run.** Check every flag against the real CLI
+  (`--help` or the argparse source in the repo). A published command that errors
+  (`--model logistic_regression` did not exist) fails the reader at the payoff step.
+- **Competitor claims come from competitor docs, not from memory.** We claimed
+  NVivo/MAXQDA map nodes were dead drawings; their docs show one click opens the
+  coded segments. Check the claim on their help pages, then sell the differentiator
+  that survives (ours: plain files you own vs a proprietary project database).
+- **Named frameworks must match their published structure** — or lose the name and
+  own the idea ("our distillation"). Never describe a framework a reader can look
+  up and not find.
+- **"Studies show" needs a link.** Provenance or flag applies to our own copy: cite
+  the actual study/review, or rewrite as reasoning from mechanism.
+- **Platform-specific instructions are checked per platform.** macOS vs Windows
+  menu paths, `python` vs `python3` — the reader on the other OS hits a wall.
+- **No absolute the same page contradicts.** If the page later concedes the
+  exception, write the mechanism instead of the absolute.
+
+## The honest-limit budget
+
+The caveat is voice, not fine print (above) — and it is also *rationed*. Each
+limit appears **once per page**, with the benefit attached ("…so you can show
+your working"). Never open a CTA with a negation — lead with what the reader
+gets; the limit sits inside the close, once. This complements
+`vahtian-brand-safety`: that skill requires the invariant be *visible*; this one
+stops it being *repeated* until it reads as nervousness. One well-placed limit
+does both jobs.
+
 ## Microcopy rules
 
 - **Buttons are verb phrases** naming the outcome: "Check one claim",
@@ -92,13 +131,17 @@ keep one, turn the other into a period or a semicolon.
 
 ## How to edit
 
-1. Read the copy aloud (mentally); mark every place you stumble or skim.
-2. Apply the rules above — cut first, rearrange second, rewrite last.
-3. **Run the AI-tell test** — scan for the banned vocabulary and the structural
+1. **Run the fact pass first** — commands, competitor claims, framework names,
+   "studies show", platform paths. A polished false sentence is worse than a
+   clumsy true one.
+2. Read the copy aloud (mentally); mark every place you stumble or skim.
+3. Apply the rules above — cut first, rearrange second, rewrite last; count the
+   honest limits (once per page, benefit attached, never opening the CTA).
+4. **Run the AI-tell test** — scan for the banned vocabulary and the structural
    tells; if a line would sound like a brochure, rewrite it plainer.
-4. Diff-check meaning: the edit must not add capability claims or strip a
+5. Diff-check meaning: the edit must not add capability claims or strip a
    safety invariant. If meaning moved, flag it.
-5. Hand the result to `vahtian-brand-safety` for the PASS gate. Copy ships
+6. Hand the result to `vahtian-brand-safety` for the PASS gate. Copy ships
    only after PASS.
 
 ## Output format

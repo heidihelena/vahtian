@@ -42,6 +42,9 @@ Three rules that follow from it:
 | "detects all citation errors", "99% accurate" | Accuracy claim without published study |
 | "certifies evidence", "verify your science", "clinical validity" | Certification / truth framing |
 | "anonymous" (for contributed data) | Always "**de-identified**"; contribution is opt-in, default-off |
+| "future-proof", "will open in any editor in twenty years", "works forever" | Guarantee-shaped promise about longevity — say "most likely to still open", "opens in any editor **today**" |
+| "studies show…", "most researchers find…" with no source | Evidence claim without provenance — cite it or rewrite as reasoning from mechanism |
+| "NVivo/MAXQDA cannot do X" (or any competitor claim) unchecked | False competitor claims are the fastest trust kill with this audience — check the competitor's own docs; sell the differentiator that survives |
 
 ## Safer replacements — steer copy toward these
 
@@ -66,6 +69,11 @@ Three rules that follow from it:
    and an explicit "does not decide scientific truth".
 5. Where space allows, keep the honest caveat within reach:
    *"checks citation support, not truth."*
+6. **Visible once is enough.** The invariant must appear on the page; it must
+   not appear five times. If the same limit is restated to the point of reading
+   as nervousness (the July 2026 Learn audit found up to six per page), that is
+   a craft regression — flag it back to `vahtian-copy-editor` to consolidate
+   into one statement with the benefit attached. Repetition adds no safety.
 
 ## Output format
 
