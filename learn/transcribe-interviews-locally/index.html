@@ -168,6 +168,7 @@
 <h2>Step 3 — run the transcription</h2>
 <p>Copy the script below into a plain-text file called <code>transcribe.py</code>, saved in the same folder as your audio. Then, in Terminal, move into that folder (type <code>cd </code> with a space, drag the folder into the window, press Enter) and run:</p>
 <pre><code>python3 transcribe.py</code></pre>
+<p>On Windows, type <code>python transcribe.py</code> instead — the python.org installer does not create a <code>python3</code> command.</p>
 <details>
   <summary>Show the script (about 15 lines, copy-paste)</summary>
 <pre><code>from faster_whisper import WhisperModel
@@ -213,7 +214,7 @@ print("done - now correct it against the audio")</code></pre>
 
 <h2>What offline transcription does not do</h2>
 <ul>
-  <li>It does not separate speakers automatically. You assign them, which for interview data is minutes of work. Cloud services do not do this reliably either.</li>
+  <li>It does not separate speakers automatically. You assign them, which for interview data is minutes of work. Cloud services do offer speaker separation — the trade is that your audio leaves your machine.</li>
   <li>It does not make the transcript true. It makes a draft; the human pass makes it usable.</li>
   <li>It does not replace your ethics board or your judgment. It removes one disclosure they would otherwise have to weigh.</li>
 </ul>
