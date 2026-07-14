@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Open-source methods and software · Vahtian</title>
+  <meta name="description" content="Vahtian's methods layer, published as open source: RecoverLite (pre-data recovery tests), AssessLite (causal assumption assessment), AuditLite (reproducibility audit trail), EpiNet (honest model evaluation), the vahtian synthesis core, and the QualiVahti analysis scripts. Each with an archived, citable release.">
+  <meta name="theme-color" content="#2D2440">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="canonical" href="https://vahtian.com/open-source/">
+  <meta name="robots" content="index,follow">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://vahtian.com/open-source/">
+  <meta property="og:title" content="Open-source methods and software · Vahtian">
+  <meta property="og:description" content="The methods layer of Vahtian, published as open source — packages you can install, run, and check, each with an archived, citable release.">
+  <meta property="og:image" content="https://vahtian.com/brand/cards/vahtian-card.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Open-source methods and software from Vahtian.">
+  <meta property="og:site_name" content="Vahtian">
+  <meta name="twitter:card" content="summary_large_image">
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"CollectionPage","name":"Open-source methods and software · Vahtian","url":"https://vahtian.com/open-source/","description":"Vahtian's open-source methods packages: RecoverLite, AssessLite, AuditLite, EpiNet, the vahtian synthesis core, and the QualiVahti analysis scripts — each with an archived, citable release.","isPartOf":{"@type":"WebSite","name":"Vahtian","url":"https://vahtian.com/"}}
+  </script>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232D2440'/%3E%3Cg fill='none' stroke='%238B6FC9' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 9 H9 V23 H12'/%3E%3Cpath d='M20 9 H23 V23 H20'/%3E%3C/g%3E%3Cpath d='M16 10.3 L19.6 12 L19.6 15 L16 19.6 L12.4 15 L12.4 12 Z' fill='none' stroke='%23C5B8E8' stroke-width='1.8' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <style>
+    :root{--navy:#2D2440;--violet:#8B6FC9;--lilac:#C5B8E8;--ink:#1c1830;--muted:#4A4460;
+          --bg:#faf9fc;--card:#fff;--line:#e7e3f0;--link:#6F52B8;--teal:#1E9E8A}
+    *{box-sizing:border-box}
+    body{margin:0;font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,ui-sans-serif,system-ui,sans-serif;
+         color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased}
+    a{color:var(--link)}
+    a:focus-visible{outline:3px solid var(--violet);outline-offset:2px}
+    code{font:13px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;background:#f1eef9;padding:1px 6px;border-radius:5px}
+    .wrap{max-width:760px;margin:0 auto;padding:0 22px}
+    header{padding:22px 0 6px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:18px}
+    .mark{width:30px;height:30px;flex:0 0 30px}
+    nav.nav{display:flex;align-items:center;gap:16px;flex-wrap:wrap;font-size:14.5px}
+    nav.nav a{color:var(--ink);text-decoration:none;font-weight:600}
+    nav.nav a:hover{color:var(--link)}
+    nav.nav .ext{color:var(--muted)}
+    nav.nav .util{display:flex;align-items:center;gap:13px;padding-left:15px;border-left:1px solid var(--line)}
+    nav.nav .util .ic{display:flex;color:var(--muted)}
+    nav.nav .util .ic:hover{color:var(--link)}
+    nav.nav .buy{background:var(--navy);color:#fff;padding:7px 13px;border-radius:8px;font-size:13.5px;font-weight:700}
+    @media(max-width:680px){nav.nav{gap:13px;font-size:13.5px}}
+    h1{font-size:clamp(28px,5vw,36px);letter-spacing:-.02em;margin:32px 0 8px}
+    .sub{color:#3a3450;font-size:clamp(15px,2.1vw,17px);margin:0 0 26px;max-width:60ch}
+    .dl{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--teal);border-radius:12px;
+      padding:16px 18px;margin:0 0 13px}
+    .dl h2{margin:0 0 3px;font-size:17px}
+    .dl .what{color:var(--muted);font-size:14px;margin:0 0 10px}
+    .dl .get{display:flex;flex-wrap:wrap;gap:9px;align-items:center}
+    .dl .btn{display:inline-block;padding:8px 14px;border-radius:8px;font-weight:600;font-size:13.5px;text-decoration:none;background:var(--navy);color:#fff}
+    .dl .btn.ghost{background:#fff;color:var(--ink);border:1px solid var(--line)}
+    .dl .doi{font:12px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--muted)}
+    .note{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 18px;color:var(--muted);font-size:14px;margin:26px 0 0}
+    footer{padding:28px 0 50px;color:var(--muted);font-size:13px;border-top:1px solid var(--line);margin-top:40px;line-height:1.7}
+    footer a{color:var(--muted)}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand">
+      <a href="/" aria-label="Vahtian — home" style="display:flex"><svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#2D2440"/><g fill="none" stroke="#8B6FC9" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9 H9 V23 H12"/><path d="M20 9 H23 V23 H20"/></g><path d="M16 10.3 L19.6 12 L19.6 15 L16 19.6 L12.4 15 L12.4 12 Z" fill="none" stroke="#C5B8E8" stroke-width="1.8" stroke-linejoin="round"/></svg></a>
+      <span>Vahtian</span>
+    </div>
+    <nav class="nav" aria-label="Primary">
+      <a href="/#tools">Tools</a>
+      <a href="/learn/">Learn</a>
+      <a href="/blog/">Blog</a>
+      <a href="/about/">About</a>
+      <a class="ext" href="https://forskai.com">ForskAI <span aria-hidden="true">↗</span></a>
+      <span class="util">
+        <a class="ic" href="https://github.com/heidihelena/vahtian" aria-label="Vahtian on GitHub"><svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 012-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg></a>
+        <a class="ic" href="/search/" aria-label="Search vahtian.com"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.3" y2="16.3"/></svg></a>
+        <a class="ic" href="/download/" aria-label="Download Vahtian software"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4 V15"/><path d="M7 11 L12 16 L17 11"/><path d="M4 20 H20"/></svg></a>
+        <a class="buy" href="/#kits">Paid kits</a>
+      </span>
+    </nav>
+  </header>
+
+<main>
+  <h1>Open-source methods and software</h1>
+  <p class="sub">The methods layer of Vahtian, published as open source. A method you can read is a method you can
+    check, so each package ships its assumptions, its tests, and an archived release you can cite by DOI. Install
+    them, run them on your own data, and read exactly what they do and do not establish.</p>
+
+  <div class="dl">
+    <h2>RecoverLite <span style="font-weight:400;color:var(--muted);font-size:13px">R · Python</span></h2>
+    <p class="what">Pre-data recovery tests for planned study designs: simulate whether a planned design–analysis
+      pair can recover its target estimand, with PASS / RISK / FAIL verdicts under versioned threshold profiles.
+      The Python package is protocol-identical to the R package; results agree within Monte Carlo error.</p>
+    <div class="get">
+      <a class="btn" href="https://github.com/heidihelena/recoverlite">R package →</a>
+      <a class="btn ghost" href="https://github.com/heidihelena/recoverlite-py">Python mirror</a>
+    </div>
+    <p class="doi">R: <a href="https://doi.org/10.5281/zenodo.21195920">10.5281/zenodo.21195920</a> ·
+      Python: <a href="https://doi.org/10.5281/zenodo.21195922">10.5281/zenodo.21195922</a></p>
+  </div>
+
+  <div class="dl">
+    <h2>AssessLite <span style="font-weight:400;color:var(--muted);font-size:13px">R · Python</span></h2>
+    <p class="what">Structural assumption assessment for causal analysis. Every causal result borrows strength
+      across units, places, or times, licensed by invariance assumptions that usually stay implicit. AssessLite
+      makes them explicit, attacks them, and records what survived.</p>
+    <div class="get">
+      <a class="btn" href="https://github.com/heidihelena/assesslite">GitHub →</a>
+      <pre style="background:var(--navy);color:#e8e3f5;border-radius:9px;padding:10px 13px;overflow:auto;font:12.5px/1.5 ui-monospace,monospace;margin:0;flex:1 1 100%">pip install assesslite</pre>
+    </div>
+    <p class="doi"><a href="https://doi.org/10.5281/zenodo.21306424">10.5281/zenodo.21306424</a></p>
+  </div>
+
+  <div class="dl">
+    <h2>AuditLite <span style="font-weight:400;color:var(--muted);font-size:13px">Python · R</span></h2>
+    <p class="what">A reproducibility audit trail for research projects: records analysis runs, checks for stale
+      outputs, and flags claims downstream of changed sources via multi-hop change propagation — the case a simple
+      timestamp check misses.</p>
+    <div class="get">
+      <a class="btn" href="https://github.com/heidihelena/auditlite">GitHub →</a>
+    </div>
+    <p class="doi"><a href="https://doi.org/10.5281/zenodo.21309621">10.5281/zenodo.21309621</a></p>
+  </div>
+
+  <div class="dl">
+    <h2>EpiNet <span style="font-weight:400;color:var(--muted);font-size:13px">Python</span></h2>
+    <p class="what">A transparent toolkit for graph-shaped research data: honest model evaluation (calibration,
+      permutation nulls, model cards), closed-form contestability, and federated governed aggregates. A research
+      demonstrator, not clinical decision support.</p>
+    <div class="get">
+      <a class="btn" href="https://github.com/heidihelena/epinet">GitHub →</a>
+      <a class="btn ghost" href="/epinet/">What it does</a>
+      <pre style="background:var(--navy);color:#e8e3f5;border-radius:9px;padding:10px 13px;overflow:auto;font:12.5px/1.5 ui-monospace,monospace;margin:0;flex:1 1 100%">pip install vahtian-epinet</pre>
+    </div>
+    <p class="doi"><a href="https://doi.org/10.5281/zenodo.21339302">10.5281/zenodo.21339302</a></p>
+  </div>
+
+  <div class="dl">
+    <h2>vahtian <span style="font-weight:400;color:var(--muted);font-size:13px">Python · core library</span></h2>
+    <p class="what">The synthesis core: citation-true research synthesis with Zotero and PubMed intake, provenance
+      tracking, and blinded human–AI dual-rating records. The engine under the CiteVahti workflow.</p>
+    <div class="get">
+      <a class="btn" href="https://github.com/heidihelena/vahtian">GitHub →</a>
+      <pre style="background:var(--navy);color:#e8e3f5;border-radius:9px;padding:10px 13px;overflow:auto;font:12.5px/1.5 ui-monospace,monospace;margin:0;flex:1 1 100%">pip install vahtian</pre>
+    </div>
+    <p class="doi"><a href="https://doi.org/10.5281/zenodo.21339127">10.5281/zenodo.21339127</a></p>
+  </div>
+
+  <div class="dl">
+    <h2>QualiVahti scripts <span style="font-weight:400;color:var(--muted);font-size:13px">Python · R · Apache-2.0</span></h2>
+    <p class="what">The open analysis engine of <a href="/qualivahti-local/">QualiVahti Local</a>: scripts for
+      local-first qualitative analysis — transcription, coding support, codebook exports, and evidence maps that
+      stay on your machine.</p>
+    <div class="get">
+      <a class="btn" href="https://github.com/heidihelena/qualivahti-scripts">GitHub →</a>
+    </div>
+    <p class="doi"><a href="https://doi.org/10.5281/zenodo.21274891">10.5281/zenodo.21274891</a></p>
+  </div>
+
+  <div class="note"><strong>Why these are open.</strong> Vahtian's paid kits and apps are built on methods, and the
+    methods are the part a reader should be able to inspect. Every package above is archived on Zenodo; the DOIs here point at each project, and every
+    release also carries a version DOI so a methods section can cite the exact version used. Licenses are noted per repository. How to cite any of them:
+    <a href="/cite/">vahtian.com/cite</a>.</div>
+</main>
+
+  <footer>
+    <p>© 2026 Vahtian · <a href="/learn/">Learn</a> · <a href="/blog/">Blog</a> · <a href="/about/">About</a> ·
+      <a href="/cite/">Cite</a> · <a href="/privacy/">Privacy</a> · <a href="/">vahtian.com</a></p>
+    <p>Vahtian builds local-first tools that keep research inputs, decisions, and outputs open to review. The tools support judgment; they do not establish scientific truth.</p>
+  </footer>
+</div>
+</body>
+</html>
