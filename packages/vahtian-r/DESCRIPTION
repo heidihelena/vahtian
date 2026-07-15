@@ -1,7 +1,7 @@
 Package: vahtian
 Type: Package
 Title: Reproducible, Provenance-First Evidence Tooling
-Version: 0.1.0
+Version: 0.1.1
 Authors@R:
     person("Heidi Helena", "Andersén", role = c("aut", "cre"),
            email = "andersenheidihelena@gmail.com",
