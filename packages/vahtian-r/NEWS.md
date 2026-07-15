@@ -1,3 +1,12 @@
+# vahtian 0.1.1
+
+* `assertion()` / `vahtian_compare()` / `assessment_record()`: reduce a claim
+  and a cited source's finding to the same structured assertion, compare them
+  field by field (deterministic, no model), and record the run in the audit
+  ledger. Assertion and assessment hashes are byte-identical with the Python
+  package, covered by the cross-language golden-hash test. Checks claim–source
+  support, not truth.
+
 # vahtian 0.1.0
 
 * First release.

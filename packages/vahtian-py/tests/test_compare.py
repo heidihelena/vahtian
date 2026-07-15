@@ -1,7 +1,15 @@
+import hashlib
 from dataclasses import asdict
 
 import vahtian
 from vahtian import Assertion, compare
+from vahtian.compare import _canonical
+
+# The cross-language parity gate: the R package `vahtian` asserts these SAME
+# literals over the same fixture. If either canonical serialiser or either
+# comparator drifts, one of the two CIs goes red.
+GOLDEN_CLAIM = "sha256:d7951f8a621551d5b5a9091a5007bf027b7b8871be1d2497580a152384bd2aa5"
+GOLDEN_ASSESSMENT = "sha256:ad7b7194217b02072d56a2c0f1559c4ec2f1ffec5d2fac9f3fd4e52be3786c59"
 
 
 def _claim(**kw):
@@ -11,6 +19,14 @@ def _claim(**kw):
                 ci_low=0.58, ci_high=0.89)
     base.update(kw)
     return Assertion(**base)
+
+
+def test_golden_cross_language_assessment_hash():
+    a = compare(_claim(quote="cut mortality (HR 0.72)"), _claim(locator="table 2"))
+    assert a.claim_hash == GOLDEN_CLAIM
+    payload_hash = "sha256:" + hashlib.sha256(
+        _canonical(a.payload()).encode("utf-8")).hexdigest()
+    assert payload_hash == GOLDEN_ASSESSMENT
 
 
 def test_aligned_when_fields_match():

@@ -60,3 +60,35 @@ STYLE.md-compliant. Gaps are conversion + discoverability, not craft.
 - [ ] **Ship to PyPI / VS Code Marketplace** (citevahti repo, not this one) —
       the install story is the biggest friction in the funnel; the page
       already promises "coming to PyPI."
+
+## Packages — comparator follow-ups (vahtian-py / vahtian-r)
+
+Important follow-ups to the claim–source comparator (`compare` / `vahtian_compare`),
+in priority order:
+
+- [ ] **Assertion-construction validation with a missing-state vocabulary.**
+      A single `None`/`NULL` collapses distinct epistemic states. Per field,
+      the schema should distinguish:
+      * missing because the source did not state the field
+      * missing because the extractor failed
+      * not applicable to the study design
+      * ambiguous in the source
+      * inferred rather than explicitly stated
+      The comparator must treat these differently — e.g. an *inferred* field
+      should never contribute to an "aligned" candidate without explicit human
+      confirmation, and *extraction failed* should route back to extraction,
+      not read as "the source is silent". Controlled vocabularies (direction,
+      effect_type) get validated at construction time, not at compare time.
+- [ ] **Relationship constraints between fields, beyond per-field equality:**
+      * claim estimate falls within the source confidence interval
+      * claim direction matches the sign of the reported estimate
+        (relative to the effect measure's null: 1 for ratios, 0 for differences)
+      * claim population is narrower than, broader than, or incompatible with
+        the source population
+      * comparator omitted from the claim but present in the source
+      * qualitative wording such as "increased" is compatible with a positive
+        estimate
+      Each constraint is a deterministic, versioned check whose result lands in
+      the assessment alongside the field statuses. Population narrower/broader
+      is a recorded judgement (human, or assistant with human sign-off), not
+      string logic.
