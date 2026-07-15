@@ -45,4 +45,21 @@ L.append("human:hha", "decide", {"decision": "supported",
 assert L.verify()
 ```
 
+A field carries not just a value but *why* it holds one. A plain value is taken
+as explicitly stated and `None` as *not stated*; the other states are marked so
+a single `None` never collapses them together:
+
+```python
+vahtian.Assertion(
+    direction=vahtian.inferred("decrease"),   # inferred, not explicitly stated
+    comparator=vahtian.not_applicable(),      # doesn't apply to this design
+    effect_value=vahtian.extraction_failed(), # extractor couldn't read it
+    outcome=vahtian.ambiguous("mortality"),   # stated, but ambiguously
+)
+```
+
+An inferred field never reaches an `aligned` candidate without a human
+confirming it, and an extraction failure stays distinct from source silence
+(it routes back to extraction).
+
 `vahti` (Finnish) = sentinel / guard. Human-first. AI-second. Auditable. Apache-2.0.

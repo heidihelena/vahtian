@@ -2,14 +2,15 @@ import hashlib
 from dataclasses import asdict
 
 import vahtian
-from vahtian import Assertion, compare
+from vahtian import (Assertion, compare, inferred, ambiguous,
+                     not_applicable, extraction_failed)
 from vahtian.compare import _canonical
 
 # The cross-language parity gate: the R package `vahtian` asserts these SAME
 # literals over the same fixture. If either canonical serialiser or either
-# comparator drifts, one of the two CIs goes red.
+# comparator drifts, one of the two CIs goes red. (comparator vahtian-compare/2)
 GOLDEN_CLAIM = "sha256:d7951f8a621551d5b5a9091a5007bf027b7b8871be1d2497580a152384bd2aa5"
-GOLDEN_ASSESSMENT = "sha256:ad7b7194217b02072d56a2c0f1559c4ec2f1ffec5d2fac9f3fd4e52be3786c59"
+GOLDEN_ASSESSMENT = "sha256:d840fcbaf3f66ac061a7a63bb35e2f3bd3b2f58dcbf70a90a5cb412c1cd39219"
 
 
 def _claim(**kw):
@@ -76,7 +77,46 @@ def test_missing_fields_are_not_stated_never_agreement():
     a = compare(Assertion(outcome="mortality", direction="decrease"),
                 Assertion(outcome="mortality"))
     assert a.fields["direction"]["status"] == "not_stated"
+    assert a.fields["direction"]["source_state"] == "not_stated"
     assert a.candidate == "insufficient"
+
+
+def test_inferred_key_field_never_aligns_without_a_human():
+    # Values agree, but a direction inferred (not stated) must not reach "aligned".
+    a = compare(_claim(direction=inferred("decrease")), _claim())
+    assert a.fields["direction"]["status"] == "agrees"
+    assert a.fields["direction"]["claim_state"] == "inferred"
+    assert a.candidate == "insufficient"
+
+
+def test_extraction_failed_is_distinct_from_source_silence():
+    a = compare(_claim(outcome=extraction_failed()), _claim())
+    assert a.fields["outcome"]["status"] == "extraction_failed"
+    assert a.candidate == "insufficient"
+    # A field the source simply did not state resolves differently.
+    b = compare(_claim(outcome=None), _claim())
+    assert b.fields["outcome"]["status"] == "not_stated"
+
+
+def test_ambiguous_blocks_alignment():
+    a = compare(_claim(direction=ambiguous("decrease")), _claim())
+    assert a.fields["direction"]["status"] == "ambiguous"
+    assert a.candidate == "insufficient"
+
+
+def test_not_applicable_on_nonkey_field_still_aligns():
+    a = compare(_claim(comparator=not_applicable()), _claim(comparator=not_applicable()))
+    assert a.fields["comparator"]["status"] == "not_applicable"
+    assert a.candidate == "aligned"   # direction+outcome stated & agree; N/A tolerated
+
+
+def test_absent_state_severity_ordering():
+    # extraction_failed (most actionable) wins over the other side's not_stated.
+    a = compare(_claim(exposure=extraction_failed()), _claim(exposure=None))
+    assert a.fields["exposure"]["status"] == "extraction_failed"
+    # ambiguous wins over not_applicable
+    b = compare(_claim(exposure=ambiguous()), _claim(exposure=not_applicable()))
+    assert b.fields["exposure"]["status"] == "ambiguous"
 
 
 def test_full_audit_flow_extract_compare_decide():

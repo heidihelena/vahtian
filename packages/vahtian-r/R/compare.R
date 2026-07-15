@@ -7,19 +7,72 @@
 # override. Assertion and assessment hashes reuse the package's canonical
 # serialiser, so they are byte-identical with the Python package. It checks
 # claim–source support, not truth.
+#
+# A field carries not just a value but *why* it holds one (or doesn't). A plain
+# value is taken as explicitly stated; NULL means the source did not state it.
+# The other epistemic states — extractor failed, not applicable to the study
+# design, ambiguous in the source, or inferred rather than stated — are marked
+# explicitly via extraction_failed(), not_applicable(), ambiguous(), and
+# inferred(). A single NULL must not collapse these apart: an inferred field
+# never counts toward an "aligned" candidate without a human confirming it, and
+# an extraction failure routes back to extraction, not read as source silence.
 
-.COMPARATOR_ID <- "vahtian-compare/1"
+.COMPARATOR_ID <- "vahtian-compare/2"
+
+# ---- field epistemic states: why a field holds (or lacks) a value ----
+.STATED <- "stated"
+.NOT_STATED <- "not_stated"
+.EXTRACTION_FAILED <- "extraction_failed"
+.NOT_APPLICABLE <- "not_applicable"
+.AMBIGUOUS <- "ambiguous"
+.INFERRED <- "inferred"
+
+.USABLE <- c(.STATED, .INFERRED)
+# Most actionable absent state first: fix the extractor, then resolve ambiguity,
+# then note structural non-applicability, then plain silence.
+.ABSENT_ORDER <- c(.EXTRACTION_FAILED, .AMBIGUOUS, .NOT_APPLICABLE, .NOT_STATED)
 
 .FREE_TEXT <- c("population", "exposure", "comparator", "outcome")
 .CONTROLLED <- c("direction", "effect_type")
 .NUMERIC_F <- c("effect_value", "ci_low", "ci_high")
 
+.field <- function(value, state) structure(list(value = value, state = state),
+                                           class = "vahtian_field")
+
+#' Mark a field value as inferred, ambiguous, not applicable, or extraction-failed
+#'
+#' Wrap an assertion field to record *why* it holds (or lacks) a value, so a
+#' single NULL does not collapse distinct states. A plain value is taken as
+#' explicitly stated and NULL as not stated, so these helpers are only needed
+#' for the other cases.
+#' @param value the value read from the text, where one applies.
+#' @return a "vahtian_field" wrapper for use in assertion().
+#' @rdname field_states
+#' @examples
+#' assertion(direction = inferred("decrease"))
+#' @export
+inferred <- function(value) .field(value, .INFERRED)
+
+#' @rdname field_states
+#' @export
+ambiguous <- function(value = NULL) .field(value, .AMBIGUOUS)
+
+#' @rdname field_states
+#' @export
+not_applicable <- function() .field(NULL, .NOT_APPLICABLE)
+
+#' @rdname field_states
+#' @export
+extraction_failed <- function() .field(NULL, .EXTRACTION_FAILED)
+
 #' Build a structured assertion (one claim or source finding)
 #'
-#' Reduces a claim or a cited source's finding to comparable PICO-shaped
-#' fields. Leave a field NULL when the text does not state it — the comparator
-#' treats that as not_stated, never as agreement. quote and locator point back
-#' to the exact words being formalised, so a human can check the reduction.
+#' Reduces a claim or a cited source's finding to comparable PICO-shaped fields.
+#' A plain value is taken as explicitly stated; NULL means the source did not
+#' state it. For the other epistemic states wrap the field with inferred(),
+#' ambiguous(), not_applicable(), or extraction_failed(). quote and locator
+#' point back to the exact words being formalised, so a human can check the
+#' reduction.
 #' @param population,exposure,comparator,outcome free-text fields.
 #' @param direction "increase", "decrease", or "no_difference".
 #' @param effect_type e.g. "RR", "OR", "HR", "MD".
@@ -47,32 +100,55 @@ assertion <- function(population = NULL, exposure = NULL, comparator = NULL,
                                    algo = "sha256", serialize = FALSE))
 }
 
+# (value, state) for a raw field: a field wrapper passes through; NULL is
+# not_stated; anything else is an explicitly stated value.
+.resolve <- function(raw) {
+  if (inherits(raw, "vahtian_field")) return(list(value = raw$value, state = raw$state))
+  if (is.null(raw)) return(list(value = NULL, state = .NOT_STATED))
+  list(value = raw, state = .STATED)
+}
+
 # Python: " ".join(str(s).split()).lower()
 .norm <- function(v) tolower(gsub("\\s+", " ", trimws(as.character(v))))
 
-.text_status <- function(a, b, controlled) {
-  if (is.null(a) || is.null(b)) return("not_stated")
-  if (identical(.norm(a), .norm(b))) return("agrees")
-  if (controlled) "conflicts" else "differs"
+.cell <- function(status, cv, sv, cs, ss) {
+  list(status = status, claim = cv, source = sv, claim_state = cs, source_state = ss)
 }
 
-# Python: math.isclose(a, b, rel_tol=rel_tol) with abs_tol = 0
-.numeric_status <- function(a, b, rel_tol) {
-  if (is.null(a) || is.null(b)) return("not_stated")
-  a <- as.numeric(a); b <- as.numeric(b)
-  if (abs(a - b) <= rel_tol * max(abs(a), abs(b))) "agrees" else "conflicts"
+.compare_field <- function(claim_raw, source_raw, kind, et_conflict, rel_tol) {
+  cr <- .resolve(claim_raw); sr <- .resolve(source_raw)
+  cv <- cr$value; cs <- cr$state; sv <- sr$value; ss <- sr$state
+  absent <- Filter(function(st) !(st %in% .USABLE), c(cs, ss))
+  if (length(absent)) {                       # most actionable absent state wins
+    status <- .ABSENT_ORDER[min(match(absent, .ABSENT_ORDER))]
+    return(.cell(status, cv, sv, cs, ss))
+  }
+  if (identical(kind, "numeric") && et_conflict)
+    return(.cell("not_comparable", cv, sv, cs, ss))
+  status <- if (identical(kind, "free")) {
+    if (identical(.norm(cv), .norm(sv))) "agrees" else "differs"
+  } else if (identical(kind, "controlled")) {
+    if (identical(.norm(cv), .norm(sv))) "agrees" else "conflicts"
+  } else {
+    a <- as.numeric(cv); b <- as.numeric(sv)
+    if (abs(a - b) <= rel_tol * max(abs(a), abs(b))) "agrees" else "conflicts"
+  }
+  .cell(status, cv, sv, cs, ss)
 }
 
 #' Compare a claim assertion against a source assertion, deterministically
 #'
-#' Plain code, no model: reports field-by-field statuses (agrees / differs /
-#' conflicts / not_stated / not_comparable) and derives a candidate label for
-#' a human to accept or override — "conflicting" on any conflict; "aligned"
-#' when direction and outcome agree with no conflicts and no free-text
-#' divergence; otherwise "insufficient". Free-text wording differences never
-#' count as conflict — the human judges whether the wording means the same
-#' thing. Same inputs, same rel_tol, same comparator version give an
-#' identical assessment, byte-compatible with the Python package.
+#' Plain code, no model. Each field resolves to a value and an epistemic state;
+#' when a field is not usable on at least one side its status is the most
+#' actionable absent state (extraction_failed > ambiguous > not_applicable >
+#' not_stated) rather than a bare "missing". Usable-vs-usable fields compare as
+#' free-text (agrees / differs — wording differences are for the human, never a
+#' conflict), controlled or numeric (agrees / conflicts), with a mismatched
+#' effect type making numbers not_comparable. Candidate: any conflict giving
+#' "conflicting"; "aligned" only when direction and outcome both agree and are
+#' explicitly stated on both sides (never inferred), with no free-text
+#' divergence and no unresolved field anywhere; otherwise "insufficient".
+#' Byte-compatible with the Python package.
 #' @param claim a "vahtian_assertion" for the claim.
 #' @param source a "vahtian_assertion" for the cited source's finding.
 #' @param rel_tol relative tolerance for numeric agreement (recorded in the
@@ -85,25 +161,24 @@ assertion <- function(population = NULL, exposure = NULL, comparator = NULL,
 #' a$candidate
 #' @export
 vahtian_compare <- function(claim, source, rel_tol = 0.01) {
-  cell <- function(name, status) {
-    list(status = status, claim = claim[[name]], source = source[[name]])
-  }
   fields <- list()
   for (name in .FREE_TEXT)
-    fields[[name]] <- cell(name, .text_status(claim[[name]], source[[name]], FALSE))
+    fields[[name]] <- .compare_field(claim[[name]], source[[name]], "free", FALSE, rel_tol)
   for (name in .CONTROLLED)
-    fields[[name]] <- cell(name, .text_status(claim[[name]], source[[name]], TRUE))
+    fields[[name]] <- .compare_field(claim[[name]], source[[name]], "controlled", FALSE, rel_tol)
   et_conflict <- identical(fields$effect_type$status, "conflicts")
-  for (name in .NUMERIC_F) {
-    s <- if (et_conflict) "not_comparable"   # an RR is not an OR
-         else .numeric_status(claim[[name]], source[[name]], rel_tol)
-    fields[[name]] <- cell(name, s)
-  }
+  for (name in .NUMERIC_F)
+    fields[[name]] <- .compare_field(claim[[name]], source[[name]], "numeric", et_conflict, rel_tol)
+
   statuses <- vapply(fields, function(f) f$status, character(1))
+  key_stated <- all(vapply(list(fields$direction, fields$outcome),
+                           function(c) identical(c$claim_state, .STATED) &&
+                                       identical(c$source_state, .STATED), logical(1)))
+  unresolved <- any(statuses %in% c(.EXTRACTION_FAILED, .AMBIGUOUS))
   candidate <- if (any(statuses == "conflicts")) "conflicting"
     else if (identical(fields$direction$status, "agrees") &&
              identical(fields$outcome$status, "agrees") &&
-             !any(statuses == "differs")) "aligned"
+             key_stated && !any(statuses == "differs") && !unresolved) "aligned"
     else "insufficient"
   structure(list(claim_hash = .assertion_hash(claim),
                  source_hash = .assertion_hash(source),
@@ -116,9 +191,9 @@ vahtian_compare <- function(claim, source, rel_tol = 0.01) {
 
 #' Record a comparison run in a hash-chained audit ledger
 #'
-#' Appends the assessment (comparator version, tolerance, input hashes,
-#' field statuses, candidate) as a ledger entry, actor = the comparator id.
-#' The human decision is a separate entry the caller appends.
+#' Appends the assessment (comparator version, tolerance, input hashes, field
+#' statuses with per-side epistemic state, candidate) as a ledger entry, actor =
+#' the comparator id. The human decision is a separate entry the caller appends.
 #' @param L a "vahtian_ledger".
 #' @param assessment a "vahtian_assessment" from vahtian_compare().
 #' @param ts timestamp string (optional; defaults to current UTC time).
