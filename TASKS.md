@@ -66,19 +66,17 @@ STYLE.md-compliant. Gaps are conversion + discoverability, not craft.
 Important follow-ups to the claim–source comparator (`compare` / `vahtian_compare`),
 in priority order:
 
-- [ ] **Assertion-construction validation with a missing-state vocabulary.**
-      A single `None`/`NULL` collapses distinct epistemic states. Per field,
-      the schema should distinguish:
-      * missing because the source did not state the field
-      * missing because the extractor failed
-      * not applicable to the study design
-      * ambiguous in the source
-      * inferred rather than explicitly stated
-      The comparator must treat these differently — e.g. an *inferred* field
-      should never contribute to an "aligned" candidate without explicit human
-      confirmation, and *extraction failed* should route back to extraction,
-      not read as "the source is silent". Controlled vocabularies (direction,
-      effect_type) get validated at construction time, not at compare time.
+- [x] **Assertion-construction validation with a missing-state vocabulary.**
+      Done (comparator `vahtian-compare/2`, both packages). A plain value is
+      *stated*, `None`/`NULL` is *not_stated*, and `inferred()`, `ambiguous()`,
+      `not_applicable()`, `extraction_failed()` mark the rest. The comparator
+      surfaces the most actionable absent state per field (extraction_failed >
+      ambiguous > not_applicable > not_stated) and records each side's state;
+      an inferred key field can't reach "aligned" without a human, and
+      extraction failure stays distinct from source silence. *Still open:*
+      construction-time validation of the controlled vocabularies themselves
+      (direction ∈ {increase, decrease, no_difference}; effect_type ∈ a known
+      set) — currently free strings, validated only implicitly at compare time.
 - [ ] **Relationship constraints between fields, beyond per-field equality:**
       * claim estimate falls within the source confidence interval
       * claim direction matches the sign of the reported estimate

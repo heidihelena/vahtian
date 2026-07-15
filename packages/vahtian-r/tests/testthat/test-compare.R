@@ -20,7 +20,7 @@ test_that("golden cross-language assessment hash matches the Python package", {
                                                    algo = "sha256", serialize = FALSE))
   expect_identical(
     payload_hash,
-    "sha256:ad7b7194217b02072d56a2c0f1559c4ec2f1ffec5d2fac9f3fd4e52be3786c59"
+    "sha256:d840fcbaf3f66ac061a7a63bb35e2f3bd3b2f58dcbf70a90a5cb412c1cd39219"
   )
 })
 
@@ -52,7 +52,39 @@ test_that("free-text wording differs, never conflicts; missing is not_stated", {
   b <- vahtian_compare(assertion(outcome = "mortality", direction = "decrease"),
                        assertion(outcome = "mortality"))
   expect_identical(b$fields$direction$status, "not_stated")
+  expect_identical(b$fields$direction$source_state, "not_stated")
   expect_identical(b$candidate, "insufficient")
+})
+
+test_that("epistemic states: inferred, extraction_failed, ambiguous, not_applicable", {
+  # An inferred key field never reaches "aligned" without a human.
+  inf <- vahtian_compare(.claim(direction = inferred("decrease")), .claim())
+  expect_identical(inf$fields$direction$status, "agrees")
+  expect_identical(inf$fields$direction$claim_state, "inferred")
+  expect_identical(inf$candidate, "insufficient")
+
+  # Extraction failure is distinct from the source simply not stating it.
+  ef <- vahtian_compare(.claim(outcome = extraction_failed()), .claim())
+  expect_identical(ef$fields$outcome$status, "extraction_failed")
+  expect_identical(ef$candidate, "insufficient")
+  expect_identical(vahtian_compare(.claim(outcome = NULL), .claim())$fields$outcome$status,
+                   "not_stated")
+
+  # Ambiguity blocks alignment; not_applicable on a non-key field is tolerated.
+  amb <- vahtian_compare(.claim(direction = ambiguous("decrease")), .claim())
+  expect_identical(amb$fields$direction$status, "ambiguous")
+  expect_identical(amb$candidate, "insufficient")
+  na <- vahtian_compare(.claim(comparator = not_applicable()),
+                        .claim(comparator = not_applicable()))
+  expect_identical(na$fields$comparator$status, "not_applicable")
+  expect_identical(na$candidate, "aligned")
+})
+
+test_that("absent-state severity ordering (most actionable wins)", {
+  a <- vahtian_compare(.claim(exposure = extraction_failed()), .claim(exposure = NULL))
+  expect_identical(a$fields$exposure$status, "extraction_failed")
+  b <- vahtian_compare(.claim(exposure = ambiguous()), .claim(exposure = not_applicable()))
+  expect_identical(b$fields$exposure$status, "ambiguous")
 })
 
 test_that("full audit flow: extract, compare, decide — verifiable and tamper-evident", {

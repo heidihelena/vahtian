@@ -46,6 +46,22 @@ L <- ledger_append(L, "human:hha", "decide",
 stopifnot(ledger_verify(L))
 ```
 
+A field carries not just a value but *why* it holds one. A plain value is taken
+as explicitly stated and `NULL` as *not stated*; the other states are marked so
+a single `NULL` never collapses them together:
+
+```r
+assertion(
+  direction    = inferred("decrease"),   # inferred, not explicitly stated
+  comparator   = not_applicable(),       # doesn't apply to this design
+  effect_value = extraction_failed(),    # extractor couldn't read it
+  outcome      = ambiguous("mortality")  # stated, but ambiguously
+)
+```
+
+An inferred field never reaches an `aligned` candidate without a human
+confirming it, and an extraction failure stays distinct from source silence.
+
 Assertion and assessment hashes are byte-identical with the Python package —
 the same golden-hash gate covers `vahtian_compare()` in both CIs.
 
