@@ -15,6 +15,13 @@ decision-gated, undoable write and a hash-chained audit trail.
 Human-first. AI-second. Auditable. Free local tools for researchers;
 infrastructure for journals, guideline groups, and research organizations.
 
+<p align="center">
+  <img
+    src="assets/hero-ecosystem.svg"
+    alt="The Vahtian tool family: Start (CiteVahti — check your own manuscript), Prepare (StudyVahti, MethodVahti, DictVahti, MatchVahti-Lite — get the study right first) and Scale (ReviewVahti, ExtractVahti, GuidelineVahti, AtlasVahti — systematic-review infrastructure), all standing on one evidence record: human rates first, blinded AI second, adjudicated, hash-chained, provenance or flag. Records whether a cited source supports a specific claim — never scientific truth."
+    width="1200">
+</p>
+
 ## The product ladder
 
 **Start** — check the claims in your own manuscript
