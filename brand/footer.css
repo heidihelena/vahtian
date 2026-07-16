@@ -1,0 +1,69 @@
+:root{
+  --vh-footer-navy:#2D2440;
+  --vh-footer-violet:#8B6FC9;
+  --vh-footer-lilac:#C5B8E8;
+  --vh-footer-text:#d9d3ea;
+}
+
+.vh-footer{
+  background:var(--vh-footer-navy)!important;
+  box-shadow:0 0 0 100vmax var(--vh-footer-navy)!important;
+  clip-path:inset(0 -100vmax)!important;
+  margin:48px 0 0!important;
+  padding:34px 0 48px!important;
+  color:var(--vh-footer-text)!important;
+  font:13px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,ui-sans-serif,system-ui,sans-serif!important;
+  text-align:left!important;
+}
+
+.field-letter+.vh-footer,
+.letter-signup+.vh-footer{margin-top:0!important}
+
+.vh-footer *{box-sizing:border-box}
+.vh-footer-shell{
+  width:min(1104px,100vw);
+  max-width:100vw;
+  margin-left:50%;
+  padding:0 22px;
+  transform:translateX(-50%);
+}
+.vh-footer-main{display:grid;grid-template-columns:1.2fr .8fr;gap:32px;align-items:start}
+.vh-footer-name{
+  margin:0 0 7px!important;
+  color:var(--vh-footer-violet)!important;
+  font:600 30px/1 "Marksy","Marker Felt","Bradley Hand","Segoe Print",cursive!important;
+  letter-spacing:0!important;
+}
+.vh-footer-tagline{
+  max-width:44ch!important;
+  margin:0!important;
+  color:var(--vh-footer-text)!important;
+  font-size:14px!important;
+  line-height:1.55!important;
+}
+.vh-footer-links{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:8px 18px}
+.vh-footer a{color:#fff!important;text-underline-offset:3px}
+.vh-footer-links a{font-weight:650;text-decoration:none}
+.vh-footer-links a:hover{text-decoration:underline}
+.vh-footer a:focus-visible{outline:3px solid var(--vh-footer-lilac);outline-offset:3px}
+.vh-footer-disclaimer{
+  max-width:72ch!important;
+  margin:24px 0 0!important;
+  color:var(--vh-footer-text)!important;
+  font-size:13.5px!important;
+}
+.vh-footer-meta{
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px 16px;
+  margin-top:14px;
+  padding-top:14px;
+  border-top:1px solid rgba(197,184,232,.28);
+}
+.vh-footer-meta span{color:var(--vh-footer-text)!important}
+
+@media(max-width:600px){
+  .vh-footer{padding:30px 0 40px!important}
+  .vh-footer-main{grid-template-columns:1fr;gap:22px}
+  .vh-footer-links{justify-content:flex-start}
+}

@@ -322,6 +322,7 @@
     @media(max-width:680px){nav.nav{gap:13px;font-size:13.5px}}
   </style>
   <link rel="stylesheet" href="../brand/site-refresh.css">
+<link rel="stylesheet" href="../brand/footer.css">
 </head>
 <body>
 
@@ -547,9 +548,31 @@
 
 </main>
 
-<footer class="site-footer">
-  <p>© 2026 Vahtian · DictVahti · self-contained, runs entirely in your browser · <a href="/">vahtian.com</a> · <a href="https://github.com/heidihelena/vahtian">source</a> · <a href="/cite/">Cite</a> · <a href="/privacy/">Privacy</a></p>
-  <p>Lints a REDCap data dictionary against deterministic checks and flags issues; it does not modify your dictionary or validate your study design.</p>
+<footer class="vh-footer">
+  <div class="vh-footer-shell">
+    <div class="vh-footer-main">
+      <div>
+        <p class="vh-footer-name">Vahtian</p>
+        <p class="vh-footer-tagline">Local-first research tools built by Heidi Andersén, MD, PhD, in Finland. For decisions you can explain and work you can stand behind.</p>
+      </div>
+      <nav class="vh-footer-links" aria-label="Footer">
+        <a href="/#tools">Tools</a>
+        <a href="/learn/">Learn</a>
+        <a href="/blog/">Blog</a>
+        <a href="/about/">About</a>
+        <a href="/agents/">For agents</a>
+        <a href="/cite/">Cite</a>
+        <a href="/privacy/">Privacy</a>
+      </nav>
+    </div>
+    <p class="vh-footer-disclaimer">Vahtian keeps human judgment visible and research decisions open to review. It does not establish scientific truth.</p>
+    <div class="vh-footer-meta">
+      <span>© 2026 Vahtian</span>
+      <a href="/LICENSE">Apache-2.0 open core</a>
+      <a href="https://github.com/heidihelena/vahtian">GitHub <span aria-hidden="true">↗</span></a>
+      <a href="mailto:hello@vahtian.com">hello@vahtian.com</a>
+    </div>
+  </div>
 </footer>
 
 <script>
