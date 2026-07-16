@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="FullVahti mark">
+  <rect width="32" height="32" rx="7" fill="#2D2440"/>
+  <g fill="none" stroke="#8B6FC9" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12.1 8.8H8.7V23.2H12" stroke-width="2.7"/>
+    <path d="M20 9.1H23.3V22.8H20.1" stroke-width="1.7"/>
+  </g>
+  <g fill="none" stroke="#C5B8E8" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M16.2 10.8L15.9 17.4" stroke-width="1.35"/>
+    <path d="M12.9 14.6L16 17.8L19.2 14.3" stroke-width="2.15"/>
+    <path d="M12.2 20.6L19.8 20.3" stroke-width="1.5"/>
+  </g>
+</svg>
