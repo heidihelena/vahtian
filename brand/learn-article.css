@@ -1,0 +1,156 @@
+:root{
+  --navy:#2D2440;
+  --violet:#8B6FC9;
+  --lilac:#C5B8E8;
+  --ink:#1c1830;
+  --muted:#5b5570;
+  --bg:#faf9fc;
+  --paper:#f2effa;
+  --line:#e7e3f0;
+  --link:#5f479d;
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body.learn-article{
+  margin:0;
+  background:var(--bg);
+  color:var(--ink);
+  font:500 17px/1.7 "Nudica",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,ui-sans-serif,system-ui,sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+.learn-article a{color:var(--link)}
+.learn-article a:focus-visible{outline:3px solid var(--violet);outline-offset:3px}
+.learn-shell{max-width:980px;margin:0 auto;padding:0 22px}
+.learn-shell>header{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:24px 0 4px}
+.learn-article .brand{display:flex;align-items:center;gap:10px;font-weight:700}
+.learn-article .mark{width:30px;height:30px;flex:0 0 30px}
+
+nav.nav{display:flex;align-items:center;gap:16px;flex-wrap:wrap;font-size:14.5px}
+nav.nav a{color:var(--ink);font-weight:600;text-decoration:none}
+nav.nav a:hover,nav.nav a[aria-current="page"]{color:var(--link)}
+nav.nav .util{display:flex;align-items:center;padding-left:15px;border-left:1px solid var(--line)}
+nav.nav .util .ic{display:flex;color:var(--muted)}
+nav.nav .util .ic:hover{color:var(--link)}
+
+.learn-head{position:relative;max-width:840px;padding:46px 86px 38px 0;border-bottom:1px solid var(--line)}
+.learn-head .back-link{display:inline-block;margin:0 0 25px;color:var(--muted);font:500 12px/1.2 "Nudica Mono",ui-monospace,SFMono-Regular,Menlo,monospace;text-decoration:none;text-transform:uppercase}
+.learn-head .back-link:hover{text-decoration:underline}
+.learn-head .article-mark{position:absolute;right:8px;top:90px;width:50px;height:50px;transform:rotate(3deg)}
+.learn-head .article-kicker{margin:0 0 12px;color:var(--link);font:500 23px/1.1 "Marksy","Marker Felt","Bradley Hand","Segoe Print",cursive}
+.learn-head h1{max-width:19ch;margin:0 0 16px;font-size:50px;line-height:1.04;letter-spacing:0}
+.learn-head .dek{max-width:65ch;margin:0 0 18px;color:#3a3450;font-size:19px;line-height:1.55}
+.learn-head .byline{margin:0;color:var(--muted);font-size:14px;line-height:1.55}
+.learn-head .byline a{color:var(--muted)}
+.learn-head .read-meta{display:inline-flex;margin-left:7px;color:var(--link);font:500 11px/1.2 "Nudica Mono",ui-monospace,SFMono-Regular,Menlo,monospace;text-transform:uppercase}
+
+.question-frame{max-width:840px;padding:28px 0 30px;border-bottom:1px solid var(--line)}
+.question-frame>p{max-width:66ch;margin:0 0 18px;color:var(--muted)}
+.question-frame h2{margin:0 0 8px;font-size:20px;line-height:1.25}
+.question-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.question{padding:16px 18px 17px 0}
+.question+.question{padding-left:18px;border-left:1px solid var(--line)}
+.question b{display:block;margin-bottom:4px;color:var(--link);font:600 24px/1 "Marksy","Marker Felt","Bradley Hand","Segoe Print",cursive}
+.question span{display:block;font-size:15px;line-height:1.45}
+
+.jump-nav{display:flex;align-items:baseline;gap:10px 20px;flex-wrap:wrap;max-width:840px;padding:18px 0 0}
+.jump-nav>span{color:var(--muted);font:500 11px/1.2 "Nudica Mono",ui-monospace,SFMono-Regular,Menlo,monospace;text-transform:uppercase}
+.jump-nav a{font-size:14px;font-weight:650;text-underline-offset:4px}
+
+.learn-body{max-width:840px;padding:18px 0 0}
+.timeline-era{scroll-margin-top:24px;padding:48px 0 4px}
+.era-head{display:grid;grid-template-columns:118px minmax(0,1fr);gap:30px;margin:0 0 28px;padding-bottom:20px;border-bottom:2px solid var(--navy)}
+.era-head .era-kicker{margin:4px 0 0;color:var(--link);font:600 22px/1.05 "Marksy","Marker Felt","Bradley Hand","Segoe Print",cursive;transform:rotate(-1deg)}
+.era-head h2{margin:0 0 8px;color:var(--navy);font-size:28px;line-height:1.15}
+.era-head p:last-child{max-width:58ch;margin:0;color:var(--muted);font-size:15.5px;line-height:1.55}
+
+.timeline-list{display:grid}
+.timeline-stop{display:grid;grid-template-columns:118px 26px minmax(0,1fr);gap:0 17px;min-height:150px;padding:0 0 30px}
+.timeline-date{padding-top:4px;color:var(--link);font:500 12px/1.35 "Nudica Mono",ui-monospace,SFMono-Regular,Menlo,monospace;text-align:right;text-transform:uppercase}
+.timeline-track{position:relative}
+.timeline-track::before{content:"";position:absolute;top:3px;bottom:-33px;left:50%;border-left:1px solid var(--lilac)}
+.timeline-track::after{content:"";position:absolute;top:4px;left:50%;width:9px;height:9px;background:var(--bg);border:3px solid var(--violet);border-radius:50%;transform:translateX(-50%) rotate(2deg)}
+.timeline-stop:nth-child(3n) .timeline-track::before{border-left-width:2px}
+.timeline-stop:nth-child(even) .timeline-track::after{width:8px;height:11px;border-width:2px;transform:translateX(-50%) rotate(-5deg)}
+.timeline-stop:last-child .timeline-track::before{bottom:calc(100% - 16px)}
+.timeline-copy{padding:0 0 3px}
+.timeline-copy h3{margin:0 0 7px;color:var(--navy);font-size:20px;line-height:1.25}
+.timeline-copy>p{margin:0 0 10px}
+.timeline-copy .ai-note{margin:12px 0 0;padding:2px 0 2px 16px;border-left:2px solid var(--violet);color:var(--muted);font-size:15px;line-height:1.55}
+.ai-note b{color:var(--link)}
+.ref{font:600 11px/1 "Nudica Mono",ui-monospace,SFMono-Regular,Menlo,monospace;text-decoration:none;vertical-align:super}
+.ref:hover{text-decoration:underline}
+
+.pull{max-width:680px;margin:18px 0 42px 161px;padding:4px 0 4px 20px;border-left:3px solid var(--violet);color:var(--link);font:600 30px/1.18 "Marksy","Marker Felt","Bradley Hand","Segoe Print",cursive;transform:rotate(-.3deg)}
+.takeaway{margin:46px 0 0;padding:28px 0;border-top:3px solid var(--navy);border-bottom:1px solid var(--line)}
+.takeaway .runner{margin:0 0 8px;color:var(--link);font:600 23px/1.05 "Marksy","Marker Felt","Bradley Hand","Segoe Print",cursive}
+.takeaway h2{max-width:25ch;margin:0 0 12px;font-size:29px;line-height:1.15}
+.takeaway p{max-width:67ch;margin:0 0 14px}
+.takeaway p:last-child{margin-bottom:0}
+
+.product-note{display:grid;grid-template-columns:54px minmax(0,1fr);gap:18px;margin:44px 0 0;padding:24px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.product-note img{width:48px;height:48px;transform:rotate(-3deg)}
+.product-note h2{margin:0 0 7px;font-size:21px;line-height:1.25}
+.product-note p{margin:0 0 10px;color:var(--muted);font-size:15.5px}
+.product-note a{font-weight:700}
+
+.related{margin:42px 0 0}
+.related h2,.sources h2{margin:0 0 12px;font-size:21px}
+.related-links{display:grid;border-top:1px solid var(--line)}
+.related-links a{display:flex;justify-content:space-between;gap:18px;padding:13px 0;border-bottom:1px solid var(--line);color:var(--ink);font-weight:650;text-decoration:none}
+.related-links a::after{content:"→";color:var(--link)}
+.related-links a:hover{text-decoration:underline;text-decoration-color:var(--violet);text-underline-offset:4px}
+
+.sources{margin:42px 0 0;padding:24px 0;border-top:1px solid var(--line)}
+.sources ol{display:grid;gap:8px;margin:0;padding-left:22px;color:var(--muted);font-size:13.5px;line-height:1.5}
+.sources li::marker{color:var(--link);font-family:"Nudica Mono",ui-monospace,SFMono-Regular,Menlo,monospace}
+.sources a{color:var(--muted)}
+
+.letter-signup{margin:52px 0 0;padding:30px 0 34px;background:var(--paper);box-shadow:0 0 0 100vmax var(--paper);clip-path:inset(0 -100vmax)}
+.letter-signup .runner{margin:0 0 6px;color:var(--link);font:600 11px/1.2 "Nudica Mono",ui-monospace,SFMono-Regular,Menlo,monospace;text-transform:uppercase}
+.letter-signup h2{margin:0 0 8px;color:var(--link);font:600 31px/1.05 "Marksy","Marker Felt","Bradley Hand","Segoe Print",cursive}
+.letter-signup>p:not(.runner){max-width:62ch;margin:0 0 16px;color:var(--muted);font-size:15px}
+.signup-row{display:flex;flex-wrap:wrap;gap:10px;max-width:660px}
+.signup-row input{flex:1 1 230px;min-width:0;padding:11px 14px;border:1px solid #8f849f;border-radius:6px;background:var(--bg);color:var(--ink);font:500 15px/1.3 "Nudica",sans-serif}
+.signup-row button{padding:11px 20px;border:0;border-radius:6px;background:var(--navy);color:#fff;font:650 15px/1.3 "Nudica",sans-serif;cursor:pointer}
+.signup-row button:hover{background:#20192f}
+.consent{display:block;max-width:760px;margin:10px 0 0;color:var(--muted);font-size:13px;line-height:1.5}
+.privacy-note{margin:9px 0 0!important;font-size:12.5px!important}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+@media(max-width:700px){
+  .learn-shell>header{align-items:flex-start}
+  nav.nav{gap:12px;font-size:13.5px}
+  .learn-head{padding:38px 56px 30px 0}
+  .learn-head .back-link{margin-bottom:21px}
+  .learn-head .article-mark{right:0;top:78px;width:40px;height:40px}
+  .learn-head h1{font-size:36px}
+  .learn-head .dek{font-size:17px}
+  .learn-head .read-meta{display:block;margin:7px 0 0}
+  .question-grid{grid-template-columns:1fr}
+  .question{padding:14px 0}
+  .question+.question{padding-left:0;border-top:1px solid var(--line);border-left:0}
+  .era-head{grid-template-columns:1fr;gap:7px}
+  .era-head .era-kicker{margin:0}
+  .timeline-stop{grid-template-columns:22px minmax(0,1fr);gap:0 14px;min-height:0;padding-bottom:31px}
+  .timeline-date{grid-column:2;padding:0 0 6px;text-align:left}
+  .timeline-track{grid-column:1;grid-row:1 / span 2}
+  .timeline-copy{grid-column:2}
+  .timeline-copy h3{font-size:19px}
+  .pull{margin:14px 0 38px 36px;font-size:27px}
+  .product-note{grid-template-columns:42px minmax(0,1fr);gap:14px}
+  .product-note img{width:38px;height:38px}
+}
+
+@media(max-width:430px){
+  .learn-shell{padding:0 18px}
+  .learn-shell>header{display:block}
+  nav.nav{margin-top:15px}
+  .learn-head{padding-right:0}
+  .learn-head .article-mark{display:none}
+  .jump-nav{gap:9px 15px}
+  .timeline-era{padding-top:42px}
+  .timeline-copy .ai-note{padding-left:13px}
+  .related-links a{gap:10px}
+  .signup-row button{width:100%}
+}

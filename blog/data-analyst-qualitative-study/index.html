@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>What happens when a data analyst is handed a qualitative study — Vahtian blog</title>
-  <meta name="description" content="A data analyst who thinks in math and logic is asked to supervise a qualitative study outside her field. The logic was there the whole time. The words were the wall. On grade-25 English, the concept of medical mistrust, and a framework for qualitative work that survives stress testing. By Heidi Andersén, MD, PhD.">
+  <meta name="description" content="A data analyst enters qualitative research looking for rules and finds a language problem instead. On vocabulary, stress testing, and keeping the human decision visible. By Heidi Andersén, MD, PhD.">
   <meta name="theme-color" content="#2D2440">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
@@ -13,13 +13,14 @@
   <meta property="og:type" content="article">
   <meta property="og:url" content="https://vahtian.com/blog/data-analyst-qualitative-study/">
   <meta property="og:title" content="What happens when a data analyst is handed a qualitative study">
-  <meta property="og:description" content="The logic was there the whole time. The words were the wall. On grade-25 English, medical mistrust, and a framework for qualitative work that survives stress testing.">
+  <meta property="og:description" content="I entered qualitative research looking for rules. I found them, then had to learn the language. On vocabulary, stress testing, and keeping the human decision visible.">
   <meta property="og:image" content="https://vahtian.com/brand/cards/vahtian-lighthouse-card.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Vahtian — research citation integrity.">
   <meta property="og:site_name" content="Vahtian">
-  <meta property="article:published_time" content="2026-07-10">
+  <meta property="article:published_time" content="2026-07-16">
+  <meta property="article:modified_time" content="2026-07-16">
   <meta property="article:author" content="Heidi Andersén">
   <meta name="twitter:card" content="summary_large_image">
   <script type="application/ld+json">
@@ -27,10 +28,10 @@
     "@context": "https://schema.org",
     "@type": "BlogPosting",
     "headline": "What happens when a data analyst is handed a qualitative study",
-    "description": "A data analyst who thinks in math and logic supervises a qualitative study outside her field. The logic was there; the vocabulary was the barrier. On grade-25 English, medical mistrust, and a framework for qualitative work that survives stress testing.",
+    "description": "A data analyst enters qualitative research looking for rules and finds a language problem instead. On vocabulary, stress testing, and keeping the human decision visible.",
     "url": "https://vahtian.com/blog/data-analyst-qualitative-study/",
-    "datePublished": "2026-07-10",
-    "dateModified": "2026-07-10",
+    "datePublished": "2026-07-16",
+    "dateModified": "2026-07-16",
     "author": {
       "@type": "Person",
       "name": "Heidi Andersén",
@@ -48,58 +49,12 @@
   }
   </script>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232D2440'/%3E%3Cg fill='none' stroke='%238B6FC9' stroke-width='2.2' stroke-linecap='round'%3E%3Cpath d='M8 11 H24'/%3E%3Cpath d='M8 16 H24'/%3E%3Cpath d='M8 21 H18'/%3E%3C/g%3E%3Ccircle cx='23' cy='21' r='2.3' fill='%23C5B8E8'/%3E%3C/svg%3E">
-  <style>
-    :root{--navy:#2D2440;--violet:#8B6FC9;--lilac:#C5B8E8;--ink:#1c1830;--muted:#5b5570;
-          --bg:#faf9fc;--card:#fff;--line:#e7e3f0;--link:#6F52B8}
-    *{box-sizing:border-box}
-    body{margin:0;font:17px/1.7 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,ui-sans-serif,system-ui,sans-serif;
-         color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased}
-    a{color:var(--link)}
-    a:focus-visible{outline:3px solid var(--violet);outline-offset:2px}
-    .wrap{max-width:700px;margin:0 auto;padding:0 22px}
-    header{padding:24px 0 4px;display:flex;align-items:center;justify-content:space-between;gap:10px}
-    .brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:18px}
-    .mark{width:30px;height:30px;flex:0 0 30px}
-    .up{font-size:13px;color:var(--muted);text-decoration:none}
-    .meta{font:600 13px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--link);margin:34px 0 10px;text-transform:uppercase;letter-spacing:.08em}
-    h1{font-size:clamp(30px,6vw,42px);line-height:1.12;letter-spacing:-.02em;margin:0 0 10px}
-    .byline{color:var(--muted);font-size:14.5px;margin:0 0 34px}
-    .byline a{color:var(--muted)}
-    article p{margin:0 0 18px}
-    article h2{font-size:23px;letter-spacing:-.01em;margin:38px 0 14px}
-    article h3{font-size:18px;letter-spacing:-.01em;margin:26px 0 10px}
-    article ul,article ol{margin:0 0 18px;padding-left:24px;display:grid;gap:8px}
-    article li b{color:var(--ink)}
-    .credo{border-left:3px solid var(--violet);padding:4px 0 4px 20px;margin:0 0 18px}
-    .credo p{margin:0 0 8px;color:#3a3450}
-    .credo p:last-child{margin:0;color:var(--ink);font-weight:600}
-    .box{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--violet);
-         border-radius:12px;padding:16px 20px;margin:0 0 20px}
-    .box p{margin:0 0 12px}.box p:last-child{margin:0}
-    .box .q{font-weight:650;color:var(--ink)}
-    .pull{font-size:clamp(19px,3vw,23px);font-weight:650;letter-spacing:-.01em;color:var(--ink);margin:0 0 18px}
-    .sig{margin:34px 0 0;font-weight:600}
-    .backrow{margin:44px 0 0;padding-top:22px;border-top:1px solid var(--line)}
-    .backrow a{font-weight:600;font-size:15px}
-    footer{padding:28px 0 50px;color:var(--muted);font-size:13px;border-top:1px solid var(--line);margin-top:36px;line-height:1.7}
-    footer a{color:var(--muted)}
-
-    /* site nav */
-    nav.nav{display:flex;align-items:center;gap:16px;flex-wrap:wrap;font-size:14.5px}
-    nav.nav a{color:#1c1830;text-decoration:none;font-weight:600}
-    nav.nav a:hover{color:#6F52B8}
-    nav.nav .ext{color:#514a68}
-    nav.nav .util{display:flex;align-items:center;gap:13px;padding-left:15px;border-left:1px solid #e7e3f0}
-    nav.nav .util .ic{display:flex;color:#514a68}
-    nav.nav .util .ic:hover{color:#6F52B8}
-    nav.nav .buy{background:#2D2440;color:#fff;padding:7px 13px;border-radius:8px;font-size:13.5px;font-weight:700}
-    @media(max-width:680px){nav.nav{gap:13px;font-size:13.5px}}
-  </style>
   <link rel="stylesheet" href="../../brand/site-refresh.css">
+  <link rel="stylesheet" href="../../brand/blog-article.css">
 <link rel="stylesheet" href="../../brand/footer.css">
 </head>
-<body class="vh-content">
-<div class="wrap">
+<body class="vh-content blog-article">
+<div class="blog-shell">
   <header>
     <div class="brand">
       <a href="/" aria-label="Vahtian — home" style="display:flex"><svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#2D2440"/><g fill="none" stroke="#8B6FC9" stroke-width="2.2" stroke-linecap="round"><path d="M8 11 H24"/><path d="M8 16 H24"/><path d="M8 21 H18"/></g><circle cx="23" cy="21" r="2.3" fill="#C5B8E8"/></svg></a>
@@ -109,7 +64,7 @@
       <a href="/#kits">Kits</a>
       <a href="/download/">Tools</a>
       <a href="/learn/">Learn</a>
-      <a href="/blog/">Blog</a>
+      <a href="/blog/" aria-current="page">Blog</a>
       <a href="/about/">About</a>
       <span class="util">
         <a class="ic" href="/search/" aria-label="Search vahtian.com"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.3" y2="16.3"/></svg></a>
@@ -118,184 +73,80 @@
   </header>
 
 <main>
-  <p class="meta">Vahtian blog · 10 July 2026</p>
-  <h1>What happens when a data analyst is handed a qualitative study</h1>
-  <p class="byline">By <a href="/about/">Heidi Andersén, MD, PhD</a> — clinician-scientist in respiratory
-    medicine, oncology, and clinical research.</p>
+  <header class="article-head">
+    <img class="article-mark" src="../../brand/marks/qualivahti-local.svg" alt="">
+    <p class="article-kicker">Field note · <time datetime="2026-07-16">16 July 2026</time></p>
+    <h1>What happens when a data analyst is handed a qualitative study</h1>
+    <p class="dek">I came to qualitative research looking for a structure I could test. The structure was there. The language was what kept me outside.</p>
+    <p class="byline">By <a href="/about/">Heidi Andersén, MD, PhD</a>.<span class="read-meta">6 minute read</span></p>
+  </header>
 
-  <article>
-    <p>I am comfortable with math. Give me a model, a logic, a set of rules, and I can follow it anywhere. So when
-      I was asked to supervise a qualitative study, in a field that was not mine, my first instinct was to look
-      for the logic. Where is the structure here?</p>
+  <article class="article-body">
+    <p>I am comfortable with models. Give me a logic, a set of assumptions, and a way to test them, and I know where to begin. So when I was asked to supervise a qualitative study in a field that was not mine, I went looking for the structure.</p>
 
-    <p>It was there the whole time. Qualitative research has a methodology you can follow, an argument you can
-      trace, rules that hold. That surprised me, and it should not have. The logic was never the problem.</p>
+    <p>I found it. Qualitative research has methods, arguments, and standards that can be followed and challenged. My difficulty was not a lack of rigour. It was learning the language used to describe it.</p>
 
-    <p class="pull">The words were.</p>
-
-    <p>Qualitative papers are often written in what I think of as grade-25 English: exclusive terms, non-intuitive,
-      assumed rather than explained. The reasoning underneath is clear once you have the vocabulary. Without it
-      you stall on the first sentence, not because the idea is hard, but because the word is a gate.</p>
+    <p class="pull">The logic was there. The words were the wall.</p>
 
     <h2>The word was the gate</h2>
 
-    <p>Here is a small example that shows the whole problem.</p>
+    <p>A capable person can stall on a term they were never handed. The idea may be familiar, but the disciplinary vocabulary carries a history, a definition, and a set of assumptions that are invisible to an outsider.</p>
 
-    <div class="box">
-      <p class="q">A student asks ChatGPT: "How do I code 'the patient felt he could not trust the healthcare
-        provider'?"</p>
-      <p>The answer comes back clean: "reported a lack of trust in their healthcare provider," or "expressed
-        mistrust toward the provider." Both draw on an established concept, <b>medical mistrust</b>, defined in
-        nursing scholarship as a fear of harm or exploitation, and a lack of confidence in providers that leads
-        patients to avoid care.</p>
-    </div>
+    <aside class="field-note">
+      <p class="runner">A small example</p>
+      <p><b>Interview line:</b> “The patient felt he could not trust the healthcare provider.” An AI assistant may suggest labels such as “lack of trust” or the term “medical mistrust.” That suggestion is a lead, not a finished code. The researcher still has to check the literature, decide whether the concept fits this study, and record why it was used.</p>
+    </aside>
 
-    <p>Look at what happened. The idea was ordinary: a patient did not trust their doctor. But the field already
-      had a precise term for it, with a definition and a literature behind it. Knowing the words "medical
-      mistrust" is the difference between a vague note and a coded, defensible theme. The concept was never hard.
-      The word was the gate.</p>
+    <p>The important part is not that AI can produce a scholarly phrase. It is that the phrase can make an ordinary experience look settled before the analytic work has happened. Vocabulary opens a door, but it can also hide the judgment made after entering.</p>
 
-    <p>This is the part that surprised me most, and the part I keep coming back to. A capable person can stall in
-      qualitative work for a reason that has nothing to do with their thinking. They stall on vocabulary they were
-      never handed. That is not a knowledge problem. It is an access problem, and access problems can be fixed.</p>
+    <p>This was the access problem I kept noticing. People were not always stuck because the reasoning was beyond them. They were stuck because the field expected fluency before it explained the terms.</p>
 
-    <h2>How I found my way in</h2>
+    <h2>Finding a logic I could follow</h2>
 
-    <p>Because the field was not mine, I did what I always do with unfamiliar territory. I researched the topic,
-      the existing tools, the methodologies people used, the keywords they returned to. I built comparison tables
-      and timelines so I could see the scientific argumentation laid out in front of me, and I coded new tools for
-      the team.</p>
+    <p>I did what I usually do in unfamiliar territory. I mapped methods against one another, built timelines, traced recurring terms, and asked what each approach was trying to claim.</p>
 
-    <p>Tables and timelines are how an outsider makes an unfamiliar logic followable. You put the competing
-      positions side by side, you line up when each idea arrived and what it answered, and the structure that was
-      hidden in the prose becomes something you can point at. If you have used the Vahtian
-      <a href="/learn/history-of-qualitative-research/">Learn timelines</a>, you have seen the same instinct: the
-      argument, drawn out where you can check it.</p>
+    <p>Tables and timelines made the argument visible. Put competing positions side by side and the differences stop looking like obscure vocabulary. You can see what changed, what problem a method answered, and where two traditions genuinely disagree. The <a href="/learn/history-of-qualitative-research/">history of qualitative research timeline</a> came from that same instinct.</p>
 
-    <h2>Then I asked my real question: would it survive stress testing?</h2>
+    <p>I also built tools for the team. Not to automate interpretation, but to keep the codebook, method choices, and reasons for change close enough to inspect.</p>
 
-    <p>Once I could follow the methodology, I looked at it the way I look at any model. Would it survive stress
-      testing? Would it hold up when someone tried to break it?</p>
+    <h2>Then came the stress test</h2>
 
-    <p>An unstructured qualitative workflow with a single train/test split and a headline accuracy would not. It
-      has to anticipate what a sceptical reviewer, or an audit tool like <a href="/epinet/">EpiNet</a>, will probe,
-      and it has to be designed for that from the start. The framework below is what I arrived at. It combines
-      transparent data handling, honest evaluation, and reflexivity about my own position.</p>
+    <p>Once I could follow the methodology, I asked the question I ask of any analytic system: what happens when someone tries to break it?</p>
 
-    <h2>1. Specify the epistemic stance</h2>
-    <ol>
-      <li><b>Define the knowledge claim.</b> Are you building a theory (inductive), testing one (deductive), or
-        inferring the most plausible explanation (abductive)? Say which in the protocol, and make sure your
-        sampling, coding, and analysis all match it.</li>
-      <li><b>Document your position.</b> Record your relationship to the participants and the field, how it might
-        shape your reading, and how you plan to keep that in check.</li>
-      <li><b>Align the words with the claim.</b> Do not borrow "code saturation" from inductive coding when your
-        analysis is reflexive thematic analysis. The term has to belong to the method.</li>
+    <p>That does not mean every qualitative study needs a classifier. Many do not. If the aim is interpretive, forcing the work into prediction can answer the wrong question with impressive precision.</p>
+
+    <aside class="field-note">
+      <p class="runner">The boundary</p>
+      <p>A computational layer belongs only when it serves the stated knowledge claim. It does not make qualitative work more scientific by existing.</p>
+    </aside>
+
+    <p>When a project does include computational coding, classification, or network analysis, I want the model to face the same scrutiny as the qualitative reasoning beneath it. These are the five principles I now use.</p>
+
+    <ol class="working-principles">
+      <li><div><h3>Name the knowledge claim</h3><p>Say whether the work is inductive, deductive, or abductive. Record the researcher’s position and use terms that belong to the chosen method. Sampling, coding, and analysis should answer the same kind of question.</p></div></li>
+      <li><div><h3>Keep sources and transformations connected</h3><p>Maintain the sampling log, codebook history, case identifiers, preprocessing steps, and feature provenance. A result is easier to challenge when another person can follow how it was made.</p></div></li>
+      <li><div><h3>Test harder than one convenient split</h3><p>Where prediction is used, repeat the evaluation, guard against leakage, test against chance, and check calibration. If related cases cross between training and test data, keep them together and report the lower, more honest estimate.</p></div></li>
+      <li><div><h3>Leave uncertain cases uncertain</h3><p>Borderline interviews and coding disagreements contain information. Do not force a confident label where the data do not support one. Record what is contested and what additional context might resolve it.</p></div></li>
+      <li><div><h3>Report the limits and keep the decision human</h3><p>Show uncertainty, null results, assumptions, and appropriate use. Explain how the researcher’s choices shaped the analysis. The model may suggest; the responsible person accepts, rejects, and documents why.</p></div></li>
     </ol>
 
-    <h2>2. Collect and format the data</h2>
-    <ol>
-      <li><b>Sample on purpose.</b> Use purposeful or theoretical sampling that fits your stance, and keep a
-        sampling matrix and recruitment log: who was approached, why they fit, and how you judged saturation or
-        information power.</li>
-      <li><b>Represent each case as a node.</b> One interview or document per node, with an identifier, the theme
-        labels you intend to classify, and any attributes such as demographics or word-frequency vectors.</li>
-      <li><b>Annotate any edges.</b> If cases are related, for example participants from the same site or a
-        similarity above a threshold, record that in an edge table and say what the edge means. This matters
-        because EpiNet applies a graph-semantics gate: a similarity graph can support clustering, but it cannot
-        justify a causal claim about who influenced whom.</li>
-    </ol>
+    <h2>What changed for me</h2>
 
-    <h2>3. Pre-process and build features</h2>
-    <ol>
-      <li><b>Text features.</b> Compute bag-of-words or TF-IDF vectors, reduce them by term filtering or embedding
-        averaging, and combine them with any domain attributes.</li>
-      <li><b>One pipeline, versioned.</b> Apply the same preprocessing to every case, and write the version down.</li>
-      <li><b>Record feature provenance.</b> Keep a file describing how each feature was made, so the result can be
-        reproduced.</li>
-    </ol>
+    <p>I stopped treating qualitative research as the opposite of analysis. The rigour was not hidden because it was absent. It was hidden from me because I did not yet speak the language.</p>
 
-    <h2>4. Evaluate the model honestly</h2>
-    <p>This is the step a reviewer will push on hardest, so it is the one to build most carefully.</p>
-    <ol>
-      <li><b>Many splits, not one.</b> A single train/test split can swing wildly depending on which cases land in
-        the test set. Run multiple random splits (EpiNet defaults to ten) and report the mean, standard
-        deviation, minimum, and maximum of each metric.</li>
-      <li><b>Tune once.</b> Pick logistic regression for interpretability or a random forest for a flexible
-        baseline, use imbalance-aware settings, and select on balanced accuracy, not overall accuracy.</li>
-      <li><b>Calibrate, and show your working.</b> Tree models are often over-confident. Re-fit in a calibration
-        wrapper, keep the calibrated probabilities only if they improve the held-out Brier score, and report both
-        the raw and calibrated slope and intercept so the decision is auditable.</li>
-      <li><b>Test against chance.</b> Shuffle the outcome labels many times and re-run the whole evaluation. If the
-        real scores sit inside that null distribution, the features carry little signal, and you need to say so.</li>
-      <li><b>Split by community.</b> If your data have edges, random splits leak information between train and test.
-        Keep connected cases in the same fold. Performance usually drops, and that lower number is the honest
-        estimate of how well the model travels to a new community.</li>
-      <li><b>Record provenance.</b> Software versions, seeds, hyperparameters, and splits, stored in a provenance
-        file inside the model bundle.</li>
-    </ol>
+    <p><a href="/methodvahti/">MethodVahti</a> grew from the need to keep method, terminology, and written claims aligned. <a href="/epinet/">EpiNet</a> handles the harder computational stress tests when a model is genuinely part of the study. Neither decides what the data mean.</p>
 
-    <h2>5. Take contestability seriously</h2>
-    <ol>
-      <li><b>Find the borderline cases.</b> Measure each case's distance to the class centroids and flag the ones
-        near a boundary. These are the interviews where the classification is genuinely uncertain.</li>
-      <li><b>Leave the grey zones grey.</b> For contested cases, do not force a strong theme. Present them as
-        ambiguous, and note what would resolve them, such as more context or a follow-up interview. More
-        algorithms or hand-set rules will not rescue a case where the features simply do not carry the
-        information.</li>
-    </ol>
+    <p class="pull">The logic of rigour is learnable. The vocabulary should not be a gate.</p>
 
-    <h2>6. Report with uncertainty, and reflect</h2>
-    <ol>
-      <li><b>Metrics with intervals.</b> Report discrimination, classification, and calibration with bootstrap
-        confidence intervals and the spread across splits. Do not over-read a single point estimate.</li>
-      <li><b>Explain null results.</b> If the permutation test is not significant, state plainly that the model
-        does not detect a reliable signal.</li>
-      <li><b>Provide a model card.</b> Summarise the model, data, evaluation, assumptions, limits, and appropriate
-        use. Say clearly that it is a demonstrator, not a clinical or policy decision tool.</li>
-      <li><b>Reflect on your role.</b> Bring the epistemic stance from step 1 into the discussion, and explain how
-        your position and your choices shaped the coding and the evaluation.</li>
-      <li><b>Share data responsibly.</b> De-identify transcripts and graph structures, get consent before sharing
-        anything raw, and think hard about the ethics of revealing edges drawn from participant interaction.</li>
-    </ol>
-
-    <h2>7. Plan the next iteration</h2>
-    <ol>
-      <li><b>Make it reproducible.</b> Publish the dataset, code, and evaluation scripts, with an environment
-        description so others can re-run the stress test.</li>
-      <li><b>Change the representation, not the score.</b> If the model fails under permutation or community
-        splits, revisit the features or the theme structure. Do not chase a higher number.</li>
-      <li><b>Keep a human in the loop.</b> Treat the model as a junior assistant, not an oracle. Review its
-        suggestions, decide what to accept or reject, and write down why.</li>
-    </ol>
-
-    <h2>What the framework buys you</h2>
-
-    <p>Follow this and you can show a reviewer, or an auditor, that both the model and the qualitative coding
-      underneath it have been stress tested. Multiple splits, calibration, permutation nulls, and community-aware
-      evaluation expose overfitting and chance performance. Contestability analysis names the borderline cases
-      instead of hiding them. Transparent sampling and reflexive reporting keep your own hand visible. Together
-      they position the findings as auditable, credible, and open to contestation, rather than presented as
-      infallible.</p>
-
-    <p class="pull">The logic of rigour is learnable. The vocabulary should not gatekeep it.</p>
-
-    <p>That is the whole reason these tools exist. <a href="/methodvahti/">MethodVahti</a> keeps your stated
-      method, your terminology, and your written claims aligned from protocol to publication, and flags the
-      mismatches that a reviewer would catch. <a href="/epinet/">EpiNet</a> runs the leakage-aware evaluation in step 4
-      and writes the model card. Neither one decides what your data mean. That was always going to be the human's
-      job, whether the human trained as a data analyst or grew up inside qualitative research.</p>
-
-    <p>I came to this field from the outside, through tables and timelines and a stubborn need to find the logic.
-      The logic was there. Once I could read the words, I could see it. My hope is that these tools give people
-      the language sooner, so they can move past decoding and get to the real thinking.</p>
+    <p>I still enter unfamiliar fields through tables, timelines, and a stubborn need to find the structure. Now I also ask which words are doing useful scientific work, and which ones are simply keeping an outsider at the door.</p>
 
     <p class="sig">Heidi</p>
   </article>
 
-  <div class="backrow">
-    <a href="/blog/">← All posts</a> · <a href="/">vahtian.com</a>
-  </div>
+  <nav class="post-nav" aria-label="More from the Vahtian blog">
+    <a href="/blog/why-vahtian-exists/"><small>Previous note</small>Why Vahtian exists</a>
+    <a href="/blog/"><small>All notes</small>Back to the blog</a>
+  </nav>
 </main>
 
   <footer class="vh-footer">
