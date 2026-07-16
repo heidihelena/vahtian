@@ -44,6 +44,12 @@ body.learn-guide{
 .guide-meta a{color:var(--muted)}
 .guide-meta .read-time{margin-left:7px;color:var(--link);font:500 11px/1.2 "Nudica Mono",ui-monospace,SFMono-Regular,Menlo,monospace;text-transform:uppercase}
 
+.editorial-correction{display:flex;align-items:baseline;gap:16px;flex-wrap:wrap;margin:30px 0 38px!important;color:var(--link);font:600 26px/1.15 "Marksy","Marker Felt","Bradley Hand","Segoe Print",cursive}
+.editorial-correction .overruled{position:relative;color:var(--muted);text-decoration:none}
+.editorial-correction .overruled::after{content:"";position:absolute;left:-4%;right:-4%;top:52%;border-top:3px solid var(--violet);transform:rotate(-3deg)}
+.editorial-correction .overliner{position:relative;padding-top:8px}
+.editorial-correction .overliner::before{content:"";position:absolute;left:1%;right:7%;top:0;border-top:2px solid var(--lilac);transform:rotate(1deg)}
+
 .learn-guide .outcomes{margin:0 0 38px!important;padding:20px 0!important;background:transparent!important;border:0!important;border-top:1px solid var(--line)!important;border-bottom:1px solid var(--line)!important;border-radius:0!important}
 .learn-guide .outcomes>p{margin:0 0 9px;font-weight:700}
 .learn-guide .outcomes ul{display:grid;gap:5px;margin:0;padding-left:22px}
@@ -64,6 +70,17 @@ body.learn-guide{
 .learn-guide .note p{margin:0 0 8px}
 .learn-guide .note p:last-child{margin-bottom:0}
 .learn-guide .fig{margin:28px 0!important;padding:22px 0!important;background:var(--paper)!important;border:0!important;border-top:1px solid var(--line)!important;border-bottom:1px solid var(--line)!important;border-radius:0!important}
+
+.learn-guide .order{list-style:none!important;margin:0 0 28px!important;padding:0!important;counter-reset:step}
+.learn-guide .order li{position:relative;margin:0!important;padding:14px 0 14px 42px!important;background:transparent!important;border:0!important;border-bottom:1px solid var(--line)!important;border-radius:0!important}
+.learn-guide .order li::before{counter-increment:step;content:counter(step);position:absolute!important;left:0!important;top:16px!important;width:25px!important;height:auto!important;background:transparent!important;color:var(--link)!important;font:600 20px/1 "Marksy","Marker Felt","Bradley Hand","Segoe Print",cursive!important;text-align:center!important;transform:rotate(-3deg)}
+.learn-guide .cols{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin:24px 0 30px}
+.learn-guide .cols .box{padding:18px 0 0!important;background:transparent!important;border:0!important;border-top:2px solid var(--violet)!important;border-radius:0!important}
+.learn-guide .cols h3{margin:0 0 12px;font-size:19px}
+.learn-guide .cols .for,.learn-guide .cols .against{color:var(--link)!important;font:600 11px/1.3 "Nudica Mono",ui-monospace,SFMono-Regular,Menlo,monospace!important;text-transform:uppercase}
+.learn-guide .ex{margin:24px 0 30px!important;padding:18px 0!important;background:transparent!important;border:0!important;border-top:1px solid var(--line)!important;border-bottom:1px solid var(--line)!important;border-radius:0!important}
+.learn-guide .ex .bad{color:var(--muted)!important}
+.learn-guide .ex .good{color:var(--ink)!important}
 
 .guide-content table{width:100%;margin:24px 0 30px;border-collapse:collapse;font-size:14.5px;line-height:1.5}
 .guide-content th{padding:10px 12px;border-bottom:2px solid var(--navy);color:var(--navy);text-align:left;vertical-align:bottom}
@@ -95,6 +112,7 @@ body.learn-guide{
   .guide-content>.lede{font-size:17px}
   .guide-meta .read-time{display:block;margin:7px 0 0}
   .guide-content table{display:block;max-width:100%;overflow-x:auto}
+  .learn-guide .cols{grid-template-columns:1fr}
 }
 
 @media(max-width:430px){

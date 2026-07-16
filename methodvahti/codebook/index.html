@@ -136,9 +136,10 @@
     @media(max-width:680px){nav.nav{gap:13px;font-size:13.5px}}
   </style>
   <link rel="stylesheet" href="../../brand/site-refresh.css">
+<link rel="stylesheet" href="../../brand/methodvahti-refresh.css">
 <link rel="stylesheet" href="../../brand/footer.css">
 </head>
-<body>
+<body class="vh-content method-family method-tool">
 <div class="wrap">
   <header>
     <div class="brand">
@@ -157,14 +158,17 @@
     </nav>
   </header>
 
+<nav class="tool-trail" aria-label="Breadcrumb"><a href="/methodvahti/">MethodVahti</a><span>/</span><span>Codebook</span></nav>
+<nav class="method-tools" aria-label="MethodVahti tools">
+  <a href="/methodvahti/explore/">Sample-size explorer</a>
+  <a href="/methodvahti/claim-check/">Claim check</a>
+  <a href="/methodvahti/codebook/" aria-current="page">Codebook</a>
+</nav>
+
 <main>
-  <h1>Codebook Builder &amp; Check</h1>
-  <p class="sub">Build a thematic-analysis codebook that a co-author or reviewer can actually follow.</p>
-  <p class="bound">Give each code a definition, when to apply it, when <em>not</em> to, and an example — the discipline that
-    makes coding consistent and auditable. The quality check flags codes missing a definition or example, near-duplicate
-    names, and definitions that overlap. It runs entirely in your browser and <b>checks structure, not substance</b>: it
-    does not read your data and does not decide whether your codes are the right ones. Nothing is uploaded. Export to CSV
-    or Markdown any time.</p>
+  <h1>Build a codebook another person can follow.</h1>
+  <p class="sub">Define the boundary of each code, add an example, and check the structure before coding drifts.</p>
+  <p class="bound">The check finds missing definitions, examples, near-duplicate names, and overlapping wording. It does not read your data or decide whether the codes are analytically right. Nothing is uploaded.</p>
 
   <div class="toolbar">
     <button id="add" type="button">+ Add a code</button>
@@ -180,122 +184,18 @@
 
   <div class="codes" id="codes"></div>
 
-  <section class="info">
-    <h2>Thematic analysis &amp; codebooks, in plain terms
-      <span class="s">What a codebook is, why it matters, and the terms — written for people learning the method.</span></h2>
-
-    <div class="wwh">
-      <div class="box">
-        <h3>What a codebook is</h3>
-        <p>A living document that lists each <b>code</b>, defines it, says when to apply it and when not to, and shows an
-          example from the data. It’s what lets a second coder — or a reviewer — apply your codes the same way you would.</p>
-      </div>
-      <div class="box">
-        <h3>Why it matters</h3>
-        <p>Without written definitions, “coding” drifts: the same label means different things across interviews or
-          across coders. A clear codebook makes the analysis consistent, auditable, and defensible — a rigor marker
-          reviewers look for.</p>
-      </div>
-      <div class="box">
-        <h3>Code vs theme vs category</h3>
-        <p>A <b>code</b> is a small label on a data segment (“voicelessness”). A <b>category</b> groups related codes. A
-          <b>theme</b> is a broader pattern of shared meaning built from them. Codebooks live mostly at the code level.</p>
-      </div>
-      <div class="box">
-        <h3>Inductive vs deductive</h3>
-        <p><b>Inductive</b> coding builds codes up from the data; <b>deductive</b> starts from a framework or prior theory.
-          Most studies mix both. Either way, writing definitions down is what keeps it honest.</p>
-      </div>
-    </div>
-
-    <h2 style="margin-top:30px">Braun &amp; Clarke’s six phases <span class="s">The most widely taught route through reflexive thematic analysis — the codebook supports phases 2–4.</span></h2>
-    <ol class="phases">
-      <li><b>Familiarisation</b> — read and re-read the data; note first impressions.</li>
-      <li><b>Generating codes</b> — label meaningful segments. <em>This is where the codebook starts.</em></li>
-      <li><b>Constructing themes</b> — cluster codes into candidate patterns of meaning.</li>
-      <li><b>Reviewing themes</b> — check themes against the coded data and the whole dataset.</li>
-      <li><b>Defining &amp; naming themes</b> — write a clear definition for each; refine the codebook.</li>
-      <li><b>Writing up</b> — build the narrative, with quotes that evidence each theme.</li>
-    </ol>
-
-    <h2 style="margin-top:30px">Frequently asked</h2>
-    <div class="faq">
-      <details>
-        <summary>What makes a good code definition?</summary>
-        <p>A good definition says what the code <em>means</em>, gives <b>inclusion criteria</b> (when to apply it) and
-          <b>exclusion criteria</b> (when not to — often the hardest and most useful part), and shows at least one
-          verbatim example. A counter-example — a near-miss that should <em>not</em> be coded — sharpens the boundary
-          further. If a definition just restates the code name, it isn’t doing any work.</p>
-      </details>
-      <details>
-        <summary>How many codes should a codebook have?</summary>
-        <p>There’s no target. Early inductive coding often produces many fine-grained codes, which you then merge and
-          organise into categories and themes. If you have dozens of codes with no grouping, that’s usually a sign to
-          consolidate — not a rule, but worth a deliberate look.</p>
-      </details>
-      <details>
-        <summary>Do I need a second coder, and what is intercoder agreement?</summary>
-        <p>Not always. In reflexive thematic analysis, coding is interpretative and a second coder is not required — a
-          clear audit trail can matter more than a statistic. In more codebook- or framework-driven work, a second coder
-          and an <b>intercoder agreement</b> measure (percent agreement, Cohen’s κ) are common. If you want to compute κ
-          on two coders’ labels, Vahtian’s <a href="/extractvahti/">ExtractVahti</a> and <a href="/reviewvahti/">ReviewVahti</a>
-          already do that.</p>
-      </details>
-      <details>
-        <summary>Should my codes be inductive or deductive?</summary>
-        <p>Both are legitimate; the choice follows your question and stance. Exploratory work leans inductive (codes
-          emerge from the data); theory-testing or applied work often starts deductive (codes come from a framework).
-          Many studies use a hybrid. What matters for rigor is that you state which you did and define the codes either
-          way.</p>
-      </details>
-      <details>
-        <summary>What’s the difference between a codebook and a coding frame?</summary>
-        <p>They overlap. “Coding frame” usually means the structured set of codes (often hierarchical) you apply,
-          common in framework analysis and content analysis. “Codebook” emphasises the definitions and rules behind each
-          code. In practice a good codebook <em>is</em> a documented coding frame.</p>
-      </details>
-    </div>
-
-    <h2 style="margin-top:30px">Terms, defined</h2>
-    <dl class="terms">
-      <dt>Code</dt>
-      <dd>A short label attached to a segment of data that captures something meaningful about it.</dd>
-      <dt>Codebook</dt>
-      <dd>The document defining every code — its meaning, inclusion and exclusion criteria, and examples — so coding is
-        consistent and auditable.</dd>
-      <dt>Theme</dt>
-      <dd>A broader pattern of shared meaning across the data, constructed from codes and categories.</dd>
-      <dt>Category</dt>
-      <dd>A grouping of related codes that sits between individual codes and higher-level themes.</dd>
-      <dt>Inclusion criteria</dt>
-      <dd>The rule for when a code applies — what a segment must show to be coded this way.</dd>
-      <dt>Exclusion criteria</dt>
-      <dd>The rule for when a code does <em>not</em> apply, including look-alike cases that belong to another code.</dd>
-      <dt>Inductive coding</dt>
-      <dd>Building codes up from the data itself, without a pre-set framework.</dd>
-      <dt>Deductive coding</dt>
-      <dd>Applying codes drawn from existing theory, a framework, or prior research.</dd>
-      <dt>Reflexive thematic analysis</dt>
-      <dd>Braun &amp; Clarke’s approach, which treats the researcher’s interpretation as central and codes as analytic
-        outputs rather than fixed measurements.</dd>
-      <dt>Intercoder agreement</dt>
-      <dd>How consistently two or more coders apply the same codes — reported as percent agreement or a chance-corrected
-        statistic such as Cohen’s κ.</dd>
-    </dl>
-
-    <div class="cant"><b>What this can’t do.</b> The check sees the <em>structure</em> of your codebook — whether codes
-      have definitions, examples, and distinct boundaries. It cannot read your transcripts, tell whether a code fits the
-      data, or judge whether your themes are right. Those are interpretative judgements for you, your co-authors, and
-      your reviewers.</div>
+  <section class="method-notes">
+    <h2>What makes a code usable</h2>
+    <p>A name is not enough. Define what the code means, when it applies, when it does not, and show at least one example from the data. A near-miss is often the fastest way to make the boundary clear.</p>
+    <p><strong>This checks structure only.</strong> It cannot tell whether a code fits the transcripts or whether the themes are analytically convincing. Those judgments remain with the research team.</p>
+    <p>New to the method? Read <a href="/learn/deductive-inductive-abductive/">deductive, inductive, and abductive reasoning</a> or <a href="/learn/build-qualitative-codebook-obsidian/">build a qualitative codebook in Obsidian</a>.</p>
   </section>
 
   <div class="bridge">
-    <h2>Turn the codebook into a defensible methods section</h2>
-    <p>A clear codebook is the evidence behind your analysis. The next question reviewers ask is whether the whole
-      approach — sampling, saturation, and reporting — holds together. <b>MethodVahti</b> builds that COREQ/SRQR-grounded
-      methods argument, with an audit trail of who decided what.</p>
-    <a class="btn" href="/methodvahti/">See what MethodVahti does →</a>
-    <a class="btn ghost" href="/methodvahti/claim-check/">Check your findings’ wording</a>
+    <h2>From codebook to methods record</h2>
+    <p>The Sample Defence Pack keeps the codebook alongside sampling, stopping, and reporting decisions, so the method can be reviewed as one argument.</p>
+    <a class="btn" href="/methodvahti/#access">See the Sample Defence Pack · €49</a>
+    <a class="btn ghost" href="/methodvahti/claim-check/">Check findings wording</a>
   </div>
 </main>
 

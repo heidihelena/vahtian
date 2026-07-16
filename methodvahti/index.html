@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>MethodVahti — document and defend your qualitative sampling decision</title>
-  <meta name="description" content="MethodVahti starts from your situation — planning an N, documenting one already chosen, answering a reviewer, reading pilot data, or writing methods text — and helps you build and document a qualitative sampling rationale, mapped to COREQ and SRQR reporting items. The sample-size models run underneath.">
+  <meta name="description" content="MethodVahti helps qualitative researchers turn study constraints, sample specificity, analytic depth, and stopping criteria into a defensible range, methods wording, and a decision record.">
   <meta name="theme-color" content="#2D2440">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
@@ -13,7 +13,7 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://vahtian.com/methodvahti/">
   <meta property="og:title" content="MethodVahti — document and defend your qualitative sampling decision">
-  <meta property="og:description" content="Start from your situation — plan an N, document one already chosen, answer a reviewer, read pilot data, or write methods text. MethodVahti helps you build and document a sampling rationale mapped to COREQ and SRQR reporting items; the models run underneath. A product of Vahtian.">
+  <meta property="og:description" content="Turn the study you have into a qualitative sampling range, a written rationale, and a record of the judgment behind both.">
   <meta property="og:image" content="https://vahtian.com/brand/cards/methodvahti-card.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
@@ -26,12 +26,12 @@
     "@type": "SoftwareApplication",
     "name": "MethodVahti",
     "url": "https://vahtian.com/methodvahti/",
-    "description": "Qualitative research decision support: synthesises three sample-size models, runs a hierarchical heterogeneity score, and exports a methods summary mapped to relevant COREQ and SRQR reporting items with an evidence-graded record.",
+    "description": "Qualitative sampling decision support that turns study constraints, sample specificity, analytic depth, and stopping criteria into a reasoned range, methods wording, and a decision record.",
     "applicationCategory": "Research software",
     "operatingSystem": "macOS, Linux, Windows",
-    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "EUR", "description": "Free beta for individual researchers; project licence for institutions." },
+    "offers": { "@type": "AggregateOffer", "lowPrice": "0", "highPrice": "49", "priceCurrency": "EUR", "offerCount": "2" },
     "license": "https://www.apache.org/licenses/LICENSE-2.0",
-    "sameAs": "https://github.com/heidihelena/epinet",
+    "sameAs": "https://github.com/heidihelena/vahtian/tree/main/methodvahti",
     "publisher": {
       "@type": "Organization",
       "name": "Vahtian",
@@ -150,9 +150,10 @@
     @media(max-width:680px){nav.nav{gap:13px;font-size:13.5px}}
   </style>
   <link rel="stylesheet" href="../brand/site-refresh.css">
+<link rel="stylesheet" href="../brand/methodvahti-refresh.css">
 <link rel="stylesheet" href="../brand/footer.css">
 </head>
-<body class="vh-content">
+<body class="vh-content method-family">
 <div class="wrap">
 
   <header>
@@ -180,27 +181,21 @@
   </header>
 <main>
 
-  <div class="hero">
-    <p class="kicker">A product of Vahtian</p>
-    <h1>Document and defend your sampling decision.</h1>
-    <p class="lede">No-one arrives with tidy parameters. You arrive with pressure: a protocol to write,
-      an N to defend, a reviewer’s comment, half-coded pilot interviews, or a nagging doubt about saturation.
-      MethodVahti starts from <em>your</em> situation and helps you build and document your sampling
-      rationale, mapped to COREQ and SRQR reporting items. You’re not optimising a number — you’re
-      documenting a decision so you can defend it; the models run underneath.</p>
-    <p style="margin:14px 0 0;font:600 12px/1.4 ui-monospace,SFMono-Regular,Menlo,monospace"><span style="display:inline-block;color:#5b5570;background:#f0edf7;border:1px solid #e7e3f0;border-radius:999px;padding:6px 12px">Browser-local, no upload · <a href="/privacy/#local-first" style="color:#6F52B8;text-decoration:none">what leaves your device</a></span></p>
-    <div class="cta">
-      <a class="btn primary" href="#situations">Start from your situation ↓</a>
-      <a class="btn ghost" href="/methodvahti/sample-report.pdf">See a sample report (PDF) →</a>
+  <div class="method-hero">
+    <p class="method-kicker">MethodVahti · Qualitative sampling</p>
+    <h1>Defend the sample you can actually recruit.</h1>
+    <p class="lede">A reviewer asks why twelve interviews were enough. An ethics committee wants the planned number. Your pilot data has made the original plan look optimistic. MethodVahti turns the study you have into a sampling range, a written rationale, and a record of the judgment behind both.</p>
+    <p class="method-correction"><del>What is the correct N?</del><span>What makes this N defensible?</span></p>
+    <p class="method-local">Runs in your browser · nothing uploads · you make the research decision</p>
+    <div class="method-actions">
+      <a class="btn primary" href="/methodvahti/explore/">Try the sample-size explorer</a>
+      <a class="btn ghost" href="#situations">Start with your problem</a>
     </div>
-    <p style="margin:14px 0 0;font-size:13.5px;color:var(--muted)">Also free, nothing uploads:
-      <a href="/methodvahti/explore/">live simulations</a> ·
-      <a href="/methodvahti/claim-check/">wording check</a> ·
-      <a href="/methodvahti/codebook/">codebook builder</a></p>
   </div>
 
-  <section id="situations">
-    <h2>Start from where you are <span class="sub">Pick the situation you’re actually in — MethodVahti elicits the COREQ/SRQR detail it needs from there.</span></h2>
+  <section class="method-section" id="situations">
+    <h2>Start with the problem you have</h2>
+    <p class="section-intro">Choose the situation. MethodVahti asks for the design details that matter there, instead of making you translate your study into a generic calculator.</p>
     <div class="routes" aria-label="Your situation">
       <button type="button" class="route" data-sit="plan" aria-pressed="true">
         <span class="rl">Plan a qualitative sample size</span>
@@ -232,260 +227,62 @@
     </div>
   </section>
 
-  <section id="deliverable">
-    <h2>What you walk away with <span class="sub">A methods document you can adapt for submission, not a terminal artifact.</span></h2>
-    <p style="margin:0 0 14px;color:#322c47">Whatever route you take, the output is the same shape:
-      methods text you can adapt for submission and a COREQ/SRQR-mapped record of every decision — for an ethics
-      application, a protocol, a reviewer-response letter, or a manuscript. COREQ and SRQR are reporting
-      guidelines: they structure what you disclose, they do not validate that a sample was adequate.
-      Every claim carries its epistemic status:</p>
-    <div class="badges" aria-label="Evidence basis — every claim is graded">
-      <span class="badge"><b>◆</b> Consensus</span>
-      <span class="badge"><b>◇</b> Contested</span>
-      <span class="badge"><b>○</b> Author hypothesis</span>
-      <span class="badge"><b>◌</b> Opinion range</span>
+  <section class="method-section" id="deliverable">
+    <h2>What you leave with</h2>
+    <p class="section-intro">Not a score to paste into a paper. A methods argument you can edit, question, and take responsibility for.</p>
+    <div class="deliverables">
+      <div class="deliverable"><h3>A reasoned range</h3><p>Three models shown together, with the assumptions and sensitivity visible.</p></div>
+      <div class="deliverable"><h3>Methods wording</h3><p>Draft text for a protocol, ethics application, manuscript, or reviewer response.</p></div>
+      <div class="deliverable"><h3>A decision record</h3><p>The study details, constraints, stopping rule, and human judgment behind the final choice.</p></div>
     </div>
-    <table class="tbl">
-      <thead><tr><th>Section</th><th>Standards covered</th></tr></thead>
-      <tbody>
-        <tr><td>Study profile</td><td class="std">SRQR 1–6 · COREQ 1–9</td></tr>
-        <tr><td>Sampling argument + optimisation</td><td class="std">SRQR 13 · COREQ 17</td></tr>
-        <tr><td>Three-model sample-size comparison</td><td class="std">COREQ 17</td></tr>
-        <tr><td>Fuzzy-set calibration sensitivity</td><td class="std">SRQR 5</td></tr>
-        <tr><td>Epistemic limitations</td><td class="std">SRQR 20 · COREQ 31–32</td></tr>
-        <tr><td>COREQ 32-item checklist</td><td class="std">COREQ complete</td></tr>
-        <tr><td>Citation + audit record</td><td class="std">Reproducibility</td></tr>
-      </tbody>
-    </table>
-    <p style="margin:16px 0 0">
-      <a class="btn primary" href="/methodvahti/sample-report.pdf">Download the sample report (PDF) →</a>
-      <a class="btn ghost" href="/methodvahti/explore/" style="margin-left:8px">Try the live simulations →</a>
-    </p>
-    <p style="margin:9px 0 0;color:var(--muted);font-size:13px">The sample is illustrative, an IPA study of
-      treatment decision-making in advanced NSCLC. Your report is built from your situation; the simulations
-      let you feel how the models respond before you commit.</p>
+    <p style="margin:22px 0 0"><a class="btn primary" href="/methodvahti/sample-report.pdf">Open the sample report (PDF)</a></p>
+    <p style="margin:10px 0 0;color:var(--method-muted);font-size:13px">COREQ and SRQR help structure what you report. They do not certify that the sample was adequate.</p>
   </section>
 
-  <section>
-    <div class="faq" style="margin-top:0">
-      <details>
-        <summary>What runs underneath — open to see the computation</summary>
-        <p style="margin:12px 0 2px">The computation stays under the argument, and you never tune it by hand. This is here for the curious, not something you need to read to use MethodVahti.</p>
-    <div class="scores">
-      <div class="scard">
-        <p class="role">Primary ○</p>
-        <h3>Hierarchical score</h3>
-        <p>Heterogeneity estimated within each dimension, then aggregated across them. This is the number that feeds the sample-size argument.</p>
-      </div>
-      <div class="scard diag">
-        <p class="role">Diagnostic ◆</p>
-        <h3>Marginal map</h3>
-        <p>A descriptive, per-dimension breakdown, showing which dimensions actually carry the variation, as a plain unweighted mean.</p>
-      </div>
-      <div class="scard diag">
-        <p class="role">Diagnostic ○</p>
-        <h3>Sparse-interaction stress</h3>
-        <p>The full cross-tabulation with a sparsity penalty, so data gaps are <em>visible</em>, never silently driving the result.</p>
-      </div>
-    </div>
-    <p class="note" style="margin-top:16px"><b>Severity weight ≠ observed rate.</b> An outcome weight of <code>0.90</code>
-      means near-maximum <em>amplification severity</em>, not "90% disagreement". Defaults are author
-      hypotheses; teams audit them with pilot data, and every change is timestamped in the report. Curious how
-      the models move? <a href="/methodvahti/explore/">Open the explorer →</a></p>
-      </details>
+  <section class="method-section" id="free-tools">
+    <h2>Try the reasoning first</h2>
+    <p class="section-intro">The free tools run locally in your browser. They are useful on their own and show how MethodVahti thinks before you buy anything.</p>
+    <div class="method-link-list">
+      <a href="/methodvahti/explore/"><b>Sample-size explorer</b><span>Move the design assumptions and see which ones move the suggested range.</span></a>
+      <a href="/methodvahti/claim-check/"><b>Qualitative claim check</b><span>Find wording that reaches beyond the sample or implies more certainty than the data can carry.</span></a>
+      <a href="/methodvahti/codebook/"><b>Codebook builder</b><span>Define code boundaries, add examples, check gaps, and export the codebook.</span></a>
     </div>
   </section>
 
-  <section id="access">
-    <h2>Access <span class="sub">free browser tools, a €49 pack you own, or an institutional licence</span></h2>
-
-    <div class="tier pack" style="border-color:var(--violet);box-shadow:0 0 0 1px var(--violet) inset;margin-bottom:14px">
-      <span class="ptag" style="background:#ECE3FF;border:1px solid var(--violet);color:#432C7A">€49 launch · €79 regular</span>
-      <h3>Sample Defence Pack</h3>
-      <p class="price" style="font-weight:400;color:#3a3450">Plan, document, and defend your qualitative sample, without pretending saturation is a formula. A downloadable kit you own, runs offline, nothing leaves your computer.</p>
-      <ul>
-        <li><b>Sample Defence Builder</b> — a local HTML tool, six steps, sends nothing anywhere</li>
-        <li><b>Terminology guide</b> (PDF) — 23 terms of sample adequacy, each defined, with when <em>not</em> to use it</li>
-        <li><b>Adequacy log</b> (Excel) — coverage matrix, recruitment log, planned-vs-achieved reconciliation</li>
-        <li><b>Methods &amp; defence templates</b> (Markdown), a <b>worked example</b>, and a quick start (PDF)</li>
-      </ul>
-      <p style="margin:0 0 14px;color:var(--muted);font-size:13px">Not a calculator. It documents your reasoned judgement so a reviewer can check it, and it never writes that saturation was reached. 14-day refund if it doesn't give you a clearer, more defensible sampling section.</p>
-      <a class="btn primary" href="https://buy.polar.sh/polar_cl_IT34p8blgA7TYMD174LHb7WLqyV89dhU8Bpa82qLpWq" rel="noopener">Get the Sample Defence Pack · €49 →</a>
-    </div>
-
-    <div class="tiers">
-      <div class="tier beta">
-        <span class="ptag free">free</span>
-        <h3>Free browser tools</h3>
-        <p class="price">Free, nothing uploads</p>
-        <ul>
-          <li>The planning explorer, to see how your choices move N</li>
-          <li>The qualitative claim check and the codebook builder</li>
-          <li>The sample report, so you see the shape before you commit</li>
-        </ul>
-        <p style="margin:0 0 12px;color:var(--muted);font-size:13px">The free tools run in your browser and upload nothing. When you need the documented, defensible version, that is the Sample Defence Pack above.</p>
-        <a class="btn primary" href="/methodvahti/explore/">Open the planning explorer →</a>
-      </div>
-      <div class="tier">
-        <span class="ptag inst">project licence</span>
-        <h3>Institutions &amp; teams</h3>
-        <p class="price">Paid — per research project</p>
-        <ul>
-          <li>Departments, doctoral schools, research groups</li>
-          <li>Team-wide licence, unlimited iterations</li>
-          <li>Priority support for methods reviews</li>
-        </ul>
-        <a class="btn ghost" href="mailto:hello@vahtian.com?subject=MethodVahti%20institutional%20licence">Talk to us →</a>
-      </div>
-    </div>
-    <p class="note" style="margin-top:16px">Individuals start free from <a href="#situations">any situation</a> and the
-      <a href="/methodvahti/explore/">planning explorer</a>. The institutional project licence and guided
-      drafting are how the work gets funded. <span style="color:var(--muted)">Developers: the Apache-2.0 core
-      is <a href="https://github.com/heidihelena/vahtian/tree/main/methodvahti">on GitHub</a>.</span></p>
+  <section class="method-section method-offer" id="access">
+    <p class="method-price">€49 · one payment</p>
+    <h2>Take the full decision record with you</h2>
+    <p class="section-intro">The Sample Defence Pack is for the point where exploring is no longer enough and the reasoning has to survive a protocol, manuscript, or reviewer.</p>
+    <ul>
+      <li><strong>Sample Defence Builder:</strong> a six-step local HTML tool.</li>
+      <li><strong>Adequacy log:</strong> recruitment, coverage, stopping decisions, and planned-versus-achieved reconciliation.</li>
+      <li><strong>Methods and response templates:</strong> editable Markdown, a worked example, and a concise terminology guide.</li>
+      <li><strong>No subscription:</strong> download it, keep it, and work offline.</li>
+    </ul>
+    <a class="btn primary" href="https://buy.polar.sh/polar_cl_IT34p8blgA7TYMD174LHb7WLqyV89dhU8Bpa82qLpWq" rel="noopener">Get the Sample Defence Pack · €49</a>
+    <p style="margin:14px 0 0;color:var(--method-muted);font-size:13px">It never states that saturation was reached for you. Fourteen-day refund if the pack does not give you a clearer sampling section.</p>
   </section>
 
-  <section>
-    <h2>Open validation, in progress</h2>
-    <p style="margin:0 0 14px;color:#322c47">We don't hide that the primary heterogeneity score is an
-      <b>author hypothesis (○)</b> — Vahtian's construction, not externally validated. We are testing it
-      against open-access qualitative datasets and published meta-syntheses, and we will publish the
-      validation protocol and results openly. Until that work lands, treat the score as
-      <b>decision support, not ground truth</b>. <a href="https://github.com/heidihelena/vahtian/blob/main/methodvahti/VALIDATION.md">Read the validation plan →</a></p>
-    <p class="note warn">Honest limits: MethodVahti does not infer causality, does not validate study
-      quality, and does not replace researcher judgment. The number is a synthesis you defend — not a verdict it issues.</p>
+  <section class="method-section">
+    <h2>For doctoral schools and research teams</h2>
+    <p class="section-intro">Use the same sampling record across a project, let supervisors review the reasoning, and keep each revision visible.</p>
+    <a class="btn ghost" href="mailto:hello@vahtian.com?subject=MethodVahti%20team%20licence">Ask about a team licence</a>
   </section>
 
-  <section id="learn">
-    <h2>Understand qualitative sampling <span class="sub">Plain-language answers to the questions behind “how many participants do I need?”, with the terms defined.</span></h2>
+  <section class="method-section method-limit" id="limits">
+    <h2>What MethodVahti does not decide</h2>
+    <p class="section-intro">It does not certify that your sample is adequate, declare saturation, infer causality, or judge the quality of the study. The modelled range is decision support. <strong>You decide the sample and defend the reasoning.</strong></p>
+    <p>The current heterogeneity model is a Vahtian hypothesis and is not yet externally validated. The assumptions, coefficients, and <a href="https://github.com/heidihelena/vahtian/blob/main/methodvahti/VALIDATION.md">validation plan</a> are open.</p>
+  </section>
 
-    <div class="wwh">
-      <div class="box">
-        <h3>What it is</h3>
-        <p>MethodVahti helps you decide and <em>defend</em> a qualitative sample size. You describe your study; it
-          synthesises three published sample-size models, estimates how varied your sample is, and drafts the
-          methods argument — with every claim marked by how well evidence backs it.</p>
-      </div>
-      <div class="box">
-        <h3>Why it matters</h3>
-        <p>Qualitative sample size has no single formula, so reviewers push on it. “Saturation” is easy to assert
-          and hard to evidence. MethodVahti replaces a bare number with a reasoned range and a written rationale,
-          so your N is a decision you can stand behind — not a guess.</p>
-      </div>
-      <div class="box">
-        <h3>How to use it</h3>
-        <p>Pick the situation you’re in — planning an N, justifying one already set, answering a reviewer, reading
-          pilot data, or writing methods text. It asks only for what that route needs, then returns
-          submission-ready wording mapped to COREQ/SRQR and an audit trail of who decided what.</p>
-      </div>
-      <div class="box">
-        <h3>Who it’s for</h3>
-        <p>Master’s and PhD students and their supervisors; nurses and clinician-researchers running interview or
-          focus-group studies; anyone writing an ethics application, a protocol, a reviewer response, or a
-          qualitative manuscript who needs the sampling section to hold up.</p>
-      </div>
+  <section class="method-section" id="learn">
+    <h2>Read the method, not a product FAQ</h2>
+    <p class="section-intro">The fuller explanations belong in Learn, where they can be read and cited without sitting inside a sales page.</p>
+    <div class="method-link-list">
+      <a href="/learn/code-vs-meaning-saturation/"><b>Code and meaning saturation</b><span>Two different claims about when qualitative data may be enough.</span></a>
+      <a href="/learn/three-questions-qualitative-rigour/"><b>Three questions of rigour</b><span>What counts as knowledge, who interprets, and how the claim is made credible.</span></a>
+      <a href="/learn/ai-qualitative-coding-human-review/"><b>AI coding with human review</b><span>What a model may suggest and what remains an analytic decision.</span></a>
     </div>
-
-    <div class="egbox">
-      <h3>A worked example</h3>
-      <p>A master’s student plans interviews with ward nurses about <b>moral distress</b>. A reviewer will ask why
-        the N is what it is. Instead of writing “we interviewed 12 nurses until saturation”, MethodVahti works from
-        the study: a fairly <b>specific</b> sample (one ward, one role), a <b>narrow</b> aim, and an
-        interpretative analysis. Under <b>information power</b>, that combination needs relatively few participants —
-        so a range of roughly 10–16 is defensible, and the report says <em>why</em>, cites the models, and notes
-        where the case is thin.</p>
-      <p>The output isn’t a verdict that the study is sound. It’s the argument the student defends — and the record
-        of every assumption behind it, which is exactly what COREQ and SRQR reviewers look for.</p>
-    </div>
-
-    <h2 style="margin-top:32px">Frequently asked</h2>
-    <div class="faq">
-      <details>
-        <summary>How many participants do I need for a qualitative study?</summary>
-        <p>There is no fixed number and no formula that settles it. Common ranges exist by design — often around
-          6–12 for a focused interpretative study, more for broader or more heterogeneous aims — but the honest
-          answer depends on your research question, how specific your sample is, and how deep your analysis goes.
-          MethodVahti turns those factors into a defensible <em>range</em> with the reasoning attached, rather than
-          a single number you’d have to defend on faith.</p>
-      </details>
-      <details>
-        <summary>What is data saturation — and how do I know I’ve reached it?</summary>
-        <p>Saturation is the point at which new interviews stop adding anything new. It’s useful to separate
-          <b>code saturation</b> (you’ve seen the range of issues) from <b>meaning saturation</b> (you fully
-          understand each one) — meaning saturation usually needs more data. You can’t truly know you’ve reached it
-          in advance, which is why planning on saturation alone is weak. MethodVahti helps you set an expectation
-          up front and evidence the judgment afterwards from your coded records.</p>
-      </details>
-      <details>
-        <summary>What is “information power”?</summary>
-        <p>Information power (Malterud, Siwe &amp; Guassora, 2016) is a way to reason about sample size without
-          waiting for saturation. The idea: the more relevant information your sample holds, the fewer participants
-          you need. It rises with a narrow aim, a specific sample, strong existing theory, high-quality interview
-          dialogue, and a case-focused analysis — and falls when any of those is broad or thin. MethodVahti uses
-          it as one of the three models behind its range.</p>
-      </details>
-      <details>
-        <summary>A reviewer said my sample is too small. What can I do?</summary>
-        <p>Don’t just add participants reflexively. Build the argument: state your aim’s breadth, your sample’s
-          specificity, your analytic depth, and what saturation or information power implies for your N — and
-          concede honestly any point that’s genuinely weak. A structured, evidence-graded rebuttal is more
-          persuasive than a bigger number. That’s the “respond to reviewer criticism” route in MethodVahti.</p>
-      </details>
-      <details>
-        <summary>Should I justify my sample size before or after data collection?</summary>
-        <p>Both, and they’re different jobs. <b>Before</b> (in a protocol or ethics application) you argue for a
-          planned range and a stopping rule. <b>After</b> (in the manuscript) you evidence what actually happened —
-          whether you reached your stopping criterion and what the data supported. MethodVahti has separate routes
-          for planning an N and for justifying one already set.</p>
-      </details>
-      <details>
-        <summary>What’s the difference between COREQ and SRQR?</summary>
-        <p><b>COREQ</b> (Consolidated Criteria for Reporting Qualitative Research, Tong et al., 2007) is a 32-item
-          checklist specifically for interview and focus-group studies. <b>SRQR</b> (Standards for Reporting
-          Qualitative Research, O’Brien et al., 2014) is a broader 21-item standard covering more qualitative
-          designs. Many journals ask for one or the other; MethodVahti maps its output to both.</p>
-      </details>
-      <details>
-        <summary>Isn’t qualitative research just “biased”? What is reflexivity?</summary>
-        <p>Qualitative research is interpretative by design — the researcher is part of how meaning is made, and
-          that’s a method, not a flaw. <b>Reflexivity</b> is the practice of examining how your position,
-          assumptions, and role shape the study and reporting it openly. Far from being an admission of bias, it’s
-          a rigor marker reviewers look for. MethodVahti records these decisions so they’re visible, not hidden.</p>
-      </details>
-    </div>
-
-    <h2 style="margin-top:32px">Terms, defined</h2>
-    <dl class="terms">
-      <dt>Purposive (purposeful) sampling</dt>
-      <dd>Choosing participants deliberately because they can speak to your question — not at random. The standard
-        approach in qualitative work; it’s why a qualitative sample isn’t meant to be statistically representative.</dd>
-      <dt>Maximum variation sampling</dt>
-      <dd>A purposive strategy that deliberately spans a wide range of cases, so common patterns that hold across
-        difference stand out. It typically calls for a larger N.</dd>
-      <dt>Data saturation</dt>
-      <dd>The point where additional data no longer reveals new codes or themes. Often split into code saturation
-        (range seen) and meaning saturation (each theme fully understood).</dd>
-      <dt>Information power</dt>
-      <dd>A model (Malterud et al., 2016) for judging sample size from how much relevant information the sample
-        holds — the more it holds, the fewer participants you need.</dd>
-      <dt>COREQ</dt>
-      <dd>A 32-item reporting checklist for interview and focus-group studies (Tong et al., 2007).</dd>
-      <dt>SRQR</dt>
-      <dd>A 21-item reporting standard for qualitative research across designs (O’Brien et al., 2014).</dd>
-      <dt>Reflexivity</dt>
-      <dd>Examining and reporting how the researcher’s position and assumptions shape the study. A rigor practice,
-        not a confession of bias.</dd>
-      <dt>Member checking</dt>
-      <dd>Returning findings or interpretations to participants to check they ring true. One way to strengthen
-        credibility.</dd>
-      <dt>Triangulation</dt>
-      <dd>Using more than one source, method, analyst, or theory to examine a phenomenon, so conclusions don’t rest
-        on a single vantage point.</dd>
-      <dt>Thematic analysis</dt>
-      <dd>A widely used method for identifying, analysing, and reporting patterns (themes) across qualitative data.</dd>
-      <dt>Interpretative Phenomenological Analysis (IPA)</dt>
-      <dd>A method focused on how specific people make sense of a significant experience. It favours small, fairly
-        homogeneous samples analysed in depth.</dd>
-    </dl>
   </section>
 </main>
 
@@ -532,9 +329,9 @@ var SITS = {
   },
   justify: {
     voice: "“My N is fixed by funding or feasibility — I need to defend it.”",
-    get: "A written defence that names where your N is well-supported and, honestly, where it’s thin — built on information-power and saturation.",
+    get: "A written defence that names where your N is well-supported and where the case is thin — built on information power and saturation.",
     asks: "Your chosen N, the design, and your stopping criterion.",
-    stance: "We won’t rubber-stamp a weak N. You get the strongest honest case and the residual risk, stated.",
+    stance: "It will not rubber-stamp a weak N. You get the strongest supported case and the residual risk, stated.",
     primary: { label: "See the Sample Defence Pack →", href: PACK },
     alt: { label: "Sanity-check in the explorer", href: "/methodvahti/explore/" }
   },

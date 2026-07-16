@@ -22,92 +22,158 @@
   "description": "Ilmainen 16 väittämän lähtötilannetesti: neljä akselia, tulos lasketaan omassa selaimessasi. Näet, missä artikkelityösi on vahvaa, missä se on jumissa ja mitä tehdä seuraavaksi.",
   "url": "https://vahtian.com/lahtotilannetesti/",
   "datePublished": "2026-07-14",
+  "dateModified": "2026-07-16",
   "inLanguage": "fi",
-  "author": { "@type": "Organization", "name": "Vahtian", "url": "https://vahtian.com/" },
+  "author": { "@type": "Person", "name": "Heidi Andersén", "honorificSuffix": "MD, PhD", "url": "https://vahtian.com/about/" },
   "publisher": { "@id": "https://vahtian.com/#org" }
 }
 </script>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232D2440'/%3E%3Cg fill='none' stroke='%238B6FC9' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 9 H9 V23 H12'/%3E%3Cpath d='M20 9 H23 V23 H20'/%3E%3C/g%3E%3Cpath d='M16 10.3 L19.6 12 L19.6 15 L16 19.6 L12.4 15 L12.4 12 Z' fill='none' stroke='%23C5B8E8' stroke-width='1.8' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="../brand/site-refresh.css">
+<link rel="stylesheet" href="../brand/footer.css">
 <style>
-  :root{--navy:#1C1830;--violet:#6F52B8;--violet-dk:#432C7A;--lilac:#C5B8E8;
-    --teal:#0F766E;--gold:#936300;--ink:#1C1830;--muted:#6A6280;
-    --paper:#FAF9FC;--card:#FFFFFF;--line:#E4DFF0;}
+  :root{--navy:#2D2440;--violet:#8B6FC9;--lilac:#C5B8E8;--ink:#1C1830;
+    --muted:#5B5570;--paper:#FAF9FC;--wash:#F2EFFA;--line:#E4DFF0;--link:#5F479D;}
   *{box-sizing:border-box}
-  body{margin:0;background:var(--paper);color:var(--ink);
-    font:16px/1.55 -apple-system,Segoe UI,Roboto,Arial,sans-serif;}
-  .wrap{max-width:720px;margin:0 auto;padding:32px 20px 80px}
-  .eyebrow{font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--violet)}
-  h1{font-size:30px;line-height:1.2;margin:.3em 0 .1em}
-  .lede{color:var(--muted);font-size:17px;margin:0 0 8px}
-  .rail{color:var(--muted);font-size:14px;border-left:3px solid var(--line);padding-left:12px;margin:16px 0 22px}
-  .scalekey{font-size:13px;color:var(--muted);background:var(--card);border:1px solid var(--line);
-    border-radius:10px;padding:10px 14px;margin:0 0 20px}
-  .axis{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin:14px 0}
-  .axis h3{font-size:13px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--violet-dk);margin:0 0 12px}
-  .stmt{padding:8px 0;border-top:1px solid var(--paper)}
+  body.fi-test{margin:0;background:var(--paper);color:var(--ink);font:500 17px/1.65 "Nudica",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;letter-spacing:0;-webkit-font-smoothing:antialiased}
+  .fi-test a{color:var(--link);text-underline-offset:3px}
+  .fi-test a:focus-visible,.fi-test button:focus-visible,.fi-test input:focus-visible{outline:3px solid var(--violet);outline-offset:3px}
+  .wrap{max-width:920px;margin:0 auto;padding:0 22px}
+  .site-header{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:24px 0 4px}
+  .site-header .brand{display:flex;align-items:center;gap:10px;font-weight:700}
+  .site-header .mark{width:30px;height:30px;display:block}
+  .site-header .nav{display:flex;align-items:center;gap:16px;flex-wrap:wrap;font-size:14.5px}
+  .site-header .nav a{color:var(--ink);font-weight:600;text-decoration:none}
+  .site-header .nav a:hover{color:var(--link)}
+  .site-header .util{display:flex;padding-left:15px;border-left:1px solid var(--line)}
+  .site-header .util .ic{display:flex;color:var(--muted)}
+  .test-main{position:relative;max-width:760px;padding:46px 0 8px}
+  .crumbs{margin:0 0 26px;color:var(--muted);font:500 12px/1.3 "Nudica Mono",ui-monospace,monospace;text-transform:uppercase}
+  .crumbs a{color:var(--muted);text-decoration:none}
+  .test-mark{position:absolute;right:0;top:82px;width:48px;height:48px;transform:rotate(3deg)}
+  .eyebrow{margin:0 68px 11px 0;color:var(--link);font:500 23px/1.1 "Marksy","Marker Felt","Segoe Print",cursive}
+  h1{max-width:17ch;margin:0 68px 16px 0;font-size:44px;line-height:1.06;letter-spacing:0}
+  .lede{max-width:63ch;margin:0 0 14px;color:#3A3450;font-size:18px;line-height:1.58}
+  .test-meta{margin:0 0 28px;color:var(--muted);font:500 11px/1.4 "Nudica Mono",ui-monospace,monospace;text-transform:uppercase}
+  .editorial-correction{display:flex;align-items:baseline;gap:16px;flex-wrap:wrap;margin:28px 0 36px;color:var(--link);font:600 25px/1.15 "Marksy","Marker Felt","Segoe Print",cursive}
+  .overruled{position:relative;color:var(--muted);text-decoration:none}
+  .overruled::after{content:"";position:absolute;left:-4%;right:-4%;top:52%;border-top:3px solid var(--violet);transform:rotate(-3deg)}
+  .overliner{position:relative;padding-top:8px}
+  .overliner::before{content:"";position:absolute;left:1%;right:7%;top:0;border-top:2px solid var(--lilac);transform:rotate(1deg)}
+  .rail{max-width:64ch;margin:0 0 24px;padding:3px 0 3px 18px;border-left:3px solid var(--violet);color:#3A3450;font-size:15px}
+  .scalekey{margin:0 0 20px;padding:14px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);color:var(--muted);font-size:14px}
+  .axis{margin:0;padding:30px 0;border-top:1px solid var(--line)}
+  .axis h3{margin:0 0 16px;color:var(--navy);font-size:21px;line-height:1.2}
+  .axis h3::before{content:"";display:block;width:38px;margin:0 0 10px;border-top:3px solid var(--violet);transform:rotate(-1deg)}
+  .stmt{padding:13px 0;border-top:1px solid var(--line)}
   .stmt:first-of-type{border-top:0}
-  .stmt p{margin:0 0 7px;font-size:15px}
-  .scale{display:flex;gap:6px}
-  .scale label{flex:1;text-align:center;border:1px solid var(--line);border-radius:8px;padding:8px 0;
-    cursor:pointer;font-weight:700;color:var(--muted);font-size:14px;user-select:none;position:relative}
+  .stmt p{margin:0 0 9px;font-size:16px;line-height:1.45}
+  .scale{display:grid;grid-template-columns:repeat(5,minmax(42px,1fr));gap:7px;max-width:430px}
+  .scale label{position:relative;min-height:42px;padding:9px 0;border:1px solid #A79DBA;border-radius:6px;color:var(--muted);font:600 15px/1.4 "Nudica Mono",ui-monospace,monospace;text-align:center;cursor:pointer;user-select:none}
   .scale input{position:absolute;opacity:0;width:0;height:0}
-  .scale label:has(input:checked){background:var(--violet);border-color:var(--violet);color:#fff}
-  .scale label:hover{border-color:var(--violet)}
-  .btn{display:inline-block;background:var(--violet);color:#fff;border:0;border-radius:10px;
-    padding:14px 22px;font-size:16px;font-weight:700;cursor:pointer;margin-top:8px;text-decoration:none}
-  .btn:disabled{background:#C9C1E0;cursor:not-allowed}
-  .btn.ghost{background:transparent;color:var(--violet-dk);border:1px solid var(--line);font-weight:600}
-  .miss{color:var(--gold);font-size:13px}
-  #result{display:none}
-  .block{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px 24px;margin:12px 0}
-  .block h2{font-size:20px;margin:.1em 0 .3em;color:var(--violet-dk)}
-  .kicker{font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase}
-  .k-strong{color:var(--teal)} .k-block{color:var(--gold)} .k-do{color:var(--violet)}
+  .scale label:has(input:checked){background:var(--navy);border-color:var(--navy);color:#fff}
+  .scale label:has(input:focus-visible){outline:3px solid var(--violet);outline-offset:2px}
+  .scale label:hover{border-color:var(--link);color:var(--link)}
+  .btn{display:inline-block;margin-top:10px;padding:12px 18px;border:0;border-radius:6px;background:var(--navy);color:#fff;font:600 15px/1.3 "Nudica",sans-serif;text-decoration:none;cursor:pointer}
+  .btn:hover{background:#20192F}
+  .btn:disabled{background:#B8AFC8;color:#F7F5FA;cursor:not-allowed}
+  .btn.ghost{background:transparent;color:var(--navy);border:1px solid #8F849F}
+  .miss{margin:10px 0 0;color:var(--link);font-size:13px}
+  #result{display:none;margin-top:48px}
+  .block{margin:0;padding:28px 0;border-top:1px solid var(--line)}
+  .block h2{margin:5px 0 10px;color:var(--navy);font-size:23px;line-height:1.25}
+  .kicker{color:var(--link);font:600 11px/1.3 "Nudica Mono",ui-monospace,monospace;text-transform:uppercase}
+  .k-strong,.k-block,.k-do{color:var(--link)}
   .sub{color:var(--muted);font-size:15px;margin:6px 0}
-  .task{background:var(--paper);border-radius:10px;padding:16px;margin:10px 0 0}
-  .task b{color:var(--violet-dk)}
-  .shape{font-size:14px;color:var(--muted);border-left:3px solid var(--line);padding-left:12px;margin:12px 0 0}
+  .task{margin:13px 0 0;padding:5px 0 5px 18px;border-left:3px solid var(--violet);font-size:18px;font-weight:600}
+  .task b{color:var(--navy)}
+  .shape{margin:14px 0 0;padding-left:15px;border-left:2px solid var(--lilac);color:var(--muted);font-size:14px}
   .note{font-size:13px;color:var(--muted);margin-top:8px}
-  .emailrow{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
-  .emailrow input{flex:1;min-width:200px;padding:12px 14px;border:1px solid var(--line);border-radius:10px;font-size:15px}
+  .subscribe-band{margin:22px 0 0;padding:30px 0 34px;background:var(--wash);box-shadow:0 0 0 100vmax var(--wash);clip-path:inset(0 -100vmax)}
+  .subscribe-band .runner{margin:0 0 7px;color:var(--link);font:600 11px/1.2 "Nudica Mono",ui-monospace,monospace;text-transform:uppercase}
+  .subscribe-band h2{margin:0 0 9px;color:var(--link);font:600 31px/1.05 "Marksy","Marker Felt","Segoe Print",cursive}
+  .subscribe-band>p{max-width:62ch;margin:0 0 14px;color:var(--muted);font-size:15px}
+  .emailrow{display:flex;gap:10px;flex-wrap:wrap;max-width:680px;margin-top:12px}
+  .emailrow input[type="email"]{flex:1 1 240px;min-width:0;padding:12px 14px;border:1px solid #8F849F;border-radius:6px;background:var(--paper);color:var(--ink);font:500 15px/1.3 "Nudica",sans-serif}
+  .emailrow .btn{margin:0}
+  .consent{display:flex;align-items:flex-start;gap:8px;max-width:680px;margin:12px 0 0;color:var(--muted);font-size:13px;line-height:1.45}
+  .consent input{margin-top:3px}
+  .signup-error{min-height:18px;margin:7px 0 0!important;color:var(--link)!important;font-size:13px!important}
+  .course-band{margin:0;padding:30px 0;border-top:3px solid var(--violet)}
+  .course-band h2{margin:0 0 10px;color:var(--navy);font-size:24px}
   .tools{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
-  svg{display:block;margin:4px auto 8px;max-width:100%;height:auto}
+  #result svg{display:block;margin:4px auto 8px;max-width:100%;height:auto}
   .foot{color:var(--muted);font-size:12px;margin-top:40px}
-  .foot a{color:var(--violet-dk)}
+  .foot a{color:var(--link)}
+  @media(max-width:700px){
+    .test-main{padding-top:38px}
+    .test-mark{top:76px;width:40px;height:40px}
+    h1{font-size:35px}
+    .lede{font-size:17px}
+  }
+  @media(max-width:430px){
+    .wrap{padding:0 18px}
+    .site-header{display:block}
+    .site-header .nav{margin-top:15px;gap:12px;font-size:13.5px}
+    .test-mark{display:none}
+    .eyebrow,h1{margin-right:0}
+    .editorial-correction{font-size:22px}
+    .scale{gap:5px}
+    .emailrow .btn{width:100%}
+  }
   /* ---- 4-page PDF report (näkyy vain tulostuksessa) ---- */
   #report{display:none}
   @media print{
-    .wrap > *{display:none!important}
+    .site-header,.vh-footer,.test-main > *:not(#report){display:none!important}
+    .test-main{display:block!important;max-width:100%;padding:0!important}
     #report{display:block!important}
     body{background:#fff;color:#000}
     .wrap{max-width:100%;padding:0}
     .page{break-after:page;padding:24px 4px 0}
     .page:last-child{break-after:auto}
     .page h2{font-size:20px;color:#432C7A;margin:0 0 4px}
-    .page .lbl{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#6A6280;margin:14px 0 2px}
+    .page .lbl{font-size:11px;font-weight:700;text-transform:uppercase;color:#6A6280;margin:14px 0 2px}
     .page p{margin:2px 0 8px;font-size:14px}
     .rbrand{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#6F52B8;font-weight:700}
     .rline{border-top:1px solid #ddd;margin-top:24px;padding-top:8px;font-size:11px;color:#888}
     a{color:#000;text-decoration:none}
   }
 </style>
-  <link rel="stylesheet" href="../brand/site-refresh.css">
-<link rel="stylesheet" href="../brand/footer.css">
 </head>
-<body>
+<body class="fi-test">
 <div class="wrap">
-  <div class="eyebrow">Vahtian · Agile Writing</div>
+  <header class="site-header">
+    <div class="brand">
+      <a href="/" aria-label="Vahtian - etusivu" style="display:flex"><svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#2D2440"/><g fill="none" stroke="#8B6FC9" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9H9v14h3"/><path d="M20 9h3v14h-3"/></g><path d="m13 18.6 6-.1-3-6.3z" fill="none" stroke="#C5B8E8" stroke-width="1"/><circle cx="13" cy="18.6" r="1.4" fill="#C5B8E8"/><circle cx="19" cy="18.5" r="1.4" fill="#C5B8E8"/><circle cx="16" cy="12.2" r="1.4" fill="#C5B8E8"/></svg></a>
+      <span>Vahtian</span>
+    </div>
+    <nav class="nav" aria-label="Päänavigaatio">
+      <a href="/#kits">Kits</a><a href="/download/">Tools</a><a href="/learn/">Learn</a><a href="/blog/">Blog</a><a href="/about/">About</a>
+      <span class="util"><a class="ic" href="/search/" aria-label="Hae vahtian.com-sivustolta"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.3" y2="16.3"/></svg></a></span>
+    </nav>
+  </header>
+
+  <main class="test-main">
+  <nav class="crumbs"><a href="/">vahtian.com</a> · artikkelin lähtötilannetesti</nav>
+  <img class="test-mark" src="../brand/marks/vahtian.svg" alt="">
+  <p class="eyebrow">Agile Writing · Lähtötilanne</p>
   <h1>Mikä oikeasti estää tutkimusartikkeliasi valmistumasta?</h1>
   <p class="lede">Tämä testi ei mittaa motivaatiota, lahjakkuutta tai sitä, oletko hyvä kirjoittaja. Se näyttää, missä työsi on vahvaa ja missä se on jumissa.</p>
+  <p class="test-meta">16 väittämää · noin 4 minuuttia · tulos lasketaan selaimessasi</p>
+  <p class="editorial-correction"><del class="overruled">Tarvitsen vain lisää motivaatiota.</del><span class="overliner">Työ on jumissa yhdessä päätöksessä.</span></p>
   <p class="rail">Arvioi jokainen väittämä sen mukaan, miten hyvin se kuvaa tilannettasi nyt. Testi laskee tuloksen omassa selaimessasi.</p>
   <div class="scalekey"><b>Asteikko:</b> 1 = ei lainkaan, 2 = vähän, 3 = osittain, 4 = melko hyvin, 5 = täysin.</div>
 
-  <form id="test"></form>
-  <button class="btn" id="calc" disabled>Näytä tulokseni</button>
-  <p class="miss" id="progress"></p>
+  <form id="test">
+    <div id="axes"></div>
+    <button class="btn" id="calc" type="submit" disabled>Näytä tulokseni</button>
+    <p class="miss" id="progress"></p>
+  </form>
 
   <div id="result"></div>
   <div id="report"></div>
+  </main>
+
   <footer class="vh-footer">
   <div class="vh-footer-shell">
     <div class="vh-footer-main">
@@ -216,25 +282,38 @@ const PLAN = {
 const BREVO_ACTION="https://f9b96982.sibforms.com/serve/MUIFAAB757rhu8MVhDJlN9BJPAGUYIdrnK641P-k4elvsNM_SXbaGlvw_mEKi_ZKSOL6s5su6kymXVQpef21lPp4LDjZIReEaDIJymWbRVSAAd04kHT9_7EC-j9Xu7kJHokQnE0gTHc2Anz4sil6wS9DCJC2lbDZNQAzDD9Pw9BCH0F6kZ46UpZhgEwuxAMFo3_oPAIItS58ChZCTw==";
 function sendReport(){
   const el=document.getElementById("email"); const v=(el&&el.value||"").trim();
-  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v)){ el.focus(); el.style.borderColor="#B23A48"; return; }
+  const consent=document.getElementById("consent");
+  const error=document.getElementById("signupError");
+  if(error) error.textContent="";
+  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v)){
+    el.focus(); el.style.borderColor="#5F479D";
+    if(error) error.textContent="Tarkista sähköpostiosoite.";
+    return;
+  }
+  if(!consent||!consent.checked){
+    consent.focus();
+    if(error) error.textContent="Vahvista, että haluat kirjesarjan.";
+    return;
+  }
   // Brevo: lähetys vain käyttäjän omasta klikkauksesta (double opt-in vahvistaa listalle)
   const fd=new FormData();
-  fd.append("EMAIL",v); fd.append("email_address_check",""); fd.append("locale","en"); fd.append("html_type","simple");
+  fd.append("EMAIL",v); fd.append("MARKETING_CONSENT","1"); fd.append("email_address_check",""); fd.append("locale","fi"); fd.append("html_type","simple");
   fetch(BREVO_ACTION,{method:"POST",mode:"no-cors",body:fd}).catch(()=>{});
-  const row=el.closest(".emailrow");
-  if(row) row.outerHTML="<p style='margin-top:10px;color:var(--teal);font-weight:600'>Raportti tallentuu nyt laitteellesi. Vahvista vielä tilauksesi sähköpostiin tulleesta linkistä.</p>";
+  const band=el.closest(".subscribe-band");
+  if(band) band.innerHTML="<p class='runner'>Valmis</p><h2>Raportti avautuu tallennettavaksi</h2><p>Vahvista vielä kirjesarjan tilaus sähköpostiisi tulleesta linkistä.</p>";
   window.print(); // henkilökohtainen 4-sivuinen raportti tulostuu / tallentuu PDF:nä
 }
 
 // ---- build the form ----
 const form=document.getElementById("test");
+const axisHost=document.getElementById("axes");
 AXES.forEach((ax,ai)=>{
   const d=document.createElement("div"); d.className="axis";
   let h="<h3>"+ax.name+"</h3>";
   ax.s.forEach((st,si)=>{ h+="<div class='stmt'><p>"+st+"</p><div class='scale'>";
     for(let v=1;v<=5;v++) h+="<label><input type='radio' name='q"+ai+"_"+si+"' value='"+v+"'>"+v+"</label>";
     h+="</div></div>"; });
-  d.innerHTML=h; form.appendChild(d);
+  d.innerHTML=h; axisHost.appendChild(d);
 });
 const TOTAL=AXES.length*4;
 const calc=document.getElementById("calc"), prog=document.getElementById("progress");
@@ -259,7 +338,8 @@ function radar(vals){
   return s+'</svg>';
 }
 
-calc.addEventListener("click",()=>{
+form.addEventListener("submit",event=>{
+  event.preventDefault();
   const avg=AXES.map((ax,ai)=>{let sum=0;for(let si=0;si<4;si++)sum+=+form.querySelector('input[name="q'+ai+'_'+si+'"]:checked').value;return sum/4;});
   const order=[0,1,2,3].sort((a,b)=>avg[a]-avg[b]);
   const lowIdx=order[0], secIdx=order[1], hiIdx=order[3];
@@ -293,19 +373,22 @@ calc.addEventListener("click",()=>{
   const pk=PLAN[contentKey];
   html+="<div class='block'><div class='kicker k-do'>Tee tämä seuraavaksi</div><div class='task'>"+ (contentKey in BLOCK ? BLOCK[contentKey].task : pk.s) +"</div></div>";
 
-  // PDF-lohko (sähköposti vasta täydelliseen raporttiin) — ennen jakoa
-  html+="<div class='block'><div class='kicker k-do'>Tallenna henkilökohtainen suunnitelmasi</div>"
-   +"<p class='sub'>Raportti ja seitsemän päivän suunnitelma tallentuvat laitteellesi PDF:nä. Sähköpostiisi tulee vahvistuslinkki, ja vahvistamalla olet mukana, kun lyhyt kirjesarja artikkelin loppuun saattamisesta alkaa.</p>"
-   +"<div class='emailrow'><input id='email' type='email' inputmode='email' placeholder='sähköpostiosoitteesi' aria-label='sähköposti'>"
-   +"<button class='btn' type='button' onclick='sendReport()'>Lataa raportti ja liity listalle</button></div>"
-   +"<p class='note'>Reilu vaihtokauppa: perustulos näkyy ilman sähköpostia, ja raportti tallentuu koneellesi, ei pilveen. Listalta voi poistua milloin tahansa.</p></div>";
+  // PDF + vapaaehtoinen kirjesarja. Perustulos näkyy ilman sähköpostia.
+  html+="<section class='subscribe-band'><p class='runner'>Seitsemän päivän suunnitelma</p>"
+   +"<h2>Tallenna henkilökohtainen raporttisi</h2>"
+   +"<p>PDF sisältää tulkinnan, yhden seuraavan tehtävän ja seitsemän päivän suunnitelman. Samalla voit tilata lyhyen kirjesarjan artikkelin loppuun saattamisesta.</p>"
+   +"<div class='emailrow'><input id='email' type='email' inputmode='email' autocomplete='email' placeholder='sinä@organisaatio.fi' aria-label='Sähköpostiosoite' aria-describedby='signupNote signupError'>"
+   +"<button class='btn' type='button' onclick='sendReport()'>Lataa PDF ja tilaa kirjesarja</button></div>"
+   +"<label class='consent'><input id='consent' type='checkbox'> Haluan saada lyhyen kirjoituskirjesarjan sähköpostiini.</label>"
+   +"<p id='signupError' class='signup-error' aria-live='polite'></p>"
+   +"<p class='note' id='signupNote'>Perustulos ei vaadi sähköpostia. Tilaus vahvistetaan sähköpostilla, eikä viesteissä ole seurantapikseleitä. <a href='/privacy/'>Tietosuoja</a>.</p></section>";
 
 
   // kurssi
-  html+="<div class='block'><p><b>Agile Writing</b> vahvistaa neljää aluetta, joista toimiva käsikirjoitus rakentuu: artikkelin tukirankaa, fokusta, kirjoitusprosessia ja valmiuden tunnistamista.</p>"
+  html+="<section class='course-band'><p class='kicker'>Agile Writing</p><h2>Vie oma käsikirjoituksesi eteenpäin</h2><p>Kurssi vahvistaa neljää aluetta, joista toimiva käsikirjoitus rakentuu: artikkelin tukirankaa, fokusta, kirjoitusprosessia ja valmiuden tunnistamista.</p>"
    +"<p>Kurssilla työskentelet oman artikkelisi kanssa. Määrittelet pääviestin, rakennat rakenteen, jaat työn hallittaviin kirjoitusjaksoihin ja viet käsikirjoituksen palautekelpoiseen muotoon.</p>"
    +"<p>Kurssin lopussa teet testin uudelleen ja näet edistymisesi.</p>"
-   +"<a class='btn ghost' href='mailto:hello@vahtian.com?subject=Agile%20Writing%20-webinaari&body=Kerro%20minulle%2C%20kun%20seuraava%20webinaari%20on%20tulossa.'>Kerro minulle webinaarista</a></div>";
+   +"<a class='btn ghost' href='mailto:hello@vahtian.com?subject=Agile%20Writing%20-webinaari&body=Kerro%20minulle%2C%20kun%20seuraava%20webinaari%20on%20tulossa.'>Kerro minulle seuraavasta webinaarista</a></section>";
 
   const out=document.getElementById("result"); out.innerHTML=html; out.style.display="block";
 

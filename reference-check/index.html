@@ -1,0 +1,585 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Check your references before submission · Vahtian</title>
+  <meta name="description" content="Seven minutes before submission is a familiar time to find a broken DOI. Paste the reference list and check each DOI against Crossref for mismatches, retractions, corrections, preprints, and duplicates.">
+  <meta name="theme-color" content="#2D2440">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="canonical" href="https://vahtian.com/reference-check/">
+  <meta name="robots" content="index,follow">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://vahtian.com/reference-check/">
+  <meta property="og:title" content="Check your references before submission">
+  <meta property="og:description" content="It is 23:53 and the grant closes at midnight. Paste the reference list and find the DOI problems before the portal does.">
+  <meta property="og:image" content="https://vahtian.com/brand/cards/citevahti-card.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Check your reference list — a Vahtian tool.">
+  <meta property="og:site_name" content="Vahtian">
+  <meta name="twitter:card" content="summary_large_image">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Reference-list checker",
+    "alternateName": "Check DOIs, reference checker, retraction checker",
+    "applicationCategory": "HealthApplication",
+    "operatingSystem": "Any (web browser)",
+    "browserRequirements": "Requires JavaScript. Runs client-side.",
+    "url": "https://vahtian.com/reference-check/",
+    "description": "Paste a reference list or manuscript. Runs in your browser: extracts DOIs, checks each against Crossref, matches the title, first author, and year against your citation text, and flags retractions and corrections (naming Crossref as the source), preprint DOIs, malformed DOIs, and duplicates. Verdicts are three-way per reference: checks out, does not check out, or not resolvable. It checks that references resolve and match their records; it does not check whether the claims citing them are true.",
+    "isPartOf": { "@type": "WebSite", "name": "Vahtian", "url": "https://vahtian.com/" },
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "EUR" }
+  }
+  </script>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232D2440'/%3E%3Cg fill='none' stroke='%238B6FC9' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 9 H9 V23 H12'/%3E%3Cpath d='M20 9 H23 V23 H20'/%3E%3C/g%3E%3Ccircle cx='13.9' cy='16' r='1.7' fill='%23C5B8E8'/%3E%3Ccircle cx='18.1' cy='16' r='1.7' fill='%23C5B8E8'/%3E%3C/svg%3E">
+  <style>
+    :root{--navy:#2D2440;--violet:#8B6FC9;--lilac:#C5B8E8;--amber:#8B6FC9;--teal:#6F52B8;--rose:#2D2440;
+          --ink:#1c1830;--muted:#4A4460;--bg:#faf9fc;--card:#fff;--line:#e7e3f0;--link:#6F52B8;
+          --amber-fill:#F2EFFA;--amber-text:#2D2440;
+          --teal-fill:#F2EFFA;--teal-text:#2D2440;
+          --violet-fill:#ECE3FF;--violet-text:#432C7A;
+          --rose-fill:#E7E1F0;--rose-text:#1C1830}
+    *{box-sizing:border-box}
+    body{margin:0;font:500 16px/1.6 "Nudica",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,ui-sans-serif,system-ui,sans-serif;
+         color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased}
+    a{color:var(--link)}
+    .doi,code{font:13px/1.5 "Nudica Mono",ui-monospace,SFMono-Regular,Menlo,monospace}
+    code{background:#f1eef9;padding:1px 5px;border-radius:5px}
+    .wrap{max-width:820px;margin:0 auto;padding:0 22px}
+    a:focus-visible,button:focus-visible,textarea:focus-visible{outline:3px solid var(--violet);outline-offset:2px}
+    /* header / nav */
+    header{padding:22px 0 6px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:18px}
+    .mark{width:30px;height:30px;flex:0 0 30px}
+    nav.nav{display:flex;align-items:center;gap:16px;flex-wrap:wrap;font-size:14.5px}
+    nav.nav a{color:var(--ink);text-decoration:none;font-weight:600}
+    nav.nav a:hover{color:var(--link)}
+    nav.nav .util{display:flex;align-items:center;gap:13px;padding-left:15px;border-left:1px solid var(--line)}
+    nav.nav .util .ic{display:flex;color:var(--muted)}
+    nav.nav .util .ic:hover{color:var(--link)}
+    @media(max-width:680px){nav.nav{gap:13px;font-size:13.5px}}
+    /* hero */
+    main{padding-top:8px}
+    .deadline-hook{display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:center;margin:30px 0 18px;padding:16px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+    .deadline-time{color:var(--navy);font:700 clamp(38px,7vw,58px)/1 "Nudica Mono",ui-monospace,monospace}
+    .deadline-copy{max-width:24ch;color:var(--link);font:600 23px/1.1 "Marksy","Marker Felt","Bradley Hand","Segoe Print",cursive}
+    .page-kicker{font:700 12px/1.2 "Nudica Mono",ui-monospace,monospace;text-transform:uppercase;color:#6f52b8;margin:24px 0 10px}
+    h1{font-size:clamp(30px,5vw,42px);line-height:1.08;margin:0 0 12px}
+    .sub{font-size:clamp(17px,2.2vw,19px);color:#3a3450;margin:0 0 12px;max-width:60ch}
+    .bound{font-size:14.5px;color:var(--muted);max-width:66ch;margin:0 0 22px}
+    /* tool */
+    .tool{background:transparent;border:0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);border-radius:0;padding:22px 0}
+    label.tl{display:block;font-weight:650;font-size:13.5px;margin:0 0 6px}
+    textarea{width:100%;min-height:170px;padding:12px 13px;border:1px solid #b7add0;border-radius:10px;
+             font:14.5px/1.6 "Nudica Mono",ui-monospace,SFMono-Regular,Menlo,monospace;background:#fff;color:var(--ink);resize:vertical}
+    .actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
+    button{font:inherit;font-weight:650;border:0;border-radius:9px;padding:11px 17px;background:var(--navy);color:#fff;cursor:pointer;font-size:15px}
+    button.ghost{background:#fff;color:var(--ink);border:1px solid #b7add0}
+    button:disabled{opacity:.55;cursor:not-allowed}
+    .priv{font-size:12.5px;color:var(--muted);margin:12px 0 0;max-width:70ch}
+    /* progress */
+    .progress{margin-top:20px;font-size:14px;color:var(--muted)}
+    .bar{height:6px;background:#eae5f4;border-radius:99px;overflow:hidden;margin-top:8px}
+    .bar i{display:block;height:100%;width:0;background:var(--violet);transition:width .2s ease}
+    /* results */
+    #out{margin-top:24px}
+    .summary{display:flex;flex-wrap:wrap;align-items:center;gap:9px;margin:0 0 18px}
+    .stotal{font-weight:700;font-size:15.5px;margin-right:4px}
+    .scount{font:600 12px/1 "Nudica Mono",ui-monospace,monospace;padding:6px 10px;border-radius:999px;border:1px solid var(--line)}
+    .sc-ok{background:var(--teal-fill);color:var(--teal-text);border-color:var(--teal)}
+    .sc-no{background:var(--rose-fill);color:var(--rose-text);border-color:var(--rose)}
+    .sc-nr{background:var(--violet-fill);color:var(--violet-text);border-color:var(--violet)}
+    .vgroup{margin:0 0 26px}
+    .vhead{display:flex;align-items:baseline;gap:8px;margin:0 0 12px;padding-bottom:7px;border-bottom:1px solid var(--line)}
+    .vhead h2{font-size:16px;margin:0}
+    .vhead .n{font:600 12px/1 "Nudica Mono",ui-monospace,monospace;color:var(--muted)}
+    .ref{background:transparent;border:0;border-left:3px solid var(--line);border-bottom:1px solid var(--line);border-radius:0;padding:13px 0 15px 18px;margin:0}
+    .ref.ok{border-left-color:var(--teal)}
+    .ref.no{border-left-color:var(--rose)}
+    .ref.nr{border-left-color:var(--violet)}
+    .ref-top{display:flex;flex-wrap:wrap;align-items:center;gap:9px;margin:0 0 8px}
+    .verdict{font:650 11.5px/1 "Nudica Mono",ui-monospace,monospace;padding:5px 9px;border-radius:6px;white-space:nowrap}
+    .v-ok{background:var(--teal-fill);color:var(--teal-text);border:1px solid var(--teal)}
+    .v-no{background:var(--rose-fill);color:var(--rose-text);border:1px solid var(--rose)}
+    .v-nr{background:var(--violet-fill);color:var(--violet-text);border:1px solid var(--violet)}
+    .ref .doi{color:#2f2748;word-break:break-all}
+    .ref-rec{font-size:14px;color:#322c47;margin:0 0 3px}
+    .ref-rec b{color:var(--ink);font-weight:650}
+    .ref-cite{font-size:13px;color:var(--muted);margin:2px 0 0;line-height:1.5}
+    .flags{display:grid;gap:8px;margin:11px 0 0}
+    .flag{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start}
+    .flabel{font:650 11px/1.4 "Nudica Mono",ui-monospace,monospace;padding:5px 9px;border-radius:6px;white-space:nowrap}
+    .fl-amber{background:var(--amber-fill);color:var(--amber-text);border:1px solid var(--amber)}
+    .fl-rose{background:var(--rose-fill);color:var(--rose-text);border:1px solid var(--rose)}
+    .fl-violet{background:var(--violet-fill);color:var(--violet-text);border:1px solid var(--violet)}
+    .fbody{font-size:13.5px;color:#322c47;line-height:1.5}
+    .note{background:transparent;border:0;border-left:3px solid var(--violet);border-radius:0;padding:5px 0 5px 20px;color:#3a3450;font-size:14.5px}
+    /* bridge / CTA — full-bleed navy band */
+    .bridge{background:var(--navy);box-shadow:0 0 0 100vmax var(--navy);clip-path:inset(0 -100vmax);border-radius:0;padding:30px 0;margin:34px 0 0}
+    .bridge h2{color:#fff;font-size:clamp(18px,3vw,22px);margin:0 0 8px}
+    .bridge p{color:#d9d3ea;font-size:14.5px;line-height:1.6;margin:0 0 16px;max-width:64ch}
+    .bridge p b{color:#fff}
+    .btn{display:inline-block;padding:12px 18px;border-radius:9px;font-weight:650;text-decoration:none;font-size:15px;background:#C5B8E8;color:#241b3a}
+    /* info */
+    section.info{border-top:1px solid var(--line);margin-top:40px;padding-top:28px}
+    section.info h2{font-size:20px;margin:0 0 12px}
+    ul.checks{list-style:none;padding:0;margin:0;display:grid;gap:10px}
+    ul.checks li{padding-left:22px;position:relative;color:#322c47;font-size:14.5px}
+    ul.checks li::before{content:"";position:absolute;left:0;top:.55em;width:8px;height:8px;border-radius:50%;background:var(--violet)}
+    ul.checks b{color:var(--ink)}
+    .cant{background:transparent;border:0;border-left:3px solid var(--amber);border-radius:0;padding:5px 0 5px 20px;color:#3a3450;font-size:14px;margin-top:22px;max-width:70ch}
+    footer{margin-top:0}
+    @media(max-width:520px){.flag,.ref-top{grid-template-columns:1fr}.ref-top{align-items:flex-start}.deadline-hook{grid-template-columns:1fr;gap:7px}.deadline-copy{font-size:21px}}
+  </style>
+  <link rel="stylesheet" href="../brand/site-refresh.css">
+  <link rel="stylesheet" href="../brand/footer.css">
+</head>
+<body class="vh-content">
+<div class="wrap">
+  <header>
+    <div class="brand">
+      <a href="/" aria-label="Vahtian — home" style="display:flex"><svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#2D2440"/><g fill="none" stroke="#8B6FC9" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9 H9 V23 H12"/><path d="M20 9 H23 V23 H20"/></g><path d="M16 10.3 L19.6 12 L19.6 15 L16 19.6 L12.4 15 L12.4 12 Z" fill="none" stroke="#C5B8E8" stroke-width="1.8" stroke-linejoin="round"/></svg></a>
+      <span>Vahtian</span>
+    </div>
+    <nav class="nav" aria-label="Primary">
+      <a href="/#kits">Kits</a>
+      <a href="/download/">Tools</a>
+      <a href="/learn/">Learn</a>
+      <a href="/blog/">Blog</a>
+      <a href="/about/">About</a>
+      <span class="util">
+        <a class="ic" href="/search/" aria-label="Search vahtian.com"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.3" y2="16.3"/></svg></a>
+      </span>
+    </nav>
+  </header>
+
+<main>
+  <div class="deadline-hook" aria-label="Seven minutes before the submission deadline">
+    <span class="deadline-time">23:53</span>
+    <span class="deadline-copy">Seven minutes before the grant portal closes.</span>
+  </div>
+  <p class="page-kicker">The traditional time to check the references</p>
+  <h1>Check your references before the portal does.</h1>
+  <p class="sub">This is naturally when we discover that one DOI opens the wrong paper, another appears twice, and the preprint may have grown into a publication.</p>
+  <p class="bound">Paste the list. The tool checks whether each DOI resolves and matches its Crossref record. It cannot tell whether the source supports your claim. Nothing is stored; only DOI and metadata queries go to Crossref.</p>
+
+  <div class="tool">
+    <label class="tl" for="refs">Your reference list or manuscript text</label>
+    <textarea id="refs" placeholder="Paste your reference list, or a whole manuscript. The tool finds DOIs like 10.1016/S0140-6736(20)30566-3 and checks each one."></textarea>
+    <div class="actions">
+      <button id="run" type="button">Check references</button>
+      <button id="ex" class="ghost" type="button">Load example</button>
+      <button id="clr" class="ghost" type="button">Clear</button>
+    </div>
+    <p class="priv">DOI and metadata queries go to Crossref, nothing else leaves the browser, nothing is stored, no account, no telemetry.</p>
+  </div>
+
+  <div id="out" role="region" aria-live="polite" aria-label="Reference check results"></div>
+
+  <section class="info">
+    <h2>What this checks</h2>
+    <ul class="checks">
+      <li><b>Does the DOI resolve?</b> Each DOI is looked up in <a href="https://www.crossref.org/" rel="noopener">Crossref</a>. Found, or not found.</li>
+      <li><b>Does the record match your citation?</b> The Crossref title, first author, and year are compared against the citation text around the DOI.</li>
+      <li><b>Retractions and corrections</b>: flagged from Crossref update metadata, naming Crossref as the source.</li>
+      <li><b>Preprint DOIs</b>: labelled <span class="doi">preprint</span>, so you can check for a published version. A preprint is not a problem.</li>
+      <li><b>Malformed DOIs and duplicates</b>: a DOI that isn't well-formed, or the same DOI cited twice.</li>
+    </ul>
+    <p style="font-size:14.5px;color:#322c47;margin:16px 0 0">Every reference gets one of three verdicts: <b>checks out</b> (resolves and matches), <b>does not check out</b> (resolves but the record disagrees, or is flagged), or <b>not resolvable</b> (Crossref returned nothing, so there is nothing to compare). A missing record is never counted as a failure.</p>
+    <div class="cant"><b>What it can't do.</b> A resolved, matching DOI means the reference points at the paper it claims to: it does not mean the paper supports the sentence that cites it, and it does not mean the paper is correct. Checking whether a source actually supports a claim is the CiteVahti audit.</div>
+  </section>
+</main>
+
+<footer class="vh-footer">
+  <div class="vh-footer-shell">
+    <div class="vh-footer-main">
+      <div>
+        <p class="vh-footer-name">Vahtian</p>
+        <p class="vh-footer-tagline">Local-first tools for research decisions you can explain. Built in Finland by Heidi Andersén, MD, PhD.</p>
+      </div>
+      <nav class="vh-footer-links" aria-label="Footer">
+        <a href="/download/">Tools</a>
+        <a href="/learn/">Learn</a>
+        <a href="/blog/">Blog</a>
+        <a href="/about/">About</a>
+        <a href="/agents/">For agents</a>
+        <a href="/cite/">Cite</a>
+        <a href="/privacy/">Privacy</a>
+      </nav>
+    </div>
+    <p class="vh-footer-disclaimer">Vahtian keeps human judgment visible and research decisions open to review. It does not establish scientific truth.</p>
+    <div class="vh-footer-meta">
+      <span>© 2026 Vahtian</span>
+      <a href="/LICENSE">Apache-2.0 open core</a>
+      <a href="https://github.com/heidihelena/vahtian">GitHub <span aria-hidden="true">↗</span></a>
+      <a href="mailto:hello@vahtian.com">hello@vahtian.com</a>
+    </div>
+  </div>
+</footer>
+</div>
+
+<script>
+"use strict";
+(function(){
+  var $=function(id){return document.getElementById(id);};
+  function esc(s){return String(s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];});}
+
+  // --- DOI extraction ---------------------------------------------------
+  // Strict form for a resolvable DOI: 10.<4-9 digits>/<suffix>.
+  var DOI_RE=/10\.\d{4,9}\/[^\s"'<>]+/g;
+  // Loose form to catch things that look like a DOI but are malformed
+  // (prefix too short, or empty suffix), e.g. "10.99/x" or "10.1234/".
+  var DOI_LOOSE=/\b10\.\d{1,9}(?:\/[^\s"'<>]*)?/g;
+  var PREPRINT_PREFIX=["10.1101","10.31234","10.31235","10.31219","10.2139","10.20944","10.21203","10.31730","10.31222","10.31223","10.26434","10.32942","10.33774","10.31219"];
+
+  // Trim trailing punctuation that commonly rides along after a DOI in prose.
+  function cleanDoi(raw){
+    var d=raw.replace(/[).,;:'"\]]+$/,"");
+    // balance a trailing ) only if unmatched (DOIs like ...(20)30566-3 keep theirs)
+    return d;
+  }
+
+  function findDois(text){
+    var found=[], seenSpan=[], m;
+    DOI_RE.lastIndex=0;
+    while((m=DOI_RE.exec(text))){
+      var raw=m[0], start=m.index;
+      var d=cleanDoi(raw);
+      found.push({raw:d, lower:d.toLowerCase(), start:start, end:start+d.length, malformed:false});
+      seenSpan.push([start,start+raw.length]);
+    }
+    // Malformed: loose matches that the strict pass did not already cover.
+    DOI_LOOSE.lastIndex=0;
+    while((m=DOI_LOOSE.exec(text))){
+      var s=m.index, e=s+m[0].length, covered=false;
+      for(var i=0;i<seenSpan.length;i++){ if(s<seenSpan[i][1] && e>seenSpan[i][0]){covered=true;break;} }
+      if(covered) continue;
+      var frag=cleanDoi(m[0]);
+      // Only treat as a DOI attempt if it has the 10. prefix shape.
+      if(!/^10\.\d/.test(frag)) continue;
+      found.push({raw:frag, lower:frag.toLowerCase(), start:s, end:e, malformed:true});
+    }
+    found.sort(function(a,b){return a.start-b.start;});
+    return found;
+  }
+
+  // The citation text around a DOI: the paragraph (blank-line delimited) or,
+  // failing that, a window before the DOI within the same block.
+  function contextFor(text, doi){
+    // paragraph bounds
+    var pStart=text.lastIndexOf("\n\n",doi.start);
+    pStart=pStart<0?0:pStart+2;
+    var pEnd=text.indexOf("\n\n",doi.end);
+    if(pEnd<0) pEnd=text.length;
+    var para=text.slice(pStart,pEnd);
+    // If the paragraph is one long block with several DOIs, narrow to the line.
+    if((para.match(DOI_RE)||[]).length>1){
+      DOI_RE.lastIndex=0;
+      var lStart=text.lastIndexOf("\n",doi.start-1); lStart=lStart<0?pStart:lStart+1;
+      var lEnd=text.indexOf("\n",doi.end); if(lEnd<0) lEnd=pEnd;
+      para=text.slice(Math.max(lStart,pStart),Math.min(lEnd,pEnd));
+    }
+    return para.replace(/\s+/g," ").trim();
+  }
+
+  // --- fuzzy matching ---------------------------------------------------
+  var STOP={the:1,a:1,an:1,of:1,and:1,or:1,in:1,on:1,for:1,to:1,with:1,without:1,
+            by:1,from:1,at:1,as:1,is:1,are:1,be:1,"":1};
+  function norm(s){return String(s||"").toLowerCase().replace(/[‐-―]/g,"-").replace(/[^a-z0-9\s-]/g," ").replace(/\s+/g," ").trim();}
+  function words(s){return norm(s).split(" ").filter(function(w){return w.length>2 && !STOP[w];});}
+
+  // recall of the record's title words inside the citation text
+  function titleRecall(title, cite){
+    var tw=words(title); if(!tw.length) return null;
+    var set={}; words(cite).forEach(function(w){set[w]=1;});
+    var hit=0; for(var i=0;i<tw.length;i++){ if(set[tw[i]]) hit++; }
+    return hit/tw.length;
+  }
+
+  function crossrefUrl(doi){
+    return "https://api.crossref.org/works/"+encodeURIComponent(doi)+"?mailto=hello@vahtian.com";
+  }
+
+  function firstAuthor(msg){
+    var a=(msg.author||[])[0];
+    if(!a) return null;
+    return a.family||a.name||null;
+  }
+  function pubYear(msg){
+    var parts=((msg.issued||{})["date-parts"]||[])[0]||
+              ((msg["published-print"]||{})["date-parts"]||[])[0]||
+              ((msg["published-online"]||{})["date-parts"]||[])[0];
+    return parts&&parts[0]?String(parts[0]):null;
+  }
+  function noticeList(msg){
+    // Both directions carry retraction/correction relations in Crossref.
+    var all=(msg["update-to"]||[]).concat(msg["updated-by"]||[]);
+    var seen={}, out=[];
+    for(var i=0;i<all.length;i++){
+      var t=(all[i].type||"").toLowerCase();
+      if(!t||seen[t]) continue; seen[t]=1;
+      out.push(t);
+    }
+    return out;
+  }
+
+  // --- fetch with timeout + small concurrency pool ----------------------
+  function fetchDoi(doi){
+    var ctrl=new AbortController();
+    var to=setTimeout(function(){ctrl.abort();},15000);
+    return fetch(crossrefUrl(doi),{signal:ctrl.signal,headers:{"Accept":"application/json"}})
+      .then(function(r){
+        clearTimeout(to);
+        if(r.status===404) return {status:"notfound"};
+        if(!r.ok) return {status:"error",code:r.status};
+        return r.json().then(function(j){return {status:"ok",msg:j.message};});
+      })
+      .catch(function(){ clearTimeout(to); return {status:"neterror"}; });
+  }
+
+  function pool(items, worker, onProgress){
+    var i=0, done=0, results=new Array(items.length), CONC=4;
+    return new Promise(function(resolve){
+      function next(){
+        if(i>=items.length){ if(done>=items.length) resolve(results); return; }
+        var idx=i++;
+        worker(items[idx],idx).then(function(r){
+          results[idx]=r; done++; onProgress&&onProgress(done,items.length);
+          if(done>=items.length) resolve(results); else next();
+        });
+      }
+      var start=Math.min(CONC,items.length);
+      if(!items.length){ resolve(results); return; }
+      for(var k=0;k<start;k++) next();
+    });
+  }
+
+  // --- verdict assembly -------------------------------------------------
+  function classify(ref, res){
+    // ref: {raw, lower, cite, malformed, duplicate}
+    var out={doi:ref.raw, cite:ref.cite, verdict:"nr", record:null, flags:[]};
+
+    if(ref.duplicate){
+      out.flags.push({cls:"fl-violet",label:"duplicate",text:"This DOI already appears earlier in the list. Cited twice."});
+    }
+    if(ref.malformed){
+      out.verdict="no";
+      out.flags.push({cls:"fl-rose",label:"malformed DOI",text:"This doesn't parse as a valid DOI (a DOI looks like 10.1016/…). Check for a typo or a truncated identifier."});
+      return out;
+    }
+
+    if(!res || res.status==="neterror"){
+      out.verdict="nr";
+      out.flags.push({cls:"fl-violet",label:"not checked",text:"Couldn't reach Crossref (offline or blocked). Resolution wasn't checked."});
+      return out;
+    }
+    if(res.status==="notfound"){
+      out.verdict="nr";
+      out.flags.push({cls:"fl-violet",label:"not in Crossref",text:"Crossref returned no record for this DOI. It may be a DataCite DOI (dataset, software), a very new registration, or a wrong DOI. Not counted as a failure."});
+      return out;
+    }
+    if(res.status==="error"){
+      out.verdict="nr";
+      out.flags.push({cls:"fl-violet",label:"not checked",text:"Crossref returned an error ("+esc(String(res.code||"?"))+"). Resolution wasn't checked."});
+      return out;
+    }
+
+    // resolved
+    var msg=res.msg||{};
+    var title=(msg.title||[])[0]||"";
+    var author=firstAuthor(msg);
+    var year=pubYear(msg);
+    var type=msg.type||"";
+    var subtype=msg.subtype||"";
+    out.record={title:title,author:author,year:year,type:type};
+
+    var notices=noticeList(msg);
+    var retracted=notices.indexOf("retraction")>=0 || /^\s*retracted[:\-—\s]/i.test(title);
+    var corrected=notices.indexOf("correction")>=0 || notices.indexOf("erratum")>=0;
+    var concern=notices.indexOf("expression_of_concern")>=0 || notices.indexOf("expression-of-concern")>=0;
+    var isPreprint = subtype==="preprint" || type==="posted-content" ||
+                     PREPRINT_PREFIX.some(function(p){return ref.lower.indexOf(p+"/")===0;});
+
+    var nx={retracted:retracted,concern:concern,corrected:corrected,isPreprint:isPreprint};
+
+    // A duplicate was already resolved and matched on its first occurrence, so
+    // re-matching against a thin re-cite context would only add noise. Confirm
+    // resolution; let any retraction/preprint notice below still apply.
+    if(ref.duplicate){
+      out.verdict="ok";
+      return applyNotices(out,nx);
+    }
+
+    // matching against the citation text
+    var haveText = out.cite && out.cite.replace(DOI_RE,"").replace(/https?:\/\/\S+/g,"").replace(/[^a-z]/gi,"").length>=12;
+    var recall = haveText ? titleRecall(title,out.cite) : null;
+    var authorHit = haveText && author ? out.cite.toLowerCase().indexOf(norm(author))>=0 : false;
+    var yearHit = haveText && year ? out.cite.indexOf(year)>=0 : false;
+    var titleMatch = recall!==null && recall>=0.65;
+    var weakMatch = recall!==null && recall>=0.4;
+
+    // baseline verdict from resolution + matching
+    if(!haveText){
+      out.verdict="ok";
+      out.flags.push({cls:"fl-violet",label:"resolved, not matched",text:"The DOI resolves, but there's no citation text next to it to compare the title against. Paste the full reference to match author, title, and year."});
+    } else if(titleMatch || (authorHit && yearHit)){
+      out.verdict="ok";
+    } else if(weakMatch){
+      out.verdict="ok";
+      out.flags.push({cls:"fl-amber",label:"partial match",text:"The record and your citation overlap but don't fully line up. Worth a glance that the DOI belongs to this reference."});
+    } else {
+      out.verdict="no";
+      out.flags.push({cls:"fl-rose",label:"record disagrees",text:"The Crossref record for this DOI doesn't match the citation text around it. This can mean a wrong or swapped DOI. Compare the titles below."});
+    }
+
+    return applyNotices(out,nx);
+  }
+
+  // Retraction and correction notices can override the match verdict toward
+  // "does not check out". Named source ("in Crossref") on every notice.
+  function applyNotices(out,n){
+    if(n.retracted){
+      out.verdict="no";
+      out.flags.unshift({cls:"fl-rose",label:"retracted",text:"Flagged as retracted in Crossref. Check the retraction notice before citing this paper."});
+    }
+    if(n.concern){
+      if(out.verdict==="ok") out.verdict="no";
+      out.flags.push({cls:"fl-rose",label:"expression of concern",text:"Flagged with an expression of concern in Crossref."});
+    }
+    if(n.corrected){
+      out.flags.push({cls:"fl-amber",label:"correction",text:"Flagged as corrected (erratum) in Crossref. Check that your citation reflects the corrected version."});
+    }
+    if(n.isPreprint){
+      out.flags.push({cls:"fl-amber",label:"preprint",text:"This DOI is a preprint. Check whether a peer-reviewed version has since been published, and cite that where it exists."});
+    }
+    return out;
+  }
+
+  // --- render -----------------------------------------------------------
+  var VMETA={
+    ok:{cls:"ok",vcls:"v-ok",label:"checks out",title:"Checks out",n:"resolves and matches"},
+    no:{cls:"no",vcls:"v-no",label:"does not check out",title:"Does not check out",n:"resolves but the record disagrees, or is flagged"},
+    nr:{cls:"nr",vcls:"v-nr",label:"not resolvable",title:"Not resolvable",n:"nothing to compare, not a failure"}
+  };
+
+  function recordLine(rec){
+    if(!rec) return "";
+    var bits=[];
+    if(rec.title) bits.push("<b>"+esc(rec.title)+"</b>");
+    var tail=[];
+    if(rec.author) tail.push(esc(rec.author));
+    if(rec.year) tail.push(esc(rec.year));
+    var s='<p class="ref-rec">'+(bits.join("")||"<i>record has no title</i>");
+    if(tail.length) s+=" · "+tail.join(", ");
+    s+="</p>";
+    return s;
+  }
+
+  function refCard(r){
+    var vm=VMETA[r.verdict];
+    var h='<div class="ref '+vm.cls+'">';
+    h+='<div class="ref-top"><span class="verdict '+vm.vcls+'">'+vm.label+'</span><span class="doi">'+esc(r.doi)+'</span></div>';
+    h+=recordLine(r.record);
+    if(r.flags.length){
+      h+='<div class="flags">';
+      for(var i=0;i<r.flags.length;i++){
+        var f=r.flags[i];
+        h+='<div class="flag"><span class="flabel '+f.cls+'">'+esc(f.label)+'</span><span class="fbody">'+f.text+'</span></div>';
+      }
+      h+='</div>';
+    }
+    h+='</div>';
+    return h;
+  }
+
+  function bridge(){
+    return '<div class="bridge"><h2>Does the source support the sentence?</h2>'+
+      '<p>This checked that your references resolve and match their records. <b>CiteVahti checks whether each source supports the sentence that cites it</b>: claim-to-source, with Zotero and an exportable trail.</p>'+
+      '<a class="btn" href="/citevahti/">See what CiteVahti does →</a></div>';
+  }
+
+  function render(rows){
+    var out=$("out");
+    var groups={ok:[],no:[],nr:[]};
+    for(var i=0;i<rows.length;i++) groups[rows[i].verdict].push(rows[i]);
+    var h='';
+    h+='<div class="summary"><span class="stotal">'+rows.length+' DOI'+(rows.length===1?'':'s')+' checked</span>';
+    if(groups.ok.length) h+='<span class="scount sc-ok">checks out · '+groups.ok.length+'</span>';
+    if(groups.no.length) h+='<span class="scount sc-no">does not check out · '+groups.no.length+'</span>';
+    if(groups.nr.length) h+='<span class="scount sc-nr">not resolvable · '+groups.nr.length+'</span>';
+    h+='</div>';
+
+    var order=["no","nr","ok"]; // problems first, calm confirmations last
+    for(var g=0;g<order.length;g++){
+      var key=order[g], list=groups[key]; if(!list.length) continue;
+      var vm=VMETA[key];
+      h+='<div class="vgroup"><div class="vhead"><h2>'+esc(vm.title)+'</h2><span class="n">'+list.length+' · '+esc(vm.n)+'</span></div>';
+      for(var j=0;j<list.length;j++) h+=refCard(list[j]);
+      h+='</div>';
+    }
+    h+=bridge();
+    out.innerHTML=h;
+  }
+
+  function progress(done,total){
+    $("out").innerHTML='<div class="progress">Checking DOI '+done+' of '+total+' against Crossref…'+
+      '<div class="bar"><i style="width:'+Math.round(done/total*100)+'%"></i></div></div>';
+  }
+
+  function run(){
+    var text=$("refs").value||"";
+    var dois=findDois(text);
+    if(!dois.length){
+      $("out").innerHTML='<div class="note"><b>No DOIs found in that text.</b> This tool checks references that carry a DOI (like <span class="doi">10.1016/S0140-6736(20)30566-3</span>). Paste a reference list or the reference section of a manuscript, then check again.</div>';
+      $("out").scrollIntoView({behavior:reduced()?'auto':'smooth',block:'nearest'});
+      return;
+    }
+    // attach context + mark duplicates
+    var seen={};
+    dois.forEach(function(d){
+      d.cite=contextFor(text,d);
+      if(!d.malformed){ if(seen[d.lower]) d.duplicate=true; else seen[d.lower]=1; }
+    });
+
+    $("run").disabled=true;
+    progress(0,dois.length);
+
+    // fetch only well-formed, first-occurrence DOIs; reuse the response for dupes
+    var toFetch=[], fetchIndex={};
+    dois.forEach(function(d){
+      if(d.malformed) return;
+      if(!(d.lower in fetchIndex)){ fetchIndex[d.lower]=toFetch.length; toFetch.push(d.lower); }
+    });
+
+    pool(toFetch,function(doi){return fetchDoi(doi);},progress).then(function(responses){
+      var rows=dois.map(function(d){
+        var res=d.malformed?null:responses[fetchIndex[d.lower]];
+        return classify(d,res);
+      });
+      render(rows);
+      $("run").disabled=false;
+      $("out").scrollIntoView({behavior:reduced()?'auto':'smooth',block:'nearest'});
+    });
+  }
+
+  function reduced(){return matchMedia('(prefers-reduced-motion: reduce)').matches;}
+
+  var EXAMPLE=
+"1. Zhou F, Yu T, Du R, et al. Clinical course and risk factors for mortality of adult inpatients with COVID-19 in Wuhan, China: a retrospective cohort study. Lancet. 2020;395:1054-1062. https://doi.org/10.1016/S0140-6736(20)30566-3\n\n"+
+"2. Mehra MR, Desai SS, Ruschitzka F, Patel AN. Hydroxychloroquine or chloroquine with or without a macrolide for treatment of COVID-19: a multinational registry analysis. Lancet. 2020. doi:10.1016/S0140-6736(20)31180-6\n\n"+
+"3. Miller A, Reandelar MJ, Fasciglione K, et al. Correlation between universal BCG vaccination policy and reduced morbidity and mortality for COVID-19. medRxiv. 2020. https://doi.org/10.1101/2020.03.24.20042937\n\n"+
+"4. Guan WJ, Ni ZY, Hu Y, et al. Clinical characteristics of coronavirus disease 2019 in China. N Engl J Med. 2020;382:1708-1720. doi:10.1056/NEJMoa2002032\n\n"+
+"5. Registry analysis, cited again in the discussion. doi:10.1016/S0140-6736(20)31180-6\n\n"+
+"6. Author U. A reference with a broken identifier. J Example. 2021. doi:10.99/not-a-real-doi";
+
+  $("run").addEventListener("click",run);
+  $("ex").addEventListener("click",function(){ $("refs").value=EXAMPLE; run(); });
+  $("clr").addEventListener("click",function(){ $("refs").value=""; $("out").innerHTML=""; $("refs").focus(); });
+})();
+</script>
+</body>
+</html>
