@@ -79,6 +79,16 @@
     h2{font-size:22px;letter-spacing:-.01em;margin:0 0 8px}
     .lede{color:#39324e;font-size:16px;max-width:66ch;margin:0 0 14px}
     .lede b{color:var(--ink)}
+    .routes{display:grid;gap:12px;margin:14px 0 2px}
+    @media(min-width:700px){.routes{grid-template-columns:1fr 1fr}}
+    .route{display:block;background:#f4f1fa;border:1px solid var(--line);border-left:4px solid var(--violet);
+      border-radius:11px;padding:15px 16px;text-decoration:none;color:var(--ink)}
+    .route:hover{border-color:var(--violet);box-shadow:0 3px 13px rgba(45,36,64,.08)}
+    .route b{display:block;font-size:15.5px}
+    .route span{display:block;color:var(--muted);font-size:13.5px;margin-top:3px}
+    .route.policy{border-left-color:#5566B5}
+    .route.supervise{border-left-color:#1E9E8A}
+    .route.limit{border-left-color:var(--amber)}
     .habits{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-top:6px}
     @media(max-width:640px){.habits{grid-template-columns:1fr}.files{grid-template-columns:1fr!important}.buyblock{flex-direction:column;align-items:flex-start!important}}
     .habit{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:15px 16px}
@@ -113,8 +123,9 @@
     footer{padding:26px 0 50px;color:var(--muted);font-size:13px;border-top:1px solid var(--line);line-height:1.7}
     footer a{color:var(--muted)}
   </style>
+  <link rel="stylesheet" href="../brand/site-refresh.css">
 </head>
-<body>
+<body class="vh-content">
 <div class="top">
   <div class="wrap">
     <header>
@@ -123,11 +134,11 @@
     </header>
     <div class="hero">
       <p class="kicker">Research documentation kit</p>
-      <h1>AI Disclosure Kit for Researchers</h1>
-      <p class="tag">Manuscript, thesis, grant, and peer-review templates for responsible AI use.
-        Log as you go, check the venue's policy once, disclose from templates.</p>
+      <h1>Disclose AI use from a record, not from memory.</h1>
+      <p class="tag">A dated AI-use log, venue-policy worksheet, and manuscript, thesis, grant, and peer-review templates for responsible AI use. You document and decide; journal, funder, and institutional rules still win.</p>
       <div class="buy">
         <a class="btn primary" href="https://buy.polar.sh/polar_cl_oXKh3WPbVykfljfrkwCsEJfQ9PjQBaY9piEoa28sc6j" rel="noopener">Get the kit · €29 →</a>
+        <a class="btn ghost" href="#situations">Start from your disclosure problem ↓</a>
         <div class="price"><span class="now">€29</span><span class="was">€49</span><span class="lbl">launch price</span></div>
       </div>
       <p class="metaline">10 files · Word · Excel · PDF · Markdown · instant download · v1.0 · 14-day refund</p>
@@ -138,7 +149,17 @@
 <div class="wrap">
 <main>
 
-  <section>
+  <section id="situations">
+    <h2>Start from the disclosure problem in front of you</h2>
+    <div class="routes">
+      <a class="route" href="#record"><b>I used AI and need a statement I can stand behind</b><span>Start with the dated log, then draft from the manuscript, thesis, grant, or peer-review template.</span></a>
+      <a class="route policy" href="#files"><b>I need to check the venue's actual policy</b><span>Use the policy worksheet and directory before writing the final statement.</span></a>
+      <a class="route supervise" href="#files"><b>I supervise students or co-authors using AI</b><span>Use the approval form, shared log, and policy worksheet before assumptions harden.</span></a>
+      <a class="route limit" href="#limits"><b>I need the limits stated clearly</b><span>See what the kit does not certify, replace, detect, or guarantee.</span></a>
+    </div>
+  </section>
+
+  <section id="record">
     <h2>You used AI. Now you need to disclose it properly.</h2>
     <p class="lede">Most researchers now use AI somewhere in their workflow. The problem isn't the use — it's that
       journal and funder rules are fragmented and keep changing, while disclosure norms stay unclear. Most people
@@ -153,7 +174,7 @@
     </div>
   </section>
 
-  <section>
+  <section id="files">
     <h2>What's inside — 10 files</h2>
     <ul class="files">
       <li><b>Quick start guide <span class="fmt">PDF</span></b>The 15-minute setup, the Allowed / Risky / Forbidden defaults table, and the 30-second disclosure decision.</li>
@@ -172,14 +193,14 @@
       matrices show it in one view.</p>
   </section>
 
-  <section>
+  <section id="who">
     <h2>Who it's for</h2>
     <p class="lede">Researchers, PhD students, supervisors, and clinician-scientists who use AI for language editing,
       literature work, coding, or drafting — and want a dated record and a specific, honest statement instead of a
       vague one.</p>
   </section>
 
-  <section>
+  <section id="limits">
     <h2>What it is not</h2>
     <div class="isnot">
       <ul>

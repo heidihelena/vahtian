@@ -60,6 +60,7 @@
     .buy{display:flex;flex-wrap:wrap;gap:14px;align-items:center}
     .btn{display:inline-block;padding:13px 22px;border-radius:10px;font-weight:700;text-decoration:none;font-size:16px}
     .btn.primary{background:var(--fill);color:#2b1c53}
+    .btn.ghost{border:1px solid rgba(197,184,232,.42);color:#EDE9F6;background:transparent}
     .price{display:flex;align-items:baseline;gap:9px}
     .price .now{font-size:26px;font-weight:800;color:#fff;letter-spacing:-.01em}
     .price .was{font-size:14px;color:#b9aee0;text-decoration:line-through}
@@ -71,6 +72,16 @@
     h2{font-size:22px;letter-spacing:-.01em;margin:0 0 8px}
     .lede{color:#39324e;font-size:16px;max-width:66ch;margin:0 0 14px}
     .lede b{color:var(--ink)}
+    .routes{display:grid;gap:12px;margin:14px 0 2px}
+    @media(min-width:700px){.routes{grid-template-columns:1fr 1fr}}
+    .route{display:block;background:#f4f1fa;border:1px solid var(--line);border-left:4px solid var(--violet);
+      border-radius:11px;padding:15px 16px;text-decoration:none;color:var(--ink)}
+    .route:hover{border-color:var(--violet);box-shadow:0 3px 13px rgba(45,36,64,.08)}
+    .route b{display:block;font-size:15.5px}
+    .route span{display:block;color:var(--muted);font-size:13.5px;margin-top:3px}
+    .route.cover{border-left-color:#5566B5}
+    .route.pack{border-left-color:#1E9E8A}
+    .route.hard{border-left-color:var(--amber)}
     .habits{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-top:6px}
     @media(max-width:640px){.habits{grid-template-columns:1fr}.files{grid-template-columns:1fr!important}.buyblock{flex-direction:column;align-items:flex-start!important}.cols{grid-template-columns:1fr!important}}
     .habit{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:15px 16px}
@@ -106,8 +117,9 @@
     footer{padding:26px 0 50px;color:var(--muted);font-size:13px;border-top:1px solid var(--line);line-height:1.7}
     footer a{color:var(--muted)}
   </style>
+  <link rel="stylesheet" href="../brand/site-refresh.css">
 </head>
-<body>
+<body class="vh-content">
 <div class="top">
   <div class="wrap">
     <header>
@@ -121,6 +133,7 @@
         change is traceable, and every disagreement has a reason.</p>
       <div class="buy">
         <a class="btn primary" href="https://buy.polar.sh/polar_cl_yzQ2tZUDYKVdL7YBkLY3ZeL2jbW0o4NQXlUTP1xHs02" rel="noopener">Get the Reviewer Response Builder · €39 →</a>
+        <a class="btn ghost" href="#situations">Start from your review problem ↓</a>
         <div class="price"><span class="now">€39</span><span class="was">€59</span><span class="lbl">launch price</span></div>
       </div>
       <p class="metaline">7 files · a local-first HTML builder · Word · Excel · Markdown · PDF · instant download · v1.0 · 14-day refund</p>
@@ -131,7 +144,17 @@
 <div class="wrap">
 <main>
 
-  <section>
+  <section id="situations">
+    <h2>Start from the review problem in front of you</h2>
+    <div class="routes">
+      <a class="route" href="#problem"><b>The reviews are in and the comments are everywhere</b><span>Start by splitting every comment into a row so nothing disappears.</span></a>
+      <a class="route cover" href="#coverage"><b>I need to prove every point is covered</b><span>Use stance, response, change, and location as the four-part record.</span></a>
+      <a class="route hard" href="#steps"><b>I have contradictory or hostile reviewer comments</b><span>Choose a defensible stance before writing the response language.</span></a>
+      <a class="route pack" href="#files"><b>I need the response letter files now</b><span>See the offline builder, Word workbook, Excel tracker, phrasebank, and example.</span></a>
+    </div>
+  </section>
+
+  <section id="problem">
     <h2>The reviews are in. Now you have to answer all of them.</h2>
     <p class="lede">A revise-and-resubmit is not won by writing more. It is won by covering everything: every
       reviewer comment mapped to a stance you can defend, a response, a real change, and a place in the
@@ -142,7 +165,7 @@
       confidence that you missed nothing.</p>
   </section>
 
-  <section>
+  <section id="steps">
     <h2>How it works, in five steps</h2>
     <ol class="steps">
       <li><b>Log every comment.</b> Split the reviews into single comments, one per row. Nothing merged, nothing
@@ -158,7 +181,7 @@
     </ol>
   </section>
 
-  <section>
+  <section id="coverage">
     <h2>The part that makes it defensible: coverage you can show</h2>
     <p class="lede">Most response letters are written from memory and hope. This one produces an auditable object.
       Every comment maps to a stance, a response, a real change, and a findable location. The tracker rolls it up
@@ -174,7 +197,7 @@
     </div>
   </section>
 
-  <section>
+  <section id="files">
     <h2>What's inside: 7 files</h2>
     <ul class="files">
       <li><b>Quick start <span class="fmt">PDF</span></b>The output first, a submittable response letter, then the

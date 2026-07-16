@@ -47,21 +47,49 @@
   }
   </script>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232D2440'/%3E%3Cg fill='none' stroke='%238B6FC9' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 9 H9 V23 H12'/%3E%3Cpath d='M20 9 H23 V23 H20'/%3E%3C/g%3E%3Cpath d='M16 10.3 L19.6 12 L19.6 15 L16 19.6 L12.4 15 L12.4 12 Z' fill='none' stroke='%23C5B8E8' stroke-width='1.8' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <link rel="preload" href="brand/fonts/nudica-medium.woff2" as="font" type="font/woff2" crossorigin>
   <style>
+    /* Local homepage trial; use the licensed webfont file before deployment. */
+    @font-face{
+      font-family:"Nudica";
+      src:url("brand/fonts/nudica-medium.woff2") format("woff2"),local("Nudica Medium"),local("Nudica-Medium");
+      font-style:normal;
+      font-weight:500;
+      font-display:swap;
+    }
+    @font-face{
+      font-family:"Nudica Mono";
+      src:url("brand/fonts/nudica-mono-medium.woff2") format("woff2"),local("Nudica Mono Medium"),local("NudicaMono-Medium");
+      font-style:normal;
+      font-weight:500;
+      font-display:swap;
+    }
     :root{
       --navy:#2D2440; --violet:#8B6FC9; --lilac:#C5B8E8;
-      --amber:#C98A00; --teal:#1E9E8A; --rose:#C24D7E;
       --ink:#1c1830; --muted:#5b5570; --bg:#faf9fc; --card:#fff; --line:#e7e3f0;
       --link:#6F52B8; /* darker violet — WCAG AA (≥4.5:1) for body-text links */
-      --lime:#A2C05C; --olive:#5a6a2c; /* kit accents: lime flagship rule, olive kicker */
+      --paper:#fbfaff; --paper2:#f2effa; --note-line:#d9d2ea; --inkline:#2a2338;
+      --control:#8f849f;
+      --font-mono:"Nudica Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
     }
     *{box-sizing:border-box}
-    body{margin:0;font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
-         color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased}
+    body{margin:0;font:500 16px/1.6 "Nudica",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+         color:var(--ink);
+         background:var(--bg);
+         -webkit-font-smoothing:antialiased}
+    code,pre,kbd,samp{font-family:var(--font-mono)}
     a{color:var(--link)}
+    :focus-visible{
+      outline:3px solid #fff;
+      outline-offset:2px;
+      box-shadow:0 0 0 5px var(--navy);
+      border-radius:3px;
+    }
+    input::placeholder{color:var(--muted);opacity:1}
     .wrap{max-width:780px;margin:0 auto;padding:0 22px}
     header{padding:22px 0 6px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
-    .brand{display:flex;align-items:center;gap:11px;font-weight:700;font-size:19px;letter-spacing:-.01em}
+    .brand{display:flex;align-items:center;gap:11px;font-weight:700;font-size:19px;letter-spacing:0}
+    .brand .brand-name{font-size:28px;line-height:1;font-weight:600;color:var(--navy);letter-spacing:0}
     nav.nav{display:flex;align-items:center;gap:16px;flex-wrap:wrap;font-size:14.5px}
     nav.nav a{color:var(--ink);text-decoration:none;font-weight:600}
     nav.nav a:hover{color:var(--link)}
@@ -73,18 +101,23 @@
     @media(max-width:680px){nav.nav{gap:13px;font-size:13.5px}}
     .mark{width:32px;height:32px;flex:0 0 32px}
     .hero{padding:50px 0 14px}
-    .kicker{font:600 13px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--link);
+    .kicker{font:600 13px/1 var(--font-mono);color:var(--link);
             text-transform:uppercase;letter-spacing:.08em;margin:0 0 14px}
-    h1{font-size:clamp(30px,6vw,48px);line-height:1.08;letter-spacing:-.02em;margin:0 0 16px}
+    h1{font-size:clamp(30px,6vw,48px);line-height:1.08;letter-spacing:0;margin:0 0 16px}
     .lede{font-size:clamp(17px,2.6vw,20px);color:#3a3450;margin:0 0 10px;max-width:62ch}
     .vahti{color:var(--muted);font-size:14.5px;margin:18px 0 0}
     .cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:22px}
-    .btn{display:inline-block;padding:11px 18px;border-radius:9px;font-weight:600;text-decoration:none;font-size:15px}
+    .btn{display:inline-block;padding:11px 18px;border-radius:6px;font-weight:600;text-decoration:none;font-size:15px}
     .btn.primary{background:var(--navy);color:#fff}
-    .btn.ghost{border:1px solid var(--line);color:var(--ink);background:var(--card)}
-    section{padding:34px 0;border-top:1px solid var(--line);margin-top:36px}
+    .btn.ghost{border:1px solid var(--control);color:var(--ink);background:var(--card)}
+    .marksy{font-family:"Marksy","Marker Felt","Bradley Hand","Segoe Print",cursive;letter-spacing:.01em}
+    section{position:relative;padding:38px 0;border-top:1px solid var(--line);margin-top:36px}
+    .band-lilac{background:var(--paper2);border-top:0;box-shadow:0 0 0 100vmax var(--paper2);
+      clip-path:inset(0 -100vmax);padding:48px 0}
+    #routes.band-lilac{margin-top:0}
     h2{font-size:20px;margin:0 0 16px}
-    .products{display:grid;gap:12px}
+    .section-script{font-size:29px;line-height:1.15;font-weight:600;color:var(--violet);letter-spacing:0}
+    .products{display:grid;gap:0 22px}
     /* 2-up grid on wide screens; a lone or trailing odd card spans full width,
        so the flagship (START) and the roadmap card read as deliberate emphasis */
     @media(min-width:660px){
@@ -96,31 +129,23 @@
       .products .p:last-child:nth-child(odd)::before{display:none}
     }
     .p{position:relative;display:grid;grid-template-columns:auto 1fr;gap:13px;align-items:start;
-       background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 34px 14px 15px;
-       border-left:3px solid var(--accent,var(--line));
-       transition:border-color .15s ease,box-shadow .15s ease}
-    /* each card's accent = the accent of its own mark */
-    .p.cite,.p.matchlite{--accent:#8B6FC9}
-    .p.study,.p.method,.p.dict,.p.extract{--accent:#5566B5}
-    .p.review,.p.synth{--accent:#1E9E8A}
-    .p.epinet{--accent:#5E4F99} .p.recoverlite,.p.auditlite{--accent:#5566B5}
-    .p.full,.p.atlas{--accent:#C24D7E}
-    .p.guide{--accent:#C98A00}
+       border-top:1px solid var(--line);padding:16px 32px 18px 0;
+       transition:background-color .15s ease}
+    .p.cite,.p.matchlite,.p.study,.p.method,.p.dict,.p.extract,.p.review,.p.synth,
+    .p.epinet,.p.recoverlite,.p.auditlite,.p.full,.p.atlas,.p.guide{--accent:var(--violet)}
     .p .pmark{width:46px;height:46px;flex:0 0 46px;display:block}
     .p .name{font-weight:700} .p .for{color:var(--muted);font-size:14px;display:block;margin-top:4px}
-    .p .tag{font:600 11px/1 ui-monospace,monospace;padding:5px 9px;border-radius:6px;white-space:nowrap;
+    .p .tag{font:600 11px/1 var(--font-mono);padding:0;white-space:nowrap;
             display:inline-block;vertical-align:2px;margin-left:6px}
-    .tag.live{background:#ECE3FF;border:1px solid var(--violet);color:#432C7A}
-    .tag.soon{background:#f2f0f7;border:1px solid var(--line);color:var(--muted)}
-    .tag.free{background:#D8F4ED;border:1px solid #1E9E8A;color:#08544A}
-    .tag.beta{background:#ECE9F6;border:1px solid #5566B5;color:#33408a}
+    .tag.live,.tag.free,.tag.beta{color:var(--link)}
+    .tag.soon{color:var(--muted)}
     /* The whole card is the link (stretched from the name); the underline and the
        static arrow make the affordance visible without hover — mobile included */
     .p a.name{color:var(--ink);text-decoration:underline;text-decoration-color:var(--lilac);text-underline-offset:3px}
-    .p a.name::after{content:"";position:absolute;inset:0;border-radius:12px}
-    .p:has(a.name)::before{content:"→";position:absolute;right:13px;top:14px;font-weight:700;
+    .p a.name::after{content:"";position:absolute;inset:0}
+    .p:has(a.name)::before{content:"→";position:absolute;right:3px;top:16px;font-weight:700;
       color:var(--accent,var(--violet));opacity:.55;transition:transform .15s ease,opacity .15s ease}
-    .p:hover{border-color:var(--accent,var(--violet));box-shadow:0 3px 14px rgba(45,36,64,.09)}
+    .p:hover{background:var(--paper2)}
     .p:hover a.name{text-decoration-color:var(--accent,var(--violet))}
     .p:hover::before{transform:translateX(3px);opacity:1}
     @media(prefers-reduced-motion:reduce){.p,.p::before{transition:none}}
@@ -128,63 +153,103 @@
     .p .notify{position:relative;z-index:1;display:inline-block;font-size:13px;font-weight:600;margin-top:2px;padding:10px 6px 4px 0}
     .principle{display:grid;gap:12px;grid-template-columns:1fr 1fr}
     @media(max-width:560px){.principle{grid-template-columns:1fr}}
-    .principle .box{background:var(--card);border:1px solid var(--line);border-radius:11px;padding:16px}
+    .principle .box{border-top:2px solid var(--lilac);padding:14px 4px 2px}
     .principle h3{margin:0 0 6px;font-size:15px}
     .principle p{margin:0;color:var(--muted);font-size:14px}
-    .contact a{font-weight:600}
-    .stack3{display:grid;gap:5px;margin:6px 0 22px;color:#3a3450;font-size:clamp(15px,2.2vw,18px)}
-    .stack3 b{color:var(--ink)}
+    .section-lede{color:var(--muted);font-size:15.5px;margin:0 0 18px;max-width:66ch}
+    .routes{display:grid;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+    @media(min-width:760px){
+      .routes{grid-template-columns:1fr 1fr}
+      .route+.route{padding-left:4px}
+      .route:nth-child(even){border-left:1px solid var(--line);padding-left:18px}
+      .route:nth-child(n+3){border-top:1px solid var(--line)}
+    }
+    .route{padding:20px 18px 22px 4px;display:flex;flex-direction:column;gap:9px}
+    @media(max-width:759px){.route+.route{border-top:1px solid var(--line)}}
+    .route .rkick{font:700 11px/1 var(--font-mono);text-transform:uppercase;
+      letter-spacing:.09em;color:var(--link);margin:0}
+    .route h3{font-size:18px;line-height:1.2;margin:0;color:var(--navy)}
+    .route p{margin:0;color:#3a3450;font-size:14.5px}
+    .route a{font-weight:700;margin-top:auto;padding-top:4px}
+    .founder-proof{display:grid;gap:16px;grid-template-columns:1fr;align-items:start}
+    @media(min-width:720px){.founder-proof{grid-template-columns:1.05fr .95fr}}
+    .founder-proof .proof-card{border-left:3px solid var(--violet);padding:4px 0 4px 20px}
+    .founder-proof .proof-card p{margin:0;color:#2f2842;font-size:15.5px}
+    .founder-proof .proof-card b{display:block;margin:0 0 9px;font-family:"Marksy","Marker Felt","Bradley Hand","Segoe Print",cursive;
+      font-size:28px;line-height:1.05;font-weight:600;color:var(--violet)}
+    .proof-list{display:grid;gap:10px;margin:0;padding:0;list-style:none}
+    .proof-list li{border-bottom:1px solid var(--line);padding:12px 4px;
+      color:#3a3450;font-size:14px}
     h2 .sub{font-weight:400;font-size:14px;color:var(--muted)}
     ol.flow{margin:0 0 14px;padding-left:20px;display:grid;gap:9px;color:#322c47}
     ol.flow b{color:var(--ink)}
     .tierhead{display:flex;align-items:baseline;gap:11px;flex-wrap:wrap;margin:26px 0 13px}
     .tierhead:first-of-type{margin-top:6px}
-    .tierhead .t{font:700 12px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.1em;text-transform:uppercase;color:#fff;background:var(--navy);padding:6px 11px;border-radius:6px}
+    .tierhead .t{font:700 12px/1 var(--font-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--navy);border-left:3px solid var(--violet);padding-left:9px}
     .tierhead .d{color:var(--muted);font-size:14.5px}
     ul.chooser{list-style:none;padding:0;margin:0;display:grid;gap:10px}
-    ul.chooser li{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:6px 14px;background:var(--card);border:1px solid var(--line);border-radius:10px}
+    ul.chooser li{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:6px 4px;border-bottom:1px solid var(--line)}
     ul.chooser li .arr{color:#7A5CC0;font-weight:700} /* darker than --violet: ≥4.5:1 WCAG AA on card and page bg */
     /* Larger tap target for the decision-path links — ≥44px tall on touch */
     ul.chooser li a{display:inline-block;padding:11px 6px;line-height:1.4}
     ul.chooser strong{font-weight:600}
-    .contract{background:var(--navy);border-radius:14px;padding:26px 24px}
-    .contract h3{color:#fff;margin:0 0 12px;font-size:clamp(20px,3.4vw,28px);line-height:1.14}
-    .contract p{color:#d9d3ea;font-size:15.5px;line-height:1.65;margin:0;max-width:66ch}
-    .contract p b{color:#fff}
+    .contract{border-left:4px solid var(--violet);padding:3px 0 4px 20px}
+    .contract h3{color:var(--navy);margin:0 0 10px;font-size:26px;line-height:1.14}
+    .contract p{color:var(--muted);font-size:15.5px;line-height:1.65;margin:0;max-width:66ch}
+    .contract p b{color:var(--navy)}
     .vahti.lower{margin:26px 0 0}
+    .vahti.lower.marksy{font-size:22px;line-height:1.35;color:var(--link);font-style:italic;letter-spacing:0}
     /* Full-bleed lighthouse hero — self-contained canvas, text overlaid on a scrim */
     .hero-band{position:relative;overflow:hidden;background:#1b1530;min-height:460px;margin-top:18px}
+    .hero-band::before{display:none}
     .hero-band canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
     .hero-scrim{position:absolute;inset:0;pointer-events:none;
       background:linear-gradient(90deg,rgba(20,14,38,.93) 0%,rgba(20,14,38,.80) 26%,rgba(20,14,38,.36) 50%,rgba(20,14,38,0) 70%)}
     .hero-inner{position:relative;z-index:2;display:flex;align-items:center;min-height:460px}
     .hero-copy{max-width:72%;padding:36px 0}
     .hero-band .kicker{color:#C5B8E8}
+    .hero-band .kicker.marksy{font-size:22px;font-weight:500;line-height:1.1;text-transform:none;letter-spacing:0}
     .hero-band h1{color:#F5F2FB;font-size:clamp(28px,4.4vw,42px)}
     .hero-band .lede{color:#cfc7e6}
     .hero-band .lede b{color:#C5B8E8}
-    .hero-band .stack3{color:#cfc7e6}
-    .hero-band .stack3 b{color:#F5F2FB}
     .hero-band .btn.primary{background:#C5B8E8;color:#241b3a}
-    .hero-band .btn.ghost{background:transparent;border:1px solid rgba(197,184,232,.45);color:#C5B8E8}
+    .hero-band .btn.ghost{background:transparent;border:1px solid rgba(197,184,232,.6);color:#C5B8E8}
     @media(max-width:640px){.hero-band,.hero-inner{min-height:390px}.hero-copy{max-width:100%;padding:38px 0}
       .hero-scrim{background:linear-gradient(180deg,rgba(20,14,38,.5),rgba(20,14,38,.86))}}
-    footer{padding:30px 0 50px;color:var(--muted);font-size:13px;border-top:1px solid var(--line);margin-top:36px}
-    footer a{color:var(--muted)}
+    footer{background:var(--navy);box-shadow:0 0 0 100vmax var(--navy);clip-path:inset(0 -100vmax);
+      padding:34px 0 50px;color:#d9d3ea;font-size:13px;margin-top:0}
+    footer a{color:#fff}
+    .footer-main{display:grid;grid-template-columns:1.2fr .8fr;gap:32px;align-items:start}
+    .footer-name{margin:0 0 7px;font-size:30px;line-height:1;color:var(--violet);font-weight:600;letter-spacing:0}
+    .footer-tagline{margin:0;max-width:42ch;font-size:14px;line-height:1.55;color:#d9d3ea}
+    .footer-links{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:8px 18px}
+    .footer-links a{font-weight:650;text-decoration:none}
+    .footer-links a:hover{text-decoration:underline;text-underline-offset:3px}
+    .footer-meta{display:flex;flex-wrap:wrap;gap:7px 16px;margin-top:24px;padding-top:14px;border-top:1px solid rgba(197,184,232,.28)}
+    @media(max-width:600px){.footer-main{grid-template-columns:1fr}.footer-links{justify-content:flex-start}}
     /* Vahtian paid kits */
     .kitsintro{color:var(--muted);font-size:15px;margin:0 0 16px;max-width:62ch}
-    .kits{display:grid;gap:12px}
+    .kits{display:grid;gap:0 22px}
     @media(min-width:660px){.kits{grid-template-columns:1fr 1fr}
       .kit.flagship{grid-column:1/-1}}
-    .kit{display:flex;flex-direction:column;align-items:flex-start;gap:9px;
-      background:var(--card);color:var(--ink);border:1px solid var(--line);
-      border-left:3px solid var(--violet);border-radius:12px;padding:20px 22px}
-    .kit.flagship{border-left-color:var(--lime);background:#f6f3fc}
-    .kit .kkick{font:600 12px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--olive);text-transform:uppercase;letter-spacing:.1em;margin:0}
+    .kit{display:flex;flex-direction:column;align-items:flex-start;gap:9px;min-width:0;width:100%;
+      color:var(--ink);border-top:1px solid var(--line);padding:20px 4px 24px}
+    .kit.flagship{border-top:3px solid var(--violet);border-bottom:1px solid var(--line);padding:22px 4px 26px}
+    .kit .kkick{font:700 11px/1 var(--font-mono);color:var(--link);
+      text-transform:uppercase;letter-spacing:.085em;margin:0}
     .kit h3{margin:0;font-size:19px;color:var(--navy)}
+    .kit.flagship h3{font-size:24px}
     .kit p{margin:0;color:var(--ink);font-size:14.5px;max-width:54ch}
-    .kit .kbtn{display:inline-block;margin-top:auto;padding:11px 18px;border-radius:9px;font-weight:700;text-decoration:none;
-      background:var(--navy);color:#fff;font-size:15px;white-space:nowrap}
+    .kit .kbtn{display:inline-block;margin-top:auto;max-width:100%;padding:11px 18px;border-radius:6px;font-weight:700;text-decoration:none;
+      background:var(--navy);color:#fff;font-size:15px;text-align:center;white-space:normal}
+    .field-letter{background:var(--paper2);border-top:3px solid var(--violet);
+      box-shadow:0 0 0 100vmax var(--paper2);clip-path:inset(0 -100vmax);
+      padding:28px 0 34px;margin:42px 0 0;color:var(--ink)}
+    .field-letter .runner{margin:0 0 7px;font:700 11px/1 var(--font-mono);
+      letter-spacing:.11em;text-transform:uppercase;color:var(--link)}
+    .field-letter .letter-title{margin:0 0 8px;font-size:clamp(26px,5vw,34px);line-height:1.05;color:var(--violet)}
+    .field-letter p{margin:0 0 14px;color:#4b455f;font-size:15px}
+    .field-letter form{margin:0}
   </style>
 </head>
 <body>
@@ -199,7 +264,7 @@
         </g>
         <path d="M16 10.3 L19.6 12 L19.6 15 L16 19.6 L12.4 15 L12.4 12 Z" fill="none" stroke="#C5B8E8" stroke-width="1.8" stroke-linejoin="round"/>
       </svg></a>
-      <span>Vahtian</span>
+      <span class="brand-name marksy">Vahtian</span>
     </div>
     <nav class="nav" aria-label="Primary">
       <a href="/#tools">Tools</a>
@@ -223,19 +288,12 @@
   <div class="hero-scrim" aria-hidden="true"></div>
   <div class="wrap hero-inner">
    <div class="hero-copy">
-    <p class="kicker">Auditable research workflows</p>
-    <h1>When a reviewer asks how you did it, what will you show?</h1>
-    <p class="lede">Vahtian builds local-first tools that help you record research decisions as you
-      make them. Citations checked against their sources. Interviews coded under
-      <b>your</b> review. Important decisions can be recorded with their inputs, outputs, and dates.</p>
-    <div class="stack3">
-      <span><b>Human-first. AI-second. Auditable by design.</b></span>
-      <span>Free checking tools to start. They stay free.</span>
-      <span>Paid kits package the structure, documentation, and audit trail when the study is real.</span>
-    </div>
+    <p class="kicker marksy">Built from real research work</p>
+    <h1>Research you can explain and defend.</h1>
+    <p class="lede">Local-first tools to check claims, test assumptions, and document the decisions behind your work.</p>
     <div class="cta">
-      <a class="btn primary" href="/citevahti/#try">Check one claim with CiteVahti →</a>
-      <a class="btn ghost" href="#workflow">See the audit workflow</a>
+      <a class="btn primary" href="/qualivahti-local/">Explore QualiVahti Local</a>
+      <a class="btn ghost" href="/citevahti/#try">Try a claim check</a>
     </div>
    </div><!-- /hero-copy -->
   </div><!-- /hero-inner -->
@@ -243,21 +301,111 @@
 
 <div class="wrap">
 
+  <section id="routes" class="band-lilac">
+    <h2 class="section-script marksy">Start with the work in front of you</h2>
+    <div class="routes">
+      <div class="route claim">
+        <p class="rkick">Claim support</p>
+        <h3>Check a claim</h3>
+        <p>See whether a source supports what you wrote, including AI-assisted text.</p>
+        <a href="/citevahti/">Check a claim →</a>
+      </div>
+      <div class="route decision">
+        <p class="rkick">Study decisions</p>
+        <h3>Record a decision</h3>
+        <p>Keep the reasoning behind sampling, analysis, AI use, or reporting choices.</p>
+        <a href="/methodvahti/">Record the reasoning →</a>
+      </div>
+      <div class="route analysis">
+        <p class="rkick">Causal analysis</p>
+        <h3>Stress-test a result</h3>
+        <p>Make the assumptions behind a causal result explicit and see what survives when they are attacked.</p>
+        <a href="https://github.com/heidihelena/assesslite">Open AssessLite on GitHub →</a>
+      </div>
+      <div class="route panel">
+        <p class="rkick">Group review</p>
+        <h3>Run a review</h3>
+        <p>Screen, extract, and reach consensus without losing who decided what.</p>
+        <a href="/reviewvahti/">See the review workflow →</a>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="founder-proof">
+      <div>
+        <h2>Built by someone who has to use it</h2>
+        <p class="section-lede">I’m <a href="/about/">Heidi Andersén, MD, PhD</a>, a clinician-scientist in Finland. I build Vahtian from the practical gaps I meet in study planning, qualitative analysis, peer review, and scientific writing.</p>
+        <p><a class="notify" href="/about/">About me and the work →</a></p>
+      </div>
+      <div class="proof-card">
+        <p><b>Not outside software.</b> Vahtian is shaped inside active research practice, where a claim, codebook, or decision may need to be explained months later.</p>
+      </div>
+    </div>
+  </section>
+
   <section id="workflow">
-    <h2>CiteVahti’s audit workflow <span class="sub">— blinded human → AI → adjudication</span></h2>
-    <ol class="flow">
-      <li><b>Claim becomes a test.</b> Each manuscript claim is checked against the source cited for it.</li>
-      <li><b>Evidence, not topic.</b> Does the cited source support the population, construct, comparison, outcome, direction, and strength of the claim, rather than merely discuss the same topic?</li>
-      <li><b>You decide, blinded.</b> The AI rates too, but its opinion stays hidden until you’ve rated. The human is the decider.</li>
-      <li><b>Disagreements adjudicated.</b> When human and AI differ, it routes to a person, never silently resolved.</li>
-      <li><b>Guarded write.</b> Any write-back to Zotero or the manuscript occurs only after preview and confirmation, with an undo record.</li>
-      <li><b>Recorded.</b> An append-only, hash-linked record of who rated what, what the AI advised, and what was finally written, enough to reveal later changes to the record, not to prove it complete or the science correct.</li>
-    </ol>
-    <p><a class="notify" href="/citevahti/">Run it on your manuscript with CiteVahti →</a></p>
+    <h2>A simple working rule</h2>
+    <div class="principle">
+      <div class="box"><h3>You decide</h3><p>AI can advise, but it does not silently become the research decision.</p></div>
+      <div class="box"><h3>Keep the record</h3><p>Inputs, outputs, dates, and human choices stay visible enough to inspect later.</p></div>
+      <div class="box"><h3>Keep data local</h3><p>Your manuscripts, interviews, and working files stay on your machine whenever the workflow allows.</p></div>
+      <div class="box"><h3>State the limits</h3><p>The tools check support and consistency. They do not decide scientific truth.</p></div>
+    </div>
+  </section>
+
+  <section id="kits" class="band-lilac">
+    <h2>Research workflow kits <span class="sub">· from €29</span></h2>
+    <p class="kitsintro">The free tools let you test the approach. The kits give you the templates, local workflow, and records to use it on a real study.</p>
+    <div class="kits">
+      <div class="kit flagship">
+        <p class="kkick">Complete workflow · qualitative studies</p>
+        <h3>QualiVahti Local</h3>
+        <p>A local qualitative workflow for sensitive interviews: transcribe, code, review suggestions, maintain the codebook, and export an audit trail without sending the data away.</p>
+        <a class="kbtn" href="/qualivahti-local/">Explore QualiVahti Local · €49 →</a>
+      </div>
+      <div class="kit">
+        <p class="kkick">Focused kit · qualitative sampling</p>
+        <h3>MethodVahti Sample Defence Pack</h3>
+        <p>Set the stopping logic, keep an adequacy log, and draft a defensible sampling paragraph without treating saturation as a formula.</p>
+        <a class="kbtn" href="/methodvahti/#access">See the Sample Defence Pack · €49 →</a>
+      </div>
+      <div class="kit">
+        <p class="kkick">Focused kit · scientific writing</p>
+        <h3>Manuscript Kit</h3>
+        <p>Move from figures and methods toward the abstract, with local tools for structure, flow, and revision checks.</p>
+        <a class="kbtn" href="/manuscript-kit/">See the Manuscript Kit · €49 →</a>
+      </div>
+      <div class="kit">
+        <p class="kkick">Focused kit · peer review</p>
+        <h3>Reviewer Response Builder</h3>
+        <p>Map every reviewer comment to a stance, response, manuscript change, and location before resubmission.</p>
+        <a class="kbtn" href="/reviewer-response-builder/">See the Reviewer Response Builder · €39 →</a>
+      </div>
+      <div class="kit">
+        <p class="kkick">Focused kit · peer review</p>
+        <h3>Reviewer's Notebook</h3>
+        <p>Keep a peer review structured, fair, and clear about the difference between a methodological flaw and a preference.</p>
+        <a class="kbtn" href="/reviewers-notebook/">See the Reviewer's Notebook · €39 →</a>
+      </div>
+      <div class="kit">
+        <p class="kkick">Focused kit · AI disclosure</p>
+        <h3>AI Disclosure Kit for Researchers</h3>
+        <p>Keep the AI-use log, disclosure language, and journal-policy checks together before submission.</p>
+        <a class="kbtn" href="/ai-disclosure-kit/">See the kit · €29 →</a>
+      </div>
+      <div class="kit">
+        <p class="kkick">Focused kit · research planning</p>
+        <h3>Research Strategy Kit</h3>
+        <p>Map possible projects, separate evidence from assumptions, and choose the next study deliberately.</p>
+        <a class="kbtn" href="/research-domain-cube/">See the Research Strategy Kit · €29 →</a>
+      </div>
+    </div>
   </section>
 
   <section id="tools">
-    <h2>Tools across the research workflow <span class="sub">— grouped by the problem they solve</span></h2>
+    <h2>Free tools <span class="sub">· try the method first</span></h2>
+    <p class="section-lede">Use them in your browser or locally. They stay free, and their workings stay open to inspection.</p>
 
     <div class="tierhead"><span class="t">Plan and document</span><span class="d">Get the study, its sampling, and its data right before analysis.</span></div>
     <div class="products">
@@ -269,7 +417,7 @@
       <div class="p method">
         <svg class="pmark" viewBox="0 0 32 32" aria-hidden="true">
           <rect width="32" height="32" rx="7" fill="#2D2440"/>
-          <g fill="none" stroke="#5566B5" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+          <g fill="none" stroke="#8B6FC9" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
             <path d="M12 9 H9 V23 H12"/><path d="M20 9 H23 V23 H20"/>
           </g>
           <g fill="#C5B8E8">
@@ -283,7 +431,7 @@
       <div class="p dict">
         <svg class="pmark" viewBox="0 0 32 32" aria-hidden="true">
           <rect width="32" height="32" rx="7" fill="#2D2440"/>
-          <g fill="none" stroke="#5566B5" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+          <g fill="none" stroke="#8B6FC9" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
             <path d="M12 9 H9 V23 H12"/><path d="M20 9 H23 V23 H20"/>
           </g>
           <g fill="none" stroke="#C5B8E8" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
@@ -313,12 +461,12 @@
           <path d="M13.9 16 H18.1" stroke="#8B6FC9" stroke-width="2.3" stroke-linecap="round"/>
         </svg>
         <span><a class="name" href="/matchvahti-lite/">MatchVahti-Lite</a> <span class="tag free">free · live</span>
-          <span class="for">Capture citation-worthy evidence from PubMed abstracts, with provenance, into a reviewable Zotero <span style="font-family:ui-monospace,Menlo,monospace">.ris</span>. Local-first; nothing uploads.</span></span>
+          <span class="for">Capture citation-worthy evidence from PubMed abstracts, with provenance, into a reviewable Zotero <span style="font-family:var(--font-mono)">.ris</span>. Local-first; nothing uploads.</span></span>
       </div>
       <div class="p full">
         <svg class="pmark" viewBox="0 0 32 32" aria-hidden="true">
           <rect width="32" height="32" rx="7" fill="#2D2440"/>
-          <g fill="none" stroke="#C24D7E" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+          <g fill="none" stroke="#8B6FC9" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
             <path d="M12 9 H9 V23 H12"/><path d="M20 9 H23 V23 H20"/>
           </g>
           <g fill="none" stroke="#C5B8E8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
@@ -333,7 +481,7 @@
     <div class="tierhead"><span class="t">Analyse and test</span><span class="d">Synthesise and stress-test the evidence.</span></div>
     <div class="products">
       <div class="p synth">
-        <svg class="pmark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#2D2440"/><g fill="none" stroke="#1E9E8A" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9 H9 V23 H12"/><path d="M20 9 H23 V23 H20"/></g><g fill="none" stroke="#C5B8E8" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19 L15 14 L18 16 L20 11"/></g></svg>
+        <svg class="pmark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#2D2440"/><g fill="none" stroke="#8B6FC9" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9 H9 V23 H12"/><path d="M20 9 H23 V23 H20"/></g><g fill="none" stroke="#C5B8E8" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19 L15 14 L18 16 L20 11"/></g></svg>
         <span><a class="name" href="/synthvahti/">SynthVahti</a> <span class="tag beta">free beta</span>
           <span class="for">Check 2&times;2 tables from your ExtractVahti CSV and pool overall, positive, and negative agreement — forest figures in the browser; the joint bivariate model and SROC curve run in R via a generated, versioned script. Nothing uploads.</span></span>
       </div>
@@ -379,17 +527,22 @@
     <h2>Open-source research packages <span class="sub">— the methods engines, as Python and R</span></h2>
     <div class="products">
       <div class="p epinet">
-        <svg class="pmark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#2D2440"/><g fill="none" stroke="#8273C0" stroke-width="2" stroke-linecap="round"><path d="M10 22 L16 11 L22 20"/></g><g fill="#C5B8E8"><circle cx="10" cy="22" r="2.4"/><circle cx="16" cy="11" r="2.4"/><circle cx="22" cy="20" r="2.4"/></g></svg>
+        <svg class="pmark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#2D2440"/><g fill="none" stroke="#8B6FC9" stroke-width="2" stroke-linecap="round"><path d="M10 22 L16 11 L22 20"/></g><g fill="#C5B8E8"><circle cx="10" cy="22" r="2.4"/><circle cx="16" cy="11" r="2.4"/><circle cx="22" cy="20" r="2.4"/></g></svg>
         <span><a class="name" href="/epinet/">EpiNet</a> <span class="tag free">open source</span>
           <span class="for">The Epistemic Network toolkit, transparent graph &amp; feature-space analysis where leakage-aware evaluation travels with every run (permutation null, calibration, community-aware splitting, contestability). A research demonstrator, not clinical decision support. Python; Apache-2.0.</span></span>
       </div>
       <div class="p recoverlite">
-        <svg class="pmark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#2D2440"/><g fill="none" stroke="#5566B5" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M9 20 L14 14 L18 17 L23 10"/></g><circle cx="23" cy="10" r="2.2" fill="#C5B8E8"/></svg>
+        <svg class="pmark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#2D2440"/><g fill="none" stroke="#8B6FC9" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M9 20 L14 14 L18 17 L23 10"/></g><circle cx="23" cy="10" r="2.2" fill="#C5B8E8"/></svg>
         <span><a class="name" href="/recoverlite/">RecoverLite</a> <span class="tag free">open source</span>
           <span class="for">Pre-data recovery tests for planned study designs — declare the estimand and analysis, simulate under a crossed grid, and classify recovery as PASS, RISK, or FAIL under the declared scenarios and thresholds before you collect data. A result about the instrument, not the real study. R; Apache-2.0.</span></span>
       </div>
+      <div class="p assess">
+        <img class="pmark" src="brand/marks/assesslite.svg" width="46" height="46" alt="" loading="lazy">
+        <span><a class="name" href="https://github.com/heidihelena/assesslite">AssessLite</a> <span class="tag free">open source · R + Python</span>
+          <span class="for">Stress-test the assumptions behind a causal result across clusters, time, subgroups, confounding, DAG adjustment, and overlap. Export an audit record of what held, failed, or could not be resolved. Apache-2.0.</span></span>
+      </div>
       <div class="p auditlite">
-        <svg class="pmark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#2D2440"/><g fill="none" stroke="#5566B5" stroke-width="2.1" stroke-linecap="round"><rect x="8.5" y="13.9" width="8.2" height="4.2" rx="2.1"/><rect x="15.3" y="13.9" width="8.2" height="4.2" rx="2.1"/></g><circle cx="16" cy="16" r="1.6" fill="#C5B8E8"/></svg>
+        <svg class="pmark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#2D2440"/><g fill="none" stroke="#8B6FC9" stroke-width="2.1" stroke-linecap="round"><rect x="8.5" y="13.9" width="8.2" height="4.2" rx="2.1"/><rect x="15.3" y="13.9" width="8.2" height="4.2" rx="2.1"/></g><circle cx="16" cy="16" r="1.6" fill="#C5B8E8"/></svg>
         <span><a class="name" href="/auditlite/">AuditLite</a> <span class="tag free">open source</span>
           <span class="for">Chain-of-custody for AI-assisted analyses: an append-only, hash-chained trail of declared provenance, analytic decisions, and executions, with checks that flag when a reported result no longer follows from the current analysis. Not an AI detector. Python &amp; R; Apache-2.0.</span></span>
       </div>
@@ -397,12 +550,12 @@
   </section>
 
   <section>
-    <h2>The trust contract</h2>
+    <h2>The promise</h2>
     <div class="contract">
-      <h3>Vahtian does not decide scientific truth.</h3>
-      <p>Vahtian builds local-first tools that keep research inputs, decisions, and
-        outputs open to review. The tools support judgment; they do not establish
-        scientific truth. What that means in practice depends on the tool:</p>
+      <h3>The tool helps. You remain responsible.</h3>
+      <p>Vahtian keeps inputs, outputs, and decisions open to review. It can check, compare,
+        structure, and suggest. It does not establish scientific truth or make consequential
+        research decisions for you.</p>
     </div>
     <div class="principle" style="margin-top:16px">
       <div class="box"><h3>Deterministic operations are inspectable</h3><p>Parsing, calculations, checks, and exports record what was done, so a step can be re-run and read.</p></div>
@@ -410,74 +563,7 @@
       <div class="box"><h3>Consequential judgments remain accountable</h3><p>The researcher or designated reviewer approves decisions that affect interpretation, inclusion, or reporting.</p></div>
       <div class="box"><h3>Open core, local-first</h3><p>The open core, the free browser tools and open-source packages, is permissively licensed (primarily Apache-2.0) and runs on your laptop; each repository states its licence. We never paywall a researcher’s ability to check their own work.</p></div>
     </div>
-    <p class="vahti lower"><b>vahti</b>, Finnish for <i>sentinel / guard</i>. The watch over what gets cited.</p>
-  </section>
-
-  <section id="kits">
-    <h2>Paid workflow kits <span class="sub">· yours to keep, no subscription</span></h2>
-    <p class="kitsintro">The checking tools above are free and stay free. The paid kits package
-      the structure, documentation, and audit trail around them. One complete workflow vault,
-      plus focused kits for qualitative sampling, scientific writing, AI disclosure, and research planning.</p>
-    <div class="kits">
-      <div class="kit flagship">
-        <p class="kkick">Complete workflow · qualitative studies</p>
-        <h3>QualiVahti Local</h3>
-        <p>Transcribe, code, and map interviews on your own computer. Local AI suggests
-          first-cycle codes, and you review every one. Codebook, evidence maps, and audit
-          trail included. One payment, no subscription.</p>
-        <a class="kbtn" href="/qualivahti-local/">See QualiVahti Local · €49 →</a>
-      </div>
-      <div class="kit">
-        <p class="kkick">Focused kit · qualitative sampling</p>
-        <h3>MethodVahti Sample Defence Pack</h3>
-        <p>Plan, document, and defend your qualitative sample, without pretending
-          saturation is a formula. A terminology guide, an adequacy log, methods and
-          defence templates, and a local builder. The documented sampling decision,
-          in a kit you own.</p>
-        <a class="kbtn" href="/methodvahti/#access">See the Sample Defence Pack · €49 →</a>
-      </div>
-      <div class="kit">
-        <p class="kkick">Focused kit · scientific writing</p>
-        <h3>Manuscript Kit</h3>
-        <p>Write your paper in the order that works: figures and methods first,
-          the introduction near the end, the abstract last. Two local-first tools
-          build your outline and your flow figure, and check the two faults that
-          sink revisions.</p>
-        <a class="kbtn" href="/manuscript-kit/">See the Manuscript Kit · €49 →</a>
-      </div>
-      <div class="kit">
-        <p class="kkick">Focused kit · peer review</p>
-        <h3>Reviewer Response Builder</h3>
-        <p>The reviews are in, and you have to answer all of them. Map every comment
-          to a stance, a response, a real change, and a location, with a live coverage
-          readout that flags a disagreement with no reason or a claim with no change.</p>
-        <a class="kbtn" href="/reviewer-response-builder/">See the Reviewer Response Builder · €39 →</a>
-      </div>
-      <div class="kit">
-        <p class="kkick">Focused kit · peer review</p>
-        <h3>Reviewer's Notebook</h3>
-        <p>The reviewer's side. Tell a real methodological flaw from a preference,
-          avoid the common review traps, and write a review you would sign with your
-          name visible. Local-first; the manuscript never leaves your computer.</p>
-        <a class="kbtn" href="/reviewers-notebook/">See the Reviewer's Notebook · €39 →</a>
-      </div>
-      <div class="kit">
-        <p class="kkick">Focused kit · AI disclosure</p>
-        <h3>AI Disclosure Kit for Researchers</h3>
-        <p>You used AI. Now disclose it properly. Manuscript, thesis, grant, and peer-review
-          templates, a publisher-policy directory, and an AI-use log. 10 files, instant
-          download.</p>
-        <a class="kbtn" href="/ai-disclosure-kit/">See the kit · €29 →</a>
-      </div>
-      <div class="kit">
-        <p class="kkick">Focused kit · research planning</p>
-        <h3>Research Strategy Kit</h3>
-        <p>Find the next paper, the grant angle, and the real gap in your field. One core
-          thesis, three axes, twenty-seven project cells, each audited: evidenced, assumed,
-          unknown, or real field gap. One payment.</p>
-        <a class="kbtn" href="/research-domain-cube/">See the Research Strategy Kit · €29 →</a>
-      </div>
-    </div>
+    <p class="vahti lower marksy"><b>vahti</b>, Finnish for sentinel / guard.</p>
   </section>
 
   <section id="beyond">
@@ -489,32 +575,19 @@
     </ul>
   </section>
 
-  <section class="contact">
-    <h2>For LLMs &amp; agents</h2>
-    <p>Your AI assistant can drive Vahtian's open tools to search, screen blinded, reconcile, retrieve,
-       and check claim–source support, human-first and reproducibly. See the <a href="/agents/">agent guide</a>,
-       the <a href="https://github.com/heidihelena/vahtian/blob/main/skill/SKILL.md">research-support skill</a>,
-       and <a href="/llms.txt">llms.txt</a>.</p>
-    <h2 style="margin-top:26px">Who builds Vahtian</h2>
-    <p>Vahtian is built by <a href="/about/">Heidi Andersén, MD,&nbsp;PhD</a>, a clinician-scientist in
-       respiratory medicine, oncology, and clinical research in Finland, as part of an active research
-       practice, not from the outside. <a href="/about/">About Vahtian →</a></p>
-    <h2 style="margin-top:26px">Contact</h2>
-    <p>General &amp; partnerships: <a href="mailto:hello@vahtian.com">hello@vahtian.com</a><br>
-       Code: <a href="https://github.com/heidihelena/vahtian">github.com/heidihelena/vahtian</a></p>
-  </section>
 </div><!-- /wrap -->
 </main>
 
 <div class="wrap">
   <!-- email capture: plain POST to Brevo, no external requests -->
-<div style="background:#fff;border:1px solid #e7e3f0;border-left:4px solid #8B6FC9;border-radius:12px;padding:20px 22px;margin:40px 0 8px;font:16px/1.6 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,ui-sans-serif,system-ui,sans-serif;color:#1c1830">
-  <p style="margin:0 0 4px;font-weight:700;font-size:18px">One honest letter a month</p>
-  <p style="margin:0 0 14px;color:#5b5570;font-size:15px">One research-workflow problem, what can be done about it, and the limits stated out loud. One product mention at most. Unsubscribe in one click.</p>
+<div class="field-letter">
+  <p class="runner">One letter a month</p>
+  <p class="letter-title marksy">Founder’s field notes</p>
+  <p>One problem from research practice, what I am trying, and where the limits are. One product mention at most.</p>
   <form method="POST" action="https://f9b96982.sibforms.com/serve/MUIFAMcTOLX67j69y_fzMLe4ExNUbUCqqmy_bIaYkLFiPRMwrMs5C7CoRKAd-BTNKCFvmeQ2dXjkJT25KHTQAdWqZjaJlMb4M27tl_lyfeSuFFuVnxtTG6dppAXFca1MbKYdgm2iZThi0eSMTmWL97T5YDF65mJrY9hC7OyAP3nkjikq4pf1EgLxTWRJbTj02ncxQ03h3uyrLk8NdQ==">
     <div style="display:flex;flex-wrap:wrap;gap:10px">
       <label for="EMAIL" style="position:absolute;left:-9999px">Email address</label>
-      <input type="email" id="EMAIL" name="EMAIL" required placeholder="you@university.fi" style="flex:1 1 220px;padding:11px 14px;border:1px solid #c9c2dd;border-radius:8px;font-size:15px;color:#1c1830;background:#faf9fc">
+      <input type="email" id="EMAIL" name="EMAIL" required placeholder="you@university.fi" style="flex:1 1 220px;padding:11px 14px;border:1px solid #8f849f;border-radius:8px;font-size:15px;color:#1c1830;background:#faf9fc">
       <button type="submit" style="padding:11px 20px;border:0;border-radius:8px;background:#2D2440;color:#fff;font-weight:650;font-size:15px;cursor:pointer">Subscribe</button>
     </div>
     <label style="display:block;margin:10px 0 0;font-size:13.5px;color:#5b5570"><input type="checkbox" name="MARKETING_CONSENT" value="1" required style="margin-right:6px">I agree to receive the monthly letter; my address is processed by <a href="https://www.brevo.com/en/legal/privacypolicy/" rel="noopener nofollow" style="color:#6F52B8">Brevo</a> for delivery only.</label>
@@ -525,9 +598,27 @@
 </div>
 
 <footer>
-    <p>© 2026 Vahtian · Auditable research workflow infrastructure · <a href="/LICENSE">Apache-2.0</a> open core · <a href="/blog/">Blog</a> · <a href="/agents/">For LLMs &amp; agents</a> · <a href="/about/">About</a> · <a href="/cite/">Cite</a> · <a href="/privacy/">Privacy</a></p>
-    <p>Vahtian builds local-first tools that keep research inputs, decisions, and outputs open to review. The tools support judgment; they do not establish scientific truth.</p>
-  </footer>
+  <div class="footer-main">
+    <div>
+      <p class="footer-name marksy">Vahtian</p>
+      <p class="footer-tagline">Local-first research tools built by Heidi Andersén, MD, PhD, in Finland. For decisions you can explain and work you can stand behind.</p>
+    </div>
+    <nav class="footer-links" aria-label="Footer">
+      <a href="/#tools">Tools</a>
+      <a href="/learn/">Learn</a>
+      <a href="/blog/">Blog</a>
+      <a href="/about/">About</a>
+      <a href="/agents/">For agents</a>
+      <a href="/privacy/">Privacy</a>
+    </nav>
+  </div>
+  <div class="footer-meta">
+    <span>© 2026 Vahtian</span>
+    <a href="/LICENSE">Apache-2.0 open core</a>
+    <a href="https://github.com/heidihelena/vahtian">GitHub ↗</a>
+    <a href="mailto:hello@vahtian.com">hello@vahtian.com</a>
+  </div>
+</footer>
 </div>
 <script>
 (function(){
@@ -584,7 +675,7 @@
     ctx.globalCompositeOperation='source-over';
     for(var e=0;e<edges.length;e++){var a=nodes[edges[e][0]],bn=nodes[edges[e][1]],c=Math.max(a.charge,bn.charge);ctx.globalAlpha=0.06+0.5*c;ctx.strokeStyle=c>0.4?'#C5B8E8':'#6f63a0';ctx.lineWidth=0.9+c*0.8;ctx.beginPath();ctx.moveTo(a.nx*W,a.ny*H);ctx.lineTo(bn.nx*W,bn.ny*H);ctx.stroke();}
     ctx.globalAlpha=1;
-    for(var m=0;m<nodes.length;m++){var nd2=nodes[m],x=nd2.nx*W,y=nd2.ny*H,r=2.3+1.5*nd2.charge;ctx.globalCompositeOperation='lighter';var rg=ctx.createRadialGradient(x,y,0,x,y,9+14*nd2.charge);rg.addColorStop(0,'rgba(197,184,232,'+(0.13+0.45*nd2.charge)+')');rg.addColorStop(1,'rgba(197,184,232,0)');ctx.fillStyle=rg;ctx.beginPath();ctx.arc(x,y,9+14*nd2.charge,0,6.2832);ctx.fill();ctx.globalCompositeOperation='source-over';ctx.fillStyle=nd2.charge>0.55?'#F5F2FB':'#C5B8E8';ctx.beginPath();ctx.arc(x,y,r,0,6.2832);ctx.fill();if(nd2.charge>0.5){ctx.globalAlpha=(nd2.charge-0.5)*2;ctx.strokeStyle='#C98A00';ctx.lineWidth=1.4;ctx.beginPath();ctx.arc(x,y,r+4,0,6.2832);ctx.stroke();ctx.globalAlpha=1;}}
+    for(var m=0;m<nodes.length;m++){var nd2=nodes[m],x=nd2.nx*W,y=nd2.ny*H,r=2.3+1.5*nd2.charge;ctx.globalCompositeOperation='lighter';var rg=ctx.createRadialGradient(x,y,0,x,y,9+14*nd2.charge);rg.addColorStop(0,'rgba(197,184,232,'+(0.13+0.45*nd2.charge)+')');rg.addColorStop(1,'rgba(197,184,232,0)');ctx.fillStyle=rg;ctx.beginPath();ctx.arc(x,y,9+14*nd2.charge,0,6.2832);ctx.fill();ctx.globalCompositeOperation='source-over';ctx.fillStyle=nd2.charge>0.55?'#F5F2FB':'#C5B8E8';ctx.beginPath();ctx.arc(x,y,r,0,6.2832);ctx.fill();if(nd2.charge>0.5){ctx.globalAlpha=(nd2.charge-0.5)*2;ctx.strokeStyle='#8B6FC9';ctx.lineWidth=1.4;ctx.beginPath();ctx.arc(x,y,r+4,0,6.2832);ctx.stroke();ctx.globalAlpha=1;}}
     lighthouse(horizon,t);
     if(!reduce)raf=requestAnimationFrame(draw);
   }
