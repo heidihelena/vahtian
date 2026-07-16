@@ -1,7 +1,30 @@
-/* Marksy webfont (licensed for vahtian.com — see fonts/README.md).
-   Declared here because footer.css is the one stylesheet every page loads;
-   the wordmark, kickers, and script headings all depend on it.
-   Regular serves weights ≤500 (kickers), Bold serves 600+ (wordmarks). */
+/* Brand webfonts (licensed for vahtian.com — see fonts/README.md).
+   Declared here because footer.css is the one stylesheet every page loads.
+   Fonts download only on pages whose CSS uses the family, so this costs
+   nothing on pages that don't. Nudica Medium serves weights ≤599, Bold
+   600+ — no synthetic bolding. Marksy: Regular ≤500 (kickers), Bold 600+
+   (wordmarks). */
+@font-face{
+  font-family:"Nudica";
+  src:url("fonts/nudica-medium.woff2") format("woff2"),local("Nudica Medium"),local("Nudica-Medium");
+  font-style:normal;
+  font-weight:100 599;
+  font-display:swap;
+}
+@font-face{
+  font-family:"Nudica";
+  src:url("fonts/nudica-bold.woff2") format("woff2"),local("Nudica Bold"),local("Nudica-Bold");
+  font-style:normal;
+  font-weight:600 900;
+  font-display:swap;
+}
+@font-face{
+  font-family:"Nudica Mono";
+  src:url("fonts/nudica-mono-medium.woff2") format("woff2"),local("Nudica Mono Medium"),local("NudicaMono-Medium");
+  font-style:normal;
+  font-weight:100 900;
+  font-display:swap;
+}
 @font-face{
   font-family:"Marksy";
   src:url("fonts/marksy-regular.woff2") format("woff2"),local("Marksy");
