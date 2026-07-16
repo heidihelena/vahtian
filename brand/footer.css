@@ -1,3 +1,22 @@
+/* Marksy webfont (licensed for vahtian.com — see fonts/README.md).
+   Declared here because footer.css is the one stylesheet every page loads;
+   the wordmark, kickers, and script headings all depend on it.
+   Regular serves weights ≤500 (kickers), Bold serves 600+ (wordmarks). */
+@font-face{
+  font-family:"Marksy";
+  src:url("fonts/marksy-regular.woff2") format("woff2"),local("Marksy");
+  font-style:normal;
+  font-weight:100 500;
+  font-display:swap;
+}
+@font-face{
+  font-family:"Marksy";
+  src:url("fonts/marksy-bold.woff2") format("woff2"),local("Marksy Bold"),local("MARKSY-Bold");
+  font-style:normal;
+  font-weight:501 900;
+  font-display:swap;
+}
+
 :root{
   --vh-footer-navy:#2D2440;
   --vh-footer-violet:#8B6FC9;
