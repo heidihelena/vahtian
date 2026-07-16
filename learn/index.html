@@ -57,6 +57,17 @@
     .sub{font-size:clamp(16px,2.2vw,18px);color:#3a3450;margin:0 0 30px;max-width:60ch}
     h2{font-size:14px;text-transform:uppercase;letter-spacing:.06em;color:var(--link);margin:34px 0 4px}
     h2 .n{color:var(--muted);font-weight:400;text-transform:none;letter-spacing:0;font-size:13px}
+    .taskgrid{display:grid;gap:11px;margin:18px 0 24px}
+    @media(min-width:700px){.taskgrid{grid-template-columns:1fr 1fr}.taskgrid .wide{grid-column:1/-1}}
+    .task{display:block;background:#f4f1fa;border:1px solid var(--line);border-left:4px solid var(--violet);
+      border-radius:11px;padding:14px 16px;text-decoration:none;color:var(--ink)}
+    .task:hover{border-color:var(--violet);box-shadow:0 3px 13px rgba(45,36,64,.08)}
+    .task b{display:block;font-size:15.5px}
+    .task span{display:block;color:var(--muted);font-size:13.5px;margin-top:3px}
+    .task.local{border-left-color:#1E9E8A}
+    .task.write{border-left-color:#5566B5}
+    .task.ai{border-left-color:#9A7A12}
+    .task.review{border-left-color:#10211B}
     .grid{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-top:12px}
     @media(max-width:620px){.grid{grid-template-columns:1fr}}
     .row{display:block;background:var(--card);border:1px solid var(--line);border-left:3px solid var(--violet);
@@ -72,8 +83,9 @@
     footer{padding:28px 0 50px;color:var(--muted);font-size:13px;border-top:1px solid var(--line);margin-top:40px;line-height:1.7}
     footer a{color:var(--muted)}
   </style>
+  <link rel="stylesheet" href="../brand/site-refresh.css">
 </head>
-<body>
+<body class="vh-content">
 <div class="wrap">
   <header>
     <div class="brand">
@@ -96,11 +108,20 @@
   </header>
 
 <main>
-  <h1>Learn</h1>
-  <p class="sub">Plain-language guides to research methods, local AI, evidence workflows, writing, and
-    the Vahtian tools that support them.</p>
+  <p class="page-kicker">Start with the work in front of you</p>
+  <h1>Practical research guides.</h1>
+  <p class="sub">Plain-language help for planning, qualitative work, writing, evidence, and responsible AI. Pick the task you are doing now.</p>
 
-  <h2>Foundations <span class="n">— the skills every workflow builds on</span></h2>
+  <h2>Choose a task <span class="n">— jump to the guide that helps</span></h2>
+  <div class="taskgrid" aria-label="Task routes">
+    <a class="task write" href="#writing"><b>I am writing or revising a paper</b><span>Manuscript structure, reviewer response, peer review, and AI-use disclosure.</span></a>
+    <a class="task local" href="#qualitative-local"><b>I am planning a qualitative study</b><span>Local transcription, coding, sampling, codebooks, rigour, and evidence maps.</span></a>
+    <a class="task ai" href="/learn/document-ai-assisted-analysis/"><b>I used AI and need to document it</b><span>What to log, what to disclose, and where local tools change the risk.</span></a>
+    <a class="task review" href="#tool-guides"><b>I need the right Vahtian tool</b><span>Browser checks, product guides, paid kits, and open methods packages.</span></a>
+    <a class="task wide" href="#foundations"><b>I want the concepts first</b><span>ML, LLMs, RAG, GraphRAG, agents, Zotero, and research project strategy.</span></a>
+  </div>
+
+  <h2 id="foundations">Foundations <span class="n">— the skills every workflow builds on</span></h2>
   <div class="grid">
     <a class="row guide" href="/learn/ai-concepts-for-researchers/"><b>ML, LLM, RAG, GraphRAG, DAGs and agents</b><span>One map of the AI ideas behind research tools: what each is for, and what each does not establish.</span></a>
     <a class="row guide" href="/learn/local-models-agents-orchestration/"><b>Local models, agents &amp; orchestration</b><span>What, why, and how of running models locally, giving them tools, and coordinating them — while the human keeps deciding.</span></a>
@@ -108,7 +129,7 @@
     <a class="row guide" href="/learn/find-your-next-research-project/"><b>Find your next research project</b><span>Turn a field into one thesis, a few axes, and a grid of cells; audit each as evidenced, assumed, unknown, or a real gap.</span></a>
   </div>
 
-  <h2>Qualitative research, locally <span class="n">— transcribe, code, and cite on your own computer</span></h2>
+  <h2 id="qualitative-local">Qualitative research, locally <span class="n">— transcribe, code, and cite on your own computer</span></h2>
   <div class="grid">
     <a class="row guide" href="/learn/transcribe-interviews-locally/"><b>Transcribe interviews offline with Whisper</b><span>Free local transcription: install in ~10 min, honest error rates by language, recordings never leave your machine.</span></a>
     <a class="row guide" href="/learn/ai-qualitative-coding-human-review/"><b>AI qualitative coding, human-reviewed</b><span>Local model suggests first-cycle codes; you review every one. The four statuses, and why confidence is not accuracy.</span></a>
@@ -116,7 +137,7 @@
     <a class="row guide" href="/learn/cite-your-analysis-code/"><b>Make your analysis code citable</b><span>A licensed repository, a free Zenodo DOI, and an installable package, the code-availability statement reviewers accept.</span></a>
   </div>
 
-  <h2>Qualitative methods, explained <span class="n">— concepts, debates, and honest AI use</span></h2>
+  <h2 id="ai-record">Qualitative methods, explained <span class="n">— concepts, debates, and honest AI use</span></h2>
   <div class="grid">
     <a class="row guide" href="/learn/llms-in-qualitative-research/"><b>Can AI replace qualitative researchers?</b><span>Where LLMs help, the five ways researchers over-trust them, and an honest human-AI division of labour.</span></a>
     <a class="row guide" href="/learn/deductive-inductive-abductive/"><b>Deductive, inductive, abductive</b><span>Three kinds of reasoning in plain terms, with an example each, and why mixing them up weakens your argument.</span></a>
@@ -127,7 +148,7 @@
     <a class="row guide" href="/learn/minimal-model-qualitative-text/"><b>A minimal model for qualitative text</b><span>A small, interpretable classifier for coded text, and how EpiNet checks whether it holds up.</span></a>
   </div>
 
-  <h2>Writing the paper <span class="n">— from a finished study to a submittable draft</span></h2>
+  <h2 id="writing">Writing the paper <span class="n">— from a finished study to a submittable draft</span></h2>
   <div class="grid">
     <a class="row guide" href="/learn/how-to-write-a-scientific-paper/"><b>How to write a scientific paper</b><span>The order experienced authors use — figures and methods first, introduction near the end, abstract last — and the two checks that save a revision.</span></a>
     <a class="row guide" href="/learn/how-to-respond-to-reviewers/"><b>How to respond to reviewers</b><span>Map every comment to a stance, a response, a real change, and a location — the four stances, the two failure modes, and the hard cases.</span></a>
@@ -145,7 +166,7 @@
     <a class="row guide" href="/learn/obsidian-plugins-for-researchers/"><b>Best plugins &amp; features for researchers</b><span>Zotero Integration, Dataview, Templater, Longform, Canvas — what each does, why it matters, and how to switch it on.</span></a>
   </div>
 
-  <h2>Try it in your browser <span class="n">— no install, nothing uploads</span></h2>
+  <h2 id="try">Try it in your browser <span class="n">— no install, nothing uploads</span></h2>
   <div class="grid">
     <a class="row try" href="/citevahti/quick-check/"><b>Citation Integrity Quick Check</b><span>Paste a manuscript paragraph; flag citation-risk wording.</span></a>
     <a class="row try" href="/methodvahti/claim-check/"><b>Qualitative Claim Quick Check</b><span>Paste findings; flag ungrounded themes and over-reach.</span></a>
@@ -155,7 +176,7 @@
     <a class="row try" href="/citevahti/"><b>CiteVahti</b><span>Check whether a cited source supports a specific claim.</span></a>
   </div>
 
-  <h2>Tool guides <span class="n">— what each product does, and when to use it</span></h2>
+  <h2 id="tool-guides">Tool guides <span class="n">— what each product does, and when to use it</span></h2>
   <div class="grid">
     <a class="row guide" href="/studyvahti/"><b>StudyVahti</b><span>Structure and document a study before data collection.</span></a>
     <a class="row guide" href="/methodvahti/"><b>MethodVahti</b><span>Document and defend a qualitative sampling decision.</span></a>

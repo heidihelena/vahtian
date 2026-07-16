@@ -80,6 +80,16 @@
     pre{background:var(--navy);color:#e8e3f5;border-radius:10px;padding:14px 16px;overflow:auto;font:13px/1.6 ui-monospace,monospace}
     pre .c{color:#9b93b8}
     .note{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--violet);border-radius:9px;padding:13px 15px;color:#3a3450;font-size:14.5px}
+    .routes{display:grid;gap:12px;margin:14px 0 2px}
+    @media(min-width:700px){.routes{grid-template-columns:1fr 1fr}}
+    .route{display:block;background:#f4f1fa;border:1px solid var(--line);border-left:4px solid var(--violet);
+      border-radius:11px;padding:15px 16px;text-decoration:none;color:var(--ink)}
+    .route:hover{border-color:var(--violet);box-shadow:0 3px 13px rgba(45,36,64,.08)}
+    .route b{display:block;font-size:15.5px}
+    .route span{display:block;color:var(--muted);font-size:13.5px;margin-top:3px}
+    .route.fast{border-left-color:var(--teal)}
+    .route.scale{border-left-color:#5566B5}
+    .route.limit{border-left-color:var(--amber)}
     /* Full-bleed lighthouse hero — self-contained canvas, claim-checking scene */
     .hero-band{position:relative;overflow:hidden;background:#1b1530;min-height:460px;margin-top:14px}
     .hero-band canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
@@ -153,8 +163,9 @@
     nav.nav .buy{background:#2D2440;color:#fff;padding:7px 13px;border-radius:8px;font-size:13.5px;font-weight:700}
     @media(max-width:680px){nav.nav{gap:13px;font-size:13.5px}}
   </style>
+  <link rel="stylesheet" href="../brand/site-refresh.css">
 </head>
-<body>
+<body class="vh-content">
 <div class="wrap">
 
   <header>
@@ -188,17 +199,13 @@
   <div class="hero-scrim" aria-hidden="true"></div>
   <div class="wrap hero-inner">
    <div class="hero-copy">
-    <p class="kicker">Run unit tests on your manuscript's claims</p>
-    <h1>Check that the source supports the claim.</h1>
-    <p class="lede">CiteVahti tests every manuscript claim against its candidate papers
-      through a blinded <b>human&nbsp;→&nbsp;AI&nbsp;→&nbsp;adjudication</b> workflow, and a
-      reference enters Zotero only as the audited, undoable last step of <em>your</em>
-      decision. Free and local-first.</p>
+    <p class="kicker">Before the reviewer asks</p>
+    <h1>Check what the source actually supports.</h1>
+    <p class="lede">CiteVahti helps you compare a manuscript claim with the cited paper before the reference becomes part of the record. You rate first, AI stays advisory, and the Zotero write is audited and undoable. Free and local-first.</p>
     <p style="margin:14px 0 0;font:600 12px/1.4 ui-monospace,SFMono-Regular,Menlo,monospace"><span style="display:inline-block;color:#5b5570;background:#f0edf7;border:1px solid #e7e3f0;border-radius:999px;padding:6px 12px">Local processing, external metadata lookup · <a href="/privacy/#local-first" style="color:#6F52B8;text-decoration:none">what leaves your device</a></span></p>
     <div class="cta">
-      <a class="btn primary" href="#try">Check one claim ↓</a>
-      <a class="btn ghost" href="/citevahti/quick-check/">Quick-check your paragraph →</a>
-      <a class="btn ghost" href="#start">Get started</a>
+      <a class="btn primary" href="#situations">Start from your citation problem ↓</a>
+      <a class="btn ghost" href="#try">Check one claim</a>
     </div>
     <div class="chips" aria-label="The four claim states">
       <span class="chip v">[oo] accepted</span>
@@ -211,6 +218,16 @@
 </section>
 
 <div class="wrap">
+
+  <section id="situations">
+    <h2>Start from the citation problem in front of you</h2>
+    <div class="routes">
+      <a class="route fast" href="#try"><b>I have one claim that feels risky</b><span>Use the worked example to see the blinded human → AI → adjudication pattern.</span></a>
+      <a class="route" href="/citevahti/quick-check/"><b>I have a paragraph with citation-risk wording</b><span>Paste text in the browser and flag claims that may need source support.</span></a>
+      <a class="route scale" href="#start"><b>I need to check a manuscript systematically</b><span>Install the local workflow and write audited decisions back only after review.</span></a>
+      <a class="route limit" href="/learn/local-models-check-citations/"><b>I want to understand what AI can and cannot check</b><span>Read the local-model citation-checking limits before trusting any agreement score.</span></a>
+    </div>
+  </section>
 
   <section id="try">
     <h2>Check one claim — right here</h2>
