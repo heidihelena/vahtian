@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="MatchVahti-Lite mark">
+  <rect width="32" height="32" rx="7" fill="#2D2440"/>
+  <g fill="none" stroke="#C5B8E8" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 8.8H8.7V23.2H12.1" stroke-width="2.65"/>
+    <path d="M20.1 9H23.3V22.8H20" stroke-width="1.7"/>
+  </g>
+  <path d="M13.8 15.9L18.4 16.2" stroke="#8B6FC9" stroke-width="2.45" stroke-linecap="round"/>
+  <circle cx="13.7" cy="15.8" r="2" fill="#8B6FC9"/>
+  <circle cx="18.5" cy="16.2" r="1.45" fill="#C5B8E8"/>
+</svg>
