@@ -3,243 +3,387 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>A short history of qualitative research, and what LLMs change · Vahtian Learn</title>
-  <meta name="description" content="Qualitative research grew from arguments about three questions: what counts as knowledge, who may interpret experience, and how to make interpretation credible. Fifteen short stops from early ethnography to LLM interviewers, and what generative AI changes at each.">
+  <title>A short history of qualitative research · Vahtian Learn</title>
+  <meta name="description" content="Fifteen stops from early ethnography to AI-assisted analysis, and the three questions about knowledge, authority, and credibility that never went away.">
   <meta name="theme-color" content="#2D2440">
   <link rel="canonical" href="https://vahtian.com/learn/history-of-qualitative-research/">
   <meta property="og:type" content="article">
   <meta property="og:url" content="https://vahtian.com/learn/history-of-qualitative-research/">
   <meta property="og:image" content="https://vahtian.com/brand/cards/vahtian-card.png">
-  <meta property="og:title" content="A short history of qualitative research, and what LLMs change">
-  <meta property="og:description" content="Fifteen short stops from early ethnography to LLM interviewers, built around the three questions that make qualitative work rigorous, and what generative AI changes at each.">
+  <meta property="og:title" content="A short history of qualitative research">
+  <meta property="og:description" content="Fifteen stops from early ethnography to AI-assisted analysis, and what changes when a language model enters the work.">
   <meta property="og:site_name" content="Vahtian">
-  <meta name="twitter:card" content="summary">
+  <meta property="article:published_time" content="2026-07-10">
+  <meta property="article:modified_time" content="2026-07-16">
+  <meta property="article:author" content="Heidi Andersén">
+  <meta name="twitter:card" content="summary_large_image">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "TechArticle",
-    "headline": "A short history of qualitative research, and what LLMs change",
-    "description": "Qualitative research grew from arguments about three questions: what counts as knowledge, who may interpret experience, and how to make interpretation credible. Fifteen short stops from early ethnography to LLM interviewers, and what generative AI changes at each.",
+    "headline": "A short history of qualitative research",
+    "description": "Fifteen stops from early ethnography to AI-assisted analysis, and the three questions about knowledge, authority, and credibility that never went away.",
     "url": "https://vahtian.com/learn/history-of-qualitative-research/",
     "datePublished": "2026-07-10",
+    "dateModified": "2026-07-16",
     "inLanguage": "en",
-    "author": { "@type": "Organization", "name": "Vahtian", "url": "https://vahtian.com/" },
+    "author": {
+      "@type": "Person",
+      "name": "Heidi Andersén",
+      "honorificSuffix": "MD, PhD",
+      "url": "https://vahtian.com/about/"
+    },
     "publisher": { "@id": "https://vahtian.com/#org" }
   }
   </script>
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232D2440'/%3E%3Cg fill='none' stroke='%238B6FC9' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 9 H9 V23 H12'/%3E%3Cpath d='M20 9 H23 V23 H20'/%3E%3C/g%3E%3Cpath d='M16 10.3 L19.6 12 L19.6 15 L16 19.6 L12.4 15 L12.4 12 Z' fill='none' stroke='%23C5B8E8' stroke-width='1.8' stroke-linejoin='round'/%3E%3C/svg%3E">
-  <style>
-    :root{
-      --navy:#2D2440; --violet:#8B6FC9; --lilac:#C5B8E8;
-      --ink:#1c1830; --muted:#5b5570; --bg:#faf9fc; --card:#fff; --line:#e7e3f0;
-      --link:#6F52B8;
-    }
-    *{box-sizing:border-box}
-    body{margin:0;font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,ui-sans-serif,system-ui,sans-serif;
-         color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased}
-    a{color:var(--link)}
-    .wrap{max-width:720px;margin:0 auto;padding:0 22px}
-    header{padding:26px 0 4px}
-    .crumbs{font-size:14px;color:var(--muted)}
-    .crumbs a{color:var(--muted);text-decoration:none}
-    .kicker{font:600 13px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--violet);
-            text-transform:uppercase;letter-spacing:.08em;margin:34px 0 14px}
-    h1{font-size:clamp(27px,5.2vw,38px);line-height:1.14;letter-spacing:-.02em;margin:0 0 16px}
-    .lede{font-size:clamp(17px,2.4vw,19px);color:#3a3450;margin:0 0 6px}
-    h2{font-size:19px;margin:34px 0 6px;letter-spacing:-.01em}
-    h2 .yr{font:600 13px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--violet);
-           display:block;margin-bottom:5px;letter-spacing:.04em}
-    p{margin:0 0 14px}
-    ol,ul{margin:0 0 14px;padding-left:24px}
-    li{margin:0 0 8px}
-    .era{border-left:2px solid var(--line);padding:2px 0 2px 18px;margin:0 0 6px}
-    .era p{margin:0 0 6px}
-    .chg{color:var(--muted)}
-    .pull{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--violet);
-          border-radius:10px;padding:14px 18px;margin:20px 0;font-size:17px}
-    .outcomes{background:var(--card);border:1px solid var(--line);border-radius:12px;
-              padding:16px 20px;margin:22px 0}
-    .outcomes p{font-weight:650;margin:0 0 8px}
-    .outcomes ul{margin:0;padding-left:22px}
-    .cta{background:var(--card);border:1px solid var(--line);border-radius:12px;
-         padding:20px 22px;margin:34px 0 0}
-    .btn{display:inline-block;padding:11px 18px;border-radius:9px;font-weight:600;
-         text-decoration:none;font-size:15px;background:var(--navy);color:#fff;margin-top:6px}
-    footer{margin:56px 0 40px;padding-top:22px;border-top:1px solid var(--line);
-           color:var(--muted);font-size:14px}
-    footer a{color:var(--muted)}
-  </style>
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
   <link rel="stylesheet" href="../../brand/site-refresh.css">
-<link rel="stylesheet" href="../../brand/footer.css">
+  <link rel="stylesheet" href="../../brand/learn-article.css">
+  <link rel="stylesheet" href="../../brand/footer.css">
 </head>
-<body class="vh-content">
-<div class="wrap">
-
-<header>
-  <nav class="crumbs"><a href="/">vahtian.com</a> · <a href="/learn/">learn</a> · history of qualitative research</nav>
-</header>
-
-<p class="kicker">Learn · Qualitative methods</p>
-<h1>A short history of qualitative research, and what LLMs change</h1>
-<p class="lede">Qualitative research did not arrive as one method. It grew from arguments about three questions: what counts as knowledge, who may interpret experience, and how to make interpretation credible. Large language models reopen all three. Here is the story in fifteen short stops, and what changes at each.</p>
-
-<div class="outcomes">
-  <p>The three questions to hold as you read:</p>
-  <ul>
-    <li>What counts as knowledge?</li>
-    <li>Who has the authority to interpret experience?</li>
-    <li>How should interpretation be made credible?</li>
-  </ul>
-  <p style="margin:10px 0 0;font-weight:400;color:#3a3450">An LLM can process language at scale. It has no lived relationship with participants, no stable position, and no accountability for an interpretation. Keep that in view.</p>
-</div>
-
-<h2><span class="yr">Late 1800s to 1920s</span>Observation, ethnography, and the colonial archive</h2>
-<div class="era">
-  <p>Early ethnography documented cultures through prolonged observation, giving us field notes and the researcher as an instrument of inquiry. It also let Western researchers speak for people who had little control over how they were represented.</p>
-  <p class="chg"><strong>LLM parallel:</strong> a new distant interpreter. A model can summarise voices from cultures its training data covers unevenly, while hiding the structures that shaped the summary.</p>
-</div>
-
-<h2><span class="yr">1920s to 1940s</span>The Chicago School</h2>
-<div class="era">
-  <p>Life histories, case studies, and urban ethnography made meaning and process the unit of interest, not just measurable traits. The rich material was often dismissed as too local to generalise.</p>
-  <p class="chg"><strong>LLM danger:</strong> scale can fake generalisability. Processing 10,000 narratives does not make them representative, or the reading of them valid.</p>
-</div>
-
-<h2><span class="yr">1930s to 1960s</span>Phenomenology, hermeneutics, symbolic interactionism</h2>
-<div class="era">
-  <p>Experience cannot be separated from meaning, interpretation is situated, and language builds reality rather than just describing it. Quality here rests on coherence, reflexivity, and fit between claims and material.</p>
-  <p class="chg"><strong>LLM contradiction:</strong> a model is extremely good at producing coherent interpretations. Coherence is not evidence that it understood the participant's world.</p>
-</div>
-
-<div class="pull">Fluent interpretation can be mistaken for situated understanding. That is one of the central risks of LLM-assisted qualitative work.</div>
-
-<h2><span class="yr">1967</span>Grounded theory</h2>
-<div class="era">
-  <p>Glaser and Strauss showed theory could be built from data through coding, constant comparison, and theoretical sampling. The label later got attached to studies that coded interviews without any of it.</p>
-  <p class="chg"><strong>LLM danger:</strong> a model can generate a whole theory before you have engaged with the data, reversing grounded theory. An early structure then anchors everything you read next.</p>
-</div>
-
-<h2><span class="yr">1970s to 1980s</span>Many paradigms replace one standard</h2>
-<div class="era">
-  <p>Constructivist, critical, feminist, and participatory traditions rejected the idea of one neutral method. Reflexivity, standpoint, and power moved to the centre. Terms like saturation and triangulation started travelling between traditions as generic badges of rigour.</p>
-  <p class="chg"><strong>LLM problem:</strong> most general models default to a methodological blend, mixing terms that co-occur in publications even when the underlying ideas are incompatible.</p>
-</div>
-
-<h2><span class="yr">1980s to 1990s</span>Computer-assisted analysis</h2>
-<div class="era">
-  <p>Software brought searchable transcripts, code hierarchies, and linked memos. It stored and retrieved your analytic work. It did not interpret the data.</p>
-  <p class="chg"><strong>The shift now:</strong> an LLM also generates analytic content. The move is from computer-assisted organisation to machine-generated interpretation, and that is a different thing.</p>
-</div>
-
-<h2><span class="yr">1980s to 2000s</span>Feminist, critical, participatory, decolonising turns</h2>
-<div class="era">
-  <p>Who benefits, who controls the categories, whose language is privileged, who owns the knowledge. Participants moved toward co-researcher roles.</p>
-  <p class="chg"><strong>LLM risk and possibility:</strong> models can re-centralise authority by importing dominant-language categories and normalising minority expression. Under community control, local models could instead support translation and participant-led analysis.</p>
-</div>
-
-<h2><span class="yr">1990s to 2000s</span>Narrative, discourse, conversation, performative approaches</h2>
-<div class="era">
-  <p>Form matters as much as content. Pauses, sequence, audience, and context do social work that plain text loses.</p>
-  <p class="chg"><strong>LLM limitation:</strong> models are strongest when text is treated as semantic content. They are weak on hesitation, timing, irony, code-switching, and silence. A cleaned transcript is already one transformation; the model adds another.</p>
-</div>
-
-<h2><span class="yr">2006</span>Thematic analysis becomes accessible</h2>
-<div class="era">
-  <p>Braun and Clarke gave an explicit, flexible framework, later split into reflexive and coding-reliability versions. Today the label covers very different procedures.</p>
-  <p class="chg"><strong>LLM problem:</strong> models naturally produce topic summaries, and topic summaries get mistaken for themes. A theme is an interpretive claim about the research question, not a cluster of frequent topics.</p>
-</div>
-
-<h2><span class="yr">2007 to 2014</span>Reporting standards and auditability</h2>
-<div class="era">
-  <p>COREQ (2007) and SRQR (2014) asked for transparent reporting of team, sampling, analysis, and the link between claims and material. The risk is that a checklist becomes a retrospective compliance exercise.</p>
-  <p class="chg"><strong>LLM two ways:</strong> a model makes it easy to reconstruct a plausible methods section that never happened. The same technology can instead preserve a prospective record: prompt logs, versions, human edits, rejected suggestions, claim-to-transcript links.</p>
-</div>
-
-<div class="pull">The point is simple: an LLM should help preserve the record, not manufacture the appearance of one.</div>
-
-<h2><span class="yr">2000s to 2010s</span>Digital ethnography and large corpora</h2>
-<div class="era">
-  <p>Social life moved online, and so did method: netnography, social-media research, digital traces. Availability is not permission; a public post can still be sensitive and context-dependent.</p>
-  <p class="chg"><strong>LLM danger:</strong> a model can strip statements from platform culture, thread history, identity performance, and timing, turning situated discourse into loose fragments.</p>
-</div>
-
-<h2><span class="yr">2020 to 2022</span>Remote research becomes normal</h2>
-<div class="era">
-  <p>The pandemic made video interviews, online focus groups, and automatic transcription routine. It also spread digital exclusion, uncertain data location, and third-party handling of voice data. This built the infrastructure generative AI walked into.</p>
-</div>
-
-<h2><span class="yr">2022 to 2024</span>Generative LLMs enter the workflow</h2>
-<div class="era">
-  <p>Researchers began using models for interview guides, summaries, initial coding, theme generation, and drafting. Early studies found both enthusiasm and serious worry about privacy, bias, and the absence of norms. One analysis of interviews with Rohingya refugees found annotation errors that were not random across participant characteristics, meaning model use could produce systematically biased inferences.</p>
-</div>
-
-<h2><span class="yr">2024 to 2025</span>Comparisons replace speculation</h2>
-<div class="era">
-  <p>Studies began comparing human and LLM analysis. A consistent pattern appeared. Models are relatively good at broad descriptive coding, locating recurring content, organising large text, and applying a fixed codebook. They stay weak at latent interpretation, cultural meaning, emotional nuance, reflexivity, the significance of silence, and telling a good theme from a merely plausible one.</p>
-</div>
-
-<h2><span class="yr">2025 to 2026</span>Workflow design matters more than model choice</h2>
-<div class="era">
-  <p>Recent work evaluates structured human-AI pipelines rather than one-shot prompting, splitting transcription, coding, theme development, and human adjudication into explicit stages. A 2026 scoping review of 75 LLM qualitative studies found coding and theme identification dominant, one provider's models in most of them, and little guidance in existing standards for documenting AI use.</p>
-  <p class="chg"><strong>The question has changed.</strong> Not whether qualitative researchers will use LLMs, but what role the model is assigned, what weight its output carries, and how human accountability is preserved.</p>
-</div>
-
-<h2>What all fifteen stops share</h2>
-<p>The field's central weaknesses predate AI. Labels used without the practice behind them. An invisible analytic path, where papers show final themes but not the discarded ones. Claims that a single quote cannot support. LLMs did not create these. They can amplify every one, because a fluent model makes a missing method look present.</p>
-
-<div class="cta">
-  <p><strong>Keep your method and your words aligned, from protocol to publication.</strong></p>
-  <p>A reviewer asks which paradigm your study sits in, and you notice your methods section borrowed terms from three. The words travel between traditions and shed their assumptions on the way, so saturation, triangulation, and member checking end up as badges rather than commitments. The fix is to name your approach and keep your terminology consistent with it. MethodVahti checks that your stated method, your terms, and your written claims line up, and flags combinations that do not belong together, like reflexive thematic analysis paired with intercoder reliability. It does not pick your epistemology. That stays yours.</p>
-  <a class="btn" href="/methodvahti/#access">See MethodVahti</a>
-</div>
-
-<h2>Related guides</h2>
-<p>See also <a href="/learn/llm-qualitative-data-ethics/">using LLMs on interview data ethically</a> and <a href="/learn/ai-qualitative-coding-human-review/">AI qualitative coding, human-reviewed</a>. More guides are on the <a href="/learn/">Learn page</a>.</p>
-
-<!-- email capture: plain POST to Brevo, no external requests -->
-<div style="background:#fff;border:1px solid #e7e3f0;border-left:4px solid #8B6FC9;border-radius:12px;padding:20px 22px;margin:40px 0 8px;font:16px/1.6 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,ui-sans-serif,system-ui,sans-serif;color:#1c1830">
-  <p style="margin:0 0 4px;font-weight:700;font-size:18px">One honest letter a month</p>
-  <p style="margin:0 0 14px;color:#5b5570;font-size:15px">One research problem, what I tried, what worked, and where it still falls short. Unsubscribe in one click.</p>
-  <form method="POST" action="https://f9b96982.sibforms.com/serve/MUIFAMcTOLX67j69y_fzMLe4ExNUbUCqqmy_bIaYkLFiPRMwrMs5C7CoRKAd-BTNKCFvmeQ2dXjkJT25KHTQAdWqZjaJlMb4M27tl_lyfeSuFFuVnxtTG6dppAXFca1MbKYdgm2iZThi0eSMTmWL97T5YDF65mJrY9hC7OyAP3nkjikq4pf1EgLxTWRJbTj02ncxQ03h3uyrLk8NdQ==">
-    <div style="display:flex;flex-wrap:wrap;gap:10px">
-      <label for="EMAIL" style="position:absolute;left:-9999px">Email address</label>
-      <input type="email" id="EMAIL" name="EMAIL" required placeholder="you@university.fi" style="flex:1 1 220px;padding:11px 14px;border:1px solid #c9c2dd;border-radius:8px;font-size:15px;color:#1c1830;background:#faf9fc">
-      <button type="submit" style="padding:11px 20px;border:0;border-radius:8px;background:#2D2440;color:#fff;font-weight:650;font-size:15px;cursor:pointer">Subscribe</button>
+<body class="vh-content learn-article">
+<div class="learn-shell">
+  <header>
+    <div class="brand">
+      <a href="/" aria-label="Vahtian - home" style="display:flex">
+        <svg class="mark" viewBox="0 0 32 32" aria-hidden="true">
+          <rect width="32" height="32" rx="7" fill="#2D2440"/>
+          <g fill="none" stroke="#8B6FC9" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9H9v14h3"/><path d="M20 9h3v14h-3"/></g>
+          <path d="m13 18.6 6-.1-3-6.3z" fill="none" stroke="#C5B8E8" stroke-width="1"/>
+          <circle cx="13" cy="18.6" r="1.4" fill="#C5B8E8"/><circle cx="19" cy="18.5" r="1.4" fill="#C5B8E8"/><circle cx="16" cy="12.2" r="1.4" fill="#C5B8E8"/>
+        </svg>
+      </a>
+      <span>Vahtian</span>
     </div>
-    <label style="display:block;margin:10px 0 0;font-size:13.5px;color:#5b5570"><input type="checkbox" name="MARKETING_CONSENT" value="1" required style="margin-right:6px">I agree to receive the monthly letter; my address is processed by <a href="https://www.brevo.com/en/legal/privacypolicy/" rel="noopener nofollow" style="color:#6F52B8">Brevo</a> for delivery only.</label>
-    <input type="text" name="email_address_check" value="" style="position:absolute;left:-9999px" tabindex="-1" autocomplete="off" aria-hidden="true">
-    <input type="hidden" name="locale" value="en">
-  </form>
-  <p style="margin:10px 0 0;font-size:13px;color:#5b5570">Double opt-in: nothing arrives until you confirm by email. No tracking pixels, never shared. <a href="/privacy/" style="color:#6F52B8">Privacy</a></p>
-</div>
+    <nav class="nav" aria-label="Primary">
+      <a href="/#kits">Kits</a>
+      <a href="/download/">Tools</a>
+      <a href="/learn/" aria-current="page">Learn</a>
+      <a href="/blog/">Blog</a>
+      <a href="/about/">About</a>
+      <span class="util">
+        <a class="ic" href="/search/" aria-label="Search vahtian.com"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.3" y2="16.3"/></svg></a>
+      </span>
+    </nav>
+  </header>
 
-<footer class="vh-footer">
-  <div class="vh-footer-shell">
-    <div class="vh-footer-main">
-      <div>
-        <p class="vh-footer-name">Vahtian</p>
-        <p class="vh-footer-tagline">Local-first tools for research decisions you can explain. Built in Finland by Heidi Andersén, MD, PhD.</p>
+  <main>
+    <header class="learn-head">
+      <a class="back-link" href="/learn/">← All Learn guides</a>
+      <img class="article-mark" src="../../brand/marks/atlasvahti.svg" alt="">
+      <p class="article-kicker">The ideas behind the methods</p>
+      <h1>A short history of qualitative research</h1>
+      <p class="dek">Fifteen stops from early ethnography to AI-assisted analysis, and the three questions that never went away.</p>
+      <p class="byline">By <a href="/about/">Heidi Andersén, MD, PhD</a>. Updated <time datetime="2026-07-16">16 July 2026</time>.<span class="read-meta">10 minute read</span></p>
+    </header>
+
+    <section class="question-frame" aria-labelledby="questions-title">
+      <h2 id="questions-title">Keep these three questions beside the timeline</h2>
+      <p>This is a teaching timeline, not a claim that the field moved in one neat sequence. Traditions overlap, disagree, and continue.</p>
+      <div class="question-grid">
+        <div class="question"><b>01</b><span>What counts as knowledge?</span></div>
+        <div class="question"><b>02</b><span>Who has the authority to interpret experience?</span></div>
+        <div class="question"><b>03</b><span>How is an interpretation made credible?</span></div>
       </div>
-      <nav class="vh-footer-links" aria-label="Footer">
-        <a href="/download/">Tools</a>
-        <a href="/learn/">Learn</a>
-        <a href="/blog/">Blog</a>
-        <a href="/about/">About</a>
-        <a href="/agents/">For agents</a>
-        <a href="/cite/">Cite</a>
-        <a href="/privacy/">Privacy</a>
-      </nav>
-    </div>
-    <p class="vh-footer-disclaimer">Vahtian keeps human judgment visible and research decisions open to review. It does not establish scientific truth.</p>
-    <div class="vh-footer-meta">
-      <span>© 2026 Vahtian</span>
-      <a href="/LICENSE">Apache-2.0 open core</a>
-      <a href="https://github.com/heidihelena/vahtian">GitHub <span aria-hidden="true">↗</span></a>
-      <a href="mailto:hello@vahtian.com">hello@vahtian.com</a>
-    </div>
-  </div>
-</footer>
+    </section>
 
+    <nav class="jump-nav" aria-label="Jump to an era">
+      <span>Jump to</span>
+      <a href="#roots">Roots</a>
+      <a href="#authority">Authority</a>
+      <a href="#records">Records</a>
+      <a href="#models">Models</a>
+    </nav>
+
+    <article class="learn-body">
+      <section class="timeline-era" id="roots" aria-labelledby="roots-title">
+        <header class="era-head">
+          <p class="era-kicker">01 / Roots</p>
+          <div>
+            <h2 id="roots-title">Observation, meaning, method</h2>
+            <p>Qualitative research began as several traditions, not one unified method. Each offered a different answer to what researchers can know from lives, language, and social worlds.</p>
+          </div>
+        </header>
+
+        <div class="timeline-list">
+          <section class="timeline-stop">
+            <time class="timeline-date">Late 1800s<br>to 1920s</time>
+            <span class="timeline-track" aria-hidden="true"></span>
+            <div class="timeline-copy">
+              <h3>Observation and the colonial archive</h3>
+              <p>Early ethnography made prolonged observation and field notes central to inquiry. It also grew inside colonial projects in which Western researchers often claimed the authority to represent people who had little control over the account. <a class="ref" href="#source-1" aria-label="See source 1">[1]</a></p>
+              <p class="ai-note"><b>What AI changes:</b> a model can become another distant interpreter, smoothing culturally specific language into categories shaped elsewhere.</p>
+            </div>
+          </section>
+
+          <section class="timeline-stop">
+            <time class="timeline-date">1920s<br>to 1940s</time>
+            <span class="timeline-track" aria-hidden="true"></span>
+            <div class="timeline-copy">
+              <h3>The Chicago School</h3>
+              <p>Life histories, case studies, and urban ethnography shifted attention toward meaning, process, and the texture of everyday social life. The resulting knowledge was rich and situated, but often challenged as too local to generalise.</p>
+              <p class="ai-note"><b>What AI changes:</b> processing thousands of narratives may look like scale. It does not make the sample representative or the interpretation valid.</p>
+            </div>
+          </section>
+
+          <section class="timeline-stop">
+            <time class="timeline-date">1930s<br>to 1960s</time>
+            <span class="timeline-track" aria-hidden="true"></span>
+            <div class="timeline-copy">
+              <h3>Experience is interpreted, not simply collected</h3>
+              <p>Phenomenology, hermeneutics, and symbolic interactionism placed meaning and interpretation at the centre. Language does not merely report a world; it helps make that world intelligible.</p>
+              <p class="ai-note"><b>What AI changes:</b> a model can produce a coherent interpretation without having shared the participant's world. Fluency is not situated understanding.</p>
+            </div>
+          </section>
+
+          <section class="timeline-stop">
+            <time class="timeline-date">1967</time>
+            <span class="timeline-track" aria-hidden="true"></span>
+            <div class="timeline-copy">
+              <h3>Grounded theory</h3>
+              <p>Glaser and Strauss argued that theory could be developed from data through coding, comparison, and theoretical sampling, rather than only tested after being supplied in advance. <a class="ref" href="#source-2" aria-label="See source 2">[2]</a></p>
+              <p class="ai-note"><b>What AI changes:</b> asking for a theory before close engagement with the material reverses the method and lets the first plausible structure anchor everything that follows.</p>
+            </div>
+          </section>
+        </div>
+      </section>
+
+      <p class="pull">Fluent interpretation can look like understanding. The history of the field gives us reasons to keep those apart.</p>
+
+      <section class="timeline-era" id="authority" aria-labelledby="authority-title">
+        <header class="era-head">
+          <p class="era-kicker">02 / Authority</p>
+          <div>
+            <h2 id="authority-title">Who gets to interpret?</h2>
+            <p>The field widened. Neutrality, voice, power, and the form of the research account became methodological questions rather than background concerns.</p>
+          </div>
+        </header>
+
+        <div class="timeline-list">
+          <section class="timeline-stop">
+            <time class="timeline-date">1970s<br>to 1980s</time>
+            <span class="timeline-track" aria-hidden="true"></span>
+            <div class="timeline-copy">
+              <h3>One standard gives way to many paradigms</h3>
+              <p>Constructivist, critical, feminist, and participatory traditions rejected the idea that one neutral procedure could settle every qualitative question. Reflexivity, standpoint, and power moved closer to the centre.</p>
+              <p class="ai-note"><b>What AI changes:</b> a general model tends to blend terms that often appear together, even when their assumptions are incompatible. A polished methods paragraph can hide the mismatch.</p>
+            </div>
+          </section>
+
+          <section class="timeline-stop">
+            <time class="timeline-date">1980s<br>to 1990s</time>
+            <span class="timeline-track" aria-hidden="true"></span>
+            <div class="timeline-copy">
+              <h3>Computer-assisted analysis</h3>
+              <p>Qualitative software made transcripts searchable and connected codes, memos, and source passages. Its role was to store and retrieve analytic work while the researcher remained responsible for interpretation.</p>
+              <p class="ai-note"><b>What AI changes:</b> a language model does not only organise. It generates analytic content. That is a change in role, not simply a faster version of the same tool.</p>
+            </div>
+          </section>
+
+          <section class="timeline-stop">
+            <time class="timeline-date">1980s<br>to 2000s</time>
+            <span class="timeline-track" aria-hidden="true"></span>
+            <div class="timeline-copy">
+              <h3>Feminist, critical, participatory, and decolonising turns</h3>
+              <p>Researchers asked who benefits, who controls the categories, whose language is privileged, and who owns the knowledge. In participatory work, people previously treated as subjects could become co-researchers.</p>
+              <p class="ai-note"><b>What AI changes:</b> models can quietly re-centralise dominant-language categories. Under community control, local tools may instead support translation and participant-led analysis.</p>
+            </div>
+          </section>
+
+          <section class="timeline-stop">
+            <time class="timeline-date">1990s<br>to 2000s</time>
+            <span class="timeline-track" aria-hidden="true"></span>
+            <div class="timeline-copy">
+              <h3>Narrative, discourse, and conversation</h3>
+              <p>Form became part of the evidence. Sequence, audience, pause, repetition, code-switching, and silence could do social work that a content summary would miss.</p>
+              <p class="ai-note"><b>What AI changes:</b> a cleaned transcript is already one transformation. A model that treats it mainly as semantic content adds another and can erase what was never captured as plain text.</p>
+            </div>
+          </section>
+
+          <section class="timeline-stop">
+            <time class="timeline-date">2006</time>
+            <span class="timeline-track" aria-hidden="true"></span>
+            <div class="timeline-copy">
+              <h3>Thematic analysis becomes easier to name</h3>
+              <p>Braun and Clarke set out a flexible, explicit account of thematic analysis. Later work distinguished reflexive thematic analysis from coding-reliability approaches that answer different methodological questions. <a class="ref" href="#source-3" aria-label="See source 3">[3]</a></p>
+              <p class="ai-note"><b>What AI changes:</b> models readily produce topic summaries. A theme is not a frequent topic; it is an interpretive pattern that answers the research question.</p>
+            </div>
+          </section>
+        </div>
+      </section>
+
+      <section class="timeline-era" id="records" aria-labelledby="records-title">
+        <header class="era-head">
+          <p class="era-kicker">03 / Records</p>
+          <div>
+            <h2 id="records-title">From craft to documented workflow</h2>
+            <p>Digital settings and formal reporting guidance made the analytic record more visible. They also created new ways to mistake documentation for rigour itself.</p>
+          </div>
+        </header>
+
+        <div class="timeline-list">
+          <section class="timeline-stop">
+            <time class="timeline-date">2000s<br>to 2010s</time>
+            <span class="timeline-track" aria-hidden="true"></span>
+            <div class="timeline-copy">
+              <h3>Digital ethnography and large text corpora</h3>
+              <p>Social life moved online, and qualitative inquiry followed through digital ethnography, social-media research, and the study of digital traces. Availability did not remove the need for consent, context, or care.</p>
+              <p class="ai-note"><b>What AI changes:</b> scale makes it easy to detach a statement from platform culture, thread history, timing, and identity performance, then treat the fragment as self-contained evidence.</p>
+            </div>
+          </section>
+
+          <section class="timeline-stop">
+            <time class="timeline-date">2007<br>and 2014</time>
+            <span class="timeline-track" aria-hidden="true"></span>
+            <div class="timeline-copy">
+              <h3>Reporting standards make the record explicit</h3>
+              <p>COREQ and SRQR asked authors to report the team, study design, analysis, interpretation, and links between claims and material more transparently. They are reporting guides, not substitutes for methodological judgment. <a class="ref" href="#source-4" aria-label="See source 4">[4]</a> <a class="ref" href="#source-5" aria-label="See source 5">[5]</a></p>
+              <p class="ai-note"><b>What AI changes:</b> a model can reconstruct a plausible methods section after the fact. The better use of technology is to preserve prompts, versions, edits, rejected suggestions, and source links while the work happens.</p>
+            </div>
+          </section>
+
+          <section class="timeline-stop">
+            <time class="timeline-date">2020<br>to 2022</time>
+            <span class="timeline-track" aria-hidden="true"></span>
+            <div class="timeline-copy">
+              <h3>Remote research becomes ordinary</h3>
+              <p>The pandemic accelerated video interviews, online groups, remote recruitment, and automated transcription. Researchers also had to confront digital exclusion, rapport at a distance, and uncertainty about where recordings and transcripts travelled. <a class="ref" href="#source-6" aria-label="See source 6">[6]</a></p>
+              <p class="ai-note"><b>What AI changes:</b> the infrastructure for remote research made it easy to add cloud models to a workflow before data location, consent, and third-party processing had been settled.</p>
+            </div>
+          </section>
+        </div>
+      </section>
+
+      <p class="pull">Use software to preserve the record, not to manufacture the appearance of one.</p>
+
+      <section class="timeline-era" id="models" aria-labelledby="models-title">
+        <header class="era-head">
+          <p class="era-kicker">04 / Models</p>
+          <div>
+            <h2 id="models-title">When software begins to suggest meaning</h2>
+            <p>Generative models entered planning, coding, interpretation, and writing. The central question became less about access to the model and more about the role it is allowed to play.</p>
+          </div>
+        </header>
+
+        <div class="timeline-list">
+          <section class="timeline-stop">
+            <time class="timeline-date">2022<br>to 2024</time>
+            <span class="timeline-track" aria-hidden="true"></span>
+            <div class="timeline-copy">
+              <h3>Generative models enter the workflow</h3>
+              <p>Researchers began testing public language models for interview guides, summaries, coding, theme development, and drafting. AI-supported qualitative analysis was not new, but conversational tools made it newly accessible. A 2025 review identified 130 articles on AI-supported qualitative data analysis through May 2024; not all concerned generative LLMs. <a class="ref" href="#source-7" aria-label="See source 7">[7]</a></p>
+              <p class="ai-note"><b>What AI changes:</b> access is no longer the main barrier. Method fit, privacy, provenance, and the weight given to a generated suggestion become design decisions.</p>
+            </div>
+          </section>
+
+          <section class="timeline-stop">
+            <time class="timeline-date">2024<br>to 2026</time>
+            <span class="timeline-track" aria-hidden="true"></span>
+            <div class="timeline-copy">
+              <h3>Comparisons replace easy claims</h3>
+              <p>The evidence does not support one simple verdict. In interviews with Rohingya refugees and Bangladeshi hosts, LLM annotation errors varied with participant characteristics and could bias later inference. A review of 11 qualitative nursing studies found promise in text analysis and theme generation but weakness in applying theory, developing codebooks, and generating interview questions. <a class="ref" href="#source-8" aria-label="See source 8">[8]</a> <a class="ref" href="#source-9" aria-label="See source 9">[9]</a></p>
+              <p class="ai-note"><b>What AI changes:</b> agreement with a human output is not enough. Researchers need to test whose material is misread, which tasks fail, and whether the evaluation reflects the method's actual aims.</p>
+            </div>
+          </section>
+
+          <section class="timeline-stop">
+            <time class="timeline-date">2025<br>to now</time>
+            <span class="timeline-track" aria-hidden="true"></span>
+            <div class="timeline-copy">
+              <h3>Workflow design matters more than model choice</h3>
+              <p>The useful unit of evaluation is increasingly the whole human-AI workflow: what the model sees, what it produces, who reviews it, what gets rejected, and how the final claim remains connected to source material. The literature is still young and does not justify a universal division of labour. <a class="ref" href="#source-7" aria-label="See source 7">[7]</a> <a class="ref" href="#source-8" aria-label="See source 8">[8]</a> <a class="ref" href="#source-9" aria-label="See source 9">[9]</a></p>
+              <p class="ai-note"><b>What AI changes:</b> the researcher must define the model's role before using it and keep enough of the path visible for another person to challenge the result.</p>
+            </div>
+          </section>
+        </div>
+      </section>
+
+      <section class="takeaway" aria-labelledby="takeaway-title">
+        <p class="runner">What survives every era</p>
+        <h2 id="takeaway-title">The tools change. The responsibility does not.</h2>
+        <p>An LLM can sort, compare, summarise, and suggest. It has no lived relationship with participants, no stable position it can account for, and no responsibility for what a research claim does in the world.</p>
+        <p><strong>You make the research decision.</strong> The record should make it possible to see how.</p>
+      </section>
+
+      <aside class="product-note">
+        <img src="../../brand/marks/methodvahti.svg" alt="">
+        <div>
+          <h2>Keep the method visible</h2>
+          <p>MethodVahti helps a team keep its paradigm, terms, and written claims aligned. It can flag a mismatch. It does not choose the epistemology or approve the interpretation.</p>
+          <a href="/methodvahti/#access">See MethodVahti →</a>
+        </div>
+      </aside>
+
+      <section class="related" aria-labelledby="related-title">
+        <h2 id="related-title">Continue from here</h2>
+        <div class="related-links">
+          <a href="/learn/three-questions-qualitative-rigour/">The three questions of qualitative rigour</a>
+          <a href="/learn/ai-qualitative-coding-human-review/">AI qualitative coding, human-reviewed</a>
+          <a href="/learn/llm-qualitative-data-ethics/">Is it ethical to use AI on interview data?</a>
+        </div>
+      </section>
+
+      <section class="sources" aria-labelledby="sources-title">
+        <h2 id="sources-title">Sources and further reading</h2>
+        <ol>
+          <li id="source-1">Denzin NK. <a href="https://doi.org/10.1177/1077800416681864">Critical Qualitative Inquiry</a>. <i>Qualitative Inquiry</i>. 2017.</li>
+          <li id="source-2">Glaser BG, Strauss AL. <a href="https://lawcat.berkeley.edu/record/429237">The Discovery of Grounded Theory: Strategies for Qualitative Research</a>. Aldine; 1967.</li>
+          <li id="source-3">Braun V, Clarke V. <a href="https://doi.org/10.1191/1478088706qp063oa">Using thematic analysis in psychology</a>. <i>Qualitative Research in Psychology</i>. 2006.</li>
+          <li id="source-4">Tong A, Sainsbury P, Craig J. <a href="https://pubmed.ncbi.nlm.nih.gov/17872937/">Consolidated criteria for reporting qualitative research (COREQ)</a>. 2007.</li>
+          <li id="source-5">O'Brien BC, et al. <a href="https://pubmed.ncbi.nlm.nih.gov/24979285/">Standards for Reporting Qualitative Research (SRQR)</a>. 2014.</li>
+          <li id="source-6">Keen S, Lomeli-Rodriguez M, Joffe H. <a href="https://pubmed.ncbi.nlm.nih.gov/35692956/">From Challenge to Opportunity: Virtual Qualitative Research During COVID-19 and Beyond</a>. 2022.</li>
+          <li id="source-7">Cook DA, et al. <a href="https://pubmed.ncbi.nlm.nih.gov/40560241/">Artificial Intelligence to Support Qualitative Data Analysis: Promises, Approaches, Pitfalls</a>. 2025.</li>
+          <li id="source-8">Ashwin J, Chhabra A, Rao V. <a href="https://doi.org/10.1177/00491241251338246">Using Large Language Models for Qualitative Analysis can Introduce Serious Bias</a>. <i>Sociological Methods &amp; Research</i>. 2026.</li>
+          <li id="source-9">Zhou T, et al. <a href="https://pubmed.ncbi.nlm.nih.gov/40939244/">The application of large language models in qualitative nursing research: A scoping review</a>. <i>Nursing Outlook</i>. 2025.</li>
+        </ol>
+      </section>
+    </article>
+  </main>
+
+  <aside class="letter-signup">
+    <p class="runner">From Heidi</p>
+    <h2>One letter a month</h2>
+    <p>One research problem, what I tried, what worked, and where it still falls short.</p>
+    <form method="POST" action="https://f9b96982.sibforms.com/serve/MUIFAMcTOLX67j69y_fzMLe4ExNUbUCqqmy_bIaYkLFiPRMwrMs5C7CoRKAd-BTNKCFvmeQ2dXjkJT25KHTQAdWqZjaJlMb4M27tl_lyfeSuFFuVnxtTG6dppAXFca1MbKYdgm2iZThi0eSMTmWL97T5YDF65mJrY9hC7OyAP3nkjikq4pf1EgLxTWRJbTj02ncxQ03h3uyrLk8NdQ==">
+      <div class="signup-row">
+        <label class="sr-only" for="EMAIL">Email address</label>
+        <input type="email" id="EMAIL" name="EMAIL" required placeholder="you@university.fi">
+        <button type="submit">Subscribe</button>
+      </div>
+      <label class="consent"><input type="checkbox" name="MARKETING_CONSENT" value="1" required> I agree to receive the monthly letter; my address is processed by <a href="https://www.brevo.com/en/legal/privacypolicy/" rel="noopener nofollow">Brevo</a> for delivery only.</label>
+      <input type="text" name="email_address_check" value="" class="sr-only" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <input type="hidden" name="locale" value="en">
+    </form>
+    <p class="privacy-note">Double opt-in. No tracking pixels, never shared. <a href="/privacy/">Privacy</a></p>
+  </aside>
+
+  <footer class="vh-footer">
+    <div class="vh-footer-shell">
+      <div class="vh-footer-main">
+        <div>
+          <p class="vh-footer-name">Vahtian</p>
+          <p class="vh-footer-tagline">Local-first tools for research decisions you can explain. Built in Finland by Heidi Andersén, MD, PhD.</p>
+        </div>
+        <nav class="vh-footer-links" aria-label="Footer">
+          <a href="/download/">Tools</a>
+          <a href="/learn/">Learn</a>
+          <a href="/blog/">Blog</a>
+          <a href="/about/">About</a>
+          <a href="/agents/">For agents</a>
+          <a href="/cite/">Cite</a>
+          <a href="/privacy/">Privacy</a>
+        </nav>
+      </div>
+      <p class="vh-footer-disclaimer">Vahtian keeps human judgment visible and research decisions open to review. It does not establish scientific truth.</p>
+      <div class="vh-footer-meta">
+        <span>© 2026 Vahtian</span>
+        <a href="/LICENSE">Apache-2.0 open core</a>
+        <a href="https://github.com/heidihelena/vahtian">GitHub <span aria-hidden="true">↗</span></a>
+        <a href="mailto:hello@vahtian.com">hello@vahtian.com</a>
+      </div>
+    </div>
+  </footer>
 </div>
 </body>
 </html>
