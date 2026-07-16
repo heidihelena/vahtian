@@ -95,9 +95,10 @@
     @media(max-width:680px){nav.nav{gap:13px;font-size:13.5px}}
   </style>
   <link rel="stylesheet" href="../../brand/site-refresh.css">
+<link rel="stylesheet" href="../../brand/methodvahti-refresh.css">
 <link rel="stylesheet" href="../../brand/footer.css">
 </head>
-<body>
+<body class="vh-content method-family method-tool">
 <div class="wrap">
 
   <header>
@@ -110,7 +111,7 @@
           <circle cx="14" cy="14" r="1.5"/><circle cx="18" cy="14" r="1.5"/>
           <circle cx="14" cy="18" r="1.5"/><circle cx="18" cy="18" r="1.5"/></g>
       </svg>
-      <span>MethodVahti · Explorer</span>
+      <span>MethodVahti</span>
     </div>
     <nav class="nav" aria-label="Primary">
       <a href="/#kits">Kits</a>
@@ -124,19 +125,24 @@
     </nav>
   </header>
 
+  <nav class="tool-trail" aria-label="Breadcrumb"><a href="/methodvahti/">MethodVahti</a><span>/</span><span>Sample-size explorer</span></nav>
+  <nav class="method-tools" aria-label="MethodVahti tools">
+    <a href="/methodvahti/explore/" aria-current="page">Sample-size explorer</a>
+    <a href="/methodvahti/claim-check/">Claim check</a>
+    <a href="/methodvahti/codebook/">Codebook</a>
+  </nav>
+
+<main>
   <div class="hero">
-    <p class="kicker">Interactive · browser-only · nothing uploaded</p>
-    <h1>See how your design choices move the sample size.</h1>
-    <p class="lede">These are the exact models MethodVahti uses, running live in your browser.
-      Move a parameter and watch three sample-size models, the stability of the synthesis,
-      and a simulated saturation curve respond. The goal is not a number — it is
-      <em>understanding which of your choices the number actually depends on.</em></p>
+    <p class="kicker">Free tool · browser-only · nothing uploaded</p>
+    <h1>See what your sample-size argument depends on.</h1>
+    <p class="lede">Move one design assumption and watch the suggested range respond. The useful result is not the largest number on the screen. It is knowing which assumption is doing the work.</p>
   </div>
 
   <div class="grid">
 
     <!-- ── Controls ─────────────────────────────────────────────────────── -->
-    <form class="panel" id="controls" autocomplete="off">
+    <div class="panel" id="controls">
       <h2>Design parameters</h2>
 
       <div class="ctrl">
@@ -197,7 +203,7 @@
       <div class="rowbtns">
         <button type="button" class="btn" id="reset">Reset</button>
       </div>
-    </form>
+    </div>
 
     <!-- ── Outputs ──────────────────────────────────────────────────────── -->
     <div class="stack">
@@ -253,14 +259,16 @@
         </div>
       </div>
 
-      <p class="note"><b>These are author-hypothesis models (Vahtian 2026), not externally
-        validated.</b> Each is anchored to a literature (above), but the models are
-        <em>author-calibrated</em> — the citations justify each model's shape and direction, not
-        its exact coefficients. They are a transparent way to reason about trade-offs; the researcher
-        decides N. See the <a href="https://github.com/heidihelena/vahtian/blob/main/methodvahti/VALIDATION.md">open validation plan</a>.</p>
+      <p class="note"><b>These models are Vahtian hypotheses and are not externally validated.</b> The cited literature supports their direction and shape, not the exact coefficients. Use them to inspect trade-offs. You decide N. <a href="https://github.com/heidihelena/vahtian/blob/main/methodvahti/VALIDATION.md">Read the validation plan.</a></p>
+      <div class="bridge">
+        <h2>Need the reasoning in a document?</h2>
+        <p>The Sample Defence Pack turns the assumptions, range, stopping rule, and final judgment into an editable record for a protocol, manuscript, or reviewer response.</p>
+        <a class="btn" href="/methodvahti/#access">See the Sample Defence Pack · €49</a>
+      </div>
     </div>
   </div>
 
+</main>
   <footer class="vh-footer">
   <div class="vh-footer-shell">
     <div class="vh-footer-main">
@@ -438,7 +446,7 @@ function drawSat(P,o,seedReset){
   svg.appendChild(el('path',{d:d.join(' '),fill:'none',stroke:C.violet,'stroke-width':2.4,'stroke-linejoin':'round'}));
   // total-themes ceiling
   svg.appendChild(el('line',{x1:padL,y1:Y(L),x2:W-padR,y2:Y(L),stroke:C.muted,'stroke-width':1,'stroke-dasharray':'4 3'}));
-  // marker at optimal N — clamp the line to the chart, label honestly if N is off-chart
+  // Marker at optimal N; clamp the line to the chart and label it if N is off-chart.
   const off = o.optimal_n > Nmax, on = Math.min(Nmax, o.optimal_n);
   svg.appendChild(el('line',{x1:X(on),y1:padT,x2:X(on),y2:H-padB,stroke:C.indigo,'stroke-width':1.5,'stroke-dasharray':'3 3'}));
   svg.appendChild(el('text',{x:X(on)+4,y:padT+12,'font-size':10.5,fill:C.indigo,'font-weight':700,'text-anchor':off?'end':'start'},

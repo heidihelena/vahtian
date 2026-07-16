@@ -3,27 +3,31 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>A minimal model for qualitative text, and how to judge it honestly · Vahtian Learn</title>
-  <meta name="description" content="You do not need a giant transformer to get signal from interview text. A small, interpretable TF-IDF and linear model can classify themes and show which words drive each code, and EpiNet tells you honestly whether the result holds up, with calibration, permutation-null tests, and leakage-aware splits.">
+  <title>A minimal model for qualitative text · Vahtian Learn</title>
+  <meta name="description" content="A small, interpretable TF-IDF and linear model can classify coded interview text and show which words drive each result. Then test calibration, chance performance, and leakage before trusting it.">
   <meta name="theme-color" content="#2D2440">
   <link rel="canonical" href="https://vahtian.com/learn/minimal-model-qualitative-text/">
   <meta property="og:type" content="article">
   <meta property="og:url" content="https://vahtian.com/learn/minimal-model-qualitative-text/">
   <meta property="og:image" content="https://vahtian.com/brand/cards/vahtian-card.png">
-  <meta property="og:title" content="A minimal model for qualitative text, and how to judge it honestly">
+  <meta property="og:title" content="A minimal model for qualitative text">
   <meta property="og:description" content="A small, interpretable TF-IDF and linear model for coding interview text, and how EpiNet checks whether the result holds up rather than reporting a single accuracy number.">
   <meta property="og:site_name" content="Vahtian">
+  <meta property="article:published_time" content="2026-07-10">
+  <meta property="article:modified_time" content="2026-07-16">
+  <meta property="article:author" content="Heidi Andersén">
   <meta name="twitter:card" content="summary">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "TechArticle",
-    "headline": "A minimal model for qualitative text, and how to judge it honestly",
+    "headline": "A minimal model for qualitative text",
     "description": "A small, interpretable TF-IDF and linear model for coding interview text, and how EpiNet checks whether the result holds up rather than reporting a single accuracy number.",
     "url": "https://vahtian.com/learn/minimal-model-qualitative-text/",
     "datePublished": "2026-07-10",
+    "dateModified": "2026-07-16",
     "inLanguage": "en",
-    "author": { "@type": "Organization", "name": "Vahtian", "url": "https://vahtian.com/" },
+    "author": { "@type": "Person", "name": "Heidi Andersén", "honorificSuffix": "MD, PhD", "url": "https://vahtian.com/about/" },
     "publisher": { "@id": "https://vahtian.com/#org" }
   }
   </script>
@@ -71,18 +75,35 @@
     footer a{color:var(--muted)}
   </style>
   <link rel="stylesheet" href="../../brand/site-refresh.css">
+<link rel="stylesheet" href="../../brand/learn-guide.css">
 <link rel="stylesheet" href="../../brand/footer.css">
 </head>
-<body class="vh-content">
+<body class="vh-content learn-guide">
 <div class="wrap">
 
-<header>
-  <nav class="crumbs"><a href="/">vahtian.com</a> · <a href="/learn/">learn</a> · a minimal model for qualitative text</nav>
+<header class="guide-site-header">
+  <div class="brand">
+    <a href="/" aria-label="Vahtian - home" style="display:flex"><svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#2D2440"/><g fill="none" stroke="#8B6FC9" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9H9v14h3"/><path d="M20 9h3v14h-3"/></g><path d="m13 18.6 6-.1-3-6.3z" fill="none" stroke="#C5B8E8" stroke-width="1"/><circle cx="13" cy="18.6" r="1.4" fill="#C5B8E8"/><circle cx="19" cy="18.5" r="1.4" fill="#C5B8E8"/><circle cx="16" cy="12.2" r="1.4" fill="#C5B8E8"/></svg></a>
+    <span>Vahtian</span>
+  </div>
+  <nav class="nav" aria-label="Primary">
+    <a href="/#kits">Kits</a>
+    <a href="/download/">Tools</a>
+    <a href="/learn/" aria-current="page">Learn</a>
+    <a href="/blog/">Blog</a>
+    <a href="/about/">About</a>
+    <span class="util"><a class="ic" href="/search/" aria-label="Search vahtian.com"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.3" y2="16.3"/></svg></a></span>
+  </nav>
 </header>
 
+<main class="guide-content">
+<nav class="crumbs"><a href="/">vahtian.com</a> · <a href="/learn/">learn</a> · a minimal model for qualitative text</nav>
+
+<img class="guide-mark" src="../../brand/marks/assesslite.svg" alt="">
 <p class="kicker">Learn · Methods in the open</p>
-<h1>A minimal model for qualitative text, and how to judge it honestly</h1>
+<h1>A minimal model for qualitative text</h1>
 <p class="lede">You do not need a giant transformer to get signal from interview text. A small, interpretable model can sort responses by theme, and you can read exactly which words drive each code. But a model that classifies is not the same as a model you can rely on. Here is the small model, and how EpiNet tells you whether it holds up.</p>
+<p class="guide-meta">By <a href="/about/">Heidi Andersén, MD, PhD</a>. Updated <time datetime="2026-07-16">16 July 2026</time>.<span class="read-time">6 minute read</span></p>
 
 <div class="outcomes">
   <p>After this guide you will be able to:</p>
@@ -121,7 +142,7 @@ class MinimalQualModel(nn.Module):
 <div class="note"><p style="margin:0"><strong>Same rule as the rest of the workflow.</strong> A model that assigns a theme label is a suggestion, not a finding. It sorts text by surface pattern. Whether a code is right, and whether it means anything, is still your call.</p></div>
 
 <h2>The catch: classifying is not the same as holding up</h2>
-<p>Your model reports 85% accuracy. Is that real? A small cohort makes it easy to get an impressive number that hides three problems: the data leaked between train and test, the result is no better than chance, or the scores rank documents well but are numerically off. You only find out by evaluating the model honestly, not by trusting the single number.</p>
+<p>Your model reports 85% accuracy. Is that real? A small cohort makes it easy to get an impressive number that hides three problems: the data leaked between train and test, the result is no better than chance, or the scores rank documents well but are numerically off. You only find out by evaluating the model properly, not by trusting the single number.</p>
 
 <h2>Judge it with EpiNet</h2>
 <p>EpiNet does not change your model. It wraps any node-level model in a reproducible evaluation harness and reports calibration, permutation-null tests, and bootstrap confidence intervals instead of one accuracy score. To judge the minimal model:</p>
@@ -145,7 +166,7 @@ class MinimalQualModel(nn.Module):
 <div class="note personal"><p style="margin:0"><strong>What EpiNet does and does not do.</strong> It does not make your model better, and it does not decide that your themes are correct. It enforces a leakage-aware evaluation and writes a reproducible model card, so you can say whether the result holds up, and show your working. The interpretation stays yours.</p></div>
 
 <div class="cta">
-  <p><strong>Get an honest verdict, not a flattering number.</strong></p>
+  <p><strong>Test the result, not just the headline number.</strong></p>
   <p>Your simple theme classifier hits 85%, and you cannot tell if that is real or an artifact of leakage and chance. That is not on you: standard tools hand you a single cross-validated score and hide whether it beats chance or is calibrated. EpiNet runs your data through community-aware splitting, a permutation null, calibration reported next to discrimination, and bootstrap intervals, then writes a model card you can publish — if your 85% does not survive those checks on the same data, the number was flattering you. It tells you, on the record, whether the result holds up. <code>pip install vahtian-epinet</code>.</p>
   <a class="btn" href="/epinet/">See EpiNet</a>
 </div>
@@ -153,10 +174,13 @@ class MinimalQualModel(nn.Module):
 <h2>Related guides</h2>
 <p>See also <a href="/learn/cite-your-analysis-code/">make your analysis code citable</a> for publishing the model with a DOI, and <a href="/learn/ai-qualitative-coding-human-review/">AI qualitative coding, human-reviewed</a> for producing the labels in the first place. More guides are on the <a href="/learn/">Learn page</a>.</p>
 
+</main>
+
 <!-- email capture: plain POST to Brevo, no external requests -->
-<div style="background:#fff;border:1px solid #e7e3f0;border-left:4px solid #8B6FC9;border-radius:12px;padding:20px 22px;margin:40px 0 8px;font:16px/1.6 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,ui-sans-serif,system-ui,sans-serif;color:#1c1830">
-  <p style="margin:0 0 4px;font-weight:700;font-size:18px">One honest letter a month</p>
-  <p style="margin:0 0 14px;color:#5b5570;font-size:15px">One research problem, what I tried, what worked, and where it still falls short. Unsubscribe in one click.</p>
+<aside class="letter-signup">
+  <p class="runner">From Heidi</p>
+  <h2>One letter a month</h2>
+  <p style="margin:0 0 14px;color:#5b5570;font-size:15px">One research problem, what I tried, what worked, and where it still falls short.</p>
   <form method="POST" action="https://f9b96982.sibforms.com/serve/MUIFAMcTOLX67j69y_fzMLe4ExNUbUCqqmy_bIaYkLFiPRMwrMs5C7CoRKAd-BTNKCFvmeQ2dXjkJT25KHTQAdWqZjaJlMb4M27tl_lyfeSuFFuVnxtTG6dppAXFca1MbKYdgm2iZThi0eSMTmWL97T5YDF65mJrY9hC7OyAP3nkjikq4pf1EgLxTWRJbTj02ncxQ03h3uyrLk8NdQ==">
     <div style="display:flex;flex-wrap:wrap;gap:10px">
       <label for="EMAIL" style="position:absolute;left:-9999px">Email address</label>
@@ -168,7 +192,7 @@ class MinimalQualModel(nn.Module):
     <input type="hidden" name="locale" value="en">
   </form>
   <p style="margin:10px 0 0;font-size:13px;color:#5b5570">Double opt-in: nothing arrives until you confirm by email. No tracking pixels, never shared. <a href="/privacy/" style="color:#6F52B8">Privacy</a></p>
-</div>
+</aside>
 
 <footer class="vh-footer">
   <div class="vh-footer-shell">

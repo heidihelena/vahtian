@@ -113,9 +113,10 @@
     @media(max-width:680px){nav.nav{gap:13px;font-size:13.5px}}
   </style>
   <link rel="stylesheet" href="../../brand/site-refresh.css">
+<link rel="stylesheet" href="../../brand/methodvahti-refresh.css">
 <link rel="stylesheet" href="../../brand/footer.css">
 </head>
-<body>
+<body class="vh-content method-family method-tool">
 <div class="wrap">
   <header>
     <div class="brand">
@@ -134,13 +135,17 @@
     </nav>
   </header>
 
+<nav class="tool-trail" aria-label="Breadcrumb"><a href="/methodvahti/">MethodVahti</a><span>/</span><span>Claim check</span></nav>
+<nav class="method-tools" aria-label="MethodVahti tools">
+  <a href="/methodvahti/explore/">Sample-size explorer</a>
+  <a href="/methodvahti/claim-check/" aria-current="page">Claim check</a>
+  <a href="/methodvahti/codebook/">Codebook</a>
+</nav>
+
 <main>
-  <h1>Qualitative Claim Quick Check</h1>
-  <p class="sub">Paste your findings or discussion and see the wording reviewers question.</p>
-  <p class="bound">This is a wording check that runs entirely in your browser. It flags sentences where the wording
-    reaches past a qualitative sample — and scans for the rigor markers reviewers look for. It <b>does not read your
-    transcripts</b>, <b>does not judge whether your research is sound</b>, and does not decide anything. Nothing is
-    uploaded. Qualitative subjectivity is a method, not a fault — the flags are prompts to check, not verdicts.</p>
+  <h1>Check where a qualitative claim reaches too far.</h1>
+  <p class="sub">Paste findings or discussion text. The check points to wording a reviewer may question.</p>
+  <p class="bound">It sees words, not your transcripts. A flag means “look here,” not “this finding is wrong.” Nothing is uploaded and no research decision is made for you.</p>
 
   <div class="tool">
     <label class="tl" for="ms">Your findings or discussion text</label>
@@ -345,13 +350,12 @@
 
   function bridge(hasSignals){
     var lead=hasSignals
-      ? 'Your text shows wording that reviewers question in qualitative work. Fixing the wording is one thing — <b>defending your method</b> is the part that carries the paper.'
-      : 'Clean wording is a start. The harder question is whether your sampling, saturation, and reporting choices are <b>defensible on paper</b> — which is what reviewers actually press on.';
-    return '<div class="bridge"><h2>Build the methods argument reviewers ask for</h2>'+
-      '<p>'+lead+' MethodVahti works from your situation — planning an N, justifying one already chosen, answering a reviewer '+
-      '— and builds a COREQ/SRQR-grounded methods argument with an audit trail of who decided what.</p>'+
-      '<a class="btn" href="/methodvahti/">See what MethodVahti does →</a>'+
-      '<a class="btn ghost" href="/methodvahti/explore/">Explore the models</a></div>';
+      ? 'Some sentences deserve another look. Fix the wording, then check whether the sampling and analysis record can support the revised claim.'
+      : 'No wording signal appeared. That is useful, but it does not establish that the claim is grounded in the data.';
+    return '<div class="bridge"><h2>Keep the claim with its method</h2>'+
+      '<p>'+lead+' The Sample Defence Pack records the sampling rationale, stopping decision, and methods wording beside the claim.</p>'+
+      '<a class="btn" href="/methodvahti/#access">See the Sample Defence Pack · €49</a>'+
+      '<a class="btn ghost" href="/methodvahti/explore/">Open the sample-size explorer</a></div>';
   }
 
   var EXAMPLE="Most nurses felt unsupported on their ward. A clear theme emerged: burnout is caused by poor staffing. Participants were obviously exhausted, and this proves that the system fails everyone. The majority reported that management simply ignored their concerns. Nurses in general want more autonomy over their shifts.";

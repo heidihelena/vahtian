@@ -3,27 +3,31 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>How to transcribe research interviews offline with Whisper (free, step by step) — Vahtian Learn</title>
-  <meta name="description" content="Free local interview transcription for qualitative research: install Whisper in about 10 minutes, transcribe interviews offline on your own computer, and correct the transcript. Recordings never leave your machine. Includes honest error rates for dialects and mixed-language audio.">
+  <title>Transcribe research interviews locally with Whisper · Vahtian Learn</title>
+  <meta name="description" content="Install Whisper, transcribe research interviews on your own computer, correct the transcript, and keep a change log. Recordings stay on your machine.">
   <meta name="theme-color" content="#2D2440">
   <link rel="canonical" href="https://vahtian.com/learn/transcribe-interviews-locally/">
   <meta property="og:type" content="article">
   <meta property="og:url" content="https://vahtian.com/learn/transcribe-interviews-locally/">
   <meta property="og:image" content="https://vahtian.com/brand/cards/vahtian-card.png">
-  <meta property="og:title" content="How to transcribe research interviews offline with Whisper (free, step by step)">
-  <meta property="og:description" content="Free local interview transcription for qualitative research. About 10 minutes to install, works offline, recordings stay on your computer. With honest error rates for dialects.">
+  <meta property="og:title" content="Transcribe research interviews locally with Whisper">
+  <meta property="og:description" content="A practical local workflow for installation, model choice, transcription, correction, and the change log.">
   <meta property="og:site_name" content="Vahtian">
+  <meta property="article:published_time" content="2026-07-09">
+  <meta property="article:modified_time" content="2026-07-16">
+  <meta property="article:author" content="Heidi Andersén">
   <meta name="twitter:card" content="summary">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "TechArticle",
-    "headline": "How to transcribe research interviews offline with Whisper (free, step by step)",
-    "description": "Free local interview transcription for qualitative research: install faster-whisper, transcribe interviews offline, correct the transcript with a change log. Includes model choice by hardware and honest error rates for dialects and mixed-language interviews.",
+    "headline": "Transcribe research interviews locally with Whisper",
+    "description": "Install faster-whisper, transcribe research interviews locally, choose a model for your hardware, correct the transcript, and keep a change log.",
     "url": "https://vahtian.com/learn/transcribe-interviews-locally/",
     "datePublished": "2026-07-09",
+    "dateModified": "2026-07-16",
     "inLanguage": "en",
-    "author": { "@type": "Organization", "name": "Vahtian", "url": "https://vahtian.com/" },
+    "author": { "@type": "Person", "name": "Heidi Andersén", "honorificSuffix": "MD, PhD", "url": "https://vahtian.com/about/" },
     "publisher": { "@id": "https://vahtian.com/#org" }
   }
   </script>
@@ -81,18 +85,35 @@
     footer a{color:var(--muted)}
   </style>
   <link rel="stylesheet" href="../../brand/site-refresh.css">
+<link rel="stylesheet" href="../../brand/learn-guide.css">
 <link rel="stylesheet" href="../../brand/footer.css">
 </head>
-<body class="vh-content">
+<body class="vh-content learn-guide">
 <div class="wrap">
 
-<header>
-  <nav class="crumbs"><a href="/">vahtian.com</a> · <a href="/learn/">learn</a> · offline interview transcription</nav>
+<header class="guide-site-header">
+  <div class="brand">
+    <a href="/" aria-label="Vahtian - home" style="display:flex"><svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#2D2440"/><g fill="none" stroke="#8B6FC9" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9H9v14h3"/><path d="M20 9h3v14h-3"/></g><path d="m13 18.6 6-.1-3-6.3z" fill="none" stroke="#C5B8E8" stroke-width="1"/><circle cx="13" cy="18.6" r="1.4" fill="#C5B8E8"/><circle cx="19" cy="18.5" r="1.4" fill="#C5B8E8"/><circle cx="16" cy="12.2" r="1.4" fill="#C5B8E8"/></svg></a>
+    <span>Vahtian</span>
+  </div>
+  <nav class="nav" aria-label="Primary">
+    <a href="/#kits">Kits</a>
+    <a href="/download/">Tools</a>
+    <a href="/learn/" aria-current="page">Learn</a>
+    <a href="/blog/">Blog</a>
+    <a href="/about/">About</a>
+    <span class="util"><a class="ic" href="/search/" aria-label="Search vahtian.com"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.3" y2="16.3"/></svg></a></span>
+  </nav>
 </header>
 
+<main class="guide-content">
+<nav class="crumbs"><a href="/">vahtian.com</a> · <a href="/learn/">learn</a> · offline interview transcription</nav>
+
+<img class="guide-mark" src="../../brand/marks/qualivahti-local.svg" alt="">
 <p class="kicker">Learn · Qualitative research</p>
-<h1>How to transcribe research interviews offline with Whisper (free, step by step)</h1>
-<p class="lede">You can transcribe qualitative research interviews entirely on your own computer with Whisper. The software is free, it works offline after installation, and your recordings never leave your machine. This guide shows exactly how to install it, run it, and correct the transcript. Setup takes about 10 minutes and needs no programming experience.</p>
+<h1>Transcribe research interviews locally with Whisper</h1>
+<p class="lede">Whisper can transcribe research interviews on your own computer. After installation it works offline, so recordings stay on the machine. This guide covers setup, model choice, transcription, correction, and the change log.</p>
+<p class="guide-meta">By <a href="/about/">Heidi Andersén, MD, PhD</a>. Updated <time datetime="2026-07-16">16 July 2026</time>.<span class="read-time">7 minute read</span></p>
 
 <div class="outcomes">
   <p>After this guide you will be able to:</p>
@@ -101,7 +122,7 @@
     <li>Transcribe interview audio completely offline.</li>
     <li>Keep participant recordings on your own computer.</li>
     <li>Produce a timestamped transcript ready for human checking.</li>
-    <li>Judge when Whisper is reliable, and when hand transcription is still the honest choice.</li>
+    <li>Judge when Whisper is reliable, and when hand transcription is still the better choice.</li>
   </ul>
 </div>
 
@@ -230,10 +251,13 @@ print("done - now correct it against the audio")</code></pre>
 <h2>Related guides</h2>
 <p>More local-first qualitative research guides are on the way: anonymizing transcripts, Obsidian for qualitative analysis, AI-assisted coding with human review, and building an audit trail. They will appear on the <a href="/learn/">Learn page</a>.</p>
 
+</main>
+
 <!-- email capture: plain POST to Brevo, no external requests -->
-<div style="background:#fff;border:1px solid #e7e3f0;border-left:4px solid #8B6FC9;border-radius:12px;padding:20px 22px;margin:40px 0 8px;font:16px/1.6 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,ui-sans-serif,system-ui,sans-serif;color:#1c1830">
-  <p style="margin:0 0 4px;font-weight:700;font-size:18px">One honest letter a month</p>
-  <p style="margin:0 0 14px;color:#5b5570;font-size:15px">One research problem, what I tried, what worked, and where it still falls short. Unsubscribe in one click.</p>
+<aside class="letter-signup">
+  <p class="runner">From Heidi</p>
+  <h2>One letter a month</h2>
+  <p style="margin:0 0 14px;color:#5b5570;font-size:15px">One research problem, what I tried, what worked, and where it still falls short.</p>
   <form method="POST" action="https://f9b96982.sibforms.com/serve/MUIFAMcTOLX67j69y_fzMLe4ExNUbUCqqmy_bIaYkLFiPRMwrMs5C7CoRKAd-BTNKCFvmeQ2dXjkJT25KHTQAdWqZjaJlMb4M27tl_lyfeSuFFuVnxtTG6dppAXFca1MbKYdgm2iZThi0eSMTmWL97T5YDF65mJrY9hC7OyAP3nkjikq4pf1EgLxTWRJbTj02ncxQ03h3uyrLk8NdQ==">
     <div style="display:flex;flex-wrap:wrap;gap:10px">
       <label for="EMAIL" style="position:absolute;left:-9999px">Email address</label>
@@ -245,7 +269,7 @@ print("done - now correct it against the audio")</code></pre>
     <input type="hidden" name="locale" value="en">
   </form>
   <p style="margin:10px 0 0;font-size:13px;color:#5b5570">Double opt-in: nothing arrives until you confirm by email. No tracking pixels, never shared. <a href="/privacy/" style="color:#6F52B8">Privacy</a></p>
-</div>
+</aside>
 
 <footer class="vh-footer">
   <div class="vh-footer-shell">

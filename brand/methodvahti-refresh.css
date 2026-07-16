@@ -1,0 +1,451 @@
+:root {
+  --method-dark: #2d2440;
+  --method-ink: #1c1830;
+  --method-purple: #6f52b8;
+  --method-lilac: #c5b8e8;
+  --method-wash: #f2effa;
+  --method-paper: #faf9fc;
+  --method-line: #ded8ea;
+  --method-muted: #4a4460;
+}
+
+body.method-family {
+  --indigo: var(--method-purple);
+  --amber: var(--method-purple);
+  --teal: var(--method-purple);
+  --rose: var(--method-muted);
+  background: var(--method-paper);
+  color: var(--method-ink);
+  font-family: "Nudica", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-weight: 500;
+}
+
+.method-family .wrap {
+  max-width: 920px;
+}
+
+.method-family code,
+.method-family kbd,
+.method-family .mono,
+.method-family .kicker,
+.method-family .method-kicker,
+.method-family .tool-trail,
+.method-family .badge,
+.method-family .role,
+.method-family .val,
+.method-family .chip,
+.method-family .flabel,
+.method-family .tag,
+.method-family .idx,
+.method-family .rpill,
+.method-family .scount {
+  font-family: "Nudica Mono", ui-monospace, monospace;
+  letter-spacing: 0;
+}
+
+.method-family h1,
+.method-family h2,
+.method-family h3,
+.method-family p,
+.method-family a,
+.method-family button,
+.method-family input,
+.method-family textarea,
+.method-family select {
+  letter-spacing: 0;
+}
+
+.method-family h1 {
+  letter-spacing: 0;
+}
+
+.method-family .tool-trail {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin: 26px 0 0;
+  color: var(--method-muted);
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+.method-family .tool-trail a {
+  color: var(--method-purple);
+  text-decoration: none;
+}
+
+.method-tools {
+  display: flex;
+  gap: 22px;
+  margin: 20px 0 0;
+  border-bottom: 1px solid var(--method-line);
+  overflow-x: auto;
+}
+
+.method-tools a {
+  flex: 0 0 auto;
+  padding: 0 0 9px;
+  color: var(--method-muted);
+  text-decoration: none;
+  font-size: 13.5px;
+  font-weight: 700;
+}
+
+.method-tools a[aria-current="page"] {
+  color: var(--method-purple);
+  border-bottom: 3px solid var(--method-purple);
+}
+
+.method-hero {
+  padding: 54px 0 24px;
+  max-width: 760px;
+}
+
+.method-kicker {
+  margin: 0 0 14px;
+  color: var(--method-purple);
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.method-hero h1 {
+  max-width: 16ch;
+  margin: 0 0 16px;
+  font-size: clamp(36px, 6vw, 58px);
+  line-height: 1.03;
+}
+
+.method-hero .lede {
+  max-width: 64ch;
+  margin: 0;
+  color: #3a3450;
+  font-size: clamp(18px, 2.4vw, 21px);
+  line-height: 1.55;
+}
+
+.method-correction {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px 12px;
+  align-items: baseline;
+  margin: 27px 0 0;
+  color: var(--method-purple);
+  font-family: "Marksy", cursive;
+  font-size: clamp(21px, 3vw, 28px);
+  line-height: 1.25;
+}
+
+.method-correction del {
+  color: var(--method-muted);
+  text-decoration-color: var(--method-purple);
+  text-decoration-thickness: 3px;
+}
+
+.method-local {
+  margin: 24px 0 0;
+  color: var(--method-muted);
+  font: 700 12px/1.5 "Nudica Mono", ui-monospace, monospace;
+}
+
+.method-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 22px;
+}
+
+.method-family .btn {
+  border-radius: 6px;
+}
+
+.method-section {
+  padding: 42px 0;
+  border-top: 1px solid var(--method-line);
+}
+
+.method-section h2 {
+  margin: 0 0 8px;
+  font-size: clamp(23px, 3vw, 29px);
+  line-height: 1.2;
+}
+
+.method-section > .section-intro {
+  max-width: 65ch;
+  margin: 0 0 22px;
+  color: var(--method-muted);
+}
+
+.method-family .routes {
+  gap: 0;
+  border-top: 1px solid var(--method-line);
+}
+
+.method-family .route {
+  min-height: 92px;
+  padding: 16px 34px 17px 2px;
+  border: 0;
+  border-bottom: 1px solid var(--method-line);
+  border-radius: 0;
+  background: transparent;
+}
+
+.method-family .route:nth-child(even) {
+  padding-left: 18px;
+  border-left: 1px solid var(--method-line);
+}
+
+.method-family .route[aria-pressed="true"] {
+  border-color: var(--method-line);
+  box-shadow: inset 4px 0 0 var(--method-purple);
+  background: var(--method-wash);
+}
+
+.method-family .routes .route:last-child:nth-child(odd) {
+  grid-column: 1 / -1;
+  border-left: 0;
+}
+
+.method-family .panel {
+  margin-top: 18px;
+  border: 1px solid var(--method-lilac);
+  border-radius: 8px;
+  box-shadow: none;
+}
+
+.deliverables {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  margin-top: 24px;
+  border-top: 1px solid var(--method-line);
+  border-bottom: 1px solid var(--method-line);
+}
+
+.deliverable {
+  padding: 20px 22px 22px 0;
+}
+
+.deliverable + .deliverable {
+  padding-left: 22px;
+  border-left: 1px solid var(--method-line);
+}
+
+.deliverable h3 {
+  margin: 0 0 7px;
+  font-size: 16px;
+}
+
+.deliverable p {
+  margin: 0;
+  color: var(--method-muted);
+  font-size: 14px;
+}
+
+.method-link-list {
+  margin-top: 18px;
+  border-top: 1px solid var(--method-line);
+}
+
+.method-link-list a {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(160px, .7fr) 1.3fr;
+  gap: 22px;
+  padding: 18px 34px 19px 2px;
+  border-bottom: 1px solid var(--method-line);
+  color: var(--method-ink);
+  text-decoration: none;
+}
+
+.method-link-list a::after {
+  content: "→";
+  position: absolute;
+  right: 5px;
+  top: 18px;
+  color: var(--method-purple);
+}
+
+.method-link-list b {
+  font-size: 16px;
+}
+
+.method-link-list span {
+  color: var(--method-muted);
+  font-size: 14px;
+}
+
+.method-offer {
+  background: var(--method-wash);
+  box-shadow: 0 0 0 100vmax var(--method-wash);
+  clip-path: inset(0 -100vmax);
+}
+
+.method-price {
+  margin: 0 0 8px;
+  color: var(--method-purple);
+  font: 700 13px/1.4 "Nudica Mono", ui-monospace, monospace;
+  text-transform: uppercase;
+}
+
+.method-offer ul {
+  max-width: 690px;
+  margin: 18px 0 22px;
+  padding-left: 20px;
+}
+
+.method-offer li {
+  margin: 7px 0;
+}
+
+.method-limit {
+  background: var(--method-dark);
+  color: #fff;
+  box-shadow: 0 0 0 100vmax var(--method-dark);
+  clip-path: inset(0 -100vmax);
+}
+
+.method-limit h2,
+.method-limit strong {
+  color: #fff;
+}
+
+.method-limit p,
+.method-limit .section-intro {
+  color: #ddd6ed;
+}
+
+.method-limit a {
+  color: var(--method-lilac);
+}
+
+.method-tool main > h1,
+.method-tool main > .sub,
+.method-tool main > .bound {
+  max-width: 720px;
+}
+
+.method-tool main > h1 {
+  margin-top: 14px;
+  font-size: clamp(32px, 5vw, 46px);
+  line-height: 1.08;
+}
+
+.method-tool main > .sub,
+.method-tool .hero .lede {
+  font-size: clamp(17px, 2.2vw, 19px);
+}
+
+.method-tool .bound {
+  color: var(--method-muted);
+}
+
+.method-tool .tool,
+.method-tool .codecard,
+.method-tool .card2,
+.method-tool .scard,
+.method-tool .rigor,
+.method-tool .rcard,
+.method-tool .card,
+.method-tool .cant,
+.method-tool .clean,
+.method-tool .clean-all,
+.method-tool .bridge {
+  border-radius: 8px;
+  box-shadow: none;
+}
+
+.method-tool .cant {
+  border-left-color: var(--method-purple);
+}
+
+.method-tool .note a {
+  color: var(--method-purple);
+  font-weight: 700;
+}
+
+.method-tool .bridge {
+  background: var(--method-wash);
+}
+
+.method-tool .bridge h2,
+.method-tool .bridge p,
+.method-tool .bridge p b {
+  color: var(--method-ink);
+}
+
+.method-tool .bridge .btn {
+  background: var(--method-dark);
+  color: #fff;
+}
+
+.method-tool .bridge .btn.ghost {
+  border-color: var(--method-purple);
+  color: var(--method-purple);
+  background: transparent;
+}
+
+.method-tool .flabel,
+.method-tool .rflag .tag {
+  border-color: var(--method-purple);
+  background: var(--method-wash);
+  color: var(--method-dark);
+}
+
+.method-tool .clean,
+.method-tool .clean-all,
+.method-tool .rpill.ok {
+  border-color: var(--method-lilac);
+  background: var(--method-wash);
+  color: var(--method-dark);
+}
+
+.method-notes {
+  margin-top: 38px;
+  padding-top: 28px;
+  border-top: 1px solid var(--method-line);
+}
+
+.method-notes h2 {
+  margin: 0 0 8px;
+  font-size: 22px;
+}
+
+.method-notes p {
+  max-width: 68ch;
+  color: var(--method-muted);
+}
+
+@media (max-width: 680px) {
+  .method-hero {
+    padding-top: 38px;
+  }
+
+  .method-family .route:nth-child(even) {
+    padding-left: 2px;
+    border-left: 0;
+  }
+
+  .deliverables {
+    grid-template-columns: 1fr;
+  }
+
+  .deliverable,
+  .deliverable + .deliverable {
+    padding: 17px 0;
+    border-left: 0;
+    border-bottom: 1px solid var(--method-line);
+  }
+
+  .deliverable:last-child {
+    border-bottom: 0;
+  }
+
+  .method-link-list a {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+
+  .method-tools {
+    gap: 17px;
+  }
+}

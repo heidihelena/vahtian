@@ -3,27 +3,31 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>How to make your analysis code citable: GitHub, a Zenodo DOI, and an R package (step by step) — Vahtian Learn</title>
-  <meta name="description" content="Journals now ask for your analysis code. Here is how to make it citable and reproducible: a GitHub repository with a licence and CITATION file, a free Zenodo DOI on release, and an installable R package. With a real worked example and copyable files.">
+  <title>Make your analysis code citable · Vahtian Learn</title>
+  <meta name="description" content="Give analysis code a versioned citation with a licensed GitHub repository, CITATION.cff file, Zenodo DOI, and clear code-availability statement. Includes an optional R package route.">
   <meta name="theme-color" content="#2D2440">
   <link rel="canonical" href="https://vahtian.com/learn/cite-your-analysis-code/">
   <meta property="og:type" content="article">
   <meta property="og:url" content="https://vahtian.com/learn/cite-your-analysis-code/">
   <meta property="og:image" content="https://vahtian.com/brand/cards/vahtian-card.png">
-  <meta property="og:title" content="How to make your analysis code citable: GitHub, a Zenodo DOI, and an R package">
-  <meta property="og:description" content="Make your research code citable and reproducible — a free DOI on release, an installable package, and the availability statement reviewers accept.">
+  <meta property="og:title" content="Make your analysis code citable">
+  <meta property="og:description" content="Turn the version you actually ran into a citation with GitHub, CITATION.cff, a Zenodo DOI, and a clear availability statement.">
   <meta property="og:site_name" content="Vahtian">
+  <meta property="article:published_time" content="2026-07-09">
+  <meta property="article:modified_time" content="2026-07-16">
+  <meta property="article:author" content="Heidi Andersén">
   <meta name="twitter:card" content="summary">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "TechArticle",
-    "headline": "How to make your analysis code citable: GitHub, a Zenodo DOI, and an R package",
-    "description": "Make research analysis code citable and reproducible with a GitHub repository, a licence, a CITATION.cff file, a Zenodo DOI on release, and an installable R package via R-universe.",
+    "headline": "Make your analysis code citable",
+    "description": "Give analysis code a versioned citation with a licensed GitHub repository, CITATION.cff file, Zenodo DOI, and clear code-availability statement. Includes an optional R package route.",
     "url": "https://vahtian.com/learn/cite-your-analysis-code/",
     "datePublished": "2026-07-09",
+    "dateModified": "2026-07-16",
     "inLanguage": "en",
-    "author": { "@type": "Organization", "name": "Vahtian", "url": "https://vahtian.com/" },
+    "author": { "@type": "Person", "name": "Heidi Andersén", "honorificSuffix": "MD, PhD", "url": "https://vahtian.com/about/" },
     "publisher": { "@id": "https://vahtian.com/#org" }
   }
   </script>
@@ -80,28 +84,42 @@
     footer a{color:var(--muted)}
   </style>
   <link rel="stylesheet" href="../../brand/site-refresh.css">
+<link rel="stylesheet" href="../../brand/learn-guide.css">
 <link rel="stylesheet" href="../../brand/footer.css">
 </head>
-<body class="vh-content">
+<body class="vh-content learn-guide">
 <div class="wrap">
 
-<header>
-  <nav class="crumbs"><a href="/">vahtian.com</a> · <a href="/learn/">learn</a> · cite your analysis code</nav>
+<header class="guide-site-header">
+  <div class="brand">
+    <a href="/" aria-label="Vahtian - home" style="display:flex"><svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#2D2440"/><g fill="none" stroke="#8B6FC9" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9H9v14h3"/><path d="M20 9h3v14h-3"/></g><path d="m13 18.6 6-.1-3-6.3z" fill="none" stroke="#C5B8E8" stroke-width="1"/><circle cx="13" cy="18.6" r="1.4" fill="#C5B8E8"/><circle cx="19" cy="18.5" r="1.4" fill="#C5B8E8"/><circle cx="16" cy="12.2" r="1.4" fill="#C5B8E8"/></svg></a>
+    <span>Vahtian</span>
+  </div>
+  <nav class="nav" aria-label="Primary">
+    <a href="/#kits">Kits</a><a href="/download/">Tools</a><a href="/learn/" aria-current="page">Learn</a><a href="/blog/">Blog</a><a href="/about/">About</a>
+    <span class="util"><a class="ic" href="/search/" aria-label="Search vahtian.com"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.3" y2="16.3"/></svg></a></span>
+  </nav>
 </header>
 
+<main class="guide-content">
+<nav class="crumbs"><a href="/">vahtian.com</a> · <a href="/learn/">learn</a> · cite your analysis code</nav>
+<img class="guide-mark" src="../../brand/marks/citevahti.svg" alt="">
 <p class="kicker">Learn · Methods, in the open</p>
-<h1>How to make your analysis code citable: GitHub, a Zenodo DOI, and an R package</h1>
-<p class="lede">More journals now ask for your analysis code at submission. You can give it a permanent, citable identity for free — a GitHub repository, a Zenodo DOI that never breaks, and, if you want it, an installable R package other people can run. This guide is the exact route, with a real worked example. No prior packaging experience needed.</p>
+<h1>Make your analysis code citable</h1>
+<p class="lede">GitHub is where code lives. A DOI is how someone cites the version you actually used. Here is the route from scripts to a licensed repository, a frozen Zenodo release, and a code-availability statement, with an optional R package at the end.</p>
+<p class="guide-meta">By <a href="/about/">Heidi Andersén, MD, PhD</a>. Updated <time datetime="2026-07-16">16 July 2026</time>.<span class="read-time">8 minute read</span></p>
 
 <div class="outcomes">
   <p>After this guide you will be able to:</p>
   <ul>
     <li>Put your analysis scripts in a public repository with a licence, in about 15 minutes.</li>
-    <li>Get a free, permanent Zenodo DOI that points to a frozen version.</li>
-    <li>Write a code-availability statement a reviewer will accept.</li>
+    <li>Get a free Zenodo DOI for a frozen release.</li>
+    <li>Write a code-availability statement that answers the main questions.</li>
     <li>Optionally wrap your R scripts as a package others install with one line.</li>
   </ul>
 </div>
+
+<p class="editorial-correction"><del class="overruled">I put it on GitHub.</del><span class="overliner">Which version did the paper use?</span></p>
 
 <div class="fig">
   <svg viewBox="0 0 680 96" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Pipeline: scripts to a licensed repository to a tagged release to a permanent Zenodo DOI">
@@ -119,14 +137,14 @@
       <text x="396" y="61" text-anchor="middle" fill="#5b5570" font-size="11">v1.0.0, frozen</text>
       <path d="M468 48 h24" stroke="#8B6FC9" stroke-width="2"/>
       <rect x="494" y="24" width="184" height="48" rx="10" fill="#2D2440"/>
-      <text x="586" y="45" text-anchor="middle" fill="#fff">permanent DOI</text>
-      <text x="586" y="61" text-anchor="middle" fill="#C5B8E8" font-size="11">cite it forever</text>
+      <text x="586" y="45" text-anchor="middle" fill="#fff">version DOI</text>
+      <text x="586" y="61" text-anchor="middle" fill="#C5B8E8" font-size="11">cite this release</text>
     </g>
   </svg>
 </div>
 
 <h2>Why a DOI, not just a GitHub link</h2>
-<p>A GitHub link points at whatever the code looks like today. It can move, change, or disappear, and a reviewer three years from now may find something different from what you ran. A DOI (digital object identifier) points at a frozen snapshot that never changes. Zenodo, run by CERN, mints one for free and keeps the archive. That is the difference between "here is my code, probably" and a citation.</p>
+<p>A GitHub link points at whatever the code looks like today. It can move or change, and a reviewer three years from now may find something different from what you ran. A DOI (digital object identifier) can point to the archived snapshot of a specific release. Zenodo, run by CERN, mints the DOI and keeps that release available. That is the difference between “here is my code, probably” and a version someone can cite.</p>
 <p>There is a second, quieter payoff. Every time someone cites your code DOI, that is a citation with your name on it — for the method you actually built, separate from the paper.</p>
 
 <div class="note"><p style="margin:0"><strong>A worked example you can inspect.</strong> The analysis scripts behind our own <a href="/qualivahti-local/">QualiVahti Local</a> vault are public under an open licence, with a Zenodo DOI (<code>10.5281/zenodo.21274892</code>) and an installable R package. Everything below is exactly how they were published — you can open the repository and copy the structure.</p></div>
@@ -165,7 +183,7 @@ abstract: >-
 <h2>Step 3 — write the availability statement</h2>
 <p>Now the sentence the reviewer is looking for. Adapt it:</p>
 <div class="note"><p style="margin:0"><strong>Code availability.</strong> The analysis code is openly available under the Apache-2.0 licence at [GitHub URL] and archived at [DOI]. Interview recordings and transcripts are not shared, as audio is directly identifying and participants did not consent to data sharing.</p></div>
-<p>That single paragraph answers the three things a reviewer checks: is the code available, is it permanent, and why is the raw data not attached. The honest data sentence is not a weakness — stating why identifying data stays private is exactly what a careful reader wants to see.</p>
+<p>That paragraph answers the three questions a reviewer is likely to ask: is the code available, is the cited version stable, and why is the raw data not attached? A clear data sentence is not a weakness. Explaining why identifying data stays private is part of a complete availability statement.</p>
 
 <h2>Optional — make it installable as an R package <span class="time">· about 30 minutes</span></h2>
 <p>Scripts in a repo are enough for citation. But if you want other researchers to <em>run</em> your analysis with one line, wrap the R side as a package. The minimum is a folder with a <code>DESCRIPTION</code> file (name, version, author, licence), your functions in <code>R/</code>, and a <code>NAMESPACE</code> listing what is exported. Then <code>R CMD check</code> tells you what is missing.</p>
@@ -187,8 +205,8 @@ Encoding: UTF-8</code></pre>
 </details>
 <p>Our own qualitative-analysis package is published this way — a citable DOI for the archive, and <code>install.packages("qualivahti", repos = "https://heidihelena.r-universe.dev")</code> for anyone who wants to run it. The Python side sits on PyPI by the same logic.</p>
 
-<h2>An honest caveat</h2>
-<p>Publishing code is not the same as documenting it. A DOI on an unreadable script is still a step forward, but the value shows when someone can actually follow it. Spend the extra hour on a README that says what each script does and what it expects as input. And check your own scripts for anything private — file paths with names, a stray data sample, an API key — before the repository goes public. Once it is pushed and archived, it is permanent by design.</p>
+<h2>What a DOI does not fix</h2>
+<p>Publishing code is not the same as documenting it. A DOI on an unreadable script is still a step forward, but the value shows when someone can actually follow it. Spend the extra hour on a README that says what each script does and what it expects as input. Check the scripts for anything private — file paths with names, a stray data sample, an API key — before the repository goes public. An archived release is meant to remain part of the scholarly record.</p>
 
 <div class="cta">
   <p><strong>You do not need our tools to do any of this.</strong> The steps above work for any analysis code, in any field.</p>
@@ -199,23 +217,7 @@ Encoding: UTF-8</code></pre>
 <h2>Related guides</h2>
 <p>Start upstream with <a href="/learn/transcribe-interviews-locally/">transcribing interviews offline with Whisper</a>. More local-first research guides are on the <a href="/learn/">Learn page</a>.</p>
 
-<!-- email capture: plain POST to Brevo, no external requests -->
-<div style="background:#fff;border:1px solid #e7e3f0;border-left:4px solid #8B6FC9;border-radius:12px;padding:20px 22px;margin:40px 0 8px;font:16px/1.6 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,ui-sans-serif,system-ui,sans-serif;color:#1c1830">
-  <p style="margin:0 0 4px;font-weight:700;font-size:18px">One honest letter a month</p>
-  <p style="margin:0 0 14px;color:#5b5570;font-size:15px">One research problem, what I tried, what worked, and where it still falls short. Unsubscribe in one click.</p>
-  <form method="POST" action="https://f9b96982.sibforms.com/serve/MUIFAMcTOLX67j69y_fzMLe4ExNUbUCqqmy_bIaYkLFiPRMwrMs5C7CoRKAd-BTNKCFvmeQ2dXjkJT25KHTQAdWqZjaJlMb4M27tl_lyfeSuFFuVnxtTG6dppAXFca1MbKYdgm2iZThi0eSMTmWL97T5YDF65mJrY9hC7OyAP3nkjikq4pf1EgLxTWRJbTj02ncxQ03h3uyrLk8NdQ==">
-    <div style="display:flex;flex-wrap:wrap;gap:10px">
-      <label for="EMAIL" style="position:absolute;left:-9999px">Email address</label>
-      <input type="email" id="EMAIL" name="EMAIL" required placeholder="you@university.fi" style="flex:1 1 220px;padding:11px 14px;border:1px solid #c9c2dd;border-radius:8px;font-size:15px;color:#1c1830;background:#faf9fc">
-      <button type="submit" style="padding:11px 20px;border:0;border-radius:8px;background:#2D2440;color:#fff;font-weight:650;font-size:15px;cursor:pointer">Subscribe</button>
-    </div>
-    <label style="display:block;margin:10px 0 0;font-size:13.5px;color:#5b5570"><input type="checkbox" name="MARKETING_CONSENT" value="1" required style="margin-right:6px">I agree to receive the monthly letter; my address is processed by <a href="https://www.brevo.com/en/legal/privacypolicy/" rel="noopener nofollow" style="color:#6F52B8">Brevo</a> for delivery only.</label>
-    <input type="text" name="email_address_check" value="" style="position:absolute;left:-9999px" tabindex="-1" autocomplete="off" aria-hidden="true">
-    <input type="hidden" name="locale" value="en">
-  </form>
-  <p style="margin:10px 0 0;font-size:13px;color:#5b5570">Double opt-in: nothing arrives until you confirm by email. No tracking pixels, never shared. <a href="/privacy/" style="color:#6F52B8">Privacy</a></p>
-</div>
-
+</main>
 <footer class="vh-footer">
   <div class="vh-footer-shell">
     <div class="vh-footer-main">
