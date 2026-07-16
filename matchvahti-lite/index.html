@@ -29,7 +29,7 @@
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
   <link rel="manifest" href="/site.webmanifest">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src 'self' data:; connect-src https://eutils.ncbi.nlm.nih.gov; base-uri 'none'; form-action 'none'" />
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src https://eutils.ncbi.nlm.nih.gov; base-uri 'none'; form-action 'none'" />
 <meta name="referrer" content="no-referrer" />
 <title>MatchVahti-Lite — capture abstract sentences for Zotero</title>
 <meta name="description" content="MatchVahti-Lite: search PubMed, read one abstract, tap the sentences worth citing, tag them, and append them to a reviewable Zotero .ris. Single-file, browser-only, free; the only network call is the PubMed search." />
@@ -293,6 +293,7 @@
     @media(max-width:680px){nav.nav{gap:13px;font-size:13.5px}}
   </style>
   <link rel="stylesheet" href="../brand/site-refresh.css">
+<link rel="stylesheet" href="../brand/footer.css">
 </head>
 <body class="vh-content">
 <div class="sitenav"><div class="in">
@@ -563,11 +564,31 @@
   <div id="toastBody"></div>
 </div>
 
-<footer>
-  &copy; 2026 Vahtian &middot; MatchVahti-Lite v0.1 &middot; Apache-2.0 &middot; part of the <a href="/">Vahtian</a> -vahti house (CiteVahti &rarr; MatchVahti &rarr; AtlasVahti).
-  Search-only against PubMed (NCBI E-utilities); no telemetry; nothing else leaves your device. Zotero export is a
-  downloadable, reviewable <span class="mono">.ris</span> — no silent write.
-  <br><a href="https://github.com/heidihelena/vahtian">source</a> &middot; <a href="/cite/">Cite</a> &middot; <a href="/privacy/">Privacy</a>
+<footer class="vh-footer">
+  <div class="vh-footer-shell">
+    <div class="vh-footer-main">
+      <div>
+        <p class="vh-footer-name">Vahtian</p>
+        <p class="vh-footer-tagline">Local-first research tools built by Heidi Andersén, MD, PhD, in Finland. For decisions you can explain and work you can stand behind.</p>
+      </div>
+      <nav class="vh-footer-links" aria-label="Footer">
+        <a href="/#tools">Tools</a>
+        <a href="/learn/">Learn</a>
+        <a href="/blog/">Blog</a>
+        <a href="/about/">About</a>
+        <a href="/agents/">For agents</a>
+        <a href="/cite/">Cite</a>
+        <a href="/privacy/">Privacy</a>
+      </nav>
+    </div>
+    <p class="vh-footer-disclaimer">Vahtian keeps human judgment visible and research decisions open to review. It does not establish scientific truth.</p>
+    <div class="vh-footer-meta">
+      <span>© 2026 Vahtian</span>
+      <a href="/LICENSE">Apache-2.0 open core</a>
+      <a href="https://github.com/heidihelena/vahtian">GitHub <span aria-hidden="true">↗</span></a>
+      <a href="mailto:hello@vahtian.com">hello@vahtian.com</a>
+    </div>
+  </div>
 </footer>
 
 <script>

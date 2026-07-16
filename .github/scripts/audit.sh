@@ -38,11 +38,12 @@ for p in $(grep -rl 'content="noindex"' --include=index.html . | sed 's#^\./##')
   grep -q "<loc>https://vahtian.com${d}</loc>" sitemap.xml && err "noindex page in sitemap: $d"
 done
 
-# 4. Footer carries the Privacy link on every page (privacy page is exempt)
-for p in $pages; do
-  [ "$p" = "privacy/index.html" ] && continue
-  awk '/<footer/{f=1} f{print} /<\/footer>/{f=0}' "$p" | grep -q 'href="/privacy/"' \
-    || err "footer missing Privacy link in $p"
+# 4. Every public page uses the exact shared footer and stylesheet.
+canonical_footer=$(awk '/<footer/{f=1} f{print} /<\/footer>/{f=0}' index.html | sed 's/^[[:space:]]*//')
+for p in $pages 404.html; do
+  page_footer=$(awk '/<footer/{f=1} f{print} /<\/footer>/{f=0}' "$p" | sed 's/^[[:space:]]*//')
+  [ "$page_footer" = "$canonical_footer" ] || err "footer differs from canonical footer in $p"
+  grep -q 'brand/footer.css' "$p" || err "shared footer stylesheet missing in $p"
 done
 
 # 5. sitemap is well-formed XML
