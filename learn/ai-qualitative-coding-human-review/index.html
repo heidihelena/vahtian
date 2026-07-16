@@ -3,27 +3,31 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>How to code qualitative interviews with a local AI model (free, human-reviewed, step by step) — Vahtian Learn</title>
+  <title>Use a local AI model for qualitative coding, with human review · Vahtian Learn</title>
   <meta name="description" content="Use a local AI model to suggest first-cycle codes for interview data, review every one yourself, and keep an audit trail — on your own computer, free. The four review statuses, why model confidence is not accuracy, and how to keep the human in charge of meaning.">
   <meta name="theme-color" content="#2D2440">
   <link rel="canonical" href="https://vahtian.com/learn/ai-qualitative-coding-human-review/">
   <meta property="og:type" content="article">
   <meta property="og:url" content="https://vahtian.com/learn/ai-qualitative-coding-human-review/">
   <meta property="og:image" content="https://vahtian.com/brand/cards/vahtian-card.png">
-  <meta property="og:title" content="How to code qualitative interviews with a local AI model (human-reviewed)">
+  <meta property="og:title" content="Use a local AI model for qualitative coding, with human review">
   <meta property="og:description" content="Local AI suggests first-cycle codes; you review every one. The four review statuses, why confidence is not accuracy, and how the human keeps control of meaning.">
   <meta property="og:site_name" content="Vahtian">
+  <meta property="article:published_time" content="2026-07-09">
+  <meta property="article:modified_time" content="2026-07-16">
+  <meta property="article:author" content="Heidi Andersén">
   <meta name="twitter:card" content="summary">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "TechArticle",
-    "headline": "How to code qualitative interviews with a local AI model (human-reviewed)",
+    "headline": "Use a local AI model for qualitative coding, with human review",
     "description": "Use a local large language model to suggest first-cycle codes for qualitative interview data, under full human review, with an audit trail. Covers the four review statuses, why model confidence is a self-report, model choice by hardware, and provenance rules for the prompt.",
     "url": "https://vahtian.com/learn/ai-qualitative-coding-human-review/",
     "datePublished": "2026-07-09",
+    "dateModified": "2026-07-16",
     "inLanguage": "en",
-    "author": { "@type": "Organization", "name": "Vahtian", "url": "https://vahtian.com/" },
+    "author": { "@type": "Person", "name": "Heidi Andersén", "honorificSuffix": "MD, PhD", "url": "https://vahtian.com/about/" },
     "publisher": { "@id": "https://vahtian.com/#org" }
   }
   </script>
@@ -74,18 +78,35 @@
     footer a{color:var(--muted)}
   </style>
   <link rel="stylesheet" href="../../brand/site-refresh.css">
+<link rel="stylesheet" href="../../brand/learn-guide.css">
 <link rel="stylesheet" href="../../brand/footer.css">
 </head>
-<body class="vh-content">
+<body class="vh-content learn-guide">
 <div class="wrap">
 
-<header>
-  <nav class="crumbs"><a href="/">vahtian.com</a> · <a href="/learn/">learn</a> · AI qualitative coding with human review</nav>
+<header class="guide-site-header">
+  <div class="brand">
+    <a href="/" aria-label="Vahtian - home" style="display:flex"><svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#2D2440"/><g fill="none" stroke="#8B6FC9" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9H9v14h3"/><path d="M20 9h3v14h-3"/></g><path d="m13 18.6 6-.1-3-6.3z" fill="none" stroke="#C5B8E8" stroke-width="1"/><circle cx="13" cy="18.6" r="1.4" fill="#C5B8E8"/><circle cx="19" cy="18.5" r="1.4" fill="#C5B8E8"/><circle cx="16" cy="12.2" r="1.4" fill="#C5B8E8"/></svg></a>
+    <span>Vahtian</span>
+  </div>
+  <nav class="nav" aria-label="Primary">
+    <a href="/#kits">Kits</a>
+    <a href="/download/">Tools</a>
+    <a href="/learn/" aria-current="page">Learn</a>
+    <a href="/blog/">Blog</a>
+    <a href="/about/">About</a>
+    <span class="util"><a class="ic" href="/search/" aria-label="Search vahtian.com"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.3" y2="16.3"/></svg></a></span>
+  </nav>
 </header>
 
+<main class="guide-content">
+<nav class="crumbs"><a href="/">vahtian.com</a> · <a href="/learn/">learn</a> · AI qualitative coding with human review</nav>
+
+<img class="guide-mark" src="../../brand/marks/qualivahti-local.svg" alt="">
 <p class="kicker">Learn · Qualitative coding</p>
-<h1>How to code qualitative interviews with a local AI model (free, human-reviewed)</h1>
-<p class="lede">A local AI model can suggest first-cycle codes for your interview data — on your own computer, free, with no transcript sent to a cloud service. This guide shows how to get useful suggestions, and the more important part: how to review every one so the analysis stays yours. The model proposes labels. You decide what anything means.</p>
+<h1>Use a local AI model for qualitative coding, with human review</h1>
+<p class="lede">A local model can suggest first-cycle codes without sending transcripts to a cloud service. That is the easy part. The work is reviewing every suggestion against the source, recording what changed, and keeping interpretation with the researcher.</p>
+<p class="guide-meta">By <a href="/about/">Heidi Andersén, MD, PhD</a>. Updated <time datetime="2026-07-16">16 July 2026</time>.<span class="read-time">7 minute read</span></p>
 
 <div class="outcomes">
   <p>After this guide you will be able to:</p>
@@ -99,7 +120,7 @@
 
 <h2>What AI can and cannot do in coding</h2>
 <div class="note personal"><p style="margin:0"><strong>From our own coding.</strong> Across one small study, a local model's suggestions broke down like this: a handful we accepted as written, about half we edited, and a large share we rejected. The model has habits — it reaches for emotion words ("waiting anxiety") where the data calls for a situation ("waiting for results"), and it splits one idea into three labels. None of that is a flaw to hide. Rejecting suggestions is not the tool failing; it is the method working.</p></div>
-<p>So the honest frame: a local model is fast at proposing candidate labels and blind to what they mean. It has read no ethics application, met no participant, and holds no theory. It is a tireless first-pass labeller whose every output is a draft. The value comes from a human reading each draft against the data — which is exactly where interpretation lives, and exactly what a reviewer will want to see you did.</p>
+<p>The useful frame is simple: a local model is fast at proposing candidate labels and blind to what they mean in this study. It has read no ethics application, met no participant, and holds no theory. Every output is a draft. The value comes from a person reading each draft against the source and recording the decision.</p>
 
 <h2>The four review statuses</h2>
 <p>Give every suggested code exactly one status. There is no score for "true" — the model does not know truth, and the status system should not pretend otherwise.</p>
@@ -162,7 +183,7 @@
 <p>Run them locally with <a href="https://ollama.com">Ollama</a> (free). For non-English interviews, the larger models are noticeably better at smaller languages — try your own language before deciding.</p>
 
 <h2>The prompt matters: force provenance</h2>
-<p>A coding prompt should pin the model to the text and forbid invention. The rules that keep it honest:</p>
+<p>A coding prompt should pin the model to the text and forbid invention. The rules that keep it grounded:</p>
 <ul>
   <li>Use only the excerpt given. Do not bring in outside knowledge about the topic.</li>
   <li>Do not invent participant details, and do not guess demographics unless they are stated.</li>
@@ -172,7 +193,7 @@
 </ul>
 <p>A model told to quote its trigger words is far easier to review — you can see at a glance whether the label actually comes from the text or from the model's imagination.</p>
 
-<h2>An honest caveat</h2>
+<h2>A necessary caveat</h2>
 <p>This workflow speeds up first-cycle labelling. It does not find your themes. A pile of frequent codes is not a theme, and a cluster a model draws is not a theme — a theme is a patterned meaning you construct, state in a sentence, support with evidence, and test against the cases that do not fit. Frequency describes how often a code was applied; it is not importance. Keep those two apart in your writing, and the AI stays a labeller while you stay the analyst.</p>
 
 <div class="cta">
@@ -184,10 +205,13 @@
 <h2>Related guides</h2>
 <p>Upstream: <a href="/learn/transcribe-interviews-locally/">transcribe interviews offline with Whisper</a>. Downstream: <a href="/learn/cite-your-analysis-code/">make your analysis code citable</a>. More on the <a href="/learn/">Learn page</a>.</p>
 
+</main>
+
 <!-- email capture: plain POST to Brevo, no external requests -->
-<div style="background:#fff;border:1px solid #e7e3f0;border-left:4px solid #8B6FC9;border-radius:12px;padding:20px 22px;margin:40px 0 8px;font:16px/1.6 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,ui-sans-serif,system-ui,sans-serif;color:#1c1830">
-  <p style="margin:0 0 4px;font-weight:700;font-size:18px">One honest letter a month</p>
-  <p style="margin:0 0 14px;color:#5b5570;font-size:15px">One research problem, what I tried, what worked, and where it still falls short. Unsubscribe in one click.</p>
+<aside class="letter-signup">
+  <p class="runner">From Heidi</p>
+  <h2>One letter a month</h2>
+  <p style="margin:0 0 14px;color:#5b5570;font-size:15px">One research problem, what I tried, what worked, and where it still falls short.</p>
   <form method="POST" action="https://f9b96982.sibforms.com/serve/MUIFAMcTOLX67j69y_fzMLe4ExNUbUCqqmy_bIaYkLFiPRMwrMs5C7CoRKAd-BTNKCFvmeQ2dXjkJT25KHTQAdWqZjaJlMb4M27tl_lyfeSuFFuVnxtTG6dppAXFca1MbKYdgm2iZThi0eSMTmWL97T5YDF65mJrY9hC7OyAP3nkjikq4pf1EgLxTWRJbTj02ncxQ03h3uyrLk8NdQ==">
     <div style="display:flex;flex-wrap:wrap;gap:10px">
       <label for="EMAIL" style="position:absolute;left:-9999px">Email address</label>
@@ -199,7 +223,7 @@
     <input type="hidden" name="locale" value="en">
   </form>
   <p style="margin:10px 0 0;font-size:13px;color:#5b5570">Double opt-in: nothing arrives until you confirm by email. No tracking pixels, never shared. <a href="/privacy/" style="color:#6F52B8">Privacy</a></p>
-</div>
+</aside>
 
 <footer class="vh-footer">
   <div class="vh-footer-shell">
