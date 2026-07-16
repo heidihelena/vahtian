@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>AI Disclosure Kit for Researchers — Vahtian</title>
-  <meta name="description" content="Manuscript, thesis, grant, and peer-review templates for responsible AI use. Log as you go, check the venue's policy once, disclose from templates. 10 files (Word, Excel, PDF, Markdown), a publisher-policy directory, and an AI-use log. A Vahtian product. €29 launch price.">
+  <meta name="description" content="Keep tool versions, tasks, affected material, human checks, and venue rules in one AI-use record. Ten practical files for manuscripts, theses, grants, supervision, and peer review. €29.">
   <meta name="theme-color" content="#2D2440">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
@@ -13,7 +13,7 @@
   <meta property="og:type" content="product">
   <meta property="og:url" content="https://vahtian.com/ai-disclosure-kit/">
   <meta property="og:title" content="AI Disclosure Kit for Researchers — Vahtian">
-  <meta property="og:description" content="Manuscript, thesis, grant, and peer-review templates for responsible AI use. Log as you go, check the policy once, disclose from templates. 10 files + a publisher-policy directory.">
+  <meta property="og:description" content="Keep the AI-use record while you work. Write the disclosure from it when you submit. Ten practical files for research work.">
   <meta property="og:image" content="https://vahtian.com/brand/cards/vahtian-card.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
@@ -25,7 +25,7 @@
     "@context": "https://schema.org",
     "@type": "Product",
     "name": "AI Disclosure Kit for Researchers",
-    "description": "Manuscript, thesis, grant, and peer-review templates for responsible AI use — an AI-use log, seven manuscript disclosure statements, thesis and grant templates, a peer-review AI-safety checklist, a journal-policy worksheet, and a publisher AI-policy directory covering 12 major policies, checked against the publishers' own pages. 10 files in Word, Excel, PDF and Markdown. It helps you document and decide; journal, funder and institutional rules always win.",
+    "description": "A ten-file research workflow for recording AI tools, providers, model or software versions, access routes, tasks, affected material, and human checks; then checking the venue policy and drafting a manuscript, thesis, grant, supervision, or peer-review disclosure from the record.",
     "brand": { "@type": "Brand", "name": "Vahtian" },
     "category": "Research documentation",
     "url": "https://vahtian.com/ai-disclosure-kit/",
@@ -38,90 +38,88 @@
     }
   }
   </script>
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2310211B'/%3E%3Ctext x='16' y='22' font-family='-apple-system,Segoe UI,Roboto,sans-serif' font-size='15' font-weight='700' text-anchor='middle' fill='%23EAF3EF'%3Ef%3Ctspan fill='%2340C6A2'%3Eai%3C/tspan%3E%3C/text%3E%3C/svg%3E">
   <style>
-    :root{--navy:#2D2440;--navy2:#241d38;--violet:#8B6FC9;--lilac:#C5B8E8;--lime:#A2C05C;
+    :root{--navy:#2D2440;--navy2:#241d38;--violet:#8B6FC9;--lilac:#C5B8E8;
           --ink:#1c1830;--muted:#5b5570;--bg:#faf9fc;--card:#fff;--line:#e7e3f0;--link:#6F52B8;
-          --fill:#ECE3FF;--fill-text:#432C7A;--amber:#C98A00;
+          --fill:#ECE3FF;--fill-text:#432C7A;
           /* legacy names aliased to Vahtian tokens so existing rules re-skin */
           --dark:var(--navy);--dark2:var(--navy2);--teal:var(--violet);--teal-br:var(--lilac);
-          --gold:var(--amber);--teal-fill:var(--fill);--teal-text:var(--fill-text);
-          --amber-fill:#FFF2D8;--amber-text:#5A4300}
+          --gold:var(--violet);--teal-fill:var(--fill);--teal-text:var(--fill-text);
+          --amber-fill:var(--fill);--amber-text:var(--fill-text)}
     *{box-sizing:border-box}
     body{margin:0;font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,ui-sans-serif,system-ui,sans-serif;
          color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased}
     a{color:var(--link)}
-    .wrap{max-width:860px;margin:0 auto;padding:0 22px}
+    .wrap{max-width:880px;margin:0 auto;padding:0 24px}
     a:focus-visible,button:focus-visible{outline:3px solid var(--teal-br);outline-offset:2px}
     /* header + hero */
     .top{background:var(--dark);color:#EDE9F6}
     header{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:20px 0 6px}
-    .brand{font-weight:800;font-size:20px;letter-spacing:-.01em;color:#EDE9F6;text-decoration:none}
+    .brand{font-weight:800;font-size:20px;letter-spacing:0;color:#EDE9F6;text-decoration:none}
     .brand .ai{color:var(--teal-br)}
     .up{font-size:13px;color:#b9aee0;text-decoration:none}
-    .hero{padding:28px 0 40px}
+    .hero{padding:42px 0 48px}
     .kicker{font:600 12.5px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--teal-br);text-transform:uppercase;letter-spacing:.12em;margin:0 0 16px}
-    h1{font-size:clamp(30px,6vw,46px);line-height:1.08;letter-spacing:-.02em;margin:0 0 14px;color:#fff}
-    .tag{font-size:clamp(16px,2.3vw,19px);color:#d5cbef;margin:0 0 22px;max-width:60ch}
+    h1{font-size:56px;line-height:1.03;letter-spacing:0;margin:0 0 17px;color:#fff;max-width:14ch}
+    .tag{font-size:19px;color:#d5cbef;margin:0 0 22px;max-width:60ch}
     .buy{display:flex;flex-wrap:wrap;gap:14px;align-items:center}
-    .btn{display:inline-block;padding:13px 22px;border-radius:10px;font-weight:700;text-decoration:none;font-size:16px}
+    .btn{display:inline-block;padding:13px 20px;border-radius:4px;font-weight:700;text-decoration:none;font-size:16px}
     .btn.primary{background:var(--teal-fill);color:#2b1c53}
-    .btn.ghost{border:1px solid rgba(84,214,182,.4);color:var(--teal-br);background:transparent;font-weight:600}
+    .btn.ghost{border:1px solid var(--violet);color:var(--teal-br);background:transparent;font-weight:600}
     .price{display:flex;align-items:baseline;gap:9px}
-    .price .now{font-size:26px;font-weight:800;color:#fff;letter-spacing:-.01em}
+    .price .now{font-size:26px;font-weight:800;color:#fff;letter-spacing:0}
     .price .was{font-size:14px;color:#b9aee0;text-decoration:line-through}
-    .price .lbl{font-size:12.5px;color:var(--lime);font-weight:600}
+    .price .lbl{font-size:12.5px;color:var(--lilac);font-weight:600}
     .metaline{margin:16px 0 0;font-size:13px;color:#b9aee0}
     /* body */
     main{padding:8px 0 0}
     section{padding:34px 0;border-top:1px solid var(--line)}
     section:first-child{border-top:0}
-    h2{font-size:22px;letter-spacing:-.01em;margin:0 0 8px}
+    h2{font-size:22px;letter-spacing:0;margin:0 0 8px}
     .lede{color:#39324e;font-size:16px;max-width:66ch;margin:0 0 14px}
     .lede b{color:var(--ink)}
-    .routes{display:grid;gap:12px;margin:14px 0 2px}
+    .routes{display:grid;gap:0;margin:18px 0 2px;border-top:1px solid var(--line)}
     @media(min-width:700px){.routes{grid-template-columns:1fr 1fr}}
-    .route{display:block;background:#f4f1fa;border:1px solid var(--line);border-left:4px solid var(--violet);
-      border-radius:11px;padding:15px 16px;text-decoration:none;color:var(--ink)}
-    .route:hover{border-color:var(--violet);box-shadow:0 3px 13px rgba(45,36,64,.08)}
+    .route{display:block;background:transparent;border:0;border-bottom:1px solid var(--line);padding:17px 18px 17px 0;text-decoration:none;color:var(--ink)}
+    .route:nth-child(even){padding-left:18px;border-left:1px solid var(--line)}
+    .route:hover b{color:var(--link)}
     .route b{display:block;font-size:15.5px}
     .route span{display:block;color:var(--muted);font-size:13.5px;margin-top:3px}
-    .route.policy{border-left-color:#5566B5}
-    .route.supervise{border-left-color:#1E9E8A}
-    .route.limit{border-left-color:var(--amber)}
     .habits{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-top:6px}
     @media(max-width:640px){.habits{grid-template-columns:1fr}.files{grid-template-columns:1fr!important}.buyblock{flex-direction:column;align-items:flex-start!important}}
-    .habit{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:15px 16px}
+    .habit{background:transparent;border-top:3px solid var(--violet);padding:15px 10px 0 0}
     .habit .n{font:700 12px/1 ui-monospace,monospace;color:var(--link);text-transform:uppercase;letter-spacing:.05em}
     .habit h3{margin:6px 0 5px;font-size:15px}
     .habit p{margin:0;color:var(--muted);font-size:14px}
-    .files{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-top:8px;list-style:none;padding:0}
-    .files li{background:var(--card);border:1px solid var(--line);border-radius:11px;padding:13px 15px;font-size:14px;color:#39324e}
+    .files{display:grid;grid-template-columns:1fr 1fr;gap:0;margin-top:14px;list-style:none;padding:0;border-top:1px solid var(--line)}
+    .files li{background:transparent;border-bottom:1px solid var(--line);padding:15px 18px 15px 0;font-size:14px;color:#39324e}
+    .files li:nth-child(even){padding-left:18px;border-left:1px solid var(--line)}
     .files b{color:var(--ink);display:block;margin-bottom:2px}
-    .files .fmt{font:600 10.5px/1 ui-monospace,monospace;color:var(--teal-text);background:var(--teal-fill);border:1px solid #bfe6d9;border-radius:5px;padding:3px 6px;margin-left:6px;white-space:nowrap;vertical-align:1px}
+    .files .fmt{font:600 10.5px/1 "Nudica Mono",ui-monospace,monospace;color:var(--teal-text);background:var(--teal-fill);border:1px solid var(--lilac);border-radius:3px;padding:3px 6px;margin-left:6px;white-space:nowrap;vertical-align:1px}
     ul.plain{margin:6px 0 0;padding-left:20px;color:#39324e;display:grid;gap:8px}
     ul.plain b{color:var(--ink)}
-    .isnot{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--gold);border-radius:11px;padding:15px 17px;margin-top:6px}
+    .isnot{background:var(--paper,#f2effa);border:0;border-left:3px solid var(--violet);border-radius:0;padding:15px 20px;margin-top:12px}
     .isnot ul{margin:8px 0 0;padding-left:20px;color:#39324e;display:grid;gap:7px;font-size:14.5px}
     .isnot b{color:var(--ink)}
     .cols{display:grid;grid-template-columns:1fr 1fr;gap:14px}
     @media(max-width:640px){.cols{grid-template-columns:1fr}}
-    .cols .box{background:var(--card);border:1px solid var(--line);border-radius:11px;padding:15px 16px}
+    .cols .box{background:transparent;border-top:1px solid var(--line);padding:15px 16px 0 0}
     .cols h3{margin:0 0 6px;font-size:14px;color:var(--link);text-transform:uppercase;letter-spacing:.04em}
     .cols p{margin:0;color:#39324e;font-size:14px}
-    .buyblock{background:var(--dark);color:#EDE9F6;border-radius:15px;padding:24px;display:flex;gap:20px;justify-content:space-between;align-items:center;flex-wrap:wrap;margin-top:6px}
+    .buyblock{background:var(--dark);color:#EDE9F6;border-radius:4px;padding:26px;display:flex;gap:20px;justify-content:space-between;align-items:center;flex-wrap:wrap;margin-top:6px}
     .buyblock h2{color:#fff;margin:0 0 6px}
     .buyblock p{margin:0;color:#c7bce9;font-size:14px;max-width:46ch}
     .faq{margin-top:6px}
-    .faq details{border:1px solid var(--line);border-radius:10px;background:var(--card);margin:0 0 9px;padding:0 15px}
+    .faq details{border:0;border-top:1px solid var(--line);border-radius:0;background:transparent;margin:0;padding:0}
     .faq summary{cursor:pointer;font-weight:600;font-size:15px;padding:13px 0;color:var(--link);list-style:none}
     .faq summary::-webkit-details-marker{display:none}
     .faq summary::after{content:"+";float:right;color:var(--muted);font-weight:400;font-size:18px;line-height:1}
     .faq details[open] summary::after{content:"–"}
-    .faq details[open] summary{border-bottom:1px solid var(--line)}
+    .faq details[open] summary{border-bottom:0}
     .faq details p{margin:12px 0;color:#39324e;font-size:14.5px;line-height:1.62}
     footer{padding:26px 0 50px;color:var(--muted);font-size:13px;border-top:1px solid var(--line);line-height:1.7}
     footer a{color:var(--muted)}
+    @media(max-width:699px){h1{font-size:38px}.tag{font-size:17px}.route:nth-child(even),.files li:nth-child(even){padding-left:0;border-left:0}}
   </style>
   <link rel="stylesheet" href="../brand/site-refresh.css">
 <link rel="stylesheet" href="../brand/footer.css">
@@ -135,14 +133,14 @@
     </header>
     <div class="hero">
       <p class="kicker">Research documentation kit</p>
-      <h1>Disclose AI use from a record, not from memory.</h1>
-      <p class="tag">A dated AI-use log, venue-policy worksheet, and manuscript, thesis, grant, and peer-review templates for responsible AI use. You document and decide; journal, funder, and institutional rules still win.</p>
+      <h1>Know what you used. Say what happened.</h1>
+      <p class="tag">Keep the tool, provider, model or version, access route, task, affected material, and human check in one record. When submission asks, write the disclosure from what actually happened.</p>
       <div class="buy">
         <a class="btn primary" href="https://buy.polar.sh/polar_cl_oXKh3WPbVykfljfrkwCsEJfQ9PjQBaY9piEoa28sc6j" rel="noopener">Get the kit · €29 →</a>
-        <a class="btn ghost" href="#situations">Start from your disclosure problem ↓</a>
+        <a class="btn ghost" href="#record">See the workflow ↓</a>
         <div class="price"><span class="now">€29</span><span class="was">€49</span><span class="lbl">launch price</span></div>
       </div>
-      <p class="metaline">10 files · Word · Excel · PDF · Markdown · instant download · v1.0 · 14-day refund</p>
+      <p class="metaline">10 files · Word · Excel · PDF · Markdown · instant download · version 1.0 · 14-day refund</p>
     </div>
   </div>
 </div>
@@ -151,43 +149,39 @@
 <main>
 
   <section id="situations">
-    <h2>Start from the disclosure problem in front of you</h2>
+    <h2>Start with the work in front of you</h2>
     <div class="routes">
-      <a class="route" href="#record"><b>I used AI and need a statement I can stand behind</b><span>Start with the dated log, then draft from the manuscript, thesis, grant, or peer-review template.</span></a>
+      <a class="route" href="#record"><b>I used AI and now need the disclosure</b><span>Reconstruct what you can, then continue with a dated, version-aware log.</span></a>
       <a class="route policy" href="#files"><b>I need to check the venue's actual policy</b><span>Use the policy worksheet and directory before writing the final statement.</span></a>
-      <a class="route supervise" href="#files"><b>I supervise students or co-authors using AI</b><span>Use the approval form, shared log, and policy worksheet before assumptions harden.</span></a>
+      <a class="route supervise" href="#files"><b>I supervise students or coordinate co-authors</b><span>Agree the allowed uses, versions, checks, and disclosure record before submission.</span></a>
       <a class="route limit" href="#limits"><b>I need the limits stated clearly</b><span>See what the kit does not certify, replace, detect, or guarantee.</span></a>
     </div>
   </section>
 
   <section id="record">
-    <h2>You used AI. Now you need to disclose it properly.</h2>
-    <p class="lede">Most researchers now use AI somewhere in their workflow. The problem isn't the use — it's that
-      journal and funder rules are fragmented and keep changing, while disclosure norms stay unclear. Most people
-      improvise the disclosure statement at submission time, from memory. That improvisation is where careers get
-      embarrassed: a vague statement that reads like a confession, a co-author's undisclosed session, an AI-suggested
-      reference nobody checked.</p>
-    <p class="lede">This kit replaces improvisation with three habits.</p>
+    <h2>The empty disclosure box appears at the end</h2>
+    <p class="lede">The work happened over months: one model helped with language, another with code, a local transcription tool touched six interviews, and a co-author used something you did not see. Submission then asks for one precise statement.</p>
+    <p class="lede">The kit gives that messy history a small working structure.</p>
     <div class="habits">
-      <div class="habit"><p class="n">1</p><h3>Log as you go</h3><p>A dated AI-use log with category codes. Your disclosure statement writes itself from it.</p></div>
-      <div class="habit"><p class="n">2</p><h3>Check the policy once</h3><p>A directory of 12 major publisher and funder policies, checked against the publishers' own pages, plus a worksheet to record what your venue actually requires.</p></div>
-      <div class="habit"><p class="n">3</p><h3>Disclose from templates</h3><p>Fill-in statements for manuscripts, theses, grants and peer review — specific and honest, not vague.</p></div>
+      <div class="habit"><p class="n">01</p><h3>Keep the record</h3><p>Date, tool, provider, version, access route, task, scope, output used, and the check you performed.</p></div>
+      <div class="habit"><p class="n">02</p><h3>Read the venue rule</h3><p>Record the official policy URL and the date you checked it. Do not rely on a remembered publisher-wide rule.</p></div>
+      <div class="habit"><p class="n">03</p><h3>Write from evidence</h3><p>Choose the relevant entries and adapt the manuscript, thesis, grant, or peer-review wording.</p></div>
     </div>
   </section>
 
   <section id="files">
     <h2>What's inside — 10 files</h2>
     <ul class="files">
-      <li><b>Quick start guide <span class="fmt">PDF</span></b>The 15-minute setup, the Allowed / Risky / Forbidden defaults table, and the 30-second disclosure decision.</li>
-      <li><b>AI use log <span class="fmt">Word</span></b>A dated log with category codes — your disclosure statement writes itself from this.</li>
-      <li><b>Manuscript disclosure templates <span class="fmt">Word</span></b>Seven fill-in statements, from "no AI used" to combined multi-tool use, plus cover-letter and revision-letter wording.</li>
+      <li><b>Quick start guide <span class="fmt">PDF</span></b>Set up the record, classify planned uses, and decide which entries belong in the final disclosure.</li>
+      <li><b>AI use log <span class="fmt">Word</span></b>A dated record of provider, tool, model or version, access route, task, scope, use, and verification.</li>
+      <li><b>Manuscript disclosure templates <span class="fmt">Word</span></b>Seven adaptable statements, from no generative AI use to a combined multi-tool record, plus cover- and revision-letter wording.</li>
       <li><b>Thesis disclosure template <span class="fmt">Word</span></b>Declaration page and detailed appendix for master's and doctoral theses.</li>
       <li><b>Grant AI-use statements <span class="fmt">Word</span></b>Preparation disclosure, planned in-project use, and a data-protection add-on.</li>
       <li><b>Peer-review AI-safety checklist <span class="fmt">PDF</span></b>Confidentiality rules, a two-minute hidden prompt-injection screen, and reviewer disclosure wording.</li>
-      <li><b>Journal policy worksheet <span class="fmt">Excel</span></b>One dated place to record what each journal or funder requires, with an Allowed / Risky / Forbidden classification of your planned uses.</li>
+      <li><b>Journal policy worksheet <span class="fmt">Excel</span></b>One dated place for the official policy, required detail, planned tool and version, classification, and action.</li>
       <li><b>Publisher AI-policy directory <span class="fmt">PDF</span></b>Links to 12 major policies (ICMJE, COPE, Elsevier, Springer Nature, Wiley, Taylor &amp; Francis, Sage, PLOS, JAMA, Science, IEEE, arXiv), each fetched and read on the date shown, with two side-by-side matrices: what each policy accepts, and how detailed your disclosure must be.</li>
-      <li><b>Prompt record template <span class="fmt">Markdown</span></b>Per-session records for sensitive work. Notion- and Obsidian-friendly.</li>
-      <li><b>Supervisor approval form <span class="fmt">Word</span></b>A signed student–supervisor agreement on approved AI uses. Ends the "I assumed it was fine" problem.</li>
+      <li><b>Prompt record template <span class="fmt">Markdown</span></b>A higher-resolution session record with provider, model, software version, access route, inputs, outputs, and checks.</li>
+      <li><b>Supervisor approval form <span class="fmt">Word</span></b>A signed student-supervisor agreement on approved tools, versions, access routes, limits, and review points.</li>
     </ul>
     <p class="lede" style="margin-top:14px">The rules genuinely conflict — JAMA wants tool, version, manufacturer and
       dates; Taylor &amp; Francis requires acknowledging any use; Springer Nature exempts copy-editing. The directory
@@ -195,18 +189,16 @@
   </section>
 
   <section id="who">
-    <h2>Who it's for</h2>
-    <p class="lede">Researchers, PhD students, supervisors, and clinician-scientists who use AI for language editing,
-      literature work, coding, or drafting — and want a dated record and a specific, honest statement instead of a
-      vague one.</p>
+    <h2>Who it is for</h2>
+    <p class="lede">Researchers, doctoral students, supervisors, and clinician-scientists who use AI for language, literature work, coding, transcription, analysis support, or drafting and need a record another person can follow.</p>
   </section>
 
   <section id="limits">
     <h2>What it is not</h2>
     <div class="isnot">
       <ul>
-        <li>It does <b>not replace journal, funder, or institutional instructions</b>. It helps you document and decide; their rules always win.</li>
-        <li>It does <b>not detect AI writing</b> or make you compliant automatically.</li>
+        <li>It does <b>not replace journal, funder, or institutional instructions</b>. It helps you find and record the current rule.</li>
+        <li>It does <b>not detect AI writing</b>, audit whether every team member reported everything, or certify compliance.</li>
         <li>It is <b>not legal advice</b>.</li>
       </ul>
     </div>
@@ -234,16 +226,11 @@
     <div class="faq">
       <details>
         <summary>Does this guarantee my paper will be accepted, or that I'm compliant?</summary>
-        <p>No. The kit helps you keep a dated record and write a specific, honest disclosure — but journal, funder and
-          institutional rules always win, and they change. It documents and helps you decide; it does not certify that
-          your disclosure meets any given policy, and it is not legal advice.</p>
+        <p>No. The kit helps you keep a dated record, inspect the venue's current instructions, and draft a specific disclosure. It does not certify compliance, predict acceptance, or replace legal, editorial, or institutional advice.</p>
       </details>
       <details>
         <summary>Do I even need to disclose AI use?</summary>
-        <p>It depends on the venue and what you used AI for. Many policies exempt basic spelling and grammar tools but
-          require disclosure for drafting, images, data work, or literature searches — and they disagree on the
-          details. The policy directory and worksheet help you find your venue's actual rule and record it, rather
-          than guessing at submission time.</p>
+        <p>It depends on the venue, the tool, and the task. Use the directory to find the official page, then record the exact rule and date in the worksheet. The venue's current instructions decide what belongs in the submitted statement.</p>
       </details>
       <details>
         <summary>What formats are the files, and where do they open?</summary>
