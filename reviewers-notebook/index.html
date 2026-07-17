@@ -3,215 +3,153 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Reviewer's Notebook — review a paper fairly, sign it with your name · Vahtian</title>
-  <meta name="description" content="Find the real methodological problems, avoid the common review mistakes, and write a review you would sign with your name. Classify each point (flaw, reporting, disagreement, preference, mismatch, AI-generic), map it to a line, and set the non-demands aside. 4 files, local-first. A Vahtian product. €39 launch price.">
+  <title>Reviewer's Notebook | Write a fair, specific peer review | Vahtian</title>
+  <meta name="description" content="A local-first field guide and review-triage tool for writing a fair, specific peer review. Six files, including a worked example, quick start, and checklists. EUR 39.">
   <meta name="theme-color" content="#2D2440">
+  <link rel="canonical" href="https://vahtian.com/reviewers-notebook/">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
-  <link rel="canonical" href="https://vahtian.com/reviewers-notebook/">
-  <meta name="robots" content="index,follow">
   <meta property="og:type" content="product">
   <meta property="og:url" content="https://vahtian.com/reviewers-notebook/">
-  <meta property="og:title" content="Reviewer's Notebook — review a paper fairly, sign it with your name">
-  <meta property="og:description" content="Classify each review point (flaw, reporting, disagreement, preference, mismatch, AI-generic), map it to a line, and set the non-demands aside. 4 files, local-first.">
-  <meta property="og:image" content="https://vahtian.com/brand/cards/vahtian-card.png">
+  <meta property="og:title" content="Reviewer's Notebook | Vahtian">
+  <meta property="og:description" content="Tell a genuine flaw from a reporting gap, a disagreement, or your own preference. Then write the review the paper actually needs.">
+  <meta property="og:image" content="https://vahtian.com/reviewers-notebook/reviewers-notebook-cover.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="Reviewer's Notebook — a Vahtian product.">
+  <meta property="og:image:alt" content="Reviewer's Notebook with the local Review Triage tool and the handwritten note Ask, offer, drop">
   <meta property="og:site_name" content="Vahtian">
   <meta name="twitter:card" content="summary_large_image">
+  <link rel="preload" href="../brand/fonts/nudica-medium.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="../brand/fonts/nudica-bold.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="../brand/product-page.css">
+  <link rel="stylesheet" href="../brand/footer.css">
   <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Product",
-    "name": "Reviewer's Notebook",
-    "description": "A local-first kit for peer reviewers: classify each point in your review as a methodological flaw, a reporting deficiency, a legitimate disagreement, a reviewer preference, a discipline mismatch, or AI-generated generic criticism, then map it to a line and set the non-demands aside. Four files: the Reviewer's Notebook field guide (PDF), a Review Triage tool (offline HTML), field checklists (Markdown), and a worked example (PDF). It structures your judgement; it does not review the paper for you.",
-    "brand": { "@type": "Brand", "name": "Vahtian" },
-    "category": "Education / Peer review",
-    "url": "https://vahtian.com/reviewers-notebook/",
-    "offers": {
-      "@type": "Offer",
-      "price": "39",
-      "priceCurrency": "EUR",
-      "url": "https://vahtian.com/reviewers-notebook/",
-      "availability": "https://schema.org/InStock"
-    }
-  }
+  {"@context":"https://schema.org","@type":"Product","name":"Reviewer's Notebook","description":"A local-first field guide and review-triage tool for writing a fair, specific peer review. Six files: field guide, Review Triage HTML tool, quick start, worked example, Markdown checklists, and license.","brand":{"@type":"Brand","name":"Vahtian"},"category":"Peer review","url":"https://vahtian.com/reviewers-notebook/","image":"https://vahtian.com/reviewers-notebook/reviewers-notebook-cover.png","offers":{"@type":"Offer","price":"39","priceCurrency":"EUR","availability":"https://schema.org/InStock","url":"https://buy.polar.sh/polar_cl_jOqaaIbfdCleLfxEE7pnA9BZYp4q4dtjMTr0Q1QRdZ7"}}
   </script>
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232D2440'/%3E%3Cg fill='none' stroke='%238B6FC9' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 9 H9 V23 H12'/%3E%3Cpath d='M20 9 H23 V23 H20'/%3E%3C/g%3E%3Cpath d='M16 10.3 L19.6 12 L19.6 15 L16 19.6 L12.4 15 L12.4 12 Z' fill='none' stroke='%23C5B8E8' stroke-width='1.8' stroke-linejoin='round'/%3E%3C/svg%3E">
-  <style>
-    :root{--navy:#2D2440;--navy2:#241d38;--violet:#8B6FC9;--lilac:#C5B8E8;--lime:#A2C05C;
-          --ink:#1c1830;--muted:#5b5570;--bg:#faf9fc;--card:#fff;--line:#e7e3f0;
-          --link:#6F52B8;--fill:#ECE3FF;--fill-text:#432C7A;--amber:#C98A00}
-    *{box-sizing:border-box}
-    body{margin:0;font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,ui-sans-serif,system-ui,sans-serif;
-         color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased}
-    a{color:var(--link)}
-    .wrap{max-width:860px;margin:0 auto;padding:0 22px}
-    a:focus-visible,button:focus-visible{outline:3px solid var(--violet);outline-offset:2px}
-    .top{background:var(--navy);color:#EDE9F6}
-    header{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:20px 0 6px}
-    .brand{font-weight:800;font-size:20px;letter-spacing:-.01em;color:#fff;text-decoration:none}
-    .up{font-size:13px;color:#b9aee0;text-decoration:none}
-    .hero{padding:28px 0 40px}
-    .kicker{font:600 12.5px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--lilac);text-transform:uppercase;letter-spacing:.12em;margin:0 0 16px}
-    h1{font-size:clamp(30px,6vw,46px);line-height:1.08;letter-spacing:-.02em;margin:0 0 14px;color:#fff}
-    .tag{font-size:clamp(16px,2.3vw,19px);color:#d5cbef;margin:0 0 22px;max-width:62ch}
-    .buy{display:flex;flex-wrap:wrap;gap:14px;align-items:center}
-    .btn{display:inline-block;padding:13px 22px;border-radius:10px;font-weight:700;text-decoration:none;font-size:16px}
-    .btn.primary{background:var(--fill);color:#2b1c53}
-    .price{display:flex;align-items:baseline;gap:9px}
-    .price .now{font-size:26px;font-weight:800;color:#fff;letter-spacing:-.01em}
-    .price .was{font-size:14px;color:#b9aee0;text-decoration:line-through}
-    .price .lbl{font-size:12.5px;color:var(--lime);font-weight:600}
-    .metaline{margin:16px 0 0;font-size:13px;color:#b9aee0}
-    main{padding:8px 0 0}
-    section{padding:34px 0;border-top:1px solid var(--line)}
-    section:first-child{border-top:0}
-    h2{font-size:22px;letter-spacing:-.01em;margin:0 0 8px}
-    .lede{color:#39324e;font-size:16px;max-width:66ch;margin:0 0 14px}
-    .lede b{color:var(--ink)}
-    ul.points{margin:6px 0 0;padding-left:0;list-style:none;display:grid;gap:9px}
-    ul.points li{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 15px;font-size:14.5px;color:#39324e}
-    ul.points b{color:var(--ink)}
-    ul.points .demand{border-left:3px solid var(--violet)}
-    .files{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-top:8px;list-style:none;padding:0}
-    @media(max-width:640px){.files{grid-template-columns:1fr!important}.buyblock{flex-direction:column;align-items:flex-start!important}.cols{grid-template-columns:1fr!important}}
-    .files li{background:var(--card);border:1px solid var(--line);border-radius:11px;padding:13px 15px;font-size:14px;color:#39324e}
-    .files b{color:var(--ink);display:block;margin-bottom:2px}
-    .files .fmt{font:600 10.5px/1 ui-monospace,monospace;color:var(--fill-text);background:var(--fill);border:1px solid #d9caf5;border-radius:5px;padding:3px 6px;margin-left:6px;white-space:nowrap;vertical-align:1px}
-    .isnot{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--amber);border-radius:11px;padding:15px 17px;margin-top:6px}
-    .isnot ul{margin:8px 0 0;padding-left:20px;color:#39324e;display:grid;gap:7px;font-size:14.5px}
-    .isnot b{color:var(--ink)}
-    .note{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--violet);border-radius:11px;padding:15px 17px;margin-top:6px;color:#39324e;font-size:14.5px}
-    .note b{color:var(--ink)}
-    .cols{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-    .cols .box{background:var(--card);border:1px solid var(--line);border-radius:11px;padding:15px 16px}
-    .cols h3{margin:0 0 6px;font-size:14px;color:var(--link);text-transform:uppercase;letter-spacing:.04em}
-    .cols p{margin:0;color:#39324e;font-size:14px}
-    .buyblock{background:var(--navy);color:#EDE9F6;border-radius:15px;padding:24px;display:flex;gap:20px;justify-content:space-between;align-items:center;flex-wrap:wrap;margin-top:6px}
-    .buyblock h2{color:#fff;margin:0 0 6px}
-    .buyblock p{margin:0;color:#c7bce9;font-size:14px;max-width:46ch}
-    footer{padding:26px 0 50px;color:var(--muted);font-size:13px;border-top:1px solid var(--line);line-height:1.7}
-    footer a{color:var(--muted)}
-  </style>
-  <link rel="stylesheet" href="../brand/site-refresh.css">
-<link rel="stylesheet" href="../brand/footer.css">
 </head>
-<body class="vh-content">
+<body>
 <div class="top">
   <div class="wrap">
-    <header>
-      <a class="brand" href="/reviewers-notebook/">Vahtian</a>
-      <a class="up" href="/">the Vahtian house →</a>
+    <header class="site-head">
+      <a class="brand" href="/">Vahtian</a>
+      <nav aria-label="Primary"><a href="/download/">Tools</a><a href="/learn/">Learn</a><a href="/about/">About</a><a href="mailto:hello@vahtian.com">Lab licences</a></nav>
     </header>
     <div class="hero">
-      <p class="kicker">Peer review · the reviewer's side</p>
-      <h1>Review fairly, and sign it with your name.</h1>
-      <p class="tag">Find the real methodological problems, avoid the common review mistakes, and write a review
-        you would put your name to.</p>
-      <div class="buy">
-        <a class="btn primary" href="https://buy.polar.sh/polar_cl_jOqaaIbfdCleLfxEE7pnA9BZYp4q4dtjMTr0Q1QRdZ7" rel="noopener">Get the Reviewer's Notebook · €39 →</a>
-        <div class="price"><span class="now">€39</span><span class="was">€59</span><span class="lbl">launch price</span></div>
+      <p class="script">Ask / offer / drop</p>
+      <h1>Reviewer's Notebook</h1>
+      <p class="hero-copy">Tell a real methodological problem from a reporting gap, a disagreement, or your own preference. Then write the review the paper actually needs.</p>
+      <div class="actions">
+        <a class="btn primary" href="https://buy.polar.sh/polar_cl_jOqaaIbfdCleLfxEE7pnA9BZYp4q4dtjMTr0Q1QRdZ7" rel="noopener">Get the Notebook - EUR 39</a>
+        <span class="meta">6 FILES / LOCAL-FIRST / V1.1</span>
       </div>
-      <p class="metaline">4 files · a local-first triage tool · PDF · Markdown · instant download · v1.0 · 14-day refund</p>
+      <figure class="hero-visual">
+        <img src="reviewers-notebook-preview.png" width="1200" height="780" alt="Review Triage showing manuscript details, a reproducibility gate, and a review point classified by severity">
+        <figcaption>THE FABRICATED EXAMPLE RUNS FROM PAPER TYPE TO REVIEW AND CONFIDENTIAL EDITOR NOTE</figcaption>
+      </figure>
     </div>
   </div>
 </div>
 
-<div class="wrap">
-<main>
-
-  <section>
-    <h2>The risk is not the flaw you miss. It is the problem you raise that is not one.</h2>
-    <p class="lede">There are many guides on how to review a manuscript, and almost none on how not to become a
-      poor reviewer. The Reviewer's Notebook is the second kind. You leave with a review that improves the paper,
-      ordered from fatal to editorial, every point mapped to a line, with preference and discipline-mismatch named
-      and set aside.</p>
-  </section>
-
-  <section>
-    <h2>What a review point can be</h2>
-    <p class="lede">The whole method rests on one distinction. Before a point goes in your review, decide which of
-      these it is. Only the first two are demands.</p>
-    <ul class="points">
-      <li class="demand"><b>A genuine methodological flaw.</b> The design or analysis cannot support the claim.</li>
-      <li class="demand"><b>A reporting deficiency.</b> The work may be sound, but you cannot tell from what is written.</li>
-      <li><b>A legitimate disagreement.</b> A defensible choice you would have made differently.</li>
-      <li><b>A reviewer preference.</b> Your taste in methods, framing, or citations.</li>
-      <li><b>A discipline mismatch.</b> The wrong standard for this kind of paper.</li>
-      <li><b>AI-generated generic criticism.</b> A checklist that never touches this paper.</li>
-    </ul>
-    <p class="lede" style="margin-top:14px">The Notebook shows you what to do with each of the last four, so they
-      do not end up as demands on an author who does not owe them.</p>
-  </section>
-
-  <section>
-    <h2>What's inside: 4 files</h2>
-    <ul class="files">
-      <li><b>Reviewer's Notebook <span class="fmt">PDF</span></b>The field guide: before you start, failures by
-        section, the reviewer traps, the decision tree, the language bank, the integrity self-check, and decision
-        checklists.</li>
-      <li><b>Review Triage <span class="fmt">HTML</span></b>Local-first tool. Classify each point, map it to a
-        line, check it against the traps and integrity questions, and export an ordered review and an editor
-        summary. Nothing you type leaves your computer.</li>
-      <li><b>Field checklists <span class="fmt">Markdown</span></b>Failures by section, the five decision buckets,
-        and the integrity questions, tickable in Notion or Obsidian.</li>
-      <li><b>Worked example <span class="fmt">PDF</span></b>One paper, a poor review and an improved review side
-        by side.</li>
-    </ul>
-  </section>
-
-  <section>
-    <h2>Confidentiality</h2>
-    <div class="note"><p style="margin:0">A manuscript under review is confidential. The Review Triage tool is
-      local-first and makes no network requests, so nothing about the paper you are reviewing is sent anywhere.
-      Do not paste manuscripts into cloud AI.</p></div>
-  </section>
-
-  <section>
-    <h2>What it is not</h2>
-    <div class="isnot">
-      <ul>
-        <li><b>Not a substitute for the journal's criteria or your expertise.</b></li>
-        <li><b>Not a way to review faster or harder.</b> A way to review fairly.</li>
-        <li><b>Not AI that reviews for you.</b> The judgement stays yours.</li>
-      </ul>
-    </div>
-  </section>
-
-  <section>
-    <h2>Pairs with: the author's side</h2>
-    <p class="lede">The Reviewer's Notebook is one half of peer review. The other is the
-      <a href="/reviewer-response-builder/">Reviewer Response Builder</a>, which helps an author answer a review
-      and show every comment was covered. Together they are <b>Peer Review, both sides</b>: the standard you hold
-      as a reviewer, and the coverage you show as an author.</p>
-  </section>
-
-  <section>
-    <div class="buyblock">
+<main class="wrap">
+  <section class="band">
+    <div class="deadline">
+      <div class="time">23:47<small>REVIEW DUE TOMORROW</small></div>
       <div>
-        <h2>Get the Reviewer's Notebook</h2>
-        <p>4 files, a local-first triage tool, all 1.x updates free. €39 launch price (regular €59). Instant
-          download after checkout.</p>
+        <h2>Comment eight may be a flaw. Or it may be your paper, not theirs.</h2>
+        <p class="lead">The hard part of peer review is not finding more things to criticise. It is deciding which findings matter, which can be fixed, and which should never become demands.</p>
+        <p>A fair review is specific enough for the authors to act on and clear enough for the editor to understand your recommendation.</p>
       </div>
-      <a class="btn primary" href="https://buy.polar.sh/polar_cl_jOqaaIbfdCleLfxEE7pnA9BZYp4q4dtjMTr0Q1QRdZ7" rel="noopener">Buy the Reviewer's Notebook · €39 →</a>
     </div>
   </section>
 
   <section>
-    <div class="cols">
-      <div class="box"><h3>Format &amp; updates</h3><p>The Review Triage is a single HTML file that opens in any
-        browser, online or offline. The field guide and worked example are PDF; the checklists are Markdown for
-        Notion or Obsidian. Version 1.0, all 1.x updates free.</p></div>
-      <div class="box"><h3>Guarantee</h3><p>If it does not change how you write at least one review, email within
-        14 days for a refund. Personal license; group / facilitation license on request.</p></div>
+    <p class="script">Start with what the paper claims</p>
+    <h2>One path from reading to recommendation</h2>
+    <div class="workflow">
+      <div class="stage"><span class="n">01</span><h3>Reconstruct the paper</h3><p>Name the paper type, central claim, study, analysis, and numbers before raising points.</p></div>
+      <div class="stage"><span class="n">02</span><h3>Locate the problem</h3><p>Map each criticism to a sentence, table, figure, or method choice.</p></div>
+      <div class="stage"><span class="n">03</span><h3>Classify it</h3><p>Separate a fatal flaw, major fix, minor issue, editorial suggestion, preference, and discipline mismatch.</p></div>
+      <div class="stage"><span class="n">04</span><h3>Test the demand</h3><p>Check whether you are asking for impossible new data, the wrong standard, or simply your preferred design.</p></div>
+      <div class="stage"><span class="n">05</span><h3>Write both notes</h3><p>Export the author-facing review and a separate confidential note for the editor.</p></div>
     </div>
   </section>
 
+  <section class="band">
+    <h2>A review point has somewhere to go</h2>
+    <p class="lead">The Notebook does not reward a longer list. It helps you decide what to ask for, what to offer as optional, and what to drop.</p>
+    <div class="decision-grid">
+      <div class="decision-list">
+        <div class="decision-row"><span>ASK</span><strong>A real flaw or missing report</strong><p>State what is wrong, where it is, and what would make the paper assessable or defensible.</p></div>
+        <div class="decision-row"><span>OFFER</span><strong>A useful editorial suggestion</strong><p>Mark it as optional. Do not make publication depend on your preferred wording or citation.</p></div>
+        <div class="decision-row"><span>DROP</span><strong>A preference dressed as a rule</strong><p>Keep it out of the review when it does not change whether the claim can stand.</p></div>
+      </div>
+      <div>
+        <p class="script">Would you sign it?</p>
+        <p class="lead">Every retained point passes seven integrity questions, including whether it maps to the paper and whether you would put your name beside it.</p>
+        <div class="rough-note"><strong>The tool structures your judgement.</strong>It does not read the manuscript, decide whether a claim is true, or make the recommendation for you.</div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Inside the download</h2>
+    <p class="lead">Six ordinary files. No account and no manuscript upload.</p>
+    <div class="files">
+      <div class="file"><code>reviewers-notebook.pdf</code><p>The 12-page field guide: reproducibility, paper-type standards, statistical consistency, claim-evidence audit, reviewer traps, triage, language, and final integrity check.</p></div>
+      <div class="file"><code>review-triage.html</code><p>The local browser tool. Classify points, check the traps, build the ordered review, and export the confidential editor note.</p></div>
+      <div class="file"><code>quickstart.pdf</code><p>The shortest route from opening the manuscript to a review you can submit.</p></div>
+      <div class="file"><code>worked-example.pdf</code><p>The same invented paper reviewed poorly and then reviewed fairly, so the difference is visible.</p></div>
+      <div class="file"><code>field-checklists.md</code><p>Tickable decision lists for Notion, Obsidian, or print.</p></div>
+      <div class="file"><code>LICENSE.txt</code><p>Personal use. Group, journal, teaching, and facilitation licences are available on request.</p></div>
+    </div>
+  </section>
+
+  <section class="band">
+    <h2>Private by design. Limited on purpose.</h2>
+    <div class="limits">
+      <div>
+        <h3>What stays on your computer</h3>
+        <div class="flat-list">
+          <div class="flat-item"><strong>The manuscript details you enter</strong><p>The HTML tool makes no network requests and stores its working state in your browser.</p></div>
+          <div class="flat-item"><strong>Your review points and recommendation</strong><p>Export plain text or Markdown when the review is ready.</p></div>
+        </div>
+      </div>
+      <div>
+        <h3>What stays yours</h3>
+        <div class="flat-list">
+          <div class="flat-item"><strong>The scientific judgement</strong><p>The journal's criteria and your expertise take precedence.</p></div>
+          <div class="flat-item"><strong>Reviewer confidentiality</strong><p>Do not upload a manuscript under review to cloud AI or another service unless the journal explicitly permits it.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="pair">
+      <div><p class="script">Peer review has two desks</p><h2>Writing the response instead?</h2><p class="lead">The Reviewer Response Builder is the author's side: every comment beside the answer, real change, and manuscript location.</p></div>
+      <a class="pair-link" href="/reviewer-response-builder/"><span>PAIRED PRODUCT</span>Open Reviewer Response Builder &rarr;</a>
+    </div>
+  </section>
+
+  <section class="buyband">
+    <div class="buyrow">
+      <div><h2>Get the Reviewer's Notebook</h2><p>Six files, instant download, personal licence, and every v1.x update. EUR 39 launch price; regular price EUR 59. A 14-day refund applies if it does not change how you write at least one review.</p></div>
+      <a class="btn" href="https://buy.polar.sh/polar_cl_jOqaaIbfdCleLfxEE7pnA9BZYp4q4dtjMTr0Q1QRdZ7" rel="noopener">Buy the Notebook - EUR 39</a>
+    </div>
+  </section>
+
+  <section>
+    <h2>Practical questions</h2>
+    <div class="faq">
+      <details><summary>Does the tool review the paper for me?</summary><p>No. It helps you reconstruct the paper, classify your own points, spot reviewer traps, and assemble your words. The judgement and recommendation remain yours.</p></details>
+      <details><summary>Will it work offline?</summary><p>Yes. The Review Triage tool is one HTML file that opens in a browser without an account or internet connection. The other files are PDF and Markdown.</p></details>
+      <details><summary>Is it only for medical research?</summary><p>No. The worked example is clinical, but the paper-type routing and decision method cover quantitative, qualitative, diagnostic, prediction, and evidence-synthesis work.</p></details>
+    </div>
+  </section>
 </main>
 
-  <footer class="vh-footer">
+<div class="wrap">
+<footer class="vh-footer">
   <div class="vh-footer-shell">
     <div class="vh-footer-main">
       <div>

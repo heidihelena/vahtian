@@ -3,315 +3,158 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Reviewer Response Builder — answer every reviewer, show you missed nothing · Vahtian</title>
-  <meta name="description" content="A local-first response-to-reviewers system: map every comment to a stance, a response, a real change, and where it lives in the manuscript, with a live coverage readout that flags a disagreement with no reason and a claim with no change. 7 files. A Vahtian product. €39 launch price.">
+  <title>Reviewer Response Builder | Answer every comment | Vahtian</title>
+  <meta name="description" content="A local-first revise-and-resubmit kit that keeps every reviewer comment beside your answer, real change, and manuscript location. Seven files. EUR 39.">
   <meta name="theme-color" content="#2D2440">
+  <link rel="canonical" href="https://vahtian.com/reviewer-response-builder/">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
-  <link rel="canonical" href="https://vahtian.com/reviewer-response-builder/">
-  <meta name="robots" content="index,follow">
   <meta property="og:type" content="product">
   <meta property="og:url" content="https://vahtian.com/reviewer-response-builder/">
-  <meta property="og:title" content="Reviewer Response Builder — answer every reviewer, show you missed nothing">
-  <meta property="og:description" content="Map every reviewer comment to a stance, a response, a real change, and a findable location, with a live coverage readout. 7 files, local-first.">
-  <meta property="og:image" content="https://vahtian.com/brand/cards/vahtian-card.png">
+  <meta property="og:title" content="Reviewer Response Builder | Vahtian">
+  <meta property="og:description" content="Every reviewer comment beside the answer, real change, and manuscript location. Open rows stay visible until they are actually done.">
+  <meta property="og:image" content="https://vahtian.com/reviewer-response-builder/reviewer-response-builder-cover.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="Reviewer Response Builder — a Vahtian product.">
+  <meta property="og:image:alt" content="Reviewer Response Builder showing live coverage and a completed response row">
   <meta property="og:site_name" content="Vahtian">
   <meta name="twitter:card" content="summary_large_image">
+  <link rel="preload" href="../brand/fonts/nudica-medium.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="../brand/fonts/nudica-bold.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="../brand/product-page.css">
+  <link rel="stylesheet" href="../brand/footer.css">
   <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Product",
-    "name": "Reviewer Response Builder",
-    "description": "A local-first response-to-reviewers system that maps every reviewer comment to a stance, a response, a real change, and where it lives in the manuscript, with a live coverage readout that flags a disagreement with no reason and a claim with no change. Seven files: a quick start, a Response Letter Builder (offline HTML), a Word workbook, an Excel tracker, a phrasebank, a worked example, and a license. It assembles your words and checks coverage; it does not check that a claimed change is really in the manuscript, and it does not guarantee acceptance.",
-    "brand": { "@type": "Brand", "name": "Vahtian" },
-    "category": "Education / Writing",
-    "url": "https://vahtian.com/reviewer-response-builder/",
-    "offers": {
-      "@type": "Offer",
-      "price": "39",
-      "priceCurrency": "EUR",
-      "url": "https://vahtian.com/reviewer-response-builder/",
-      "availability": "https://schema.org/InStock"
-    }
-  }
+  {"@context":"https://schema.org","@type":"Product","name":"Reviewer Response Builder","description":"A local-first revise-and-resubmit kit that maps every reviewer comment to a stance, response, real change, and manuscript location. Seven files: HTML builder, Word workbook, Excel tracker, quick start, worked example, phrasebank, and license.","brand":{"@type":"Brand","name":"Vahtian"},"category":"Academic writing","url":"https://vahtian.com/reviewer-response-builder/","image":"https://vahtian.com/reviewer-response-builder/reviewer-response-builder-cover.png","offers":{"@type":"Offer","price":"39","priceCurrency":"EUR","availability":"https://schema.org/InStock","url":"https://buy.polar.sh/polar_cl_yzQ2tZUDYKVdL7YBkLY3ZeL2jbW0o4NQXlUTP1xHs02"}}
   </script>
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232D2440'/%3E%3Cg fill='none' stroke='%238B6FC9' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 9 H9 V23 H12'/%3E%3Cpath d='M20 9 H23 V23 H20'/%3E%3C/g%3E%3Cpath d='M16 10.3 L19.6 12 L19.6 15 L16 19.6 L12.4 15 L12.4 12 Z' fill='none' stroke='%23C5B8E8' stroke-width='1.8' stroke-linejoin='round'/%3E%3C/svg%3E">
-  <style>
-    :root{--navy:#2D2440;--navy2:#241d38;--violet:#8B6FC9;--lilac:#C5B8E8;--lime:#A2C05C;
-          --ink:#1c1830;--muted:#5b5570;--bg:#faf9fc;--card:#fff;--line:#e7e3f0;
-          --link:#6F52B8;--fill:#ECE3FF;--fill-text:#432C7A;--amber:#C98A00}
-    *{box-sizing:border-box}
-    body{margin:0;font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,ui-sans-serif,system-ui,sans-serif;
-         color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased}
-    a{color:var(--link)}
-    .wrap{max-width:860px;margin:0 auto;padding:0 22px}
-    a:focus-visible,button:focus-visible{outline:3px solid var(--violet);outline-offset:2px}
-    .top{background:var(--navy);color:#EDE9F6}
-    header{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:20px 0 6px}
-    .brand{font-weight:800;font-size:20px;letter-spacing:-.01em;color:#fff;text-decoration:none}
-    .up{font-size:13px;color:#b9aee0;text-decoration:none}
-    .hero{padding:28px 0 40px}
-    .kicker{font:600 12.5px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--lilac);text-transform:uppercase;letter-spacing:.12em;margin:0 0 16px}
-    h1{font-size:clamp(30px,6vw,46px);line-height:1.08;letter-spacing:-.02em;margin:0 0 14px;color:#fff}
-    .tag{font-size:clamp(16px,2.3vw,19px);color:#d5cbef;margin:0 0 22px;max-width:62ch}
-    .buy{display:flex;flex-wrap:wrap;gap:14px;align-items:center}
-    .btn{display:inline-block;padding:13px 22px;border-radius:10px;font-weight:700;text-decoration:none;font-size:16px}
-    .btn.primary{background:var(--fill);color:#2b1c53}
-    .btn.ghost{border:1px solid rgba(197,184,232,.42);color:#EDE9F6;background:transparent}
-    .price{display:flex;align-items:baseline;gap:9px}
-    .price .now{font-size:26px;font-weight:800;color:#fff;letter-spacing:-.01em}
-    .price .was{font-size:14px;color:#b9aee0;text-decoration:line-through}
-    .price .lbl{font-size:12.5px;color:var(--lime);font-weight:600}
-    .metaline{margin:16px 0 0;font-size:13px;color:#b9aee0}
-    main{padding:8px 0 0}
-    section{padding:34px 0;border-top:1px solid var(--line)}
-    section:first-child{border-top:0}
-    h2{font-size:22px;letter-spacing:-.01em;margin:0 0 8px}
-    .lede{color:#39324e;font-size:16px;max-width:66ch;margin:0 0 14px}
-    .lede b{color:var(--ink)}
-    .routes{display:grid;gap:12px;margin:14px 0 2px}
-    @media(min-width:700px){.routes{grid-template-columns:1fr 1fr}}
-    .route{display:block;background:#f4f1fa;border:1px solid var(--line);border-left:4px solid var(--violet);
-      border-radius:11px;padding:15px 16px;text-decoration:none;color:var(--ink)}
-    .route:hover{border-color:var(--violet);box-shadow:0 3px 13px rgba(45,36,64,.08)}
-    .route b{display:block;font-size:15.5px}
-    .route span{display:block;color:var(--muted);font-size:13.5px;margin-top:3px}
-    .route.cover{border-left-color:#5566B5}
-    .route.pack{border-left-color:#1E9E8A}
-    .route.hard{border-left-color:var(--amber)}
-    .habits{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-top:6px}
-    @media(max-width:640px){.habits{grid-template-columns:1fr}.files{grid-template-columns:1fr!important}.buyblock{flex-direction:column;align-items:flex-start!important}.cols{grid-template-columns:1fr!important}}
-    .habit{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:15px 16px}
-    .habit .n{font:700 12px/1 ui-monospace,monospace;color:var(--link);text-transform:uppercase;letter-spacing:.05em}
-    .habit h3{margin:6px 0 5px;font-size:15px}
-    .habit p{margin:0;color:var(--muted);font-size:14px}
-    ol.steps{margin:6px 0 0;padding-left:22px;display:grid;gap:9px}
-    ol.steps b{color:var(--ink)}
-    .files{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-top:8px;list-style:none;padding:0}
-    .files li{background:var(--card);border:1px solid var(--line);border-radius:11px;padding:13px 15px;font-size:14px;color:#39324e}
-    .files b{color:var(--ink);display:block;margin-bottom:2px}
-    .files .fmt{font:600 10.5px/1 ui-monospace,monospace;color:var(--fill-text);background:var(--fill);border:1px solid #d9caf5;border-radius:5px;padding:3px 6px;margin-left:6px;white-space:nowrap;vertical-align:1px}
-    ul.plain{margin:6px 0 0;padding-left:20px;color:#39324e;display:grid;gap:8px}
-    ul.plain b{color:var(--ink)}
-    .isnot{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--amber);border-radius:11px;padding:15px 17px;margin-top:6px}
-    .isnot ul{margin:8px 0 0;padding-left:20px;color:#39324e;display:grid;gap:7px;font-size:14.5px}
-    .isnot b{color:var(--ink)}
-    .cols{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-    .cols .box{background:var(--card);border:1px solid var(--line);border-radius:11px;padding:15px 16px}
-    .cols h3{margin:0 0 6px;font-size:14px;color:var(--link);text-transform:uppercase;letter-spacing:.04em}
-    .cols p{margin:0;color:#39324e;font-size:14px}
-    .buyblock{background:var(--navy);color:#EDE9F6;border-radius:15px;padding:24px;display:flex;gap:20px;justify-content:space-between;align-items:center;flex-wrap:wrap;margin-top:6px}
-    .buyblock h2{color:#fff;margin:0 0 6px}
-    .buyblock p{margin:0;color:#c7bce9;font-size:14px;max-width:46ch}
-    .faq{margin-top:6px}
-    .faq details{border:1px solid var(--line);border-radius:10px;background:var(--card);margin:0 0 9px;padding:0 15px}
-    .faq summary{cursor:pointer;font-weight:600;font-size:15px;padding:13px 0;color:var(--link);list-style:none}
-    .faq summary::-webkit-details-marker{display:none}
-    .faq summary::after{content:"+";float:right;color:var(--muted);font-weight:400;font-size:18px;line-height:1}
-    .faq details[open] summary::after{content:"–"}
-    .faq details[open] summary{border-bottom:1px solid var(--line)}
-    .faq details p{margin:12px 0;color:#39324e;font-size:14.5px;line-height:1.62}
-    footer{padding:26px 0 50px;color:var(--muted);font-size:13px;border-top:1px solid var(--line);line-height:1.7}
-    footer a{color:var(--muted)}
-  </style>
-  <link rel="stylesheet" href="../brand/site-refresh.css">
-<link rel="stylesheet" href="../brand/footer.css">
 </head>
-<body class="vh-content">
+<body>
 <div class="top">
   <div class="wrap">
-    <header>
-      <a class="brand" href="/reviewer-response-builder/">Vahtian</a>
-      <a class="up" href="/">the Vahtian house →</a>
+    <header class="site-head">
+      <a class="brand" href="/">Vahtian</a>
+      <nav aria-label="Primary"><a href="/download/">Tools</a><a href="/learn/">Learn</a><a href="/about/">About</a><a href="mailto:hello@vahtian.com">Lab licences</a></nav>
     </header>
     <div class="hero">
-      <p class="kicker">Peer review · revise and resubmit</p>
-      <h1>Answer every reviewer, and show you missed nothing.</h1>
-      <p class="tag">A local-first response-to-reviewers system that shows every comment was answered, every
-        change is traceable, and every disagreement has a reason.</p>
-      <div class="buy">
-        <a class="btn primary" href="https://buy.polar.sh/polar_cl_yzQ2tZUDYKVdL7YBkLY3ZeL2jbW0o4NQXlUTP1xHs02" rel="noopener">Get the Reviewer Response Builder · €39 →</a>
-        <a class="btn ghost" href="#situations">Start from your review problem ↓</a>
-        <div class="price"><span class="now">€39</span><span class="was">€59</span><span class="lbl">launch price</span></div>
+      <p class="script">One comment / one answer / one real change</p>
+      <h1>Reviewer Response Builder</h1>
+      <p class="hero-copy">Keep every reviewer comment beside your answer, the change you actually made, and the place the editor can find it.</p>
+      <div class="actions">
+        <a class="btn primary" href="https://buy.polar.sh/polar_cl_yzQ2tZUDYKVdL7YBkLY3ZeL2jbW0o4NQXlUTP1xHs02" rel="noopener">Get the Builder - EUR 39</a>
+        <span class="meta">7 FILES / LOCAL-FIRST / V1.2</span>
       </div>
-      <p class="metaline">7 files · a local-first HTML builder · Word · Excel · Markdown · PDF · instant download · v1.0 · 14-day refund</p>
+      <figure class="hero-visual">
+        <img src="reviewer-response-builder-preview.png" width="1200" height="780" alt="Reviewer Response Builder showing four of five comments complete, one open guardrail, and a located response row">
+        <figcaption>THE FABRICATED EXAMPLE LEAVES ONE ROW OPEN SO THE GUARDRAIL IS VISIBLE</figcaption>
+      </figure>
     </div>
   </div>
 </div>
 
-<div class="wrap">
-<main>
-
-  <section id="situations">
-    <h2>Start from the review problem in front of you</h2>
-    <div class="routes">
-      <a class="route" href="#problem"><b>The reviews are in and the comments are everywhere</b><span>Start by splitting every comment into a row so nothing disappears.</span></a>
-      <a class="route cover" href="#coverage"><b>I need to prove every point is covered</b><span>Use stance, response, change, and location as the four-part record.</span></a>
-      <a class="route hard" href="#steps"><b>I have contradictory or hostile reviewer comments</b><span>Choose a defensible stance before writing the response language.</span></a>
-      <a class="route pack" href="#files"><b>I need the response letter files now</b><span>See the offline builder, Word workbook, Excel tracker, phrasebank, and example.</span></a>
-    </div>
-  </section>
-
-  <section id="problem">
-    <h2>The reviews are in. Now you have to answer all of them.</h2>
-    <p class="lede">A revise-and-resubmit is not won by writing more. It is won by covering everything: every
-      reviewer comment mapped to a stance you can defend, a response, a real change, and a place in the
-      manuscript where that change can be found. Miss one buried sub-point, and it is the one the reviewer
-      notices.</p>
-    <p class="lede">The Reviewer Response Builder gives you the finished object: a point-to-point
-      response-to-reviewers letter where every comment is addressed and every change is traceable, and the quiet
-      confidence that you missed nothing.</p>
-  </section>
-
-  <section id="steps">
-    <h2>How it works, in five steps</h2>
-    <ol class="steps">
-      <li><b>Log every comment.</b> Split the reviews into single comments, one per row. Nothing merged, nothing
-        skipped.</li>
-      <li><b>Decide your stance.</b> Accept, Partly, Disagree, or Clarify. Three-way honesty carries more weight
-        with an editor than a wall of agreement.</li>
-      <li><b>Write the three parts.</b> Your response, the exact change you made, and where it lives in the
-        manuscript.</li>
-      <li><b>Check coverage.</b> A live readout: how many comments addressed, how many still open, and a flag on
-        the two failure modes, a disagreement with no reason and a claim with no change.</li>
-      <li><b>Assemble the letter.</b> Export the response letter and a one-minute editor summary. Read it once as
-        the editor will, then submit.</li>
-    </ol>
-  </section>
-
-  <section id="coverage">
-    <h2>The part that makes it defensible: coverage you can show</h2>
-    <p class="lede">Most response letters are written from memory and hope. This one produces an auditable object.
-      Every comment maps to a stance, a response, a real change, and a findable location. The tracker rolls it up
-      ("11 of 13 comments addressed, 2 open") and refuses to let a disagreement pass with no reason attached,
-      because a disagreement with no justification is the failure mode that sinks a revision.</p>
-    <div class="habits">
-      <div class="habit"><p class="n">Disagree</p><h3>With evidence</h3><p>State the reason, grounded in the
-        literature or your data. A bare "we disagree" is what a reviewer digs into.</p></div>
-      <div class="habit"><p class="n">Concede</p><h3>Without gutting the paper</h3><p>Give ground where it is
-        right, and keep the claim your study can actually support.</p></div>
-      <div class="habit"><p class="n">Answer</p><h3>Without escalating</h3><p>Respond to a hostile comment
-        plainly. It never tells you to fake a change, invent a citation, or over-concede to appease.</p></div>
-    </div>
-  </section>
-
-  <section id="files">
-    <h2>What's inside: 7 files</h2>
-    <ul class="files">
-      <li><b>Quick start <span class="fmt">PDF</span></b>The output first, a submittable response letter, then the
-        five-step workflow, the four-stance guide, and the hard cases: contradictory reviewers, a hostile comment,
-        a limit you cannot meet.</li>
-      <li><b>Response Letter Builder <span class="fmt">HTML</span></b>Log comments, tag stances, see coverage
-        update live, and export a formatted response letter. Offline, private, local-first.</li>
-      <li><b>Reviewer response workbook <span class="fmt">Word</span></b>The fill-in path: the master
-        comment-stance-response-change-location table, the stance guide, a tracked-changes checklist, an editor
-        cover-summary template, and a before-you-submit checklist.</li>
-      <li><b>Response Tracker <span class="fmt">Excel</span></b>The coverage engine. One row per comment; the
-        first sheet rolls up how many are addressed and flags a disagreement with no reason or a row marked done
-        that is still empty. Opens with a worked example.</li>
-      <li><b>Phrasebank <span class="fmt">Markdown</span></b>Portable phrasings: polite-but-firm disagreement,
-        graceful concession, contradictory reviewers, editor openers, and an AI-assist section with guardrails.</li>
-      <li><b>Worked example <span class="fmt">PDF</span></b>One realistic R&amp;R taken end to end: raw comments,
-        including a contradictory pair and a borderline-hostile remark, to a filled table, an assembled letter,
-        and the editor summary.</li>
-      <li><b>License</b>Personal license; group / facilitation license on request.</li>
-    </ul>
-  </section>
-
-  <section>
-    <h2>Who it's for</h2>
-    <p class="lede">Authors facing an R&amp;R, whether it is major or minor revisions. PhD students answering
-      their first review. Clinician-researchers with more comments than time. Anyone who has to respond to
-      reviewers and wants to be able to show they missed nothing.</p>
-  </section>
-
-  <section>
-    <h2>Pairs with: the reviewer's side</h2>
-    <p class="lede">This is the author's half of peer review. The other is the
-      <a href="/reviewers-notebook/">Reviewer's Notebook</a>, which helps a reviewer tell a real methodological
-      demand from a preference and write a review they would sign. Together they are <b>Peer Review, both
-      sides</b>: the coverage you show as an author, and the standard you hold as a reviewer.</p>
-  </section>
-
-  <section>
-    <h2>What it is not</h2>
-    <div class="isnot">
-      <ul>
-        <li><b>Not a guarantee of acceptance.</b> It records what you did and whether every comment is covered;
-          it cannot make a reviewer agree.</li>
-        <li><b>Not a substitute for the journal's instructions or your own judgement.</b> Their rules and your
-          reading of the science always win.</li>
-        <li><b>Not editorial or legal advice, and not a tool that writes your science.</b> The builder assembles
-          your words and checks coverage; it does not check that a claimed change is really in the manuscript.
-          That check is yours.</li>
-      </ul>
-    </div>
-  </section>
-
-  <section>
-    <div class="cols">
-      <div class="box"><h3>Format &amp; updates</h3><p>The builder is a single HTML file that opens in any
-        browser, online or offline. The workbook is Word, the tracker Excel, the phrasebank Markdown, the rest
-        PDF. Standard formats: Word, LibreOffice, Google Docs and Sheets, Notion, Obsidian. Version 1.0, all 1.x
-        updates free.</p></div>
-      <div class="box"><h3>Guarantee</h3><p>If it does not give you a clearer, more complete response letter, and
-        the confidence that you addressed every comment, email within 14 days for a refund. Personal license;
-        facilitation license on request.</p></div>
-    </div>
-  </section>
-
-  <section>
-    <div class="buyblock">
+<main class="wrap">
+  <section class="band">
+    <div class="deadline">
+      <div class="time">23:53<small>RESUBMISSION CLOSES TOMORROW</small></div>
       <div>
-        <h2>Get the Reviewer Response Builder</h2>
-        <p>7 files, a local-first builder, all 1.x updates free. €39 launch price (regular €59). Instant download
-          after checkout.</p>
+        <h2>Reviewer 2 hid three requests inside one paragraph.</h2>
+        <p class="lead">A response letter can sound polished and still miss the point that was buried after “however”. The Builder separates the comments before you start drafting.</p>
+        <p>You can see what is answered, what changed, where it changed, and what is still open before the portal gets the final file.</p>
       </div>
-      <a class="btn primary" href="https://buy.polar.sh/polar_cl_yzQ2tZUDYKVdL7YBkLY3ZeL2jbW0o4NQXlUTP1xHs02" rel="noopener">Buy the Reviewer Response Builder · €39 →</a>
     </div>
   </section>
 
   <section>
-    <h2>Questions</h2>
-    <div class="faq">
-      <details>
-        <summary>How is this different from just writing the letter in Word?</summary>
-        <p>The letter is the easy part. Coverage is the hard part: showing that every comment, including the
-          buried ones, has a stance, a response, a real change, and a findable location. The tracker and the
-          builder make that visible and flag the two ways revisions fail.</p>
-      </details>
-      <details>
-        <summary>Does it write my responses for me?</summary>
-        <p>No. It structures your work and gives you phrasings to start from. The phrasebank's AI-assist section
-          can help you draft, but it forces you to supply the real change and never lets a model invent a
-          citation or a change you did not make.</p>
-      </details>
-      <details>
-        <summary>Will it work with my tools?</summary>
-        <p>Standard .docx, .xlsx, .pdf, and .md, for Word, LibreOffice, Google Docs and Sheets, Notion, and
-          Obsidian. The Response Letter Builder is a single HTML file that opens in any browser, online or
-          offline.</p>
-      </details>
-      <details>
-        <summary>I don't like Excel. Is it still usable?</summary>
-        <p>Yes. The Word workbook does everything the tracker does by hand, and the HTML builder is the
-          no-spreadsheet path with a live coverage readout.</p>
-      </details>
-      <details>
-        <summary>Is it tied to medicine?</summary>
-        <p>No. The method is field-neutral. The worked example is clinical because that is where the
-          contradictory-reviewer and honest-disagreement problems bite hardest, but the workbook, tracker, and
-          phrasebank are general.</p>
-      </details>
+    <p class="script">Coverage before confidence</p>
+    <h2>One path from decision letter to response letter</h2>
+    <div class="workflow">
+      <div class="stage"><span class="n">01</span><h3>Split the reviews</h3><p>Paste the decision text and confirm one reviewer request per row.</p></div>
+      <div class="stage"><span class="n">02</span><h3>Choose a stance</h3><p>Accept, partly accept, disagree, or clarify. The stance is visible before the prose starts.</p></div>
+      <div class="stage"><span class="n">03</span><h3>Record the answer and change</h3><p>Write what you say back, what you changed, and the page and running lines.</p></div>
+      <div class="stage"><span class="n">04</span><h3>Clear the guardrails</h3><p>Missing reasons, locations, changes, confirmations, and AI-use disclosures remain visible.</p></div>
+      <div class="stage"><span class="n">05</span><h3>Assemble both outputs</h3><p>Export the point-by-point letter and a shorter editor summary from the same rows.</p></div>
     </div>
   </section>
 
+  <section class="band">
+    <h2>Done means more than “I wrote something”</h2>
+    <p class="lead">A row counts as complete only when the response is there and the required change, location, and confirmation are present. A disagreement needs a reason.</p>
+    <div class="decision-grid">
+      <div class="decision-list">
+        <div class="decision-row"><span>ACCEPT</span><strong>Name the real change</strong><p>“Revised accordingly” is not enough. Say what changed and where.</p></div>
+        <div class="decision-row"><span>PARTLY</span><strong>Give ground without emptying the paper</strong><p>Accept the concern, narrow the claim, and record the part you retained.</p></div>
+        <div class="decision-row"><span>DISAGREE</span><strong>Put the reason beside the refusal</strong><p>Use the evidence, design constraint, or preregistered choice that supports your stance.</p></div>
+        <div class="decision-row"><span>CLARIFY</span><strong>Answer, then fix the source of confusion</strong><p>A question from a reviewer often points to a sentence the next reader will also miss.</p></div>
+      </div>
+      <div>
+        <p class="script">Open stays open</p>
+        <p class="lead">The fabricated example is intentionally at 80%. The fifth row is visible, unanswered, and not quietly counted as complete.</p>
+        <div class="rough-note"><strong>The builder checks the record, not the manuscript.</strong>You confirm that every claimed change is really in the revised file. The tool cannot inspect that for you.</div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Inside the download</h2>
+    <p class="lead">Use the browser tool, Word, Excel, or paper. They all follow the same comment-to-location record.</p>
+    <div class="files">
+      <div class="file"><code>response-letter-builder.html</code><p>The local browser tool: split reviews, track coverage, clear guardrails, and export the full letter and editor summary.</p></div>
+      <div class="file"><code>reviewer-response-workbook.docx</code><p>A compact four-page Word path for teams that prefer a document.</p></div>
+      <div class="file"><code>response-tracker.xlsx</code><p>The coverage tracker with worked rows, status formulas, and guardrails.</p></div>
+      <div class="file"><code>quickstart.pdf</code><p>The five-step workflow, four stances, and hard cases in three pages.</p></div>
+      <div class="file"><code>worked-example.pdf</code><p>An invented revise-and-resubmit from raw reviewer comments to the editor note.</p></div>
+      <div class="file"><code>phrasebank.md</code><p>Starting language for agreement, partial agreement, disagreement, contradictions, and hostile comments, plus AI-use guardrails.</p></div>
+      <div class="file"><code>LICENSE.txt</code><p>Personal use. Group, writing-centre, teaching, and facilitation licences are available on request.</p></div>
+    </div>
+  </section>
+
+  <section class="band">
+    <h2>Local files. Human confirmation.</h2>
+    <div class="limits">
+      <div>
+        <h3>What the kit can check</h3>
+        <div class="flat-list">
+          <div class="flat-item"><strong>Coverage</strong><p>Every logged comment has a visible status and stance.</p></div>
+          <div class="flat-item"><strong>Missing parts</strong><p>The builder flags absent reasons, changes, locations, confirmations, and required disclosure.</p></div>
+          <div class="flat-item"><strong>Letter assembly</strong><p>The response and editor summary are built from the same working rows.</p></div>
+        </div>
+      </div>
+      <div>
+        <h3>What remains yours</h3>
+        <div class="flat-list">
+          <div class="flat-item"><strong>The scientific response</strong><p>The kit does not decide whether the reviewer is right or whether your reason is adequate.</p></div>
+          <div class="flat-item"><strong>The real manuscript change</strong><p>You verify the revised file, citations, numbers, and running lines.</p></div>
+          <div class="flat-item"><strong>The submission decision</strong><p>It cannot promise acceptance or replace the journal's instructions.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="pair">
+      <div><p class="script">Peer review has two desks</p><h2>Writing the review instead?</h2><p class="lead">The Reviewer's Notebook is the reviewer's side: distinguish real flaws from reporting gaps, disagreements, and preferences before they become demands.</p></div>
+      <a class="pair-link" href="/reviewers-notebook/"><span>PAIRED PRODUCT</span>Open Reviewer's Notebook &rarr;</a>
+    </div>
+  </section>
+
+  <section class="buyband">
+    <div class="buyrow">
+      <div><h2>Get the Reviewer Response Builder</h2><p>Seven files, instant download, personal licence, and every v1.x update. EUR 39 launch price; regular price EUR 59. A 14-day refund applies if it does not give you a clearer, more complete response letter.</p></div>
+      <a class="btn" href="https://buy.polar.sh/polar_cl_yzQ2tZUDYKVdL7YBkLY3ZeL2jbW0o4NQXlUTP1xHs02" rel="noopener">Buy the Builder - EUR 39</a>
+    </div>
+  </section>
+
+  <section>
+    <h2>Practical questions</h2>
+    <div class="faq">
+      <details><summary>Does it write my responses for me?</summary><p>No. It structures your comments and gives you editable starting phrases. You provide the scientific answer, real change, evidence, and location.</p></details>
+      <details><summary>Do I have to use Excel?</summary><p>No. The local HTML builder is the fastest path, and the Word workbook provides a document-based path. Excel is included for people who want the coverage table.</p></details>
+      <details><summary>Will it work offline?</summary><p>Yes. The builder is one local HTML file and makes no network requests. Word, Excel, PDF, and Markdown files remain ordinary files on your computer.</p></details>
+      <details><summary>Is it tied to medicine?</summary><p>No. The worked example is clinical and entirely invented. The stance, coverage, and location workflow is field-neutral.</p></details>
+    </div>
+  </section>
 </main>
 
-  <footer class="vh-footer">
+<div class="wrap">
+<footer class="vh-footer">
   <div class="vh-footer-shell">
     <div class="vh-footer-main">
       <div>

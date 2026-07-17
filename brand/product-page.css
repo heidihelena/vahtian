@@ -1,0 +1,102 @@
+:root{
+  --navy:#2d2440;
+  --violet:#6f52b8;
+  --violet-2:#8b6fc9;
+  --lilac:#c5b8e8;
+  --ink:#1c1830;
+  --muted:#5b5570;
+  --bg:#fbfafd;
+  --paper:#f0ebfa;
+  --line:#ddd6eb;
+  --white:#fff;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:500 16px/1.62 "Nudica",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;letter-spacing:0;-webkit-font-smoothing:antialiased}
+a{color:#5f479d;text-underline-offset:3px}
+:focus-visible{outline:3px solid var(--lilac);outline-offset:3px}
+.wrap{width:min(1040px,100%);margin:0 auto;padding:0 24px}
+.top{background:var(--navy);color:#eeeaf7}
+.site-head{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:21px 0}
+.site-head .brand{font:600 28px/1 "Marksy","Marker Felt","Segoe Print",cursive;color:#fff;text-decoration:none}
+.site-head nav{display:flex;gap:18px;align-items:center;font-size:14px}
+.site-head nav a{color:var(--lilac);text-decoration:none}
+.hero{padding:42px 0 0;text-align:center}
+.script{font:500 28px/1.15 "Marksy","Marker Felt","Segoe Print",cursive;color:var(--violet);margin:0 0 16px}
+.hero .script{color:var(--lilac)}
+h1{font-size:clamp(42px,7.2vw,72px);line-height:1;margin:0;color:#fff;letter-spacing:0}
+.hero-copy{font-size:19px;line-height:1.5;color:#ddd6eb;max-width:690px;margin:20px auto 0}
+.actions{display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap;margin-top:25px}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:46px;border-radius:4px;padding:11px 18px;font-weight:700;text-decoration:none}
+.btn.primary{background:#fff;color:var(--navy)}
+.meta{font:700 11px/1.5 "Nudica Mono",ui-monospace,monospace;color:var(--lilac)}
+.hero-visual{margin:42px auto 0;max-width:940px;text-align:left}
+.hero-visual img{display:block;width:100%;height:auto;border:1px solid #625879;border-bottom:0;border-radius:3px 3px 0 0;background:#fff}
+.hero-visual figcaption{font:600 10px/1.5 "Nudica Mono",ui-monospace,monospace;color:#bfb6d7;padding:9px 0 18px}
+main{overflow:hidden}
+section{padding:58px 0;border-top:1px solid var(--line)}
+section:first-child{border-top:0}
+.band{background:var(--paper);box-shadow:0 0 0 100vmax var(--paper);clip-path:inset(0 -100vmax);border-top:0}
+h2{font-size:clamp(27px,3.8vw,38px);line-height:1.17;margin:0 0 16px;letter-spacing:0}
+h3{font-size:17px;line-height:1.35;margin:0 0 5px}
+p{margin:0 0 14px}
+.lead{font-size:18px;color:#3a3450;max-width:72ch}
+.deadline{display:grid;grid-template-columns:180px 1fr;gap:44px;align-items:start}
+.time{font:700 44px/1 "Nudica Mono",ui-monospace,monospace;color:var(--navy);border-top:7px solid var(--violet);padding-top:13px}
+.time small{display:block;font:600 11px/1.5 "Nudica Mono",ui-monospace,monospace;color:var(--violet);margin-top:9px}
+.workflow{margin-top:28px;border-top:4px solid var(--navy)}
+.stage{display:grid;grid-template-columns:74px minmax(180px,.34fr) 1fr;gap:22px;padding:18px 0;border-bottom:1px solid var(--line)}
+.stage .n{font:700 11px/1.5 "Nudica Mono",ui-monospace,monospace;color:var(--violet)}
+.stage p{font-size:14.5px;color:var(--muted);margin:0}
+.decision-grid{display:grid;grid-template-columns:1fr 1fr;gap:54px;margin-top:25px}
+.decision-list{border-top:4px solid var(--navy)}
+.decision-row{padding:18px 0;border-bottom:1px solid var(--line)}
+.decision-row span{font:700 10px/1.5 "Nudica Mono",ui-monospace,monospace;color:var(--violet)}
+.decision-row strong{display:block;font-size:17px;margin:4px 0}
+.decision-row p{font-size:14.5px;color:var(--muted);margin:0}
+.rough-note{border-left:7px solid var(--violet);padding:3px 0 3px 19px;margin-top:24px;max-width:72ch}
+.rough-note strong{display:block;font-size:18px;margin-bottom:4px}
+.files{margin-top:26px;border-top:4px solid var(--navy)}
+.file{display:grid;grid-template-columns:minmax(210px,.36fr) 1fr;gap:28px;padding:18px 0;border-bottom:1px solid var(--line)}
+.file code{font:700 12px/1.5 "Nudica Mono",ui-monospace,monospace;color:#5f479d;overflow-wrap:anywhere}
+.file p{font-size:14.5px;color:var(--muted);margin:0}
+.limits{display:grid;grid-template-columns:1fr 1fr;gap:54px;margin-top:24px}
+.flat-list{border-top:4px solid var(--navy)}
+.flat-item{padding:17px 0;border-bottom:1px solid var(--line)}
+.flat-item p{font-size:14.5px;color:var(--muted);margin:3px 0 0}
+.pair{display:grid;grid-template-columns:1fr minmax(260px,.52fr);gap:50px;align-items:start}
+.pair-link{border-top:4px solid var(--violet);border-bottom:1px solid var(--line);padding:17px 0;font-size:17px;font-weight:700;text-decoration:none}
+.pair-link span{display:block;font:700 10px/1.5 "Nudica Mono",ui-monospace,monospace;color:var(--violet);margin-bottom:4px}
+.buyband{background:var(--navy);color:#eeeaf7;box-shadow:0 0 0 100vmax var(--navy);clip-path:inset(0 -100vmax);border:0}
+.buyrow{display:flex;align-items:center;justify-content:space-between;gap:34px}
+.buyrow h2{color:#fff;margin-bottom:8px}
+.buyrow p{color:#d9d3ea;max-width:62ch;margin:0}
+.buyrow .btn{flex:0 0 auto;background:#fff;color:var(--navy)}
+.faq details{border-top:1px solid var(--line);padding:0}
+.faq details:last-child{border-bottom:1px solid var(--line)}
+.faq summary{cursor:pointer;font-weight:700;padding:16px 0;list-style:none}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";float:right;color:var(--violet)}
+.faq details[open] summary::after{content:"-"}
+.faq details p{max-width:75ch;color:var(--muted);padding:0 0 17px;margin:0}
+@media(max-width:760px){
+  .site-head nav a:not(:last-child){display:none}
+  .hero{padding-top:28px}
+  .hero-copy{font-size:17px}
+  .hero-visual{margin-top:32px}
+  section{padding:45px 0}
+  .deadline,.decision-grid,.limits,.pair{grid-template-columns:1fr;gap:28px}
+  .time{font-size:36px}
+  .stage{grid-template-columns:52px 1fr;gap:7px 14px}
+  .stage p{grid-column:2}
+  .file{grid-template-columns:1fr;gap:5px}
+  .buyrow{align-items:flex-start;flex-direction:column}
+}
+@media(max-width:430px){
+  .wrap{padding:0 18px}
+  .site-head .brand{font-size:24px}
+  h1{font-size:42px}
+  .script{font-size:24px}
+  .actions{align-items:stretch;flex-direction:column}
+  .btn{width:100%;text-align:center}
+}
