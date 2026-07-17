@@ -3,163 +3,261 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>StudyVahti Vault — a defensible observational study, in one local vault | Vahtian</title>
-  <meta name="description" content="Run and document an observational study on your own machine: research question, variable dictionary, analysis plan, decisions, sensitivity analyses, outputs, and manuscript claims in one Obsidian vault — with 15 checks that flag drift between your question, data, analysis, and claims. Computed analysis, local AI assistant, audit trail, demo study. One payment, €49 launch.">
+  <title>StudyVahti Vault - observational research on your own computer | Vahtian</title>
+  <meta name="description" content="A local Obsidian workspace for observational studies: research question, variable dictionary, estimand, analysis plan, decisions, sensitivity analyses, outputs, claims, STROBE reporting, and a 16-check audit trail. EUR 49.">
   <meta name="theme-color" content="#2D2440">
   <link rel="canonical" href="https://vahtian.com/studyvahti-vault/">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
   <meta property="og:type" content="product">
   <meta property="og:url" content="https://vahtian.com/studyvahti-vault/">
-  <meta property="og:title" content="StudyVahti Vault — an observational study you can defend">
-  <meta property="og:description" content="One local vault, question to claim, checked end to end. Obsidian + Python/R, computed analysis, local AI under human review. €49 launch.">
-  <meta property="og:image" content="https://vahtian.com/brand/cards/vahtian-card.png">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
+  <meta property="og:title" content="StudyVahti Vault | Vahtian">
+  <meta property="og:description" content="Keep the question, analysis decisions, outputs, and manuscript claims in one local record.">
+  <meta property="og:image" content="https://vahtian.com/studyvahti-vault/studyvahti-vault-preview.png">
+  <meta property="og:image:width" content="1400">
+  <meta property="og:image:height" content="900">
   <meta property="og:site_name" content="Vahtian">
   <meta name="twitter:card" content="summary_large_image">
+  <link rel="preload" href="../brand/fonts/nudica-medium.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="../brand/fonts/nudica-bold.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="../brand/site-refresh.css">
+  <link rel="stylesheet" href="../brand/footer.css">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "Product",
     "name": "StudyVahti Vault",
-    "description": "Local-first observational-study workspace: Obsidian vault + Python/R scripts, computed analysis from your own notes, 15 deterministic defensibility checks, local AI assistant under human review, tamper-evident audit trail, provenance graph, complete demo study.",
+    "description": "A local-first Obsidian workspace for observational research: question, variable dictionary, estimand, analysis plan, decisions, deviations, sensitivity analyses, outputs, claims, reporting, and a 16-check audit trail.",
+    "brand": {"@type": "Brand", "name": "Vahtian"},
+    "category": "Observational research software",
     "url": "https://vahtian.com/studyvahti-vault/",
-    "image": "https://vahtian.com/brand/cards/vahtian-card.png",
-    "brand": { "@type": "Brand", "name": "Vahtian" },
+    "image": "https://vahtian.com/studyvahti-vault/studyvahti-vault-preview.png",
     "offers": {
       "@type": "Offer",
       "price": "49",
       "priceCurrency": "EUR",
       "availability": "https://schema.org/InStock",
-      "url": "https://vahtian.com/studyvahti-vault/"
+      "url": "https://buy.polar.sh/polar_cl_rvjkmCL6MdCSVjbXGAJ3uwqATY7kwwgUlJ7SA4XJEfR"
     }
   }
   </script>
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232D2440'/%3E%3Cg fill='none' stroke='%238B6FC9' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 9 H9 V23 H12'/%3E%3Cpath d='M20 9 H23 V23 H20'/%3E%3C/g%3E%3Cpath d='M16 10.3 L19.6 12 L19.6 15 L16 19.6 L12.4 15 L12.4 12 Z' fill='none' stroke='%23C5B8E8' stroke-width='1.8' stroke-linejoin='round'/%3E%3C/svg%3E">
   <style>
-    :root{
-      --navy:#2D2440; --violet:#8B6FC9; --lilac:#C5B8E8;
-      --ink:#1c1830; --muted:#5b5570; --bg:#faf9fc; --card:#fff; --line:#e7e3f0;
-      --link:#6F52B8;
-    }
+    :root{--navy:#2d2440;--violet:#6f52b8;--violet2:#8b6fc9;--lilac:#c5b8e8;
+      --ink:#1c1830;--muted:#5b5570;--bg:#faf9fc;--paper:#f2effa;--line:#ddd6eb;--white:#fff;--link:#5f479d}
     *{box-sizing:border-box}
-    body{margin:0;font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,ui-sans-serif,system-ui,sans-serif;
-         color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased}
-    a{color:var(--link)}
-    .wrap{max-width:760px;margin:0 auto;padding:0 22px}
-    header{padding:26px 0 4px}
-    .crumbs{font-size:14px;color:var(--muted)}
-    .crumbs a{color:var(--muted);text-decoration:none}
-    .kicker{font:600 13px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--violet);
-            text-transform:uppercase;letter-spacing:.08em;margin:34px 0 14px}
-    h1{font-size:clamp(28px,5.4vw,42px);line-height:1.1;letter-spacing:-.02em;margin:0 0 16px}
-    .lede{font-size:clamp(17px,2.5vw,20px);color:#3a3450;margin:0 0 18px;max-width:60ch}
-    h2{font-size:21px;margin:42px 0 12px;letter-spacing:-.01em}
-    p{margin:0 0 14px}
-    ul{margin:0 0 14px;padding-left:24px}
-    li{margin:0 0 8px}
-    table{border-collapse:collapse;width:100%;margin:0 0 16px;font-size:15px}
-    th,td{border:1px solid var(--line);padding:8px 12px;text-align:left;vertical-align:top}
-    th{background:#f0edf7}
-    .btn{display:inline-block;padding:13px 22px;border-radius:9px;font-weight:650;
-         text-decoration:none;font-size:16px;background:var(--navy);color:#fff}
-    .btn.small{font-size:15px;padding:11px 18px}
-    .price{color:var(--muted);font-size:14.5px;margin:10px 0 0}
-    .ladder{display:flex;flex-wrap:wrap;gap:12px;margin:8px 0 6px}
-    .rung{flex:1 1 200px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px}
-    .rung h3{margin:0 0 6px;font-size:16px}
-    .rung.mid{border-color:var(--violet);border-width:1.5px}
-    .rung .tag{font:600 11px/1 ui-monospace,SFMono-Regular,Menlo,monospace;text-transform:uppercase;
-               letter-spacing:.07em;color:var(--violet)}
-    .rule{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--violet);
-          border-radius:10px;padding:14px 18px;margin:0 0 16px}
-    .honest{color:#3a3450}
-    .cta{background:var(--card);border:1px solid var(--line);border-radius:14px;
-         padding:24px;margin:40px 0 0;text-align:center}
-    .cta p{max-width:56ch;margin:0 auto 14px}
-    details{background:var(--card);border:1px solid var(--line);border-radius:10px;
-            padding:12px 18px;margin:0 0 12px}
-    summary{cursor:pointer;font-weight:600;color:var(--link)}
-    details[open] summary{margin-bottom:8px}
-    footer{margin:56px 0 40px;padding-top:22px;border-top:1px solid var(--line);
-           color:var(--muted);font-size:14px}
-    footer a{color:var(--muted)}
+    body{margin:0;font:500 16px/1.6 "Nudica",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      color:var(--ink);background:var(--bg);letter-spacing:0;-webkit-font-smoothing:antialiased}
+    a{color:var(--link);text-underline-offset:3px}
+    :focus-visible{outline:3px solid #fff;outline-offset:2px;box-shadow:0 0 0 5px var(--navy);border-radius:3px}
+    .wrap{max-width:1040px;margin:0 auto;padding:0 24px}
+    .top{background:var(--navy);color:#eeeaf7}
+    header{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:22px 0}
+    header .brand{font-family:"Marksy","Marker Felt","Segoe Print",cursive;font-size:28px;font-weight:600;color:#fff;text-decoration:none}
+    header nav{display:flex;gap:18px;align-items:center;font-size:14px}
+    header nav a{color:var(--lilac);text-decoration:none}
+    .hero{display:grid;grid-template-columns:minmax(0,.8fr) minmax(450px,1.2fr);gap:48px;align-items:center;padding:45px 0 66px}
+    .kicker{font-family:"Marksy","Marker Felt","Segoe Print",cursive!important;font-size:23px!important;
+      font-weight:500!important;line-height:1.15!important;color:var(--lilac)!important;text-transform:none!important;
+      letter-spacing:0!important;margin:0 0 16px}
+    h1{font-size:clamp(38px,5.8vw,62px);line-height:1.02;margin:0 0 17px;color:#fff;letter-spacing:0}
+    .hero-copy{font-size:19px;line-height:1.5;color:#ddd6eb;max-width:53ch;margin:0}
+    .actions{display:flex;align-items:center;gap:15px;flex-wrap:wrap;margin-top:26px}
+    .btn{display:inline-flex;align-items:center;justify-content:center;border-radius:4px;padding:12px 18px;font-weight:700;text-decoration:none}
+    .btn.primary{background:#fff;color:var(--navy)}
+    .meta{font:600 11px/1.5 "Nudica Mono",ui-monospace,monospace;color:var(--lilac)}
+    .hero-visual{margin:0;align-self:end}
+    .hero-visual img{display:block;width:100%;height:auto;background:#fff;border:1px solid #665a83;border-radius:3px}
+    .hero-visual figcaption{font:500 10px/1.5 "Nudica Mono",ui-monospace,monospace;color:#bfb6d7;margin-top:8px}
+    main{padding-bottom:20px}
+    section{padding:56px 0;border-top:1px solid var(--line)}section:first-child{border-top:0}
+    .band{background:var(--paper);box-shadow:0 0 0 100vmax var(--paper);clip-path:inset(0 -100vmax);border-top:0}
+    h2{font-size:clamp(25px,3.3vw,35px);line-height:1.18;margin:0 0 16px;letter-spacing:0}
+    h3{font-size:17px;line-height:1.35;margin:0 0 5px}p{margin:0 0 14px}.lead{font-size:18px;color:#3a3450;max-width:69ch}
+    .script{font-family:"Marksy","Marker Felt","Segoe Print",cursive;font-size:29px;line-height:1.15;color:var(--link);margin:0 0 18px}
+    .workflow{margin-top:27px;border-top:3px solid var(--navy)}
+    .stage{display:grid;grid-template-columns:86px minmax(190px,.36fr) 1fr;gap:22px;padding:17px 0;border-bottom:1px solid var(--line)}
+    .stage .n{font:700 11px/1.5 "Nudica Mono",ui-monospace,monospace;color:var(--violet)}
+    .stage p{font-size:14.5px;color:var(--muted);margin:0}
+    .check-layout{display:grid;grid-template-columns:minmax(0,.9fr) minmax(360px,1.1fr);gap:55px;align-items:start}
+    .status-line{border-left:5px solid var(--violet);padding:4px 0 4px 18px;margin:22px 0;font-size:18px;color:#342d45}
+    .checks{border-top:3px solid var(--navy)}
+    .check{display:grid;grid-template-columns:105px 1fr;gap:14px;padding:14px 0;border-bottom:1px solid var(--line)}
+    .check .status{font:700 11px/1.5 "Nudica Mono",ui-monospace,monospace;color:var(--violet)}
+    .check p{font-size:14px;margin:0}.check small{display:block;color:var(--muted);margin-top:3px}
+    .boundary-note{border-left:5px solid var(--navy);background:var(--paper);padding:14px 17px;margin-top:22px}.boundary-note strong{display:block;margin-bottom:3px}
+    .decision{display:grid;grid-template-columns:minmax(0,1fr) minmax(310px,.8fr);gap:55px;align-items:start}
+    .decision-note{border-top:3px solid var(--navy)}
+    .decision-row{padding:16px 0;border-bottom:1px solid var(--line)}.decision-row span{font:700 10px "Nudica Mono",ui-monospace,monospace;color:var(--violet)}
+    .decision-row strong{display:block;margin:4px 0}.decision-row p{font-size:14px;color:var(--muted);margin:0}
+    .split{display:grid;grid-template-columns:1fr 1fr;gap:50px;margin-top:24px}
+    .flat-list{border-top:3px solid var(--navy)}.flat-item{padding:17px 0;border-bottom:1px solid var(--line)}.flat-item p{font-size:14.5px;color:var(--muted);margin:0}
+    .files{margin-top:25px}.file{display:grid;grid-template-columns:minmax(200px,.34fr) 1fr;gap:26px;padding:18px 0;border-top:1px solid var(--line)}
+    .file code{font:700 12px/1.5 "Nudica Mono",ui-monospace,monospace;color:var(--link)}.file p{font-size:14.5px;color:var(--muted);margin:0}
+    .demo-line{border-left:6px solid var(--violet);padding:3px 0 3px 20px;margin-top:25px;max-width:72ch}.demo-line strong{display:block;font-size:18px;margin-bottom:5px}
+    .requirements{display:grid;grid-template-columns:.9fr 1.1fr;gap:50px;margin-top:24px}.requirements table{width:100%;border-collapse:collapse;border-top:3px solid var(--navy)}
+    .requirements th,.requirements td{text-align:left;padding:10px 8px;border-bottom:1px solid var(--line);font-size:14px}.requirements th{font-weight:700;color:var(--navy)}
+    .buyband{background:var(--navy);color:#eeeaf7;box-shadow:0 0 0 100vmax var(--navy);clip-path:inset(0 -100vmax);border:0}
+    .buyrow{display:flex;align-items:center;justify-content:space-between;gap:30px}.buyrow h2{color:#fff;margin-bottom:8px}.buyrow p{color:#d9d3ea;margin:0;max-width:58ch}.buyrow .btn{flex:0 0 auto;background:#fff;color:var(--navy)}
+    details{border-top:1px solid var(--line);border-radius:0!important;padding:0}details:last-child{border-bottom:1px solid var(--line)}
+    summary{cursor:pointer;font-weight:700;padding:16px 0;list-style:none}summary::-webkit-details-marker{display:none}summary::after{content:"+";float:right;color:var(--link)}details[open] summary::after{content:"-"}
+    details p{max-width:72ch;color:var(--muted);padding:0 0 16px;margin:0}
+    @media(max-width:820px){header nav a:not(:last-child){display:none}.hero{grid-template-columns:1fr;gap:30px;padding:34px 0 50px}.hero-visual{max-width:700px}.stage{grid-template-columns:58px 1fr;gap:8px 16px}.stage p{grid-column:2}.check-layout,.decision,.split,.requirements{grid-template-columns:1fr;gap:30px}.file{grid-template-columns:1fr;gap:5px}.buyrow{align-items:flex-start;flex-direction:column}}
   </style>
-  <link rel="stylesheet" href="../brand/site-refresh.css">
-<link rel="stylesheet" href="../brand/footer.css">
 </head>
 <body class="vh-content">
+<div class="top">
+  <div class="wrap">
+    <header>
+      <a class="brand" href="/">Vahtian</a>
+      <nav aria-label="Primary"><a href="/download/">Tools</a><a href="/learn/">Learn</a><a href="/about/">About</a><a href="mailto:hello@vahtian.com">Lab licences</a></nav>
+    </header>
+    <div class="hero">
+      <div>
+        <p class="kicker">Question to claim, nothing quietly skipped</p>
+        <h1>StudyVahti Vault</h1>
+        <p class="hero-copy">A local Obsidian workspace for observational studies. Keep the question, variables, estimand, plan, decisions, outputs, claims, and audit trail on your own computer.</p>
+        <div class="actions">
+          <a class="btn primary" href="https://buy.polar.sh/polar_cl_rvjkmCL6MdCSVjbXGAJ3uwqATY7kwwgUlJ7SA4XJEfR" rel="noopener">Get StudyVahti Vault - EUR 49</a>
+          <span class="meta">ONE PAYMENT / LOCAL FILES</span>
+        </div>
+      </div>
+      <figure class="hero-visual">
+        <img src="studyvahti-vault-preview.png" width="1400" height="900" alt="StudyVahti Vault showing a dark study tree, Start Here note, 16-check report, a human-edited exclusion decision, and a claim linked to its current output">
+        <figcaption>THE FABRICATED DEMO SHOWS THE TRAIL FROM QUESTION TO CLAIM</figcaption>
+      </figure>
+    </div>
+  </div>
+</div>
+
+<main class="wrap">
+  <section class="band">
+    <p class="script">Follow one estimate all the way through</p>
+    <p class="lead">The vault is organized around the study, not around AI. Each number in the draft should still have a route back through the output, decision, plan, variable, and question that produced it.</p>
+    <div class="workflow">
+      <div class="stage"><span class="n">01-02</span><h3>Define the question and variables</h3><p>Pin the population, exposure, outcome, time horizon, roles, definitions, and allowed values.</p></div>
+      <div class="stage"><span class="n">03-04</span><h3>Point to the data and name the estimand</h3><p>Keep row-level data outside the vault. Record its fingerprint, then declare the quantity, model, and adjustment set.</p></div>
+      <div class="stage"><span class="n">05-07</span><h3>Record choices and challenge them</h3><p>Log decisions and deviations, then test the interpretation under plausible alternative assumptions.</p></div>
+      <div class="stage"><span class="n">08-09</span><h3>Link outputs to claims</h3><p>Build tables and figures from the declared analysis. Keep manuscript wording linked to current outputs.</p></div>
+      <div class="stage"><span class="n">10-11</span><h3>Read the trail</h3><p>Run 16 deterministic checks, inspect every flag, and export the reporting and provenance record.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="check-layout">
+      <div>
+        <h2>A useful check can say “not checkable”</h2>
+        <p class="lead">StudyVahti does not turn missing documentation into a green tick. Each check returns <strong>ok</strong>, <strong>flag</strong>, or <strong>not checkable</strong>.</p>
+        <p class="status-line">A flag points to a concrete mismatch. Not checkable means the notes needed to judge it do not exist yet. Neither status decides whether the science is good.</p>
+        <p>The fabricated demo reaches 16 ok after the question, dictionary, estimand, plan, decisions, data fingerprint, outputs, and claims have been reconciled.</p>
+      </div>
+      <div class="checks" aria-label="Example StudyVahti checks">
+        <div class="check"><span class="status">OK</span><p><strong>Question alignment</strong><small>Exposure and outcome match the dictionary roles.</small></p></div>
+        <div class="check"><span class="status">OK</span><p><strong>Estimand first</strong><small>An estimand is on record for the locked plan.</small></p></div>
+        <div class="check"><span class="status">OK</span><p><strong>DAG adjustment</strong><small>Confounders are included; no mediator or collider is adjusted for.</small></p></div>
+        <div class="check"><span class="status">OK</span><p><strong>Claim to result</strong><small>Every claim points to a current output with a matching number.</small></p></div>
+        <div class="boundary-note"><strong>No score for “valid”</strong>The checks assess consistency and traceability. They do not certify causal identification, statistical adequacy, or scientific truth.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="decision">
+      <div>
+        <h2>The decision remains human</h2>
+        <p class="lead">The demo does not hide model involvement. It records what was suggested, what changed, and who made the consequential choice.</p>
+        <p>The local assistant proposed dropping every record with any missing field. The researcher rejected that broad rule, excluded 19 records with unknown stage for a stated reason, and handled pack-years through a planned imputation analysis.</p>
+      </div>
+      <div class="decision-note">
+        <div class="decision-row"><span>SOURCE / AI SUGGESTED</span><strong>Drop all incomplete records</strong><p>Too broad for the declared estimand and missing-data plan.</p></div>
+        <div class="decision-row"><span>DISPOSITION / EDITED</span><strong>Exclude unknown stage only</strong><p>Stage was a prespecified confounder and could not be credibly imputed from available fields.</p></div>
+        <div class="decision-row"><span>ALTERNATIVE / RETAINED</span><strong>Impute pack-years</strong><p>The deviation and sensitivity analysis remain linked to the final claim.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>What the scripts can do. What stays yours.</h2>
+    <div class="split">
+      <div>
+        <h3>Scripts and models can</h3>
+        <div class="flat-list">
+          <div class="flat-item"><strong>Check the study record</strong><p>Compare question, dictionary, plan, decisions, outputs, and claims.</p></div>
+          <div class="flat-item"><strong>Fit declared common models</strong><p>Risk ratio, odds ratio, hazard ratio, or mean difference from your plan.</p></div>
+          <div class="flat-item"><strong>Draw study figures</strong><p>Participant flow, missingness maps, DAGs, tables, and sensitivity forests.</p></div>
+          <div class="flat-item"><strong>Draft from your notes</strong><p>Methods, results, STROBE gaps, and sensitivity-analysis suggestions for review.</p></div>
+        </div>
+      </div>
+      <div>
+        <h3>You remain responsible for</h3>
+        <div class="flat-list">
+          <div class="flat-item"><strong>The estimand and design</strong><p>The software cannot decide which scientific question matters or whether the design identifies it.</p></div>
+          <div class="flat-item"><strong>Variable and model choices</strong><p>Definitions, measurement validity, confounding assumptions, and statistical adequacy remain research judgments.</p></div>
+          <div class="flat-item"><strong>Consequential deviations</strong><p>You approve exclusions, transformations, imputation choices, and departures from the plan.</p></div>
+          <div class="flat-item"><strong>The claim</strong><p>You decide what the result means, how uncertainty is stated, and what belongs in the paper.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band">
+    <h2>Inside the vault</h2>
+    <p class="lead">You receive the working structure, scripts, and a complete fabricated study, not a blank set of templates.</p>
+    <div class="files">
+      <div class="file"><code>00_Start_Here/</code><p>A calmer first open, study dashboards, demo tour, script guides, glossary, and explicit limits.</p></div>
+      <div class="file"><code>01_Protocol/ - 07_Sensitivity_Analyses/</code><p>The path from research question and variable dictionary through estimand, plan, decisions, deviations, and sensitivity analyses.</p></div>
+      <div class="file"><code>08_Outputs/ - 11_Exports/</code><p>Output records, linked claims, STROBE coverage, methods and results scaffolds, check report, audit trail, and exports.</p></div>
+      <div class="file"><code>_templates/</code><p>Question, protocol, variable, data pointer, estimand, DAG, plan, decision, deviation, sensitivity, claim, reporting, and memo templates.</p></div>
+      <div class="file"><code>_scripts/</code><p>Readable Python and R scripts plus local-model prompts. The scripts are also licensed under Apache-2.0.</p></div>
+      <div class="file"><code>quickstart.pdf</code><p>A visual first-hour guide to the workflow, three-way checks, setup, and product boundaries.</p></div>
+    </div>
+    <div class="demo-line"><strong>A complete fabricated cohort ships inside.</strong>It moves from performance status and one-year mortality to a declared estimand, reconciled cohort, sensitivity analyses, linked manuscript claims, and a 16-check report. No real patient data is included.</div>
+  </section>
+
+  <section>
+    <h2>What you need</h2>
+    <div class="requirements">
+      <div>
+        <p class="lead">Mac, Windows, or Linux. Obsidian is enough for the study record. Python 3 and R run the checks, analysis, and figures. Ollama or Claude Code is optional.</p>
+        <p>After setup, the included workflow can run without an internet connection. No StudyVahti account is required.</p>
+      </div>
+      <table>
+        <tr><th>Level</th><th>Software</th></tr>
+        <tr><td>Document</td><td>Obsidian</td></tr>
+        <tr><td>Check and calculate</td><td>Python 3 and R</td></tr>
+        <tr><td>Local assistant</td><td>Ollama and a local model</td></tr>
+        <tr><td>Data location</td><td>Outside the vault; pointer and SHA-256 fingerprint only</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <section class="band">
+    <h2>Where StudyVahti stops</h2>
+    <div class="files">
+      <div class="file"><strong>It does not validate the design.</strong><p>Consistency is not causal identification, measurement validity, or freedom from bias.</p></div>
+      <div class="file"><strong>It does not replace a statistician.</strong><p>The included engine covers common models. Complex designs and consequential analyses still need appropriate expertise.</p></div>
+      <div class="file"><strong>Local does not mean risk-free.</strong><p>Your ethics approval, data-management plan, paths, backups, and operating-system sync settings still govern the work.</p></div>
+      <div class="file"><strong>It does not guarantee correctness or publication.</strong><p>The workspace makes the path inspectable. It does not make the scientific claim for you.</p></div>
+    </div>
+  </section>
+
+  <section class="buyband">
+    <div class="buyrow">
+      <div><h2>Keep the estimate close to the decisions that made it.</h2><p>One personal licence, the complete local vault, and all 1.x updates. Built by Heidi Andersén, MD, PhD.</p></div>
+      <a class="btn" href="https://buy.polar.sh/polar_cl_rvjkmCL6MdCSVjbXGAJ3uwqATY7kwwgUlJ7SA4XJEfR" rel="noopener">Get StudyVahti Vault - EUR 49</a>
+    </div>
+  </section>
+
+  <section>
+    <h2>Questions</h2>
+    <details><summary>Does research data enter the vault?</summary><p>No row-level data is needed in the vault. The Data Room records the dataset path, metadata, and SHA-256 fingerprint. You remain responsible for where that path points, operating-system services, backups, and access controls.</p></details>
+    <details><summary>Do I need to know R or Python?</summary><p>You can use the study record and templates in Obsidian without coding. Python and R are needed for the deterministic checks, included analysis engine, and figures. The setup guide uses copyable commands, but the vault does not replace statistical understanding.</p></details>
+    <details><summary>Is this a replacement for Stata, SAS, or my statistics team?</summary><p>No. It is the workspace that keeps the question, analysis decisions, outputs, and claims coherent and traceable. You can use its included common models or link outputs from another analysis environment.</p></details>
+    <details><summary>How is this different from QualiVahti Local?</summary><p><a href="/qualivahti-local/">QualiVahti Local</a> is for qualitative interview studies. StudyVahti Vault is for quantitative observational studies, where the unit of work is the variable, estimand, analytic decision, output, and claim.</p></details>
+    <details><summary>Can a lab or doctoral school use it?</summary><p>The EUR 49 licence is personal. Lab, teaching, and doctoral-school licences are available from <a href="mailto:hello@vahtian.com">hello@vahtian.com</a>.</p></details>
+  </section>
+</main>
+
 <div class="wrap">
-
-<header>
-  <nav class="crumbs"><a href="/">vahtian.com</a> · studyvahti vault</nav>
-</header>
-
-<p class="kicker">A Vahtian product</p>
-<h1>Keep the whole study, from question to claim, in one local record.</h1>
-<p class="lede">StudyVahti Vault brings the research question, data dictionary, analysis plan, decisions, code, outputs, and claims into one workspace. It checks when they drift apart, so you can reconstruct and defend the analysis later.</p>
-
-<a class="btn" href="https://buy.polar.sh/polar_cl_rvjkmCL6MdCSVjbXGAJ3uwqATY7kwwgUlJ7SA4XJEfR" rel="noopener">Get StudyVahti Vault · €49</a>
-<p class="price">Launch price · regular €99 · one payment, all 1.x updates included · 14-day refund if the demo study does not run end to end on your machine</p>
-
-<h2>The problem it solves</h2>
-<p>The final analysis looks coherent, but the path to it is not. Which code the model wrote, why an exclusion happened, whether Table 1 still comes from the current script — the answers live in a chat you can no longer find. Traditional reproducibility asks whether the analysis can be rerun. AI-assisted work has to answer a harder question: can it be <em>reconstructed and defended</em>? StudyVahti Vault is built for that second question.</p>
-
-<h2>What you walk away with</h2>
-<table>
-  <tr><td><strong>The coherence chain, checked</strong></td><td>research question, dictionary, plan, decisions, outputs, and claims — linked, with 15 checks that flag drift between them</td></tr>
-  <tr><td><strong>Analysis from your own notes</strong></td><td>the engine fits the model (risk ratio, odds ratio, hazard ratio, mean difference), every sensitivity analysis, Table 1, participant-flow and missingness maps — no numbers typed by hand</td></tr>
-  <tr><td><strong>A causal diagram that checks itself</strong></td><td>draw the DAG; the vault flags a mediator or collider that slipped into the adjustment set</td></tr>
-  <tr><td><strong>A provenance graph + audit trail</strong></td><td>the visual, tamper-evident record of how the study holds together, from data to claim</td></tr>
-  <tr><td><strong>A study assistant built in</strong></td><td>drafts methods, proposes sensitivity analyses, checks consistency — on your local model or in Claude Code; it suggests, you decide</td></tr>
-  <tr><td><strong>A complete demo study</strong></td><td>a fabricated cohort worked end to end, so you learn the whole workflow by watching before you start</td></tr>
-</table>
-
-<h2>How it stays honest</h2>
-<div class="rule"><p style="margin:0"><strong>Models suggest structure. You decide the analysis.</strong> The assistant drafts, proposes, and checks — but every output lands as a suggestion for your review, and it flags what it cannot trace rather than inventing it. It records support for a study's defensibility, never whether its conclusions are true.</p></div>
-<p class="honest">Estimands are named before models. Verdicts are three-way — ok / flag / not checkable, and robust / not robust / not resolvable at this n — because a threshold on a noisy estimate should not be forced into pass or fail. Copy stays with <em>associated with</em>, not <em>causes</em>, unless the design earns it — and causal wording is flagged for your review. Your data never enters the vault: the Data Room keeps a fingerprint, never the rows.</p>
-
-<h2>Where it sits — the ladder</h2>
-<div class="ladder">
-  <div class="rung"><span class="tag">Free</span><h3><a href="/studyvahti/">StudyVahti Planner</a></h3><p style="margin:0;font-size:14.5px">Turn a study idea into a protocol-ready plan: PICOTS, estimands, reporting standards, feasibility.</p></div>
-  <div class="rung mid"><span class="tag">This product</span><h3>StudyVahti Vault</h3><p style="margin:0;font-size:14.5px">Run and document the study: computed analysis, decisions, sensitivity analyses, and 15 checks.</p></div>
-  <div class="rung"><span class="tag">Free</span><h3><a href="/auditlite/">AuditLite</a></h3><p style="margin:0;font-size:14.5px">Check the finished trail: a tamper-evident chain of custody for the whole analysis.</p></div>
-</div>
-<p style="font-size:14.5px;color:var(--muted)">Plan with the free Planner, run and document here, check the trail with the free AuditLite. The Vault is the middle rung.</p>
-
-<h2>See it finished before you start</h2>
-<p>A complete, fabricated cohort study ships inside — worse performance status and one-year mortality — worked from the research question all the way to the manuscript claims. You can see the computed forest plot, the reconciled participant flow, the provenance graph, and every check passing. Ten minutes of reading and you know what each stage of your own study should look like.</p>
-
-<h2>Requirements</h2>
-<ul>
-  <li>Mac, Windows, or Linux · Obsidian (free) to open the vault · Python 3 and R for the analysis and figures</li>
-  <li>The assistant runs on a local model (Ollama) or in Claude Code — a local model is enough, no subscription. The audit trail uses the free <code>auditlite</code> package</li>
-  <li>No account, no subscription, no upload. Your data never enters the vault; the workflow runs with the internet switched off</li>
-</ul>
-
-<h2>Who builds this</h2>
-<p class="honest">StudyVahti Vault is built by <strong>Heidi Andersén, MD PhD</strong>, a thoracic-oncology clinician-scientist in Finland who runs observational studies herself. The workflow comes out of an active research practice, not a template shop. <a href="https://orcid.org/0000-0001-5923-5865" rel="noopener">ORCID</a> · <a href="/about/">About Vahtian</a></p>
-
-<h2>Common questions</h2>
-<details><summary>Does my data touch any server?</summary><p>No. Your rows never enter the vault at all — the Data Room records only where the data lives and its SHA-256 fingerprint. The only network address in the scripts is localhost, and the assistant runs on a model on your own machine.</p></details>
-<details><summary>Do I need to know statistics or coding?</summary><p>You need to know your study. The Vault structures the analysis and computes the common models (risk ratio, odds ratio, hazard ratio, mean difference) and the sensitivity analyses from your own notes. It does not choose your science, and it does not replace a statistician — it makes the analysis you run easier to check and defend.</p></details>
-<details><summary>Is this a replacement for my stats software?</summary><p>No. You still run your models in R, Stata, or SAS if you prefer. The Vault is the workspace that keeps the question, the decisions, the outputs, and the claims coherent and traceable — and it can compute and check the common models for you.</p></details>
-<details><summary>My journal requires the analysis code and a reporting checklist.</summary><p>Covered. The scripts are open source (Apache-2.0), and the vault builds STROBE coverage and methods and results drafts from your own notes, each sentence traceable to a note.</p></details>
-<details><summary>How is this different from QualiVahti Local?</summary><p><a href="/qualivahti-local/">QualiVahti Local</a> is the same local-first, human-first workspace idea for qualitative interview studies. StudyVahti Vault is for quantitative observational studies — the unit of work is the variable and the analytic decision, not the transcript and the code.</p></details>
-
-<h2>What it is not</h2>
-<ul>
-  <li>Not a statistics course and not a replacement for a statistician — it structures and checks the analysis you run.</li>
-  <li>Not an AI detector, and not a truth machine. It records what supports a study's defensibility, never whether its conclusions are correct.</li>
-  <li>Not a data store. Your rows never enter it, by design. Not a medical device, and not clinical advice.</li>
-  <li>Not a guarantee of acceptance. No tool can promise that; this one makes your study easier to defend.</li>
-</ul>
-
-<div class="cta">
-  <p><strong>Plan the study for free with <a href="/studyvahti/">StudyVahti Planner</a>.</strong> When you are running and writing it up — and want the analysis computed, the decisions logged, and the whole thing checked for drift — StudyVahti Vault is the workspace.</p>
-  <a class="btn" href="https://buy.polar.sh/polar_cl_rvjkmCL6MdCSVjbXGAJ3uwqATY7kwwgUlJ7SA4XJEfR" rel="noopener">Get StudyVahti Vault · €49</a>
-  <p class="price">Secure checkout by Polar (merchant of record, handles EU VAT). Instant download. Lab and doctoral-school licenses: hello@vahtian.com</p>
-</div>
-
 <footer class="vh-footer">
   <div class="vh-footer-shell">
     <div class="vh-footer-main">
@@ -186,7 +284,6 @@
     </div>
   </div>
 </footer>
-
 </div>
 </body>
 </html>
