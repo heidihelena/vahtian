@@ -61,3 +61,24 @@ Each product mark = the shared **bracket "gate"** + one glyph, navy tile, lilac 
 
 Marks live in [`brand/marks/`](marks/); the specimen is [`brand/vahti-family.png`](vahti-family.png).
 Pronunciation hint for new audiences: CiteVahti = “site-VAH-tee”.
+
+## Editorial illustration and icons
+
+Use the **rough field-note** drawing language for Learn, blog, product, and
+social illustration. Marksy supplies the written voice; the SVG geometry must
+carry the same human pressure even when there is no text.
+
+- Never draw every line at one weight. As a guide, use **2-3 units** for
+  construction marks, **4-6 units** for the readable form, and **8-10 units**
+  for one pressed-in violet gesture.
+- Keep paths slightly asymmetric. Offset a light pencil trace or leave a curve
+  visibly imperfect rather than relying on a uniform distortion filter alone.
+- Use only Ink, Muted, Violet, Lilac, Line, and near-white paper unless a
+  semantic state code requires its reserved hue.
+- Social banners default to artwork only. Text and the Vahtian mark are optional
+  exports because platform chrome already adds names, avatars, and controls.
+- Icons must remain useful without a label and contain no embedded font,
+  external request, script, or raster image.
+
+Reusable icons live in [`brand/icons/`](icons/) and social exports in
+[`brand/social/`](social/).

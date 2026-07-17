@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="title desc">
+  <title id="title">Student</title>
+  <desc id="desc">A rough hand-drawn student wearing a graduation cap.</desc>
+  <defs>
+    <filter id="rough-student" filterUnits="userSpaceOnUse" x="-20" y="-20" width="180" height="180">
+      <feTurbulence type="fractalNoise" baseFrequency="0.045" numOctaves="2" seed="41"/>
+      <feDisplacementMap in="SourceGraphic" scale="2.9"/>
+    </filter>
+  </defs>
+  <g filter="url(#rough-student)" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M23 39 L64 22 L105 39 L64 55 Z" stroke="#1C1830" stroke-width="5.2"/>
+    <path d="M25 41 L63 25 L102 40" stroke="#C5B8E8" stroke-width="2.1"/>
+    <path d="M36 44 C38 62 48 72 64 72 C80 72 91 61 92 44" stroke="#5B5570" stroke-width="3.6"/>
+    <path d="M105 39 C108 53 104 63 97 71" stroke="#6F52B8" stroke-width="8.4"/>
+    <circle cx="96" cy="76" r="4.7" fill="#6F52B8" stroke="none"/>
+    <path d="M29 113 C34 88 47 79 64 79 C83 79 96 90 100 114" stroke="#1C1830" stroke-width="6.1"/>
+    <path d="M42 104 C56 99 71 100 87 106" stroke="#DDD5EA" stroke-width="2.4"/>
+  </g>
+</svg>
