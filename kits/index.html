@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Research workspaces and kits · one place · Vahtian</title>
+  <meta name="description" content="Vahtian's paid products in one place. Two local workspaces carry a whole study; focused kits handle one problem each. One payment, yours to keep. Built by Heidi Andersén, MD, PhD.">
+  <meta name="theme-color" content="#2D2440">
+  <link rel="canonical" href="https://vahtian.com/kits/">
+  <meta name="robots" content="index,follow">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://vahtian.com/kits/">
+  <meta property="og:title" content="Research workspaces and kits · one place">
+  <meta property="og:description" content="Two local workspaces for a whole study, plus focused kits for one problem each. One payment. Built by Heidi Andersén, MD, PhD.">
+  <meta property="og:image" content="https://vahtian.com/brand/cards/vahtian-card.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Vahtian research workspaces and kits.">
+  <meta property="og:site_name" content="Vahtian">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232D2440'/%3E%3Cg fill='none' stroke='%238B6FC9' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 9 H9 V23 H12'/%3E%3Cpath d='M20 9 H23 V23 H20'/%3E%3C/g%3E%3Cpath d='M16 10.3 L19.6 12 L19.6 15 L16 19.6 L12.4 15 L12.4 12 Z' fill='none' stroke='%23C5B8E8' stroke-width='1.8' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <link rel="preload" href="../brand/fonts/nudica-medium.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="../brand/fonts/marksy-regular.woff2" as="font" type="font/woff2" crossorigin>
+  <style>
+    :root{--navy:#2D2440;--violet:#8B6FC9;--lilac:#C5B8E8;--ink:#1c1830;--muted:#5b5570;
+          --bg:#faf9fc;--card:#fff;--line:#e7e3f0;--link:#6F52B8;--paper2:#f2effa;--control:#b9afd0;
+          --font-mono:"Nudica Mono",ui-monospace,SFMono-Regular,Menlo,monospace}
+    *{box-sizing:border-box}
+    body{margin:0;font:500 16px/1.6 "Nudica",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+         color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased}
+    a{color:var(--link)}
+    .marksy{font-family:"Marksy","Marker Felt","Bradley Hand","Segoe Print",cursive;letter-spacing:.01em}
+    .wrap{max-width:860px;margin:0 auto;padding:0 22px}
+    header{padding:26px 0 6px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
+    .brand{display:flex;align-items:center;gap:11px;font-weight:700;font-size:18px;text-decoration:none;color:var(--ink)}
+    .mark{width:32px;height:32px;flex:0 0 32px}
+    nav.nav{display:flex;align-items:center;gap:16px;flex-wrap:wrap;font-size:14.5px}
+    nav.nav a{color:#1c1830;text-decoration:none;font-weight:600}
+    nav.nav a:hover,nav.nav a[aria-current="page"]{color:#6F52B8}
+    nav.nav .util{display:flex;align-items:center;gap:13px;padding-left:15px;border-left:1px solid #e7e3f0}
+    nav.nav .util .ic{display:flex;color:#514a68}
+    @media(max-width:680px){nav.nav{gap:13px;font-size:13.5px}}
+    .hero{padding:44px 0 6px}
+    .kicker{font:600 13px/1 var(--font-mono);color:var(--link);text-transform:uppercase;letter-spacing:.08em;margin:0 0 14px}
+    h1{font-size:clamp(29px,5.4vw,44px);line-height:1.1;letter-spacing:0;margin:0 0 16px;color:var(--ink)}
+    .lede{font-size:clamp(19px,2.6vw,23px);line-height:1.25;color:var(--navy);font-weight:700;margin:0;max-width:60ch}
+    .hero-sub{color:var(--muted);font-size:15.5px;margin:12px 0 0;max-width:60ch}
+    .hero-meta{font:600 12px/1.5 var(--font-mono);color:var(--muted);letter-spacing:.02em;margin:10px 0 0}
+    /* section surfaces — workspaces on a lavender band, kits on plain ground */
+    section{padding:0 0 4px;margin-top:28px}
+    .band{background:var(--paper2);border-top:0;box-shadow:0 0 0 100vmax var(--paper2);
+      clip-path:inset(0 -100vmax);padding:32px 0 34px;margin-top:38px}
+    .sec-eyebrow{font:700 11px/1 var(--font-mono);color:var(--link);text-transform:uppercase;letter-spacing:.09em;margin:0 0 8px}
+    .sec-head{font-size:23px;color:var(--navy);margin:0 0 20px;letter-spacing:0}
+    /* WORKSPACES — hand-drawn dashed cards, a balanced pair, strong navy CTA */
+    .spaces{display:grid;gap:18px;grid-template-columns:1fr}
+    @media(min-width:620px){.spaces{grid-template-columns:1fr 1fr}}
+    .space{position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:10px;
+      border-radius:12px;padding:24px 22px 22px;
+      background:var(--card) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='none' viewBox='0 0 400 220'%3E%3Crect x='3' y='3' width='394' height='214' rx='12' fill='none' stroke='%238B6FC9' stroke-width='3' stroke-linecap='round' stroke-dasharray='2 10 16 9 22 8 12 11'/%3E%3C/svg%3E") center/100% 100% no-repeat}
+    .space .nm{font:700 12px/1 var(--font-mono);color:var(--link);text-transform:uppercase;letter-spacing:.08em;margin:0}
+    .space h3{margin:0;font-size:20px;line-height:1.2;color:var(--navy);letter-spacing:0}
+    .space p{margin:0;color:#3a3450;font-size:14.5px}
+    .space .foot{display:flex;align-items:center;gap:14px;margin-top:auto;padding-top:8px}
+    /* KITS — lighter dashed cards, a balanced 2x3 grid, quieter ghost CTA */
+    .kits{display:grid;gap:16px;grid-template-columns:1fr}
+    @media(min-width:620px){.kits{grid-template-columns:1fr 1fr}}
+    .kit{position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:8px;
+      background:var(--card);border:1.5px dashed #a99cc9;border-radius:10px;padding:18px 18px 16px}
+    .kit .nm{font:700 11px/1 var(--font-mono);color:var(--link);text-transform:uppercase;letter-spacing:.07em;margin:0}
+    .kit h3{margin:0;font-size:16.5px;line-height:1.28;color:var(--navy);letter-spacing:0}
+    .kit p{margin:0;color:#3a3450;font-size:13.5px}
+    .kit .foot{display:flex;align-items:center;gap:12px;margin-top:auto;padding-top:8px}
+    /* Marksy stamp — a few cards only, hand-drawn ink glyph top-right */
+    .badge{position:absolute;top:12px;right:15px;font-family:"Marksy","Marker Felt","Bradley Hand","Segoe Print",cursive;
+      line-height:1;color:var(--navy)}
+    .space .badge{font-size:30px;transform:rotate(-6deg)}
+    .kit .badge{font-size:23px;transform:rotate(4deg)}
+    @media(prefers-reduced-motion:reduce){.badge{transform:none}}
+    /* prices + buttons: one quiet price, one button; two button weights for hierarchy */
+    .price{font:700 13px/1 var(--font-mono);color:var(--navy)}
+    .kit .price{font-size:12px;color:var(--muted)}
+    .kbtn{display:inline-block;padding:10px 17px;border-radius:6px;font-weight:700;font-size:14px;text-decoration:none;white-space:nowrap}
+    .kbtn.solid{background:var(--navy);color:#fff}
+    .kbtn.solid:hover{background:#231c33}
+    .kbtn.ghost{border:1px solid var(--control);color:var(--ink);background:transparent;font-size:13.5px;padding:9px 15px}
+    .kbtn.ghost:hover{border-color:var(--navy)}
+    /* trust close — the selling reassurance */
+    .close h2{font-size:20px;color:var(--navy);margin:0 0 12px}
+    .close .lead{margin:0;color:#2f2842;font-size:17px;line-height:1.6;max-width:62ch}
+    .close .guarantees{margin:16px 0 0;color:#3a3450;font-size:15.5px;max-width:62ch;
+      padding-left:16px;border-left:3px solid var(--violet)}
+    .close .guarantees strong{color:var(--navy);font-weight:700}
+    /* close band sits flush against the footer — no white strip between */
+    body.vh-content .vh-footer{margin-top:0!important}
+  </style>
+  <link rel="stylesheet" href="../brand/site-refresh.css">
+<link rel="stylesheet" href="../brand/footer.css">
+</head>
+<body class="vh-content">
+<div class="wrap">
+  <header>
+    <a class="brand" href="/" aria-label="Vahtian — home">
+      <svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#2D2440"/><g fill="none" stroke="#8B6FC9" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9 H9 V23 H12"/><path d="M20 9 H23 V23 H20"/></g><path d="M16 10.3 L19.6 12 L19.6 15 L16 19.6 L12.4 15 L12.4 12 Z" fill="none" stroke="#C5B8E8" stroke-width="1.8" stroke-linejoin="round"/></svg>
+      Vahtian
+    </a>
+    <nav class="nav" aria-label="Primary">
+      <a href="/kits/" aria-current="page">Kits</a>
+      <a href="/download/">Tools</a>
+      <a href="/learn/">Learn</a>
+      <a href="/blog/">Blog</a>
+      <a href="/about/">About</a>
+      <span class="util">
+        <a class="ic" href="/search/" aria-label="Search vahtian.com"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.3" y2="16.3"/></svg></a>
+      </span>
+    </nav>
+  </header>
+
+<main>
+  <div class="hero">
+    <p class="kicker">Workspaces and kits · one payment</p>
+    <h1>The paid layer</h1>
+    <p class="lede">Built for our research. Ready for yours.</p>
+    <p class="hero-sub">The free tools let you test the approach. The workspaces and kits add the templates, the local workflow, and the audit trail to run it on a real study.</p>
+    <p class="hero-meta">One-time prices, in euros. Digital downloads through Polar.</p>
+  </div>
+
+  <section class="band">
+    <p class="sec-eyebrow">Workspaces</p>
+    <h2 class="sec-head">One workspace for an entire research project.</h2>
+    <div class="spaces">
+      <div class="space">
+        <span class="badge" aria-hidden="true">&#x1F451;</span>
+        <p class="nm">QualiVahti Local</p>
+        <h3>Your qualitative study in one local workspace.</h3>
+        <p>Transcribe interviews, build a codebook, review AI coding suggestions, document decisions, and export an audit trail. The AI suggests. You decide.</p>
+        <div class="foot"><span class="price">€49</span><a class="kbtn solid" href="/qualivahti-local/">Get QualiVahti Local →</a></div>
+      </div>
+      <div class="space">
+        <span class="badge" aria-hidden="true">&#x1F451;</span>
+        <p class="nm">StudyVahti Vault</p>
+        <h3>Your observational study in one place.</h3>
+        <p>Research question, variables, estimand, analysis plan, decisions, outputs, manuscript claims, and a 16-check audit trail, organised from protocol to submission.</p>
+        <div class="foot"><span class="price">€49</span><a class="kbtn solid" href="/studyvahti-vault/">Get StudyVahti Vault →</a></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <p class="sec-eyebrow">Kits</p>
+    <h2 class="sec-head">One problem. One workflow.</h2>
+    <div class="kits">
+      <div class="kit">
+        <p class="nm">MethodVahti · Sample Defence Pack</p>
+        <h3>Defend your qualitative sampling strategy.</h3>
+        <p>Document stopping decisions, justify sample adequacy, and write a transparent methods section without treating saturation as a formula.</p>
+        <div class="foot"><span class="price">€49</span><a class="kbtn ghost" href="/methodvahti/#access">Get the kit →</a></div>
+      </div>
+      <div class="kit">
+        <span class="badge" aria-hidden="true">A+</span>
+        <p class="nm">Manuscript Kit</p>
+        <h3>Write from evidence to submission.</h3>
+        <p>Build the manuscript from figures and methods through discussion and abstract, with structured revision at every stage.</p>
+        <div class="foot"><span class="price">€49</span><a class="kbtn ghost" href="/manuscript-kit/">Get the kit →</a></div>
+      </div>
+      <div class="kit">
+        <p class="nm">Reviewer Response Builder</p>
+        <h3>Respond to reviewers systematically.</h3>
+        <p>Link every comment to a response, manuscript revision, and location before resubmission.</p>
+        <div class="foot"><span class="price">€39</span><a class="kbtn ghost" href="/reviewer-response-builder/">Get the kit →</a></div>
+      </div>
+      <div class="kit">
+        <p class="nm">Reviewer’s Notebook</p>
+        <h3>Write structured, constructive peer reviews.</h3>
+        <p>Separate methodological concerns from personal preferences and document every recommendation clearly.</p>
+        <div class="foot"><span class="price">€39</span><a class="kbtn ghost" href="/reviewers-notebook/">Get the kit →</a></div>
+      </div>
+      <div class="kit">
+        <span class="badge" aria-hidden="true">&#x1F47B;</span>
+        <p class="nm">AI Disclosure Kit</p>
+        <h3>Document AI use with confidence.</h3>
+        <p>Keep AI-use records, disclosure text, and journal requirements together before submission.</p>
+        <div class="foot"><span class="price">€29</span><a class="kbtn ghost" href="/ai-disclosure-kit/">Get the kit →</a></div>
+      </div>
+      <div class="kit">
+        <p class="nm">Research Strategy Kit</p>
+        <h3>Choose the next study deliberately.</h3>
+        <p>Map ideas, identify assumptions, and prioritise the projects worth pursuing.</p>
+        <div class="foot"><span class="price">€29</span><a class="kbtn ghost" href="/research-domain-cube/">Get the kit →</a></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band close">
+    <h2>What they all share</h2>
+    <p class="lead">Every workflow starts with a blank page and ends with a documented record. The templates help you organise the work, explain your decisions, and leave with something you can defend, not just finish.</p>
+    <p class="guarantees"><strong>One payment. No subscription.</strong> Runs in your own research environment whenever and wherever possible.</p>
+  </section>
+
+</main>
+
+  <footer class="vh-footer">
+  <div class="vh-footer-shell">
+    <div class="vh-footer-main">
+      <div>
+        <p class="vh-footer-name">Vahtian</p>
+        <p class="vh-footer-tagline">Local-first tools for research decisions you can explain. Built in Finland by Heidi Andersén, MD, PhD.</p>
+      </div>
+      <nav class="vh-footer-links" aria-label="Footer">
+        <a href="/kits/">Kits</a>
+        <a href="/download/">Tools</a>
+        <a href="/learn/">Learn</a>
+        <a href="/blog/">Blog</a>
+        <a href="/about/">About</a>
+        <a href="/cite/">Cite</a>
+        <a href="/privacy/">Privacy</a>
+      </nav>
+    </div>
+    <p class="vh-footer-disclaimer">Vahtian keeps human judgment visible and research decisions open to review. It does not establish scientific truth.</p>
+    <div class="vh-footer-meta">
+      <span>© 2026 Vahtian</span>
+      <a href="/LICENSE">Apache-2.0 open core</a>
+      <a href="https://github.com/heidihelena/vahtian">GitHub <span aria-hidden="true">↗</span></a>
+      <a href="mailto:hello@vahtian.com">hello@vahtian.com</a>
+    </div>
+  </div>
+</footer>
+</div>
+</body>
+</html>
