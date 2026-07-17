@@ -4,14 +4,14 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>About Vahtian — research software built by a researcher</title>
-  <meta name="description" content="Heidi Andersén, MD, PhD, is a respiratory physician and researcher in Finland. The software she needed didn't exist, so she built it. Vahtian is the result.">
+  <meta name="description" content="Heidi Andersén, MD, PhD, is a respiratory physician and researcher in Finland. She builds the tools her team needs; Vahtian grew from the problems they kept solving over and over.">
   <meta name="theme-color" content="#2D2440">
   <link rel="canonical" href="https://vahtian.com/about/">
   <meta name="robots" content="index,follow">
   <meta property="og:type" content="profile">
   <meta property="og:url" content="https://vahtian.com/about/">
   <meta property="og:title" content="About Vahtian — research software built by a researcher">
-  <meta property="og:description" content="The software I needed didn't exist. So I built it. Heidi Andersén, MD, PhD, on where Vahtian comes from.">
+  <meta property="og:description" content="I build the tools my team and I need. Heidi Andersén, MD, PhD, on where Vahtian comes from.">
   <meta property="og:image" content="https://vahtian.com/brand/cards/vahtian-card.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
@@ -102,6 +102,15 @@
     .design-rules h3{margin:1px 0 5px;font-size:15px;color:var(--navy)}
     .design-rules p{margin:0;color:var(--muted);font-size:14px;line-height:1.5}
     @media(prefers-reduced-motion:reduce){.design-rules .step{transform:none}}
+    .h2-script{font-family:"Marksy","Marker Felt","Bradley Hand","Segoe Print",cursive;
+      font-size:30px;line-height:1.1;font-weight:600;color:var(--navy);letter-spacing:.01em}
+    .origin{list-style:none;margin:0 0 16px;padding:0;display:grid;gap:12px}
+    .origin li{display:grid;grid-template-columns:42px minmax(0,1fr);gap:13px;align-items:center}
+    /* Marksy icon glyphs — licensed webfont artwork, vahtian.com only */
+    .origin .g{display:grid;place-items:center;width:42px;height:42px;
+      font-family:"Marksy";font-size:36px;line-height:1;color:var(--navy);transform:rotate(-3deg)}
+    .origin li:nth-child(2) .g{transform:rotate(2deg)}
+    @media(prefers-reduced-motion:reduce){.origin .g{transform:none}}
     .vahti-line{margin:34px 0 0;font-size:22px;line-height:1.35;color:var(--link);font-style:italic}
     /* closing band — the page's single lavender surface */
     .band-lilac{background:var(--paper2);border-top:0;box-shadow:0 0 0 100vmax var(--paper2);
@@ -145,16 +154,15 @@
 
 <main>
   <div class="hero">
-    <p class="kicker">From Heidi</p>
-    <h1>The software I needed didn’t exist. So I built it.</h1>
-    <p class="lede">I’m Heidi Andersén, MD, PhD, a respiratory physician and researcher in Finland. My work spans respiratory medicine, thoracic oncology, and clinical research methodology. Vahtian is what happened when that work kept hitting the same walls.</p>
+    <h1>I build the tools my team and I need</h1>
+    <p class="lede">I’m Heidi Andersén, MD, PhD, a respiratory physician and researcher in Finland. My work spans respiratory medicine, thoracic oncology, and clinical research methodology. Vahtian grew from the problems my team and I kept solving over and over again.</p>
   </div>
 
   <section>
     <h2>The work</h2>
     <div class="story-note">
       <div>
-        <p>Most of my days are spent designing studies, analysing data, reviewing evidence, and writing manuscripts. The same problems kept coming back: claims drifting from their sources, decisions nobody wrote down, and data that cannot leave the clinic.</p>
+        <p>Most of my days are spent designing studies, analysing data, reviewing evidence, and writing manuscripts. The same problems kept returning: claims no longer matched their sources, important decisions were never documented, and sensitive data could not leave the clinical environment.</p>
         <p style="margin-bottom:0">A research decision may need explaining months or years later. The record has to exist before the question comes.</p>
       </div>
       <div class="note-card">
@@ -165,17 +173,21 @@
   </section>
 
   <section>
-    <h2>Born out of frustration</h2>
-    <p>Most of the tools were built for me or my research team first. A REDCap data dictionary that would not validate became DictVahti. Checking a reference list by hand became CiteVahti.</p>
+    <h2 class="h2-script">Born out of frustration</h2>
+    <p>Every tool was built because my team or I needed it first.</p>
+    <ul class="origin">
+      <li><span class="g" aria-hidden="true">&#x1F680;</span><span>A REDCap data dictionary that refused to validate became <a href="/dictvahti/">DictVahti</a>.</span></li>
+      <li><span class="g" aria-hidden="true">&#x1F571;</span><span>Checking a reference list by hand became <a href="/citevahti/">CiteVahti</a>.</span></li>
+    </ul>
     <p>Everything I build starts inside active research before it becomes software, and it is tested on my own manuscripts long before anyone else downloads it.</p>
   </section>
 
   <section>
-    <h2>Others use them now</h2>
-    <p>The checking tools are free and run in your browser or on your machine. The methods engines are open source; the code is there to inspect, test, and reuse. The paid kits package the workflows my team uses, with the templates and records included.</p>
+    <h2>Built for my team, shared with yours <span class="marksy" style="color:var(--link);font-size:26px;font-weight:500;white-space:nowrap">XOXO</span></h2>
+    <p>The checking tools are free and run in your browser or on your machine. The core methods are open source. The code is there to inspect, test and reuse. The paid kits package the workflows my team uses, with the templates and records included.</p>
     <div class="contract">
       <h3 class="marksy">AI should help researchers.</h3>
-      <p>It can search, compare, summarise and suggest. It should never quietly become the scientific judgement. Every important decision should remain understandable months or years later.</p>
+      <p>It can search, compare, summarise and suggest. It should never quietly become the scientific judgement. Every important decision should still make sense months or years later.</p>
     </div>
   </section>
 
@@ -193,19 +205,19 @@
       </li>
       <li>
         <span class="step" aria-hidden="true">3</span>
-        <div><h3>Data stays local</h3><p>Work happens on your machine whenever the workflow allows. You keep your own data.</p></div>
+        <div><h3>Data stays under your control</h3><p>The software runs where your data already lives whenever the workflow allows. Your organisation keeps control of its data.</p></div>
       </li>
       <li>
         <span class="step" aria-hidden="true">4</span>
-        <div><h3>Checks stay transparent</h3><p>Assessments are reproducible: you can see what was checked and why a flag was raised.</p></div>
+        <div><h3>Checks stay transparent</h3><p>Every assessment explains what was checked and why it was flagged.</p></div>
       </li>
     </ol>
-    <p style="margin-top:16px">These rules outlast any feature. Interfaces change; the design philosophy stays.</p>
+    <p style="margin-top:16px">Features change. These principles do not.</p>
     <p class="vahti-line marksy"><b>vahti</b>, Finnish for sentinel / guard.</p>
   </section>
 
   <section class="band-lilac">
-    <h2>Elsewhere</h2>
+    <h2>Find the work</h2>
     <p>The tools grow from feedback. If something helps, or something fights you, say so.</p>
     <ul class="chooser">
       <li><strong>The tools, by task</strong> <span class="arr">→</span> <a href="/download/">vahtian.com/download</a></li>
