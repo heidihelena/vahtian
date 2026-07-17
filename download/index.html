@@ -24,15 +24,34 @@
   {"@context":"https://schema.org","@type":"CollectionPage","name":"Download — everything installable from Vahtian","url":"https://vahtian.com/download/","description":"Installable Vahtian software: apps, plugins, Python and R packages, the agent skill, and the AI Disclosure Kit.","isPartOf":{"@type":"WebSite","name":"Vahtian","url":"https://vahtian.com/"}}
   </script>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232D2440'/%3E%3Cg fill='none' stroke='%238B6FC9' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 9 H9 V23 H12'/%3E%3Cpath d='M20 9 H23 V23 H20'/%3E%3C/g%3E%3Cpath d='M16 10.3 L19.6 12 L19.6 15 L16 19.6 L12.4 15 L12.4 12 Z' fill='none' stroke='%23C5B8E8' stroke-width='1.8' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <link rel="preload" href="../brand/fonts/nudica-medium.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="../brand/fonts/marksy-regular.woff2" as="font" type="font/woff2" crossorigin>
   <style>
     :root{--navy:#2D2440;--violet:#8B6FC9;--lilac:#C5B8E8;--ink:#1c1830;--muted:#4A4460;
-          --bg:#faf9fc;--card:#fff;--line:#e7e3f0;--link:#6F52B8;--teal:#1E9E8A}
+          --bg:#faf9fc;--card:#fff;--line:#e7e3f0;--link:#6F52B8;--paper2:#f2effa;
+          --font-mono:"Nudica Mono",ui-monospace,SFMono-Regular,Menlo,monospace}
     *{box-sizing:border-box}
-    body{margin:0;font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,ui-sans-serif,system-ui,sans-serif;
+    body{margin:0;font:500 16px/1.6 "Nudica",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,ui-sans-serif,system-ui,sans-serif;
          color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased}
     a{color:var(--link)}
     a:focus-visible{outline:3px solid var(--violet);outline-offset:2px}
-    code{font:13px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;background:#f1eef9;padding:1px 6px;border-radius:5px}
+    .marksy{font-family:"Marksy","Marker Felt","Bradley Hand","Segoe Print",cursive;letter-spacing:.01em}
+    code{font:13px/1.5 var(--font-mono);background:#f1eef9;padding:1px 6px;border-radius:5px}
+    /* task-first chooser — lavender band, tool marks */
+    .task-band{background:var(--paper2);box-shadow:0 0 0 100vmax var(--paper2);clip-path:inset(0 -100vmax);
+      padding:30px 0 26px;margin:26px 0 30px}
+    .task-band .section-script{font-size:29px;line-height:1.15;font-weight:600;color:var(--link);letter-spacing:0;margin:0 0 4px}
+    .task-band .band-lede{color:var(--muted);font-size:14.5px;margin:0 0 16px}
+    .task-grid{list-style:none;margin:0;padding:0;display:grid;gap:2px 28px}
+    @media(min-width:640px){.task-grid{grid-template-columns:1fr 1fr}}
+    .task-grid li{display:grid;grid-template-columns:38px minmax(0,1fr);gap:11px;align-items:center;
+      padding:8px 0;border-bottom:1px solid #ded8ea}
+    .task-grid img{display:block;width:34px;height:34px;transform:rotate(-1.5deg)}
+    .task-grid li:nth-child(even) img{transform:rotate(2deg)}
+    .task-grid .task{display:block;font-size:13.5px;color:var(--muted);line-height:1.35}
+    .task-grid a{font-weight:700;font-size:14.5px;text-decoration:underline;text-decoration-color:var(--lilac);text-underline-offset:3px}
+    .task-grid a:hover{text-decoration-color:var(--violet)}
+    @media(prefers-reduced-motion:reduce){.task-grid img{transform:none}}
     .wrap{max-width:760px;margin:0 auto;padding:0 22px}
     header{padding:22px 0 6px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
     .brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:18px}
@@ -48,16 +67,24 @@
     @media(max-width:680px){nav.nav{gap:13px;font-size:13.5px}}
     h1{font-size:clamp(28px,5vw,36px);letter-spacing:-.02em;margin:32px 0 8px}
     .sub{color:#3a3450;font-size:clamp(15px,2.1vw,17px);margin:0 0 26px;max-width:60ch}
-    .dl{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--violet);border-radius:12px;
-      padding:16px 18px;margin:0 0 13px}
-    .dl h2{margin:0 0 3px;font-size:17px}
-    .dl .what{color:var(--muted);font-size:14px;margin:0 0 10px}
-    .dl .get{display:flex;flex-wrap:wrap;gap:9px;align-items:center}
-    .dl .btn{display:inline-block;padding:8px 14px;border-radius:8px;font-weight:600;font-size:13.5px;text-decoration:none;background:var(--navy);color:#fff}
-    .dl .btn.ghost{background:#fff;color:var(--ink);border:1px solid var(--line)}
-    .dl pre{background:var(--navy);color:#e8e3f5;border-radius:9px;padding:10px 13px;overflow:auto;font:12.5px/1.5 ui-monospace,monospace;margin:0;flex:1 1 100%}
-    .dl.pkg{border-left-color:var(--teal)}
-    .dl.paid{border-left-color:#C98A00}
+    /* tool blocks — lavender for free tools and packages, navy for paid kits.
+       Class is .tool (not .dl) so site-refresh's flat .dl override does not apply. */
+    .group-label{font:700 11px/1 var(--font-mono);color:var(--link);text-transform:uppercase;
+      letter-spacing:.09em;margin:28px 0 12px}
+    .tool{background:var(--paper2);border-top:2px solid var(--violet);border-radius:0 0 10px 10px;
+      padding:16px 18px 15px;margin:0 0 14px}
+    .tool h2{margin:0 0 3px;font-size:17px;color:var(--navy)}
+    .tool h2 .meta{font-weight:400;color:var(--muted);font-size:13px}
+    .tool .what{color:#4b455f;font-size:14px;margin:0 0 10px}
+    .tool .get{display:flex;flex-wrap:wrap;gap:9px;align-items:center}
+    .tool .btn{display:inline-block;padding:8px 14px;border-radius:8px;font-weight:600;font-size:13.5px;text-decoration:none;background:var(--navy);color:#fff}
+    .tool .btn.ghost{background:#fff;color:var(--ink);border:1px solid #d9d2ea}
+    .tool pre{background:var(--navy);color:#e8e3f5;border-radius:9px;padding:10px 13px;overflow:auto;font:12.5px/1.5 var(--font-mono);margin:0;flex:1 1 100%}
+    .tool.paid{background:var(--navy);border-top-color:var(--lilac)}
+    .tool.paid h2{color:#fff}
+    .tool.paid h2 .meta{color:var(--lilac)}
+    .tool.paid .what{color:#d9d3ea}
+    .tool.paid .btn{background:var(--lilac);color:#241b3a}
     .note{color:var(--muted);font-size:13.5px;margin:22px 0 0}
     footer{padding:28px 0 50px;color:var(--muted);font-size:13px;border-top:1px solid var(--line);margin-top:40px;line-height:1.7}
     footer a{color:var(--muted)}
@@ -86,10 +113,33 @@
 
 <main>
   <p class="page-kicker">What runs where</p>
-  <h1>Choose what you want to run.</h1>
-  <p class="sub">Browser tools need no installation. Download the local apps and packages here; each item says what it needs and where your data go.</p>
+  <h1>Get the tools. Keep your data.</h1>
+  <p class="sub">Browser tools run at vahtian.com with nothing to install. Everything installable lives here; each item says what it needs and where your data go.</p>
 
-  <div class="dl">
+  <div class="task-band">
+    <h2 class="section-script marksy">Which Vahti do I need?</h2>
+    <p class="band-lede">Start from the work in front of you.</p>
+    <ul class="task-grid">
+      <li><img src="../brand/marks/citevahti.svg" alt=""><span><span class="task">Writing a manuscript</span><a href="/citevahti/">CiteVahti</a></span></li>
+      <li><img src="../brand/marks/studyvahti.svg" alt=""><span><span class="task">Planning a study</span><a href="/studyvahti/">StudyVahti</a></span></li>
+      <li><img src="../brand/marks/methodvahti.svg" alt=""><span><span class="task">Preparing qualitative methods</span><a href="/methodvahti/">MethodVahti</a></span></li>
+      <li><img src="../brand/marks/qualivahti-local.svg" alt=""><span><span class="task">Analysing qualitative interviews</span><a href="/qualivahti-local/">QualiVahti Local · €49</a></span></li>
+      <li><img src="../brand/marks/dictvahti.svg" alt=""><span><span class="task">Cleaning REDCap metadata</span><a href="/dictvahti/">DictVahti</a></span></li>
+      <li><img src="../brand/marks/matchvahti-lite.svg" alt=""><span><span class="task">Capturing evidence from abstracts</span><a href="/matchvahti-lite/">MatchVahti-Lite</a></span></li>
+      <li><img src="../brand/marks/reviewvahti.svg" alt=""><span><span class="task">Checking screening agreement between reviewers</span><a href="/reviewvahti/">ReviewVahti</a></span></li>
+      <li><img src="../brand/marks/fullvahti.svg" alt=""><span><span class="task">Finding full-text PDFs in Zotero</span><a href="/fullvahti/">FullVahti</a></span></li>
+      <li><img src="../brand/marks/extractvahti.svg" alt=""><span><span class="task">Extracting and appraising studies</span><a href="/extractvahti/">ExtractVahti</a></span></li>
+      <li><img src="../brand/marks/synthvahti.svg" alt=""><span><span class="task">Synthesising or meta-analysing results</span><a href="/synthvahti/">SynthVahti</a></span></li>
+      <li><img src="../brand/marks/assesslite.svg" alt=""><span><span class="task">Testing what a causal result depends on</span><a href="https://github.com/heidihelena/assesslite">AssessLite</a></span></li>
+      <li><img src="../brand/marks/guidelinevahti.svg" alt=""><span><span class="task">Running a guideline panel</span><a href="/guidelinevahti/">GuidelineVahti</a></span></li>
+      <li><img src="../brand/marks/vahtian.svg" alt=""><span><span class="task">Disclosing AI use</span><a href="/ai-disclosure-kit/">AI Disclosure Kit · €29</a></span></li>
+      <li><img src="../brand/marks/vahtian.svg" alt=""><span><span class="task">Too many ideas, no next project</span><a href="/research-domain-cube/">Research Strategy Kit · €29</a></span></li>
+    </ul>
+  </div>
+
+  <p class="group-label">Apps and plugins · free</p>
+
+  <div class="tool">
     <h2>CiteVahti</h2>
     <p class="what">Check whether each cited source supports the claim — a macOS app or a Claude Desktop extension; no terminal.</p>
     <div class="get">
@@ -99,7 +149,7 @@
     </div>
   </div>
 
-  <div class="dl">
+  <div class="tool">
     <h2>FullVahti</h2>
     <p class="what">Find open-access full-text PDFs for your Zotero library — a Zotero plugin; it never bypasses a paywall.</p>
     <div class="get">
@@ -108,8 +158,10 @@
     </div>
   </div>
 
-  <div class="dl pkg">
-    <h2>EpiNet <span style="font-weight:400;color:var(--muted);font-size:13px">Python · Apache-2.0</span></h2>
+  <p class="group-label">Packages · Python, R, agents</p>
+
+  <div class="tool">
+    <h2>EpiNet <span class="meta">Python · Apache-2.0</span></h2>
     <p class="what">The Epistemic Network toolkit — leakage-aware evaluation for graph-shaped data.</p>
     <div class="get">
       <pre>pip install vahtian-epinet</pre>
@@ -118,8 +170,8 @@
     </div>
   </div>
 
-  <div class="dl pkg">
-    <h2>RecoverLite <span style="font-weight:400;color:var(--muted);font-size:13px">R · Apache-2.0</span></h2>
+  <div class="tool">
+    <h2>RecoverLite <span class="meta">R · Apache-2.0</span></h2>
     <p class="what">Pre-data recovery tests for planned study designs.</p>
     <div class="get">
       <pre>install.packages("recoverlite",
@@ -129,8 +181,8 @@
     </div>
   </div>
 
-  <div class="dl pkg">
-    <h2>AssessLite <span style="font-weight:400;color:var(--muted);font-size:13px">R · Python · Apache-2.0</span></h2>
+  <div class="tool">
+    <h2>AssessLite <span class="meta">R · Python · Apache-2.0</span></h2>
     <p class="what">Test the assumptions a causal result depends on and export an audit record of what held, failed, or could not be resolved.</p>
     <div class="get">
       <pre>pip install assesslite</pre>
@@ -138,7 +190,7 @@
     </div>
   </div>
 
-  <div class="dl pkg">
+  <div class="tool">
     <h2>Research-support agent skill</h2>
     <p class="what">Let your AI assistant drive Vahtian's open tools — search, screen blinded, reconcile, and check claim–source support, human-first.</p>
     <div class="get">
@@ -147,32 +199,34 @@
     </div>
   </div>
 
-  <div class="dl paid">
-    <h2>QualiVahti Local <span style="font-weight:400;color:var(--muted);font-size:13px">€49 · digital download</span></h2>
+  <p class="group-label">Paid kits · digital downloads</p>
+
+  <div class="tool paid">
+    <h2>QualiVahti Local <span class="meta">€49 · digital download</span></h2>
     <p class="what">Transcribe, code, and map interviews on your own computer. Local AI suggests codes, and you review every one. One payment, no subscription.</p>
     <div class="get">
       <a class="btn" href="/qualivahti-local/">See QualiVahti Local →</a>
     </div>
   </div>
 
-  <div class="dl paid">
-    <h2>StudyVahti Vault <span style="font-weight:400;color:var(--muted);font-size:13px">€49 · digital download</span></h2>
+  <div class="tool paid">
+    <h2>StudyVahti Vault <span class="meta">€49 · digital download</span></h2>
     <p class="what">Run and document an observational study in one local workspace: question, variables, estimand, plan, decisions, outputs, claims, and a 16-check audit trail.</p>
     <div class="get">
       <a class="btn" href="/studyvahti-vault/">See StudyVahti Vault →</a>
     </div>
   </div>
 
-  <div class="dl paid">
-    <h2>AI Disclosure Kit for Researchers <span style="font-weight:400;color:var(--muted);font-size:13px">€29 · digital download</span></h2>
+  <div class="tool paid">
+    <h2>AI Disclosure Kit for Researchers <span class="meta">€29 · digital download</span></h2>
     <p class="what">Manuscript, thesis, grant, and peer-review templates for responsible AI use — 10 files, instant download.</p>
     <div class="get">
       <a class="btn" href="/ai-disclosure-kit/">Get the kit →</a>
     </div>
   </div>
 
-  <div class="dl paid">
-    <h2>Research Strategy Kit <span style="font-weight:400;color:var(--muted);font-size:13px">€29 · digital download</span></h2>
+  <div class="tool paid">
+    <h2>Research Strategy Kit <span class="meta">€29 · digital download</span></h2>
     <p class="what">Map your field: one core thesis, three axes, twenty-seven project cells, each audited. Decide what to write, pitch, or abandon next. One payment.</p>
     <div class="get">
       <a class="btn" href="/research-domain-cube/">See the Research Strategy Kit →</a>

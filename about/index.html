@@ -49,53 +49,77 @@
   }
   </script>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232D2440'/%3E%3Cg fill='none' stroke='%238B6FC9' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 9 H9 V23 H12'/%3E%3Cpath d='M20 9 H23 V23 H20'/%3E%3C/g%3E%3Cpath d='M16 10.3 L19.6 12 L19.6 15 L16 19.6 L12.4 15 L12.4 12 Z' fill='none' stroke='%23C5B8E8' stroke-width='1.8' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <link rel="preload" href="../brand/fonts/nudica-medium.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="../brand/fonts/marksy-regular.woff2" as="font" type="font/woff2" crossorigin>
   <style>
+    /* Nudica/Marksy @font-face live in brand/footer.css (shared by every page). */
     :root{--navy:#2D2440;--violet:#8B6FC9;--lilac:#C5B8E8;
-          --ink:#1c1830;--muted:#5b5570;--bg:#faf9fc;--card:#fff;--line:#e7e3f0;--link:#6F52B8;}
+          --ink:#1c1830;--muted:#5b5570;--bg:#faf9fc;--card:#fff;--line:#e7e3f0;--link:#6F52B8;
+          --paper2:#f2effa;
+          --font-mono:"Nudica Mono",ui-monospace,SFMono-Regular,Menlo,monospace}
     *{box-sizing:border-box}
-    body{margin:0;font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+    body{margin:0;font:500 16px/1.65 "Nudica",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
          color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased}
     a{color:var(--link)}
+    code{font-family:var(--font-mono)}
+    .marksy{font-family:"Marksy","Marker Felt","Bradley Hand","Segoe Print",cursive;letter-spacing:.01em}
     .wrap{max-width:760px;margin:0 auto;padding:0 22px}
-    header{padding:26px 0 6px}
+    header{padding:26px 0 6px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
     .brand{display:flex;align-items:center;gap:11px;font-weight:700;font-size:18px;text-decoration:none;color:var(--ink)}
     .mark{width:32px;height:32px;flex:0 0 32px}
     .hero{padding:42px 0 6px}
-    .kicker{font:600 13px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--link);
+    .kicker{font:600 13px/1 var(--font-mono);color:var(--link);
             text-transform:uppercase;letter-spacing:.08em;margin:0 0 14px}
-    h1{font-size:clamp(28px,5.2vw,42px);line-height:1.1;letter-spacing:-.02em;margin:0 0 16px}
+    h1{font-size:clamp(28px,5.2vw,42px);line-height:1.1;letter-spacing:0;margin:0 0 16px}
     .lede{font-size:clamp(17px,2.5vw,20px);color:#3a3450;margin:0;max-width:62ch}
-    section{padding:28px 0;border-top:1px solid var(--line);margin-top:28px}
-    h2{font-size:21px;margin:0 0 12px;letter-spacing:-.01em}
+    section{padding:30px 0;border-top:1px solid var(--line);margin-top:30px}
+    h2{font-size:21px;margin:0 0 12px;letter-spacing:0}
+    .section-script{font-size:29px;line-height:1.15;font-weight:600;color:var(--link);letter-spacing:0;margin:0 0 14px}
     p{max-width:68ch;margin:0 0 14px}
-    ul.principles{margin:0;padding:0;list-style:none}
-    ul.principles li{position:relative;padding:9px 0 9px 26px;border-bottom:1px solid var(--line);max-width:68ch}
-    ul.principles li:last-child{border-bottom:0}
-    ul.principles li::before{content:"";position:absolute;left:4px;top:17px;width:8px;height:8px;
-      border-radius:2px;background:var(--violet)}
-    .bio{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 20px}
-    .bio .links{margin:14px 0 0;font-size:14.5px}
-    .bio .links a{font-weight:600;white-space:nowrap}
-    .pull{font-size:18px;color:var(--ink);border-left:3px solid var(--violet);padding-left:16px;margin:18px 0;max-width:60ch}
+    .band-lilac{background:var(--paper2);border-top:0;box-shadow:0 0 0 100vmax var(--paper2);
+      clip-path:inset(0 -100vmax);padding:36px 0;margin-top:34px}
+    /* navy statement block — the decision line in Heidi's hand */
+    .contract{background:var(--navy);border-radius:10px;padding:24px 26px 22px;margin:22px 0 4px}
+    .contract h3{margin:0 0 10px;font-size:clamp(26px,4.5vw,32px);line-height:1.14;font-weight:600;color:var(--lilac)}
+    .contract p{margin:0;color:#d9d3ea;font-size:15.5px;line-height:1.65;max-width:60ch}
+    /* numbered design rules — Marksy numerals on lavender blocks */
+    .design-rules{list-style:none;margin:6px 0 0;padding:0;display:grid;gap:14px 20px}
+    @media(min-width:620px){.design-rules{grid-template-columns:1fr 1fr}}
+    .design-rules li{display:grid;grid-template-columns:44px minmax(0,1fr);gap:13px;align-items:start;
+      background:var(--paper2);border-top:2px solid var(--violet);border-radius:0 0 8px 8px;padding:15px 16px 14px}
+    .design-rules .step{display:grid;place-items:center;width:38px;height:38px;background:#fff;color:var(--link);
+      font:600 26px/1 "Marksy","Marker Felt","Bradley Hand","Segoe Print",cursive}
+    .design-rules li:nth-child(1) .step{transform:rotate(-4deg)}
+    .design-rules li:nth-child(2) .step{transform:rotate(3deg)}
+    .design-rules li:nth-child(3) .step{transform:rotate(-2deg)}
+    .design-rules li:nth-child(4) .step{transform:rotate(4deg)}
+    .design-rules h3{margin:1px 0 5px;font-size:15px;color:var(--navy)}
+    .design-rules p{margin:0;color:var(--muted);font-size:14px;line-height:1.5}
+    @media(prefers-reduced-motion:reduce){.design-rules .step{transform:none}}
+    /* bio: text + handwritten proof card */
+    .founder-proof{display:grid;gap:18px;grid-template-columns:1fr;align-items:start}
+    @media(min-width:700px){.founder-proof{grid-template-columns:1.05fr .95fr}}
+    .proof-card{border-left:3px solid var(--violet);padding:4px 0 4px 20px}
+    .proof-card b{display:block;margin:0 0 9px;font-family:"Marksy","Marker Felt","Bradley Hand","Segoe Print",cursive;
+      font-size:27px;line-height:1.1;font-weight:600;color:var(--link)}
+    .proof-card p{margin:0;color:#2f2842;font-size:15.5px}
+    .links{margin:14px 0 0;font-size:14.5px}
+    .links a{font-weight:600;white-space:nowrap}
+    .pull{font-size:18px;color:var(--ink);border-left:3px solid var(--violet);padding-left:16px;margin:18px 0 0;max-width:60ch}
+    .vahti-line{margin:30px 0 0;font-size:22px;line-height:1.35;color:var(--link);font-style:italic}
     ul.chooser{list-style:none;margin:6px 0 0;padding:0;display:grid;gap:2px}
     ul.chooser li{padding:9px 0;border-bottom:1px solid var(--line);font-size:15.5px}
     ul.chooser li:last-child{border-bottom:0}
     ul.chooser .arr{color:var(--link);font-weight:700;margin:0 4px}
     ul.chooser a{font-weight:600}
-    footer{padding:28px 0 50px;color:var(--muted);font-size:13px;border-top:1px solid var(--line);margin-top:30px}
-    footer a{color:var(--link)} footer p{max-width:none;margin:0}
-  
     /* site nav */
     nav.nav{display:flex;align-items:center;gap:16px;flex-wrap:wrap;font-size:14.5px}
     nav.nav a{color:#1c1830;text-decoration:none;font-weight:600}
     nav.nav a:hover{color:#6F52B8}
-    nav.nav .ext{color:#514a68}
     nav.nav .util{display:flex;align-items:center;gap:13px;padding-left:15px;border-left:1px solid #e7e3f0}
     nav.nav .util .ic{display:flex;color:#514a68}
     nav.nav .util .ic:hover{color:#6F52B8}
-    nav.nav .buy{background:#2D2440;color:#fff;padding:7px 13px;border-radius:8px;font-size:13.5px;font-weight:700}
     @media(max-width:680px){nav.nav{gap:13px;font-size:13.5px}}
-    header{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
   </style>
   <link rel="stylesheet" href="../brand/site-refresh.css">
 <link rel="stylesheet" href="../brand/footer.css">
@@ -126,9 +150,10 @@
     <p class="lede">I’m Heidi Andersén, MD, PhD, a clinician-scientist in Finland. Vahtian grows from problems I keep meeting in my own studies: claims that need checking, decisions that need documenting, and data that cannot leave the clinic.</p>
   </div>
 
-  <section>
-    <p>A research decision may need explaining months later. Vahtian keeps the evidence, method, and human choice close enough to reconstruct what happened.</p>
-    <p>AI can help identify, summarize, compare, and suggest. It should not quietly become the scientific decision.</p>
+  <section class="band-lilac">
+    <h2 class="section-script marksy">The problem I keep meeting</h2>
+    <p>A research decision may need explaining months later. Vahtian keeps the evidence, the method, and the human choice close enough to reconstruct what happened.</p>
+    <p style="margin-bottom:0">AI can identify, summarise, compare, and suggest. It should not quietly become the scientific decision.</p>
   </section>
 
   <section>
@@ -141,78 +166,70 @@
       the work stays inspectable long after it is done.</p>
     <p>The first workflow was citation integrity: does the source you cited support the sentence you
       wrote? That became CiteVahti. It is the starting point, not the whole reason for the company.</p>
-    <p class="pull">The goal is not to replace scientific judgment. The goal is to document it.</p>
-  </section>
-
-  <section>
-    <h2>How the software is designed</h2>
-    <p>A few principles guide every product.</p>
-    <ul class="principles">
-      <li>Researchers make the final decisions.</li>
-      <li>AI assists; it does not decide.</li>
-      <li>Assessments stay transparent and reproducible.</li>
-      <li>Work happens locally whenever the workflow allows, and researchers keep their own data.</li>
-      <li>Every tool leaves a record that can be inspected, shared, and re-run.</li>
-    </ul>
-    <p style="margin-top:16px">These principles outlast any feature. Interfaces change; the design
-      philosophy stays.</p>
-  </section>
-
-  <section>
-    <h2>Who I am</h2>
-    <div class="bio">
-      <p>I’m <strong>Heidi Andersén, MD, PhD</strong>, a clinician-scientist working in respiratory medicine, oncology, and clinical research in Finland.</p>
-      <p>I build from the work itself: designing studies, writing manuscripts, reviewing evidence, collaborating across disciplines, and deciding where AI helps or creates another problem to document.</p>
-      <p style="margin-bottom:0">Vahtian is shaped inside an active research practice, not built outside it and handed in. When a reviewer asks in March about a choice I made in September, I need the record, not my memory. The tools are built for that day.</p>
-      <p class="links" style="margin-bottom:0">
-        <a href="https://orcid.org/0000-0001-5923-5865">ORCID</a> ·
-        <a href="https://github.com/heidihelena">GitHub</a> ·
-        <a href="https://www.linkedin.com/in/heidihelena/">LinkedIn</a>
-      </p>
+    <div class="contract">
+      <h3 class="marksy">Document the judgment. Don’t replace it.</h3>
+      <p>The tools check support and consistency, and they keep the record. The scientific decision stays with you.</p>
     </div>
   </section>
 
   <section>
-    <h2>Built for long-term trust</h2>
+    <h2>How the software is designed</h2>
+    <ol class="design-rules">
+      <li>
+        <span class="step" aria-hidden="true">1</span>
+        <div><h3>You decide</h3><p>AI assists; it does not decide. Researchers make the final call, every time.</p></div>
+      </li>
+      <li>
+        <span class="step" aria-hidden="true">2</span>
+        <div><h3>The record stays</h3><p>Every tool leaves a trail you can inspect, share, and re-run.</p></div>
+      </li>
+      <li>
+        <span class="step" aria-hidden="true">3</span>
+        <div><h3>Data stays local</h3><p>Work happens on your machine whenever the workflow allows. You keep your own data.</p></div>
+      </li>
+      <li>
+        <span class="step" aria-hidden="true">4</span>
+        <div><h3>Checks stay transparent</h3><p>Assessments are reproducible: you can see what was checked and why a flag was raised.</p></div>
+      </li>
+    </ol>
+    <p style="margin-top:16px">These rules outlast any feature. Interfaces change; the design philosophy stays.</p>
+  </section>
+
+  <section>
+    <h2>Who I am</h2>
+    <div class="founder-proof">
+      <div>
+        <p>I’m <strong>Heidi Andersén, MD, PhD</strong>, a clinician-scientist working in respiratory medicine, oncology, and clinical research in Finland.</p>
+        <p>I build from the work itself: designing studies, writing manuscripts, reviewing evidence, collaborating across disciplines, and deciding where AI helps or creates another problem to document.</p>
+        <p style="margin-bottom:0">Vahtian is shaped inside an active research practice, not built outside it and handed in.</p>
+        <p class="links" style="margin-bottom:0">
+          <a href="https://orcid.org/0000-0001-5923-5865">ORCID</a> ·
+          <a href="https://github.com/heidihelena">GitHub</a> ·
+          <a href="https://www.linkedin.com/in/heidihelena/">LinkedIn</a>
+        </p>
+      </div>
+      <div class="proof-card">
+        <b>March asks about September.</b>
+        <p>When a reviewer asks in March about a choice I made in September, I need the record, not my memory. The tools are built for that day.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Free to check, open to inspect</h2>
     <p>Most Vahtian software runs locally, on your own computer, whenever the workflow allows.
       Open-source components ship under permissive licences, primarily Apache&nbsp;2.0; each repository
       states its own. The paid kits sell packaged workflows and templates, not access: checking your
       own work stays free.</p>
-    <p class="pull">Scientific conclusions belong to researchers. Vahtian provides tools for documenting
-      how those conclusions were reached.</p>
-  </section>
-
-  <section>
-    <h2>The name</h2>
-    <p>“Vahti” is Finnish for a guard or sentinel: the tools help you keep watch over the evidence
-      behind your own work.</p>
-  </section>
-
-  <section id="chooser">
-    <h2>Which Vahti should I use?</h2>
-    <ul class="chooser">
-      <li>I'm <strong>writing a manuscript</strong> <span class="arr">→</span> <a href="/citevahti/">CiteVahti</a></li>
-      <li>I'm <strong>planning a study</strong> <span class="arr">→</span> <a href="/studyvahti/">StudyVahti</a></li>
-      <li>I'm <strong>preparing qualitative methods</strong> <span class="arr">→</span> <a href="/methodvahti/">MethodVahti</a></li>
-      <li>I'm <strong>cleaning REDCap metadata</strong> <span class="arr">→</span> <a href="/dictvahti/">DictVahti</a></li>
-      <li>I'm <strong>capturing evidence from abstracts</strong> <span class="arr">→</span> <a href="/matchvahti-lite/">MatchVahti-Lite</a></li>
-      <li>I'm <strong>checking screening agreement between reviewers</strong> <span class="arr">→</span> <a href="/reviewvahti/">ReviewVahti</a></li>
-      <li>I'm <strong>finding full-text PDFs in Zotero</strong> <span class="arr">→</span> <a href="/fullvahti/">FullVahti</a></li>
-      <li>I'm <strong>extracting &amp; appraising studies</strong> <span class="arr">→</span> <a href="/extractvahti/">ExtractVahti</a></li>
-      <li>I'm <strong>synthesising / meta-analysing results</strong> <span class="arr">→</span> <a href="/synthvahti/">SynthVahti</a> + R</li>
-      <li>I'm <strong>testing what a causal result depends on</strong> <span class="arr">→</span> <a href="https://github.com/heidihelena/assesslite">AssessLite</a></li>
-      <li>I'm <strong>running a guideline panel</strong> <span class="arr">→</span> <a href="/guidelinevahti/">GuidelineVahti</a></li>
-      <li>I'm <strong>analysing qualitative interviews</strong> <span class="arr">→</span> <a href="/qualivahti-local/">QualiVahti Local</a> (€49)</li>
-      <li>I <strong>need to disclose AI use</strong> <span class="arr">→</span> <a href="/ai-disclosure-kit/">AI Disclosure Kit</a> (€29)</li>
-      <li>I <strong>have too many ideas and no next project</strong> <span class="arr">→</span> <a href="/research-domain-cube/">Research Strategy Kit</a> (€29)</li>
-    </ul>
+    <p class="pull">Scientific conclusions belong to researchers. Vahtian documents how they were reached.</p>
+    <p class="vahti-line marksy"><b>vahti</b>, Finnish for sentinel / guard.</p>
   </section>
 
   <section>
     <h2>Elsewhere</h2>
     <p>The tools grow from feedback. If something helps, or something fights you, say so.</p>
     <ul class="chooser">
-      <li><strong>Download the software</strong> <span class="arr">→</span> <a href="/download/">vahtian.com/download</a></li>
+      <li><strong>The tools, by task</strong> <span class="arr">→</span> <a href="/download/">vahtian.com/download</a></li>
       <li><strong>Tool feedback and ideas</strong> <span class="arr">→</span> <a href="https://github.com/heidihelena/vahtian/discussions">GitHub Discussions <span aria-hidden="true">↗</span></a></li>
       <li><strong>Code and issues</strong> <span class="arr">→</span> <a href="https://github.com/heidihelena/vahtian">GitHub <span aria-hidden="true">↗</span></a></li>
       <li><strong>Follow the work</strong> <span class="arr">→</span> <a href="https://www.linkedin.com/company/vahtian/">LinkedIn <span aria-hidden="true">↗</span></a> · <a href="https://bsky.app/profile/vahtian.bsky.social">@vahtian.bsky.social <span aria-hidden="true">↗</span></a></li>
