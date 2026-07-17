@@ -1,166 +1,213 @@
 #!/usr/bin/env python3
-"""Generate Vahtian social / video-call banners.
+"""Generate Vahtian social and video-call banners.
 
-Self-contained per brand/STYLE.md: no external requests, local fonts only,
-inline SVG. Off-white-lavender ground, dark text, lavender citation graph
-(nodes + edges) as the accent, the Vahtian mark on the left.
-
-Outputs an .svg source and a .png render for each size, plus a logo-only
-variant (mark + graph, no text).
+The default exports are art-only: no copy and no logo. The drawing language
+follows the Vahtian rough field-note standard with quiet construction strokes,
+uneven medium forms, and a few pressed-in violet marks.
 """
-import math
+
 import random
-import cairosvg
+from pathlib import Path
 
-# ---- palette (brand/STYLE.md) ----------------------------------------------
-INK     = "#1C1830"   # body / main text (dark)
-MUTED   = "#5B5570"   # secondary text
-VIOLET  = "#8B6FC9"   # brand line, edges, url
-LILAC   = "#C5B8E8"   # inner glyph / node accents
-NAVY     = "#2D2440"  # mark tile
-BG_TOP  = "#FBFAFE"   # off-white lavender (light)
-BG_BOT  = "#EDE7F7"   # off-white lavender (deeper tint)
 
-HEADLINE = "Make research claims checkable."
-SUBHEAD  = "Auditable software for citation integrity and biomedical evidence."
-URL      = "vahtian.com"
+INK = "#1C1830"
+MUTED = "#5B5570"
+VIOLET = "#8B6FC9"
+VIOLET_DARK = "#6F52B8"
+LILAC = "#C5B8E8"
+PAPER = "#FAF9FC"
+PAPER_LILAC = "#F1ECF8"
+LINE = "#DDD5EA"
+NAVY = "#2D2440"
 
-SANS = "Liberation Sans, DejaVu Sans, sans-serif"
-MONO = "Liberation Mono, DejaVu Sans Mono, monospace"
+OUT = Path(__file__).resolve().parent
 
-# The Vahtian mark (shield in a bracket gate), drawn on a 32-unit grid.
+
 def mark(x, y, size):
-    s = size / 32.0
+    """The stable Vahtian mark; the surrounding artwork carries the roughness."""
+    scale = size / 32.0
     return (
-        f'<g transform="translate({x:.2f},{y:.2f}) scale({s:.4f})">'
+        f'<g transform="translate({x:.2f},{y:.2f}) scale({scale:.4f})">'
         f'<rect width="32" height="32" rx="7" fill="{NAVY}"/>'
         f'<g fill="none" stroke="{VIOLET}" stroke-width="2.3" '
         f'stroke-linecap="round" stroke-linejoin="round">'
-        f'<path d="M12 9 H9 V23 H12"/><path d="M20 9 H23 V23 H20"/></g>'
+        '<path d="M12 9 H9 V23 H12"/><path d="M20 9 H23 V23 H20"/>'
+        '</g>'
         f'<path d="M16 10.3 L19.6 12 L19.6 15 L16 19.6 L12.4 15 L12.4 12 Z" '
         f'fill="none" stroke="{LILAC}" stroke-width="1.8" stroke-linejoin="round"/>'
-        f'</g>'
+        '</g>'
     )
 
-def esc(t):
-    return t.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
 
-# Rough advance width for Liberation Sans, used only to auto-fit font sizes
-# so text never overflows the frame.
-def fit(text, avail, ideal, factor):
-    by_width = avail / max(1, len(text) * factor)
-    return min(ideal, by_width)
+def rough_defs(seed):
+    return (
+        '<defs>'
+        f'<filter id="rough" filterUnits="userSpaceOnUse" x="-100" y="-100" '
+        'width="4000" height="2400">'
+        f'<feTurbulence type="fractalNoise" baseFrequency="0.018" numOctaves="2" seed="{seed}"/>'
+        '<feDisplacementMap in="SourceGraphic" scale="2.8"/>'
+        '</filter>'
+        '</defs>'
+    )
 
-def graph(W, H, seed):
-    """A faint lavender citation graph: nodes joined to near neighbours."""
-    rng = random.Random(seed)
-    pad = min(W, H) * 0.04
-    n = max(10, min(70, int(W * H / 24000)))
-    pts = []
-    for _ in range(n):
-        pts.append((rng.uniform(pad, W - pad), rng.uniform(pad, H - pad)))
-    thresh = math.hypot(W, H) * 0.11
-    ew = max(0.8, H * 0.0035)
-    edges = []
-    for i, (xi, yi) in enumerate(pts):
-        d = sorted(
-            ((math.hypot(xi - xj, yi - yj), j)
-             for j, (xj, yj) in enumerate(pts) if j != i)
-        )
-        for dist, j in d[:2]:
-            if dist <= thresh and (j, i) not in edges:
-                edges.append((i, j))
-    parts = [f'<g opacity="0.9">']
-    for i, j in edges:
-        x1, y1 = pts[i]; x2, y2 = pts[j]
+
+def student_icon(x, y, size):
+    s = size / 100.0
+    return f'''
+    <g transform="translate({x:.1f},{y:.1f}) scale({s:.4f})" fill="none"
+       stroke-linecap="round" stroke-linejoin="round">
+      <path d="M18 31 L50 18 L82 31 L50 44 Z" stroke="{INK}" stroke-width="4.2"/>
+      <path d="M28 35 C30 50 39 57 50 57 C62 57 70 49 72 35" stroke="{MUTED}" stroke-width="3.1"/>
+      <path d="M82 31 C84 42 81 50 76 55" stroke="{VIOLET_DARK}" stroke-width="6.8"/>
+      <path d="M24 87 C28 69 37 62 50 62 C65 62 74 70 78 88" stroke="{INK}" stroke-width="4.8"/>
+      <path d="M33 82 C45 78 57 79 69 83" stroke="{LINE}" stroke-width="2.0"/>
+    </g>'''
+
+
+def team_icon(x, y, size):
+    s = size / 100.0
+    return f'''
+    <g transform="translate({x:.1f},{y:.1f}) scale({s:.4f})" fill="none"
+       stroke-linecap="round" stroke-linejoin="round">
+      <path d="M38 29 C38 18 43 14 51 16 C60 17 64 23 62 31 C61 39 55 43 47 41 C40 39 37 35 38 29 Z" stroke="{INK}" stroke-width="4.7"/>
+      <path d="M15 42 C15 34 19 31 25 32 C32 33 35 38 33 44 C32 50 28 53 22 51 C17 50 14 47 15 42 Z" stroke="{MUTED}" stroke-width="3.0"/>
+      <path d="M68 42 C68 34 72 31 78 32 C85 33 88 38 86 44 C85 50 81 53 75 51 C70 50 67 47 68 42 Z" stroke="{MUTED}" stroke-width="3.8"/>
+      <path d="M31 77 C34 58 40 51 50 51 C61 51 68 59 70 78" stroke="{VIOLET_DARK}" stroke-width="7.2"/>
+      <path d="M7 78 C10 62 16 56 25 56 C31 56 36 59 40 65" stroke="{INK}" stroke-width="3.4"/>
+      <path d="M61 65 C66 59 71 56 78 56 C87 56 92 64 94 79" stroke="{INK}" stroke-width="4.2"/>
+      <path d="M18 88 C41 83 63 84 86 89" stroke="{LINE}" stroke-width="2.2"/>
+    </g>'''
+
+
+def book_icon(x, y, size):
+    s = size / 100.0
+    return f'''
+    <g transform="translate({x:.1f},{y:.1f}) scale({s:.4f})" fill="none"
+       stroke-linecap="round" stroke-linejoin="round">
+      <path d="M9 22 C25 18 39 21 50 30 L50 82 C38 73 24 70 9 74 Z" stroke="{INK}" stroke-width="4.4"/>
+      <path d="M91 22 C75 18 61 21 50 30 L50 82 C63 73 76 70 91 74 Z" stroke="{INK}" stroke-width="3.2"/>
+      <path d="M18 35 C28 32 37 34 43 38 M18 47 C28 44 36 46 42 50" stroke="{LINE}" stroke-width="2.1"/>
+      <path d="M58 38 C66 33 75 32 83 34 M58 50 C66 45 75 44 83 46" stroke="{MUTED}" stroke-width="2.8"/>
+      <path d="M68 21 L68 61 L75 55 L82 62 L82 20" stroke="{VIOLET_DARK}" stroke-width="6.5"/>
+      <path d="M8 82 C27 77 40 80 50 88 C62 80 75 77 93 82" stroke="{LILAC}" stroke-width="5.1"/>
+    </g>'''
+
+
+def paper_marks(W, H, rng):
+    """Quiet construction marks that keep the banner from feeling digitally exact."""
+    sw = max(1.2, H * 0.006)
+    parts = [f'<g filter="url(#rough)" opacity="0.7" fill="none">']
+    for row in (0.24, 0.49, 0.76):
+        y = H * row + rng.uniform(-H * 0.018, H * 0.018)
+        x1 = W * rng.uniform(0.05, 0.12)
+        x2 = W * rng.uniform(0.87, 0.96)
+        bend = rng.uniform(-H * 0.04, H * 0.04)
         parts.append(
-            f'<line x1="{x1:.1f}" y1="{y1:.1f}" x2="{x2:.1f}" y2="{y2:.1f}" '
-            f'stroke="{VIOLET}" stroke-width="{ew:.2f}" stroke-opacity="0.16"/>'
-        )
-    for k, (x, y) in enumerate(pts):
-        hub = (k % 7 == 0)
-        r = (H * 0.011) if hub else (H * 0.0055 + (k % 3) * H * 0.0012)
-        fill = VIOLET if hub else LILAC
-        op = 0.42 if hub else 0.5
-        if hub:  # verified-looking ring, kept in brand lavender (no state hues)
-            parts.append(
-                f'<circle cx="{x:.1f}" cy="{y:.1f}" r="{r*1.9:.1f}" fill="none" '
-                f'stroke="{VIOLET}" stroke-width="{ew:.2f}" stroke-opacity="0.22"/>'
-            )
-        parts.append(
-            f'<circle cx="{x:.1f}" cy="{y:.1f}" r="{r:.1f}" '
-            f'fill="{fill}" fill-opacity="{op}"/>'
+            f'<path d="M{x1:.1f} {y:.1f} C{W*.34:.1f} {y+bend:.1f} '
+            f'{W*.65:.1f} {y-bend:.1f} {x2:.1f} {y+rng.uniform(-3,3):.1f}" '
+            f'stroke="{LINE}" stroke-width="{sw:.2f}" stroke-dasharray="{sw*1.2:.1f} {sw*4.2:.1f}"/>'
         )
     parts.append('</g>')
-    return "".join(parts)
+    return ''.join(parts)
 
-def banner(W, H, seed, with_text=True):
-    mh = min(W, H)
-    hmargin = round(W * 0.045)
 
+def field_note_art(W, H, seed):
+    rng = random.Random(seed)
+    short = H / W < 0.38
+    sw = max(2.0, H * 0.011)
+    y = H * (0.58 if short else 0.54)
+    start = W * (0.23 if short else 0.08)
+    end = W * 0.94
+
+    parts = [paper_marks(W, H, rng), '<g filter="url(#rough)" fill="none" stroke-linecap="round" stroke-linejoin="round">']
+    parts.append(
+        f'<path d="M{start:.1f} {y+H*.035:.1f} C{W*.39:.1f} {H*.23:.1f} '
+        f'{W*.59:.1f} {H*.82:.1f} {end:.1f} {H*.38:.1f}" '
+        f'stroke="{LILAC}" stroke-width="{sw*.72:.2f}" opacity="0.78"/>'
+    )
+    parts.append(
+        f'<path d="M{start:.1f} {y:.1f} C{W*.38:.1f} {H*.20:.1f} '
+        f'{W*.60:.1f} {H*.78:.1f} {end:.1f} {H*.35:.1f}" '
+        f'stroke="{VIOLET_DARK}" stroke-width="{sw*1.55:.2f}" opacity="0.93"/>'
+    )
+    for px, py, radius, width in (
+        (W * 0.36, H * 0.36, H * 0.055, sw * 0.55),
+        (W * 0.62, H * 0.63, H * 0.075, sw * 0.82),
+        (W * 0.84, H * 0.43, H * 0.045, sw * 0.45),
+    ):
+        parts.append(
+            f'<ellipse cx="{px:.1f}" cy="{py:.1f}" rx="{radius*1.08:.1f}" ry="{radius:.1f}" '
+            f'transform="rotate({rng.uniform(-9, 7):.1f} {px:.1f} {py:.1f})" '
+            f'stroke="{VIOLET}" stroke-width="{width:.2f}"/>'
+        )
+    parts.append('</g>')
+
+    icon_size = H * (0.44 if short else 0.29)
+    if short:
+        icon_y = H * 0.31
+        parts.extend((
+            student_icon(W * 0.30, icon_y, icon_size),
+            team_icon(W * 0.56, H * 0.42, icon_size * 0.94),
+            book_icon(W * 0.79, H * 0.18, icon_size * 1.04),
+        ))
+    else:
+        parts.extend((
+            student_icon(W * 0.055, H * 0.14, icon_size),
+            team_icon(W * 0.76, H * 0.59, icon_size * 0.96),
+            book_icon(W * 0.80, H * 0.08, icon_size * 1.06),
+        ))
+    return ''.join(parts)
+
+
+def banner(W, H, seed, with_mark=False):
     svg = [
         f'<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" '
-        f'viewBox="0 0 {W} {H}" role="img" aria-label="Vahtian banner">',
-        '<defs>'
-        f'<linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">'
-        f'<stop offset="0" stop-color="{BG_TOP}"/>'
-        f'<stop offset="1" stop-color="{BG_BOT}"/></linearGradient>'
-        '</defs>',
-        f'<rect width="{W}" height="{H}" fill="url(#bg)"/>',
-        graph(W, H, seed),
+        f'viewBox="0 0 {W} {H}" role="img" aria-label="Vahtian rough field-note banner">',
+        rough_defs(seed),
+        f'<rect width="{W}" height="{H}" fill="{PAPER}"/>',
+        f'<path d="M0 {H*.83:.1f} C{W*.24:.1f} {H*.76:.1f} {W*.53:.1f} {H*.96:.1f} '
+        f'{W:.1f} {H*.72:.1f} L{W:.1f} {H:.1f} L0 {H:.1f} Z" fill="{PAPER_LILAC}"/>',
+        field_note_art(W, H, seed),
     ]
-
-    if with_text:
-        uf = max(14, min(40, H * 0.06))
-        url_y = H - mh * 0.07
-        # Mark in the bottom-right corner, stacked just above the url.
-        ms = min(H * 0.30, W * 0.085)
-        mx = W - hmargin - ms
-        my = url_y - uf * 0.9 - mh * 0.035 - ms
-
-        tx = W * 0.33                              # text block, centre-right
-        avail = W - tx - hmargin
-        hf = fit(HEADLINE, avail, H * 0.17, 0.55)
-        sf = fit(SUBHEAD, avail, hf * 0.42, 0.52)
-        head_y = H * 0.34
-        sub_y = head_y + hf * 0.82
-        svg.append(
-            f'<text x="{tx:.1f}" y="{head_y:.1f}" font-family="{SANS}" '
-            f'font-size="{hf:.1f}" font-weight="700" fill="{INK}" '
-            f'letter-spacing="-0.5">{esc(HEADLINE)}</text>'
-        )
-        svg.append(
-            f'<text x="{tx:.1f}" y="{sub_y:.1f}" font-family="{SANS}" '
-            f'font-size="{sf:.1f}" fill="{MUTED}">{esc(SUBHEAD)}</text>'
-        )
-        svg.append(mark(mx, my, ms))
-        svg.append(
-            f'<text x="{W - hmargin:.1f}" y="{url_y:.1f}" '
-            f'font-family="{MONO}" font-size="{uf:.1f}" font-weight="700" '
-            f'fill="{VIOLET}" text-anchor="end">{esc(URL)}</text>'
-        )
-    else:
-        # logo-only: centre the mark, keep the graph as quiet texture
-        cs = min(H * 0.42, W * 0.18)
-        svg.append(mark((W - cs) / 2, (H - cs) / 2, cs))
-
+    if with_mark:
+        size = min(H * 0.22, W * 0.065)
+        mark_x = W * 0.055 if H / W >= 0.5 else W - size - W * 0.045
+        svg.append(mark(mark_x, H - size - H * 0.09, size))
     svg.append('</svg>')
-    return "".join(svg)
+    return ''.join(svg)
+
 
 SIZES = [
-    ("linkedin-personal",  1584, 396),   # LinkedIn profile background
-    ("linkedin-company",   1128, 191),   # LinkedIn company page cover
-    ("facebook-cover",     1640, 624),   # Facebook page cover
-    ("teams-background",   1920, 1080),  # Teams / video-call background
+    ("linkedin-personal", 1584, 396),
+    ("linkedin-company", 1128, 191),
+    ("facebook-cover", 1640, 624),
+    ("teams-background", 1920, 1080),
 ]
 
+# The plain filename is intentionally the quiet, art-only default.
+VARIANTS = (
+    ("", False),
+    ("-logo", True),
+)
+
+
 if __name__ == "__main__":
-    for i, (name, W, H) in enumerate(SIZES):
-        for suffix, txt in (("", True), ("-logo", False)):
-            src = banner(W, H, seed=11 + i, with_text=txt)
-            base = f"brand/social/{name}{suffix}-{W}x{H}"
-            with open(base + ".svg", "w") as f:
-                f.write(src)
-            cairosvg.svg2png(bytestring=src.encode(), write_to=base + ".png",
-                             output_width=W, output_height=H)
-            print("wrote", base + ".png")
+    import cairosvg
+
+    for index, (name, width, height) in enumerate(SIZES):
+        for suffix, logo in VARIANTS:
+            source = banner(
+                width,
+                height,
+                seed=31 + index,
+                with_mark=logo,
+            )
+            base = OUT / f"{name}{suffix}-{width}x{height}"
+            base.with_suffix(".svg").write_text(source, encoding="utf-8")
+            cairosvg.svg2png(
+                bytestring=source.encode("utf-8"),
+                write_to=str(base.with_suffix(".png")),
+                output_width=width,
+                output_height=height,
+            )
+            print("wrote", base.with_suffix(".png"))
