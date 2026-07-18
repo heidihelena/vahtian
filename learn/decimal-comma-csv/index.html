@@ -65,7 +65,7 @@
     <p class="voc-kicker">Clean and prepare your data</p>
     <h1>&ldquo;My numbers turned to text when I opened the CSV.&rdquo;</h1>
     <p class="voc-subtitle">Decimal commas, semicolons, and locale, and how to import cleanly in R and Python.</p>
-    <p class="voc-lede">You open a colleague&rsquo;s CSV and every number is text, or the whole file sits in one column, or the dates are wrong. The data is fine. It was written on a machine whose locale differs from yours, and the reader made the wrong assumption about the separators. Once you name them, it imports in one line.</p>
+    <p class="voc-lede">A collaborator sends you their data, you open the CSV, and every number is text, or the whole file sits in one column, or the dates are backwards. The data is fine. It was written on a machine whose locale differs from yours, and your reader guessed the separators wrong. The real danger is not the obvious mess; it is the column that looks fine but was read as text, so it is quietly dropped from a calculation, sorted wrong, or half-converted later, and nothing warns you. Name the separators and it imports in one line.</p>
     <p class="voc-byline">By <a href="/about/">Heidi Andersén, MD, PhD</a> · Updated 18 July 2026 · <span class="rt">5 min read</span></p>
   </div>
 
@@ -90,14 +90,16 @@ readr::read_delim("data.csv", delim = ";",
 # US: comma fields, dot decimals
 readr::read_csv("data.csv")</pre>
     <p class="lab" style="margin-top:14px">Python</p>
-    <pre class="voc-tpl"># European:
+    <pre class="voc-tpl">import pandas as pd
+# European:
 pd.read_csv("data.csv", sep=";", decimal=",")
 # US:
 pd.read_csv("data.csv")</pre>
   </div>
+  <p>Both are built in. <code>read_csv2()</code> is R&rsquo;s established reader for semicolon files with comma decimals, and pandas exposes <code>sep</code> and <code>decimal</code> directly, so no add-on is needed.</p>
 
   <h2><span class="eyebrow">Check it survived</span>Never trust the eyeball</h2>
-  <p>After import, confirm the numeric columns are actually numeric (<code>str(df)</code> in R, <code>df.dtypes</code> in Python) and that a column you know sums to the right total. A number silently read as text will pass a glance and break a mean. To avoid the problem next time: agree one format with collaborators, export as UTF-8, and do not open the raw data in Excel before analysis, because it converts codes and dates on the way in. If you must open it there, import the columns as text.</p>
+  <p>After import, confirm that numeric columns are actually numeric (<code>str()</code> in R, <code>df.dtypes</code> in Python), inspect any parsing warnings, and check that a known total is correct. A column read as text may be excluded from calculations, sorted incorrectly, or partially converted later without you noticing. To avoid the problem next time: agree one format with collaborators, export as UTF-8, and do not open the raw data in Excel before analysis, because it converts codes and dates on the way in. If you must open it there, import the columns as text.</p>
 
   <h2><span class="eyebrow">Checklist</span>Four checks</h2>
   <div class="voc-artifact">
