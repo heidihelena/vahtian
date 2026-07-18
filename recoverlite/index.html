@@ -152,15 +152,15 @@
       <em>estimand</em> itself: a study may retain precision while quietly answering a different question.
       Conventional power analysis rarely diagnoses these failures.</p>
     <p>The recovery test does. You declare the estimand, data-generating assumptions, data strategy, missing-data
-      process, and analysis strategy <b>before</b> simulation. Data are generated under a crossed scenario grid —
-      null and target effects, each under declared and pessimistically perturbed assumptions — the planned analysis
+      process, and analysis strategy <b>before</b> simulation. Data are generated under a crossed scenario grid:
+      null and target effects, each under declared and pessimistically perturbed assumptions. The planned analysis
       is applied to every simulated dataset, and the diagnosands become a verdict.</p>
   </section>
 
   <section>
     <h2>The verdict</h2>
     <p>The report converts the diagnosands into a PASS / RISK / FAIL verdict under a pre-specified, <b>versioned
-      threshold profile</b> — a decision convention, not a validity classification — and recomputes it under the
+      threshold profile</b> (a decision convention, not a validity classification) and recomputes it under the
       shipped strict and lenient profiles. A verdict that flips across profiles is itself a finding.</p>
     <div class="verdicts">
       <div class="v pass"><b>Pass</b> All required thresholds met under every scenario row the profile requires, with every margin more than 2 MCSE clear.</div>
@@ -251,7 +251,7 @@ report(result)    <span class="c"># standalone recovery report; always travels w
   <section>
     <h2>Want it run on your design?</h2>
     <p>RecoverLite is open source — run it yourself. If you'd rather have the recovery test set up, run, and
-      interpreted on your specific design, <b>ForskAI</b> — independent research-methods support from Vahtian — can
+      interpreted on your specific design, <b>ForskAI</b>, independent research-methods support from Vahtian, can
       do it with you: study-design review, simulation-based design diagnosis, and a report you can put in a protocol
       or grant application. You keep the decisions; the analysis and the audit trail come with it.</p>
     <p style="margin-bottom:0"><a class="btn primary" href="https://forskai.com">Have ForskAI run it for you →</a>
@@ -264,14 +264,14 @@ report(result)    <span class="c"># standalone recovery report; always travels w
       <details>
         <summary>How is this different from a power analysis?</summary>
         <p>Power analysis asks whether you can detect an effect. The recovery test also asks whether the estimate
-          would be unbiased, well-calibrated, stable, and aimed at the intended estimand — and whether the null
-          behaves — under both declared and pessimistically perturbed assumptions. It reports power as one diagnosand
+          would be unbiased, well-calibrated, stable, and aimed at the intended estimand, and whether the null
+          behaves, under both declared and pessimistically perturbed assumptions. It reports power as one diagnosand
           among several, and treats false-positive behaviour under the null as a required verdict row.</p>
       </details>
       <details>
         <summary>Does a PASS mean my study will work?</summary>
-        <p>No. A PASS is evidence about the instrument — that the planned design and analysis can recover a declared
-          estimand under the stated assumptions — not about the world. It does not validate the assumptions
+        <p>No. A PASS is evidence about the instrument (that the planned design and analysis can recover a declared
+          estimand under the stated assumptions), not about the world. It does not validate the assumptions
           themselves, and the verdict is a decision convention under a versioned threshold profile.</p>
       </details>
       <details>

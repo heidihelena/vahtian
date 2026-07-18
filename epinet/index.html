@@ -188,14 +188,14 @@
   </section>
 
   <section>
-    <h2>EpiNet Workbench <span class="s">Local CSV-to-report — plan → run → optional UI</span></h2>
+    <h2>EpiNet Workbench <span class="s">Local CSV-to-report: plan → run → optional UI</span></h2>
     <p>The Workbench is a local interface that writes a reviewable <code>analysis.yaml</code> and runs the same EpiNet
       engine as the CLI, so every interactive run is reproducible without the interface. It is not AutoML — it never
       searches models or chases a metric. The config, not hidden UI state, is the source of truth.</p>
     <pre>epinet-workbench plan --nodes nodes.csv --edges edges.csv --outcome Outcome --output analysis.yaml
 epinet-workbench run  --config analysis.yaml
 epinet-workbench ui   <span class="c"># optional local Streamlit workbench</span></pre>
-    <p>Every run distils its diagnostics into plain-language <b>claim gates</b> — permutation null, split sensitivity,
+    <p>Every run distils its diagnostics into plain-language <b>claim gates</b>: permutation null, split sensitivity,
       baseline floor (paired per split with a Nadeau–Bengio-corrected interval: beats floor / at floor / not resolvable
       at this n), and external validation — written into the model card, <code>claims_check.json</code>, and a
       self-contained offline HTML report. A standing "do not claim clinical utility unless…" caveat is generated into
@@ -218,7 +218,7 @@ epinet-workbench ui   <span class="c"># optional local Streamlit workbench</span
       <details>
         <summary>Is EpiNet a new prediction model?</summary>
         <p>No. The model is a standard random forest. EpiNet's contribution is the conservative, auditable evaluation
-          workflow wrapped around it — the same honesty checks travel with every analysis, so a headline score is
+          workflow wrapped around it: the same honesty checks travel with every analysis, so a headline score is
           harder to fool yourself with.</p>
       </details>
       <details>
@@ -229,7 +229,7 @@ epinet-workbench ui   <span class="c"># optional local Streamlit workbench</span
       </details>
       <details>
         <summary>How is EpiNet related to CiteVahti?</summary>
-        <p>They share the same brand principles — human review, provenance, caveats, and no unsupported claims.
+        <p>They share the same brand principles: human review, provenance, caveats, and no unsupported claims.
           CiteVahti checks whether claims in a manuscript are supported by their cited evidence; EpiNet checks whether
           graph-shaped analytical claims survive basic methodological stress tests.</p>
       </details>

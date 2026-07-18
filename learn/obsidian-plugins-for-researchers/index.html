@@ -102,7 +102,7 @@
 </div>
 
 <h2>How to install a community plugin <span class="time">· about 2 minutes</span></h2>
-<p>Once, per plugin: <strong>Settings → Community plugins → Browse</strong>, search the name, <strong>Install</strong>, then <strong>Enable</strong>. That is the whole process. Built-in features like Canvas and the graph view need no install — they are already there.</p>
+<p>Once, per plugin: <strong>Settings → Community plugins → Browse</strong>, search the name, <strong>Install</strong>, then <strong>Enable</strong>. That is the whole process. Built-in features like Canvas and the graph view need no install. They are already there.</p>
 
 <h2>Start with the built-in features</h2>
 <p>Before any plugin, three things Obsidian already does are the backbone of a research vault:</p>
@@ -112,30 +112,30 @@
   <li><strong>Canvas</strong> — a board where you drag real notes, not drawings. For qualitative work this becomes an <a href="/learn/obsidian-canvas-evidence-map/">evidence map</a> where every box opens its actual quotes.</li>
 </ul>
 
-<h2>Zotero Integration — from reading to atomic notes</h2>
+<h2>Zotero Integration: from reading to atomic notes</h2>
 <div class="fav">
   <span class="tag">The one to install first</span>
   <p style="margin:6px 0 0">If you already keep references in Zotero, this plugin is the bridge from "I read it" to "I thought about it". It imports a paper's metadata, your PDF annotations, and your highlights into an Obsidian note — where you then rewrite the idea in your own words, one atomic note per concept.</p>
 </div>
-<p><strong>Why it matters:</strong> it keeps the two tools in their lanes. Zotero stores the source — the PDF, the metadata, the bibliography. Obsidian holds your thinking. The plugin moves your highlights across so you are never retyping, and the atomic notes you write from them are what actually connect across papers in the graph. Keeping each atomic note linked to its citation is the quiet payoff: months later, when that note becomes a sentence in your manuscript, it already carries its source — you are never hunting for where you read something. Pair it with <strong>Better BibTeX</strong> (a Zotero add-on) for stable citation keys that never break.</p>
+<p><strong>Why it matters:</strong> it keeps the two tools in their lanes. Zotero stores the source: the PDF, the metadata, the bibliography. Obsidian holds your thinking. The plugin moves your highlights across so you are never retyping, and the atomic notes you write from them are what actually connect across papers in the graph. Keeping each atomic note linked to its citation is the quiet payoff: months later, when that note becomes a sentence in your manuscript, it already carries its source — you are never hunting for where you read something. Pair it with <strong>Better BibTeX</strong> (a Zotero add-on) for stable citation keys that never break.</p>
 <p><strong>How to use it:</strong> install and enable it, point it at your Zotero library, and set an import template (the plugin ships sensible defaults). New to Zotero itself? Start with our <a href="/learn/zotero/">Zotero for researchers</a> guide.</p>
 
-<h2>Dataview — query your notes, don't hand-maintain JSON</h2>
+<h2>Dataview: query your notes, don't hand-maintain JSON</h2>
 <p>Dataview reads the metadata at the top of your notes (the YAML frontmatter) and turns it into live tables and lists: a reading list filtered by status, a codebook dashboard, every paper from a given year. You write a short query once and it updates itself as your notes change.</p>
-<div class="note"><p style="margin:0"><strong>The JSON-drift trap.</strong> A common mistake is to keep structured research data — a table of participants, a coding scheme, a reading log — in a hand-edited JSON file inside the vault. It drifts: keys get inconsistent, a typo breaks a field, and the file quietly falls out of sync with your notes. The fix is to stop maintaining a separate data file at all. Keep the data in each note's frontmatter, where it lives next to the thing it describes, and let a query layer read it. That gives you one source of truth that cannot drift.</p></div>
-<p>Which query layer depends on how your head works. <strong>Dataview</strong> uses a friendly query language over frontmatter. <strong>Bases</strong> (now built into Obsidian) gives a no-code, spreadsheet-like view of the same fields. <strong>Datacore</strong> is a faster, interactive successor to Dataview. And if you think in SQL, <strong>SQLSeal</strong> runs real SQL queries over your CSV and JSON files. Any of them beats a hand-kept JSON file — the point is to query a single source, not to edit data by hand in two places.</p>
+<div class="note"><p style="margin:0"><strong>The JSON-drift trap.</strong> A common mistake is to keep structured research data (a table of participants, a coding scheme, a reading log) in a hand-edited JSON file inside the vault. It drifts: keys get inconsistent, a typo breaks a field, and the file quietly falls out of sync with your notes. The fix is to stop maintaining a separate data file at all. Keep the data in each note's frontmatter, where it lives next to the thing it describes, and let a query layer read it. That gives you one source of truth that cannot drift.</p></div>
+<p>Which query layer depends on how your head works. <strong>Dataview</strong> uses a friendly query language over frontmatter. <strong>Bases</strong> (now built into Obsidian) gives a no-code, spreadsheet-like view of the same fields. <strong>Datacore</strong> is a faster, interactive successor to Dataview. And if you think in SQL, <strong>SQLSeal</strong> runs real SQL queries over your CSV and JSON files. Any of them beats a hand-kept JSON file. The point is to query a single source, not to edit data by hand in two places.</p>
 
-<h2>Templater — consistent structure</h2>
+<h2>Templater: consistent structure</h2>
 <p>Templater inserts dynamic templates: today's date, prompted fields, a fixed heading structure. Every new interview note, literature note, or codebook entry starts identical. <strong>Why it matters:</strong> Dataview and a codebook only work if your notes share a shape. Templater is what guarantees that shape without you retyping it.</p>
 
-<h2>Longform — write the thesis from the pieces</h2>
+<h2>Longform: write the thesis from the pieces</h2>
 <p>Longform assembles many small notes into a single manuscript you can reorder by dragging. <strong>Why it matters:</strong> you draft in atomic, linkable pieces the way Obsidian is good at, then compile to one document. When it is time for formal formatting, export the compiled text through Pandoc to Word or LaTeX.</p>
 
 <h2>A word on restraint</h2>
 <p>Do not install thirty plugins. Each one is code that can break on an update, and a vault stuffed with half-used plugins is slower and more fragile than a lean one. Start with <strong>Zotero Integration, Dataview, and Templater</strong>, add Canvas and Longform when a real need appears, and stop there until something specific pushes you further. Excalidraw (hand-drawn models) and Tasks (tracking <code>#needs-citation</code> follow-ups) are worth knowing about for when that need arrives.</p>
 
 <div class="cta">
-  <p><strong>You can assemble this set yourself</strong> — install the three, wire up your templates, and build your dashboards.</p>
+  <p><strong>You can assemble this set yourself</strong>. Install the three, wire up your templates, and build your dashboards.</p>
   <p>If you work with qualitative data and would rather start from a vault where Dataview, Templater, and Canvas are already installed and wired into a codebook, evidence map, and audit trail — <strong>QualiVahti Local</strong> is that set, configured, with a worked demo study inside.</p>
   <a class="btn" href="/qualivahti-local/">See the pre-configured vault — €49</a>
 </div>

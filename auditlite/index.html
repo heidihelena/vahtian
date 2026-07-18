@@ -170,17 +170,17 @@
   <section>
     <h2>What the trail records</h2>
     <ul class="feat">
-      <li><b>Provenance</b> — which code was human-written, AI-generated, or AI-modified; the model,
+      <li><b>Provenance</b>: which code was human-written, AI-generated, or AI-modified; the model,
         version, prompt, the source files it saw, and any external tools or retrieval. Declared, never
         detected.</li>
-      <li><b>Decision trace</b> — why a variable, model, exclusion, transformation, or sensitivity
+      <li><b>Decision trace</b>: why a variable, model, exclusion, transformation, or sensitivity
         analysis was chosen; which AI suggestions were accepted, edited, or rejected; and whether the AI
         introduced a new analytic decision rather than implementing yours.</li>
-      <li><b>Execution trace</b> — the exact script hash, command, interpreter and package versions,
+      <li><b>Execution trace</b>: the exact script hash, command, interpreter and package versions,
         declared seeds, and input and output file hashes for every recorded run.</li>
-      <li><b>Manuscript claims</b> — each table or figure tied to the run and file it came from, so
+      <li><b>Manuscript claims</b>: each table or figure tied to the run and file it came from, so
         "does the manuscript still match the analysis" is a check, not a memory exercise.</li>
-      <li><b>Deviations</b> — departures from the analysis plan, recorded with the reason.</li>
+      <li><b>Deviations</b>: departures from the analysis plan, recorded with the reason.</li>
     </ul>
   </section>
 
@@ -254,8 +254,8 @@ auditlite report   <span class="c"># writes audit/AUDIT.md — the reconstructio
   <section>
     <h2>Want the audit set up on your project?</h2>
     <p>AuditLite is open source — adopt it yourself in an afternoon. If you'd rather have the trail
-      designed around your analysis plan — what to declare, which decisions to trace, how to wire the
-      checks into your workflow before submission — <b>ForskAI</b>, independent research-methods support
+      designed around your analysis plan (what to declare, which decisions to trace, how to wire the
+      checks into your workflow before submission), <b>ForskAI</b>, independent research-methods support
       from Vahtian, can do it with you. You keep the decisions; the audit trail comes with it.</p>
     <p style="margin-bottom:0"><a class="btn primary" href="https://forskai.com">Set it up with ForskAI →</a>
       <a class="btn ghost" href="https://github.com/heidihelena/auditlite" style="margin-left:8px">Or adopt it yourself →</a></p>
@@ -267,8 +267,8 @@ auditlite report   <span class="c"># writes audit/AUDIT.md — the reconstructio
       <details>
         <summary>Is this an AI detector?</summary>
         <p>No, deliberately. Post-hoc AI detection is weak evidence and answers the wrong question.
-          AuditLite records <em>declared</em> provenance — who or what a contributor says wrote the code,
-          with model, prompt, and context — and flags executed scripts that carry no declaration at all.
+          AuditLite records <em>declared</em> provenance (who or what a contributor says wrote the code,
+          with model, prompt, and context) and flags executed scripts that carry no declaration at all.
           The value is the contemporaneous record, not a guess made afterwards.</p>
       </details>
       <details>
@@ -286,7 +286,7 @@ auditlite report   <span class="c"># writes audit/AUDIT.md — the reconstructio
       </details>
       <details>
         <summary>What does recording a decision actually look like?</summary>
-        <p>One command — or one function call — at the moment the decision is made: what kind of decision
+        <p>One command, or one function call, at the moment the decision is made: what kind of decision
           (variable, model, exclusion, transformation, sensitivity, estimand, denominator), what was
           chosen, why, and where it came from. If it was an AI suggestion, you record whether you accepted,
           edited, or rejected it. A decision recorded without a reason is flagged by
