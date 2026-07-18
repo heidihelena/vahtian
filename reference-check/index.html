@@ -30,7 +30,7 @@
     "operatingSystem": "Any (web browser)",
     "browserRequirements": "Requires JavaScript. Runs client-side.",
     "url": "https://vahtian.com/reference-check/",
-    "description": "Paste a reference list or manuscript. Runs in your browser: extracts DOIs, checks each against Crossref, matches the title, first author, and year against your citation text, and flags retractions and corrections (naming Crossref as the source), preprint DOIs, malformed DOIs, and duplicates. Verdicts are three-way per reference: checks out, does not check out, or not resolvable. It checks that references resolve and match their records; it does not check whether the claims citing them are true.",
+    "description": "Paste a reference list or manuscript. Runs in your browser: extracts DOIs, checks each against Crossref, matches the title, first author, and year against your citation text, and flags retractions and corrections (naming Crossref as the source), preprint DOIs, malformed DOIs, and duplicates. It also checks each resolved DOI against Unpaywall for open-access status and surfaces the best single-hop full-text link (a PubMed Central link where one exists). Access status is shown beside the verdict and never changes it. Verdicts are three-way per reference: checks out, does not check out, or not resolvable. It checks that references resolve and match their records; it does not check whether the claims citing them are true.",
     "isPartOf": { "@type": "WebSite", "name": "Vahtian", "url": "https://vahtian.com/" },
     "offers": { "@type": "Offer", "price": "0", "priceCurrency": "EUR" }
   }
@@ -117,6 +117,17 @@
     .fl-rose{background:var(--rose-fill);color:var(--rose-text);border:1px solid var(--rose)}
     .fl-violet{background:var(--violet-fill);color:var(--violet-text);border:1px solid var(--violet)}
     .fbody{font-size:13.5px;color:#322c47;line-height:1.5}
+    /* option toggle */
+    .optline{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);margin:12px 0 0;cursor:pointer}
+    .optline input{width:15px;height:15px;accent-color:var(--violet);cursor:pointer}
+    /* access status (Unpaywall) */
+    .acc{display:flex;flex-wrap:wrap;align-items:center;gap:9px;margin:9px 0 0}
+    .abadge{font:650 11px/1.4 "Nudica Mono",ui-monospace,monospace;padding:5px 9px;border-radius:6px;white-space:nowrap}
+    .acc-oa{background:var(--teal-fill);color:var(--teal-text);border:1px solid var(--teal)}
+    .acc-pw{background:#F2EFFA;color:var(--muted);border:1px solid var(--line)}
+    .acc-nc{background:var(--violet-fill);color:var(--violet-text);border:1px solid var(--violet)}
+    .acc-body{font-size:13px;color:#322c47;line-height:1.5}
+    .acc-body a{word-break:break-all}
     .note{background:transparent;border:0;border-left:3px solid var(--violet);border-radius:0;padding:5px 0 5px 20px;color:#3a3450;font-size:14.5px}
     /* bridge / CTA — full-bleed navy band */
     .bridge{background:var(--navy);box-shadow:0 0 0 100vmax var(--navy);clip-path:inset(0 -100vmax);border-radius:0;padding:30px 0;margin:34px 0 0}
@@ -165,7 +176,7 @@
   <p class="page-kicker">The traditional time to check the references</p>
   <h1>Check your references before the portal does.</h1>
   <p class="sub">This is naturally when we discover that one DOI opens the wrong paper, another appears twice, and the preprint may have grown into a publication.</p>
-  <p class="bound">Paste the list. The tool checks whether each DOI resolves and matches its Crossref record. It cannot tell whether the source supports your claim. Nothing is stored; only DOI and metadata queries go to Crossref.</p>
+  <p class="bound">Paste the list. The tool checks whether each DOI resolves and matches its Crossref record. It cannot tell whether the source supports your claim. Nothing is stored; DOI queries go to Crossref, and to Unpaywall for open-access status.</p>
 
   <div class="tool">
     <label class="tl" for="refs">Your reference list or manuscript text</label>
@@ -175,7 +186,8 @@
       <button id="ex" class="ghost" type="button">Load example</button>
       <button id="clr" class="ghost" type="button">Clear</button>
     </div>
-    <p class="priv">DOI and metadata queries go to Crossref, nothing else leaves the browser, nothing is stored, no account, no telemetry.</p>
+    <label class="optline" for="oa"><input type="checkbox" id="oa" checked> Also check open-access status (queries Unpaywall)</label>
+    <p class="priv">DOI queries go to Crossref for the record, and — while the box above is ticked — to Unpaywall for access status. Nothing else leaves the browser, nothing is stored, no account, no telemetry.</p>
   </div>
 
   <div id="out" role="region" aria-live="polite" aria-label="Reference check results"></div>
@@ -188,6 +200,7 @@
       <li><b>Retractions and corrections</b>: flagged from Crossref update metadata, naming Crossref as the source.</li>
       <li><b>Preprint DOIs</b>: labelled <span class="doi">preprint</span>, so you can check for a published version. A preprint is not a problem.</li>
       <li><b>Malformed DOIs and duplicates</b>: a DOI that isn't well-formed, or the same DOI cited twice.</li>
+      <li><b>Open access or paywall?</b> Each resolved DOI is checked against <a href="https://unpaywall.org/" rel="noopener">Unpaywall</a> for a free full-text copy. When one exists, the tool shows the best single-hop link — a PubMed Central link where Unpaywall lists one — so you can prefer it over a DOI that may stall behind a redirect. Access status sits beside the verdict and never changes it: a paywalled paper is not a failure.</li>
     </ul>
     <p style="font-size:14.5px;color:#322c47;margin:16px 0 0">Every reference gets one of three verdicts: <b>checks out</b> (resolves and matches), <b>does not check out</b> (resolves but the record disagrees, or is flagged), or <b>not resolvable</b> (Crossref returned nothing, so there is nothing to compare). A missing record is never counted as a failure.</p>
     <div class="cant"><b>What it can't do.</b> A resolved, matching DOI means the reference points at the paper it claims to: it does not mean the paper supports the sentence that cites it, and it does not mean the paper is correct. Checking whether a source actually supports a claim is the CiteVahti audit.</div>
@@ -303,6 +316,42 @@
   function crossrefUrl(doi){
     return "https://api.crossref.org/works/"+encodeURIComponent(doi)+"?mailto=hello@vahtian.com";
   }
+  function unpaywallUrl(doi){
+    // Unpaywall takes the DOI in the path; keep the slashes, encode the rest.
+    return "https://api.unpaywall.org/v2/"+encodeURIComponent(doi).replace(/%2F/gi,"/")+"?email=hello@vahtian.com";
+  }
+
+  // From an Unpaywall record, pick the best single-hop OA link. Prefer a
+  // PubMed Central / Europe PMC location (reliable, one redirect) when Unpaywall
+  // lists one, else fall back to its own best_oa_location.
+  function pickOa(msg){
+    var best=msg.best_oa_location||null;
+    var locs=msg.oa_locations||[];
+    var pmc=null;
+    for(var i=0;i<locs.length;i++){
+      var L=locs[i]||{};
+      var u=L.url_for_landing_page||L.url||"";
+      if(/(?:ncbi\.nlm\.nih\.gov\/pmc|europepmc\.org|\/pmc\/articles)/i.test(u)){ pmc=L; break; }
+    }
+    var chosen=pmc||best||locs[0]||null;
+    if(!chosen) return null;
+    var url=chosen.url_for_landing_page||chosen.url||"";
+    if(!/^https?:\/\//i.test(url)) return null;
+    return {url:url, isPmc:!!pmc};
+  }
+
+  // Reduce an Unpaywall response to what the card needs. Never affects verdict.
+  function accessInfo(oaRes){
+    if(!oaRes) return null; // access checking was off
+    if(oaRes.status==="notfound") return {state:"unknown",note:"Unpaywall has no record for this DOI, so access status is unknown."};
+    if(oaRes.status!=="ok") return {state:"unchecked",note:"Couldn't reach Unpaywall, so access status wasn't checked."};
+    var msg=oaRes.msg||{};
+    if(msg.is_oa){
+      var loc=pickOa(msg);
+      return {state:"oa",url:loc?loc.url:"",isPmc:loc?loc.isPmc:false};
+    }
+    return {state:"paywall"};
+  }
 
   function firstAuthor(msg){
     var a=(msg.author||[])[0];
@@ -341,6 +390,28 @@
       .catch(function(){ clearTimeout(to); return {status:"neterror"}; });
   }
 
+  function fetchAccess(doi){
+    var ctrl=new AbortController();
+    var to=setTimeout(function(){ctrl.abort();},15000);
+    return fetch(unpaywallUrl(doi),{signal:ctrl.signal,headers:{"Accept":"application/json"}})
+      .then(function(r){
+        clearTimeout(to);
+        if(r.status===404) return {status:"notfound"};
+        if(!r.ok) return {status:"error",code:r.status};
+        return r.json().then(function(j){return {status:"ok",msg:j};});
+      })
+      .catch(function(){ clearTimeout(to); return {status:"neterror"}; });
+  }
+
+  // One DOI → Crossref record (always) + Unpaywall access (when wanted), in
+  // parallel. Returns {cr, up}; up is null when access checking is off.
+  function fetchRef(doi, wantOa){
+    return Promise.all([
+      fetchDoi(doi),
+      wantOa ? fetchAccess(doi) : Promise.resolve(null)
+    ]).then(function(a){ return {cr:a[0], up:a[1]}; });
+  }
+
   function pool(items, worker, onProgress){
     var i=0, done=0, results=new Array(items.length), CONC=4;
     return new Promise(function(resolve){
@@ -359,9 +430,9 @@
   }
 
   // --- verdict assembly -------------------------------------------------
-  function classify(ref, res){
+  function classify(ref, res, oaRes){
     // ref: {raw, lower, cite, malformed, duplicate}
-    var out={doi:ref.raw, cite:ref.cite, verdict:"nr", record:null, flags:[]};
+    var out={doi:ref.raw, cite:ref.cite, verdict:"nr", record:null, access:null, flags:[]};
 
     if(ref.duplicate){
       out.flags.push({cls:"fl-violet",label:"duplicate",text:"This DOI already appears earlier in the list. Cited twice."});
@@ -396,6 +467,8 @@
     var type=msg.type||"";
     var subtype=msg.subtype||"";
     out.record={title:title,author:author,year:year,type:type};
+    // Access status is orthogonal: attach it, but it never moves the verdict.
+    out.access=accessInfo(oaRes);
 
     var notices=noticeList(msg);
     var retracted=notices.indexOf("retraction")>=0 || /^\s*retracted[:\-—\s]/i.test(title);
@@ -479,11 +552,34 @@
     return s;
   }
 
+  // Access status line (Unpaywall). Sits beside the verdict; never part of it.
+  function accessRow(a){
+    if(!a) return "";
+    if(a.state==="oa"){
+      var body="Reported open access by Unpaywall.";
+      if(a.url){
+        body+=' '+(a.isPmc?"PubMed Central single-hop link":"Best open-access link")+
+              ': <a href="'+esc(a.url)+'" rel="noopener" target="_blank">'+esc(a.url)+'</a>';
+      }
+      return '<div class="acc"><span class="abadge acc-oa">open access</span><span class="acc-body">'+body+'</span></div>';
+    }
+    if(a.state==="paywall"){
+      return '<div class="acc"><span class="abadge acc-pw">no OA copy found</span>'+
+        '<span class="acc-body">Unpaywall found no open-access copy. The DOI link may sit behind a paywall or a redirect.</span></div>';
+    }
+    if(a.state==="unknown"||a.state==="unchecked"){
+      return '<div class="acc"><span class="abadge acc-nc">access '+(a.state==="unknown"?"unknown":"not checked")+'</span>'+
+        '<span class="acc-body">'+esc(a.note||"")+'</span></div>';
+    }
+    return "";
+  }
+
   function refCard(r){
     var vm=VMETA[r.verdict];
     var h='<div class="ref '+vm.cls+'">';
     h+='<div class="ref-top"><span class="verdict '+vm.vcls+'">'+vm.label+'</span><span class="doi">'+esc(r.doi)+'</span></div>';
     h+=recordLine(r.record);
+    h+=accessRow(r.access);
     if(r.flags.length){
       h+='<div class="flags">';
       for(var i=0;i<r.flags.length;i++){
@@ -545,6 +641,8 @@
       if(!d.malformed){ if(seen[d.lower]) d.duplicate=true; else seen[d.lower]=1; }
     });
 
+    var wantOa=$("oa").checked;
+
     $("run").disabled=true;
     progress(0,dois.length);
 
@@ -555,10 +653,10 @@
       if(!(d.lower in fetchIndex)){ fetchIndex[d.lower]=toFetch.length; toFetch.push(d.lower); }
     });
 
-    pool(toFetch,function(doi){return fetchDoi(doi);},progress).then(function(responses){
+    pool(toFetch,function(doi){return fetchRef(doi,wantOa);},progress).then(function(responses){
       var rows=dois.map(function(d){
-        var res=d.malformed?null:responses[fetchIndex[d.lower]];
-        return classify(d,res);
+        var combo=d.malformed?null:responses[fetchIndex[d.lower]];
+        return classify(d, combo?combo.cr:null, combo?combo.up:null);
       });
       render(rows);
       $("run").disabled=false;
