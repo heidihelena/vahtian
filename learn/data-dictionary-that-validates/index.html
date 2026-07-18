@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>How to build a data dictionary that prevents data cleaning errors · Vahtian Learn</title>
+  <meta name="description" content="A data dictionary defines every variable, its allowed values, and validation rules before collection, so the software rejects errors instead of leaving them for analysis day. REDCap data dictionary, codebook, and data validation basics with R and Python import.">
+  <meta name="theme-color" content="#2D2440">
+  <link rel="canonical" href="https://vahtian.com/learn/data-dictionary-that-validates/">
+  <meta name="robots" content="index,follow">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://vahtian.com/learn/data-dictionary-that-validates/">
+  <meta property="og:title" content="How to build a data dictionary that prevents data cleaning errors">
+  <meta property="og:description" content="Define every variable, its allowed values, and validation rules before collection, so cleaning does not become your analysis. REDCap data dictionary and codebook basics.">
+  <meta property="og:image" content="https://vahtian.com/brand/cards/vahtian-card.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Vahtian Learn — build a data dictionary that prevents cleaning errors.">
+  <meta property="og:site_name" content="Vahtian">
+  <meta property="article:published_time" content="2026-07-18">
+  <meta property="article:modified_time" content="2026-07-18">
+  <meta property="article:author" content="Heidi Andersén">
+  <meta name="twitter:card" content="summary_large_image">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "How to build a data dictionary that prevents data cleaning errors",
+    "description": "A data dictionary defines every variable, its allowed values, and validation rules before collection, so the software rejects errors instead of leaving them for analysis day. REDCap data dictionary, codebook, and data validation basics with R and Python import.",
+    "url": "https://vahtian.com/learn/data-dictionary-that-validates/",
+    "datePublished": "2026-07-18",
+    "dateModified": "2026-07-18",
+    "inLanguage": "en",
+    "author": { "@type": "Person", "name": "Heidi Andersén", "honorificSuffix": "MD, PhD", "url": "https://vahtian.com/about/" },
+    "publisher": { "@id": "https://vahtian.com/#org" }
+  }
+  </script>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232D2440'/%3E%3Cg fill='none' stroke='%238B6FC9' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 9 H9 V23 H12'/%3E%3Cpath d='M20 9 H23 V23 H20'/%3E%3C/g%3E%3Cpath d='M16 10.3 L19.6 12 L19.6 15 L16 19.6 L12.4 15 L12.4 12 Z' fill='none' stroke='%23C5B8E8' stroke-width='1.8' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../../brand/site-refresh.css">
+  <link rel="stylesheet" href="../../brand/learn-voc.css">
+  <link rel="stylesheet" href="../../brand/footer.css">
+</head>
+<body class="vh-content voc">
+<div class="wrap">
+
+  <header class="voc-head">
+    <a class="brand" href="/" aria-label="Vahtian — home">
+      <svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#2D2440"/><g fill="none" stroke="#8B6FC9" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9 H9 V23 H12"/><path d="M20 9 H23 V23 H20"/></g><path d="M16 10.3 L19.6 12 L19.6 15 L16 19.6 L12.4 15 L12.4 12 Z" fill="none" stroke="#C5B8E8" stroke-width="1.8" stroke-linejoin="round"/></svg>
+      Vahtian
+    </a>
+    <nav class="nav" aria-label="Primary">
+      <a href="/kits/">Kits</a>
+      <a href="/download/">Tools</a>
+      <a href="/learn/" aria-current="page">Learn</a>
+      <a href="/blog/">Blog</a>
+      <a href="/about/">About</a>
+      <span class="util"><a class="ic" href="/search/" aria-label="Search vahtian.com"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.3" y2="16.3"/></svg></a></span>
+    </nav>
+  </header>
+
+  <nav class="voc-crumbs"><a href="/">vahtian.com</a> · <a href="/learn/">learn</a> · data dictionary that validates</nav>
+
+<main>
+  <div class="voc-hero">
+    <p class="voc-kicker">Clean and prepare your data</p>
+    <h1>How to build a data dictionary that prevents data cleaning errors</h1>
+    <p class="voc-subtitle">Define every variable, its allowed values, and validation rules before you collect, so cleaning does not become your analysis.</p>
+    <p class="voc-lede">Every hour spent cleaning data after collection is usually an hour that could have been prevented before collection. A data dictionary defines every variable, its allowed values, and its validation rules before the first participant is entered. The software then rejects many errors automatically, instead of leaving them for analysis day.</p>
+    <p class="voc-byline">By <a href="/about/">Heidi Andersén, MD, PhD</a> · Updated 18 July 2026 · <span class="rt">6 min read</span></p>
+  </div>
+
+  <h2><span class="eyebrow">The problem</span>Cleaning becomes the analysis</h2>
+  <p>You open the spreadsheet to run your first test and find ages typed as words, a sex column with nine spellings, dates in three formats, and blank cells you cannot tell from real zeros. None of it was caught when it was entered, so all of it lands on you now. A data dictionary moves that work to the start, where it is cheap, and lets the data-entry tool enforce it.</p>
+
+  <h2><span class="eyebrow">What it is</span>One row per variable</h2>
+  <p>A data dictionary (REDCap calls it the instrument; other tools call it a codebook or variable dictionary) is a table with one row for every variable you will collect. It is the specification your research database, REDCap and other clinical research databases, enforces at the point of entry. The columns that carry the work:</p>
+  <ul>
+    <li><b>Variable name.</b> Stable, machine-readable name (for example <code>age_years</code>).</li>
+    <li><b>Field type.</b> Integer, text, date, radio button, checkbox, calculated field.</li>
+    <li><b>Label.</b> The question shown to the person entering data.</li>
+    <li><b>Choices.</b> Allowed coded values.</li>
+    <li><b>Validation.</b> Data type and acceptable range.</li>
+    <li><b>Identifier.</b> Whether the field contains personal identifiers.</li>
+  </ul>
+
+  <div class="voc-artifact">
+    <p class="lab">A minimal dictionary (REDCap-style)</p>
+    <pre class="voc-tpl">variable       type    label                choices / validation    identifier
+record_id      text                         (auto)                  no
+age_years      text    Age in years         integer, 18-120         no
+sex            radio   Sex at birth         1, Male | 2, Female     no
+consent_date   text    Date of consent      date_dmy                no
+initials       text    Participant initials -                       yes</pre>
+    <p style="margin:10px 0 0;font-size:13.5px;color:#3a3450">The <code>age_years</code> rule (integer, 18-120) refuses &ldquo;forty&rdquo; and &ldquo;220&rdquo; at entry. The coded <code>sex</code> choices refuse a tenth spelling. <code>initials</code> is flagged as an identifier, so you know to remove it before sharing.</p>
+  </div>
+
+  <h2><span class="eyebrow">Validation</span>Rules that catch the error at entry</h2>
+  <p>Set the type and range once and the tool refuses anything that fails: an integer field will not accept text, a <code>date_dmy</code> field will not accept 31/02/2026, a minimum and maximum fence out impossible values. Use coded choices instead of a free-text box wherever the answer is a category, and mark fields that must not be blank as required.</p>
+  <p>But validation reduces errors; it does not guarantee correctness. It cannot tell whether a value is <em>true</em>, only whether it is <em>possible</em>. A participant aged 52 can still be entered as 25, and validation will accept it. It catches impossible values, not incorrect ones. That distinction is easy to forget and worth keeping in front of you.</p>
+
+  <div class="voc-artifact">
+    <p class="lab">The same four entries, with and without a dictionary</p>
+    <pre class="voc-tpl">                without a dictionary          with a dictionary
+sex             Male, male, M, m, Female, F   1, Male | 2, Female
+age &ldquo;forty&rdquo;     accepted as text              rejected
+age 220         accepted                      rejected
+date 31/02/2026 accepted                      rejected</pre>
+  </div>
+
+  <h2><span class="eyebrow">Then</span>Read it into R or Python</h2>
+  <p>Because every variable already has a defined type, R and Python import the data with far fewer surprises. Most of the cleaning work has already happened during collection.</p>
+  <div class="voc-artifact">
+    <p class="lab">R</p>
+    <pre class="voc-tpl">library(REDCapR)
+d &lt;- redcap_read(redcap_uri = uri, token = token)$data
+# or from a CSV export:
+d &lt;- readr::read_csv("data.csv")</pre>
+    <p class="lab" style="margin-top:14px">Python</p>
+    <pre class="voc-tpl">import pandas as pd
+d = pd.read_csv("data.csv")</pre>
+  </div>
+
+  <h2><span class="eyebrow">Why this matters</span>Most analysis problems start at collection</h2>
+  <p>Most analysis problems are data-collection problems discovered too late. A statistician cannot recover information that was never collected consistently. An hour spent on the data dictionary usually saves many hours of cleaning, recoding, and checking before analysis, and it protects results you could not otherwise defend.</p>
+
+  <h2><span class="eyebrow">Checklist</span>Before you open recruitment</h2>
+  <div class="voc-artifact">
+    <p class="lab">Five checks</p>
+    <ul class="voc-check">
+      <li>Every variable has a name, a type, and a label.</li>
+      <li>Every category field uses coded choices, not free text.</li>
+      <li>Numbers and dates have a validation type and a plausible min and max.</li>
+      <li>Required fields are marked required.</li>
+      <li>Every field that could identify a person is flagged as an identifier.</li>
+    </ul>
+  </div>
+
+  <h2><span class="eyebrow">Related guides</span>Read next</h2>
+  <nav class="voc-related">
+    <a href="/learn/survey-export-two-header-rows/"><b>My survey export has two header rows</b><span>Turn a SurveyMonkey or Qualtrics export into a clean dataset R and Python can read.</span></a>
+    <a href="/learn/decimal-comma-csv/"><b>My numbers turned to text in the CSV</b><span>Decimal commas, semicolons, and locale, and how to import cleanly.</span></a>
+    <a href="/learn/cite-your-analysis-code/"><b>Make your analysis code citable</b><span>Give the code that reads this data a release and a DOI.</span></a>
+  </nav>
+
+  <p class="voc-softlink">Want it built for you? <a href="/dictvahti/">DictVahti</a> builds a REDCap-ready data dictionary with variable names, validation rules, coded values, and identifier flags. You review the structure before collecting data.</p>
+</main>
+
+<footer class="vh-footer">
+  <div class="vh-footer-shell">
+    <div class="vh-footer-main">
+      <div>
+        <p class="vh-footer-name">Vahtian</p>
+        <p class="vh-footer-tagline">Local-first tools for research decisions you can explain. Built in Finland by Heidi Andersén, MD, PhD.</p>
+      </div>
+      <nav class="vh-footer-links" aria-label="Footer">
+        <a href="/download/">Tools</a>
+        <a href="/learn/">Learn</a>
+        <a href="/blog/">Blog</a>
+        <a href="/about/">About</a>
+        <a href="/agents/">For agents</a>
+        <a href="/cite/">Cite</a>
+        <a href="/privacy/">Privacy</a>
+      </nav>
+    </div>
+    <p class="vh-footer-disclaimer">Vahtian keeps human judgment visible and research decisions open to review. It does not establish scientific truth.</p>
+    <div class="vh-footer-meta">
+      <span>© 2026 Vahtian</span>
+      <a href="/LICENSE">Apache-2.0 open core</a>
+      <a href="https://github.com/heidihelena/vahtian">GitHub <span aria-hidden="true">↗</span></a>
+      <a href="mailto:hello@vahtian.com">hello@vahtian.com</a>
+    </div>
+  </div>
+</footer>
+
+</div>
+</body>
+</html>
