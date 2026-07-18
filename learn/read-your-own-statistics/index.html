@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>I don't understand my own statistics. Where do I start? · Vahtian Learn</title>
+  <meta name="description" content="You don't understand your own results and you've been trusting the conclusions blindly. The four things that change what your statistics mean — effect size, significance, the confidence interval — in plain words, no equations.">
+  <meta name="theme-color" content="#2D2440">
+  <link rel="canonical" href="https://vahtian.com/learn/read-your-own-statistics/">
+  <meta name="robots" content="index,follow">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://vahtian.com/learn/read-your-own-statistics/">
+  <meta property="og:title" content="I don't understand my own statistics. Where do I start?">
+  <meta property="og:description" content="The four things that change what your results mean, in plain words — no equations.">
+  <meta property="og:image" content="https://vahtian.com/brand/cards/vahtian-card.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Vahtian Learn — read your own statistics.">
+  <meta property="og:site_name" content="Vahtian">
+  <meta property="article:published_time" content="2026-07-18">
+  <meta property="article:modified_time" content="2026-07-18">
+  <meta property="article:author" content="Heidi Andersén">
+  <meta name="twitter:card" content="summary_large_image">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "I don't understand my own statistics. Where do I start?",
+    "description": "The four things that change what your results mean, in plain words: effect size versus significance, the confidence interval as a range, and what to report.",
+    "url": "https://vahtian.com/learn/read-your-own-statistics/",
+    "datePublished": "2026-07-18",
+    "dateModified": "2026-07-18",
+    "inLanguage": "en",
+    "author": { "@type": "Person", "name": "Heidi Andersén", "honorificSuffix": "MD, PhD", "url": "https://vahtian.com/about/" },
+    "publisher": { "@id": "https://vahtian.com/#org" }
+  }
+  </script>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232D2440'/%3E%3Cg fill='none' stroke='%238B6FC9' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 9 H9 V23 H12'/%3E%3Cpath d='M20 9 H23 V23 H20'/%3E%3C/g%3E%3Cpath d='M16 10.3 L19.6 12 L19.6 15 L16 19.6 L12.4 15 L12.4 12 Z' fill='none' stroke='%23C5B8E8' stroke-width='1.8' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../../brand/site-refresh.css">
+  <link rel="stylesheet" href="../../brand/learn-voc.css">
+  <link rel="stylesheet" href="../../brand/footer.css">
+</head>
+<body class="vh-content voc">
+<div class="wrap">
+
+  <header class="voc-head">
+    <a class="brand" href="/" aria-label="Vahtian — home">
+      <svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#2D2440"/><g fill="none" stroke="#8B6FC9" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9 H9 V23 H12"/><path d="M20 9 H23 V23 H20"/></g><path d="M16 10.3 L19.6 12 L19.6 15 L16 19.6 L12.4 15 L12.4 12 Z" fill="none" stroke="#C5B8E8" stroke-width="1.8" stroke-linejoin="round"/></svg>
+      Vahtian
+    </a>
+    <nav class="nav" aria-label="Primary">
+      <a href="/kits/">Kits</a>
+      <a href="/download/">Tools</a>
+      <a href="/learn/" aria-current="page">Learn</a>
+      <a href="/blog/">Blog</a>
+      <a href="/about/">About</a>
+      <span class="util"><a class="ic" href="/search/" aria-label="Search vahtian.com"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.3" y2="16.3"/></svg></a></span>
+    </nav>
+  </header>
+
+  <nav class="voc-crumbs"><a href="/">vahtian.com</a> · <a href="/learn/">learn</a> · read your own statistics</nav>
+
+<main>
+  <div class="voc-hero">
+    <p class="voc-kicker">Quantitative analysis</p>
+    <h1>&ldquo;I don&rsquo;t understand my own statistics. Where do I start?&rdquo;</h1>
+    <p class="voc-subtitle">Reading the few things that change your conclusion, in plain words.</p>
+    <p class="voc-lede">You ran the analysis, or someone ran it for you, and the output is a wall of terms — regression, effect size, post-hoc, MANCOVA. Half of it you don&rsquo;t follow, so you have quietly trusted the conclusions. You do not need to become a statistician. You need to read four things.</p>
+    <p class="voc-byline">By <a href="/about/">Heidi Andersén, MD, PhD</a> · Updated 18 July 2026 · <span class="rt">7 min read</span></p>
+  </div>
+
+  <blockquote class="voc-voice">
+    &ldquo;I am a PhD student, and I don&rsquo;t understand statistical studies. Ok&hellip; I said it. Since I don&rsquo;t understand half of the results, I have to trust in the correctness of the conclusions.&rdquo;
+    <cite>— a doctoral student, saying it out loud</cite>
+  </blockquote>
+
+  <h2><span class="eyebrow">The problem</span>Trusting a conclusion you can&rsquo;t read is a risk, not a shortcut.</h2>
+  <p>The honest thing that student admitted — trusting the conclusions because the results are opaque — is extremely common, and it is where errors hide. If you cannot read your own output, you cannot tell a strong finding from a fragile one, and neither can you catch the mistake that turns a significant result non-significant. The good news: for most theses, four ideas carry nearly all the meaning, and none of them needs an equation.</p>
+
+  <h2><span class="eyebrow">Why it matters</span>You will have to defend numbers you did not fully read.</h2>
+  <p>At a viva or in review, someone will ask what a result <em>means</em> — not how the software computed it. &ldquo;What does this effect size tell us in practice?&rdquo; is answerable in a sentence if you have read the four things, and terrifying if you have not. Reading your own results is also the only way to notice when the analysis is wrong before a reviewer does.</p>
+
+  <h2><span class="eyebrow">Common mistakes</span>Four misreadings to avoid</h2>
+  <ul class="voc-mistakes">
+    <li><b>Reading significance as importance.</b> &ldquo;p &lt; 0.05&rdquo; says the effect is probably not zero, not that it is large or that it matters.</li>
+    <li><b>Reading non-significance as &ldquo;no effect&rdquo;.</b> It often means the study was too small to be sure — absence of evidence, not evidence of absence.</li>
+    <li><b>Ignoring the confidence interval.</b> The interval, not the point estimate, tells you how much you actually know.</li>
+    <li><b>Reporting only the p-value.</b> A finding without an effect size and interval is half a sentence — reviewers notice the missing half.</li>
+  </ul>
+
+  <h2><span class="eyebrow">The four things</span>What actually changes the meaning</h2>
+  <p><strong>1 · Effect size — how big.</strong> This is the number that matters most and gets read least. It answers &ldquo;how much?&rdquo; — how large the difference or association is, in units you can picture. A tiny effect can be statistically significant in a big sample and still be meaningless in practice.</p>
+  <p><strong>2 · Significance (the p-value) — how surprising if nothing were going on.</strong> A small p-value says your result would be unlikely if there were truly no effect. It does not say the effect is big, important, or definitely real. Treat it as one clue, read alongside the effect size, never on its own.</p>
+  <p><strong>3 · The confidence interval — the range of what&rsquo;s plausible.</strong> Read the interval as &ldquo;values compatible with my data&rdquo;, not a verdict. A narrow interval means you have pinned the effect down; a wide one crossing zero means you genuinely do not know the direction yet. The interval is where your certainty actually lives.</p>
+  <p><strong>4 · What to report.</strong> For most results, report the effect size, its confidence interval, and the p-value together, in that order of importance — and say what the effect means in plain terms. That single habit answers most viva questions before they are asked.</p>
+
+  <h2><span class="eyebrow">Worked example</span>Reading one result aloud</h2>
+  <div class="voc-example">
+    <p class="lab">From output to a sentence</p>
+    <p><strong>Output:</strong> mean difference 2.1 points, 95% CI 0.3 to 3.9, p = 0.02.</p>
+    <p><strong>Read plainly:</strong> &ldquo;The intervention group scored about 2 points higher on average. The data are compatible with a true difference anywhere from about 0.3 to 3.9 points, so the direction is fairly clear but the size is uncertain. The p-value of 0.02 means a difference this large would be unlikely if there were really no effect. Whether 2 points matters is a judgement about the scale, not a statistical one.&rdquo;</p>
+    <p><strong>What you just did:</strong> you read the size, the range, and the significance, and separated &ldquo;is it there?&rdquo; from &ldquo;does it matter?&rdquo; — which is the whole skill.</p>
+  </div>
+
+  <h2><span class="eyebrow">Checklist &amp; one-pager</span>Read any result</h2>
+  <div class="voc-artifact">
+    <span class="badge" aria-hidden="true">&#x1F4CF;</span>
+    <p class="lab">Downloadable · read-your-results one-pager</p>
+    <h3>The four-things one-pager</h3>
+    <ul class="voc-check">
+      <li>Effect size: how big is it, in units I can picture?</li>
+      <li>Does the size matter in practice, on this scale?</li>
+      <li>Confidence interval: how wide, and does it cross zero (or 1 for ratios)?</li>
+      <li>p-value: read alongside the effect size, not alone.</li>
+      <li>Have I separated &ldquo;is the effect there?&rdquo; from &ldquo;does it matter?&rdquo;</li>
+      <li>Can I say the result in one plain sentence?</li>
+      <li>If anything still doesn&rsquo;t read, flag it for the statistician — early.</li>
+    </ul>
+    <div class="voc-tpl" id="tpl-1">Read your results — one-pager
+
+Result: ___________________________________________
+
+1. Effect size (how big?): ________________________
+   In plain units: ________________________________
+2. Does the size matter in practice?  Y / N / unsure
+3. Confidence interval: ____ to ____
+   Wide or narrow? Crosses zero/1?  ________________
+4. p-value: ____   (read WITH the effect size)
+
+Plain-language sentence:
+"____________________________________________________
+ ____________________________________________________"
+
+Separated "is it there?" from "does it matter?"  Y/N
+Flag for the statistician: ________________________
+
+A reading of the output, not a verdict on the study.</div>
+    <a class="voc-dl" href="#" data-download="tpl-1" data-filename="read-your-results.md">Download the one-pager (Markdown)</a>
+  </div>
+
+  <div class="voc-limit">
+    <p style="margin:0"><b>The honest limit.</b> Reading these four things helps you understand and report your results; it does not replace a statistician for study design, model choice, or a complex analysis. Knowing which four things to read is exactly what lets you ask the statistician a precise question instead of a panicked one.</p>
+  </div>
+
+  <h2><span class="eyebrow">When to call the statistician</span>Sooner than you think</h2>
+  <p>Ask for help — early, and specifically — when the model itself is in question (which test, which covariates), when results shift depending on choices you don&rsquo;t understand, or when a reviewer challenges the analysis. Bring the four things you <em>can</em> read and name exactly what you can&rsquo;t. &ldquo;I can read the effect size and interval, but I don&rsquo;t understand why this covariate changes the result&rdquo; gets you a useful answer; &ldquo;I don&rsquo;t understand any of it&rdquo; gets you a lecture.</p>
+
+  <h2><span class="eyebrow">Related guides</span>Read next</h2>
+  <nav class="voc-related">
+    <a href="/learn/how-to-write-a-scientific-paper/"><b>Write from the results out</b><span>Report results without over-claiming — the unearned causal verb, caught early.</span></a>
+    <a href="/learn/defend-qualitative-sample-size/"><b>My supervisor says my sample is too small</b><span>The qualitative cousin of the &ldquo;is it enough?&rdquo; question.</span></a>
+    <a href="/learn/find-your-next-research-project/"><b>Find your next research project</b><span>Design the next study so the statistics are answerable from the start.</span></a>
+  </nav>
+
+  <p class="voc-softlink">If your result is a causal claim, the assumptions under it are worth a look before you defend it — <a href="https://github.com/heidihelena/assesslite" rel="noopener">AssessLite</a> stress-tests those assumptions and records what held, failed, or could not be resolved. That is a next step for causal work, not a substitute for reading the four things above.</p>
+
+  <h2><span class="eyebrow">Further reading</span>Sources worth your time</h2>
+  <ul class="voc-reading">
+    <li>Greenland et al. (2016), <em>Statistical tests, P values, confidence intervals, and power: a guide to misinterpretations</em> — <a href="https://doi.org/10.1007/s10654-016-0149-3" rel="noopener nofollow">European Journal of Epidemiology</a>.</li>
+    <li>Wasserstein &amp; Lazar (2016), <em>The ASA statement on p-values</em> — <a href="https://doi.org/10.1080/00031305.2016.1154108" rel="noopener nofollow">The American Statistician</a>.</li>
+  </ul>
+</main>
+
+<footer class="vh-footer">
+  <div class="vh-footer-shell">
+    <div class="vh-footer-main">
+      <div>
+        <p class="vh-footer-name">Vahtian</p>
+        <p class="vh-footer-tagline">Local-first tools for research decisions you can explain. Built in Finland by Heidi Andersén, MD, PhD.</p>
+      </div>
+      <nav class="vh-footer-links" aria-label="Footer">
+        <a href="/download/">Tools</a>
+        <a href="/learn/">Learn</a>
+        <a href="/blog/">Blog</a>
+        <a href="/about/">About</a>
+        <a href="/agents/">For agents</a>
+        <a href="/cite/">Cite</a>
+        <a href="/privacy/">Privacy</a>
+      </nav>
+    </div>
+    <p class="vh-footer-disclaimer">Vahtian keeps human judgment visible and research decisions open to review. It does not establish scientific truth.</p>
+    <div class="vh-footer-meta">
+      <span>© 2026 Vahtian</span>
+      <a href="/LICENSE">Apache-2.0 open core</a>
+      <a href="https://github.com/heidihelena/vahtian">GitHub <span aria-hidden="true">↗</span></a>
+      <a href="mailto:hello@vahtian.com">hello@vahtian.com</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+document.querySelectorAll('[data-download]').forEach(function(btn){
+  btn.addEventListener('click',function(e){
+    e.preventDefault();
+    var src=document.getElementById(btn.getAttribute('data-download'));
+    if(!src)return;
+    var blob=new Blob([src.innerText],{type:'text/markdown;charset=utf-8'});
+    var url=URL.createObjectURL(blob);
+    var a=document.createElement('a');
+    a.href=url;a.download=btn.getAttribute('data-filename')||'vahtian.md';
+    document.body.appendChild(a);a.click();a.remove();
+    setTimeout(function(){URL.revokeObjectURL(url);},1000);
+  });
+});
+</script>
+</div>
+</body>
+</html>
