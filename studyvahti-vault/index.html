@@ -52,7 +52,9 @@
     .wrap{max-width:1040px;margin:0 auto;padding:0 24px}
     .top{background:var(--navy);color:#eeeaf7}
     header{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:22px 0}
-    header .brand{font-family:"Marksy","Marker Felt","Segoe Print",cursive;font-size:28px;font-weight:600;color:#fff;text-decoration:none}
+    .brand{display:flex;align-items:center;gap:10px}
+    .brand .mark{width:31px;height:31px;display:block}
+    .brand-name{font-family:"Marksy","Marker Felt","Bradley Hand","Segoe Print",cursive;font-size:25px;font-weight:600;color:#fff;text-decoration:none;letter-spacing:0;line-height:1}
     header nav{display:flex;gap:18px;align-items:center;font-size:14px}
     header nav a{color:var(--lilac);text-decoration:none}
     .hero{display:grid;grid-template-columns:minmax(0,.8fr) minmax(450px,1.2fr);gap:48px;align-items:center;padding:45px 0 66px}
@@ -108,7 +110,10 @@
 <div class="top">
   <div class="wrap">
     <header>
-      <a class="brand" href="/">Vahtian</a>
+      <div class="brand">
+        <a href="/" aria-label="Vahtian — home" style="display:flex"><svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#2D2440"/><g fill="none" stroke="#8B6FC9" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9 H9 V23 H12"/><path d="M20 9 H23 V23 H20"/></g><path d="M16 10.3 L19.6 12 L19.6 15 L16 19.6 L12.4 15 L12.4 12 Z" fill="none" stroke="#C5B8E8" stroke-width="1.8" stroke-linejoin="round"/></svg></a>
+        <a class="brand-name marksy" href="/">Vahtian</a>
+      </div>
       <nav aria-label="Primary"><a href="/download/">Tools</a><a href="/learn/">Learn</a><a href="/about/">About</a><a href="mailto:hello@vahtian.com">Lab licences</a></nav>
     </header>
     <div class="hero">
