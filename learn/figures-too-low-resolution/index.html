@@ -82,7 +82,7 @@
 
   <section class="voc-sec alt">
   <h2><span class="eyebrow">Common mistakes</span>Four ways figures get bounced</h2>
-  <ul class="voc-mistakes">
+  <ul>
     <li><b>Exporting a screenshot or a low-DPI PNG.</b> A figure sized for a slide is far below print resolution. Blown up to a journal column, the lines go soft and the text furs at the edges.</li>
     <li><b>Sending a bitmap where the journal wants vector.</b> Line art (plots, diagrams, flowcharts) belongs in a vector format (EPS or PDF) that stays sharp at any size. Saving it as a flattened JPEG bakes in blur you cannot recover.</li>
     <li><b>Type that survives on screen but not in print.</b> Axis labels set to look right in your document are often 4-5&nbsp;pt once the figure is scaled to column width: below the minimum, and unreadable.</li>
@@ -93,7 +93,7 @@
   <h2><span class="eyebrow">What they actually want</span>The four decisions, in plain numbers</h2>
   <p><strong>1 · Format.</strong> Match the format to the kind of image. <em>Line art and plots</em>, anything drawn from data, export as vector: <b>EPS</b> or <b>PDF</b>, which stay sharp at any size. <em>Photographs, gels, micrographs, heatmaps</em> export as a high-resolution bitmap: <b>TIFF</b> (preferred by most journals) or high-quality PNG. Some publishers accept only TIFF or EPS and will reject a JPEG outright, so check the guide for your target journal before you export. Whatever the format, embed the fonts.</p>
   <p><strong>2 · Resolution.</strong> Measured in DPI (dots per inch) <em>at the final printed size</em>, not at screen size. The widely used thresholds:</p>
-  <ul class="voc-mistakes">
+  <ul>
     <li><b>300&nbsp;DPI</b>: photographs and greyscale/colour images.</li>
     <li><b>500-600&nbsp;DPI</b>: combination figures (a photo with lettering or line work over it).</li>
     <li><b>1000-1200&nbsp;DPI</b>: pure line art saved as a bitmap. (Save it as vector instead and resolution stops being a worry.)</li>
@@ -103,7 +103,6 @@
   <p><strong>4 · Colour.</strong> Choose colours a colour-blind reader can still separate, and never let colour be the <em>only</em> signal. Avoid red-with-green pairings and rainbow/jet scales. Reach instead for a colour-blind-safe qualitative palette such as <b>Okabe-Ito</b>, or a perceptually uniform sequential map such as <b>viridis</b> for continuous data. Back colour up with a second cue (line style, shape, direct labels) and put the key <em>inside</em> the figure, not only in the caption.</p>
 
   <div class="voc-artifact">
-    <span class="badge" aria-hidden="true">&#x1F571;</span>
     <p class="lab">A colour-blind-safe palette you can paste in (Okabe-Ito)</p>
     <pre class="voc-tpl">orange         #E69F00
 sky blue       #56B4E9
@@ -115,6 +114,8 @@ reddish purple #CC79A7
 black          #000000</pre>
     <p style="margin:10px 0 0;font-size:13.5px;color:#3a3450">Eight hues that stay distinguishable under the common forms of colour-vision deficiency. Use them in order, and pair each with a shape or line style so the figure still reads in greyscale.</p>
   </div>
+
+  <p>Rather than paste the hexes, pull a tested palette from a package. In R, <code>viridis</code> gives perceptually uniform sequential maps, including <code>cividis</code>, which is tuned for colour-vision deficiency; <code>khroma</code> and <code>ggokabeito</code> provide the Okabe-Ito set above; and <code>RColorBrewer</code> flags which of its palettes are colour-blind-safe. In Python, <code>viridis</code> is matplotlib&rsquo;s default.</p>
 
   <p class="voc-aside big">If it fails in greyscale, colour was doing work it shouldn&rsquo;t have to.</p>
 
