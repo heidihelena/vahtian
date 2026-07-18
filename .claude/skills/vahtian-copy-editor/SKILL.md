@@ -76,6 +76,27 @@ it sells nothing here.
   shipped.
 - **Emoji as bullets or section markers, Title Case Headlines, and colon-stacked
   titles** ("SynthVahti: The Future of Synthesis"). None of these belong here.
+- **The "X is the whole Y" aphoristic closer** — "that is the whole point", "which
+  is the whole skill", "the asymmetry is the whole problem". A sentence engineered
+  to land as a tidy summary. The July 2026 Learn sweep found the tells cluster in
+  the sentences written to *close* a section, exactly where a model over-polishes.
+  Cut the closer; the preceding sentence already made the point.
+- **Formula pivots that recur across sibling pages** — "The fix is…", "The good
+  news is…", a bold-lead-in every paragraph. Fine once; a tell when the same shape
+  opens paragraphs on page after page. Vary or delete.
+- **Cliché auto-writing** — "writes itself", "almost writes itself". Say the plain
+  thing ("the case is easy to make").
+- **Filler intensifiers** — "actually", "really", "truly", "genuinely" as emphasis
+  crutches ("that is where your certainty actually lives"). Keep only where the word
+  carries a real contrast ("what you *actually* did" vs claimed); drop the rest.
+- **Bold-label:value lists masquerading as prose** — "Study. … Aim — narrow: …
+  Recovery. … Prevention." A worked example decomposed into labelled fragments reads
+  machine-generated; rewrite as two flowing sentences. (A genuine reference menu —
+  five distinct copy-paste statements, a glossary — can keep its labels.)
+- **Printable fill-in templates as filler** — a monospace `____` form that adds no
+  value the reader would print. Cut it; a four-line inline checklist does the job.
+- **Rhetorical questions as teaching** — "why does this paragraph earn its place?"
+  Make it a declarative instruction.
 
 **The one test:** would a busy clinician-researcher write this line in an email to
 a colleague? If it sounds like a brochure, a pitch deck, or a press release, rewrite
@@ -117,6 +138,13 @@ gets; the limit sits inside the close, once. This complements
 `vahtian-brand-safety`: that skill requires the invariant be *visible*; this one
 stops it being *repeated* until it reads as nervousness. One well-placed limit
 does both jobs.
+
+**A limit is a sentence, not a labelled box (founder-set, Heidi 2026-07-18).**
+The July 2026 Learn build shipped a "The honest limit." callout box on every
+page; Heidi read the *box* as AI slop — the label plus the formulaic "not X —
+what it does is Y" body announced itself as boilerplate. Weave the limit into
+the prose where it belongs instead, once, and never as a titled container. Keep
+the honesty; drop the packaging.
 
 ## Microcopy rules
 
