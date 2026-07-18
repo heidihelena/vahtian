@@ -22,7 +22,7 @@ professionally allergic to hype — restraint *is* the persuasion.
   the number (28 checks), the artifact (a `.ris` file, a hash-chained trail).
   Specificity reads as competence *and* helps GEO.
 - **Front-load the claim.** First clause carries the point; qualifiers follow.
-  "Free, local-first — nothing uploads" beats "With a local-first architecture
+  "Free, local-first, nothing uploads" beats "With a local-first architecture
   that is also free…"
 - **The honest caveat is voice, not fine print.** "Checks citation support,
   not truth" appears in running copy, confidently, where space allows.
@@ -34,14 +34,36 @@ professionally allergic to hype — restraint *is* the persuasion.
   local/private fact where true ("In your browser; nothing uploads.").
 - Cut throat-clearing: "It's worth noting", "In order to", "seamlessly",
   "powerful", "simply". Adverbs are usually the hype leaking in.
-- Em-dash for the pivot, semicolon for the twin fact — the site's established
-  rhythm ("load each reviewer's ballots — and get per-claim agreement";
-  "Local-first; nothing uploads."). Don't switch punctuation systems per page.
+- **Comma is the default pivot; the em-dash is not the house voice.** Heidi does
+  not type em-dashes (her keyboard has none), and her convention is the comma
+  where American guides use the dash. Gloss an aside with a comma or parenthesis,
+  join twin facts with a full stop or semicolon ("Local-first; nothing uploads."),
+  introduce a list with a colon. Aim for at most one em-dash in a whole page, on
+  its single hardest pivot; treat any other dash in a draft as a paste-artifact to
+  convert. `heidi-voice` (*Punctuation*) is the canonical rule.
 
 ## The AI-tell test — cut what makes copy read as machine-written
 
 Researchers spot AI copy instantly, and it reads as *someone didn't bother*. For
 this audience that is a trust cost, not just a style nit. Hunt these and cut them.
+
+**Judge the cluster, not the word.** No single tell convicts; the signature is
+**high fluency + low specificity + regular structure + generic abstraction + no
+visible intellectual risk.** `heidi-voice` carries the full fifteen-pattern
+cluster test, consult it for anything longer than a product blurb. The patterns
+that most often survive into otherwise-good Vahtian copy, beyond the vocabulary
+and structures listed below:
+- **Restatement disguised as development.** An idea paraphrased twice, the last
+  paraphrase relabelled an implication. Word count rises, the argument does not.
+- **Artificial comprehensiveness.** Covering every dimension (benefits and limits,
+  present and future, individual and institutional) so nothing is allowed to be
+  irrelevant. Cut to the one that matters.
+- **Unearned balance.** "while / however / although" softening a claim the
+  evidence clearly supports. Say the thing.
+- **Formatting as thinking.** Headings, bold keywords, colon-led fragments, and
+  tidy tables dressing weak content as analysis.
+- **Absence of authorial cost.** No discarded reading, no specific disagreement,
+  no detail only this author would know. Put one back.
 
 **Banned vocabulary** (the LLM-house-style words — replace with a plain verb or
 delete): delve, dive in, elevate, unlock, harness, leverage, empower, streamline,
@@ -103,9 +125,12 @@ a colleague? If it sounds like a brochure, a pitch deck, or a press release, rew
 it until it sounds like a person who knows the subject. Plainer is almost always more
 credible — and this house style *is* plain by design.
 
-**Note on the em-dash:** the site uses it deliberately for the pivot, and that's
-correct — but AI overuses it. Two or more em-dashes in one short paragraph is a tell;
-keep one, turn the other into a period or a semicolon.
+**Note on the em-dash:** it is not Heidi's punctuation. She does not type it, and
+her convention is the comma. Default the pivot to a comma, and twin facts to a
+full stop or semicolon. Any em-dash beyond the one hardest pivot per page is a
+tell; convert it. (Dogfooded July 2026: a twelve-page pass halved the prose
+em-dash count on the site's dash-heaviest pages, punctuation-only, no wording
+changed.)
 
 ## The fact pass — check before you polish
 
