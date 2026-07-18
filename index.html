@@ -250,6 +250,19 @@
     .kit p{margin:0;color:var(--ink);font-size:14.5px;max-width:54ch}
     .kit .kbtn{display:inline-block;margin-top:auto;max-width:100%;padding:11px 18px;border-radius:6px;font-weight:700;text-decoration:none;
       background:var(--navy);color:#fff;font-size:15px;text-align:center;white-space:normal}
+    /* homepage top-three ranked kits + big Marksy "see the rest" arrow */
+    #kits .kits{grid-template-columns:1fr!important;gap:0}
+    #kits .kit{display:grid;grid-template-columns:auto minmax(0,1fr);column-gap:18px;align-items:start}
+    #kits .kit .rank{font:600 46px/1 "Marksy","Marker Felt","Bradley Hand","Segoe Print",cursive;color:var(--link)}
+    #kits .kit:nth-child(1) .rank{transform:rotate(-4deg)}
+    #kits .kit:nth-child(2) .rank{transform:rotate(3deg)}
+    #kits .kit:nth-child(3) .rank{transform:rotate(-2deg)}
+    #kits .kit .kbody{display:flex;flex-direction:column;align-items:flex-start;gap:9px;min-width:0}
+    .see-rest{display:flex;justify-content:center;margin:6px 0 0}
+    .see-rest a{font:600 76px/1 "Marksy","Marker Felt","Bradley Hand","Segoe Print",cursive;color:var(--link);
+      text-decoration:none;display:inline-block;transition:transform .15s ease}
+    .see-rest a:hover{transform:translateX(8px)}
+    @media(prefers-reduced-motion:reduce){.see-rest a:hover{transform:none}#kits .kit .rank{transform:none}}
     .field-letter{background:var(--paper2);border-top:3px solid var(--violet);
       box-shadow:0 0 0 100vmax var(--paper2);clip-path:inset(0 -100vmax);
       padding:28px 0 34px;margin:42px 0 0;color:var(--ink)}
@@ -382,33 +395,37 @@
 
   <section id="kits" class="band-lilac">
     <h2>Research kits</h2>
-    <p class="kitsintro">The free tools let you test the approach. The kits give you the templates, local workflow, and records to run it on a real study. <a href="/kits/">See all eight kits, in one place →</a></p>
+    <p class="kitsintro">The free tools let you test the approach. The kits give you the templates, local workflow, and records to run it on a real study.</p>
     <div class="kits">
-      <div class="kit flagship">
-        <p class="kkick">Complete workflow · qualitative studies</p>
-        <h3>QualiVahti Local</h3>
-        <p>A local qualitative workflow for sensitive interviews: transcribe, code, review suggestions, maintain the codebook, and export an audit trail without sending the data away.</p>
-        <a class="kbtn" href="/qualivahti-local/">Explore QualiVahti Local · €49 →</a>
-      </div>
-      <div class="kit flagship">
-        <p class="kkick">Complete workflow · observational studies</p>
-        <h3>StudyVahti Vault</h3>
-        <p>Keep the research question, variable dictionary, estimand, analysis plan, decisions, outputs, manuscript claims, and 16-check audit trail in one local workspace.</p>
-        <a class="kbtn" href="/studyvahti-vault/">Explore StudyVahti Vault · €49 →</a>
+      <div class="kit">
+        <span class="rank" aria-hidden="true">1</span>
+        <div class="kbody">
+          <p class="kkick">Complete workflow · qualitative studies</p>
+          <h3>QualiVahti Local</h3>
+          <p>A local qualitative workflow for sensitive interviews: transcribe, code, review suggestions, maintain the codebook, and export an audit trail without sending the data away.</p>
+          <a class="kbtn" href="/qualivahti-local/">Explore QualiVahti Local · €49 →</a>
+        </div>
       </div>
       <div class="kit">
-        <p class="kkick">Focused kit · qualitative sampling</p>
-        <h3>MethodVahti Sample Defence Pack</h3>
-        <p>Set the stopping logic, keep an adequacy log, and draft a defensible sampling paragraph without treating saturation as a formula.</p>
-        <a class="kbtn" href="/methodvahti/#access">See the Sample Defence Pack · €49 →</a>
+        <span class="rank" aria-hidden="true">2</span>
+        <div class="kbody">
+          <p class="kkick">Complete workflow · observational studies</p>
+          <h3>StudyVahti Vault</h3>
+          <p>Keep the research question, variable dictionary, estimand, analysis plan, decisions, outputs, manuscript claims, and 16-check audit trail in one local workspace.</p>
+          <a class="kbtn" href="/studyvahti-vault/">Explore StudyVahti Vault · €49 →</a>
+        </div>
       </div>
       <div class="kit">
-        <p class="kkick">Five more kits</p>
-        <h3>Writing, peer review, disclosure, strategy</h3>
-        <p>Manuscript Kit, Reviewer Response Builder, Reviewer's Notebook, AI Disclosure Kit, and the Research Strategy Kit, from €29.</p>
-        <a class="kbtn" href="/kits/">See all kits →</a>
+        <span class="rank" aria-hidden="true">3</span>
+        <div class="kbody">
+          <p class="kkick">Focused kit · qualitative sampling</p>
+          <h3>MethodVahti Sample Defence Pack</h3>
+          <p>Set the stopping logic, keep an adequacy log, and draft a defensible sampling paragraph without treating saturation as a formula.</p>
+          <a class="kbtn" href="/methodvahti/#access">See the Sample Defence Pack · €49 →</a>
+        </div>
       </div>
     </div>
+    <div class="see-rest"><a href="/kits/" aria-label="See all kits">→</a></div>
   </section>
 
 
