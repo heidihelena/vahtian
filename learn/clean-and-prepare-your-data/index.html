@@ -166,7 +166,7 @@ d["comorbid"]   = d["comorbid"].replace(9, pd.NA)
 # how many missing, per column
 d.isna().sum()</pre>
         </div>
-        <p class="step-note">Before you recode any 9, 99, or 999, assess what it means in that specific variable. In a pain score 99 is missing; in a count it may be real. Blanket recoding is how a real value silently becomes missing data.</p>
+        <p class="step-note">Some studies use values such as 9, 99, or 999 for different kinds of missing data (unknown, not measured, not asked). These codes are specific to each variable and belong in the data dictionary. Never assume the same code means the same thing across the dataset: in a pain score 99 may be missing, while in a count it is a real value. Recode one variable at a time, from its documented meaning.</p>
       </div>
     </details>
 
@@ -378,7 +378,7 @@ shared = d.assign(study_id=d["record_id"].map(mapping))
 shared = shared.drop(columns=["record_id", "initials",
                               "date_of_birth"])</pre>
         </div>
-        <p class="step-note">Pseudonymised data is still personal data under GDPR, because the mapping lets someone re-identify it. True anonymisation is a higher bar and hard to reach with small clinical samples. This is design guidance under stated assumptions, not legal advice; check your own data protection rules and your ethics approval before sharing.</p>
+        <p class="step-note">Pseudonymised data is still personal data under GDPR, because the mapping lets someone re-identify it. True anonymisation means individuals are no longer reasonably identifiable; for many clinical research datasets, especially small or rare-disease cohorts, that standard is difficult to achieve. This is design guidance under stated assumptions, not legal advice; check your own data protection rules and your ethics approval before sharing.</p>
       </div>
     </details>
 
