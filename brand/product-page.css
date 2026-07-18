@@ -18,7 +18,9 @@ a{color:#5f479d;text-underline-offset:3px}
 .wrap{width:min(1040px,100%);margin:0 auto;padding:0 24px}
 .top{background:var(--navy);color:#eeeaf7}
 .site-head{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:21px 0}
-.site-head .brand{font:600 28px/1 "Marksy","Marker Felt","Segoe Print",cursive;color:#fff;text-decoration:none}
+.brand{display:flex;align-items:center;gap:10px}
+.brand .mark{width:31px;height:31px;display:block}
+.brand-name{font-family:"Marksy","Marker Felt","Bradley Hand","Segoe Print",cursive;font-size:25px;font-weight:600;color:#fff;text-decoration:none;letter-spacing:0;line-height:1}
 .site-head nav{display:flex;gap:18px;align-items:center;font-size:14px}
 .site-head nav a{color:var(--lilac);text-decoration:none}
 .hero{padding:42px 0 0;text-align:center}
