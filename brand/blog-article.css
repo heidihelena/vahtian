@@ -21,7 +21,7 @@ body.blog-article{
 .blog-article a{color:var(--link)}
 .blog-article a:focus-visible{outline:3px solid var(--violet);outline-offset:3px}
 .blog-shell{max-width:900px;margin:0 auto;padding:0 22px}
-.blog-article .blog-shell>header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:24px 0 4px}
+.blog-article .blog-shell>header{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;padding:24px 0 4px}
 .blog-article .brand{display:flex;align-items:center;gap:10px;font-weight:700}
 .blog-article .mark{width:30px;height:30px;flex:0 0 30px}
 
@@ -67,7 +67,10 @@ nav.nav .util .ic{display:flex;color:var(--muted)}
 nav.nav .util .ic:hover{color:var(--link)}
 
 @media(max-width:680px){
-  nav.nav{gap:13px;font-size:13.5px}
+  /* keep the whole nav on one row — logo-only brand, tighter nav */
+  .blog-article .brand span{display:none}
+  nav.nav{gap:11px;font-size:13px}
+  nav.nav .util{gap:10px;padding-left:11px}
   .article-head{padding:40px 54px 28px 0}
   .article-head .article-mark{right:0;top:39px;width:38px;height:38px}
   .article-head h1{font-size:34px}
