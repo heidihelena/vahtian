@@ -124,6 +124,20 @@ burned us in the July 2026 Learn audit; check them before wordsmithing:
   up and not find.
 - **"Studies show" needs a link.** Provenance or flag applies to our own copy: cite
   the actual study/review, or rewrite as reasoning from mechanism.
+- **Verify every DOI before shipping — and dogfood our own tool to do it.** DOIs
+  written from memory are frequently wrong or mismatched: the July 2026 Learn batch
+  shipped a "research questions" citation whose DOI resolved to a *statistics* paper,
+  and a correct-but-fragile Springer DOI that stalled on slow 4G. For each citation,
+  check that the DOI resolves *and* points to the right paper — run the reference
+  list through Vahtian's own free browser tool, `/reference-check/` (checks each DOI
+  against Crossref, flags retractions, preprints, duplicates), the way a reader
+  would; CiteVahti covers claim↔source support. Then **prefer a single-hop
+  open-access URL over a publisher DOI that wraps the paper in a cookie/redirect
+  handshake** — those stall on slow connections. Open-access on PubMed Central →
+  link `pmc.ncbi.nlm.nih.gov/articles/PMCxxxxxxx/` (find the PMCID via the NCBI id
+  converter; confirm OA with Unpaywall). Label every external citation `(open
+  access)` or `(paywall)` so a reader on 4G knows before clicking. If we ask readers
+  to check their citations, our own must survive the same check.
 - **Platform-specific instructions are checked per platform.** macOS vs Windows
   menu paths, `python` vs `python3` — the reader on the other OS hits a wall.
 - **No absolute the same page contradicts.** If the page later concedes the
