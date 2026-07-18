@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>My survey export has two header rows and won't load · Vahtian Learn</title>
+  <meta name="description" content="SurveyMonkey, Qualtrics, and Google Forms export with two header rows and merged cells, so read_csv mislabels everything. Combine the headers and reshape to a tidy dataset in R and Python.">
+  <meta name="theme-color" content="#2D2440">
+  <link rel="canonical" href="https://vahtian.com/learn/survey-export-two-header-rows/">
+  <meta name="robots" content="index,follow">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://vahtian.com/learn/survey-export-two-header-rows/">
+  <meta property="og:title" content="My survey export has two header rows and won't load">
+  <meta property="og:description" content="Combine the two header rows and reshape a SurveyMonkey or Qualtrics export into a tidy dataset R and Python can read.">
+  <meta property="og:image" content="https://vahtian.com/brand/cards/vahtian-card.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Vahtian Learn — clean a two-header survey export.">
+  <meta property="og:site_name" content="Vahtian">
+  <meta property="article:published_time" content="2026-07-18">
+  <meta property="article:modified_time" content="2026-07-18">
+  <meta property="article:author" content="Heidi Andersén">
+  <meta name="twitter:card" content="summary_large_image">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "My survey export has two header rows and won't load. How do I clean it?",
+    "description": "Combine the two header rows and reshape a SurveyMonkey, Qualtrics, or Google Forms export into a tidy dataset in R and Python.",
+    "url": "https://vahtian.com/learn/survey-export-two-header-rows/",
+    "datePublished": "2026-07-18",
+    "dateModified": "2026-07-18",
+    "inLanguage": "en",
+    "author": { "@type": "Person", "name": "Heidi Andersén", "honorificSuffix": "MD, PhD", "url": "https://vahtian.com/about/" },
+    "publisher": { "@id": "https://vahtian.com/#org" }
+  }
+  </script>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232D2440'/%3E%3Cg fill='none' stroke='%238B6FC9' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 9 H9 V23 H12'/%3E%3Cpath d='M20 9 H23 V23 H20'/%3E%3C/g%3E%3Cpath d='M16 10.3 L19.6 12 L19.6 15 L16 19.6 L12.4 15 L12.4 12 Z' fill='none' stroke='%23C5B8E8' stroke-width='1.8' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../../brand/site-refresh.css">
+  <link rel="stylesheet" href="../../brand/learn-voc.css">
+  <link rel="stylesheet" href="../../brand/footer.css">
+</head>
+<body class="vh-content voc">
+<div class="wrap">
+
+  <header class="voc-head">
+    <a class="brand" href="/" aria-label="Vahtian — home">
+      <svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#2D2440"/><g fill="none" stroke="#8B6FC9" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9 H9 V23 H12"/><path d="M20 9 H23 V23 H20"/></g><path d="M16 10.3 L19.6 12 L19.6 15 L16 19.6 L12.4 15 L12.4 12 Z" fill="none" stroke="#C5B8E8" stroke-width="1.8" stroke-linejoin="round"/></svg>
+      Vahtian
+    </a>
+    <nav class="nav" aria-label="Primary">
+      <a href="/kits/">Kits</a>
+      <a href="/download/">Tools</a>
+      <a href="/learn/" aria-current="page">Learn</a>
+      <a href="/blog/">Blog</a>
+      <a href="/about/">About</a>
+      <span class="util"><a class="ic" href="/search/" aria-label="Search vahtian.com"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.3" y2="16.3"/></svg></a></span>
+    </nav>
+  </header>
+
+  <nav class="voc-crumbs"><a href="/">vahtian.com</a> · <a href="/learn/">learn</a> · survey export, two header rows</nav>
+
+<main>
+  <div class="voc-hero">
+    <p class="voc-kicker">Clean and prepare your data</p>
+    <h1>&ldquo;My survey export has two header rows and won&rsquo;t load.&rdquo;</h1>
+    <p class="voc-subtitle">Turn a SurveyMonkey, Qualtrics, or Forms export into a tidy dataset R and Python can read.</p>
+    <p class="voc-lede">Survey tools export a question on one header row and its answer option on a second, with matrix questions spread across many columns and merged cells left blank. Your import reads the first row as the column names and treats the second as data, so everything is mislabelled or shifted by one. The fix is three short steps.</p>
+    <p class="voc-byline">By <a href="/about/">Heidi Andersén, MD, PhD</a> · Updated 18 July 2026 · <span class="rt">6 min read</span></p>
+  </div>
+
+  <h2><span class="eyebrow">The problem</span>Two headers, and blanks that mean &ldquo;same as left&rdquo;</h2>
+  <p>Open the raw file first and look. Row one holds the question, but only in the first column of each group; the cells after it are blank because the tool merged them. Row two holds the answer option for each column. The real data starts on row three. A plain <code>read_csv</code> knows none of this, so it names your columns after row one and loses the options entirely.</p>
+
+  <h2><span class="eyebrow">Step 1 and 2</span>Fill the merged cells, then combine the two rows</h2>
+  <p>Read with no header, carry the question rightwards across its blank cells, join it to the option row, and drop the two header rows from the data. The same shape in both languages:</p>
+  <div class="voc-artifact">
+    <p class="lab">R</p>
+    <pre class="voc-tpl">library(tidyverse)
+raw &lt;- read_csv("export.csv", col_names = FALSE)
+h1  &lt;- raw[1, ] |&gt; unlist() |&gt; zoo::na.locf(na.rm = FALSE)  # carry question right
+h2  &lt;- raw[2, ] |&gt; unlist() |&gt; replace_na("")
+nm  &lt;- janitor::make_clean_names(paste(h1, h2, sep = "_"))
+dat &lt;- raw[-c(1, 2), ] |&gt; set_names(nm)</pre>
+    <p class="lab" style="margin-top:14px">Python</p>
+    <pre class="voc-tpl">import pandas as pd
+raw = pd.read_csv("export.csv", header=None)
+h1  = raw.iloc[0].ffill()            # carry question right
+h2  = raw.iloc[1].fillna("")
+cols = (h1.astype(str) + "_" + h2.astype(str)).str.strip("_")
+dat = raw.iloc[2:].copy()
+dat.columns = cols</pre>
+  </div>
+  <p>You now have one clean header row and typed-in data. Check the column count matches what you expect before going on.</p>
+
+  <h2><span class="eyebrow">Step 3</span>Reshape matrix questions to long</h2>
+  <p>A matrix question (one question, many sub-rows) arrives as many columns. For most analysis you want it long: one row per respondent per item. Pivot the matrix columns with <code>tidyr::pivot_longer()</code> in R or <code>pandas.melt()</code> in Python, keeping the respondent id as the anchor. Multi-select answers export as one column per option already coded 0/1, which is usually what you want, so leave those wide.</p>
+
+  <h2><span class="eyebrow">Checklist</span>Before you analyse</h2>
+  <div class="voc-artifact">
+    <p class="lab">Four checks</p>
+    <ul class="voc-check">
+      <li>You looked at the raw file and counted the header rows (two, sometimes three).</li>
+      <li>Merged question cells were carried right before combining, so no column is named just after its option.</li>
+      <li>The final column count matches the survey.</li>
+      <li>Matrix questions are reshaped long; multi-select stays wide and coded.</li>
+    </ul>
+  </div>
+
+  <h2><span class="eyebrow">Related guides</span>Read next</h2>
+  <nav class="voc-related">
+    <a href="/learn/data-dictionary-that-validates/"><b>Build a data dictionary that validates</b><span>Name and type the cleaned columns so the next study starts clean.</span></a>
+    <a href="/learn/decimal-comma-csv/"><b>My numbers turned to text in the CSV</b><span>If the export also has decimal commas or semicolons, fix the locale first.</span></a>
+    <a href="/learn/read-your-own-statistics/"><b>What do my results actually say?</b><span>Once the data is tidy, read the few numbers that change the meaning.</span></a>
+  </nav>
+
+  <p class="voc-softlink">Turning the cleaned columns into a reusable, typed dictionary? <a href="/dictvahti/">DictVahti</a> writes one from your headers. You check it against the survey.</p>
+</main>
+
+<footer class="vh-footer">
+  <div class="vh-footer-shell">
+    <div class="vh-footer-main">
+      <div>
+        <p class="vh-footer-name">Vahtian</p>
+        <p class="vh-footer-tagline">Local-first tools for research decisions you can explain. Built in Finland by Heidi Andersén, MD, PhD.</p>
+      </div>
+      <nav class="vh-footer-links" aria-label="Footer">
+        <a href="/download/">Tools</a>
+        <a href="/learn/">Learn</a>
+        <a href="/blog/">Blog</a>
+        <a href="/about/">About</a>
+        <a href="/agents/">For agents</a>
+        <a href="/cite/">Cite</a>
+        <a href="/privacy/">Privacy</a>
+      </nav>
+    </div>
+    <p class="vh-footer-disclaimer">Vahtian keeps human judgment visible and research decisions open to review. It does not establish scientific truth.</p>
+    <div class="vh-footer-meta">
+      <span>© 2026 Vahtian</span>
+      <a href="/LICENSE">Apache-2.0 open core</a>
+      <a href="https://github.com/heidihelena/vahtian">GitHub <span aria-hidden="true">↗</span></a>
+      <a href="mailto:hello@vahtian.com">hello@vahtian.com</a>
+    </div>
+  </div>
+</footer>
+
+</div>
+</body>
+</html>
