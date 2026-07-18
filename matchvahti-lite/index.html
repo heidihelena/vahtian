@@ -366,7 +366,7 @@
       <div class="hint">Type a query the way you would in PubMed (terms, <span class="mono">AND/OR</span>, <span class="mono">"phrases"</span>, <span class="mono">author 2024</span>). <b>Best Match</b> ranks by relevance; broad queries return many hits, so refine if the top results drift off-topic.</div>
     </div>
     <details style="margin-top:8px">
-      <summary class="hint" style="cursor:pointer;font-weight:600">NCBI etiquette — contact email &amp; API key (optional)</summary>
+      <summary class="hint" style="cursor:pointer;font-weight:600">NCBI etiquette: contact email &amp; API key (optional)</summary>
       <div class="row" style="margin-top:6px">
         <div class="grow"><input type="text" id="ncbiEmail" autocapitalize="off" spellcheck="false" placeholder="contact email — you@university.fi" /></div>
         <div class="grow"><input type="password" id="ncbiApiKey" autocomplete="off" placeholder="NCBI API key (optional)" /></div>
@@ -423,7 +423,7 @@
       </div>
       <input type="text" id="noteInput" placeholder="Optional free note — e.g. compare with the registrational trial estimate" style="margin-top:8px" />
 
-      <p class="absonly">Captured text is from the <b>abstract only</b> — check against the full text before citing.</p>
+      <p class="absonly">Captured text is from the <b>abstract only</b>. Check against the full text before citing.</p>
       <div class="actions">
         <button class="grow" id="saveBtn" disabled>Add sentence(s) to RIS note</button>
         <button class="skip" id="skipBtn" type="button">Clear</button>
@@ -462,7 +462,7 @@
       <summary>How this gets into Zotero (the <span class="mono">.ris</span> file)</summary>
       <div class="explain-body">
         <p><b>RIS is a plain-text bibliography format</b> (<span class="mono">.ris</span>) that almost every reference
-        manager reads — Zotero, EndNote, Mendeley, Papers. Each record is a short list of tagged lines:
+        manager reads: Zotero, EndNote, Mendeley, Papers. Each record is a short list of tagged lines:
         <span class="mono">TY</span> type · <span class="mono">AU</span> author · <span class="mono">TI</span> title ·
         <span class="mono">PY</span> year · <span class="mono">DO</span> DOI · <span class="mono">N1</span> notes ·
         <span class="mono">KW</span> tags · <span class="mono">ER</span> end-of-record. You can open it in any text
@@ -470,7 +470,7 @@
         <p><b>To get it into Zotero:</b></p>
         <ol class="howto">
           <li><b>Download .ris</b> (or <b>Copy</b>) above. Each download is timestamped (e.g. <span class="mono">matchvahti-lite-2026-06-11-1432.ris</span>) so batches never overwrite each other.</li>
-          <li>In Zotero, choose <span class="mono">File → Import…</span> and pick the <span class="mono">.ris</span> file (or open the file if your system already associates <span class="mono">.ris</span> with Zotero). <b>Don't drag it into the Zotero window</b> — depending on where it lands that can attach the file to an item instead of importing it; <span class="mono">File → Import…</span> always imports.</li>
+          <li>In Zotero, choose <span class="mono">File → Import…</span> and pick the <span class="mono">.ris</span> file (or open the file if your system already associates <span class="mono">.ris</span> with Zotero). <b>Don't drag it into the Zotero window</b>. Depending on where it lands that can attach the file to an item instead of importing it; <span class="mono">File → Import…</span> always imports.</li>
           <li>Zotero creates the items, with your captured sentences and note in each item's <b>Notes/Extra</b> and your tags attached. If a reference is already in your library (same DOI/PMID), Zotero can <b>detect it as a duplicate</b> (Duplicate Items view) so you can merge instead of double-adding.</li>
         </ol>
         <p class="warnline"><b>Re-importing makes a new collection each time.</b> Zotero names the import
@@ -479,7 +479,7 @@
           <li>In the import dialog, <b>untick “Place imported collections and items into a new collection”</b> — items land loose in your current collection instead of a new folder.</li>
           <li>Or keep the box ticked and let the <b>timestamped filename</b> name each folder as a dated batch (<span class="mono">matchvahti-lite-2026-06-11-1432</span>), so re-imports don't collide and you can tell them apart.</li>
         </ul>
-        <p class="warnline">Either way, the <b>export is cumulative</b> — it always contains every reference you've captured this session — so import a fresh <span class="mono">.ris</span> once when you're done rather than after every capture, and let Zotero's duplicate detection catch any overlap.</p>
+        <p class="warnline">Either way, the <b>export is cumulative</b> (it always contains every reference you've captured this session), so import a fresh <span class="mono">.ris</span> once when you're done rather than after every capture, and let Zotero's duplicate detection catch any overlap.</p>
       </div>
     </details>
 
@@ -494,13 +494,13 @@
         step recognises which references get a full-text fetch. Two ways to close the loop — both local-first
         and <b>open-access only</b>:</p>
         <ol class="howto">
-          <li><b>FullVahti — the Zotero plugin (no terminal).</b> Install once from a file (two clicks in
+          <li><b>FullVahti: the Zotero plugin (no terminal).</b> Install once from a file (two clicks in
           Zotero&nbsp;7), then <i>Tools → FullVahti: Find OA PDFs for tagged items</i>. It scans your library for
           <span class="mono">cite:closer-look</span>, attaches the free, legal PDF when one exists (Unpaywall /
           PubMed Central, by DOI or PMID), tags each item <span class="mono">fulltext:pdf-found</span> /
           <span class="mono">fulltext:pdf-missing</span> / <span class="mono">fulltext:check-needed</span>, and
           leaves one run-report note listing what's still missing — ready for interlibrary-loan requests.</li>
-          <li><b><span class="mono">vahtian_fulltext.py</span> — the scripted path (power users).</b> Same scan,
+          <li><b><span class="mono">vahtian_fulltext.py</span>: the scripted path (power users).</b> Same scan,
           same <span class="mono">fulltext:*</span> tags, dry-run by default.</li>
         </ol>
         <p>Later, <b>MatchVahti</b> or CiteVahti can use those retrieved full texts for
@@ -517,7 +517,7 @@
         client secret that never reaches the browser, open a <span class="mono">localhost</span> callback to catch
         the redirect, and then keep an API key to write items into your Zotero library directly — decision-gated and
         undoable.</p>
-        <p><b>MatchVahti-Lite is the opposite by design</b> — one static HTML file, no backend, no server, and
+        <p><b>MatchVahti-Lite is the opposite by design</b>: one static HTML file, no backend, no server, and
         network access locked down to PubMed E-utilities. That removes every piece OAuth requires:</p>
         <ul class="howto">
           <li><b>No callback to return to.</b> OAuth must send you back to a URL the app controls; a static file has none.</li>
@@ -539,7 +539,7 @@
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5B5570" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 2"/></svg>
       <span>A citation-capture tool, not a claim engine. This Lite mode produces <b>no MatchResult</b>, does not
       blind you, does not feed the Atlas graph or the poolable corpus. The <span class="mono">[oo]</span> closer-look
-      flag and stars are your private salience — "how much I want to cite this" — never a verdict on the study. When you
+      flag and stars are your private salience,"how much I want to cite this", never a verdict on the study. When you
       need the rigorous, blinded claim×paper rating with an auditable trail, step up to
       <b>MatchVahti</b>.</span>
     </div>

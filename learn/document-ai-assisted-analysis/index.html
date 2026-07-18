@@ -113,7 +113,7 @@
 <div class="outcomes">
   <p>After this guide you will be able to:</p>
   <ul>
-    <li>Name the four things worth recording in an AI-assisted analysis — and record them as they happen.</li>
+    <li>Name the four things worth recording in an AI-assisted analysis, and record them as they happen.</li>
     <li>Keep the record in a plain text file, with three rules that keep it defensible.</li>
     <li>Make the record tamper-evident, so later edits are visible instead of silent.</li>
     <li>Check, before submission, whether the manuscript still matches the current analysis.</li>
@@ -139,8 +139,8 @@
       <td>File, declared origin (human-written / AI-generated / AI-modified), model and version, the prompt,
           what files the model saw.</td></tr>
   <tr><td><strong>Decisions</strong></td><td>Why is the analysis shaped this way?</td>
-      <td>What was chosen (variable, model, exclusion, transformation, sensitivity analysis), the reason, and —
-          if it started as an AI suggestion — whether you accepted, edited, or rejected it.</td></tr>
+      <td>What was chosen (variable, model, exclusion, transformation, sensitivity analysis), the reason, and,
+          if it started as an AI suggestion, whether you accepted, edited, or rejected it.</td></tr>
   <tr><td><strong>Runs</strong></td><td>What actually executed?</td>
       <td>Which script version, on which data, with which package versions and seeds, producing which outputs.</td></tr>
   <tr><td><strong>Claims</strong></td><td>Does the manuscript still match?</td>
@@ -150,7 +150,7 @@
 <p>The decision record earns its keep most. Reviewers rarely ask "show me your terminal history"; they ask
   <em>why</em> — why this denominator, why drop those three patients, why a sensitivity analysis appeared in
   revision. A one-line rationale written at the moment of the decision answers in seconds what memory cannot
-  answer in a week. And when the AI proposed the decision, saying so plainly — accepted, edited, or rejected —
+  answer in a week. And when the AI proposed the decision, saying so plainly (accepted, edited, or rejected)
   is exactly the part a careful reader wants to see.</p>
 
 <h2>The plain-text version</h2>
@@ -185,7 +185,7 @@ Outputs: table1.csv, fig2.png.</code></pre>
   deleted, or reordered later breaks the chain visibly from that point on. Tamper-<em>evident</em>, not
   tamper-proof: it cannot stop a rewrite, but it cannot be rewritten silently.</p>
 <p><a href="/auditlite/">AuditLite</a>, our open-source tool, keeps exactly this record as one command per
-  event — and adds what a text file cannot do by itself: it fingerprints every run (script hash, data hash,
+  event, and adds what a text file cannot do by itself: it fingerprints every run (script hash, data hash,
   package versions, seeds, outputs) and then <em>checks</em> the record against your project:</p>
 <pre><code>auditlite decision --what exclusion --choice "drop ECOG 4" \
     --why "n=3 in stratum, prespecified minimum is 10" \
@@ -197,8 +197,8 @@ auditlite check   # before submission</code></pre>
 <p><code>auditlite check</code> answers seven questions, each three ways (ok, flag, or not checkable): is the
   chain intact, were scripts edited after their last recorded run, does the data on disk still match what the
   runs consumed, were outputs modified outside a recorded run, do manuscript tables still match their files,
-  did any script run without a declared origin, does every decision carry a reason. A hand-edited results table
-  — the classic quiet disaster — comes back as a flag, not a surprise in review. It is free, Apache-2.0, works
+  did any script run without a declared origin, does every decision carry a reason. A hand-edited results table,
+  the classic quiet disaster, comes back as a flag, not a surprise in review. It is free, Apache-2.0, works
   from Python and R on the same trail, and everything stays on your machine.</p>
 
 <h2>At submission, the disclosure is already written</h2>
@@ -217,7 +217,7 @@ auditlite check   # before submission</code></pre>
 
 <div class="cta">
   <p><strong>Start the record today.</strong> The dated log file and the three rules work with any
-    analysis, in any language — no tools required.</p>
+    analysis, in any language. No tools required.</p>
   <p>If you want the record kept for you — hash-chained trail, fingerprinted runs, and the pre-submission
     checks — <strong>AuditLite</strong> is free and open source. And when the journal asks for the disclosure
     statement, the <strong>AI Disclosure Kit</strong> turns a dated AI-use log into the statement, with

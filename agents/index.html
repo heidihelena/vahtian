@@ -146,21 +146,21 @@
     <p class="sub">Each stage is its own small, open tool. The agent orchestrates; the researcher
       gates the irreducible human acts (judgement, sign-off).</p>
     <ol class="flow">
-      <li class="step"><div><span class="v">Capture</span> — tap the sentences worth citing in an abstract → reviewable Zotero RIS.
+      <li class="step"><div><span class="v">Capture</span>: tap the sentences worth citing in an abstract → reviewable Zotero RIS.
         <span class="d"><span class="tool">MatchVahti-Lite</span> · live</span></div></li>
-      <li class="step"><div><span class="v">Search</span> — open multi-source query (PubMed/MEDLINE, Europe PMC, Semantic Scholar, OpenAlex) + citation chasing → one frozen, deduped corpus.
+      <li class="step"><div><span class="v">Search</span>: open multi-source query (PubMed/MEDLINE, Europe PMC, Semantic Scholar, OpenAlex) + citation chasing → one frozen, deduped corpus.
         <span class="d"><span class="tool">vahtian_search.py</span> · open tool</span></div></li>
-      <li class="step"><div><span class="v">Screen, blinded</span> — rate each paper against each claim; the AI is sealed until you commit.
+      <li class="step"><div><span class="v">Screen, blinded</span>: rate each paper against each claim; the AI is sealed until you commit.
         <span class="d"><span class="tool">MatchVahti</span> · the screening engine</span></div></li>
-      <li class="step"><div><span class="v">Reconcile</span> — load each reviewer's ballot → per-claim Cohen's κ, PABAK, AC1, Krippendorff's α.
+      <li class="step"><div><span class="v">Reconcile</span>: load each reviewer's ballot → per-claim Cohen's κ, PABAK, AC1, Krippendorff's α.
         <span class="d"><span class="tool">ReviewVahti</span> · live</span></div></li>
-      <li class="step"><div><span class="v">Retrieve</span> — fetch the open-access full text for flagged papers.
+      <li class="step"><div><span class="v">Retrieve</span>: fetch the open-access full text for flagged papers.
         <span class="d"><span class="tool">FullVahti</span> · Zotero plugin / script</span></div></li>
-      <li class="step"><div><span class="v">Extract + appraise</span> — pull 2×2 / sensitivity / directional reclassification and score risk of bias (QUADAS-2/-C, PROBAST-AI) from the full texts; dual-human, reconciled (Cohen's κ + tolerance) → tidy CSV for meta-analysis in R.
+      <li class="step"><div><span class="v">Extract + appraise</span>: pull 2×2 / sensitivity / directional reclassification and score risk of bias (QUADAS-2/-C, PROBAST-AI) from the full texts; dual-human, reconciled (Cohen's κ + tolerance) → tidy CSV for meta-analysis in R.
         <span class="d"><a class="tool" href="/extractvahti/">ExtractVahti</a> · early access</span></div></li>
-      <li class="step"><div><span class="v">Synthesise</span> — pool agreement / decision-impact (random-effects) and export publication-quality forest/funnel PNGs in the browser; the HSROC / bivariate / publication-bias models stay in R, package-versioned.
+      <li class="step"><div><span class="v">Synthesise</span>: pool agreement / decision-impact (random-effects) and export publication-quality forest/funnel PNGs in the browser; the HSROC / bivariate / publication-bias models stay in R, package-versioned.
         <span class="d"><a class="tool" href="/synthvahti/">SynthVahti</a> + R · early access</span></div></li>
-      <li class="step"><div><span class="v">Check</span> — each claim against its source before citing; decision-gated, undoable Zotero write-back; hash-chained audit.
+      <li class="step"><div><span class="v">Check</span>: each claim against its source before citing; decision-gated, undoable Zotero write-back; hash-chained audit.
         <span class="d"><span class="tool">CiteVahti</span> · live</span></div></li>
     </ol>
   </section>
@@ -179,7 +179,7 @@
 
   <section>
     <h2>Invariants an agent must honour</h2>
-    <p class="sub">These are what make the output trustworthy. A tool — or an agent — that breaks them
+    <p class="sub">These are what make the output trustworthy. A tool, or an agent, that breaks them
       isn't doing Vahtian's job.</p>
     <div class="inv">
       <div class="i"><b>The human decides.</b><span>The AI is consulted only after the human commits a rating — never anchoring, never setting the recorded value.</span></div>
@@ -219,15 +219,15 @@
     <h2>A complete agent run</h2>
     <p class="sub">One question, end to end — each step hands the next a concrete artifact, and the human gates every judgement.</p>
     <ol class="flow">
-      <li class="step"><div><span class="v">Question</span> — "Does AI PD-L1 scoring agree with pathologists at the 1% and 50% cutoffs?" → agent drafts PICOTS; human locks it.
+      <li class="step"><div><span class="v">Question</span>: "Does AI PD-L1 scoring agree with pathologists at the 1% and 50% cutoffs?" → agent drafts PICOTS; human locks it.
         <span class="d">→ <span class="tool">protocol.json</span></span></div></li>
-      <li class="step"><div><span class="v">Search</span> — open multi-source query + citation chasing, frozen and date-stamped.
+      <li class="step"><div><span class="v">Search</span>: open multi-source query + citation chasing, frozen and date-stamped.
         <span class="d">→ <span class="tool">frozen-corpus.jsonl</span> + <span class="tool">search-report.md</span> (content_hash)</span></div></li>
-      <li class="step"><div><span class="v">Screen</span> — two humans rate blinded; the agent's rating stays sealed until each commit.
+      <li class="step"><div><span class="v">Screen</span>: two humans rate blinded; the agent's rating stays sealed until each commit.
         <span class="d">→ <span class="tool">blinded ballots</span> (AI tier labelled model+version+prompt)</span></div></li>
-      <li class="step"><div><span class="v">Reconcile</span> — per-claim agreement; beyond-tolerance disagreements go to adjudication.
+      <li class="step"><div><span class="v">Reconcile</span>: per-claim agreement; beyond-tolerance disagreements go to adjudication.
         <span class="d">→ <span class="tool">agreement report</span> (κ / α) + adjudication list</span></div></li>
-      <li class="step"><div><span class="v">Check</span> — each retained claim assessed against its source; writes are preview → confirm.
+      <li class="step"><div><span class="v">Check</span>: each retained claim assessed against its source; writes are preview → confirm.
         <span class="d">→ <span class="tool">claim–source audit ledger</span> + methods paragraph</span></div></li>
     </ol>
     <p class="note">Every artifact is reproducible by anyone who re-runs the open tools — and the ledger shows the AI never set a recorded value.</p>
