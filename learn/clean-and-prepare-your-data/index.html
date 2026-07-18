@@ -1,0 +1,426 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>How to clean and prepare your data for analysis, in R and Python · Vahtian Learn</title>
+  <meta name="description" content="A 10-step workflow for cleaning messy research data before analysis: missing values, variable types, validation, duplicates, merges, an analysis-ready dataset, documentation, and de-identifying before you share. Short, correct R and Python for each step.">
+  <meta name="theme-color" content="#2D2440">
+  <link rel="canonical" href="https://vahtian.com/learn/clean-and-prepare-your-data/">
+  <meta name="robots" content="index,follow">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://vahtian.com/learn/clean-and-prepare-your-data/">
+  <meta property="og:title" content="How to clean and prepare your data for analysis, in R and Python">
+  <meta property="og:description" content="One page, one toggle per step: missing values, types, validation, duplicates, merges, raw vs analysis dataset, documentation, and de-identifying before sharing. Short R and Python for each.">
+  <meta property="og:image" content="https://vahtian.com/brand/cards/vahtian-card.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Vahtian Learn — clean and prepare your data for analysis, in R and Python.">
+  <meta property="og:site_name" content="Vahtian">
+  <meta property="article:published_time" content="2026-07-18">
+  <meta property="article:modified_time" content="2026-07-18">
+  <meta property="article:author" content="Heidi Andersén">
+  <meta name="twitter:card" content="summary_large_image">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "How to clean and prepare your data for analysis, in R and Python",
+    "description": "A 10-step workflow for cleaning messy research data before analysis: missing values, variable types, validation, duplicates, merges, an analysis-ready dataset, documentation, and de-identifying before sharing. Short, correct R and Python for each step.",
+    "url": "https://vahtian.com/learn/clean-and-prepare-your-data/",
+    "datePublished": "2026-07-18",
+    "dateModified": "2026-07-18",
+    "inLanguage": "en",
+    "author": { "@type": "Person", "name": "Heidi Andersén", "honorificSuffix": "MD, PhD", "url": "https://vahtian.com/about/" },
+    "publisher": { "@id": "https://vahtian.com/#org" }
+  }
+  </script>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232D2440'/%3E%3Cg fill='none' stroke='%238B6FC9' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 9 H9 V23 H12'/%3E%3Cpath d='M20 9 H23 V23 H20'/%3E%3C/g%3E%3Cpath d='M16 10.3 L19.6 12 L19.6 15 L16 19.6 L12.4 15 L12.4 12 Z' fill='none' stroke='%23C5B8E8' stroke-width='1.8' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../../brand/site-refresh.css">
+  <link rel="stylesheet" href="../../brand/learn-voc.css">
+  <link rel="stylesheet" href="../../brand/footer.css">
+  <style>
+    /* Step toggles: same progressive-disclosure pattern and classes as /download/ */
+    .steps{margin:26px 0 0}
+    .stage{border:1px solid var(--line);border-radius:10px;background:var(--card);margin:0 0 10px}
+    .stage[open]{border-color:var(--violet);box-shadow:0 2px 14px rgba(45,36,64,.05)}
+    .stage>summary{display:flex;align-items:center;gap:14px;padding:15px 18px;cursor:pointer;list-style:none}
+    .stage>summary::-webkit-details-marker{display:none}
+    .stage .step{flex:0 0 auto;display:grid;place-items:center;width:36px;height:36px;background:var(--paper2);
+      color:var(--link);font:600 18px/1 var(--font-mono);border-radius:9px}
+    .stage .st-head{min-width:0}
+    .stage .st-name{display:block;font-weight:700;font-size:17px;color:var(--navy);line-height:1.2}
+    .stage .st-hint{display:block;color:var(--muted);font-size:13.5px;margin-top:3px}
+    .stage .st-count{margin-left:auto;flex:0 0 auto;display:flex;align-items:center}
+    .stage .chev{transition:transform .15s ease;color:var(--link);font-size:20px;line-height:1}
+    .stage[open] .chev{transform:rotate(90deg)}
+    @media(prefers-reduced-motion:reduce){.stage .chev{transform:none}}
+    .stage-body{padding:2px 18px 16px}
+    .stage-body>p:first-child{margin-top:0}
+    .step-guide{margin:12px 0 2px;font-weight:700}
+    .step-note{color:var(--muted);font-size:13.5px;line-height:1.6;margin:12px 0 0}
+  </style>
+</head>
+<body class="vh-content voc">
+<div class="wrap">
+
+  <header class="voc-head">
+    <a class="brand" href="/" aria-label="Vahtian — home">
+      <svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#2D2440"/><g fill="none" stroke="#8B6FC9" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9 H9 V23 H12"/><path d="M20 9 H23 V23 H20"/></g><path d="M16 10.3 L19.6 12 L19.6 15 L16 19.6 L12.4 15 L12.4 12 Z" fill="none" stroke="#C5B8E8" stroke-width="1.8" stroke-linejoin="round"/></svg>
+      Vahtian
+    </a>
+    <nav class="nav" aria-label="Primary">
+      <a href="/kits/">Kits</a>
+      <a href="/download/">Tools</a>
+      <a href="/learn/" aria-current="page">Learn</a>
+      <a href="/blog/">Blog</a>
+      <a href="/about/">About</a>
+      <span class="util"><a class="ic" href="/search/" aria-label="Search vahtian.com"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.3" y2="16.3"/></svg></a></span>
+    </nav>
+  </header>
+
+  <nav class="voc-crumbs"><a href="/">vahtian.com</a> · <a href="/learn/">learn</a> · clean and prepare your data</nav>
+
+<main>
+  <div class="voc-hero">
+    <p class="voc-kicker">Clean and prepare your data</p>
+    <h1>How to clean and prepare your data for analysis, in R and Python</h1>
+    <p class="voc-subtitle">You already know this part. The dataset landed, and none of it is ready. Here is the whole workflow on one page, in the order that keeps you out of trouble.</p>
+    <p class="voc-lede">You export the data, open it to run one quick test, and the afternoon disappears into fixing it instead. Ages that sort as text, a blank you cannot tell from a real zero, a merge that doubled the rows. This is the sequence that clears it, step by step, with short R and Python you can lift straight into a script. Open the step you are stuck on.</p>
+    <p class="voc-byline">By <a href="/about/">Heidi Andersén, MD, PhD</a> · Updated 18 July 2026 · <span class="rt">9 min read</span></p>
+  </div>
+
+  <h2><span class="eyebrow">The workflow</span>Ten steps, in order</h2>
+  <p>Cleaning goes wrong when it is done in whatever order the problems surface. This is the order that stops later steps from undoing earlier ones: settle what the data should be (steps 1 to 3), then find what it actually is (4 and 5), check it against the rules (6), resolve duplicates and merges before they multiply rows (7 and 8), then split the raw file from the analysis file, document the path, and de-identify before anything leaves your machine. Each step is one toggle. Steps 1 to 3 point to their own full guide; the rest are here in full.</p>
+
+  <div class="steps">
+
+    <details class="stage">
+      <summary>
+        <span class="step" aria-hidden="true">1</span>
+        <span class="st-head"><span class="st-name">Build a data dictionary</span><span class="st-hint">Variables, types, allowed values, validation, before you collect</span></span>
+        <span class="st-count"><span class="chev" aria-hidden="true">›</span></span>
+      </summary>
+      <div class="stage-body">
+        <p>The worst cleaning jobs were avoidable. They started the day collection let a free-text box accept nine spellings of "Female" and an age typed as a word. A data dictionary defines every variable, its type, its allowed values, and its validation rules before the first participant is entered, so the tool refuses many errors at the point of entry instead of leaving them for you now.</p>
+        <p>It does not certify that a value is correct, only that it is possible. That distinction is the whole point of the next several steps.</p>
+        <p class="step-guide"><a href="/learn/data-dictionary-that-validates/">Full guide: build a data dictionary that validates</a></p>
+      </div>
+    </details>
+
+    <details class="stage">
+      <summary>
+        <span class="step" aria-hidden="true">2</span>
+        <span class="st-head"><span class="st-name">Import survey exports with two header rows</span><span class="st-hint">SurveyMonkey and Qualtrics exports that read as all text</span></span>
+        <span class="st-count"><span class="chev" aria-hidden="true">›</span></span>
+      </summary>
+      <div class="stage-body">
+        <p>The export opens with two header rows: the short question code and the full question text stacked on top of each other. R and Python read the second row as the first data row, every column becomes text, and nothing computes. You need to combine the two headers into one clean name and drop the extra row before anything else.</p>
+        <p class="step-guide"><a href="/learn/survey-export-two-header-rows/">Full guide: my survey export has two header rows</a></p>
+      </div>
+    </details>
+
+    <details class="stage">
+      <summary>
+        <span class="step" aria-hidden="true">3</span>
+        <span class="st-head"><span class="st-name">Fix locale and CSV issues (decimal commas, semicolons)</span><span class="st-hint">Numbers that imported as text because of a European locale</span></span>
+        <span class="st-count"><span class="chev" aria-hidden="true">›</span></span>
+      </summary>
+      <div class="stage-body">
+        <p>Every number is left-aligned text and no sum works. A Finnish, Swedish, or German locale wrote the file with decimal commas and semicolon separators, so <code>read_csv</code> saw "3,14" as a string, not a number. The fix is to read with the right separator and decimal mark, not to find-and-replace inside the file.</p>
+        <p class="step-guide"><a href="/learn/decimal-comma-csv/">Full guide: my numbers turned to text in the CSV</a></p>
+      </div>
+    </details>
+
+    <details class="stage">
+      <summary>
+        <span class="step" aria-hidden="true">4</span>
+        <span class="st-head"><span class="st-name">Find missing values</span><span class="st-hint">NA, blanks, 9 / 99 / 999, and "Unknown" all meaning the same thing</span></span>
+        <span class="st-count"><span class="chev" aria-hidden="true">›</span></span>
+      </summary>
+      <div class="stage-body">
+        <p>Your model quietly drops a third of the rows and you cannot see why. Missingness is hiding in four costumes at once: a real blank, the string "Unknown", a numeric sentinel like 99 that means "not asked", and an actual <code>NA</code>. Text sentinels you can catch on import; numeric ones you cannot, because 99 is a valid value in some columns and a code for missing in others. Recode those one variable at a time, never in bulk.</p>
+        <div class="voc-artifact">
+          <p class="lab">R</p>
+          <pre class="voc-tpl">library(dplyr)
+
+# blanks and text sentinels become NA on import
+d &lt;- readr::read_csv("data.csv", na = c("", "NA", "Unknown"))
+
+# numeric sentinels are per-variable, never global
+d &lt;- d |&gt;
+  mutate(pain_score = na_if(pain_score, 99),
+         comorbid   = na_if(comorbid, 9))
+
+# how many missing, per column
+colSums(is.na(d))</pre>
+          <p class="lab" style="margin-top:14px">Python</p>
+          <pre class="voc-tpl">import pandas as pd
+
+d = pd.read_csv("data.csv", na_values=["", "NA", "Unknown"])
+
+# numeric sentinels are per-variable, never global
+d["pain_score"] = d["pain_score"].replace(99, pd.NA)
+d["comorbid"]   = d["comorbid"].replace(9, pd.NA)
+
+# how many missing, per column
+d.isna().sum()</pre>
+        </div>
+        <p class="step-note">Before you recode any 9, 99, or 999, assess what it means in that specific variable. In a pain score 99 is missing; in a count it may be real. Blanket recoding is how a real value silently becomes missing data.</p>
+      </div>
+    </details>
+
+    <details class="stage">
+      <summary>
+        <span class="step" aria-hidden="true">5</span>
+        <span class="st-head"><span class="st-name">Check variable types</span><span class="st-hint">Text that should be numbers, factors, dates still stored as strings</span></span>
+        <span class="st-count"><span class="chev" aria-hidden="true">›</span></span>
+      </summary>
+      <div class="stage-body">
+        <p>Age sorts as 1, 10, 100, 2 because it imported as text. A date column is a string, so nothing subtracts and no timeline plots. A grouping variable came in as free text with trailing spaces, so "Male" and "Male " count as two groups. Look at the type of every column first, then set each one deliberately.</p>
+        <div class="voc-artifact">
+          <p class="lab">R</p>
+          <pre class="voc-tpl">library(dplyr)
+
+# what type did each column actually get?
+glimpse(d)
+
+d &lt;- d |&gt;
+  mutate(age_years  = as.integer(age_years),
+         sex        = factor(sex, levels = c(1, 2),
+                             labels = c("Male", "Female")),
+         visit_date = as.Date(visit_date, format = "%d/%m/%Y"))</pre>
+          <p class="lab" style="margin-top:14px">Python</p>
+          <pre class="voc-tpl">import pandas as pd
+
+# what type did each column actually get?
+d.dtypes
+
+d["age_years"]  = pd.to_numeric(d["age_years"], errors="coerce")
+d["sex"]        = d["sex"].astype("category")
+d["visit_date"] = pd.to_datetime(d["visit_date"],
+                                 format="%d/%m/%Y", errors="coerce")</pre>
+        </div>
+        <p class="step-note"><code>coerce</code> turns anything it cannot parse into <code>NA</code> rather than stopping. Count the missing values before and after the conversion: a jump means real values failed to parse, and you want to see which ones, not lose them quietly.</p>
+      </div>
+    </details>
+
+    <details class="stage">
+      <summary>
+        <span class="step" aria-hidden="true">6</span>
+        <span class="st-head"><span class="st-name">Validate the dataset against the dictionary</span><span class="st-hint">Check the exported data still obeys the rules you set</span></span>
+        <span class="st-count"><span class="chev" aria-hidden="true">›</span></span>
+      </summary>
+      <div class="stage-body">
+        <p>You trusted the dictionary and never checked that the export still obeys it. An age slipped to 220 during a manual entry override, a category picked up a value that is not in the coded set, and nobody flagged it. Run the dictionary rules against the actual data and get a report of which rows break which rule. In R, <code>pointblank</code> is built for exactly this.</p>
+        <div class="voc-artifact">
+          <p class="lab">R, with pointblank</p>
+          <pre class="voc-tpl">library(pointblank)
+
+agent &lt;- create_agent(tbl = d) |&gt;
+  col_vals_between(age_years, 18, 120) |&gt;
+  col_vals_in_set(sex, c("Male", "Female")) |&gt;
+  col_vals_not_null(record_id) |&gt;
+  interrogate()
+
+agent   # a report of how many rows failed each rule</pre>
+          <p class="lab" style="margin-top:14px">Python, plain pandas</p>
+          <pre class="voc-tpl">bad_age    = d[~d["age_years"].between(18, 120)]
+bad_sex    = d[~d["sex"].isin(["Male", "Female"])]
+missing_id = d[d["record_id"].isna()]
+
+len(bad_age), len(bad_sex), len(missing_id)</pre>
+        </div>
+        <p class="step-note">Validation tells you a value is possible, not that it is true. A patient aged 52 entered as 25 passes every rule here. Treat a clean report as "nothing impossible got through", not as "the data is correct".</p>
+      </div>
+    </details>
+
+    <details class="stage">
+      <summary>
+        <span class="step" aria-hidden="true">7</span>
+        <span class="st-head"><span class="st-name">Detect duplicates without deleting valid repeat visits</span><span class="st-hint">Tell a real follow-up apart from a double-entered row</span></span>
+        <span class="st-count"><span class="chev" aria-hidden="true">›</span></span>
+      </summary>
+      <div class="stage-body">
+        <p>You dedupe on patient ID and lose every follow-up visit. Or you keep a row that is an accidental double entry because it looked like a real repeat. The two are only distinguishable by the key you choose: the same person on the same visit date is a suspect duplicate; the same person on different dates is a real repeat visit you must keep. So flag them, look, and decide by eye. Do not let a function delete rows for you.</p>
+        <div class="voc-artifact">
+          <p class="lab">R, with janitor</p>
+          <pre class="voc-tpl">library(janitor)
+
+# same person AND same visit date = suspect duplicate
+d |&gt; get_dupes(record_id, visit_date)
+
+# same person, different dates = real repeat visits, keep them</pre>
+          <p class="lab" style="margin-top:14px">Python</p>
+          <pre class="voc-tpl"># flag every row that repeats on the key that should be unique
+dupes = d[d.duplicated(subset=["record_id", "visit_date"],
+                       keep=False)]
+dupes.sort_values(["record_id", "visit_date"])</pre>
+        </div>
+        <p class="step-note"><code>get_dupes</code> and <code>duplicated</code> only show you the candidates. Deleting is a separate, deliberate decision, and it belongs in a documented line of code, not a manual delete in the spreadsheet.</p>
+      </div>
+    </details>
+
+    <details class="stage">
+      <summary>
+        <span class="step" aria-hidden="true">8</span>
+        <span class="st-head"><span class="st-name">Merge datasets correctly</span><span class="st-hint">Keys, mismatched names, one-to-many joins, "more rows after merge"</span></span>
+        <span class="st-count"><span class="chev" aria-hidden="true">›</span></span>
+      </summary>
+      <div class="stage-body">
+        <p>You join labs onto patients and the row count jumps from 400 to 1,300. A key that is not unique, or a one-to-many match you did not expect, quietly multiplied the data. Two things prevent it: standardise the key names on both sides first, then state the shape of the join you expect and let the tool raise an error the moment the data does not match it. That way the row explosion stops at the merge, not three analyses later.</p>
+        <div class="voc-artifact">
+          <p class="lab">R, with dplyr and janitor</p>
+          <pre class="voc-tpl">library(dplyr)
+library(janitor)
+
+patients &lt;- clean_names(patients)   # standardise names first
+labs     &lt;- clean_names(labs)
+
+labs &lt;- rename(labs, record_id = patient_id)  # match the key
+
+merged &lt;- left_join(patients, labs,
+                    by = "record_id",
+                    relationship = "one-to-many")</pre>
+          <p class="lab" style="margin-top:14px">Python, with pandas</p>
+          <pre class="voc-tpl">patients.columns = patients.columns.str.lower().str.strip()
+labs = labs.rename(columns={"patient_id": "record_id"})
+
+merged = patients.merge(labs, on="record_id", how="left",
+                        validate="one_to_many")</pre>
+        </div>
+        <p class="step-note"><code>relationship=</code> in dplyr and <code>validate=</code> in pandas fail loudly if the join is not the shape you claimed. Always state the shape you expect; a merge that changes your row count without warning is the single most common way a clean dataset turns wrong.</p>
+      </div>
+    </details>
+
+    <details class="stage">
+      <summary>
+        <span class="step" aria-hidden="true">9</span>
+        <span class="st-head"><span class="st-name">Create an analysis-ready dataset, keep the raw file unchanged</span><span class="st-hint">One copy that never changes, one copy the code builds</span></span>
+        <span class="st-count"><span class="chev" aria-hidden="true">›</span></span>
+      </summary>
+      <div class="stage-body">
+        <p>You fixed a typo in the raw file, saved it, and now you cannot say what the original held. The one copy that should never change is the one you changed. Treat the raw export as read-only. Every fix from the steps above is a line of code that reads the raw file and writes a separate analysis file, so the cleaning is repeatable and the source stays intact.</p>
+        <div class="voc-artifact">
+          <p class="lab">R</p>
+          <pre class="voc-tpl">raw &lt;- readr::read_csv("data/raw/export.csv")   # never edited
+
+analysis &lt;- raw |&gt;
+  # all the cleaning steps above, in order
+  mutate(age_years = as.integer(age_years))
+
+readr::write_csv(analysis, "data/analysis/clean.csv")</pre>
+          <p class="lab" style="margin-top:14px">Python</p>
+          <pre class="voc-tpl">raw = pd.read_csv("data/raw/export.csv")   # never edited
+
+analysis = raw.copy()
+# all the cleaning steps above, in order
+analysis["age_years"] = pd.to_numeric(analysis["age_years"],
+                                      errors="coerce")
+
+analysis.to_csv("data/analysis/clean.csv", index=False)</pre>
+        </div>
+        <p class="step-note">Keep raw and analysis in separate folders, and never open the raw file in a spreadsheet to "just fix one thing". If a value in the raw file is genuinely wrong, correct it in code with a comment saying why, so the change is visible and reversible.</p>
+      </div>
+    </details>
+
+    <details class="stage">
+      <summary>
+        <span class="step" aria-hidden="true">10</span>
+        <span class="st-head"><span class="st-name">Document every cleaning step</span><span class="st-hint">A reproducible record of how n went from 512 to 488</span></span>
+        <span class="st-count"><span class="chev" aria-hidden="true">›</span></span>
+      </summary>
+      <div class="stage-body">
+        <p>Six months later a reviewer asks why n dropped from 512 to 488, and you cannot answer because the cleaning happened by hand, in a spreadsheet, across an afternoon you no longer remember. If the steps are not written down, they are gone. Put the whole path in a script or a notebook, one commented decision at a time, and keep it under version control. The script is the record.</p>
+        <ul>
+          <li>Every drop, recode, and merge is a line of code, not a manual edit.</li>
+          <li>Each non-obvious decision has a short comment saying why.</li>
+          <li>The script reads raw and writes analysis, so it reruns from scratch.</li>
+          <li>It lives in version control, so the history of changes is visible.</li>
+        </ul>
+        <p class="step-note">When the analysis is finished, the cleaning script is part of the record you can be asked to show. Giving that code a release and a citable identifier is its own short step: see <a href="/learn/cite-your-analysis-code/">make your analysis code citable</a>.</p>
+      </div>
+    </details>
+
+    <details class="stage">
+      <summary>
+        <span class="step" aria-hidden="true">+</span>
+        <span class="st-head"><span class="st-name">De-identify before sharing</span><span class="st-hint">Identifiers, pseudonymisation, and what GDPR still counts as personal data</span></span>
+        <span class="st-count"><span class="chev" aria-hidden="true">›</span></span>
+      </summary>
+      <div class="stage-body">
+        <p>A collaborator asks for the dataset and you are one click from emailing a file with names, dates of birth, and hospital IDs. Deleting the name column is not enough: under GDPR a file you can still trace back to a person is personal data, and a birth date plus a rare diagnosis often traces back to one person. Before anything leaves your machine, strip the direct identifiers and replace the record key with a random study ID whose mapping you keep separately.</p>
+        <ul>
+          <li>Remove direct identifiers: name, initials, address, hospital or national ID, contact details, and free-text fields that can name a person.</li>
+          <li>Replace the record ID with a random study ID; hold the mapping in a separate, access-controlled file.</li>
+          <li>Reduce indirect identifiers: shift or coarsen exact dates, and group rare categories that single someone out.</li>
+        </ul>
+        <div class="voc-artifact">
+          <p class="lab">R</p>
+          <pre class="voc-tpl">library(dplyr)
+
+# random study id; mapping stays in a separate secured file
+key &lt;- d |&gt;
+  distinct(record_id) |&gt;
+  mutate(study_id = sample(seq_len(n())))
+
+shared &lt;- d |&gt;
+  left_join(key, by = "record_id") |&gt;
+  select(-record_id, -initials, -date_of_birth)</pre>
+          <p class="lab" style="margin-top:14px">Python</p>
+          <pre class="voc-tpl">import numpy as np
+
+ids = d["record_id"].unique()
+mapping = dict(zip(ids, np.random.permutation(len(ids))))
+# keep `mapping` in a separate secured file, not with the data
+
+shared = d.assign(study_id=d["record_id"].map(mapping))
+shared = shared.drop(columns=["record_id", "initials",
+                              "date_of_birth"])</pre>
+        </div>
+        <p class="step-note">Pseudonymised data is still personal data under GDPR, because the mapping lets someone re-identify it. True anonymisation is a higher bar and hard to reach with small clinical samples. This is design guidance under stated assumptions, not legal advice; check your own data protection rules and your ethics approval before sharing.</p>
+      </div>
+    </details>
+
+  </div>
+
+  <h2><span class="eyebrow">Related guides</span>Read next</h2>
+  <nav class="voc-related">
+    <a href="/learn/data-dictionary-that-validates/"><b>Build a data dictionary that validates</b><span>Prevent most of this at collection: define variables, types, allowed values, and validation before you collect.</span></a>
+    <a href="/learn/survey-export-two-header-rows/"><b>My survey export has two header rows</b><span>Turn a SurveyMonkey or Qualtrics export into a clean dataset R and Python can read.</span></a>
+    <a href="/learn/cite-your-analysis-code/"><b>Make your analysis code citable</b><span>Give the cleaning and analysis code a release and a DOI.</span></a>
+  </nav>
+
+  <p class="voc-softlink">Want the dictionary step built for you? <a href="/dictvahti/">DictVahti</a> assembles a REDCap-ready data dictionary with variable names, validation rules, coded values, and identifier flags. You review the structure before collecting data.</p>
+</main>
+
+<footer class="vh-footer">
+  <div class="vh-footer-shell">
+    <div class="vh-footer-main">
+      <div>
+        <p class="vh-footer-name">Vahtian</p>
+        <p class="vh-footer-tagline">Local-first tools for research decisions you can explain. Built in Finland by Heidi Andersén, MD, PhD.</p>
+      </div>
+      <nav class="vh-footer-links" aria-label="Footer">
+        <a href="/download/">Tools</a>
+        <a href="/learn/">Learn</a>
+        <a href="/blog/">Blog</a>
+        <a href="/about/">About</a>
+        <a href="/agents/">For agents</a>
+        <a href="/cite/">Cite</a>
+        <a href="/privacy/">Privacy</a>
+      </nav>
+    </div>
+    <p class="vh-footer-disclaimer">Vahtian keeps human judgment visible and research decisions open to review. It does not establish scientific truth.</p>
+    <div class="vh-footer-meta">
+      <span>© 2026 Vahtian</span>
+      <a href="/LICENSE">Apache-2.0 open core</a>
+      <a href="https://github.com/heidihelena/vahtian">GitHub <span aria-hidden="true">↗</span></a>
+      <a href="mailto:hello@vahtian.com">hello@vahtian.com</a>
+    </div>
+  </div>
+</footer>
+
+</div>
+</body>
+</html>
