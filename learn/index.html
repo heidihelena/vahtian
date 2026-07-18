@@ -80,10 +80,12 @@
     .grid{display:grid;grid-template-columns:1fr 1fr;gap:0 24px;margin-top:14px;border-bottom:1px solid var(--line)}
     .row{position:relative;display:block;background:transparent;border:0;border-top:1px solid var(--line);
       padding:16px 30px 18px 2px;text-decoration:none;color:var(--ink);transition:background-color .15s ease}
-    .row::after{content:"→";position:absolute;right:5px;top:16px;color:var(--link);font-weight:700;opacity:.7}
+    .row::after{content:"→";position:absolute;right:4px;top:13px;color:var(--link);opacity:.75;
+      font-family:"Marksy","Marker Felt","Bradley Hand","Segoe Print",cursive;font-size:19px;line-height:1}
     .row b{display:block;font-size:15.5px;line-height:1.35}
     .row span{color:var(--muted);font-size:13.5px;line-height:1.5;display:block;margin-top:3px}
     .letter-signup{background:#f2effa;box-shadow:0 0 0 100vmax #f2effa;clip-path:inset(0 -100vmax);padding:34px 0 38px;margin:58px 0 0}
+    .letter-signup .runner{margin:0 0 5px;font:700 11px/1 "Nudica Mono",ui-monospace,SFMono-Regular,Menlo,monospace;text-transform:uppercase;letter-spacing:.09em;color:var(--link)}
     .letter-signup h2{font-family:"Marksy",cursive;margin:0 0 8px;font-size:30px;color:var(--link);font-weight:700}
     .letter-signup>p{margin:0 0 17px;color:var(--muted);font-size:15px;max-width:58ch}
     .letter-form{display:flex;flex-wrap:wrap;gap:10px;max-width:620px}
@@ -92,6 +94,7 @@
     .letter-consent{display:block;margin:11px 0 0;font-size:13.5px;color:var(--muted);max-width:72ch}
     .letter-privacy{margin:9px 0 0!important;font-size:13px!important;color:var(--muted)!important}
     footer{margin-top:0}
+    body.vh-content .vh-footer{margin-top:0!important}
     /* ── section headers ── */
     .sec-lead{font:700 11px/1 "Nudica Mono",ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--link);
       text-transform:uppercase;letter-spacing:.09em;margin:0 0 6px}
@@ -113,12 +116,26 @@
     .stage li:first-child a{border-top:0;padding-top:2px}
     .stage li a b{display:block;font-size:15px;font-weight:700;line-height:1.3}
     .stage li a>span{display:block;color:var(--muted);font-size:13px;line-height:1.45;margin-top:2px}
-    .stage li a::after{content:"→";position:absolute;right:2px;top:12px;color:var(--link);opacity:.55;font-weight:700}
-    .stage li:first-child a::after{top:2px}
+    .stage li a::after{content:"→";position:absolute;right:0;top:9px;color:var(--link);opacity:.7;
+      font-family:"Marksy","Marker Felt","Bradley Hand","Segoe Print",cursive;font-size:19px;line-height:1}
+    .stage li:first-child a::after{top:0}
     .stage li a:hover b{color:var(--link)}
     /* cross-cutting hubs — Marksy glyph instead of a number */
     .stage.cross .num{font-size:30px;color:var(--navy);transform:rotate(-3deg)}
     .stage.cross .num::after{display:none}
+    .stage.soon .num{color:#8a5cc0}
+    .cross-band{background:#f2effa;box-shadow:0 0 0 100vmax #f2effa;clip-path:inset(0 -100vmax);
+      padding:8px 0 16px;margin-top:28px}
+    .cross-band .stage{border-top:1px solid #e2dcef}
+    .cross-band .stage:first-child{border-top:0}
+    .byline{margin:14px 0 0;font-size:14px;color:var(--muted)}
+    .byline a{font-weight:600}
+    .mk-link{font-family:"Marksy","Marker Felt","Bradley Hand","Segoe Print",cursive;letter-spacing:.01em;
+      font-size:20px;font-weight:600;color:var(--link);text-decoration:none}
+    .mk-link:hover{text-decoration:underline;text-decoration-color:var(--lilac);text-underline-offset:3px}
+    .stage:has(+ .cross-band) .num::after{display:none}
+    .stage.soon .coming{margin:0;color:var(--muted);font-size:14px;line-height:1.5;max-width:58ch}
+    .stage.soon .coming a{font-weight:600}
     /* ── learning paths: hand-drawn dashed route cards ── */
     .paths{display:grid;gap:16px;grid-template-columns:1fr;margin:22px 0 0}
     @media(min-width:660px){.paths{grid-template-columns:1fr 1fr}}
@@ -196,8 +213,9 @@
 <main>
   <div class="learn-hero">
     <p class="page-kicker">Vahtian Learn</p>
-    <h1>Learn by the decision in front of you.</h1>
-    <p class="sub">Guides for doctoral students, clinician researchers, and first-time authors. Each one helps you make a research decision you can defend, in about five minutes, and points to the next step.</p>
+    <h1>What are you stuck on right now?</h1>
+    <p class="sub">Most people land here mid-panic: the sample your supervisor just questioned, the references that broke the night before the deadline, the reviewer comment you can&rsquo;t decode. Pick the moment. Get one clear next step, and the sentence you can show your supervisor.</p>
+    <p class="byline">Built by supervisor, MD, PhD <a href="/about/">Heidi Anders&eacute;n</a>.</p>
   </div>
 
   <section class="block" aria-labelledby="journey-h">
@@ -209,8 +227,8 @@
       <div class="stage">
         <span class="num" aria-hidden="true">1</span>
         <div>
-          <h3>Starting research</h3>
-          <p class="decide">Turn an idea into a question you can actually finish.</p>
+          <h3>I can&rsquo;t turn my idea into a question</h3>
+          <p class="decide">Turn a gap into a question you can actually finish.</p>
           <ul>
             <li><a href="/learn/find-your-next-research-project/"><b>Find your next research project</b><span>Map the field, check which gaps are real, and choose the project that survives checking.</span></a></li>
           </ul>
@@ -220,8 +238,8 @@
       <div class="stage">
         <span class="num" aria-hidden="true">2</span>
         <div>
-          <h3>Designing a study</h3>
-          <p class="decide">Choose an approach your question can support, and know how you will defend it.</p>
+          <h3>My supervisor says my sample is too small</h3>
+          <p class="decide">Build the sample-size argument you can put in front of them.</p>
           <ul>
             <li><a href="/learn/three-questions-qualitative-rigour/"><b>The three questions of rigour</b><span>What counts as knowledge, who interprets, and how it is made credible.</span></a></li>
             <li><a href="/learn/deductive-inductive-abductive/"><b>Deductive, inductive, abductive</b><span>Three kinds of reasoning in plain terms, and why mixing them up weakens your argument.</span></a></li>
@@ -230,11 +248,29 @@
         </div>
       </div>
 
-      <div class="stage">
+      <div class="stage soon">
         <span class="num" aria-hidden="true">3</span>
         <div>
-          <h3>Collecting data</h3>
-          <p class="decide">Gather evidence without losing the thread or breaking confidentiality.</p>
+          <h3>I don&rsquo;t understand my own statistics</h3>
+          <p class="decide">Read the few things that change your conclusion, in plain words.</p>
+          <p class="coming">Guides in progress. The tools help now: <a href="/studyvahti-vault/">StudyVahti Vault</a> to plan and document an observational study, and <a href="/recoverlite/">RecoverLite</a> to test whether a planned design can recover the effect.</p>
+        </div>
+      </div>
+
+      <div class="stage soon">
+        <span class="num" aria-hidden="true">4</span>
+        <div>
+          <h3>This review is drowning me &mdash; when do I stop?</h3>
+          <p class="decide">Set a defensible stopping rule, and screen a slice at a time.</p>
+          <p class="coming">Guides in progress. The tools are ready today: <a href="/matchvahti-lite/">MatchVahti-Lite</a>, <a href="/reviewvahti/">ReviewVahti</a>, <a href="/extractvahti/">ExtractVahti</a>, and <a href="/synthvahti/">SynthVahti</a>.</p>
+        </div>
+      </div>
+
+      <div class="stage">
+        <span class="num" aria-hidden="true">5</span>
+        <div>
+          <h3>Can I collect this without breaking the rules?</h3>
+          <p class="decide">Keep sensitive data on your machine, and anonymise it properly.</p>
           <ul>
             <li><a href="/learn/transcribe-interviews-locally/"><b>Transcribe interviews locally with Whisper</b><span>Install, choose a model, transcribe, and keep the recording on your own computer.</span></a></li>
             <li><a href="/learn/build-qualitative-codebook-obsidian/"><b>Build a qualitative codebook</b><span>One note per code: definition, inclusion, exclusion, anchor quote, revision history.</span></a></li>
@@ -243,10 +279,10 @@
       </div>
 
       <div class="stage">
-        <span class="num" aria-hidden="true">4</span>
+        <span class="num" aria-hidden="true">6</span>
         <div>
-          <h3>Analysing data</h3>
-          <p class="decide">Decide when you have done enough, and whether you did it right.</p>
+          <h3>I&rsquo;ve coded everything &mdash; now what are my themes?</h3>
+          <p class="decide">Get from codes to themes, with a worked example.</p>
           <ul>
             <li><a href="/learn/ai-qualitative-coding-human-review/"><b>Local AI coding, with human review</b><span>The model suggests first-cycle codes; you review every one and record the decision.</span></a></li>
             <li><a href="/learn/llms-in-qualitative-research/"><b>What LLMs can do, and where they stop</b><span>Where models help, five ways their output is over-trusted, and a workable division of labour.</span></a></li>
@@ -257,10 +293,10 @@
       </div>
 
       <div class="stage">
-        <span class="num" aria-hidden="true">5</span>
+        <span class="num" aria-hidden="true">7</span>
         <div>
-          <h3>Writing the paper</h3>
-          <p class="decide">Make every claim traceable to its evidence, and write in the order that works.</p>
+          <h3>I&rsquo;m staring at a wall and can&rsquo;t write</h3>
+          <p class="decide">Beat the blank page with structure, not willpower.</p>
           <ul>
             <li><a href="/learn/how-to-write-a-scientific-paper/"><b>Write from the results out</b><span>Figures and methods first, introduction near the end, abstract last.</span></a></li>
             <li><a href="/learn/zotero/"><b>Zotero for researchers</b><span>Collect, organise, annotate, and cite, plus FullVahti and Better BibTeX.</span></a></li>
@@ -270,21 +306,31 @@
       </div>
 
       <div class="stage">
-        <span class="num" aria-hidden="true">6</span>
+        <span class="num" aria-hidden="true">8</span>
         <div>
-          <h3>Responding to reviewers</h3>
-          <p class="decide">Answer every comment, point by point, without losing one.</p>
+          <h3>The reviewers came back and I don&rsquo;t know what they want</h3>
+          <p class="decide">Triage the comments, handle the contradictions, keep it polite.</p>
           <ul>
             <li><a href="/learn/how-to-respond-to-reviewers/"><b>Respond without losing a comment</b><span>Give every request a stance, response, real change, and location.</span></a></li>
           </ul>
         </div>
       </div>
 
+      <div class="stage soon">
+        <span class="num" aria-hidden="true">9</span>
+        <div>
+          <h3>I submitted and now they want a huge fee</h3>
+          <p class="decide">Check the red flags, and know your options now.</p>
+          <p class="coming">Guides in progress: journal fit before impact, what impact factor really means, and how to spot a predatory journal.</p>
+        </div>
+      </div>
+
+      <div class="cross-band">
       <div class="stage cross">
         <span class="num marksy" aria-hidden="true">&#x1F47B;</span>
         <div>
-          <h3>Using AI responsibly &middot; runs through everything</h3>
-          <p class="decide">Get AI&rsquo;s help without letting it quietly become the decision.</p>
+          <h3>Using AI without getting into trouble</h3>
+          <p class="decide">Get AI&rsquo;s help without sending your data away or letting it decide.</p>
           <ul>
             <li><a href="/learn/ai-concepts-for-researchers/"><b>ML, LLM, RAG, GraphRAG, DAGs and agents</b><span>One map of the AI ideas behind research tools, and what each does not establish.</span></a></li>
             <li><a href="/learn/llm-qualitative-data-ethics/"><b>Before interview data enters an AI model</b><span>Three risks, four checks, and when a local workflow removes the data transfer.</span></a></li>
@@ -297,7 +343,7 @@
       </div>
 
       <div class="stage cross">
-        <span class="num marksy" aria-hidden="true">&#x261E;</span>
+        <span class="num marksy" aria-hidden="true">&#x1F60E;</span>
         <div>
           <h3>When you&rsquo;re the reviewer</h3>
           <p class="decide">Judge a paper fairly, and defensibly.</p>
@@ -307,9 +353,9 @@
           </ul>
         </div>
       </div>
+      </div>
 
     </div>
-    <p class="sec-note" style="margin-top:22px">More stages on the way: <b>publishing &amp; choosing a journal</b>, <b>quantitative study design</b>, and <b>systematic reviews</b>.</p>
   </section>
 
   <section class="block" aria-labelledby="paths-h">
@@ -358,10 +404,16 @@
         <p class="tool">Next step: <a href="/ai-disclosure-kit/">AI Disclosure Kit &rarr;</a></p>
       </article>
 
-      <article class="path soon">
-        <div class="plabel"><span class="pn" aria-hidden="true">D</span><span class="time">In progress</span></div>
-        <h3>My first systematic review</h3>
-        <p>Question and protocol, screening, extraction, and synthesis. Guides in progress; the tools are ready today: <a href="/matchvahti-lite/">MatchVahti-Lite</a>, <a href="/reviewvahti/">ReviewVahti</a>, <a href="/extractvahti/">ExtractVahti</a>, <a href="/synthvahti/">SynthVahti</a>.</p>
+      <article class="path">
+        <div class="plabel"><span class="pn" aria-hidden="true">D</span><span class="time">Observational</span></div>
+        <h3>Design a study you can defend in the viva</h3>
+        <ol>
+          <li>Pin the question and the estimand</li>
+          <li>Build the variable dictionary</li>
+          <li>Lock the analysis plan before data</li>
+          <li>Keep every decision in the audit trail</li>
+        </ol>
+        <p class="tool">Next step: <a href="/studyvahti-vault/">StudyVahti Vault &rarr;</a></p>
       </article>
 
     </div>
@@ -379,13 +431,14 @@
       <a class="row try" href="/methodvahti/explore/"><b>Sample-size explorer</b><span>Move the design parameters; watch N and its stability respond.</span></a>
       <a class="row try" href="/synthvahti/"><b>SynthVahti</b><span>Pool agreement across studies; the joint bivariate model runs in R.</span></a>
     </div>
-    <p class="sec-note" style="margin-top:16px">Every tool by research stage lives on <a href="/download/">Tools</a>. The paid workspaces and kits are on <a href="/kits/">Kits</a>.</p>
+    <p class="sec-note" style="margin-top:18px"><a class="mk-link" href="/download/">Tools by research stage &rarr;</a><br>Paid workspaces and kits on <a href="/kits/">Kits</a>.</p>
   </section>
 
   <!-- email capture: plain POST to Brevo, no external requests -->
 <aside class="letter-signup">
-  <h2>One letter a month</h2>
-  <p>A useful problem from research practice, one practical way through it, and the limit worth remembering. One product mention at most.</p>
+  <p class="runner">One letter a month</p>
+  <h2>Founder&rsquo;s field notes</h2>
+  <p>One research problem, what I tried, what worked, and where it still falls short.</p>
   <form method="POST" action="https://f9b96982.sibforms.com/serve/MUIFAMcTOLX67j69y_fzMLe4ExNUbUCqqmy_bIaYkLFiPRMwrMs5C7CoRKAd-BTNKCFvmeQ2dXjkJT25KHTQAdWqZjaJlMb4M27tl_lyfeSuFFuVnxtTG6dppAXFca1MbKYdgm2iZThi0eSMTmWL97T5YDF65mJrY9hC7OyAP3nkjikq4pf1EgLxTWRJbTj02ncxQ03h3uyrLk8NdQ==">
     <div class="letter-form">
       <label for="EMAIL" style="position:absolute;left:-9999px">Email address</label>
@@ -396,7 +449,7 @@
     <input type="text" name="email_address_check" value="" style="position:absolute;left:-9999px" tabindex="-1" autocomplete="off" aria-hidden="true">
     <input type="hidden" name="locale" value="en">
   </form>
-  <p class="letter-privacy">You confirm by email. No tracking pixels and no sharing. <a href="/privacy/">Privacy</a></p>
+  <p class="letter-privacy">Double opt-in: nothing arrives until you confirm by email. No tracking pixels, never shared. <a href="/privacy/">Privacy</a></p>
 </aside>
 </main>
 
