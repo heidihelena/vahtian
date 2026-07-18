@@ -65,12 +65,12 @@
     <p class="voc-kicker">Clean and prepare your data</p>
     <h1>&ldquo;My survey export has two header rows and won&rsquo;t load.&rdquo;</h1>
     <p class="voc-subtitle">Turn a SurveyMonkey, Qualtrics, or Forms export into a tidy dataset R and Python can read.</p>
-    <p class="voc-lede">Survey tools export a question on one header row and its answer option on a second, with matrix questions spread across many columns and merged cells left blank. Your import reads the first row as the column names and treats the second as data, so everything is mislabelled or shifted by one. The fix is three short steps.</p>
+    <p class="voc-lede">You have the export, the deadline is close, and it will not load. You paste it into R or Python and the columns are named after questions, the answers have vanished, and the numbers sit one row low. Many people fix it by hand, copying answers into a new spreadsheet and hoping they introduce no new errors. You do not have to. Three short steps turn the export into a tidy dataset that R and Python can read.</p>
     <p class="voc-byline">By <a href="/about/">Heidi Andersén, MD, PhD</a> · Updated 18 July 2026 · <span class="rt">6 min read</span></p>
   </div>
 
   <h2><span class="eyebrow">The problem</span>Two headers, and blanks that mean &ldquo;same as left&rdquo;</h2>
-  <p>Open the raw file first and look. Row one holds the question, but only in the first column of each group; the cells after it are blank because the tool merged them. Row two holds the answer option for each column. The real data starts on row three. A plain <code>read_csv</code> knows none of this, so it names your columns after row one and loses the options entirely.</p>
+  <p>Open the raw file first and look. Row one holds the question, but only in the first column of each group; the cells after it are blank because the tool merged them. Row two holds the answer option for each column. The real data starts on row three. <code>read_csv()</code> assumes the first row contains column names. Survey exports often do not.</p>
 
   <h2><span class="eyebrow">Step 1 and 2</span>Fill the merged cells, then combine the two rows</h2>
   <p>Read with no header, carry the question rightwards across its blank cells, join it to the option row, and drop the two header rows from the data. The same shape in both languages:</p>
@@ -92,6 +92,7 @@ dat = raw.iloc[2:].copy()
 dat.columns = cols</pre>
   </div>
   <p>You now have one clean header row and typed-in data. Check the column count matches what you expect before going on.</p>
+  <p>If your export contains three header rows instead of two, the same approach applies: combine all the header rows into a single set of column names before importing the data.</p>
 
   <h2><span class="eyebrow">Step 3</span>Reshape matrix questions to long</h2>
   <p>A matrix question (one question, many sub-rows) arrives as many columns. For most analysis you want it long: one row per respondent per item. Pivot the matrix columns with <code>tidyr::pivot_longer()</code> in R or <code>pandas.melt()</code> in Python, keeping the respondent id as the anchor. Multi-select answers export as one column per option already coded 0/1, which is usually what you want, so leave those wide.</p>
@@ -114,7 +115,7 @@ dat.columns = cols</pre>
     <a href="/learn/read-your-own-statistics/"><b>What do my results actually say?</b><span>Once the data is tidy, read the few numbers that change the meaning.</span></a>
   </nav>
 
-  <p class="voc-softlink">Turning the cleaned columns into a reusable, typed dictionary? <a href="/dictvahti/">DictVahti</a> writes one from your headers. You check it against the survey.</p>
+  <p class="voc-softlink"><a href="/dictvahti/">DictVahti</a> creates a first draft of the data dictionary directly from the cleaned headers. You review it against the original survey before collection or analysis.</p>
 </main>
 
 <footer class="vh-footer">

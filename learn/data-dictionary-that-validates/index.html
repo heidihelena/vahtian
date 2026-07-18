@@ -3,19 +3,19 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>How do I build a data dictionary that validates? · Vahtian Learn</title>
-  <meta name="description" content="Define your variables, their types, allowed values, and validation before you collect, so cleaning does not become your analysis. A REDCap-style data dictionary you can read into R and Python.">
+  <title>How to build a data dictionary that prevents data cleaning errors · Vahtian Learn</title>
+  <meta name="description" content="A data dictionary defines every variable, its allowed values, and validation rules before collection, so the software rejects errors instead of leaving them for analysis day. REDCap data dictionary, codebook, and data validation basics with R and Python import.">
   <meta name="theme-color" content="#2D2440">
   <link rel="canonical" href="https://vahtian.com/learn/data-dictionary-that-validates/">
   <meta name="robots" content="index,follow">
   <meta property="og:type" content="article">
   <meta property="og:url" content="https://vahtian.com/learn/data-dictionary-that-validates/">
-  <meta property="og:title" content="How do I build a data dictionary that validates?">
-  <meta property="og:description" content="Define variables, types, allowed values, and validation before you collect, so cleaning does not become your analysis.">
+  <meta property="og:title" content="How to build a data dictionary that prevents data cleaning errors">
+  <meta property="og:description" content="Define every variable, its allowed values, and validation rules before collection, so cleaning does not become your analysis. REDCap data dictionary and codebook basics.">
   <meta property="og:image" content="https://vahtian.com/brand/cards/vahtian-card.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="Vahtian Learn — build a data dictionary that validates.">
+  <meta property="og:image:alt" content="Vahtian Learn — build a data dictionary that prevents cleaning errors.">
   <meta property="og:site_name" content="Vahtian">
   <meta property="article:published_time" content="2026-07-18">
   <meta property="article:modified_time" content="2026-07-18">
@@ -25,8 +25,8 @@
   {
     "@context": "https://schema.org",
     "@type": "TechArticle",
-    "headline": "How do I build a data dictionary that validates?",
-    "description": "Define your variables, their types, allowed values, and validation before you collect, so cleaning does not become your analysis, with a REDCap-style example and R and Python import.",
+    "headline": "How to build a data dictionary that prevents data cleaning errors",
+    "description": "A data dictionary defines every variable, its allowed values, and validation rules before collection, so the software rejects errors instead of leaving them for analysis day. REDCap data dictionary, codebook, and data validation basics with R and Python import.",
     "url": "https://vahtian.com/learn/data-dictionary-that-validates/",
     "datePublished": "2026-07-18",
     "dateModified": "2026-07-18",
@@ -63,9 +63,9 @@
 <main>
   <div class="voc-hero">
     <p class="voc-kicker">Clean and prepare your data</p>
-    <h1>&ldquo;How do I build a data dictionary that validates?&rdquo;</h1>
-    <p class="voc-subtitle">Define your variables and their allowed values before you collect, so cleaning does not become your analysis.</p>
-    <p class="voc-lede">A data dictionary is the contract your data has to meet: one row per variable, saying what it is called, what type it is, what values are allowed, and whether it identifies a person. Set it before collection and the software rejects bad entries at the source. Skip it and you meet every problem at once, the night before analysis.</p>
+    <h1>How to build a data dictionary that prevents data cleaning errors</h1>
+    <p class="voc-subtitle">Define every variable, its allowed values, and validation rules before you collect, so cleaning does not become your analysis.</p>
+    <p class="voc-lede">Every hour spent cleaning data after collection is usually an hour that could have been prevented before collection. A data dictionary defines every variable, its allowed values, and its validation rules before the first participant is entered. The software then rejects many errors automatically, instead of leaving them for analysis day.</p>
     <p class="voc-byline">By <a href="/about/">Heidi Andersén, MD, PhD</a> · Updated 18 July 2026 · <span class="rt">6 min read</span></p>
   </div>
 
@@ -73,19 +73,19 @@
   <p>You open the spreadsheet to run your first test and find ages typed as words, a sex column with nine spellings, dates in three formats, and blank cells you cannot tell from real zeros. None of it was caught when it was entered, so all of it lands on you now. A data dictionary moves that work to the start, where it is cheap, and lets the data-entry tool enforce it.</p>
 
   <h2><span class="eyebrow">What it is</span>One row per variable</h2>
-  <p>A data dictionary (REDCap calls it the instrument, other tools call it a codebook) is a table with one row for every variable you will collect. The columns that carry the work:</p>
+  <p>A data dictionary (REDCap calls it the instrument; other tools call it a codebook or variable dictionary) is a table with one row for every variable you will collect. It is the specification your research database, REDCap and other clinical research databases, enforces at the point of entry. The columns that carry the work:</p>
   <ul>
-    <li><b>Variable name</b>: short, lower-case, no spaces (<code>age_years</code>, not &ldquo;Age (years)&rdquo;).</li>
-    <li><b>Field type</b>: text, radio, dropdown, checkbox, date, yes/no, calculated.</li>
-    <li><b>Label</b>: the human question shown at entry.</li>
-    <li><b>Choices</b>: coded options, not free text (<code>1, Male | 2, Female</code>), so answers are consistent and analysable.</li>
-    <li><b>Validation</b>: a type and range the entry must pass (integer, a date format, a min and max).</li>
-    <li><b>Identifier?</b>: mark any field that could identify a person. This flag drives what you strip before you share.</li>
+    <li><b>Variable name.</b> Stable, machine-readable name (for example <code>age_years</code>).</li>
+    <li><b>Field type.</b> Integer, text, date, radio button, checkbox, calculated field.</li>
+    <li><b>Label.</b> The question shown to the person entering data.</li>
+    <li><b>Choices.</b> Allowed coded values.</li>
+    <li><b>Validation.</b> Data type and acceptable range.</li>
+    <li><b>Identifier.</b> Whether the field contains personal identifiers.</li>
   </ul>
 
   <div class="voc-artifact">
     <p class="lab">A minimal dictionary (REDCap-style)</p>
-    <pre class="voc-tpl">variable       type    label                choices / validation    identifier?
+    <pre class="voc-tpl">variable       type    label                choices / validation    identifier
 record_id      text                         (auto)                  no
 age_years      text    Age in years         integer, 18-120         no
 sex            radio   Sex at birth         1, Male | 2, Female     no
@@ -95,10 +95,20 @@ initials       text    Participant initials -                       yes</pre>
   </div>
 
   <h2><span class="eyebrow">Validation</span>Rules that catch the error at entry</h2>
-  <p>Validation is what makes the dictionary earn its place. Set the type and range once and the tool refuses anything that fails: an integer field will not accept text, a <code>date_dmy</code> field will not accept 13/25/2026, a min and max fence out impossible values. Use coded choices instead of a free-text box wherever the answer is a category. Mark the fields that must not be blank as required. None of this proves the data is correct, but it removes whole classes of error before they reach you.</p>
+  <p>Set the type and range once and the tool refuses anything that fails: an integer field will not accept text, a <code>date_dmy</code> field will not accept 31/02/2026, a minimum and maximum fence out impossible values. Use coded choices instead of a free-text box wherever the answer is a category, and mark fields that must not be blank as required.</p>
+  <p>But validation reduces errors; it does not guarantee correctness. It cannot tell whether a value is <em>true</em>, only whether it is <em>possible</em>. A participant aged 52 can still be entered as 25, and validation will accept it. It catches impossible values, not incorrect ones. That distinction is easy to forget and worth keeping in front of you.</p>
+
+  <div class="voc-artifact">
+    <p class="lab">The same four entries, with and without a dictionary</p>
+    <pre class="voc-tpl">                without a dictionary          with a dictionary
+sex             Male, male, M, m, Female, F   1, Male | 2, Female
+age &ldquo;forty&rdquo;     accepted as text              rejected
+age 220         accepted                      rejected
+date 31/02/2026 accepted                      rejected</pre>
+  </div>
 
   <h2><span class="eyebrow">Then</span>Read it into R or Python</h2>
-  <p>A dictionary-backed export is already clean and typed, so import is the easy part.</p>
+  <p>Because every variable already has a defined type, R and Python import the data with far fewer surprises. Most of the cleaning work has already happened during collection.</p>
   <div class="voc-artifact">
     <p class="lab">R</p>
     <pre class="voc-tpl">library(REDCapR)
@@ -109,6 +119,9 @@ d &lt;- readr::read_csv("data.csv")</pre>
     <pre class="voc-tpl">import pandas as pd
 d = pd.read_csv("data.csv")</pre>
   </div>
+
+  <h2><span class="eyebrow">Why this matters</span>Most analysis problems start at collection</h2>
+  <p>Most analysis problems are data-collection problems discovered too late. A statistician cannot recover information that was never collected consistently. An hour spent on the data dictionary usually saves many hours of cleaning, recoding, and checking before analysis, and it protects results you could not otherwise defend.</p>
 
   <h2><span class="eyebrow">Checklist</span>Before you open recruitment</h2>
   <div class="voc-artifact">
@@ -129,7 +142,7 @@ d = pd.read_csv("data.csv")</pre>
     <a href="/learn/cite-your-analysis-code/"><b>Make your analysis code citable</b><span>Give the code that reads this data a release and a DOI.</span></a>
   </nav>
 
-  <p class="voc-softlink">Want the dictionary built and checked for you? <a href="/dictvahti/">DictVahti</a> assembles the fields, validation, and identifier flags into a REDCap-ready dictionary. It records the structure; you still check that it matches your study.</p>
+  <p class="voc-softlink">Want it built for you? <a href="/dictvahti/">DictVahti</a> builds a REDCap-ready data dictionary with variable names, validation rules, coded values, and identifier flags. You review the structure before collecting data.</p>
 </main>
 
 <footer class="vh-footer">
