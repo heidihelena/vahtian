@@ -18,6 +18,8 @@
 .wrap{max-width:760px;margin:0 auto;padding:0 22px}
 body.vh-content{font:500 16.5px/1.68 "Nudica",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
 .voc a{color:var(--link)}
+/* buttons carry their own text colour — beat the generic .voc a link colour */
+.voc a.voc-btn,.voc a.voc-dl{color:#fff}
 .marksy{font-family:"Marksy","Marker Felt","Bradley Hand","Segoe Print",cursive;letter-spacing:.01em}
 
 /* ── header nav (matches home / kits) ── */
@@ -46,10 +48,31 @@ body.vh-content{font:500 16.5px/1.68 "Nudica",-apple-system,BlinkMacSystemFont,"
 .voc-byline a{color:var(--muted)}
 .voc-byline .rt{color:var(--link)}
 
-/* ── the anchoring student quote — a pull quote in their own words ── */
-.voc-voice{margin:24px 0;padding:4px 0 4px 20px;border-left:3px solid var(--lilac);
-  font-size:17px;line-height:1.5;color:#3a3450;font-style:italic}
-.voc-voice cite{display:block;margin-top:7px;font:600 12px/1 var(--font-mono);color:var(--muted);font-style:normal;letter-spacing:.02em}
+/* ── the anchoring student quote — the dominant "real voice", hand-drawn ──
+   Marksy carries the human voice; body prose stays Nudica. This is the top of
+   the visual hierarchy on every page. ── */
+.voc-voice{margin:28px 0;padding:6px 0 6px 22px;border-left:3px solid var(--lilac);
+  font-family:"Marksy","Marker Felt","Bradley Hand","Segoe Print",cursive;
+  font-size:clamp(21px,3.2vw,27px);line-height:1.34;color:var(--navy);font-style:normal;letter-spacing:.01em}
+.voc-voice cite{display:block;margin-top:10px;font:600 12px/1 var(--font-mono);color:var(--muted);font-style:normal;letter-spacing:.02em}
+
+/* ── Marksy asides: hand-written interjections that break the prose rhythm.
+   A longer line in the marker hand, set off from the body Nudica. Use one or
+   two per page at a punchy beat, varied in placement. ── */
+.voc-aside{font-family:"Marksy","Marker Felt","Bradley Hand","Segoe Print",cursive;
+  color:var(--link);font-size:clamp(20px,3vw,26px);line-height:1.36;letter-spacing:.01em;
+  margin:26px 0;max-width:56ch}
+.voc-aside .ico{font-style:normal;margin-right:8px;color:var(--navy)}
+/* a centred, larger break for a strong single beat */
+.voc-aside.big{text-align:center;max-width:none;color:var(--navy);
+  margin:36px auto 34px;font-size:clamp(23px,4vw,32px);line-height:1.25;
+  transform:rotate(-1.2deg)}
+.voc-aside.big .ico{display:block;font-size:1.3em;transform:rotate(4deg);margin:0 0 4px}
+@media(prefers-reduced-motion:reduce){.voc-aside.big{transform:none}.voc-aside.big .ico{transform:none}}
+
+/* Marksy glyph accent that can sit before a heading eyebrow */
+.voc h2 .ico{font-family:"Marksy","Marker Felt","Bradley Hand","Segoe Print",cursive;
+  font-style:normal;color:var(--navy);font-size:20px;margin-right:8px;vertical-align:-2px}
 
 /* ── body typography ── */
 .voc h2{font-size:22px;line-height:1.2;color:var(--navy);letter-spacing:0;margin:44px 0 12px}
@@ -65,14 +88,26 @@ body.vh-content{font:500 16.5px/1.68 "Nudica",-apple-system,BlinkMacSystemFont,"
 .voc-band{background:var(--paper2);box-shadow:0 0 0 100vmax var(--paper2);
   clip-path:inset(0 -100vmax);padding:6px 0 20px;margin:40px 0}
 
-/* ── common mistakes: dashed hand-drawn cards with a struck glyph ── */
-.voc-mistakes{list-style:none;display:grid;gap:12px;grid-template-columns:1fr;margin:16px 0 0;padding:0}
+/* ── alternating section rhythm: plain ground, then a light lavender band.
+   Pages opt in per section (and vary WHICH sections band), so no two read
+   as the same template. ── */
+.voc-sec{margin:0}
+.voc-sec.alt{background:var(--paper2);box-shadow:0 0 0 100vmax var(--paper2);
+  clip-path:inset(0 -100vmax);padding:10px 0 26px;margin:30px 0}
+.voc-sec.alt > h2:first-child{margin-top:22px}
+
+/* ── common mistakes: dashed hand-drawn cards, Marksy numerals + titles ── */
+.voc-mistakes{list-style:none;display:grid;gap:12px;grid-template-columns:1fr;margin:16px 0 0;padding:0;counter-reset:mistake}
 @media(min-width:600px){.voc-mistakes{grid-template-columns:1fr 1fr}}
 .voc-mistakes li{position:relative;background:var(--card);border:1.5px dashed #a99cc9;border-radius:10px;
-  padding:15px 16px 15px 42px;font-size:14.5px;line-height:1.5;color:#3a3450}
-.voc-mistakes li::before{content:"\2717";position:absolute;left:15px;top:14px;
-  font:700 15px/1 "Nudica",sans-serif;color:var(--violet)}
-.voc-mistakes li b{color:var(--navy);display:block;margin-bottom:2px}
+  padding:15px 16px 15px 48px;font-size:14.5px;line-height:1.5;color:#3a3450}
+.voc-mistakes li::before{counter-increment:mistake;content:counter(mistake);position:absolute;left:15px;top:11px;
+  font:600 27px/1 "Marksy","Marker Felt","Bradley Hand","Segoe Print",cursive;color:var(--link)}
+.voc-mistakes li:nth-child(odd)::before{transform:rotate(-5deg)}
+.voc-mistakes li:nth-child(even)::before{transform:rotate(4deg)}
+.voc-mistakes li b{display:block;margin-bottom:3px;color:var(--navy);
+  font-family:"Marksy","Marker Felt","Bradley Hand","Segoe Print",cursive;font-weight:600;font-size:17px;letter-spacing:.01em}
+@media(prefers-reduced-motion:reduce){.voc-mistakes li::before{transform:none}}
 
 /* ── numbered steps: big Marksy numerals on a hand-drawn spine ── */
 .voc-steps{list-style:none;margin:18px 0 0;padding:0}
@@ -87,10 +122,12 @@ body.vh-content{font:500 16.5px/1.68 "Nudica",-apple-system,BlinkMacSystemFont,"
 .voc-steps b{color:var(--navy)}
 .voc-steps p{margin:4px 0 0;color:#3a3450;font-size:14.5px}
 
-/* ── worked example: bordered case card ── */
-.voc-example{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--violet);
-  border-radius:12px;padding:18px 20px;margin:16px 0}
-.voc-example .lab{font:700 11px/1 var(--font-mono);color:var(--link);text-transform:uppercase;letter-spacing:.08em;margin:0 0 10px}
+/* ── worked example: not a card — a hand-drawn dotted rule down the margin,
+   so the example reads as an aside jotted next to the prose ── */
+.voc-example{background:transparent;border:0;border-left:3px dotted var(--violet);
+  border-radius:0;padding:2px 0 2px 22px;margin:18px 0}
+.voc-example .lab{font-family:"Marksy","Marker Felt","Bradley Hand","Segoe Print",cursive;
+  font-size:18px;color:var(--link);letter-spacing:.01em;margin:0 0 8px}
 .voc-example p:last-child,.voc-example ul:last-child,.voc-example ol:last-child{margin-bottom:0}
 
 /* ── artifact: checklist + template, with a real (local, data-URI) download ── */
