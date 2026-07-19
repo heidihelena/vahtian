@@ -125,3 +125,9 @@ pre{overflow-x:auto;max-width:100%}
 @media (max-width:640px){
   table{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:100%}
 }
+
+/* M7 — skip link: visually hidden until focused, first in tab order */
+.skip-link{position:absolute;left:8px;top:-60px;z-index:1000;background:#2D2440;color:#fff;
+  padding:10px 16px;border-radius:0 0 9px 9px;font-weight:700;text-decoration:none;transition:top .15s ease}
+.skip-link:focus{top:0}
+@media (prefers-reduced-motion:reduce){.skip-link{transition:none}}
