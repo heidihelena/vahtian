@@ -61,7 +61,7 @@
   .brand h1{font-size:20px;margin:0;letter-spacing:-.01em}
   .brand .sub{color:#D9CFF2;font-size:13.5px;margin:2px 0 0;max-width:74ch;line-height:1.5}
   .chips{display:flex;flex-wrap:wrap;gap:var(--sp-4);margin-top:var(--sp-6)}
-  .chip{font:600 11px/1 ui-monospace,Menlo,monospace;padding:5px 9px;border-radius:999px;border:1px solid #6A5E92;color:#DCD3F2}
+  .chip{font:600 12px/1 ui-monospace,Menlo,monospace;padding:5px 9px;border-radius:999px;border:1px solid #6A5E92;color:#DCD3F2}
   section{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:20px;margin:18px 0;box-shadow:var(--shadow)}
   h2{font-size:17px;margin:0 0 4px;letter-spacing:-.01em}
   h2 .n{color:var(--teal-text);font:700 13px/1 ui-monospace,monospace;margin-right:7px}
@@ -265,7 +265,7 @@ function render(){
   html+='<table><tr><th class="l">cutoff</th><th>studies</th><th>pooled overall agr.</th><th>I²</th><th>pooled pos. agr.*</th><th>pooled neg. agr.*</th><th>κ (mean, range)</th></tr>';
   for(const c of M.cutoffs){
     html+=`<tr><td class="l mono">${esc(c.cutoff)}</td><td>${c.k}</td>`+
-      `<td>${c.opa?pct(c.opa.pooled)+'<br><span class="muted" style="font-size:10.5px">['+pct(c.opa.lo)+', '+pct(c.opa.hi)+']</span>':'—'}</td>`+
+      `<td>${c.opa?pct(c.opa.pooled)+'<br><span class="muted" style="font-size:12px">['+pct(c.opa.lo)+', '+pct(c.opa.hi)+']</span>':'—'}</td>`+
       `<td>${c.opa?c.opa.I2.toFixed(0)+'%':'—'}</td>`+
       `<td>${c.sens?pct(c.sens.pooled):'—'}</td><td>${c.spec?pct(c.spec.pooled):'—'}</td>`+
       `<td>${c.kappa?c.kappa.mean.toFixed(2)+' ('+c.kappa.min.toFixed(2)+'–'+c.kappa.max.toFixed(2)+')':'—'}</td></tr>`;
