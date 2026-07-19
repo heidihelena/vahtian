@@ -117,3 +117,11 @@
   *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;
     transition-duration:.001ms!important;scroll-behavior:auto!important}
 }
+
+/* M8 — wide content scrolls inside its own box instead of forcing the whole
+   page to scroll sideways. pre always; tables only where they would overflow
+   a narrow screen (desktop table layout is unchanged). */
+pre{overflow-x:auto;max-width:100%}
+@media (max-width:640px){
+  table{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:100%}
+}
