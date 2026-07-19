@@ -37,6 +37,11 @@ Every title and description ladders up to *support, recorded, auditable* — nev
   - Product / tool / kit pages → `… · Vahtian`
   - Learn articles → `… · Vahtian Learn`
   - Blog posts → `… · Vahtian Blog`
+  - **Sub-tool pages** (a feature that lives inside a product — a quick-check, an
+    explorer, a builder) → `<Function name> · <ParentProduct>`, e.g.
+    `Citation Integrity Quick Check · CiteVahti`,
+    `Qualitative Claim Quick Check · MethodVahti`. The parent product carries the
+    brand; the feature's own title is the descriptive function name.
   Do not mix `|`, ` — `, and ` · ` for the suffix; the suffix separator is ` · `.
 - **No hype adjectives** (best, ultimate, revolutionary, powerful) and **no
   overclaim verbs** (verify, prove, guarantee, ensure).
@@ -66,7 +71,12 @@ Every title and description ladders up to *support, recorded, auditable* — nev
 - The `<h1>` states the page's **primary promise/keyword**, aligned with the title.
 - **No level skips** in the live document (`h1 → h2 → h3`, never `h1 → h3`). Card
   grids that used `h3` for visual size should use the correct level and be sized with
-  CSS.
+  CSS. **Acceptance criterion:** every page has a logical heading outline with no
+  skipped levels, while the **rendered design remains unchanged** — fix the shared
+  component (its heading level + a CSS size rule), not one page at a time.
+- **Products get names; features get descriptive headings.** A product/section
+  heading may be the bare product name (StudyVahti Vault); a feature or step heading
+  says what it does ("Build the variable dictionary"), not a clever-only label.
 - Section headings are **descriptive**, not clever-only — a reader scanning headings
   should understand the page. A Marksy/handwritten accent heading is fine as long as
   the words still describe the section.
