@@ -343,18 +343,18 @@
   <section id="searchSection">
     <h2>1 &middot; Search PubMed</h2>
     <div class="row">
-      <div class="grow"><input type="text" id="query" placeholder="e.g. osimertinib adjuvant NSCLC overall survival" autocapitalize="off" /></div>
+      <div class="grow"><input type="text" id="query" aria-label="Search PubMed" placeholder="e.g. osimertinib adjuvant NSCLC overall survival" autocapitalize="off" /></div>
       <button id="searchBtn">Search</button>
     </div>
     <div class="ctrls">
       <div class="ctrl"><span class="ctrl-lbl">Sort</span>
-        <select id="sortSel">
+        <select id="sortSel" aria-label="Sort results">
           <option value="relevance">Best Match</option>
           <option value="date">Most recent</option>
         </select>
       </div>
       <div class="ctrl"><span class="ctrl-lbl">Refine</span>
-        <select id="refineSel">
+        <select id="refineSel" aria-label="Refine results">
           <option value="">All article types</option>
           <option value="reviews">Reviews &amp; meta-analyses</option>
           <option value="trials">Clinical trials</option>
@@ -368,8 +368,8 @@
     <details style="margin-top:8px">
       <summary class="hint" style="cursor:pointer;font-weight:600">NCBI etiquette: contact email &amp; API key (optional)</summary>
       <div class="row" style="margin-top:6px">
-        <div class="grow"><input type="text" id="ncbiEmail" autocapitalize="off" spellcheck="false" placeholder="contact email — you@university.fi" /></div>
-        <div class="grow"><input type="password" id="ncbiApiKey" autocomplete="off" placeholder="NCBI API key (optional)" /></div>
+        <div class="grow"><input type="text" id="ncbiEmail" aria-label="Contact email for NCBI E-utilities" autocapitalize="off" spellcheck="false" placeholder="contact email — you@university.fi" /></div>
+        <div class="grow"><input type="password" id="ncbiApiKey" aria-label="NCBI API key (optional)" autocomplete="off" placeholder="NCBI API key (optional)" /></div>
       </div>
       <div class="hint" style="margin-top:6px">NCBI asks tools to send a contact email with E-utilities calls; an API key lifts
         the rate limit from 3 to 10 requests/s. Both are sent <b>only to NCBI</b> and stored only in this browser.</div>
@@ -421,7 +421,7 @@
         <span id="tagchips" style="display:contents"></span>
         <input type="text" id="tagInput" placeholder="or type a custom tag, press Enter (e.g. compare-Smith-2024)" autocapitalize="off" />
       </div>
-      <input type="text" id="noteInput" placeholder="Optional free note — e.g. compare with the registrational trial estimate" style="margin-top:8px" />
+      <input type="text" id="noteInput" aria-label="Optional note for this sentence" placeholder="Optional free note — e.g. compare with the registrational trial estimate" style="margin-top:8px" />
 
       <p class="absonly">Captured text is from the <b>abstract only</b>. Check against the full text before citing.</p>
       <div class="actions">
