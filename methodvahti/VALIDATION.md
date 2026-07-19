@@ -26,7 +26,7 @@ threshold was met, or a gate was passed unless it explicitly says so.**
 |---|---|
 | **[IMPLEMENTED]** | Exists in the repo now; this document cites and gates it. Verifiable by running the code. |
 | **[SPECIFIED — NOT YET EXECUTED]** | A designed plan with a measurable gate. No result exists yet. |
-| **[DECISION REQUIRED]** | A method/product call the owner (MD/PhD) must make before dependent work can proceed. Not the framework author's to decide. |
+| **[DECISION RECORD]** | A method/product call made by the owner (MD/PhD), recorded here with its date. Not the framework author's to decide. |
 | **[VERIFY BEFORE CITING]** | A citation detail (dates, article numbers) not independently confirmed here; confirm against the published source before relying on it. |
 
 ---
@@ -94,7 +94,7 @@ in this framework are met.
 | Pillar | Current state |
 |---|---|
 | Software verification (unit/regression/property/parity) | **[IMPLEMENTED]** — Ch. 3 |
-| Construct specification | **[IMPLEMENTED in code]**, reconciled here — Ch. 1; one open **[DECISION REQUIRED]** |
+| Construct specification | **[SPECIFIED]** — outcome-independent defensibility score (Ch. 1.2); mismatch **resolved** by owner 2026-07-19 (Ch. 1.2.1); redesign pending (Ch. 1.2.2) |
 | AI / LLM evaluation | **[SPECIFIED — NOT YET EXECUTED]** — Ch. 4 |
 | Statistical / analytical validation | **[SPECIFIED — NOT YET EXECUTED]** — Ch. 5 |
 | External & human validation | **[SPECIFIED — NOT YET EXECUTED]** — Ch. 6 |
@@ -109,20 +109,24 @@ in this framework are met.
 MethodVahti has a **deterministic core** and an **AI-assisted boundary**:
 
 ```
-   source documents / coded corpus
+   protocol / study report / appraisal record
             │
             ▼
-   [ INPUT ASSIGNMENT ]  ← a human coder OR an LLM agent assigns each record's
-            │               design-dimension values and per-record `outcome`.
-            │               THIS BOUNDARY IS WHERE AI VALIDATION BITES (Ch. 4).
+   [ FEATURE ASSIGNMENT ]  ← a human appraiser OR an LLM agent codes each study's
+            │                DESIGN & APPRAISAL FEATURES available before results
+            │                exist (design, sampling, outcome-definition quality,
+            │                confounder handling, bias domains, reporting
+            │                completeness). No per-record outcome VALUE is used.
+            │                THIS BOUNDARY IS WHERE AI VALIDATION BITES (Ch. 4).
             ▼
-   records: list[dict]  (dimensions + `outcome`)
+   records: list[dict]  (design/appraisal feature codes per study)
             │
             ▼
-   qualitative_heterogeneity_score()  ← pure, deterministic Python. No model
-            │   calls. Emits primary H + marginal map + sparse stress.  (Ch. 3)
+   defensibility score (target construct — Ch. 1.2)  ← pure, deterministic
+            │   Python. No model calls. Emits primary score + diagnostics. The
+            │   legacy per-outcome heterogeneity core (Ch. 1.2.2) is superseded.
             ▼
-   H = primary_score["value"]
+   H = primary_score["value"]   (methodological-defensibility score)
             │
             ▼
    optimise_n()  ← pure, deterministic Python. Synthesises three sample-size
@@ -135,8 +139,8 @@ MethodVahti has a **deterministic core** and an **AI-assisted boundary**:
 ```
 
 **Human-in-the-loop points** (Ch. 7 turns these into measured validation):
-1. Input assignment — a human can code or override every dimension/`outcome`.
-2. Governance parameters (λ, γ, severity weights) are team decisions, audit-logged.
+1. Feature assignment — a human can code or override every design/appraisal feature.
+2. Governance parameters (λ, γ, feature weights) are team decisions, audit-logged.
 3. **The researcher confirms N** before the report is generated.
 
 **What is NOT LLM-based** (and is therefore exempt from Ch. 4's LLM checklist,
@@ -145,66 +149,72 @@ sample-size models and their synthesis, the PDF layer, and the browser
 `claim-check` heuristic (a RegExp/rule scanner, evaluated as a *classifier* in
 Ch. 4.5, not as an LLM).
 
-### 1.2 The heterogeneity score — formal definition (version-locked to v0.3.0)
+### 1.2 The methodological-defensibility score — target construct  **[SPECIFIED]**
 
-Imported from `heterogeneity.py` and `README.md` and pinned to the shipped code.
+**Owner decision (2026-07-19), recorded in full in Ch. 1.2.1.** MethodVahti's
+validated construct is the **outcome-independent methodological-defensibility
+score**: *how defensible a study's methodological decisions are, judged from
+information available at protocol design / study appraisal — before any results
+exist.* Positioning: **"defensible decisions before results exist"** — a sibling
+to StudyVahti's "design a study you can defend." The score is graded **○ Author
+hypothesis** until the gates in this framework are met.
 
-**Inputs.** `records: list[dict]` (each record has categorical values for each
-dimension and a per-record `outcome` string), `dimensions: list[str]`, and a
-single `outcome` name whose *rate* across cells drives the score.
+**What it scores (design & appraisal features, all pre-results):**
 
-**Cell heterogeneity.** For dimension `d` and value `v`, with `n_v` records in
-the cell and `n_out` of them carrying the requested `outcome`:
+| Feature dimension | What it captures | Available before results? |
+|---|---|---|
+| Study design | fit of design to question (RCT / cohort / QES method / …) | yes |
+| Sampling strategy | purposive/probability adequacy; recruitment defensibility | yes |
+| **Outcome-definition quality** | how well the outcome is *defined and pre-specified* — **not its value** | yes |
+| Confounder handling | identification + planned control of confounding | yes |
+| Bias domains | risk-of-bias domains addressed by design (selection, measurement, …) | yes |
+| Reporting completeness | COREQ/SRQR/relevant-checklist coverage of the design | yes |
+
+The critical distinction: the score reads **outcome-DEFINITION quality** (is the
+outcome clearly defined, pre-specified, measurable?) and **never a per-record
+outcome VALUE**. This is what makes it outcome-independent and computable at the
+protocol stage.
+
+**Input model.** `records: list[dict]`, one record per study/review, each carrying
+categorical/ordinal *feature codes* for the dimensions above. **No `outcome`
+column is required or used.** The per-feature cell score is a **defensibility
+rating** of that feature (e.g. well-specified vs vague outcome definition), *not*
+a rate of some observed outcome.
+
+**Aggregation machinery (carries over from the legacy core, re-interpreted).**
+The hierarchical structure is retained because it is construct-neutral: a
+per-feature cell defensibility rating aggregates within a dimension and then
+across dimensions —
 
 ```
-raw_rate = n_out / n_v
-cell H   = min(raw_rate · w, 1.0)          w = severity weight for the outcome
+H_within(d) = λ_within · max(cell rating) + (1 − λ_within) · weighted_mean(cell rating)
+H_between   = λ_between · max(H_within)   + (1 − λ_between) · weighted_mean(H_within)
 ```
 
-Sparse cells (`n_v < min_n`) are either **Bayesian-shrunk** toward the dimension
-mean rate (`shrink=True`, default) or floored (`max(raw_rate, 0.40·w)`).
+— with `entropy_by_dimension` (◆) and a `sparse_interaction_stress` diagnostic (○)
+retained as before. What **changes** from the legacy core is the *cell* definition
+(a defensibility rating from feature codes, not `outcome_rate · severity_weight`);
+the redesign is specified in Ch. 1.2.2. Governance defaults (λ, γ, `min_n`,
+`shrink`) and the SemVer lock (Ch. 3.4, Ch. 15) apply to the redesigned score once
+implemented; the frozen v0.3.0 table in Ch. 15 documents the **legacy** anchors
+the redesign supersedes.
 
-**Within-dimension aggregation** (○ Author hypothesis):
+### 1.2.1 Decision record — construct/unit mismatch resolved  **(owner, 2026-07-19)**
 
-```
-H_within(d) = λ_within · max(cell H) + (1 − λ_within) · weighted_mean(cell H)
-```
+The framework's #1 critical finding was a construct/unit mismatch between the
+shipped code and the validation plan. **The owner (MD/PhD) has resolved it** in
+favour of an outcome-independent redesign (Option A in the original review). This
+subsection preserves the evidence and records the decision.
 
-**Between-dimension aggregation** (○ Author hypothesis):
+**The original mismatch.** The **legacy** `qualitative_heterogeneity_score`
+computes a corpus-level scalar from the *rate of a per-record `outcome`* across
+dimensions. The Cochrane Giltenane et al. (2025) **Table 3** corpus — the primary
+frame in Ch. 8 — codes each review's *design characteristics* but has **no
+per-record `outcome` column**.
 
-```
-H_between   = λ_between · max(H_within) + (1 − λ_between) · weighted_mean(H_within)
-```
-
-`H_between` is the **primary `hierarchical_heterogeneity_score`**, in `[0, 1]`.
-
-**Diagnostics (never collapsed into the primary):**
-- `marginal_heterogeneity_map` — unweighted mean of `H_within` per dimension (◆ Descriptive).
-- `entropy_by_dimension` — Shannon entropy normalised by `log2(k)` (◆ Consensus).
-- `sparse_interaction_stress` — full cross-tabulation with a `γ·sparsity_ratio`
-  penalty; deliberately makes data-gap-driven results visible (○ Author hypothesis).
-
-**Frozen governance defaults (v0.3.0)** — see Ch. 15 for the full pinned table:
-`λ_within = 0.65` (◌), `λ_between = 0.50` (◌), `γ_sparsity = 0.20` (◌),
-`min_n = 5` (◇), `shrink = True` (○). **Severity weights are amplification
-factors, NOT observed rates** (`judge_error 1.00`, `judge_human_disagreement 0.90`,
-`criterion_disagreement 0.70`, `grey_zone 0.60`; all ○ Author hypothesis).
-
-### 1.2.1 CRITICAL FINDING — the construct/unit mismatch  **[DECISION REQUIRED]**
-
-This is the framework's #1 critical finding, reproduced by execution. It is
-demonstrated by the runnable script **`construct_check.py`** (run
-`python construct_check.py` from `methodvahti/`).
-
-**The mismatch.** The shipped function computes a **single corpus-level scalar**
-from the *rate of a per-record `outcome`* across design dimensions. The Cochrane
-Giltenane et al. (2025) **Table 3** corpus — the primary frame the open
-validation plan (Ch. 8) proposes — codes each review's *design characteristics*
-but has **no per-record `outcome` column**, and the plan wants a **per-review**
-score, which the corpus-level function does not produce.
-
-**Reproduced behaviour** (from `construct_check.py`, against v0.3.0): fed
-Table-3-shaped records with no `outcome` key, the function returns
+**Reproduced evidence** — kept as a regression guard, `construct_check.py` (run
+`python construct_check.py` from `methodvahti/`). Fed Table-3-shaped records with
+no `outcome` key, the **legacy** function returns:
 
 ```
 outcome requested             primary H   marginal   sparse stress
@@ -214,44 +224,69 @@ grey_zone                        0.0000     0.0000     0.3800
 judge_error                      0.0000     0.0000     0.7000
 ```
 
-Primary H **and** the marginal map are **0.0 for every outcome type**, because
-every cell's outcome rate is zero. The non-zero `sparse_interaction_stress` is a
-**pure data-gap artifact** — sparse-cell inflation on 3 records — *not* evidence
-of heterogeneity, exactly as the tool's own stress-interpretation string warns.
-The primary convergent/criterion study as written in Ch. 8 is therefore **not
-executable against its own primary dataset with the actual code.**
+Primary H **and** the marginal map are **0.0 for every outcome type** — every
+cell's outcome rate is zero. The non-zero `sparse_interaction_stress` is a **pure
+data-gap artifact** (sparse-cell inflation on 3 records), not evidence. This is
+the concrete demonstration that **the current code does not implement the
+construct the owner has now specified** and must be redesigned to match it.
 
-**The decision (owner, MD/PhD — this is a method/product call, not the
-framework author's to make).** Two mutually exclusive resolutions:
+**The decision (2026-07-19).** Adopt the **outcome-independent
+methodological-defensibility construct** (Ch. 1.2). Consequences:
 
-- **Option A — redesign the score to accept outcome-free design coding.** Derive
-  per-review heterogeneity from the *spread/entropy of the design dimensions
-  themselves* (the entropy machinery already exists). This **changes the
-  construct and the shipped API**, and it invalidates the current
-  severity-weight model (which amplifies an outcome rate that would no longer
-  exist).
-- **Option B — base the validation on data that has a per-record `outcome`.**
-  Keep the shipped score unchanged; make the *primary dataset* one with a real
-  per-record outcome (e.g. the double-coded `judge_human_disagreement` signal
-  manufactured from an open corpus, Ch. 8 item B). This **keeps the API** but
-  makes the **input-assignment step** (Ch. 4.1) the thing that must be validated.
+- The validation design now targets **outcome-free design/appraisal coding**, so
+  Cochrane-Table-3-shaped records **are scoreable in principle** — no `outcome`
+  column is needed. **This resolves the #1 mismatch.**
+- The shipped per-record-`outcome` `heterogeneity.py` is reclassified as the
+  **legacy implementation** (Ch. 1.2.2) that the redesign supersedes.
+- `construct_check.py` is retained as the evidence-and-guard: it exits non-zero if
+  the legacy code ever stops returning `H = 0.0` on Table-3 shape, so the "must be
+  redesigned" finding cannot silently go stale before the redesign lands.
 
-**This framework does not choose between A and B and must not.** Until the owner
-decides, experiments that depend on the primary corpus (Ch. 5.3 convergent /
-criterion; the Ch. 6 external replication of them) are **blocked**. The
-`construct_check.py` script exits non-zero if the shipped code ever stops
-returning `H = 0.0` on Table-3 shape, so this finding cannot silently go stale.
+### 1.2.2 LEGACY implementation & construct redesign — next implementation phase
+
+**Legacy (shipped v0.3.0).** `qualitative_heterogeneity_score` in
+`heterogeneity.py`: cell score = `min(outcome_rate · severity_weight, 1.0)`,
+requiring a per-record `outcome`. Severity weights (`judge_error 1.00`,
+`judge_human_disagreement 0.90`, `criterion_disagreement 0.70`, `grey_zone 0.60`;
+all ○) amplify an outcome rate. This is the implementation the redesign replaces;
+it remains documented in Ch. 15 for traceability and is still covered by the
+existing tests until the redesign lands.
+
+**Construct redesign (outcome-independent) — NOT implemented this pass.** The next
+implementation phase (a separate, owner-reviewed change) must:
+
+1. Replace the cell computation with a **defensibility rating** derived from the
+   Ch. 1.2 feature codes (no `outcome` argument). Define the per-feature rating
+   scale and its evidence grade; map any new rating onto the **frozen canonical
+   two-tier schema** (never invent a new scale — house doctrine).
+2. Retire or repurpose the `outcome`/severity-catalogue API; keep the audit-logged
+   governance model for the new feature weights.
+3. Keep the hierarchical aggregation, entropy, and sparse-stress diagnostics
+   (construct-neutral) — the **property tests** (`test_properties.py`:
+   permutation-invariance, determinism, monotonicity, bounds) and the **Python↔JS
+   `optimise_n` parity test** (`test_parity.py`) **apply as-is** and must stay
+   green across the redesign, since `optimise_n` is downstream of the score and
+   unchanged.
+4. Bump the score's version as a **MAJOR** change (Ch. 3.4); re-freeze Ch. 15;
+   update `construct_check.py` to assert the *new* score is non-zero and sensible
+   on Table-3-shaped input (its exit-code contract flips at that point).
+
+Until this phase lands, the shipped tool computes the **legacy** score; this
+framework validates the **target** construct, and the two are reconciled only when
+the redesign is implemented and re-frozen.
 
 ### 1.3 Intended use, out-of-scope use, and known limitations
 
-- **Intended.** Decision support for qualitative sample-size planning and methods
-  reporting (COREQ/SRQR), where a research team assigns and confirms every input.
-- **Out of scope.** Causal inference; study-quality validation; any use as a
-  medical device or for clinical decision-making; any presentation of the score
-  as ground truth or as a property of the people studied.
-- **Known limitations.** The primary score is ○ Author hypothesis; the input
-  assignment is currently unvalidated (Ch. 4); no external corpus has been used
-  (Ch. 6); the construct/unit question in Ch. 1.2.1 is open.
+- **Intended.** Decision support for defensible methodological design and appraisal
+  **before results exist** — sample-size planning and methods reporting
+  (COREQ/SRQR) — where a research team assigns and confirms every feature.
+- **Out of scope.** Causal inference; validating a study's *findings*; any use as a
+  medical device or for clinical decision-making; any presentation of the score as
+  ground truth or as a property of the people studied.
+- **Known limitations.** The target score is ○ Author hypothesis and **not yet
+  implemented** (Ch. 1.2.2); the feature assignment is currently unvalidated
+  (Ch. 4); no external corpus has been used (Ch. 6). The construct/unit question is
+  **resolved** (Ch. 1.2.1) but the code redesign is pending.
 
 ---
 
@@ -275,8 +310,8 @@ returning `H = 0.0` on Table-3 shape, so this finding cannot silently go stale.
 
 | # | Threat | Where it bites | Mitigation (chapter) |
 |---|---|---|---|
-| T1 | Construct/unit mismatch — plan not executable on its own corpus | Primary study | Resolve Option A/B (1.2.1) |
-| T2 | Circularity — input assignment never validated against ground truth | Whole score | Extraction-accuracy study (4.1) |
+| T1 | Construct/unit mismatch — legacy code not executable on its own corpus | Primary study | **Resolved** — outcome-independent redesign (1.2.1); code phase pending (1.2.2) |
+| T2 | Circularity — feature assignment never validated against ground truth | Whole score | Extraction-accuracy study (4.1) |
 | T3 | Invalid proxy criteria (study count, reporting quality ≠ heterogeneity) | Convergent/criterion | Argue + add second criterion, baselines (5.1, 5.3) |
 | T4 | No pre-registered success threshold → unfalsifiable | Confirmatory tests | Pre-register thresholds + power (5.3) |
 | T5 | Allegiance / no blinding / no independence | Whole framework | Pre-reg, independent coders, reviewer sign-off (0.4, 5.2, 12) |
@@ -313,18 +348,33 @@ Run `python -m pytest tests/ -v` from `methodvahti/`.
 The review noted four invariants held only *incidentally*. They are now asserted
 explicitly as property-based tests (Hypothesis) in **`tests/test_properties.py`**:
 
-- **Permutation invariance** — record order does not change the score.
-- **Determinism** — identical inputs give byte-identical results (no RNG in the
-  scoring path; the RNG in `_demo_records` is demo-only).
+- **Permutation invariance** — record order does not change the score, **up to
+  last-decimal (1e-4) rounding** (see the numerical-stability finding below).
+- **Determinism** — identical inputs, in the same order, give byte-identical
+  results (no RNG in the scoring path; the RNG in `_demo_records` is demo-only).
 - **Monotonicity in `λ_within`** — raising `λ_within` never lowers H.
 - **Monotonicity in severity weight** — raising the weight never lowers H.
 - **Bounds & boundary behaviour** — H ∈ [0, 1]; no requested outcome present → 0;
   all records carry the outcome → high but ≤ 1; empty and single-record corpora
   stay bounded.
 
+**Numerical-stability finding [reported, not hidden].** The Hypothesis
+permutation test surfaced a nuance the review's spot-checks missed: permutation
+invariance is exact in real arithmetic but **not bit-exact in floating point**.
+The within-dimension weighted mean sums cell scores in dict-insertion order,
+which follows record order; float non-associativity moves the pre-rounding value
+by < 1e-9, which can tip a 4th-decimal rounding boundary (observed: `0.5566` vs
+`0.5565`). Because the `max()` terms are order-independent, the **rounded score
+can differ by at most one last-decimal unit (1e-4)** under permutation — the test
+asserts exactly that bound. **Recommended exact-invariance fix (deferred to the
+Ch. 1.2.2 redesign, low-value churn before then):** sort cell scores by key
+before summation so the weighted mean is order-independent, then the invariant
+becomes bit-exact. This is a MINOR/PATCH-class change under Ch. 3.4.
+
 **Determinism policy:** the deterministic core must remain pure and RNG-free on
-the scoring path. Any future change that introduces nondeterminism is a breaking
-change under Ch. 3.4 and must be gated behind a seed and documented.
+the scoring path. Any future change that introduces nondeterminism (beyond the
+documented 1e-4 permutation nuance) is a breaking change under Ch. 3.4 and must be
+gated behind a seed and documented.
 
 ### 3.3 Reproducibility — Python↔JS parity, environment, model/prompt pinning
 
@@ -375,10 +425,12 @@ change under Ch. 3.4 and must be gated behind a seed and documented.
 
 **Locate the AI correctly.** The scored core is deterministic and LLM-free
 (Ch. 1.1). "AI-assisted" is a property of the **surrounding EpiNet/Vahtian
-workflow**: an agent (or a human coder) that assigns the per-record `outcome` and
-dimension values the deterministic score consumes. **AI validation bites at that
-input-assignment boundary, not at the arithmetic.** The deterministic core is
-explicitly exempt from this chapter's LLM checklist (but not from Ch. 3).
+workflow**: an agent (or a human appraiser) that codes the **design & appraisal
+feature values** (Ch. 1.2 — design, sampling, outcome-*definition* quality,
+confounder handling, bias domains, reporting completeness) the deterministic score
+consumes. **AI validation bites at that feature-assignment boundary, not at the
+arithmetic.** The deterministic core is explicitly exempt from this chapter's LLM
+checklist (but not from Ch. 3).
 
 **Reporting anchor — TRIPOD-LLM.** This pillar is organised on the **TRIPOD-LLM
 reporting guideline** (Nature Medicine, 2025; DOI 10.1038/s41591-024-03425-5) —
@@ -393,11 +445,12 @@ All of the following are **[SPECIFIED — NOT YET EXECUTED]**.
 
 ### 4.1 Extraction / assignment accuracy vs. human gold coding
 
-Closes the circularity (T2). Measure whoever/whatever assigns the values (LLM
-agent or coder) against a human gold standard, per dimension and per `outcome`
-category: **precision / recall / F1**, exact-match accuracy, **hallucination
-rate** (values with no supporting source span), **omission rate**, and
-**span-attributability rate**. Everything downstream inherits this error.
+Closes the circularity (T2). Measure whoever/whatever assigns the **design &
+appraisal feature codes** (LLM agent or appraiser) against a human gold standard,
+per feature dimension: **precision / recall / F1**, exact-match accuracy,
+**hallucination rate** (feature values with no supporting source span),
+**omission rate**, and **span-attributability rate**. Everything downstream
+inherits this error.
 
 ### 4.2 Robustness and adversarial / injection
 
@@ -433,8 +486,9 @@ not just a demo.
 
 ## Chapter 5. Statistical / analytical validation
 
-All **[SPECIFIED — NOT YET EXECUTED]**. Several items here are blocked until the
-Ch. 1.2.1 decision (A/B) is made.
+All **[SPECIFIED — NOT YET EXECUTED]**. Several items here depend on the
+outcome-independent score redesign (Ch. 1.2.2) being implemented before they can
+run against the primary corpus.
 
 ### 5.1 Baselines and incremental validity
 
@@ -528,10 +582,11 @@ the confirm-N gate and the meaning of every grade in researcher-facing terms.
 
 _This is the original `VALIDATION.md` — the dataset-scouting memo and the
 single confirmatory-study design — surviving intact as one chapter inside the
-framework. It is **revised** only to (a) point its primary study at the Ch. 1.2.1
-**[DECISION REQUIRED]**, and (b) defer thresholds, power, baselines, and IRR
-design to Ch. 5, where they are specified. The candour of the original is a
-genuine asset and is preserved._
+framework. It is **revised** only to (a) reflect the Ch. 1.2.1 owner decision
+(the outcome-independent construct — its primary study now needs no `outcome`
+column), and (b) defer thresholds, power, baselines, and IRR design to Ch. 5,
+where they are specified. The candour of the original is a genuine asset and is
+preserved._
 
 > The heterogeneity score is an **author hypothesis (○)** — Vahtian's
 > construction, not externally validated. This chapter records the candidate
@@ -539,10 +594,15 @@ genuine asset and is preserved._
 > public: [vahtian.com/methodvahti](https://vahtian.com/methodvahti/) points here
 > so the "open validation, in progress" claim is backed by something concrete.
 
-**Blocking dependency.** The primary study below assumes a per-review score
-derivable from Table 3. Per Ch. 1.2.1, that is **not executable with v0.3.0**
-until the owner chooses Option A or B. Read this chapter as the dataset registry
-and study skeleton; its confirmatory arm activates only after that decision.
+**Status after the 2026-07-19 decision.** The primary study assumes a per-review
+score derivable from Table 3. Under the owner's **outcome-independent
+defensibility construct** (Ch. 1.2), Table-3-style **design/appraisal coding is
+scoreable in principle** — the old blocker is resolved. What remains before the
+confirmatory arm can *run* is the **code redesign** (Ch. 1.2.2): the legacy
+per-`outcome` implementation still returns 0.0 on Table-3 shape. Read this chapter
+as the dataset registry and study skeleton; its confirmatory arm activates once
+the redesigned score is implemented and its success thresholds are pre-registered
+(Ch. 5.3).
 
 ### 8.0 Method note on this research
 
@@ -654,9 +714,10 @@ primary frame — *conditional on the Ch. 1.2.1 decision.*
    criterion (heterogeneity vs reporting-quality / CERQual difficulty) — plus a
    **baseline comparison** (Ch. 5.1) and a **negative control**.
 4. **Saturation arm (separate):** on **Hennink & Kaiser (2022)** Appendix A,
-   regress scores onto reported **N-at-saturation**, harmonizing the outcome via
-   **Lowe et al. (2020)**. This arm has a real per-study realized outcome and is
-   the least blocked by Ch. 1.2.1.
+   regress scores onto reported **N-at-saturation**, harmonizing the criterion via
+   **Lowe et al. (2020)**. This arm has a real per-study realized criterion and is
+   the least dependent on the Ch. 1.2.2 redesign — it needs only design/appraisal
+   feature coding, not an `outcome` column.
 5. **Low-friction pilot:** double-code the **CC0 Bologna corpus** (B) to prototype
    the `judge_human_disagreement` extraction end-to-end — and, per Ch. 4.1, to
    *measure the assignment step against gold* — before touching gated repositories.
@@ -754,12 +815,13 @@ would itself be a red flag):
 Staged pipeline, development → public release. **Nothing proceeds until the gate
 is met.** Current position: **Stage 1 is partially met** (suite + parity + property
 tests green **[IMPLEMENTED]**; coverage/mutation floors and CI wiring still to
-add). Stage 0's construct spec is blocked on the Ch. 1.2.1 **[DECISION REQUIRED]**.
-All later stages are **[SPECIFIED — NOT YET EXECUTED]**.
+add). Stage 0's construct is **decided** (outcome-independent defensibility,
+2026-07-19, Ch. 1.2.1) but its spec is not frozen until the **code redesign**
+(Ch. 1.2.2) lands. All later stages are **[SPECIFIED — NOT YET EXECUTED]**.
 
 | Stage | Activities | Gate to pass | Status |
 |---|---|---|---|
-| **0 — Specification** | Construct spec (Ch. 1.2, incl. A/B decision); protocol + pre-registration + SAP; datasheets; threat register; select checklists | Spec frozen & registered; success thresholds fixed in advance | Blocked on 1.2.1 |
+| **0 — Specification** | Construct spec (Ch. 1.2, defensibility — decided); implement the redesign (Ch. 1.2.2); protocol + pre-registration + SAP; datasheets; threat register; select checklists | Redesigned score implemented + re-frozen; spec registered; success thresholds fixed in advance | Construct decided; redesign pending |
 | **1 — Software verification** | Build on the 56-test suite + golden fixtures: property tests, Python↔JS parity, coverage/mutation floor, CI gate, SemVer + spec version-lock | Coverage floor met; all invariant/property/regression/parity tests pass in CI; validated spec version pinned | **Partially met** |
 | **2 — AI evaluation** | Extraction accuracy vs gold; hallucination; robustness; adversarial/injection; cross-model; drift baseline | Pre-set thresholds met on each metric; injection mitigations in place | Not started |
 | **3 — Analytical validation (internal)** | IRR; convergent/criterion vs baselines; calibration; uncertainty; subgroup; failure analysis | Pre-registered success criteria met; incremental validity over baselines shown | Not started |
@@ -788,10 +850,14 @@ interest** statement (0.4 — developers validating their own hypothesis) and th
 
 ---
 
-## Chapter 15. Version-locked specification (frozen for v0.3.0)
+## Chapter 15. Version-locked specification (frozen for v0.3.0 — LEGACY)
 
-The exact spec this framework validates. A validation result is tied to this
-table; changing any row is at least a MAJOR bump (Ch. 3.4) and requires
+**This documents the LEGACY per-`outcome` implementation** (Ch. 1.2.2), pinned for
+traceability. It is the spec the shipped code currently runs and the existing
+tests cover. It is **superseded by the outcome-independent redesign** (Ch. 1.2);
+when that lands, this table is re-frozen for the new score as a MAJOR bump
+(Ch. 3.4). A validation result is tied to the frozen spec of whichever score it
+was run against; changing any row is at least a MAJOR bump and requires
 revalidation.
 
 **Package / algorithm version:** `methodvahti` **0.3.0** (`pyproject.toml`);
@@ -828,11 +894,18 @@ gated by `fixtures/golden.json` (11 scenarios) and the Python↔JS parity test.
 
 - **Primary score / H** — `hierarchical_heterogeneity_score`, the corpus-level
   `H_between`, in [0, 1]. ○ Author hypothesis.
-- **`outcome`** — a per-record categorical label (e.g. `judge_human_disagreement`)
-  whose *rate* across cells the score consumes. Its assignment is the AI/coder
+- **Defensibility rating** — the *target* per-feature cell score (Ch. 1.2): how
+  defensible a design/appraisal feature is, judged before results exist.
+- **Design & appraisal features** — the outcome-independent inputs the target
+  score reads (design, sampling, outcome-*definition* quality, confounder
+  handling, bias domains, reporting completeness). Their coding is the AI/appraiser
   boundary (Ch. 4).
-- **Severity weight** — an amplification factor (0–1) for an outcome type. **Not**
-  an observed rate. Team-adjustable, audit-logged.
+- **`outcome` (legacy)** — a per-record categorical label (e.g.
+  `judge_human_disagreement`) whose *rate* the **legacy** score consumed. Removed
+  by the redesign (Ch. 1.2.2). Distinct from **outcome-definition quality**, which
+  the target score *does* read.
+- **Severity weight (legacy)** — an amplification factor (0–1) for an outcome type
+  in the legacy core. **Not** an observed rate. Superseded by feature weights.
 - **λ_within / λ_between** — worst-case vs weighted-mean mixing weights within and
   across dimensions. ◌ Opinion range.
 - **γ_sparsity** — the sparsity penalty on the stress diagnostic. ◌ Opinion range.

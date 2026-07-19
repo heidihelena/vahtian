@@ -20,8 +20,10 @@ interpretation string warns.
 
 This is a *reproducible demonstration of a specification mismatch*, not a bug
 report and not a redesign. It is the evidence behind the review's #1 critical
-finding. The resolution is a method/product decision for the owner (see the
-DECISION block printed at the end and VALIDATION.md Ch. 1.2).
+finding — and, since the owner's 2026-07-19 decision (VALIDATION.md Ch. 1.2.1),
+the standing guard that the LEGACY per-`outcome` code still does NOT implement the
+now-agreed outcome-independent defensibility construct and must be redesigned
+(Ch. 1.2.2).
 
 RUN
 ---
@@ -129,27 +131,29 @@ def run() -> int:
     print("  evidence of heterogeneity — exactly what the tool's own stress")
     print("  interpretation warns about.")
     print()
-    print("  DECISION FOR THE OWNER (MD/PhD) — method/product call, not the")
-    print("  framework author's to make. Two mutually exclusive resolutions:")
-    print("    (A) Redesign the score to accept OUTCOME-FREE design coding —")
-    print("        derive per-review heterogeneity from the spread/entropy of")
-    print("        design dimensions themselves (changes the construct and the")
-    print("        shipped API; invalidates the current severity-weight model).")
-    print("    (B) Base the validation on data that HAS a per-record 'outcome' —")
-    print("        e.g. the double-coded disagreement signal from an open corpus")
-    print("        (keeps the shipped score; changes the primary dataset and")
-    print("        makes the input-assignment step the thing to be validated).")
-    print("  Until (A) or (B) is chosen, the plan's primary convergent/criterion")
-    print("  study is NOT executable against its own primary dataset.")
+    print("  OWNER DECISION (2026-07-19) — recorded, VALIDATION.md Ch. 1.2.1:")
+    print("  adopt the OUTCOME-INDEPENDENT methodological-defensibility construct")
+    print("  (design, sampling, outcome-DEFINITION quality, confounder handling,")
+    print("  bias domains, reporting completeness — features available BEFORE")
+    print("  results exist). Under that construct, Table-3-style design coding IS")
+    print("  scoreable in principle; no 'outcome' column is needed.")
+    print()
+    print("  WHY THIS DEMO STILL MATTERS: the LEGACY code above still requires a")
+    print("  per-record 'outcome' and so returns H = 0.0 on Table-3 shape. It does")
+    print("  NOT yet implement the agreed construct. The redesign (Ch. 1.2.2) is")
+    print("  the next implementation phase; this script guards the finding until")
+    print("  then (its exit-code contract flips once the new score is in).")
     print("=" * 68)
 
     # Expected state = mismatch reproduced (primary H == 0.0). If the shipped
     # code ever stops returning 0.0 here, the VALIDATION.md finding is stale.
     if all_primary_zero:
-        print("  STATUS: mismatch reproduced as documented (primary H == 0.0).")
+        print("  STATUS: legacy mismatch still present (primary H == 0.0);")
+        print("          outcome-independent redesign (Ch. 1.2.2) not yet landed.")
         return 0
     print("  STATUS: CHANGED — primary H is no longer 0.0 on Table-3 shape.")
-    print("          VALIDATION.md Ch. 1.2 must be revised to match the code.")
+    print("          If the redesign (Ch. 1.2.2) landed, update this guard and")
+    print("          re-freeze VALIDATION.md Ch. 15 for the new score.")
     return 1
 
 
