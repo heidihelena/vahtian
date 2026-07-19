@@ -60,6 +60,14 @@
 
 .field-letter+.vh-footer,
 .letter-signup+.vh-footer{margin-top:0!important}
+/* When the page's content ends in a full-bleed coloured band, the footer sits
+   flush — otherwise the footer's top margin shows as a white stripe between the
+   band and the navy footer (:has degrades to the plain gap if unsupported). */
+main:has(>.band-lilac:last-child)+.vh-footer,
+main:has(>.band:last-child)+.vh-footer,
+main:has(>.task-band:last-child)+.vh-footer,
+main:has(>.cross-band:last-child)+.vh-footer,
+main:has(>.letter-signup:last-child)+.vh-footer{margin-top:0!important}
 
 .vh-footer *{box-sizing:border-box}
 .vh-footer-shell{
