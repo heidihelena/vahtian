@@ -17,6 +17,7 @@ body.vh-content{
   --ink:var(--vh-ink);
   --navy:var(--vh-navy);
   --violet:var(--vh-violet);
+  --lilac:var(--vh-lilac);
   --link:#5f479d;
   --muted:var(--vh-muted);
   --bg:var(--vh-bg);
@@ -26,6 +27,7 @@ body.vh-content{
   --teal:var(--vh-violet);
   --blue:var(--vh-violet);
   --gold:var(--vh-violet);
+  --font-mono:"Nudica Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
 }
 h1,h2,h3,h4{letter-spacing:0!important}
 a{text-underline-offset:3px}
