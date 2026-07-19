@@ -425,5 +425,12 @@ shared = shared.drop(columns=["record_id", "initials",
 </footer>
 
 </div>
+<script>
+/* Desktop: open the step accordions so the primary content shows without a
+   click. Mobile keeps the accordion. Both stay manually toggleable. */
+if(window.matchMedia&&matchMedia('(min-width:720px)').matches){
+  document.querySelectorAll('details.stage').forEach(function(d){d.open=true;});
+}
+</script>
 </body>
 </html>
