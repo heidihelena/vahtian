@@ -595,7 +595,7 @@ function renderReconcile(){ if(!Object.keys(S.coExt).length){ $("reconcileSummar
   if(!R.mismatches.length){ $("mismatchTable").innerHTML='<p class="muted" style="margin-top:10px">No beyond-tolerance mismatches.</p>'; return; }
   const rows=R.mismatches.map(m=>{ const key=m.record_id+"|"+m.key, adj=(S.adjud[m.record_id]||{})[m.key];
     const vals=m.byRater.map(b=>esc(b.id)+"="+esc(b.v)).join(", ");
-    return '<tr><td class="l mono">'+esc(m.record_id.slice(0,18))+'</td><td class="l">'+esc(m.key)+'</td><td class="l">'+vals+'</td><td><input data-adj="'+esc(key)+'" value="'+(adj==null?"":esc(adj))+'" style="width:88px;padding:4px 6px" placeholder="resolve"></td></tr>'; }).join("");
+    return '<tr><td class="l mono">'+esc(m.record_id.slice(0,18))+'</td><td class="l">'+esc(m.key)+'</td><td class="l">'+vals+'</td><td><input data-adj="'+esc(key)+'" value="'+(adj==null?"":esc(adj))+'" aria-label="Adjudicated value" style="width:88px;padding:4px 6px" placeholder="resolve"></td></tr>'; }).join("");
   $("mismatchTable").innerHTML='<h4 style="margin:14px 0 4px;font-size:13.5px">Adjudicate ('+R.mismatches.length+')</h4><table><tr><th class="l">record_id</th><th class="l">field</th><th class="l">rater values</th><th>adjudicated</th></tr>'+rows+'</table>';
   document.querySelectorAll('#mismatchTable input[data-adj]').forEach(inp=>{ inp.oninput=()=>{ const p=inp.dataset.adj.split("|"); (S.adjud[p[0]]=S.adjud[p[0]]||{})[p[1]]=inp.value; save(); }; }); }
 function loadSealed(file){ readJsonl(file,recs=>{ const map={}; let model=""; recs.forEach(r=>{ if(r&&r.record_id){ map[r.record_id]=r; model=(r.model&&(r.model.name||r.model))||r.model_id||model; } });

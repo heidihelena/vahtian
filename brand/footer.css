@@ -109,3 +109,11 @@
   .vh-footer-main{grid-template-columns:1fr;gap:22px}
   .vh-footer-links{justify-content:flex-start}
 }
+
+/* Sitewide reduced-motion guard: honour the OS "reduce motion" setting on every
+   page that loads the shared footer (all of them). Static decorative transforms
+   are unaffected; only animation/transition durations collapse. */
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;
+    transition-duration:.001ms!important;scroll-behavior:auto!important}
+}
