@@ -73,5 +73,13 @@ for p in $pages; do
   done
 done
 
+# 8. every indexable (sitemap) page is present in the client-side search index.
+# Guards against the search corpus (search/index.html PAGES) drifting behind the
+# site the way it did before launch (Learn + kits were unsearchable).
+for loc in $(grep -oE '<loc>[^<]+</loc>' sitemap.xml | sed 's#</\{0,1\}loc>##g'); do
+  path=${loc#https://vahtian.com}
+  grep -q "\"u\":\"${path}\"" search/index.html || err "page missing from search index: $path"
+done
+
 if [ $fail -ne 0 ]; then echo "DRIFT AUDIT FAILED"; exit 1; fi
 echo "drift audit: clean ✓"
