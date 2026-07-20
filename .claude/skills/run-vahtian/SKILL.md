@@ -21,19 +21,23 @@ copy change should be looked at, not inferred from HTML source.
 
 ## Prerequisites
 
-Already present in this container — no `apt-get` needed:
+- **Node** (any recent version; the container pins 22 via `.node-version`,
+  Heidi's Mac runs 20 — both work).
+- **Playwright.** The driver resolves it from the first place it exists:
+  1. the skill's own `node_modules` (macOS path — installed once with
+     `cd .claude/skills/run-vahtian && npm install`; gitignored),
+  2. the container's global install at `/opt/node22/lib/node_modules/playwright`.
 
-- **Node 22** (`.node-version` pins `22`).
-- **Playwright + Chromium**, installed globally at
-  `/opt/node22/lib/node_modules/playwright`. The driver resolves it from there
-  automatically; no `npm install` in the repo.
-
-If Chromium is ever missing, install the browser only (the npm package is
-already global):
+First-time setup on a new machine:
 
 ```bash
-npx playwright install chromium
+cd .claude/skills/run-vahtian && npm install playwright
 ```
+
+Browser binaries live in a separate cache (`~/Library/Caches/ms-playwright` on
+macOS) and are usually already there; if launch fails with
+`Executable doesn't exist`, run `npx playwright install chromium` (this one is
+a large download — avoid on slow connections unless needed).
 
 ## Run (agent path) — the driver
 
@@ -94,6 +98,15 @@ loop (one focused change per iteration):
 - **Absolute clean URLs.** Pages link to `/studyvahti`, not `studyvahti/`. A
   naive `file://` open or a plain `http.server` mishandles these; the driver's
   resolver matches Cloudflare's `not_found_handling: "404-page"` behaviour.
+- **Trailing-slash redirect is load-bearing.** Cloudflare's default
+  `html_handling: "auto-trailing-slash"` redirects `/qualivahti-local` →
+  `/qualivahti-local/` before serving the index, so relative `src`/`href` in a
+  page resolve against the directory. The driver mirrors this with a 308. If
+  you ever see a page's images broken only in the driver, suspect this first.
+- **`position:fixed` elements land oddly in fullPage shots.** e.g.
+  MatchVahti-Lite's "Added to your .ris" tray renders overlapping the footer
+  in the PNG. That's a Playwright fullPage artifact, not a page bug — the bar
+  docks to the viewport bottom in a real browser.
 - **`networkidle` is safe here** because the site makes *zero* external requests
   (no trackers, no CDN fonts). If a future change adds an external request,
   `page.goto(..., {waitUntil:'networkidle'})` could hang — keep the site
@@ -104,9 +117,10 @@ loop (one focused change per iteration):
 
 ## Troubleshooting
 
-- `Cannot find module 'playwright'` → the global resolve fallback already points
-  at `/opt/node22/lib/node_modules/playwright`; if that path changed, run
-  `npm root -g` and update the fallback in `driver.mjs`.
+- `Cannot find Playwright` → run `cd .claude/skills/run-vahtian && npm install
+  playwright` (the driver prints this hint itself). The container fallback path
+  is `/opt/node22/lib/node_modules/playwright`; if that moved, `npm root -g`
+  tells you the new one to add to `PW_CANDIDATES` in `driver.mjs`.
 - `browserType.launch: Executable doesn't exist` → `npx playwright install chromium`.
 - A path prints `FAIL 404` → the file or its `index.html` doesn't exist at that
   path under the repo root; check the slug matches a real directory.
