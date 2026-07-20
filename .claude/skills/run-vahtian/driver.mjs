@@ -24,13 +24,22 @@ import { extname, join, resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createRequire } from 'node:module';
 
-// Playwright is installed globally in this container; resolve it from there.
+// Resolve Playwright from wherever this host has it: the skill's own
+// node_modules (macOS — `npm install` in this directory), the repo, or the
+// container's global install. Try each in order; fail with a hint, not a stack.
 const require = createRequire(import.meta.url);
+const PW_CANDIDATES = ['playwright', '/opt/node22/lib/node_modules/playwright'];
 let chromium;
-try {
-  chromium = require('playwright').chromium;
-} catch {
-  chromium = require('/opt/node22/lib/node_modules/playwright').chromium;
+for (const spec of PW_CANDIDATES) {
+  try { chromium = require(spec).chromium; break; } catch { /* try next */ }
+}
+if (!chromium) {
+  console.error(
+    'Cannot find Playwright. Install it next to this driver:\n' +
+    '  cd .claude/skills/run-vahtian && npm install playwright\n' +
+    '(browser binaries are cached separately; `npx playwright install chromium` if launch fails)'
+  );
+  process.exit(1);
 }
 
 const HERE = dirname(fileURLToPath(import.meta.url));
@@ -46,9 +55,15 @@ const MIME = {
 
 // Resolve a request path to a file on disk the way the Cloudflare asset
 // handler does: exact file, then path/index.html, then the 404 page.
+// Cloudflare's default html_handling is "auto-trailing-slash": a clean URL
+// that maps to a directory index REDIRECTS to the slash form first, so
+// relative src/href in that page resolve against the directory, not "/".
+// Mirror that, or pages with relative asset paths break only in the driver.
 function resolveFile(urlPath) {
   let p = decodeURIComponent(urlPath.split('?')[0]);
   if (p.includes('..')) return { file: join(REPO, '404.html'), status: 404 };
+  if (!extname(p) && !p.endsWith('/') && existsSync(join(REPO, p, 'index.html')))
+    return { redirect: p + '/', status: 308 };
   const candidates = [];
   if (extname(p)) candidates.push(join(REPO, p));
   else {
@@ -62,7 +77,12 @@ function resolveFile(urlPath) {
 function startServer() {
   return new Promise((res) => {
     const server = createServer(async (req, rsp) => {
-      const { file, status } = resolveFile(req.url);
+      const { file, status, redirect } = resolveFile(req.url);
+      if (redirect) {
+        rsp.writeHead(status, { location: redirect });
+        rsp.end();
+        return;
+      }
       try {
         const body = await readFile(file);
         rsp.writeHead(status, { 'content-type': MIME[extname(file)] || 'application/octet-stream' });
