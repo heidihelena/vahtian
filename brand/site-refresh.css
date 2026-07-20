@@ -24,7 +24,7 @@ body.vh-content{
   --card:#fff;
   --line:var(--vh-line);
   --lav:var(--vh-paper);
-  --teal:var(--vh-violet);
+  --teal:#1E9E8A;
   --blue:var(--vh-violet);
   --gold:var(--vh-violet);
   --font-mono:"Nudica Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
