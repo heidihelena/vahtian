@@ -627,5 +627,81 @@
   if('IntersectionObserver' in window&&!reduce){new IntersectionObserver(function(es){es.forEach(function(en){if(en.isIntersecting){if(!raf)raf=requestAnimationFrame(draw);}else if(raf){cancelAnimationFrame(raf);raf=null;}});}).observe(host);}
 })();
 </script>
+<script>
+// WebMCP progressive enhancement: let an in-browser AI agent find the right
+// Vahtian tool for a research task. Feature-detected — a no-op in browsers
+// without navigator.modelContext (Chrome origin trial / W3C draft). Reads the
+// tool cards already on this page plus a one-line description map; runs
+// locally, nothing is uploaded.
+(function(){
+  var mc = navigator.modelContext;
+  if(!mc) return;
+  var DESC = {
+    "/citevahti/": "Check each claim is supported by the source cited for it; auditable, undoable Zotero write.",
+    "/matchvahti-lite/": "Capture citable sentences from PubMed abstracts into a reviewable Zotero .ris.",
+    "/studyvahti/": "Turn a clinical study idea into a protocol-ready checklist: PICOTS, SPIRIT/STROBE/TRIPOD.",
+    "/dictvahti/": "Lint a REDCap data dictionary with 28 deterministic checks and proposed fixes.",
+    "/methodvahti/": "Turn qualitative sampling constraints into a defensible range and COREQ/SRQR methods wording.",
+    "/reviewvahti/": "Screening inter-rater reliability: Cohen's kappa, PABAK, AC1, Krippendorff's alpha.",
+    "/extractvahti/": "Diagnostic-accuracy data extraction and risk of bias (QUADAS-2, QUADAS-C, PROBAST-AI) to tidy CSV.",
+    "/synthvahti/": "Agreement synthesis from an ExtractVahti CSV with forest and funnel figures.",
+    "/guidelinevahti/": "Panel consensus for guideline groups: RAND/UCLA voting, Delphi rounds, GRADE.",
+    "/fullvahti/": "Zotero plugin that finds open-access full-text PDFs via Unpaywall and PubMed Central.",
+    "/reference-check/": "Check a reference list against Crossref for mismatches, retractions, and duplicates.",
+    "/epinet/": "Leakage-aware checks for graph models: permutation null, calibration, grouped splits.",
+    "/recoverlite/": "Simulate a planned study design before data: PASS, RISK, or FAIL on recoverability.",
+    "/auditlite/": "Append-only, hash-chained audit trail for AI-assisted analyses."
+  };
+  function catalog(){
+    var seen = {}, out = [];
+    var links = document.querySelectorAll("a.workflow-tool");
+    for(var i=0;i<links.length;i++){
+      var a = links[i];
+      var path = a.getAttribute("href");
+      if(!path || seen[path]) continue;
+      seen[path] = true;
+      var name = (a.textContent||"").replace(/\s+/g," ").trim();
+      var stageEl = a.closest ? a.closest(".workflow-stage") : null;
+      var stage = "";
+      if(stageEl){
+        var h = stageEl.querySelector("h3,h4,.workflow-title");
+        if(h) stage = (h.textContent||"").replace(/\s+/g," ").trim();
+      }
+      out.push({ name: name, url: "https://vahtian.com" + path, stage: stage,
+                 description: DESC[path] || "" });
+    }
+    return out;
+  }
+  var tool = {
+    name: "find_vahtian_tool",
+    description: "Find the right Vahtian tool for a research task — citation checking, protocol readiness, data dictionaries, sample-size justification, screening reliability, data extraction, evidence synthesis, panel consensus, reference checking, or audit trails. Returns matching tools with links and one-line descriptions. All Vahtian tools are free or freemium, local-first, and upload nothing; they support human judgment and do not certify truth.",
+    inputSchema: {
+      type: "object",
+      properties: { task: { type: "string", description: "What the researcher is trying to do, in plain words. Empty returns the full catalogue." } },
+      required: []
+    },
+    execute: function(params){
+      var q = ((params && params.task) || "").toLowerCase();
+      var items = catalog();
+      if(q){
+        var words = q.split(/[^a-z0-9κα]+/).filter(function(w){ return w.length > 2; });
+        items = items.filter(function(t){
+          var hay = (t.name + " " + t.description + " " + t.stage).toLowerCase();
+          return words.some(function(w){ return hay.indexOf(w) !== -1; });
+        });
+      }
+      var result = {
+        matches: items,
+        note: "All tools run locally in the browser or on the researcher's machine; nothing is uploaded. They record and support decisions — the human decides; Vahtian does not certify scientific truth."
+      };
+      return { content: [ { type: "text", text: JSON.stringify(result, null, 2) } ] };
+    }
+  };
+  try {
+    if (typeof mc.registerTool === "function") mc.registerTool(tool);
+    else if (typeof mc.provideContext === "function") mc.provideContext({ tools: [tool] });
+  } catch (e) { /* experimental API — never break the page */ }
+})();
+</script>
 </body>
 </html>
