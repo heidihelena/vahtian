@@ -6,7 +6,7 @@
 <title>ExtractVahti — DTA data extraction + risk of bias</title>
 <meta name="description" content="Extract once, appraise once: per-study diagnostic-accuracy data extraction and risk-of-bias (QUADAS-2 / QUADAS-C / PROBAST-AI), exporting tidy CSV for meta-analysis in R. Local-first, nothing uploads." />
 <meta name="theme-color" content="#2D2440" />
-<meta name="robots" content="noindex" />
+<link rel="canonical" href="https://vahtian.com/extractvahti/" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://vahtian.com/extractvahti/" />
 <meta property="og:title" content="ExtractVahti — DTA data extraction + risk of bias" />
@@ -17,6 +17,53 @@
 <meta property="og:image:alt" content="ExtractVahti — extract once, appraise once. A product of Vahtian." />
 <meta property="og:site_name" content="Vahtian" />
 <meta name="twitter:card" content="summary_large_image" />
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "ExtractVahti",
+      "applicationCategory": "HealthApplication",
+      "operatingSystem": "Any (web browser)",
+      "url": "https://vahtian.com/extractvahti/",
+      "description": "Browser-side data extraction and risk-of-bias appraisal for diagnostic-test-accuracy reviews. Enter each study's 2×2 counts (it computes sensitivity, specificity, and overall agreement), rate risk of bias with QUADAS-2, QUADAS-C, or PROBAST-AI, reconcile a second extractor with Cohen's κ or Krippendorff's α, and export tidy CSV plus a risk-of-bias traffic-light SVG for meta-analysis in R. The human extracts and decides; an optional AI aid stays sealed until after each study is committed, and is shown only as discrepancy flags. Local-first; nothing uploads.",
+      "isPartOf": { "@type": "WebSite", "name": "Vahtian", "url": "https://vahtian.com/" },
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "EUR" }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Is my data uploaded?",
+          "acceptedAnswer": { "@type": "Answer", "text": "No. ExtractVahti runs entirely in your browser and saves to your device's local storage — nothing leaves your machine, and there are no accounts or trackers." }
+        },
+        {
+          "@type": "Question",
+          "name": "What does it compute, and what stays in R?",
+          "acceptedAnswer": { "@type": "Answer", "text": "From a 2×2 (TP/FP/FN/TN) it computes sensitivity, specificity, and overall percent agreement; with two or more extractors it computes Cohen's κ (or Krippendorff's α for 3+) on the judgments. The headline HSROC / bivariate model runs in R on the exported CSV (mada / metadta)." }
+        },
+        {
+          "@type": "Question",
+          "name": "Which risk-of-bias tools?",
+          "acceptedAnswer": { "@type": "Answer", "text": "QUADAS-2 and QUADAS-C by default; PROBAST-AI / TRIPOD-AI / CLAIM when the index test is AI. The reference-standard domain is high-concern by design when the reference standard is imperfect." }
+        },
+        {
+          "@type": "Question",
+          "name": "What do I get out?",
+          "acceptedAnswer": { "@type": "Answer", "text": "extraction.csv and reclassification.csv for R, rob.csv, a risk-of-bias traffic-light SVG, and a de-identified validation file. All downloadable, reviewable, and local." }
+        },
+        {
+          "@type": "Question",
+          "name": "Can two people extract independently?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes. Load a second extractor's extraction.jsonl in the Reconcile step — only beyond-tolerance mismatches surface for adjudication, and each person's data stands alone." }
+        }
+      ]
+    }
+  ]
+}
+</script>
 <!--
   ExtractVahti v0.1 — the DTA back-half tool. Per-study data extraction + risk-of-bias appraisal,
   exporting tidy data for meta-analysis in R. Single-file, local-first, no external requests.
