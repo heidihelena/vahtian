@@ -40,15 +40,25 @@ likelihood:
    lastmod must reflect the page's true modification time and recommends full
    ISO-8601 timestamps; unreliable lastmod degrades crawl prioritisation
    ([Bing blog: Keeping Content Discoverable with Sitemaps in AI-Powered Search](https://blogs.bing.com/webmaster/July-2025/Keeping-Content-Discoverable-with-Sitemaps-in-AI-Powered-Search)).
-4. **No IndexNow, no URL Submission usage** — the discovery channels Bing
-   actually prioritises for small/new sites are simply not wired up. There is
-   no `BingSiteAuth.xml`, no `msvalidate.01` meta tag, and no IndexNow key or
-   deploy-time ping anywhere in the repo (verified by grep).
+4. **IndexNow is half-wired: key present, submission mechanism unconfirmed.**
+   Correction to an earlier draft of this report — the IndexNow **key file**
+   *does* exist: `478027c6e87c48dd85871fe255f51ad0.txt` at the site root,
+   added 2026-07-18 (PR #206), content correctly matching the filename, and
+   served (not in `.assetsignore`). That satisfies the *verification* half. But
+   the key only authorises submissions; something must still POST changed URLs
+   to `api.indexnow.org`. Two paths do that — Cloudflare **Crawler Hints** (a
+   dashboard toggle, leaves no repo trace, so cannot be confirmed from here) or
+   a repo-owned deploy ping (absent — nothing in `.github/` hits the endpoint).
+   **Open question to resolve in the dashboard: is Crawler Hints enabled?** If
+   yes, IndexNow is fully operational and this ceases to be a gap — and its
+   being operational actually *strengthens* hypothesis 1: IndexNow would be
+   inviting Bingbot to crawl URLs that Cloudflare then blocks, producing exactly
+   the "Discovered but not crawled" state observed.
 
 The fix path is short: allow verified bots in Cloudflare (or confirm they're
-allowed), run the Live URL test on 3 main pages, repair lastmod, turn on
-IndexNow (one Cloudflare toggle or a ~30-line GitHub Action), and submit the
-sitemap in BWT. Everything else in this report — guidelines compliance, intent,
+allowed), run the Live URL test on 3 main pages, repair lastmod, confirm
+IndexNow submission is live (the key file already exists — check whether
+Cloudflare Crawler Hints is on), and submit the sitemap in BWT. Everything else in this report — guidelines compliance, intent,
 architecture, accessibility, structured data, content gaps — is strategy on top
 of an already-strong site, not remediation.
 
@@ -63,7 +73,7 @@ only what changes under Bing's rules, plus the Bing-severity ranking.
 |---|---|---|---|
 | **P0** | Bingbot's HTTP experience unverified; Cloudflare challenge suspected | A 403/challenge to Bingbot marks pages not indexable regardless of markup. See §2.1 decision tree. | Symptom + hosting stack; [Cloudflare community: "Bing not indexing our website"](https://community.cloudflare.com/t/bing-not-indexing-our-website/673108), ["Bingbot unable to access sitemap — 403"](https://community.cloudflare.com/t/bingbot-unable-to-access-sitemap-403-error/391927), [Microsoft Q&A: HTTP 403 — Bing Webmaster indexing](https://learn.microsoft.com/en-us/answers/questions/2342170/receiving-http-403-error-bing-webmaster-indexing) |
 | **P1** | Sitemap lastmod mass-bumped, date-only | Bing uses lastmod to prioritise crawl and asks for real timestamps (ISO 8601 incl. time); a sitemap where 88/89 URLs share one date reads as generated, and Bing deprioritises signals it can't trust. | `sitemap.xml`; [Bing sitemap guidance (July 2025)](https://blogs.bing.com/webmaster/July-2025/Keeping-Content-Discoverable-with-Sitemaps-in-AI-Powered-Search) |
-| **P1** | No IndexNow, no BWT verification artifact in repo | Discovery for small sites on Bing is *push-first*. IndexNow is Microsoft's own protocol; without it a 97-page site with few inbound links waits on organic discovery Bing rations tightly. | grep: no `indexnow`, no `BingSiteAuth.xml`, no `msvalidate` in any page; no ping step in `.github/workflows/` |
+| **P1** | IndexNow key present but URL-submission mechanism unconfirmed | IndexNow key file exists at root (verification half done ✓); the *submission* half depends on Cloudflare Crawler Hints (dashboard-only, unverifiable from repo) or an absent deploy ping. If Crawler Hints is off, a 97-page link-sparse site waits on organic discovery Bing rations tightly. | `478027c6e87c48dd85871fe255f51ad0.txt` present, valid, served; no `api.indexnow.org` call in `.github/`; no `BingSiteAuth.xml`/`msvalidate` (verification likely via DNS or GSC import) |
 | P2 | `extractvahti/` title/description drift; one canonical slash; 23 undated articles; lazy-loading gap | Same defects as *[G-§1.1]*; Bing weights exact title keywords somewhat more than Google, so the truncating 200-char description and jargon-first title cost more here. | *[G-§1.1 #1–5]* |
 | P3 | Everything verified clean: status codes (static 200s + real 404 via `not_found_handling: "404-page"`), no redirects to chain/loop (no `_redirects`), canonicals, no duplicate content/titles/descriptions, one H1/page, robots.txt valid, depth ≤4, no orphans, no broken internal links, no JS-dependence for content, alt 100 %, HTTPS-only URL space | Meets [Bing Webmaster Guidelines](https://www.bing.com/webmasters/help/webmaster-guidelines-30fba23a) technical section in full. | *[G-§1.2]* |
 
@@ -336,7 +346,7 @@ drift is fixed.
 | Opportunity | Current state | Recommendation | Basis |
 |---|---|---|---|
 | **Bing Webmaster Tools** | Verified (assumed — no repo artifact, so likely DNS or GSC-import) but underused | Submit `sitemap.xml`; watch **Sitemap Index Coverage**; run **Site Scan** once (it reports Bing's own view of technical issues); use **URL Submission** for the top ~10 pages now | [Sitemap Index Coverage report](https://blogs.bing.com/webmaster/september-2023/How-to-Use-the-new-Sitemap-Index-Coverage-to-Improve-Your-Site-s-Index-Coverage) |
-| **IndexNow** | Absent | Two options, either is sufficient: **(a)** Cloudflare dashboard → Speed → Crawler Hints (one toggle; Cloudflare submits via IndexNow automatically on purge/change), or **(b)** repo-owned: commit a 32-hex key file at site root + a ~30-line GitHub Action on push-to-main that diffs changed public pages and POSTs them to `api.indexnow.org` with `keyLocation`. (b) is more precise and keeps the invariant of repo-visible behaviour; (a) is zero-maintenance. | [indexnow.org documentation](https://www.indexnow.org/documentation); Bing sitemap blog above ("sitemaps + IndexNow together") |
+| **IndexNow** | **Key present (added 2026-07-18); submission path unconfirmed.** The key file half is already done correctly. | **First: confirm in Cloudflare dashboard → Speed → Optimization → Crawler Hints whether it is ON** — if so, submission is automatic and IndexNow is complete, do nothing further. If OFF, either flip that toggle (zero-maintenance) **or** add the repo-owned option: a ~30-line GitHub Action on push-to-main that diffs changed public pages and POSTs them to `api.indexnow.org` with `keyLocation` pointing at the existing key file. The repo-owned path is more precise and keeps behaviour visible in-repo; it reuses the key that already exists. | [indexnow.org documentation](https://www.indexnow.org/documentation); Bing sitemap blog above ("sitemaps + IndexNow together") |
 | **XML sitemap quality** | Structurally valid; lastmod untrustworthy | Truthful per-URL lastmod from git history, full ISO-8601 with time (`2026-07-19T14:32:00+00:00`), regenerate on real change only | [Bing sitemap guidance (July 2025)](https://blogs.bing.com/webmaster/July-2025/Keeping-Content-Discoverable-with-Sitemaps-in-AI-Powered-Search) |
 | **Crawl efficiency** | Good (small flat static site) | Nothing beyond lastmod + hubs; do **not** add crawl-delay | robots.txt review |
 | **Image search** | Descriptive filenames ✓, alt 100 % ✓, dimensions ✓ | WebP re-encode of the 4 heavy previews *[G-§1.1 #4]*; optional: image entries in the sitemap for the product screenshots (Bing image search is a real discovery channel for tool UIs) | Bing Webmaster Guidelines, media section |
@@ -352,8 +362,10 @@ drift is fixed.
 1. **Run the §2.1 decision tree** (Live URL test ×3 pages → Cloudflare bot
    settings → WAF skip-rule for verified bots). *(Indexability: unblocks
    everything else; nothing below matters while Bingbot can't fetch pages)*
-2. **Enable IndexNow** — Cloudflare Crawler Hints toggle (option a) as the
-   immediate fix; decide on the GitHub Action (option b) later. *(Discovery)*
+2. **Confirm IndexNow submission is live** — the key file already exists
+   (added 2026-07-18); check whether Cloudflare Crawler Hints is ON (Speed →
+   Optimization → Crawler Hints). If ON, IndexNow is done. If OFF, flip it, or
+   add the repo-owned GitHub Action later. *(Discovery)*
 3. **Submit sitemap in BWT + URL-submit the 10 main pages.** *(Discovery)*
 4. Fix `extractvahti/` title/description; `qualivahti-local/success/` canonical
    slash *[G-roadmap #1–2]*. *(Content quality)*
