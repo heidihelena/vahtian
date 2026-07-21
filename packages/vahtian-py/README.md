@@ -62,4 +62,41 @@ An inferred field never reaches an `aligned` candidate without a human
 confirming it, and an extraction failure stays distinct from source silence
 (it routes back to extraction).
 
+## Local MCP server
+
+Expose the reproducibility core to an AI agent over MCP — running locally, on
+your machine, over stdio. Nothing is uploaded; the agent calls the same
+deterministic functions shown above. The agent proposes and records; the human
+decides.
+
+```bash
+pip install "vahtian[mcp]"
+vahtian-mcp            # runs the stdio MCP server
+```
+
+Connect it to an MCP client. Claude Code:
+
+```bash
+claude mcp add vahtian -- vahtian-mcp
+```
+
+Claude Desktop (`claude_desktop_config.json`):
+
+```json
+{ "mcpServers": { "vahtian": { "command": "vahtian-mcp" } } }
+```
+
+Tools (all local, deterministic, no network):
+
+| Tool | What it does |
+|---|---|
+| `freeze_corpus` | Dedupe a record set, lock the search date, compute the content hash; optionally save the frozen corpus locally. |
+| `verify_corpus` | Check a saved corpus is untampered, or that a record set reproduces an expected hash. |
+| `resolve_record_id` | Return the stable identity (PMID > DOI > title-hash) for a record. |
+| `audit_append` | Append one entry to a local, hash-chained audit ledger (append-only). |
+| `audit_verify` | Verify a ledger's chain is intact — retro-edits and deletions fail. |
+
+The server checks reproducibility and records who did what; it does not judge
+evidence or establish truth.
+
 `vahti` (Finnish) = sentinel / guard. Human-first. AI-second. Auditable. Apache-2.0.
