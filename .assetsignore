@@ -8,3 +8,6 @@ docs/seo-audit-2026-07-21.md
 docs/bing-seo-audit-2026-07-21.md
 AD_CLAIMS.md
 launch-posts.md
+
+# Worker entry point — compiled as the Worker, not served as a static file.
+worker.js
