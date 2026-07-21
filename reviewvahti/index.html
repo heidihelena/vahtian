@@ -52,6 +52,34 @@
    "publisher":{"@type":"Organization","name":"Vahtian","url":"https://vahtian.com/"}
  }
  </script>
+ <script type="application/ld+json">
+ {
+   "@context": "https://schema.org",
+   "@type": "FAQPage",
+   "mainEntity": [
+     {
+       "@type": "Question",
+       "name": "What do I load into ReviewVahti, and where does it come from?",
+       "acceptedAnswer": { "@type": "Answer", "text": "The protocol and ballot files (or the .zip) each reviewer exports from MatchVahti after screening the same papers under the same protocol. ReviewVahti matches them by a fingerprint (protocol_hash) and flags any ballot that doesn't match, rather than scoring it silently." }
+     },
+     {
+       "@type": "Question",
+       "name": "Does my data leave the browser?",
+       "acceptedAnswer": { "@type": "Answer", "text": "No. ReviewVahti makes no network calls at all — it reads only the files you load, computes everything on your device, and uploads nothing. Results download as a report bundle." }
+     },
+     {
+       "@type": "Question",
+       "name": "Does the AI count toward agreement?",
+       "acceptedAnswer": { "@type": "Answer", "text": "No. Reliability is measured over human reviewers only. If an AI ballot is present, it is scored separately against the records where the humans agree, and never enters Cohen's κ or Krippendorff's α." }
+     },
+     {
+       "@type": "Question",
+       "name": "How many reviewers can ReviewVahti handle?",
+       "acceptedAnswer": { "@type": "Answer", "text": "Two to seven. Two gives Cohen's κ, PABAK, Gwet's AC1 and a bootstrap CI; three or more gives Krippendorff's α, Fleiss' κ (when everyone rated every paper), and a pairwise matrix showing which pair diverged most." }
+     }
+   ]
+ }
+ </script>
 <style>
   :root{
     --navy:#2D2440; --violet:#8B6FC9; --lilac:#C5B8E8; --lilac-soft:#EFEBF8;
