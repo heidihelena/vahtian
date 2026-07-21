@@ -87,13 +87,13 @@
 body{margin:0;font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;color:var(--ink);background:var(--bg)}
 header{display:flex;align-items:center;gap:10px;padding:14px 20px;border-bottom:1px solid var(--line);background:var(--card)}
 header .mark{width:28px;height:28px}
-header b{font-size:16px}
+header h1{font-size:16px;margin:0}
 header span.sub{color:var(--muted);font-size:13px}
 .app{display:grid;grid-template-columns:340px 1fr;min-height:calc(100vh - 58px)}
 aside{border-right:1px solid var(--line);background:var(--card);padding:18px;overflow-y:auto}
 main{padding:24px;overflow-x:auto}
-h3{font:600 12px/1 ui-monospace,Menlo,monospace;text-transform:uppercase;letter-spacing:.08em;color:var(--violet);margin:22px 0 10px}
-h3:first-child{margin-top:0}
+h2{font:600 12px/1 ui-monospace,Menlo,monospace;text-transform:uppercase;letter-spacing:.08em;color:var(--violet);margin:22px 0 10px}
+h2:first-child{margin-top:0}
 label{display:block;font-size:12.5px;font-weight:600;color:var(--muted);margin:10px 0 4px}
 select,input[type=text],textarea{width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:8px;
   font:inherit;color:var(--ink);background:var(--bg)}
@@ -127,6 +127,10 @@ button.small{padding:5px 9px;font-size:12px}
 .ccount{font:700 11px/1 ui-monospace,Menlo,monospace;color:#fff;background:var(--violet);padding:2px 7px;border-radius:6px;display:none}
 .ccount.has{display:inline-block}
 .ccount.clean{background:#1E9E8A}
+@media(max-width:720px){
+  .app{grid-template-columns:1fr;min-height:0}
+  aside{border-right:0;border-bottom:1px solid var(--line)}
+}
 @media print{
   header,aside,.hint{display:none!important}
   body{background:#fff}
@@ -151,13 +155,13 @@ button.small{padding:5px 9px;font-size:12px}
     </g>
     <path d="M16 10.3 L19.6 12 L19.6 15 L16 19.6 L12.4 15 L12.4 12 Z" fill="none" stroke="#C5B8E8" stroke-width="1.8" stroke-linejoin="round"/>
   </svg>
-  <b>Carousel builder</b>
+  <h1>Carousel builder</h1>
   <span class="sub">Sentinel Geometry slides → LinkedIn PDF carousel / PNG cards. Nothing leaves this page.</span>
 </header>
 
 <div class="app">
 <aside>
-  <h3>Deck</h3>
+  <h2>Deck</h2>
   <label for="preset">Start from</label>
   <select id="preset"></select>
   <label for="theme">Product theme</label>
@@ -175,7 +179,7 @@ button.small{padding:5px 9px;font-size:12px}
   <label for="f-deckurl">Footer URL</label>
   <input type="text" id="f-deckurl" placeholder="vahtian.com">
 
-  <h3>Slide <span id="selLabel"></span></h3>
+  <h2>Slide <span id="selLabel"></span></h2>
   <label for="stype">Type</label>
   <select id="stype">
     <option value="cover">Cover — hook</option>
@@ -209,15 +213,15 @@ button.small{padding:5px 9px;font-size:12px}
   </div>
   <p class="hint">Drag a slide in the deck to reorder. <code>⌘/Ctrl+Z</code> undoes add/duplicate/move/delete.</p>
 
-  <h3>Post caption</h3>
+  <h2>Post caption</h2>
   <textarea id="caption" rows="6"></textarea>
   <div class="row"><button class="small" id="genCaption">generate from deck</button><button class="small" id="copyCaption">copy caption</button></div>
   <p class="hint">“Generate” drafts a caption from the deck’s cover, points and CTA — then edit it. It never overwrites without your click.</p>
 
-  <h3>Checks <span id="checkCount" class="ccount"></span></h3>
+  <h2>Checks <span id="checkCount" class="ccount"></span></h2>
   <div id="checks" class="checks"><p class="hint" style="margin:0">No issues — slides read clean.</p></div>
 
-  <h3>Export</h3>
+  <h2>Export</h2>
   <div class="row">
     <button class="primary" id="exportPdf">Download PDF</button>
     <button id="exportPng">PNGs</button>
