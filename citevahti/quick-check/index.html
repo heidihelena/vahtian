@@ -339,6 +339,47 @@
   $("run").addEventListener("click",function(){ render(analyse($("ms").value||"")); $("out").scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'nearest'}); });
   $("ex").addEventListener("click",function(){ $("ms").value=EXAMPLE; render(analyse(EXAMPLE)); $("out").scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'nearest'}); });
   $("clr").addEventListener("click",function(){ $("ms").value=""; $("out").innerHTML=""; $("ms").focus(); });
+
+  // WebMCP progressive enhancement: expose the quick check to an in-browser AI
+  // agent *if* the browser supports the API (Chrome origin trial, W3C draft).
+  // Feature-detected — a no-op in every browser that lacks navigator.modelContext.
+  // Runs locally on the text the agent passes; nothing is uploaded.
+  (function(){
+    var mc = navigator.modelContext;
+    if(!mc) return;
+    var tool = {
+      name: "citation_risk_quick_check",
+      description: "Scan a manuscript paragraph for citation-risk wording signals — uncited claims, vague evidence, overclaiming, and citation pile-ups. Heuristic wording analysis run locally in the browser; it does not read the cited sources or judge whether they support a claim, and nothing is uploaded.",
+      inputSchema: {
+        type: "object",
+        properties: { text: { type: "string", description: "The manuscript paragraph to scan." } },
+        required: ["text"]
+      },
+      execute: function(params){
+        var text = (params && params.text) || "";
+        var res = analyse(text);
+        var ms = $("ms"); if(ms){ ms.value = text; }   // reflect the agent's input in the page
+        render(res);
+        var summary = {
+          sentences_analyzed: res.nSent,
+          sentences_flagged: res.cards.length,
+          total_signals: res.total,
+          signal_counts: res.counts,
+          flagged: res.cards.map(function(c){
+            return { sentence: c.s, signals: c.hits.map(function(h){
+              return { signal: h.label, why: h.why, next_step_in_citevahti: h.step };
+            })};
+          }),
+          note: "Heuristic wording signals only. This does not check whether the cited sources support the claims — that is the full CiteVahti audit. Nothing was uploaded."
+        };
+        return { content: [ { type: "text", text: JSON.stringify(summary, null, 2) } ] };
+      }
+    };
+    try {
+      if (typeof mc.registerTool === "function") mc.registerTool(tool);
+      else if (typeof mc.provideContext === "function") mc.provideContext({ tools: [tool] });
+    } catch (e) { /* experimental API — never break the page */ }
+  })();
 })();
 </script>
 </body>
