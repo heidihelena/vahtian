@@ -3,6 +3,9 @@
 
 User-agent: *
 Allow: /
+# Content preferences (contentsignals.org) — explicit form of the AI-welcoming
+# stance below: content may be searched, used in AI answers, and used for training.
+Content-Signal: search=yes, ai-input=yes, ai-train=yes
 
 # AI / answer engines (GEO) — explicitly welcomed
 User-agent: GPTBot

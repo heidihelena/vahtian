@@ -1,0 +1,8 @@
+# Cloudflare Workers static-assets header rules.
+# Link response headers advertise machine-readable entry points to agents
+# and crawlers (RFC 8288). Applied to every page so any entry URL is discoverable.
+/*
+  Link: </agents/>; rel="service-doc"
+  Link: </llms.txt>; rel="describedby"; type="text/plain"
+  Link: </sitemap.xml>; rel="sitemap"
+  Link: </.well-known/agent-skills/index.json>; rel="describedby"; type="application/json"
