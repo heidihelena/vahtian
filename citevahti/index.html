@@ -40,6 +40,46 @@
     }
   }
   </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Does CiteVahti work with Zotero?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. When a reference belongs in your library, CiteVahti writes it to Zotero as a preview → confirm → commit step you can undo. Reads need no key, and there are no silent writes — dedupe fails closed."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What does CiteVahti export?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "A hash-chained audit log of the checking process — the claims, the human rating, the AI second opinion, and the adjudication — which you can export for your methods section. A disclosure template ships with the tool."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does my manuscript leave my device?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. CiteVahti runs on your laptop with no account and no telemetry; your manuscript, claims, and ratings stay local. Only the reference lookups you ask for make a network call."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does CiteVahti decide whether a citation is correct?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. You rate first; the AI is a blinded, advisory second rater; the adjudication is recorded. CiteVahti checks whether the cited source supports the claim and records who decided what — it does not certify that a claim is true."
+        }
+      }
+    ]
+  }
+  </script>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232D2440'/%3E%3Cg fill='none' stroke='%238B6FC9' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 9 H9 V23 H12'/%3E%3Cpath d='M20 9 H23 V23 H20'/%3E%3C/g%3E%3Ccircle cx='13.9' cy='16' r='1.7' fill='%23C5B8E8'/%3E%3Ccircle cx='18.1' cy='16' r='1.7' fill='%23C5B8E8'/%3E%3C/svg%3E">
   <style>
     :root{--amber:#C98A00;--rose:#C24D7E;}
@@ -399,6 +439,45 @@ Draft this paragraph using only my accepted claims.</pre>
         journal you used it — there's a ready template in the
         <a href="https://github.com/heidihelena/citevahti/blob/main/docs/DISCLOSURE.md">disclosure guide</a>.</li>
     </ul>
+  </section>
+
+  <style>
+    .faq{margin:10px 0 0}
+    .faq details{border:1px solid #e7e3f0;border-radius:10px;background:#fff;margin:0 0 9px;padding:0 15px}
+    .faq summary{cursor:pointer;font-weight:600;font-size:15.5px;padding:13px 0;color:#2D2440;list-style:none}
+    .faq summary::-webkit-details-marker{display:none}
+    .faq summary::after{content:"+";float:right;color:#5b5570;font-weight:400;font-size:18px;line-height:1}
+    .faq details[open] summary::after{content:"–"}
+    .faq details[open] summary{border-bottom:1px solid #e7e3f0}
+    .faq details p{margin:12px 0;font-size:15px;color:#3a3450;line-height:1.55}
+  </style>
+  <section>
+    <h2 id="faq">Common questions</h2>
+    <div class="faq">
+      <details>
+        <summary>Does CiteVahti work with Zotero?</summary>
+        <p>Yes. When a reference belongs in your library, CiteVahti writes it to Zotero as a
+          preview&nbsp;→&nbsp;confirm&nbsp;→&nbsp;commit step you can undo. Reads need no key, and there are no
+          silent writes — dedupe fails closed.</p>
+      </details>
+      <details>
+        <summary>What does CiteVahti export?</summary>
+        <p>A hash-chained audit log of the checking process — the claims, the human rating, the AI second opinion,
+          and the adjudication — which you can export for your methods section. A disclosure template ships with
+          the tool.</p>
+      </details>
+      <details>
+        <summary>Does my manuscript leave my device?</summary>
+        <p>No. CiteVahti runs on your laptop with no account and no telemetry; your manuscript, claims, and ratings
+          stay local. Only the reference lookups you ask for make a network call.</p>
+      </details>
+      <details>
+        <summary>Does CiteVahti decide whether a citation is correct?</summary>
+        <p>No. You rate first; the AI is a blinded, advisory second rater; the adjudication is recorded. CiteVahti
+          checks whether the cited source supports the claim and records who decided what — it does not certify
+          that a claim is true.</p>
+      </details>
+    </div>
   </section>
 </main>
 

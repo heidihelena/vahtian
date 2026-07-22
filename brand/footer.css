@@ -134,6 +134,16 @@ pre{overflow-x:auto;max-width:100%}
   table{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:100%}
 }
 
+/* M9 — touch targets: enlarge the tap area of repeated page chrome (header
+   nav, search icon, brand link, breadcrumbs, footer links) to ≥44px without
+   moving a pixel — the padding grows the hit box and the negative margin
+   gives the space back. The nav "buy" pill keeps its own button padding. */
+nav.nav a:not(.buy){padding:12px 5px;margin:-12px -5px}
+nav.nav .util .ic{padding:13px;margin:-13px}
+header a.brand,header .brand a{padding:6px;margin:-6px}
+.crumbs a,.voc-crumbs a{display:inline-block;padding:10px 2px;margin:-10px -2px}
+.vh-footer-links a,.vh-footer-meta a{display:inline-block;padding:10px 3px;margin:-10px -3px}
+
 /* M7 — skip link: visually hidden until focused, first in tab order */
 .skip-link{position:absolute;left:8px;top:-60px;z-index:1000;background:#2D2440;color:#fff;
   padding:10px 16px;border-radius:0 0 9px 9px;font-weight:700;text-decoration:none;transition:top .15s ease}

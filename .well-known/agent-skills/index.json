@@ -1,0 +1,12 @@
+{
+  "$schema": "https://agentskills.io/schema/index-v0.2.0.json",
+  "skills": [
+    {
+      "name": "vahtian-research-support",
+      "type": "text/markdown",
+      "description": "Drop-in agent skill for the Vahtian research-support pipeline: find the sentence, search the literature, screen it blinded, reconcile reviewers, retrieve full text, and check whether a cited source supports a claim. Human-first: the AI is an advisory, fully-identified second rater, never the decider.",
+      "url": "https://vahtian.com/skill/SKILL.md",
+      "sha256": "cea305df431011ed86062ed71f8217863cb0317312e5d520075b6307f5d7b907"
+    }
+  ]
+}

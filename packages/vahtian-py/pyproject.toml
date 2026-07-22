@@ -20,6 +20,10 @@ classifiers = [
 ]
 dependencies = []   # stdlib only — re-runnable anywhere
 
+[project.optional-dependencies]
+# Local (stdio) MCP server — opt-in, so the core stays dependency-free.
+mcp = ["mcp>=1.2.0"]
+
 [project.urls]
 Homepage = "https://vahtian.com/"
 Documentation = "https://vahtian.com/agents/"
@@ -27,6 +31,7 @@ Source = "https://github.com/heidihelena/vahtian"
 
 [project.scripts]
 vahtian = "vahtian.cli:main"
+vahtian-mcp = "vahtian.mcp_server:main"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/vahtian"]

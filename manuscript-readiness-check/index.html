@@ -57,7 +57,7 @@
   .crumbs a{color:var(--muted);text-decoration:none}
   .test-mark{position:absolute;right:0;top:82px;width:48px;height:48px;transform:rotate(3deg)}
   .eyebrow{margin:0 68px 11px 0;color:var(--link);font:500 23px/1.1 "Marksy","Marker Felt","Segoe Print",cursive}
-  h1{max-width:17ch;margin:0 68px 16px 0;font-size:44px;line-height:1.06;letter-spacing:0}
+  h1{max-width:17ch;margin:0 68px 16px 0;font-size:clamp(33px,10.5vw,44px);line-height:1.06;letter-spacing:0;hyphens:auto;overflow-wrap:break-word}
   .lede{max-width:63ch;margin:0 0 14px;color:#3A3450;font-size:18px;line-height:1.58}
   .test-meta{margin:0 0 28px;color:var(--muted);font:500 12px/1.4 "Nudica Mono",ui-monospace,monospace;text-transform:uppercase}
   .editorial-correction{display:flex;align-items:baseline;gap:16px;flex-wrap:wrap;margin:28px 0 36px;color:var(--link);font:600 25px/1.15 "Marksy","Marker Felt","Segoe Print",cursive}
@@ -68,8 +68,8 @@
   .rail{max-width:64ch;margin:0 0 24px;padding:3px 0 3px 18px;border-left:3px solid var(--violet);color:#3A3450;font-size:15px}
   .scalekey{margin:0 0 20px;padding:14px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);color:var(--muted);font-size:14px}
   .axis{margin:0;padding:30px 0;border-top:1px solid var(--line)}
-  .axis h3{margin:0 0 16px;color:var(--navy);font-size:21px;line-height:1.2}
-  .axis h3::before{content:"";display:block;width:38px;margin:0 0 10px;border-top:3px solid var(--violet);transform:rotate(-1deg)}
+  .axis h2{margin:0 0 16px;color:var(--navy);font-size:21px;line-height:1.2}
+  .axis h2::before{content:"";display:block;width:38px;margin:0 0 10px;border-top:3px solid var(--violet);transform:rotate(-1deg)}
   .stmt{padding:13px 0;border-top:1px solid var(--line)}
   .stmt:first-of-type{border-top:0}
   .stmt p{margin:0 0 9px;font-size:16px;line-height:1.45}
@@ -317,7 +317,7 @@ const form=document.getElementById("test");
 const axisHost=document.getElementById("axes");
 AXES.forEach((ax,ai)=>{
   const d=document.createElement("div"); d.className="axis";
-  let h="<h3>"+ax.name+"</h3>";
+  let h="<h2>"+ax.name+"</h2>";
   ax.s.forEach((st,si)=>{ h+="<div class='stmt'><p>"+st+"</p><div class='scale'>";
     for(let v=1;v<=5;v++) h+="<label><input type='radio' name='q"+ai+"_"+si+"' value='"+v+"'>"+v+"</label>";
     h+="</div></div>"; });
