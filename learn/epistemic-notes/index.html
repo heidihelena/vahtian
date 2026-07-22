@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Epistemic notes: organise research by what you actually know · Vahtian Learn</title>
+  <meta name="description" content="Organise research notes by the status of your knowledge, not by topic. Four epistemic states (Open, Working, Evidence, Ruled out), one job per folder, tag, and link, and every claim traces back to its source.">
+  <meta name="theme-color" content="#2D2440">
+  <link rel="canonical" href="https://vahtian.com/learn/epistemic-notes/">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://vahtian.com/learn/epistemic-notes/">
+  <meta property="og:image" content="https://vahtian.com/brand/cards/vahtian-card.png">
+  <meta property="og:title" content="Epistemic notes: organise research by what you actually know">
+  <meta property="og:description" content="Traditional note systems organise information. Epistemic notes organise the status of your knowledge, so your thesis and its sources are visible instead of buried in memory.">
+  <meta property="og:site_name" content="Vahtian">
+  <meta name="twitter:card" content="summary">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Epistemic notes: organise your research by what you actually know",
+    "description": "Organise research notes by the status of your knowledge rather than by topic: four states (Open, Working, Evidence, Ruled out), one job per folder, tag, and link, with every claim tracing back to its source.",
+    "author": { "@type": "Person", "name": "Heidi Andersén", "honorificSuffix": "MD, PhD", "url": "https://vahtian.com/about/" },
+    "publisher": { "@type": "Organization", "name": "Vahtian" },
+    "mainEntityOfPage": "https://vahtian.com/learn/epistemic-notes/"
+  }
+  </script>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232D2440'/%3E%3Cg fill='none' stroke='%238B6FC9' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 9 H9 V23 H12'/%3E%3Cpath d='M20 9 H23 V23 H20'/%3E%3C/g%3E%3Cpath d='M16 10.3 L19.6 12 L19.6 15 L16 19.6 L12.4 15 L12.4 12 Z' fill='none' stroke='%23C5B8E8' stroke-width='1.8' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <style>
+    *{box-sizing:border-box}
+    body{margin:0;font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,ui-sans-serif,system-ui,sans-serif;
+         color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased}
+    a{color:var(--link)}
+    .wrap{max-width:720px;margin:0 auto;padding:0 22px}
+    .crumbs{font-size:14px;color:var(--muted)}
+    .kicker{font:600 13px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--violet);
+            text-transform:uppercase;letter-spacing:.08em;margin:34px 0 14px}
+    h1{font-size:clamp(27px,5.2vw,38px);line-height:1.14;letter-spacing:-.02em;margin:0 0 16px}
+    .lede{font-size:clamp(17px,2.4vw,19px);color:#3a3450;margin:0 0 6px}
+    h2{font-size:20px;margin:40px 0 10px;letter-spacing:-.01em}
+    p{margin:0 0 14px}
+    ol,ul{margin:0 0 14px;padding-left:24px}
+    li{margin:0 0 8px}
+    code{font:14px ui-monospace,SFMono-Regular,Menlo,monospace;background:#f0edf7;border-radius:5px;padding:1px 6px}
+    .tldr{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin:24px 0}
+    .tldr p{font-weight:650;margin:0 0 10px}
+    .tldr ol{margin:0;padding-left:20px}.tldr li{margin:0 0 8px}.tldr b{color:var(--ink)}
+    .answer{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--violet);
+            border-radius:10px;padding:12px 16px;margin:0 0 14px;font-weight:600}
+    figure{margin:26px 0}
+    figure img{display:block;width:100%;height:auto;border:1px solid var(--line);border-radius:12px}
+    figcaption{font-size:14px;color:var(--muted);margin:10px 0 0}
+    .cta{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px 22px;margin:34px 0 0}
+    .btn{display:inline-block;padding:11px 18px;border-radius:9px;font-weight:600;text-decoration:none;font-size:15px;background:var(--navy);color:#fff;margin-top:6px}
+    footer{margin:56px 0 40px;padding-top:22px;border-top:1px solid var(--line);color:var(--muted);font-size:14px}
+    .voc-head{padding:24px 0 6px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
+    .voc-head .brand{display:flex;align-items:center;gap:11px;font-weight:700;font-size:18px;text-decoration:none;color:var(--ink)}
+    .voc-head .mark{width:32px;height:32px;flex:0 0 32px}
+    .voc-head nav.nav{display:flex;align-items:center;gap:16px;flex-wrap:wrap;font-size:14.5px}
+    .voc-head nav.nav a{color:var(--ink);text-decoration:none;font-weight:600}
+    .voc-head nav.nav a:hover,.voc-head nav.nav a[aria-current="page"]{color:var(--link)}
+    .voc-head nav.nav .util{display:flex;align-items:center;gap:13px;padding-left:15px;border-left:1px solid var(--line)}
+    .voc-head nav.nav .util .ic{display:flex;color:var(--muted)}
+    @media(max-width:680px){.voc-head nav.nav{gap:13px;font-size:13.5px}}
+  </style>
+  <link rel="stylesheet" href="../../brand/site-refresh.css">
+<link rel="stylesheet" href="../../brand/footer.css">
+</head>
+<body class="vh-content">
+<a class="skip-link" href="#main-content">Skip to main content</a>
+<div class="wrap">
+<header class="voc-head">
+    <a class="brand" href="/" aria-label="Vahtian home">
+      <svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#2D2440"/><g fill="none" stroke="#8B6FC9" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9 H9 V23 H12"/><path d="M20 9 H23 V23 H20"/></g><path d="M16 10.3 L19.6 12 L19.6 15 L16 19.6 L12.4 15 L12.4 12 Z" fill="none" stroke="#C5B8E8" stroke-width="1.8" stroke-linejoin="round"/></svg>
+      Vahtian
+    </a>
+    <nav class="nav" aria-label="Primary">
+      <a href="/kits/">Kits</a>
+      <a href="/download/">Tools</a>
+      <a href="/learn/" aria-current="page">Learn</a>
+      <a href="/blog/">Blog</a>
+      <a href="/about/">About</a>
+      <span class="util"><a class="ic" href="/search/" aria-label="Search vahtian.com"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.3" y2="16.3"/></svg></a></span>
+    </nav>
+  </header>
+<main id="main-content">
+
+<p class="kicker">Learn · Epistemic notes</p>
+<h1>Epistemic notes: organise your research by what you actually know</h1>
+<p class="lede">You cannot write a thesis from notes that all look the same. Epistemic notes organise research by the status of your knowledge, what you can defend, what you assume, what is still open, and what you ruled out, so your argument and its sources are visible instead of trapped in memory.</p>
+
+<p>You open the document to start writing, and the notes betray you. Somewhere in three hundred of them is the evidence for your argument. Somewhere else is the thing you only assumed. And the source that would back the strong claim, a paper you read months ago, you can no longer find. From the outside the notes look identical: same font, same folder, same tidy title. So the line between what you can defend and what you are guessing, and the source that would prove it, lives in one place only, your memory, and it is late.</p>
+
+<p><strong>Epistemic</strong> simply means "about knowledge." Epistemic notes organise your notes by the <em>status</em> of your knowledge rather than by topic. I think of it as a viewpoint into what you know. And it rests on one idea:</p>
+
+<p class="answer">Traditional note systems organise information. Epistemic notes organise the status of your knowledge.</p>
+
+<p>That line is the lens. Everything below follows from it.</p>
+
+<div class="tldr">
+  <p>The short version:</p>
+  <ol>
+    <li><b>Colour a note by its epistemic state, not its topic.</b></li>
+    <li><b>Four states:</b> <span style="color:#8B6FC9">◆</span> Open, <span style="color:#E69F00">▲</span> Working, <span style="color:#009E73">●</span> Evidence, <span style="color:#CC79A7">■</span> Ruled out.</li>
+    <li><b>Folder is state, tag is topic, link is relationship,</b> and the source travels with every note.</li>
+    <li><b>Drag a note between folders</b> to move it through your thinking.</li>
+    <li><b>The payoff:</b> a thesis you can defend, with every claim tracing back to its source.</li>
+  </ol>
+</div>
+
+<h2>Why the usual systems leave you stuck</h2>
+<p>It is not that you were careless, and it is not a better-folders problem. Almost every note tool organises by <strong>topic</strong> (a folder called "methods") or by <strong>how finished a note looks</strong> (a maturity tag: seedling, evergreen). Almost none organise by what a thesis is actually made of: what you know, versus what you assume, versus what is still open. So the epistemic status of a note, the one thing you most need when you sit down to write, is exactly the thing your tool never records.</p>
+
+<h2>The four states</h2>
+<p>Marking the confidence of a note is not new. Maggie Appleton writes an epistemic-disclosure line at the top of her essays; Gwern tags claims with a certainty level. Epistemic notes take that idea and make it structural, so it is not a sentence you write and forget, it is where the note lives. Four states, and every note is in exactly one:</p>
+<ul>
+  <li><strong><span style="color:#8B6FC9">◆</span> Open</strong>: a gap, an open question. <em>What must I still learn?</em></li>
+  <li><strong><span style="color:#E69F00">▲</span> Working</strong>: a hypothesis in progress. <em>What am I assuming?</em></li>
+  <li><strong><span style="color:#009E73">●</span> Evidence</strong>: something verified, defensible. <em>Can I defend this?</em></li>
+  <li><strong><span style="color:#CC79A7">■</span> Ruled out</strong>: a discarded lead, kept with its reason. <em>Why did I abandon it?</em></li>
+</ul>
+<p>Give each state a colour, and keep the shape as its mark, so it still works for the roughly one in twelve men with colour-vision deficiency, and in dark mode, and in greyscale. Now open your graph view. Early in a project it is mostly Open. By your defence it is mostly Evidence. <strong>That is a progress bar for your thesis, and you never had to fake it.</strong></p>
+
+<h2>Why not just use tags?</h2>
+<p>Because topic-folders and status-tags tangle the moment you ask them to do more than one job. Epistemic notes give each part of your vault exactly one:</p>
+<ul>
+  <li><strong>Folder</strong> is the note's epistemic <strong>state</strong>.</li>
+  <li><strong>Tag</strong> is <strong>classification</strong>: topic, method, project.</li>
+  <li><strong>Link</strong> is <strong>relationship</strong>: a finding to its source, a source to a method.</li>
+  <li><strong>Filename</strong> is a human-readable <strong>name</strong>.</li>
+</ul>
+<p>Now you never wonder whether to change a folder, a tag, or a property. To move a note through your thinking, you drag it from Open to Working to Evidence. That is why the state is a folder and not a tag: you <em>move</em> through knowledge, you do not label it.</p>
+
+<h2>The same four states, whatever you are doing</h2>
+<p>The states are one scale that wears different words per task. Say you read a cohort study. At first it sits in <strong>Working</strong>, while you test whether its finding holds in your population. The one claim from it you could defend to an examiner moves to <strong>Evidence</strong>. Its over-reach, the causal language its design cannot carry, goes to <strong>Ruled out</strong>, with a note on why. Same four colours on the paper you appraise and on the argument you write: Evidence is "what a source demonstrates," and it is also "the claim your work defends."</p>
+
+<h2>A thesis is not the sum of your green notes</h2>
+<p>This is the part that saves a viva, the oral thesis defence. A defensible thesis is not a pile of Evidence. It is an argument that also states its <strong>limitations</strong> (the notes still in Working and Open) and engages the <strong>contrasting evidence</strong> (the notes you Ruled out, and why).</p>
+<p>Keep the source with every note, and the manuscript builds itself from the map. Your Evidence becomes the claims you can stand behind; your Working and Open become the limitations; your Ruled out becomes the contrasting evidence you address in the Discussion. Because each note carries its source, every sentence in the manuscript can point back to where it came from, which is exactly what a reviewer will ask you to do.</p>
+
+<figure>
+  <img src="build-your-phd-canvas.png" width="1712" height="1383" loading="lazy" decoding="async"
+       alt="The Build your PhD argument canvas in an Obsidian vault. Along the top, a legend of the four states: Open, Working, Evidence, and Ruled out. Below it, a map runs from Topic down through research question, aim, and hypothesis to a Thesis node, then Discussion and Conclusion, with Evidence, Limitations, and Contrasting evidence feeding into the thesis.">
+  <figcaption>The argument canvas from the free PhD Thesis Vault. The four states become the parts of the manuscript: Evidence supports the thesis, Working and Open become the limitations, and Ruled out becomes the contrasting evidence you address in the Discussion.</figcaption>
+</figure>
+
+<h2>What it does not do</h2>
+<p>Epistemic notes show you where your evidence is thin. They do not decide whether your thesis is good, and they do not check whether a source supports the sentence you cite it for. You stay the judge.</p>
+
+<div class="cta">
+  <p><strong>The method works in any Obsidian vault.</strong> Make four folders, drop most notes in Open, and start dragging.</p>
+  <p>If you would rather start from something built, the <strong>PhD Thesis Vault</strong> ships the four colour-coded states, note templates, an argument canvas, and a Zotero flow that links every finding to its source. Free, pay what you want.</p>
+  <a class="btn" href="https://vahtian.gumroad.com/l/oijkiz">Get the PhD Thesis Vault (free)</a>
+</div>
+
+<h2>Read next</h2>
+<p><a href="/learn/obsidian-for-researchers/">Obsidian for researchers, 5 questions answered</a>, and more on the <a href="/learn/">Learn page</a>.</p>
+
+</main>
+<footer class="vh-footer">
+  <div class="vh-footer-shell">
+    <div class="vh-footer-main">
+      <div>
+        <p class="vh-footer-name">Vahtian</p>
+        <p class="vh-footer-tagline">Local-first tools for research decisions you can explain. Built in Finland by Heidi Andersén, MD, PhD.</p>
+      </div>
+      <nav class="vh-footer-links" aria-label="Footer">
+        <a href="/download/">Tools</a>
+        <a href="/kits/">Kits</a>
+        <a href="/learn/">Learn</a>
+        <a href="/blog/">Blog</a>
+        <a href="/about/">About</a>
+        <a href="/agents/">For agents</a>
+        <a href="/cite/">Cite</a>
+        <a href="/support/">Support</a>
+        <a href="/privacy/">Privacy</a>
+      </nav>
+    </div>
+    <p class="vh-footer-disclaimer">Vahtian keeps human judgment visible and research decisions open to review. It does not establish scientific truth.</p>
+    <div class="vh-footer-meta">
+      <span>© 2026 Vahtian</span>
+      <a href="/LICENSE">Apache-2.0 open core</a>
+      <a href="https://github.com/heidihelena/vahtian">GitHub <span aria-hidden="true">↗</span></a>
+      <a href="mailto:hello@vahtian.com">hello@vahtian.com</a>
+    </div>
+  </div>
+</footer>
+</div>
+</body>
+</html>
