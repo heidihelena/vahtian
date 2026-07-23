@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Colour-blind-safe figure palettes from one colour · Vahtian Learn</title>
+  <meta name="description" content="About 1 in 12 men cannot tell some of your figure colours apart. Build a palette from one anchor colour and test it, in Python or R, with the audit attached.">
+  <meta name="theme-color" content="#2D2440">
+  <link rel="canonical" href="https://vahtian.com/learn/colorblind-safe-figure-palette/">
+  <meta name="robots" content="index,follow">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://vahtian.com/learn/colorblind-safe-figure-palette/">
+  <meta property="og:title" content="Can every reader tell your figure colours apart?">
+  <meta property="og:description" content="Build a colour palette from one anchor colour and test it under simulated colour-blindness, in Python or R.">
+  <meta property="og:image" content="https://vahtian.com/brand/cards/vahtian-card.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Vahtian Learn — colour-blind-safe figure palettes.">
+  <meta property="og:site_name" content="Vahtian">
+  <meta property="article:published_time" content="2026-07-23">
+  <meta property="article:modified_time" content="2026-07-23">
+  <meta property="article:author" content="Heidi Andersén">
+  <meta name="twitter:card" content="summary_large_image">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "Can every reader tell your figure colours apart?",
+    "description": "Build a colour palette for scientific figures from one anchor colour and test it under simulated colour-vision deficiency, greyscale, and contrast, in Python or R.",
+    "url": "https://vahtian.com/learn/colorblind-safe-figure-palette/",
+    "datePublished": "2026-07-23",
+    "dateModified": "2026-07-23",
+    "inLanguage": "en",
+    "author": { "@type": "Person", "name": "Heidi Andersén", "honorificSuffix": "MD, PhD", "url": "https://vahtian.com/about/" },
+    "publisher": { "@id": "https://vahtian.com/#org" }
+  }
+  </script>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232D2440'/%3E%3Cg fill='none' stroke='%238B6FC9' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 9 H9 V23 H12'/%3E%3Cpath d='M20 9 H23 V23 H20'/%3E%3C/g%3E%3Cpath d='M16 10.3 L19.6 12 L19.6 15 L16 19.6 L12.4 15 L12.4 12 Z' fill='none' stroke='%23C5B8E8' stroke-width='1.8' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../../brand/site-refresh.css">
+  <link rel="stylesheet" href="../../brand/learn-voc.css">
+  <link rel="stylesheet" href="../../brand/footer.css">
+</head>
+<body class="vh-content voc">
+<a class="skip-link" href="#main-content">Skip to main content</a>
+<div class="wrap">
+
+  <header class="voc-head">
+    <a class="brand" href="/" aria-label="Vahtian — home">
+      <svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#2D2440"/><g fill="none" stroke="#8B6FC9" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9 H9 V23 H12"/><path d="M20 9 H23 V23 H20"/></g><path d="M16 10.3 L19.6 12 L19.6 15 L16 19.6 L12.4 15 L12.4 12 Z" fill="none" stroke="#C5B8E8" stroke-width="1.8" stroke-linejoin="round"/></svg>
+      Vahtian
+    </a>
+    <nav class="nav" aria-label="Primary">
+      <a href="/kits/">Kits</a>
+      <a href="/download/">Tools</a>
+      <a href="/learn/" aria-current="page">Learn</a>
+      <a href="/blog/">Blog</a>
+      <a href="/about/">About</a>
+      <span class="util"><a class="ic" href="/search/" aria-label="Search vahtian.com"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.3" y2="16.3"/></svg></a></span>
+    </nav>
+  </header>
+
+  <nav class="voc-crumbs"><a href="/">vahtian.com</a> · <a href="/learn/">learn</a> · colour-blind-safe figure palette</nav>
+
+<main id="main-content">
+  <div class="voc-hero">
+    <p class="voc-kicker">Writing the paper</p>
+    <h1>Can every reader tell your figure colours apart?</h1>
+    <p class="voc-subtitle">Build a palette from one colour and test it, in Python or R.</p>
+    <p class="voc-lede">Figure 2 has six groups, coloured from the plotting defaults. About 1 in 12 men and 1 in 200 women have a colour-vision deficiency, so at least one likely reader of your paper cannot tell some of those six apart. The greyscale print version loses a few more. You can test this before submission, in two minutes, from one colour of your choice.</p>
+    <p class="voc-byline">By <a href="/about/">Heidi Andersén, MD, PhD</a> · Updated 23 July 2026 · <span class="rt">6 min read</span></p>
+  </div>
+
+  <h2><span class="eyebrow">The problem</span>Plotting defaults are chosen for looks, not for readers</h2>
+  <p>This is not carelessness. Nothing in a normal figure workflow checks whether two colours stay distinguishable for a reader with deuteranopia, or after the journal&rsquo;s PDF is printed in greyscale. The defaults in matplotlib and ggplot2 are tuned to look pleasant on a screen, and a palette tool that hands you eight hex codes tells you nothing about what happens to them in other eyes. Crameri, Shephard and Heron showed in <em>Nature Communications</em> (2020) how widespread the damage is: rainbow maps and unchecked colour choices distort published data across whole fields.</p>
+  <p>A palette without its audit is like a lab value without its reference range. The number may be fine; you cannot tell by looking.</p>
+
+  <h2><span class="eyebrow">Common mistakes</span>Five ways figure colour goes wrong</h2>
+  <ul class="voc-mistakes">
+    <li><b>Red paired with green.</b> The most common deficiency is red-green. If your two most important groups are red and green, the reader most likely to miss the difference is 1 in 12.</li>
+    <li><b>The rainbow map.</b> &ldquo;Jet&rdquo; and friends create bright bands that make some values look more important than the data say, and they collapse under colour-vision deficiency.</li>
+    <li><b>Colour as the only encoding.</b> If groups differ only by colour, one reader&rsquo;s deficiency erases your finding. Shapes, line styles, and direct labels cost nothing.</li>
+    <li><b>Palettes that die in print.</b> Two colours can be clearly different in hue and identical in lightness; greyscale keeps only the lightness.</li>
+    <li><b>More categories than colours can carry.</b> Past about eight, no palette keeps every pair apart. Merge groups or use small multiples.</li>
+  </ul>
+
+  <section class="voc-sec alt">
+  <h2><span class="eyebrow">The method</span>What makes a palette scientific</h2>
+  <p>The fix is a short list of properties you can test, from the same paper. A palette for ordered data should take even perceptual steps (measured as colour distance, &Delta;E, in a perceptual colour space, not as equal jumps in RGB), and its lightness should run in one direction so the order survives printing. Any palette should keep its colours apart under simulated protanopia, deuteranopia and tritanopia (the three main colour-vision deficiencies), and keep enough contrast against the background for its job. Categorical palettes for unordered groups are the opposite case: lightness should stay roughly level, because a light-to-dark run falsely implies an order.</p>
+  <p>The free shortcut is to use an established palette that already has these properties: Okabe-Ito for up to eight categories, viridis or batlow for sequential data. Our <a href="/learn/figures-too-low-resolution/">figure-requirements guide</a> has Okabe-Ito ready to paste. If those cover your case, you are done, and you never need a generator.</p>
+  <p>The gap appears when you want your own colours: a lab colour scheme, a university template, a journal style, or simply a figure family that matches the rest of the paper. Then the five checks above still apply, and doing them by hand is the step everyone skips.</p>
+  </section>
+
+  <h2><span class="eyebrow">Create and save your own</span>One colour in, an audited palette out</h2>
+  <p>We built a small open-source tool for exactly this step: <a href="https://github.com/heidihelena/palettecore" rel="noopener">palettecore</a> (free, Apache-2.0, runs locally in Python or R). You give it one anchor colour and a palette kind, and it returns the colours together with the audit: colour distances under normal vision and all three simulated deficiencies, the greyscale result, gamut and background contrast, and a warning for every check that misses its threshold. The same algorithm runs in both languages and produces identical hex codes, so a Python collaborator and an R collaborator can share one palette spec.</p>
+
+  <div class="voc-example">
+    <p class="lab">Python: create, check, save</p>
+    <pre class="voc-tpl">pip install palettecore</pre>
+    <pre class="voc-tpl">from palettecore import generate_palette
+
+r = generate_palette("#8B6FC9", n=8, kind="categorical",
+                     background="#FFFFFF", use="data_fill")
+print(r.hexes)      # your palette
+print(r.warnings)   # what to fix, if anything
+
+with open("palette.css", "w") as f:   # save for reuse
+    f.write(r.to_css())
+with open("palette.json", "w") as f:  # palette + full audit
+    f.write(r.to_json())</pre>
+    <p class="lab">R: create, check, save</p>
+    <pre class="voc-tpl">install.packages("palettecore",
+  repos = "https://heidihelena.r-universe.dev")</pre>
+    <pre class="voc-tpl">library(palettecore)
+
+r &lt;- generate_palette("#8B6FC9", n = 8, kind = "categorical")
+r$hexes
+writeLines(r$hexes, "palette.txt")
+
+# or straight into a plot; audit warnings surface, never vanish
+ggplot(df, aes(x, y, colour = group)) +
+  geom_point() +
+  scale_colour_accessible("#8B6FC9")</pre>
+    <p>Use <code>kind = "sequential"</code> for ordered data (low to high), <code>"diverging"</code> for data with a meaningful centre, and <code>"categorical"</code> for unordered groups. Declare the background and the use (<code>data_fill</code>, <code>text</code>, <code>line</code>), because a colour that works as an area fill can fail as text.</p>
+  </div>
+
+  <section class="voc-sec alt">
+  <h2><span class="eyebrow">Worked example</span>Our own brand colour, audited</h2>
+  <p>We ran the tool on Vahtian&rsquo;s violet, <code>#8B6FC9</code>. The categorical palette of eight passed every check: the smallest distance between any two colours is &Delta;E 13.8 in normal vision, and it stays at 8.0 or above under all three simulated deficiencies.</p>
+  <p>The sequential palette did not pass clean. Seven of its checks were comfortable, and one was not: under simulated tritanopia the two palest steps sit at &Delta;E 5.7, just under the tool&rsquo;s threshold of 6. So the report says exactly that, and the options are the standard ones: use fewer steps, accept the near miss at the pale end, or add labels. The first palette we generated from our own colour earned a warning, which is the tool doing its job.</p>
+  <div class="voc-artifact">
+    <span class="badge" aria-hidden="true">✓</span>
+    <p class="lab">Five checks that travel with any palette</p>
+    <ul class="voc-check">
+      <li>Even perceptual steps (&Delta;E), not equal RGB jumps.</li>
+      <li>Lightness runs one way for ordered data; stays level for categories.</li>
+      <li>Colours stay apart under simulated protanopia, deuteranopia, tritanopia.</li>
+      <li>The order survives greyscale printing.</li>
+      <li>Enough contrast against the background for the declared use.</li>
+    </ul>
+  </div>
+  </section>
+
+  <h2><span class="eyebrow">Related guides</span>Read next</h2>
+  <nav class="voc-related">
+    <a href="/learn/figures-too-low-resolution/"><b>My figures are &ldquo;too low-resolution&rdquo;. What do they want?</b><span>Formats, DPI, font sizes, and the Okabe-Ito palette ready to paste.</span></a>
+    <a href="/learn/how-to-write-a-scientific-paper/"><b>Write from the results out</b><span>Figures and methods first, introduction near the end, abstract last.</span></a>
+    <a href="/learn/cite-your-analysis-code/"><b>Cite your analysis code</b><span>Make the code behind your figures citable and reproducible.</span></a>
+  </nav>
+
+  <p class="voc-softlink">palettecore checks a palette against stated thresholds under simulated complete colour-vision deficiency; it does not certify accessibility, and the milder, more common partial deficiencies are outside its model. What you get is a palette whose audit travels with it, warnings you can act on before a reader hits them, and a spec (one colour, one line of code) your methods section can state exactly. It is free and open source: <a href="https://github.com/heidihelena/palettecore" rel="noopener">github.com/heidihelena/palettecore</a>, alongside our other <a href="/open-source/">open-source methods and software</a>.</p>
+
+  <h2><span class="eyebrow">Further reading</span>Sources worth your time</h2>
+  <ul class="voc-reading">
+    <li>Crameri, Shephard &amp; Heron (2020), <em>The misuse of colour in science communication</em>. <a href="https://doi.org/10.1038/s41467-020-19160-7" rel="noopener nofollow">Nature Communications</a> (open access).</li>
+    <li>Machado, Oliveira &amp; Fernandes (2009), <em>A physiologically-based model for simulation of color vision deficiency</em>. <a href="https://doi.org/10.1109/TVCG.2009.113" rel="noopener nofollow">IEEE TVCG</a>.</li>
+  </ul>
+</main>
+
+<footer class="vh-footer">
+  <div class="vh-footer-shell">
+    <div class="vh-footer-main">
+      <div>
+        <p class="vh-footer-name">Vahtian</p>
+        <p class="vh-footer-tagline">Local-first tools for research decisions you can explain. Built in Finland by Heidi Andersén, MD, PhD.</p>
+      </div>
+      <nav class="vh-footer-links" aria-label="Footer">
+        <a href="/download/">Tools</a>
+        <a href="/kits/">Kits</a>
+        <a href="/learn/">Learn</a>
+        <a href="/blog/">Blog</a>
+        <a href="/about/">About</a>
+        <a href="/agents/">For agents</a>
+        <a href="/cite/">Cite</a>
+        <a href="/support/">Support</a>
+        <a href="/privacy/">Privacy</a>
+      </nav>
+    </div>
+    <p class="vh-footer-disclaimer">Vahtian keeps human judgment visible and research decisions open to review. It does not establish scientific truth.</p>
+    <div class="vh-footer-meta">
+      <span>© 2026 Vahtian</span>
+      <a href="/LICENSE">Apache-2.0 open core</a>
+      <a href="https://github.com/heidihelena/vahtian">GitHub <span aria-hidden="true">↗</span></a>
+      <a href="mailto:hello@vahtian.com">hello@vahtian.com</a>
+    </div>
+  </div>
+</footer>
+
+</div>
+</body>
+</html>
