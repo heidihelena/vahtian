@@ -123,6 +123,37 @@ ggplot(df, aes(x, y, colour = group)) +
     <p>Use <code>kind = "sequential"</code> for ordered data (low to high), <code>"diverging"</code> for data with a meaningful centre, and <code>"categorical"</code> for unordered groups. Declare the background and the use (<code>data_fill</code>, <code>text</code>, <code>line</code>), because a colour that works as an area fill can fail as text.</p>
   </div>
 
+  <div class="voc-artifact">
+    <span class="badge" aria-hidden="true">&#8594;</span>
+    <p class="lab">Working with an AI agent? Paste this prompt</p>
+    <p>If Claude Code, Cursor, or another coding agent writes your figures, hand it this and fill in the blanks. The prompt makes the agent keep the audit honest instead of hiding it.</p>
+    <pre class="voc-tpl">Build me a colour palette for my figures with the open-source
+palettecore package (Python: pip install palettecore · R:
+install.packages("palettecore",
+  repos = "https://heidihelena.r-universe.dev")).
+
+My anchor colour: #______
+Number of colours: ____
+My data is: [ordered low-to-high / has a meaningful centre /
+  unordered groups] -&gt; kind = sequential / diverging / categorical
+  (ask me if you cannot tell from my data)
+Background: #FFFFFF   Use: data_fill (or text / line)
+
+Then:
+1. Run it (CLI: python3 -m palettecore "#..." -n 8
+   --kind ... --format json) and show me the hex codes AND every
+   warning from the audit, unchanged.
+2. If a warning appears, give me the trade-offs (fewer colours,
+   shapes or direct labels alongside colour, or a threshold change
+   as my recorded decision). Never silently change thresholds or
+   drop a warning.
+3. Save palette.css and palette.json next to my analysis code, and
+   record the exact call so the palette is reproducible.
+
+Full agent instructions:
+https://github.com/heidihelena/palettecore/blob/main/skill/SKILL.md</pre>
+  </div>
+
   <section class="voc-sec alt">
   <h2><span class="eyebrow">Worked example</span>Our own brand colour, audited</h2>
   <p>We ran the tool on Vahtian&rsquo;s violet, <code>#8B6FC9</code>. The categorical palette of eight passed every check: the smallest distance between any two colours is &Delta;E 13.8 in normal vision, and it stays at 8.0 or above under all three simulated deficiencies.</p>
