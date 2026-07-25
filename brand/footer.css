@@ -197,14 +197,15 @@ header a.brand,header .brand a{padding:6px;margin:-6px}
    Dark bands invert: the solid button becomes the light one so it still reads
    as the primary action. Two alpha values and two text colours were in use for
    the ghost outline; this is the single one. */
-.hero-band .btn.primary,.band-navy .btn.primary,.buyband .btn.primary{
+.on-dark .btn.primary,.bridge .btn.primary,.hero-band .btn.primary,.band-navy .btn.primary,.buyband .btn.primary{
   background:var(--vh-footer-lilac);color:#241b3a;border-color:var(--vh-footer-lilac)}
-.hero-band .btn.primary:hover,.band-navy .btn.primary:hover,.buyband .btn.primary:hover{
+.on-dark .btn.primary:hover,.bridge .btn.primary:hover,.hero-band .btn.primary:hover,.band-navy .btn.primary:hover,.buyband .btn.primary:hover{
   background:#d5cbee;border-color:#d5cbee}
-.hero-band .btn.ghost,.band-navy .btn.ghost,.buyband .btn.ghost{
+.on-dark .btn.ghost,.bridge .btn.ghost,.hero-band .btn.ghost,.band-navy .btn.ghost,.buyband .btn.ghost{
   background:transparent;color:var(--vh-footer-lilac);border-color:rgba(197,184,232,.5)}
-.hero-band .btn.ghost:hover,.band-navy .btn.ghost:hover,.buyband .btn.ghost:hover{
+.on-dark .btn.ghost:hover,.bridge .btn.ghost:hover,.hero-band .btn.ghost:hover,.band-navy .btn.ghost:hover,.buyband .btn.ghost:hover{
   border-color:var(--vh-footer-lilac)}
+.on-dark .btn:not(.ghost),.bridge .btn:not(.ghost){background:var(--vh-footer-lilac);color:#241b3a;border-color:var(--vh-footer-lilac)}
 
 /* States. The audit found 7 hover rules and 0 :active or :disabled across 56
    buttons — a control that does not answer the pointer reads as broken. */
