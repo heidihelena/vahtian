@@ -354,29 +354,73 @@ note argues for non-compensatory, fatal-floored scoring — *a pile of good
 citations must not average away one fatal one*. The defensibility analogue is
 `min` (weakest-link / bottleneck), not `max`.
 
-#### The decision this forces  **[DECISION RECORD — owner, open]**
+#### What the axioms settle, and what they hand to the researcher
 
-The λ-family is **over-constrained**: no member satisfies A2 and A3 while
-retaining the gradation the mean was added to provide. This is a tradeoff to be
-made and recorded, not a derivation to be completed. Three admissible routes:
+This is the section's structural claim, and it changes what MethodVahti is. The
+framework no longer says *"here is our scoring rule."* It says: **given these
+stated axioms, only a small family of scoring rules remains admissible.** A
+reviewer who disagrees must now do one of three things — reject an axiom, find an
+error in the derivation, or accept the constrained result. That is a stronger
+position than any defence of a chosen λ could be, and it is stronger precisely
+because it gives the reviewer somewhere concrete to attack.
 
-1. **Keep λ < 1** — then A2 and A3 must be *given up explicitly*, the rating scale
-   must be asserted (and defended) as interval, and feature weights must be
-   assigned per *construct* rather than per *item* so codebook granularity cannot
-   move the score. Retains gradation; carries the heaviest defence burden.
-2. **λ = 1 with `min`, not `max`** — a weakest-link defensibility score. Satisfies
-   A1–A5, matches the non-compensatory logic already used elsewhere in the house,
-   and resolves Finding 2. Cost: discards gradation entirely and is maximally
-   sensitive to a single mis-coded cell (which makes Ch. 4.1's assignment accuracy
-   load-bearing rather than merely desirable).
-3. **Order statistic over distinct ratings** (e.g. second-worst) — satisfies A2 and
-   A3, softens option 2's single-cell sensitivity, at the cost of an aggregator no
-   reader will find familiar and which must therefore be explained in every report.
+**Two kinds of constraint, and they must not be confused.**
 
-**Recommendation to the owner: option 2**, on the grounds that it is the only one
-that is simultaneously invariant, consistent with existing house scoring doctrine,
-and honest about what an ordinal appraisal can carry. Option 1 is defensible but
-requires the interval-scale claim to be argued in Ch. 5, not assumed.
+- **A2 and A3 are correctness constraints, not preferences.** Given the Ch. 1.2
+  input model — *categorical/ordinal* feature codes — an aggregator that moves
+  when the codebook is split more finely, or when the rating scale is relabelled
+  monotonically, is simply wrong. There is no research tradition in which that is
+  a defensible option. These are not the researcher's to opt out of; opting out
+  means changing the input model to an interval scale and defending *that* in
+  Ch. 5. **Consequence: the λ-mixture of `max` and `weighted_mean` is inadmissible
+  in every form.**
+- **Within the admissible family the choice is substantive, and it is the
+  researcher's.** A2 + A3 leave the order statistics over distinct ratings:
+  `min` (weakest link, fully non-compensatory), a middle statistic (typical
+  dimension), `max` (best feature). Choosing among them answers a genuine
+  methodological question — *how much may a strong dimension offset a weak one?* —
+  on which traditions legitimately differ. A trialist and a phenomenologist can
+  hold opposite, defensible positions.
+
+**MethodVahti must not answer that question on the researcher's behalf.**  The
+tool's job is to present the admissible family, state which axiom each member
+honours or sacrifices, require an explicit choice, and record it in the audit log
+as a **declared assumption** — the same treatment `assumption_register` gives
+every other stated premise. A hidden λ chosen by the vendor is exactly the kind
+of buried methodological commitment this product exists to surface.
+
+This also discharges a threat already on the register. Ch. 0.4 names **allegiance**
+— Vahtian validating its own construct. If Vahtian additionally picks the
+compensation rule, the tool ships the vendor's epistemology as if it were a
+property of the studies. Handing the choice to the researcher, under stated
+axioms, removes that.
+
+**Consequence for the output artifact.** The reported result is no longer a bare
+number. It is *"under the non-compensatory rule you declared, H = x"* — with the
+admissible alternatives and what they would have yielded available alongside.
+Sensitivity to the declared rule becomes a reportable quantity rather than an
+invisible one.
+
+#### The narrow decision that does remain with the owner  **[DECISION RECORD — owner, open]**
+
+Three questions the researcher cannot answer, because they are about the tool:
+
+1. **Does the input model stay ordinal?** If yes, A2 and A3 bind and the λ-mixture
+   goes. If it moves to an interval scale, the interval claim must be argued in
+   Ch. 5, not assumed — and A3 relaxes.
+2. **Is there a shipped default, and which?** Recommendation: **`min`**, on the
+   grounds that a conservative default must be actively overridden rather than
+   passively accepted, and that it matches the non-compensatory, fatal-floored
+   logic already argued in the Epistemic Risk Score design note. A default is not
+   a hidden choice provided the report always names it as a declaration.
+3. **Is the choice mandatory or defaulted?** Forcing an explicit selection teaches
+   the distinction; defaulting reduces friction and risks the researcher never
+   noticing there was a commitment to make. This is a product decision with an
+   epistemic cost either way.
+
+Note that Finding 2 is **not** among these. That `max` silently inverts from
+conservative to flattering when the construct's polarity flips is an error to
+correct, not a preference to record.
 
 #### What this does not do
 
@@ -391,11 +435,18 @@ unrunnable. **Copy must never let "principled construction" read as "validated."
 Two property tests, no data required, alongside the nine already in
 `test_properties.py`:
 
-- **Replication invariance.** Duplicate a feature's cell; assert `H` is unchanged
-  (expected to FAIL for λ < 1 — the test documents the decision, whichever way it
-  goes).
+- **Replication invariance.** Duplicate a feature's cell; assert `H` is unchanged.
+  The current λ < 1 implementation is **expected to fail** this — that failure is
+  the point, and it should be committed as a failing test (xfail with a reason)
+  rather than written after the fix, so the defect is on the record.
 - **Ordinal invariance.** Apply a strictly monotone non-affine φ to every rating;
-  assert `H(φ(c)) = φ(H(c))`.
+  assert `H(φ(c)) = φ(H(c))`. Same expectation, same treatment.
+
+Because A2 and A3 are correctness constraints rather than preferences, these two
+tests become **release gates** (Ch. 3.4) for the redesigned score — not diagnostics
+a future maintainer may reason their way past. A third test follows once the
+declared-rule mechanism exists: assert that the reported result names the rule it
+was computed under.
 
 Both must be written **before** the Ch. 1.2.2 redesign fixes the cell definition,
 so the decision above is made deliberately rather than inherited from the legacy
