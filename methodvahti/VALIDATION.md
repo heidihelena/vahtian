@@ -276,6 +276,131 @@ Until this phase lands, the shipped tool computes the **legacy** score; this
 framework validates the **target** construct, and the two are reconciled only when
 the redesign is implemented and re-frozen.
 
+### 1.2.3 Axiomatic constraints on the aggregation form  **[SPECIFIED — OPEN QUESTION]**
+
+_Added 2026-07-26._
+
+**Why this section exists.** `λ_within`, `λ_between` and the feature weights are
+recorded in Ch. 1.1 as *team decisions, audit-logged*. That is an honest
+description of an arbitrary choice, and it is part of why the score is graded ○.
+A committee-chosen weighting cannot be defended against a reviewer who prefers a
+different one. There is a second route to defensibility that costs no data: state
+the properties the aggregation **must** satisfy, and see which forms survive.
+Ch. 8.6 records that the decision-utility arm cannot run for want of a corpus —
+this route is unblocked precisely because it needs none.
+
+**Method borrowed, mathematics not.** The template is Mobahi & Bartlett, *HOPE*
+(arXiv:[2607.21366](https://arxiv.org/abs/2607.21366), 23 Jul 2026), whose Lemma
+C.1 derives a unique capacity functional from three axioms rather than choosing
+one. **Only the move transfers.** There is no inner-product space of research
+designs, and constructing one would repeat the ATG error (adopt the architecture,
+reject the formalism). **[VERIFY BEFORE CITING]** — preprint, three days old at
+time of writing, proofs present but its Proposition C.11 asserts an `L_p` form
+where its Lemma C.1 derives one.
+
+**One disanalogy is load-bearing.** HOPE's *Partition Invariance* works because
+network capacity is an **extensive** quantity: split a neuron into N copies at
+1/N scale and the total is unchanged. A defensibility rating is **intensive and
+ordinal** — coding one dimension as two sub-items does not halve each rating.
+HOPE's axiom therefore does **not** port. Its analogue for intensive ordinal
+quantities is replication invariance (A2) plus monotone-transform invariance (A3).
+
+#### Candidate axioms
+
+Writing the current form (Ch. 1.2) as `H = λ · max(c) + (1 − λ) · weighted_mean(c)`
+over cell ratings `c`:
+
+| | Axiom | Satisfied by `max` | Satisfied by `weighted_mean` |
+|---|---|---|---|
+| **A1** | **Unanimity.** All cells equal `v` ⟹ `H = v`. | ✓ | ✓ |
+| **A2** | **Replication invariance.** Coding the same construct twice must not change `H`. | ✓ | ✗ |
+| **A3** | **Ordinal-scale invariance.** For any strictly monotone rescaling φ of the rating scale, `H(φ(c)) = φ(H(c))`. | ✓ | ✗ |
+| **A4** | **Monotonicity.** Improving a cell never lowers `H`. | ✓ | ✓ |
+| **A5** | **Permutation invariance** within a dimension. | ✓ | ✓ |
+
+A1, A4 and A5 hold for every λ and so discriminate nothing; A4 and A5 are already
+property-tested (`test_properties.py`, Ch. 1.2.2).
+
+**Finding 1 — A2 and A3 independently collapse the family to λ = 1.**
+
+- **A2.** `max(v, v, w) = max(v, w)`, but `mean(v, v, w) ≠ mean(v, w)`. This is not
+  hypothetical: Ch. 8.3 lists **COREQ (32 items)** and **SRQR (21 items)** as
+  alternative reporting taxonomies for the same dimensions. Coding one study
+  against each yields a different `H` **from item counts alone**, for any λ < 1.
+- **A3.** `max` commutes with any monotone φ; the arithmetic mean commutes only
+  with affine φ, i.e. only if the ratings are **interval-scaled**. The Ch. 1.2
+  input model declares them *categorical/ordinal*. This is standard measurement
+  theory, not a MethodVahti-specific claim.
+
+Two independent routes give the same answer, which is unsurprising: `max` is a
+lattice operation and the mean is an arithmetic one, and the inputs are neither
+extensive nor interval. Under A2 + A3 the admissible aggregators are order
+statistics over the set of *distinct* ratings — of which `max` and `min` are the
+natural members.
+
+**Finding 2 — the operator's polarity flips with the construct, and Ch. 1.2.2 does
+not currently catch this.**
+
+Ch. 1.2.2 keeps the hierarchical aggregation on the grounds that it is
+"construct-neutral." **It is not.** Under the legacy *heterogeneity* score, higher
+= more heterogeneous, so `max` selects the **worst case** and is the conservative
+choice. Under the redesigned *defensibility* score, higher = more defensible, so
+the same `max` selects the **best feature** — a study is scored by its strongest
+methodological decision, which is precisely backwards. The operator did not
+change; the polarity of the scale did.
+
+This also sits against existing house reasoning: the Epistemic Risk Score design
+note argues for non-compensatory, fatal-floored scoring — *a pile of good
+citations must not average away one fatal one*. The defensibility analogue is
+`min` (weakest-link / bottleneck), not `max`.
+
+#### The decision this forces  **[DECISION RECORD — owner, open]**
+
+The λ-family is **over-constrained**: no member satisfies A2 and A3 while
+retaining the gradation the mean was added to provide. This is a tradeoff to be
+made and recorded, not a derivation to be completed. Three admissible routes:
+
+1. **Keep λ < 1** — then A2 and A3 must be *given up explicitly*, the rating scale
+   must be asserted (and defended) as interval, and feature weights must be
+   assigned per *construct* rather than per *item* so codebook granularity cannot
+   move the score. Retains gradation; carries the heaviest defence burden.
+2. **λ = 1 with `min`, not `max`** — a weakest-link defensibility score. Satisfies
+   A1–A5, matches the non-compensatory logic already used elsewhere in the house,
+   and resolves Finding 2. Cost: discards gradation entirely and is maximally
+   sensitive to a single mis-coded cell (which makes Ch. 4.1's assignment accuracy
+   load-bearing rather than merely desirable).
+3. **Order statistic over distinct ratings** (e.g. second-worst) — satisfies A2 and
+   A3, softens option 2's single-cell sensitivity, at the cost of an aggregator no
+   reader will find familiar and which must therefore be explained in every report.
+
+**Recommendation to the owner: option 2**, on the grounds that it is the only one
+that is simultaneously invariant, consistent with existing house scoring doctrine,
+and honest about what an ordinal appraisal can carry. Option 1 is defensible but
+requires the interval-scale claim to be argued in Ch. 5, not assumed.
+
+#### What this does not do
+
+Deriving the form does **not** validate the score. It makes it *internally
+principled* — the form is constrained rather than asserted — which is a strictly
+weaker claim than "it works," and does not move the ○ grade on its own. Whether
+acting on the score helps anyone remains Ch. 8.6's question and remains
+unrunnable. **Copy must never let "principled construction" read as "validated."**
+
+#### Testable now  **[SPECIFIED — NOT YET EXECUTED]**
+
+Two property tests, no data required, alongside the nine already in
+`test_properties.py`:
+
+- **Replication invariance.** Duplicate a feature's cell; assert `H` is unchanged
+  (expected to FAIL for λ < 1 — the test documents the decision, whichever way it
+  goes).
+- **Ordinal invariance.** Apply a strictly monotone non-affine φ to every rating;
+  assert `H(φ(c)) = φ(H(c))`.
+
+Both must be written **before** the Ch. 1.2.2 redesign fixes the cell definition,
+so the decision above is made deliberately rather than inherited from the legacy
+code.
+
 ### 1.3 Intended use, out-of-scope use, and known limitations
 
 - **Intended.** Decision support for defensible methodological design and appraisal
