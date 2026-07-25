@@ -48,9 +48,27 @@ grid gaps 12–14px. Content column `max-width:780px`.
 
 ## Components (mirror these, don't reinvent)
 
-- **Buttons**: `.btn.primary` navy/white; `.btn.ghost` hairline outline. On dark
-  heroes primary becomes lilac with navy text. **One primary per surface** — a
-  secondary action is always a ghost, never a second primary.
+- **Buttons** — the one component with a canonical implementation, in
+  `brand/footer.css`. **Never hand-roll `.btn` in a page's `<style>`**: 54 pages
+  did, in 21 distinct forms, which is what the shared rule replaced.
+  - Anatomy: `<a class="btn primary">Label <i class="arr">→</i></a>`
+  - Sizes: `.sm` (dense UI) · default · `.lg` (page CTA). Radius `9px` at every
+    size — that was unanimous across all 21 hand-rolled forms; don't vary it.
+  - Tones: `.primary` solid navy/white; `.ghost` transparent with a **violet**
+    hairline. Not `--line` grey: a UI component boundary needs 3:1 (WCAG 1.4.11)
+    and `--line` gives 1.20:1 against the page, violet 3.84:1.
+  - On a dark band (`.hero-band`, `.band-navy`, `.buyband`) both invert: primary
+    becomes lilac on navy text, ghost keeps a lilac outline.
+  - States are part of the component: hover, `:active`, `:disabled`. The audit
+    that produced this found 7 hover rules and zero `:active`/`:disabled` across
+    56 buttons — a control that doesn't answer the pointer reads as broken.
+  - **No margin.** Spacing belongs to the container; three different
+    `margin-top`s baked into `.btn` is how the 21 forms began to diverge.
+  - The label is Nudica; only the trailing arrow is Marksy, matching the
+    hand-drawn arrows already used by `.voc-related a::after` and `.row::after`.
+    Marksy does a job here — pointing — rather than decorating one.
+  - **One primary per surface** — a secondary action is always a ghost, never a
+    second primary.
 - **Status tags**: monospace chips, lowercase (`free · live`, `early access`);
   color pairs are fixed (`live`=violet, `free`=teal, `beta`=indigo, `soon`=muted).
 - **Product cards** (`.p`): mark + name + inline tag + one-sentence description;
