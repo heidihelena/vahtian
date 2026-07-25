@@ -55,6 +55,15 @@ relationship where relevant**. Canonical statement + ready-to-adapt methods text
 - ❌ "Anonymous" for contributed data — always "**de-identified**" (and contribution is
   opt-in, default-off).
 - ❌ Guarantees: "never miss a bad citation," "100% safe."
+- ❌ **Peer-review framing that makes AI the reviewer**: "AI-drafted/AI-generated peer review,"
+  "let AI review the manuscript," "outsource your review." Publishers (e.g. IEEE) prohibit
+  reviewers from using third-party AI to draft or generate a review — a manuscript under review is
+  confidential and loses that confidentiality on upload, and the reviewer's accountability and the
+  author's IP go with it (Brem, Chiligireddy & Worthington, *IEEE Eng. Manag. Rev.* 2026, DOI
+  [10.1109/EMR.2026.3702480](https://doi.org/10.1109/EMR.2026.3702480)). Review-side tools
+  (Reviewer's Notebook, ReviewVahti) **structure the human reviewer's own judgment** on narrow,
+  local, verifiable checks and never leave the reviewer's machine. Do **not** claim any Vahtian tool
+  is "approved" or "compliant" for peer review — no third-party tool currently meets that bar.
 
 ## Platform notes (Meta / Instagram)
 

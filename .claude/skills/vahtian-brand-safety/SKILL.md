@@ -37,6 +37,7 @@ Three rules that follow from it:
 | "verifies truth", "fact-check your paper", "make sure your claims are correct" | Checks *support*, not truth |
 | "guarantees", "proves", "100% safe", "never miss a bad citation" | Guarantee with no benchmark |
 | "fully automated review", "AI decides", "AI checks your citations" | Makes AI the judge — breaks human-first |
+| "AI-drafted/AI-generated peer review", "let AI review the manuscript", "outsource the review to AI" | A peer reviewer accepts confidentiality, accountability, and IP-protection duties; drafting a review with a third-party AI breaks all three at once (Brem, Chiligireddy & Worthington, *IEEE Eng. Manag. Rev.* 2026, [10.1109/EMR.2026.3702480](https://doi.org/10.1109/EMR.2026.3702480)). Review-side tools assist a human on narrow, local, verifiable checks; they never draft, generate, or recommend the review, and nothing uploads |
 | "publication-ready", "reviewer-proof" | Certifies publication suitability |
 | "eliminates bias" | Overclaim; Vahtian *records* and *preserves disagreement* |
 | "detects all citation errors", "99% accurate" | Accuracy claim without published study |
@@ -45,6 +46,8 @@ Three rules that follow from it:
 | "future-proof", "will open in any editor in twenty years", "works forever" | Guarantee-shaped promise about longevity — say "most likely to still open", "opens in any editor **today**" |
 | "studies show…", "most researchers find…" with no source | Evidence claim without provenance — cite it or rewrite as reasoning from mechanism |
 | "NVivo/MAXQDA cannot do X" (or any competitor claim) unchecked | False competitor claims are the fastest trust kill with this audience — check the competitor's own docs; sell the differentiator that survives |
+
+**Peer-review context (extra care).** IEEE and other publishers prohibit reviewers from using third-party AI to draft or generate a review; a manuscript under review is confidential and loses that confidentiality the moment it is uploaded. So for any review-side tool or copy (Reviewer's Notebook, ReviewVahti, review-workflow docs): never frame the tool as doing, drafting, or recommending the review, always foreground that the manuscript stays on the reviewer's machine, and never imply Vahtian is "approved" or "compliant" for peer review (no third-party tool currently meets that bar). The tool structures the reviewer's own judgment; the reviewer's name stands behind it.
 
 ## Safer replacements — steer copy toward these
 
