@@ -33,8 +33,10 @@ h1{font-size:clamp(42px,7.2vw,72px);line-height:1;margin:0;color:#fff;letter-spa
 .btn.primary{background:#fff;color:var(--navy)}
 .meta{font:700 11px/1.5 "Nudica Mono",ui-monospace,monospace;color:var(--lilac)}
 .hero-visual{margin:42px auto 0;max-width:940px;text-align:left}
-.hero-visual img{display:block;width:100%;height:auto;border:1px solid #625879;border-bottom:0;border-radius:3px 3px 0 0;background:#fff}
+.shot-scroll{overflow:hidden;border:1px solid #625879;border-bottom:0;border-radius:3px 3px 0 0;background:#fff}
+.hero-visual img{display:block;width:100%;height:auto;background:#fff}
 .hero-visual figcaption{font:600 10px/1.5 "Nudica Mono",ui-monospace,monospace;color:#bfb6d7;padding:9px 0 18px}
+.mobile-hint{display:none}
 main{overflow:hidden}
 section{padding:58px 0;border-top:1px solid var(--line)}
 section:first-child{border-top:0}
@@ -86,6 +88,9 @@ p{margin:0 0 14px}
   .hero{padding-top:28px}
   .hero-copy{font-size:17px}
   .hero-visual{margin-top:32px}
+  .shot-scroll{overflow-x:auto;overscroll-behavior-inline:contain;scrollbar-color:var(--violet-2) #443957;scrollbar-width:thin}
+  .shot-scroll img{width:760px;max-width:none}
+  .mobile-hint{display:inline;margin-left:8px;color:#fff}
   section{padding:45px 0}
   .deadline,.decision-grid,.limits,.pair{grid-template-columns:1fr;gap:28px}
   .time{font-size:36px}
