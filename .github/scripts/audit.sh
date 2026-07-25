@@ -110,5 +110,23 @@ for loc in $(grep -oE '<loc>[^<]+</loc>' sitemap.xml | sed 's#</\{0,1\}loc>##g')
   grep -q "\"u\":\"${path}\"" search/index.html || err "page missing from search index: $path"
 done
 
+# 9. every indexable (sitemap) page is scanned by pa11y, or listed as a known
+# exception below with a reason. The URL list in .pa11yci is hand-maintained, so
+# it silently fell 43% behind the sitemap: 40 of 91 pages were never checked,
+# including both paid workspace pages, which were failing WCAG AA contrast the
+# whole time. A page you do not scan is a page that can regress unnoticed.
+#
+# Known exceptions (page: reason)
+#   /learn/epistemic-notes/ : the four state markers use Okabe-Ito palette
+#     colours as text glyphs. Okabe-Ito is built for figure fills, not for small
+#     text, so they fail AA (2.15:1 to 4.03:1). Darkening them is a palette
+#     decision for the founder, not a mechanical contrast fix.
+a11y_exempt="/learn/epistemic-notes/"
+for loc in $(grep -oE '<loc>[^<]+</loc>' sitemap.xml | sed 's#</\{0,1\}loc>##g'); do
+  path=${loc#https://vahtian.com}
+  case " $a11y_exempt " in *" $path "*) continue ;; esac
+  grep -q "127.0.0.1:8080${path}\"" .pa11yci || err "page not scanned by pa11y: $path"
+done
+
 if [ $fail -ne 0 ]; then echo "DRIFT AUDIT FAILED"; exit 1; fi
 echo "drift audit: clean ✓"
