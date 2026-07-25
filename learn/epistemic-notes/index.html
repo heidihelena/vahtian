@@ -51,8 +51,10 @@
     .answer{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--violet);
             border-radius:10px;padding:12px 16px;margin:0 0 14px;font-weight:600}
     figure{margin:26px 0}
-    figure img{display:block;width:100%;height:auto;border:1px solid var(--line);border-radius:12px}
+    .figure-scroll{overflow:hidden;border:1px solid var(--line);border-radius:12px}
+    figure img{display:block;width:100%;height:auto}
     figcaption{font-size:14px;color:var(--muted);margin:10px 0 0}
+    .mobile-hint{display:none}
     .cta{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px 22px;margin:34px 0 0}
     .btn{display:inline-block;padding:11px 18px;border-radius:9px;font-weight:600;text-decoration:none;font-size:15px;background:var(--navy);color:#fff;margin-top:6px}
     footer{margin:56px 0 40px;padding-top:22px;border-top:1px solid var(--line);color:var(--muted);font-size:14px}
@@ -64,7 +66,7 @@
     .voc-head nav.nav a:hover,.voc-head nav.nav a[aria-current="page"]{color:var(--link)}
     .voc-head nav.nav .util{display:flex;align-items:center;gap:13px;padding-left:15px;border-left:1px solid var(--line)}
     .voc-head nav.nav .util .ic{display:flex;color:var(--muted)}
-    @media(max-width:680px){.voc-head nav.nav{gap:13px;font-size:13.5px}}
+    @media(max-width:680px){.voc-head nav.nav{gap:13px;font-size:13.5px}.figure-scroll{direction:rtl;overflow-x:auto;overscroll-behavior-inline:contain;scrollbar-color:var(--violet) var(--card);scrollbar-width:thin}.figure-scroll img{direction:ltr;width:760px;max-width:none}.mobile-hint{display:inline;color:var(--ink)}}
   </style>
   <link rel="stylesheet" href="../../brand/site-refresh.css">
 <link rel="stylesheet" href="../../brand/footer.css">
@@ -142,9 +144,11 @@
 <p>Keep the source with every note, and the manuscript builds itself from the map. Your Evidence becomes the claims you can stand behind; your Working and Open become the limitations; your Ruled out becomes the contrasting evidence you address in the Discussion. Because each note carries its source, every sentence in the manuscript can point back to where it came from, which is exactly what a reviewer will ask you to do.</p>
 
 <figure>
-  <img src="build-your-phd-canvas.png" width="1712" height="1383" loading="lazy" decoding="async"
-       alt="The Build your PhD argument canvas in an Obsidian vault. Along the top, a legend of the four states: Open, Working, Evidence, and Ruled out. Below it, a map runs from Topic down through research question, aim, and hypothesis to a Thesis node, then Discussion and Conclusion, with Evidence, Limitations, and Contrasting evidence feeding into the thesis.">
-  <figcaption>The argument canvas from the free PhD Thesis Vault. The four states become the parts of the manuscript: Evidence supports the thesis, Working and Open become the limitations, and Ruled out becomes the contrasting evidence you address in the Discussion.</figcaption>
+  <div class="figure-scroll" role="region" tabindex="0" aria-label="Scrollable Build your PhD argument canvas">
+    <img src="build-your-phd-canvas.png" width="1712" height="1383" loading="lazy" decoding="async"
+         alt="The Build your PhD argument canvas in an Obsidian vault. Along the top, a legend of the four states: Open, Working, Evidence, and Ruled out. Below it, a map runs from Topic down through research question, aim, and hypothesis to a Thesis node, then Discussion and Conclusion, with Evidence, Limitations, and Contrasting evidence feeding into the thesis.">
+  </div>
+  <figcaption>The argument canvas from the free PhD Thesis Vault. The four states become the parts of the manuscript: Evidence supports the thesis, Working and Open become the limitations, and Ruled out becomes the contrasting evidence you address in the Discussion. <span class="mobile-hint">Swipe to inspect the canvas.</span></figcaption>
 </figure>
 
 <h2>What it does not do</h2>

@@ -51,6 +51,8 @@ deployed via Cloudflare to vahtian.com. No trackers, no external dependencies.
 - `brand/STYLE.md` — the canonical brand spec; `brand/PHILOSOPHY.md` — the mark system.
 - `brand/cards/` — 1200×630 Open Graph cards, one per page. Regenerate with
   `npm i @resvg/resvg-js && node brand/cards/generate.mjs`.
+- Screenshot-led product covers are generated from their real interface previews with
+  `node brand/cards/generate-product-covers.mjs` (uses the bundled preview browser).
 - `brand/carousel/` — self-contained LinkedIn carousel builder (`noindex`, zero
   external requests). Preset decks per product, theme & format switching, post-caption
   drafts, deck save/load as JSON, export as PDF (LinkedIn document post) or

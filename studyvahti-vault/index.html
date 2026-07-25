@@ -69,8 +69,10 @@
     .btn.primary{background:var(--navy);color:#fff}
     .meta{font:600 12px/1.5 "Nudica Mono",ui-monospace,monospace;color:var(--muted)}
     .hero-visual{margin:0;align-self:end}
-    .hero-visual img{display:block;width:100%;height:auto;background:#fff;border:1px solid var(--line);border-radius:3px}
+    .shot-scroll{overflow:hidden;background:#fff;border:1px solid var(--line);border-radius:3px}
+    .hero-visual img{display:block;width:100%;height:auto;background:#fff}
     .hero-visual figcaption{font:500 12px/1.5 "Nudica Mono",ui-monospace,monospace;color:var(--muted);margin-top:8px}
+    .mobile-hint{display:none}
     main{padding-bottom:20px}
     section{padding:56px 0;border-top:1px solid var(--line)}section:first-child{border-top:0}
     .band{background:var(--paper);box-shadow:0 0 0 100vmax var(--paper);clip-path:inset(0 -100vmax);border-top:0}
@@ -104,7 +106,7 @@
     details{border-top:1px solid var(--line);border-radius:0!important;padding:0}details:last-child{border-bottom:1px solid var(--line)}
     summary{cursor:pointer;font-weight:700;padding:16px 0;list-style:none}summary::-webkit-details-marker{display:none}summary::after{content:"+";float:right;color:var(--link)}details[open] summary::after{content:"-"}
     details p{max-width:72ch;color:var(--muted);padding:0 0 16px;margin:0}
-    @media(max-width:820px){header nav a:not(:last-child){display:none}.hero{grid-template-columns:1fr;gap:30px;padding:34px 0 50px}.hero-visual{max-width:700px}.stage{grid-template-columns:58px 1fr;gap:8px 16px}.stage p{grid-column:2}.check-layout,.decision,.split,.requirements{grid-template-columns:1fr;gap:30px}.file{grid-template-columns:1fr;gap:5px}.buyrow{align-items:flex-start;flex-direction:column}}
+    @media(max-width:820px){header nav a:not(:last-child){display:none}.hero{grid-template-columns:1fr;gap:30px;padding:34px 0 50px}.hero-visual{max-width:700px}.shot-scroll{overflow-x:auto;overscroll-behavior-inline:contain;scrollbar-color:var(--link) var(--paper);scrollbar-width:thin}.shot-scroll img{width:760px;max-width:none}.mobile-hint{display:inline;color:var(--ink)}.stage{grid-template-columns:58px 1fr;gap:8px 16px}.stage p{grid-column:2}.check-layout,.decision,.split,.requirements{grid-template-columns:1fr;gap:30px}.file{grid-template-columns:1fr;gap:5px}.buyrow{align-items:flex-start;flex-direction:column}}
   </style>
 </head>
 <body class="vh-content">
@@ -129,8 +131,10 @@
         </div>
       </div>
       <figure class="hero-visual">
-        <img src="studyvahti-vault-preview.png" width="1400" height="900" loading="lazy" decoding="async" alt="StudyVahti Vault showing a dark study tree, Start Here note, 16-check report, a human-edited exclusion decision, and a claim linked to its current output">
-        <figcaption>THE FABRICATED DEMO SHOWS THE TRAIL FROM QUESTION TO CLAIM</figcaption>
+        <div class="shot-scroll" role="region" tabindex="0" aria-label="Scrollable StudyVahti Vault interface preview">
+          <img src="studyvahti-vault-preview.png" width="1400" height="900" loading="lazy" decoding="async" alt="StudyVahti Vault showing a dark study tree, Start Here note, 16-check report, a human-edited exclusion decision, and a claim linked to its current output">
+        </div>
+        <figcaption>THE FABRICATED DEMO SHOWS THE TRAIL FROM QUESTION TO CLAIM <span class="mobile-hint">· SWIPE TO INSPECT</span></figcaption>
       </figure>
     </div>
   </div>

@@ -63,8 +63,10 @@
     .btn.primary{background:var(--navy);color:#fff}
     .price{font:600 13px/1.4 "Nudica Mono",ui-monospace,monospace;color:var(--muted)}
     .hero-visual{margin:0;align-self:end}
-    .hero-visual img{display:block;width:100%;height:auto;background:#fff;border:1px solid var(--line);border-radius:4px}
+    .shot-scroll{overflow:hidden;background:#fff;border:1px solid var(--line);border-radius:4px}
+    .hero-visual img{display:block;width:100%;height:auto;background:#fff}
     .hero-visual figcaption{font:500 12px/1.5 "Nudica Mono",ui-monospace,monospace;color:var(--muted);margin-top:9px}
+    .mobile-hint{display:none}
     main{padding:0 0 20px}
     section{padding:54px 0;border-top:1px solid var(--line)}
     section:first-child{border-top:0}
@@ -99,7 +101,7 @@
     details[open] summary::after{content:"-"}
     details p{max-width:70ch;color:var(--muted);padding:0 0 16px;margin:0}
     @media(max-width:760px){
-      .hero{grid-template-columns:1fr;gap:30px;padding:34px 0 48px}.hero-visual{max-width:540px}
+      .hero{grid-template-columns:1fr;gap:30px;padding:34px 0 48px}.hero-visual{max-width:540px}.shot-scroll{overflow-x:auto;overscroll-behavior-inline:contain;scrollbar-color:var(--link) var(--paper);scrollbar-width:thin}.shot-scroll img{width:720px;max-width:none}.mobile-hint{display:inline;color:var(--ink)}
       .steps{grid-template-columns:1fr}.step,.step+.step{padding:18px 0;border-left:0}
       .outcome,.file,.boundary{grid-template-columns:1fr;gap:5px}.buyrow{align-items:flex-start;flex-direction:column}
     }
@@ -127,8 +129,10 @@
         </div>
       </div>
       <figure class="hero-visual">
-        <img src="research-cube-preview.png" width="1200" height="900" loading="lazy" decoding="async" alt="The local Research Cube Builder showing an example research field and five audit statuses">
-        <figcaption>THE CUBE BUILDER RUNS LOCALLY IN YOUR BROWSER</figcaption>
+        <div class="shot-scroll" role="region" tabindex="0" aria-label="Scrollable Research Cube Builder interface preview">
+          <img src="research-cube-preview.png" width="1200" height="900" loading="lazy" decoding="async" alt="The local Research Cube Builder showing an example research field and five audit statuses">
+        </div>
+        <figcaption>THE CUBE BUILDER RUNS LOCALLY IN YOUR BROWSER <span class="mobile-hint">· SWIPE TO INSPECT</span></figcaption>
       </figure>
     </div>
   </div>
