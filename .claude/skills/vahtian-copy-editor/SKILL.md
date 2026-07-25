@@ -222,6 +222,17 @@ the honesty; drop the packaging.
 6. Hand the result to `vahtian-brand-safety` for the PASS gate. Copy ships
    only after PASS.
 
+## Editing this skill
+
+Rules here were paid for by copy that shipped or nearly shipped. Before adding,
+sharpening or cutting one, run `node .claude/evals/run.mjs` — the corpus in
+`.claude/evals/copy/cases/` pins each rule to the failure that produced it, and
+CI fails if an edit removes one. When a new problem is caught, add the rule *and*
+a case quoting the real copy and the fix that shipped. `--judgement` lists the
+cases no pattern can settle; read those against the snippet.
+
+Cutting a rule is allowed. Cut it in the same commit as its case, with the reason.
+
 ## Output format
 
 - The edited copy.

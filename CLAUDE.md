@@ -32,6 +32,12 @@ canonical marketing-claims document is `AD_CLAIMS.md` — on conflict,
 | Add a page / site-wide quality pass | `vahtian-site` (meta, footer, sitemap, JSON-LD — CI gate: `.github/scripts/audit.sh`) |
 | Release Python/R packages | `vahtian-publishing` (PyPI Trusted Publishing via `.github/workflows/publish.yml`) |
 | Announce a shipped change (posts, release notes) | `vahtian-announcer` — drafts + queues; never posts without founder sign-off |
+| Edit a copy skill's rules | run `node .claude/evals/run.mjs` first — CI gate: `.claude/evals/` |
+
+Editing `vahtian-copy-editor` or `vahtian-brand-safety` is gated. The corpus in
+`.claude/evals/copy/cases/` pins every copy rule to the failure that produced it,
+so an edit that drops a rule a real regression paid for fails CI. Add a case
+whenever a new copy problem is caught: `.claude/evals/README.md`.
 
 ## Hard floor (even when no skill fires)
 
