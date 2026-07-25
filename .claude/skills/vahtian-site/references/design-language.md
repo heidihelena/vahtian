@@ -7,7 +7,12 @@ quality; this file defines it. When a page and this file disagree, fix the page
 
 ## Tokens
 
-**Palette** (from `:root` on the homepage):
+**Palette.** The live source is `body.vh-content` in `brand/site-refresh.css`,
+which aliases the `--vh-*` primitives defined in the same file. Read it there,
+not from a page: a `:root` declaration in a page or an archetype stylesheet is
+**shadowed** by the body-scoped one and paints nothing. That is not a footgun in
+theory — this table used to record `--link:#6F52B8` copied from the homepage's
+inert `:root`, while 87 of 100 pages rendered `#5f479d`.
 
 | Token | Value | Role |
 |---|---|---|
@@ -20,7 +25,16 @@ quality; this file defines it. When a page and this file disagree, fix the page
 | *indigo* | `#5566B5` | StudyVahti/MethodVahti/DictVahti/ExtractVahti accent; "beta" tags |
 | `--ink` / `--muted` | `#1c1830` / `#5b5570` | Text / secondary text |
 | `--bg` / `--card` / `--line` | `#faf9fc` / `#fff` / `#e7e3f0` | Page / surface / hairline |
-| `--link` | `#6F52B8` | Body-text links — darker violet, WCAG AA ≥4.5:1. Don't lighten it. |
+| `--link` | `#5f479d` | Body-text links — deep violet. 6.96:1 on `--bg`, 7.31:1 on `--card`. Don't lighten it. |
+
+**The product accents are live — do not collapse them to violet.** `--teal`,
+`--amber`, `--rose` and indigo carry the per-product identity (CiteVahti alone
+uses three), and they are consumed across the site: `--amber` 20 times, `--teal`
+19, `--rose` 15, indigo 28, plus the literals on 8–23 pages each. A sweep that
+aliases them to one purple erases the mark system in §Components, where each
+product glyph gets its own accent. `brand/methodvahti-refresh.css` does alias
+`--teal`/`--amber`/`--indigo`/`--rose` to a single purple, but that is scoped to
+MethodVahti's four pages and is deliberate; it is not the site direction.
 
 **Type.** System stack, `16px/1.6` body. `h1` `clamp(30px,6vw,48px)`,
 `line-height:1.08`, `letter-spacing:-.02em`. Ledes `clamp(17px,2.6vw,20px)`,
