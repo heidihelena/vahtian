@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Every research project needs a CHANGELOG · Vahtian Learn</title>
+  <meta name="description" content="Developers keep a CHANGELOG; researchers almost never do, though research changes continuously. Record what changed, why, on what evidence, with what impact.">
+  <meta name="theme-color" content="#2D2440">
+  <link rel="canonical" href="https://vahtian.com/learn/research-changelog/">
+  <meta name="robots" content="index,follow">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://vahtian.com/learn/research-changelog/">
+  <meta property="og:title" content="Every research project needs a CHANGELOG">
+  <meta property="og:description" content="Record research decisions the way developers record code changes: what changed, why, on what evidence, with what impact.">
+  <meta property="og:image" content="https://vahtian.com/brand/cards/vahtian-card.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Vahtian Learn — a changelog for research decisions.">
+  <meta property="og:site_name" content="Vahtian">
+  <meta property="article:published_time" content="2026-07-25">
+  <meta property="article:modified_time" content="2026-07-25">
+  <meta property="article:author" content="Heidi Andersén">
+  <meta name="twitter:card" content="summary_large_image">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "Every research project needs a CHANGELOG",
+    "description": "Record research decisions the way developers record code changes: what changed, why, on what evidence, with what impact. A dated log of decisions is scientific memory.",
+    "url": "https://vahtian.com/learn/research-changelog/",
+    "datePublished": "2026-07-25",
+    "dateModified": "2026-07-25",
+    "inLanguage": "en",
+    "author": { "@type": "Person", "name": "Heidi Andersén", "honorificSuffix": "MD, PhD", "url": "https://vahtian.com/about/" },
+    "publisher": { "@id": "https://vahtian.com/#org" }
+  }
+  </script>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232D2440'/%3E%3Cg fill='none' stroke='%238B6FC9' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 9 H9 V23 H12'/%3E%3Cpath d='M20 9 H23 V23 H20'/%3E%3C/g%3E%3Cpath d='M16 10.3 L19.6 12 L19.6 15 L16 19.6 L12.4 15 L12.4 12 Z' fill='none' stroke='%23C5B8E8' stroke-width='1.8' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../../brand/site-refresh.css">
+  <link rel="stylesheet" href="../../brand/learn-voc.css">
+  <link rel="stylesheet" href="../../brand/footer.css">
+</head>
+<body class="vh-content voc">
+<a class="skip-link" href="#main-content">Skip to main content</a>
+<div class="wrap">
+
+  <header class="voc-head">
+    <a class="brand" href="/" aria-label="Vahtian — home">
+      <svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#2D2440"/><g fill="none" stroke="#8B6FC9" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9 H9 V23 H12"/><path d="M20 9 H23 V23 H20"/></g><path d="M16 10.3 L19.6 12 L19.6 15 L16 19.6 L12.4 15 L12.4 12 Z" fill="none" stroke="#C5B8E8" stroke-width="1.8" stroke-linejoin="round"/></svg>
+      Vahtian
+    </a>
+    <nav class="nav" aria-label="Primary">
+      <a href="/kits/">Kits</a>
+      <a href="/download/">Tools</a>
+      <a href="/learn/" aria-current="page">Learn</a>
+      <a href="/blog/">Blog</a>
+      <a href="/about/">About</a>
+      <span class="util"><a class="ic" href="/search/" aria-label="Search vahtian.com"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.3" y2="16.3"/></svg></a></span>
+    </nav>
+  </header>
+
+  <nav class="voc-crumbs"><a href="/">vahtian.com</a> · <a href="/learn/">learn</a> · a changelog for research decisions</nav>
+
+<main id="main-content">
+  <div class="voc-hero">
+    <p class="voc-kicker">Research memory</p>
+    <h1>Every research project needs a CHANGELOG</h1>
+    <p class="voc-subtitle">Record research decisions the way developers record code changes.</p>
+    <p class="voc-lede">Six months later, a reviewer asks why you excluded smokers from the sensitivity analysis. You remember making the decision. You do not remember why. That is not a memory problem. It is a missing changelog.</p>
+    <p class="voc-byline">By <a href="/about/">Heidi Andersén, MD, PhD</a> · Updated 25 July 2026 · <span class="rt">5 min read</span></p>
+  </div>
+
+  <section class="voc-sec alt">
+  <h2><span class="eyebrow">The problem</span>Developers keep one. Researchers almost never do.</h2>
+  <p>Software developers routinely keep a CHANGELOG: a dated, human-readable list of what changed and why, one file, kept next to the work. Researchers almost never do, even though a research project changes continuously. Outcomes shift, criteria tighten, models get replaced, themes get reclassified. Each change was reasoned at the time; the reasoning then evaporates, because it was never anyone's job to write it down.</p>
+  <p>This is not about version control. Git can tell you what a file looked like in March. It cannot tell you why the primary outcome changed that week. A research changelog records the decisions, so it is scientific memory, kept deliberately.</p>
+  </section>
+
+  <section class="voc-sec">
+  <h2><span class="eyebrow">The format</span>What one entry looks like</h2>
+  <p>Instead of recording code changes, record research decisions. Four lines carry everything a future reader, including future you, will need: what changed, why, on what evidence, and what it touched downstream.</p>
+  <div class="voc-artifact">
+    <span class="badge" aria-hidden="true">&#x2606;</span>
+    <p class="lab">CHANGELOG.md · one dated entry</p>
+    <pre class="voc-tpl">2026-03-14
+
+Changed:
+Primary outcome changed from X to Y.
+
+Why:
+Outcome X showed ceiling effects in the pilot.
+
+Evidence:
+Smith et al. 2024
+Pilot dataset v0.3
+
+Impact:
+Power calculation repeated.
+Protocol updated.</pre>
+    <p>Plain text, dated, newest first, in the project folder. No tool required.</p>
+  </div>
+  </section>
+
+  <section class="voc-sec alt">
+  <h2><span class="eyebrow">What counts</span>Decisions that belong in the log</h2>
+  <p>Any change a reviewer, a supervisor, or an ethics committee could reasonably ask about belongs here. In practice that includes:</p>
+  <ul class="voc-check">
+    <li>Changed inclusion or exclusion criteria.</li>
+    <li>Replaced a statistical model, or removed a variable.</li>
+    <li>Reclassified themes in a qualitative analysis.</li>
+    <li>Updated your interpretation of the literature after new reading.</li>
+    <li>Accepted a reviewer suggestion, or rejected one, with the reason.</li>
+    <li>Switched a software version, or corrected a coding error.</li>
+    <li>AI-assisted rewrite of a section, checked line by line by a person.</li>
+  </ul>
+  <p>The last one matters more every month. When AI touches the work, the log is where the human check gets recorded, so the boundary between suggestion and decision stays visible.</p>
+  </section>
+
+  <p class="voc-aside big"><span class="ico" aria-hidden="true">&#x2606;</span>We version our code. Version your thinking.</p>
+
+  <section class="voc-sec">
+  <h2><span class="eyebrow">The payoff</span>What the log buys you</h2>
+  <p>A changelog is cheap to keep, a few minutes per decision, and it pays out at exactly the moments that otherwise cost days:</p>
+  <ul class="voc-check">
+    <li>Reviewer questions get answered in minutes, from the entry, with the evidence attached.</li>
+    <li>Every important decision can be reconstructed, dated, in order.</li>
+    <li>Supervisor meetings start from the log instead of from memory.</li>
+    <li>The methods section becomes a summary of entries you already wrote.</li>
+    <li>Anyone repeating the work can follow the decisions, not just the endpoints.</li>
+    <li>AI collaboration improves, because the reasoning history is there for the model to work from instead of guessing.</li>
+  </ul>
+  <p>One honest limit: a changelog cannot make a decision correct; it keeps the decision open to review, which is what a reviewer is actually asking for.</p>
+  </section>
+
+  <section class="voc-sec alt">
+  <h2><span class="eyebrow">The pair</span>Current state, plus history</h2>
+  <p>A changelog pairs naturally with <a href="/learn/epistemic-notes/">epistemic notes</a>. A note captures what you know today and why you believe it. A changelog captures how what you know has changed. Together they hold both the current state and the history of your reasoning, and neither needs more than plain files and the habit of writing the reason down while you still have it.</p>
+  </section>
+
+  <h2><span class="eyebrow">Related guides</span>Read next</h2>
+  <nav class="voc-related">
+    <a href="/learn/epistemic-notes/"><b>The epistemic notes method</b><span>Organise notes by the status of your knowledge: open, working, evidence, ruled out.</span></a>
+    <a href="/learn/document-ai-assisted-analysis/"><b>Document AI-assisted analysis</b><span>What to record when AI touches the analysis, and how to disclose it.</span></a>
+    <a href="/learn/how-to-respond-to-reviewers/"><b>Respond without losing a comment</b><span>Give every request a stance, response, real change, and location.</span></a>
+  </nav>
+</main>
+
+<footer class="vh-footer">
+  <div class="vh-footer-shell">
+    <div class="vh-footer-main">
+      <div>
+        <p class="vh-footer-name">Vahtian</p>
+        <p class="vh-footer-tagline">Local-first tools for research decisions you can explain. Built in Finland by Heidi Andersén, MD, PhD.</p>
+      </div>
+      <nav class="vh-footer-links" aria-label="Footer">
+        <a href="/download/">Tools</a>
+        <a href="/kits/">Kits</a>
+        <a href="/learn/">Learn</a>
+        <a href="/blog/">Blog</a>
+        <a href="/about/">About</a>
+        <a href="/agents/">For agents</a>
+        <a href="/cite/">Cite</a>
+        <a href="/support/">Support</a>
+        <a href="/privacy/">Privacy</a>
+      </nav>
+    </div>
+    <p class="vh-footer-disclaimer">Vahtian keeps human judgment visible and research decisions open to review. It does not establish scientific truth.</p>
+    <div class="vh-footer-meta">
+      <span>© 2026 Vahtian</span>
+      <a href="/LICENSE">Apache-2.0 open core</a>
+      <a href="https://github.com/heidihelena/vahtian">GitHub <span aria-hidden="true">↗</span></a>
+      <a href="mailto:hello@vahtian.com">hello@vahtian.com</a>
+    </div>
+  </div>
+</footer>
+
+</div>
+</body>
+</html>
