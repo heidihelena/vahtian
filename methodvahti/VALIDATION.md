@@ -276,6 +276,182 @@ Until this phase lands, the shipped tool computes the **legacy** score; this
 framework validates the **target** construct, and the two are reconciled only when
 the redesign is implemented and re-frozen.
 
+### 1.2.3 Axiomatic constraints on the aggregation form  **[SPECIFIED — OPEN QUESTION]**
+
+_Added 2026-07-26._
+
+**Why this section exists.** `λ_within`, `λ_between` and the feature weights are
+recorded in Ch. 1.1 as *team decisions, audit-logged*. That is an honest
+description of an arbitrary choice, and it is part of why the score is graded ○.
+A committee-chosen weighting cannot be defended against a reviewer who prefers a
+different one. There is a second route to defensibility that costs no data: state
+the properties the aggregation **must** satisfy, and see which forms survive.
+Ch. 8.6 records that the decision-utility arm cannot run for want of a corpus —
+this route is unblocked precisely because it needs none.
+
+**Method borrowed, mathematics not.** The template is Mobahi & Bartlett, *HOPE*
+(arXiv:[2607.21366](https://arxiv.org/abs/2607.21366), 23 Jul 2026), whose Lemma
+C.1 derives a unique capacity functional from three axioms rather than choosing
+one. **Only the move transfers.** There is no inner-product space of research
+designs, and constructing one would repeat the ATG error (adopt the architecture,
+reject the formalism). **[VERIFY BEFORE CITING]** — preprint, three days old at
+time of writing, proofs present but its Proposition C.11 asserts an `L_p` form
+where its Lemma C.1 derives one.
+
+**One disanalogy is load-bearing.** HOPE's *Partition Invariance* works because
+network capacity is an **extensive** quantity: split a neuron into N copies at
+1/N scale and the total is unchanged. A defensibility rating is **intensive and
+ordinal** — coding one dimension as two sub-items does not halve each rating.
+HOPE's axiom therefore does **not** port. Its analogue for intensive ordinal
+quantities is replication invariance (A2) plus monotone-transform invariance (A3).
+
+#### Candidate axioms
+
+Writing the current form (Ch. 1.2) as `H = λ · max(c) + (1 − λ) · weighted_mean(c)`
+over cell ratings `c`:
+
+| | Axiom | Satisfied by `max` | Satisfied by `weighted_mean` |
+|---|---|---|---|
+| **A1** | **Unanimity.** All cells equal `v` ⟹ `H = v`. | ✓ | ✓ |
+| **A2** | **Replication invariance.** Coding the same construct twice must not change `H`. | ✓ | ✗ |
+| **A3** | **Ordinal-scale invariance.** For any strictly monotone rescaling φ of the rating scale, `H(φ(c)) = φ(H(c))`. | ✓ | ✗ |
+| **A4** | **Monotonicity.** Improving a cell never lowers `H`. | ✓ | ✓ |
+| **A5** | **Permutation invariance** within a dimension. | ✓ | ✓ |
+
+A1, A4 and A5 hold for every λ and so discriminate nothing; A4 and A5 are already
+property-tested (`test_properties.py`, Ch. 1.2.2).
+
+**Finding 1 — A2 and A3 independently collapse the family to λ = 1.**
+
+- **A2.** `max(v, v, w) = max(v, w)`, but `mean(v, v, w) ≠ mean(v, w)`. This is not
+  hypothetical: Ch. 8.3 lists **COREQ (32 items)** and **SRQR (21 items)** as
+  alternative reporting taxonomies for the same dimensions. Coding one study
+  against each yields a different `H` **from item counts alone**, for any λ < 1.
+- **A3.** `max` commutes with any monotone φ; the arithmetic mean commutes only
+  with affine φ, i.e. only if the ratings are **interval-scaled**. The Ch. 1.2
+  input model declares them *categorical/ordinal*. This is standard measurement
+  theory, not a MethodVahti-specific claim.
+
+Two independent routes give the same answer, which is unsurprising: `max` is a
+lattice operation and the mean is an arithmetic one, and the inputs are neither
+extensive nor interval. Under A2 + A3 the admissible aggregators are order
+statistics over the set of *distinct* ratings — of which `max` and `min` are the
+natural members.
+
+**Finding 2 — the operator's polarity flips with the construct, and Ch. 1.2.2 does
+not currently catch this.**
+
+Ch. 1.2.2 keeps the hierarchical aggregation on the grounds that it is
+"construct-neutral." **It is not.** Under the legacy *heterogeneity* score, higher
+= more heterogeneous, so `max` selects the **worst case** and is the conservative
+choice. Under the redesigned *defensibility* score, higher = more defensible, so
+the same `max` selects the **best feature** — a study is scored by its strongest
+methodological decision, which is precisely backwards. The operator did not
+change; the polarity of the scale did.
+
+This also sits against existing house reasoning: the Epistemic Risk Score design
+note argues for non-compensatory, fatal-floored scoring — *a pile of good
+citations must not average away one fatal one*. The defensibility analogue is
+`min` (weakest-link / bottleneck), not `max`.
+
+#### What the axioms settle, and what they hand to the researcher
+
+This is the section's structural claim, and it changes what MethodVahti is. The
+framework no longer says *"here is our scoring rule."* It says: **given these
+stated axioms, only a small family of scoring rules remains admissible.** A
+reviewer who disagrees must now do one of three things — reject an axiom, find an
+error in the derivation, or accept the constrained result. That is a stronger
+position than any defence of a chosen λ could be, and it is stronger precisely
+because it gives the reviewer somewhere concrete to attack.
+
+**Two kinds of constraint, and they must not be confused.**
+
+- **A2 and A3 are correctness constraints, not preferences.** Given the Ch. 1.2
+  input model — *categorical/ordinal* feature codes — an aggregator that moves
+  when the codebook is split more finely, or when the rating scale is relabelled
+  monotonically, is simply wrong. There is no research tradition in which that is
+  a defensible option. These are not the researcher's to opt out of; opting out
+  means changing the input model to an interval scale and defending *that* in
+  Ch. 5. **Consequence: the λ-mixture of `max` and `weighted_mean` is inadmissible
+  in every form.**
+- **Within the admissible family the choice is substantive, and it is the
+  researcher's.** A2 + A3 leave the order statistics over distinct ratings:
+  `min` (weakest link, fully non-compensatory), a middle statistic (typical
+  dimension), `max` (best feature). Choosing among them answers a genuine
+  methodological question — *how much may a strong dimension offset a weak one?* —
+  on which traditions legitimately differ. A trialist and a phenomenologist can
+  hold opposite, defensible positions.
+
+**MethodVahti must not answer that question on the researcher's behalf.**  The
+tool's job is to present the admissible family, state which axiom each member
+honours or sacrifices, require an explicit choice, and record it in the audit log
+as a **declared assumption** — the same treatment `assumption_register` gives
+every other stated premise. A hidden λ chosen by the vendor is exactly the kind
+of buried methodological commitment this product exists to surface.
+
+This also discharges a threat already on the register. Ch. 0.4 names **allegiance**
+— Vahtian validating its own construct. If Vahtian additionally picks the
+compensation rule, the tool ships the vendor's epistemology as if it were a
+property of the studies. Handing the choice to the researcher, under stated
+axioms, removes that.
+
+**Consequence for the output artifact.** The reported result is no longer a bare
+number. It is *"under the non-compensatory rule you declared, H = x"* — with the
+admissible alternatives and what they would have yielded available alongside.
+Sensitivity to the declared rule becomes a reportable quantity rather than an
+invisible one.
+
+#### The narrow decision that does remain with the owner  **[DECISION RECORD — owner, open]**
+
+Three questions the researcher cannot answer, because they are about the tool:
+
+1. **Does the input model stay ordinal?** If yes, A2 and A3 bind and the λ-mixture
+   goes. If it moves to an interval scale, the interval claim must be argued in
+   Ch. 5, not assumed — and A3 relaxes.
+2. **Is there a shipped default, and which?** Recommendation: **`min`**, on the
+   grounds that a conservative default must be actively overridden rather than
+   passively accepted, and that it matches the non-compensatory, fatal-floored
+   logic already argued in the Epistemic Risk Score design note. A default is not
+   a hidden choice provided the report always names it as a declaration.
+3. **Is the choice mandatory or defaulted?** Forcing an explicit selection teaches
+   the distinction; defaulting reduces friction and risks the researcher never
+   noticing there was a commitment to make. This is a product decision with an
+   epistemic cost either way.
+
+Note that Finding 2 is **not** among these. That `max` silently inverts from
+conservative to flattering when the construct's polarity flips is an error to
+correct, not a preference to record.
+
+#### What this does not do
+
+Deriving the form does **not** validate the score. It makes it *internally
+principled* — the form is constrained rather than asserted — which is a strictly
+weaker claim than "it works," and does not move the ○ grade on its own. Whether
+acting on the score helps anyone remains Ch. 8.6's question and remains
+unrunnable. **Copy must never let "principled construction" read as "validated."**
+
+#### Testable now  **[SPECIFIED — NOT YET EXECUTED]**
+
+Two property tests, no data required, alongside the nine already in
+`test_properties.py`:
+
+- **Replication invariance.** Duplicate a feature's cell; assert `H` is unchanged.
+  The current λ < 1 implementation is **expected to fail** this — that failure is
+  the point, and it should be committed as a failing test (xfail with a reason)
+  rather than written after the fix, so the defect is on the record.
+- **Ordinal invariance.** Apply a strictly monotone non-affine φ to every rating;
+  assert `H(φ(c)) = φ(H(c))`. Same expectation, same treatment.
+
+Because A2 and A3 are correctness constraints rather than preferences, these two
+tests become **release gates** (Ch. 3.4) for the redesigned score — not diagnostics
+a future maintainer may reason their way past. A third test follows once the
+declared-rule mechanism exists: assert that the reported result names the rule it
+was computed under.
+
+Both must be written **before** the Ch. 1.2.2 redesign fixes the cell definition,
+so the decision above is made deliberately rather than inherited from the legacy
+code.
+
 ### 1.3 Intended use, out-of-scope use, and known limitations
 
 - **Intended.** Decision support for defensible methodological design and appraisal
