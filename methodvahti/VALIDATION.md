@@ -28,6 +28,7 @@ threshold was met, or a gate was passed unless it explicitly says so.**
 | **[SPECIFIED — NOT YET EXECUTED]** | A designed plan with a measurable gate. No result exists yet. |
 | **[DECISION RECORD]** | A method/product call made by the owner (MD/PhD), recorded here with its date. Not the framework author's to decide. |
 | **[VERIFY BEFORE CITING]** | A citation detail (dates, article numbers) not independently confirmed here; confirm against the published source before relying on it. |
+| **[SPECIFIED — NOT RUNNABLE]** | A designed plan whose required data do not exist yet. Recorded so the absence is on the record; it cannot be executed until the missing data are built or obtained. |
 
 ---
 
@@ -722,6 +723,12 @@ primary frame — *conditional on the Ch. 1.2.1 decision.*
    the `judge_human_disagreement` extraction end-to-end — and, per Ch. 4.1, to
    *measure the assignment step against gold* — before touching gated repositories.
 
+**Scope of this design.** Steps 3–4 are **convergent and criterion** tests only —
+they ask whether the score *tracks* heterogeneity. They do **not** establish that
+*acting* on the score improves a design decision. That question is separated out
+into Ch. 8.6 and is not currently runnable; do not let results from this section
+be read as decision utility.
+
 **Single best next dataset:** **Hennink & Kaiser (2022) Appendix A**
 (`10.1016/j.socscimed.2021.114523`) — the only open resource pairing per-study
 design characteristics with a continuous realized outcome. First action: open the
@@ -740,6 +747,127 @@ license.
 - **No validated quantitative heterogeneity index** exists for qualitative
   synthesis; CERQual graded judgments are the nearest proxy.
 - **QDR / UK Data Service deposits are frequently access-gated.**
+- **Nothing open pairs a design coding with a *sampling strategy actually adopted*
+  and a *realized adequacy outcome*** — the three columns the decision-utility arm
+  (8.6) needs. This is the deepest gap in the chapter: the convergent and criterion
+  arms can eventually run on existing data; the decision arm cannot.
+
+### 8.6 The decision-utility arm — the necessary-but-not-sufficient gap  **[SPECIFIED — NOT RUNNABLE]**
+
+_Added 2026-07-26._
+
+**The threat.** Every confirmatory test in 8.4 asks the same kind of question:
+does the score co-vary with number of included studies, with reporting-quality
+judgments, with N-at-saturation? All of them test **whether the score tracks
+heterogeneity.** None tests **whether acting on the score beats the best single
+default.** Those are different questions, and the second is the one that carries
+the product claim, because Ch. 1.1 routes the primary score into **sample-size
+optimisation** — that is, into a design *decision*.
+
+Li & Brunskill (*Science* **393**, eaeb9506, 9 Jul 2026;
+doi:[10.1126/science.aeb9506](https://doi.org/10.1126/science.aeb9506)) formalise
+this gap for intervention policies: **heterogeneity is necessary but not
+sufficient** for tailoring to pay. Their Fig. 1 supplies the counterexample —
+settings where treatment effects are genuinely heterogeneous yet one option
+remains best for every subgroup, so a tailored policy earns nothing over the best
+fixed choice. Empirically they found **little to zero** benefit from personalising
+in two of four datasets (nefazodone/CBASP depression trial, n = 647; MOOC trial,
+n = 199,517), and report that prior methods returned *false* significant
+personalisation in **5–11% of random data partitions** — a split-sensitivity
+failure mode directly relevant to Ch. 3.2's determinism policy.
+
+**Scope note — this is an analogy, and the difference is load-bearing.** Their
+unit is treatment-effect heterogeneity across *people*, feeding *per-person
+assignment*. MethodVahti's unit is design heterogeneity across *studies*, feeding
+a *sample-size* choice. What transfers is the inferential move — a heterogeneity
+statistic used to justify a costly design decision without testing whether the
+decision pays — **not** the estimand. Their K-fold personalization test is *not* a
+test of MethodVahti's construct and must never be described as one.
+
+**What the arm would be.** Per study *i*: covariates *Xᵢ* = the design/appraisal
+features of the Ch. 1.2 construct; "intervention" *Aᵢ* = the sampling strategy
+actually adopted; outcome *Yᵢ* = a realized adequacy criterion (saturation reached
+or not, or N-at-saturation harmonised via Lowe et al. 2020). Then compare:
+
+- **score-driven** — the per-study N that MethodVahti's score recommends;
+- **best single default** — one fixed rule applied to every study (a constant N,
+  or Malterud et al. **Information Power** applied uniformly, already registered
+  as the Ch. 5.1 baseline).
+
+The score earns its place only if the score-driven rule beats the fixed default by
+a margin that is **resolvable at the available n**. The verdict is three-way —
+*better* / *no better* / **not resolvable** — never a coin-flip pass. A negative
+result here would be a genuine finding, not a failure: it would mean the honest
+product is a good default, not a per-study score.
+
+**Why it cannot run yet.** The arm needs three columns per study: a design coding,
+the sampling strategy adopted, and a realized adequacy outcome. Ch. 8.5 records
+that N-at-saturation data are mostly aggregate rather than per-unit, and no open
+corpus assigns a sampling strategy and observes an adequacy outcome. **This
+section exists so the absence is on the record, not so it can be run.**
+
+**What would make it runnable.** (i) Hennink & Kaiser (2022) Appendix A at
+per-study granularity — *if* the supplement carries both design characteristics
+and realized N; this is the same first action already named in 8.4. (ii) A
+prospective arm that records both the recommendation and the realized adequacy as
+studies pass through the teaching/consulting workflow. (iii) Failing both, a
+simulation arm: `recoverlite`'s declare-and-simulate protocol is the right shape,
+and the pre-data counterpart — *would I even be powered to detect that tailoring
+helped?* — is a tension Li & Brunskill explicitly name and leave open.
+
+**Interim claims boundary — applies now, before any arm runs.** Documentation and
+UI must not imply the score improves design decisions. **Permitted:** the score
+*describes* design heterogeneity. **Not permitted:** that acting on it yields
+better, adequate, or more defensible samples. This is consistent with Ch. 0.3 and
+the ○ author-hypothesis grading. Li & Brunskill's own caveat is worth quoting
+rather than paraphrasing, because it is the same distinction: a failure to reject
+indicates *"limited evidence in the dataset for personalization within the chosen
+policy class rather than proof against any realizable form of personalization."*
+
+**Not adopted.** Their K-fold personalization test is not being reimplemented
+here. Per the Vahtian rule on fresh formal results — adopt the architecture, not
+the formal foundation — the paper enters this document as a **threat citation and
+a study design**, not as a dependency.
+
+**Reproducibility of the cited paper, as checked 2026-07-26.** The Dryad record
+(doi:[10.5061/dryad.bg79cnpp7](https://doi.org/10.5061/dryad.bg79cnpp7),
+published 2026-06-30, 624 MB) resolves and holds the domain data, simulation data
+and results, and a README. Two qualifications worth recording because this
+document leans on the paper's null results:
+
+- the **analysis code archive itself is not in the Dryad deposit** — the README
+  points to a Zenodo link for `personalization_code.tar.gz`;
+- the **nefazodone depression dataset is access-restricted** (reviewer access via
+  OSF; researchers must request it from the trial's authors). That dataset is one
+  of the two *null* results — the ones most quotable in Vahtian's direction — and
+  it is therefore **not independently reproducible from the public deposit**.
+  Treat the depression null as reported-but-unverified; the MOOC null is on open
+  data. _(Marked `[VERIFY BEFORE CITING]` if either null is ever quoted in
+  outward-facing copy.)_
+
+**Assumption fragility — read before leaning on the result.** The supplementary
+was read at the level of assumptions, theorem statements, and the authors' own
+commentary; the ~20 lemmas were **not** checked line by line. Type I error
+control requires Assumptions 1–10; semiparametric efficiency additionally requires
+Assumption 11 (a low-regret policy learner). Two of those assumptions are, by the
+authors' own account, weakest in exactly the regime the test is used to
+adjudicate:
+
+- **Assumption 6 (fast best-arm learner)** is rescued by a *minimum gap* condition
+  — a δ > 0 margin between the best intervention and every other — which the
+  authors describe as assuming "there are not two or more best interventions with
+  identical average outcomes."
+- **Assumption 10 (unique optimal policy)** is acknowledged to fail when "many
+  individuals have zero treatment effect."
+
+Both of those describe the **near-null regime** — near-ties between options, or
+large zero-effect subgroups. That is precisely where a "no personalisation
+benefit" verdict would be issued. The proofs are not circular (Type I control is
+established *under* the assumptions), but the assumptions are least comfortable
+near the boundary being tested. **Consequence for this document:** the paper is
+sound support for the *conceptual* claim — heterogeneity is necessary but not
+sufficient — and should **not** be cited as evidence that any particular null
+result is secure.
 
 ---
 
