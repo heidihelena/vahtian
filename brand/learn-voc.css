@@ -19,7 +19,7 @@
 body.vh-content{font:500 16.5px/1.68 "Nudica",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
 .voc a{color:var(--link)}
 /* buttons carry their own text colour — beat the generic .voc a link colour */
-.voc a.voc-btn,.voc a.voc-dl{color:#fff}
+.voc a.voc-btn{color:#fff}
 .marksy{font-family:"Marksy","Marker Felt","Bradley Hand","Segoe Print",cursive;letter-spacing:.01em}
 
 /* ── header nav (matches home / kits) ── */
@@ -84,10 +84,6 @@ body.vh-content{font:500 16.5px/1.68 "Nudica",-apple-system,BlinkMacSystemFont,"
 .voc strong{color:var(--navy)}
 .voc code{font:14px var(--font-mono);background:var(--paper2);border-radius:5px;padding:1px 6px}
 
-/* ── full-bleed lavender band (kits/home idiom) ── */
-.voc-band{background:var(--paper2);box-shadow:0 0 0 100vmax var(--paper2);
-  clip-path:inset(0 -100vmax);padding:6px 0 20px;margin:40px 0}
-
 /* ── alternating section rhythm: plain ground, then a light lavender band.
    Pages opt in per section (and vary WHICH sections band), so no two read
    as the same template. ── */
@@ -144,15 +140,13 @@ body.vh-content{font:500 16.5px/1.68 "Nudica",-apple-system,BlinkMacSystemFont,"
   border:1.8px solid var(--control);border-radius:4px}
 .voc-tpl{background:var(--paper2);border-radius:8px;padding:14px 16px;margin:0 0 14px;
   font:13.5px/1.6 var(--font-mono);color:#2f2842;white-space:pre-wrap;overflow-x:auto}
-.voc-dl{display:inline-block;padding:10px 17px;border-radius:6px;font-weight:700;font-size:14px;
-  text-decoration:none;background:var(--navy);color:#fff}
-.voc-dl:hover{background:#231c33}
 @media(prefers-reduced-motion:reduce){.voc-artifact .badge,.voc-steps .n{transform:none}}
 
-/* ── honest-limit note ── */
-.voc-limit{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--lilac);
-  border-radius:10px;padding:14px 18px;margin:18px 0;color:#3a3450;font-size:14.5px}
-.voc-limit b{color:var(--navy)}
+/* No honest-limit component here by design. A limit is a sentence in the prose,
+   once, with the benefit attached — never a titled container (founder ruling,
+   2026-07-18; the labelled box read as boilerplate on every page). The rule
+   lives in vahtian-copy-editor and is pinned by the honest-limit-labelled-box
+   case in .claude/evals/. */
 
 /* ── related guides: row links (learn/index idiom) ── */
 .voc-related{border-bottom:1px solid var(--line);margin:14px 0 0}
