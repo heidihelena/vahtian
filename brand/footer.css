@@ -42,7 +42,6 @@
 
 :root{
   --vh-footer-navy:#2D2440;
-  --vh-footer-violet:#8B6FC9;
   --vh-footer-lilac:#C5B8E8;
   --vh-footer-text:#d9d3ea;
 }
@@ -79,7 +78,11 @@ main:has(>.letter-signup:last-child)+.vh-footer{margin-top:0!important}
 .vh-footer-main{display:grid;grid-template-columns:1.2fr .8fr;gap:32px;align-items:start}
 .vh-footer-name{
   margin:0 0 7px!important;
-  color:var(--vh-footer-violet)!important;
+  /* Lilac, not violet: on the navy footer this is 7.92:1 against #8B6FC9's
+     3.63:1. Marksy is a marker face with thin, irregular strokes, so the
+     large-text AA allowance the violet scraped past read thinner than the ratio
+     suggested. --lilac is the documented on-dark accent (design-language.md). */
+  color:var(--vh-footer-lilac)!important;
   font:600 30px/1 "Marksy","Marker Felt","Bradley Hand","Segoe Print",cursive!important;
   letter-spacing:0!important;
 }
@@ -136,8 +139,8 @@ pre{overflow-x:auto;max-width:100%}
 /* M9 — touch targets: enlarge the tap area of repeated page chrome (header
    nav, search icon, brand link, breadcrumbs, footer links) to ≥44px without
    moving a pixel — the padding grows the hit box and the negative margin
-   gives the space back. The nav "buy" pill keeps its own button padding. */
-nav.nav a:not(.buy){padding:12px 5px;margin:-12px -5px}
+   gives the space back. */
+nav.nav a{padding:12px 5px;margin:-12px -5px}
 nav.nav .util .ic{padding:13px;margin:-13px}
 header a.brand,header .brand a{padding:6px;margin:-6px}
 .crumbs a,.voc-crumbs a{display:inline-block;padding:10px 2px;margin:-10px -2px}
