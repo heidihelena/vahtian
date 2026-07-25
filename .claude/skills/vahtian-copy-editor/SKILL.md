@@ -79,6 +79,14 @@ it sells nothing here.
 - **The "That is not X. It is Y." reversal.** ("That is not a minor convenience.
   It is the point.") The July 2026 Learn audit found 10+ per section. At most one
   per page; recast the rest as plain assertions ("That durability is the point.").
+  **Count the whole antithesis *family*, not just the literal template** (founder
+  catch, 2026-07-25, on the AI-and-the-PhD essay): the tell is the recurring
+  see-saw *rhythm*, so it includes "X was never the problem — Y is", "made of X,
+  not Y", "the wrong question / the better question", and even a section heading
+  built on "…, not the …". Five of these across one short essay read as machine
+  cadence even though each line was individually defensible. Scan the piece for
+  the shape, keep **one** (usually the closer, where it's the payoff), flatten
+  the rest to plain declaratives.
 - **The recycled CTA anecdote.** ("You wrote X, and a reviewer wrote back Y. That
   is not carelessness: … It does not decide Z. That stays yours.") Fine once; the
   audit found it byte-identical on three sibling pages. Check the pages this one
