@@ -24,17 +24,49 @@
   <link rel="stylesheet" href="../brand/site-refresh.css">
   <link rel="stylesheet" href="../brand/footer.css">
   <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Product",
-    "name": "Research Strategy Kit",
-    "description": "A local-first research-planning kit for mapping a field, auditing assumptions and comparing project candidates. The researcher makes the decision.",
-    "brand": {"@type": "Brand", "name": "Vahtian"},
-    "category": "Research planning",
-    "url": "https://vahtian.com/research-domain-cube/",
-    "image": "https://vahtian.com/research-domain-cube/research-cube-preview.png",
-    "offers": {"@type": "Offer", "price": "29", "priceCurrency": "EUR", "availability": "https://schema.org/InStock"}
+{
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": "Research Strategy Kit",
+  "description": "A local-first research-planning kit for mapping a field, auditing assumptions and comparing project candidates. The researcher makes the decision.",
+  "brand": {
+    "@type": "Brand",
+    "name": "Vahtian"
+  },
+  "category": "Research planning",
+  "url": "https://vahtian.com/research-domain-cube/",
+  "image": "https://vahtian.com/research-domain-cube/research-cube-preview.png",
+  "offers": {
+    "@type": "Offer",
+    "price": "29",
+    "priceCurrency": "EUR",
+    "availability": "https://schema.org/InStock",
+    "shippingDetails": {
+      "@type": "OfferShippingDetails",
+      "shippingRate": {
+        "@type": "MonetaryAmount",
+        "value": "0",
+        "currency": "EUR"
+      },
+      "deliveryTime": {
+        "@type": "ShippingDeliveryTime",
+        "handlingTime": {
+          "@type": "QuantitativeValue",
+          "minValue": 0,
+          "maxValue": 0,
+          "unitCode": "DAY"
+        },
+        "transitTime": {
+          "@type": "QuantitativeValue",
+          "minValue": 0,
+          "maxValue": 0,
+          "unitCode": "DAY"
+        }
+      }
+    },
+    "availableDeliveryMethod": "http://purl.org/goodrelations/v1#DirectDownload"
   }
+}
   </script>
   <style>
     :root{--paper:#f2effa;--white:#fff;}
