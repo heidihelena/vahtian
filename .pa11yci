@@ -2,7 +2,12 @@
   "defaults": {
     "standard": "WCAG2AA",
     "timeout": 60000,
-    "chromeLaunchConfig": { "args": ["--no-sandbox", "--disable-dev-shm-usage"] }
+    "chromeLaunchConfig": {
+      "args": [
+        "--no-sandbox",
+        "--disable-dev-shm-usage"
+      ]
+    }
   },
   "urls": [
     "http://127.0.0.1:8080/",
@@ -56,6 +61,45 @@
     "http://127.0.0.1:8080/extractvahti/",
     "http://127.0.0.1:8080/reviewvahti/",
     "http://127.0.0.1:8080/cite/",
-    "http://127.0.0.1:8080/privacy/"
+    "http://127.0.0.1:8080/privacy/",
+    "http://127.0.0.1:8080/kits/",
+    "http://127.0.0.1:8080/auditlite/",
+    "http://127.0.0.1:8080/citevahti/privacy/",
+    "http://127.0.0.1:8080/dictvahti/",
+    "http://127.0.0.1:8080/matchvahti-lite/",
+    "http://127.0.0.1:8080/guidelinevahti/",
+    "http://127.0.0.1:8080/agents/",
+    "http://127.0.0.1:8080/qualivahti-local/",
+    "http://127.0.0.1:8080/studyvahti-vault/",
+    "http://127.0.0.1:8080/learn/figures-too-low-resolution/",
+    "http://127.0.0.1:8080/learn/clean-and-prepare-your-data/",
+    "http://127.0.0.1:8080/learn/data-dictionary-that-validates/",
+    "http://127.0.0.1:8080/learn/survey-export-two-header-rows/",
+    "http://127.0.0.1:8080/learn/decimal-comma-csv/",
+    "http://127.0.0.1:8080/learn/obsidian-for-researchers/",
+    "http://127.0.0.1:8080/learn/obsidian-canvas-evidence-map/",
+    "http://127.0.0.1:8080/learn/obsidian-plugins-for-researchers/",
+    "http://127.0.0.1:8080/learn/local-models-check-citations/",
+    "http://127.0.0.1:8080/research-domain-cube/",
+    "http://127.0.0.1:8080/blog/ai-wont-replace-the-phd/",
+    "http://127.0.0.1:8080/learn/research-changelog/",
+    "http://127.0.0.1:8080/learn/genai-qualitative-analysis/",
+    "http://127.0.0.1:8080/manuscript-kit/",
+    "http://127.0.0.1:8080/support/",
+    "http://127.0.0.1:8080/reviewer-response-builder/",
+    "http://127.0.0.1:8080/reviewers-notebook/",
+    "http://127.0.0.1:8080/open-source/",
+    "http://127.0.0.1:8080/learn/turn-reading-into-a-question/",
+    "http://127.0.0.1:8080/learn/defend-qualitative-sample-size/",
+    "http://127.0.0.1:8080/learn/colorblind-safe-figure-palette/",
+    "http://127.0.0.1:8080/learn/read-your-own-statistics/",
+    "http://127.0.0.1:8080/learn/systematic-review-when-to-stop/",
+    "http://127.0.0.1:8080/learn/codes-to-themes/",
+    "http://127.0.0.1:8080/learn/recover-corrupted-bibliography/",
+    "http://127.0.0.1:8080/learn/triage-major-revisions/",
+    "http://127.0.0.1:8080/learn/decode-supervisor-feedback/",
+    "http://127.0.0.1:8080/learn/lessons-from-being-a-supervisor/",
+    "http://127.0.0.1:8080/learn/is-this-journal-predatory/",
+    "http://127.0.0.1:8080/learn/ai-use-disclosure-example/"
   ]
 }
