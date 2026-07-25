@@ -65,7 +65,6 @@
    band and the navy footer (:has degrades to the plain gap if unsupported). */
 main:has(>.band-lilac:last-child)+.vh-footer,
 main:has(>.band:last-child)+.vh-footer,
-main:has(>.task-band:last-child)+.vh-footer,
 main:has(>.cross-band:last-child)+.vh-footer,
 main:has(>.letter-signup:last-child)+.vh-footer{margin-top:0!important}
 

@@ -7,11 +7,18 @@
    Component classes are prefixed .voc- to avoid clashing with the generic
    .card / .note styling site-refresh.css applies to .vh-content.            */
 
+/* This sheet owns no colours, and must not declare any.
+   site-refresh.css sets every colour token on `body.vh-content`. A body-scoped
+   custom property beats a :root one for everything inside body, so a colour
+   re-declared here is inert — it looks like the palette and paints nothing.
+   This block held ten such declarations, including a --link:#6F52B8 that read as
+   a deliberate fork of the site's #5f479d and was never applied to a pixel
+   (verified by injecting #ff0000: zero elements painted). Only tokens
+   site-refresh does not define belong here.
+   Requires site-refresh.css, which every page loading this sheet loads first. */
 :root{
-  --navy:#2D2440; --violet:#8B6FC9; --lilac:#C5B8E8;
-  --ink:#1c1830; --muted:#5b5570; --bg:#faf9fc; --card:#fff; --line:#e7e3f0;
-  --link:#6F52B8; --paper2:#f2effa; --control:#b9afd0;
-  --font-mono:"Nudica Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  --paper2:var(--vh-paper);   /* lavender band + code background */
+  --control:#b9afd0;          /* checkbox border */
 }
 
 /* ── shell ── */
@@ -19,7 +26,7 @@
 body.vh-content{font:500 16.5px/1.68 "Nudica",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
 .voc a{color:var(--link)}
 /* buttons carry their own text colour — beat the generic .voc a link colour */
-.voc a.voc-btn,.voc a.voc-dl{color:#fff}
+.voc a.voc-btn{color:#fff}
 .marksy{font-family:"Marksy","Marker Felt","Bradley Hand","Segoe Print",cursive;letter-spacing:.01em}
 
 /* ── header nav (matches home / kits) ── */
@@ -84,10 +91,6 @@ body.vh-content{font:500 16.5px/1.68 "Nudica",-apple-system,BlinkMacSystemFont,"
 .voc strong{color:var(--navy)}
 .voc code{font:14px var(--font-mono);background:var(--paper2);border-radius:5px;padding:1px 6px}
 
-/* ── full-bleed lavender band (kits/home idiom) ── */
-.voc-band{background:var(--paper2);box-shadow:0 0 0 100vmax var(--paper2);
-  clip-path:inset(0 -100vmax);padding:6px 0 20px;margin:40px 0}
-
 /* ── alternating section rhythm: plain ground, then a light lavender band.
    Pages opt in per section (and vary WHICH sections band), so no two read
    as the same template. ── */
@@ -144,15 +147,13 @@ body.vh-content{font:500 16.5px/1.68 "Nudica",-apple-system,BlinkMacSystemFont,"
   border:1.8px solid var(--control);border-radius:4px}
 .voc-tpl{background:var(--paper2);border-radius:8px;padding:14px 16px;margin:0 0 14px;
   font:13.5px/1.6 var(--font-mono);color:#2f2842;white-space:pre-wrap;overflow-x:auto}
-.voc-dl{display:inline-block;padding:10px 17px;border-radius:6px;font-weight:700;font-size:14px;
-  text-decoration:none;background:var(--navy);color:#fff}
-.voc-dl:hover{background:#231c33}
 @media(prefers-reduced-motion:reduce){.voc-artifact .badge,.voc-steps .n{transform:none}}
 
-/* ── honest-limit note ── */
-.voc-limit{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--lilac);
-  border-radius:10px;padding:14px 18px;margin:18px 0;color:#3a3450;font-size:14.5px}
-.voc-limit b{color:var(--navy)}
+/* No honest-limit component here by design. A limit is a sentence in the prose,
+   once, with the benefit attached — never a titled container (founder ruling,
+   2026-07-18; the labelled box read as boilerplate on every page). The rule
+   lives in vahtian-copy-editor and is pinned by the honest-limit-labelled-box
+   case in .claude/evals/. */
 
 /* ── related guides: row links (learn/index idiom) ── */
 .voc-related{border-bottom:1px solid var(--line);margin:14px 0 0}
