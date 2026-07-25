@@ -38,7 +38,31 @@
     "price": "49",
     "priceCurrency": "EUR",
     "url": "https://vahtian.com/manuscript-kit/",
-    "availability": "https://schema.org/InStock"
+    "availability": "https://schema.org/InStock",
+    "shippingDetails": {
+      "@type": "OfferShippingDetails",
+      "shippingRate": {
+        "@type": "MonetaryAmount",
+        "value": "0",
+        "currency": "EUR"
+      },
+      "deliveryTime": {
+        "@type": "ShippingDeliveryTime",
+        "handlingTime": {
+          "@type": "QuantitativeValue",
+          "minValue": 0,
+          "maxValue": 0,
+          "unitCode": "DAY"
+        },
+        "transitTime": {
+          "@type": "QuantitativeValue",
+          "minValue": 0,
+          "maxValue": 0,
+          "unitCode": "DAY"
+        }
+      }
+    },
+    "availableDeliveryMethod": "http://purl.org/goodrelations/v1#DirectDownload"
   }
 }
   </script>
