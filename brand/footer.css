@@ -42,7 +42,6 @@
 
 :root{
   --vh-footer-navy:#2D2440;
-  --vh-footer-violet:#8B6FC9;
   --vh-footer-lilac:#C5B8E8;
   --vh-footer-text:#d9d3ea;
 }
@@ -79,7 +78,11 @@ main:has(>.letter-signup:last-child)+.vh-footer{margin-top:0!important}
 .vh-footer-main{display:grid;grid-template-columns:1.2fr .8fr;gap:32px;align-items:start}
 .vh-footer-name{
   margin:0 0 7px!important;
-  color:var(--vh-footer-violet)!important;
+  /* Lilac, not violet: on the navy footer this is 7.92:1 against #8B6FC9's
+     3.63:1. Marksy is a marker face with thin, irregular strokes, so the
+     large-text AA allowance the violet scraped past read thinner than the ratio
+     suggested. --lilac is the documented on-dark accent (design-language.md). */
+  color:var(--vh-footer-lilac)!important;
   font:600 30px/1 "Marksy","Marker Felt","Bradley Hand","Segoe Print",cursive!important;
   letter-spacing:0!important;
 }
@@ -136,8 +139,8 @@ pre{overflow-x:auto;max-width:100%}
 /* M9 — touch targets: enlarge the tap area of repeated page chrome (header
    nav, search icon, brand link, breadcrumbs, footer links) to ≥44px without
    moving a pixel — the padding grows the hit box and the negative margin
-   gives the space back. The nav "buy" pill keeps its own button padding. */
-nav.nav a:not(.buy){padding:12px 5px;margin:-12px -5px}
+   gives the space back. */
+nav.nav a{padding:12px 5px;margin:-12px -5px}
 nav.nav .util .ic{padding:13px;margin:-13px}
 header a.brand,header .brand a{padding:6px;margin:-6px}
 .crumbs a,.voc-crumbs a{display:inline-block;padding:10px 2px;margin:-10px -2px}
@@ -148,3 +151,72 @@ header a.brand,header .brand a{padding:6px;margin:-6px}
   padding:10px 16px;border-radius:0 0 9px 9px;font-weight:700;text-decoration:none;transition:top .15s ease}
 .skip-link:focus{top:0}
 @media (prefers-reduced-motion:reduce){.skip-link{transition:none}}
+
+/* ── Button ──────────────────────────────────────────────────────────────────
+   One button, three sizes, three tones. Declared here because footer.css is the
+   one stylesheet every page loads, and because 54 pages had hand-rolled this in
+   21 distinct forms — a fossil factory. What they already agreed on is kept:
+   border-radius:9px was unanimous across all 21, and 11px/18px at 15px/600 was
+   the majority body. What they disagreed on is settled here.
+
+   Anatomy:  <a class="btn primary">Label <i class="arr">→</i></a>
+   Sizes:    .sm (dense UI) · default · .lg (page CTA)
+   Tones:    .primary (solid) · .ghost (hairline) — on a dark band both invert.
+
+   The label is Nudica: a button is working interface, and it should read as
+   plainly as a line in a methods section. The trailing arrow is Marksy, because
+   the site already draws its wayfinding arrows by hand (.voc-related a::after,
+   .row::after) — a pen stroke pointing on, over printed type. Marksy earns its
+   place by doing a job here, not by decorating one.
+
+   No margin lives in this component. Spacing is the container's business; three
+   different margin-tops baked into .btn is how the 21 forms started. */
+.btn{
+  display:inline-block;
+  padding:11px 18px;
+  border-radius:9px;
+  border:1px solid transparent;
+  font:600 15px/1.3 "Nudica",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  text-decoration:none;
+  cursor:pointer;
+  transition:background-color .15s ease,border-color .15s ease,color .15s ease;
+}
+.btn.sm{padding:8px 14px;font-size:13.5px}
+.btn.lg{padding:13px 20px;font-size:16px}
+
+.btn.primary{background:var(--vh-footer-navy);color:#fff;border-color:var(--vh-footer-navy)}
+.btn.primary:hover{background:#20192f;border-color:#20192f}
+.btn.ghost{background:transparent;color:#1c1830;border-color:#8B6FC9}
+.btn.ghost:hover{border-color:#5f479d;color:#5f479d}
+
+/* Ghost carries a violet hairline, not the --line grey the majority used: a UI
+   component boundary needs 3:1 (WCAG 1.4.11) and --line manages 1.20:1 against
+   the page. Violet is 3.84:1. The one page that had got this right was using
+   violet already.
+
+   Dark bands invert: the solid button becomes the light one so it still reads
+   as the primary action. Two alpha values and two text colours were in use for
+   the ghost outline; this is the single one. */
+.on-dark .btn.primary,.bridge .btn.primary,.hero-band .btn.primary,.band-navy .btn.primary,.buyband .btn.primary{
+  background:var(--vh-footer-lilac);color:#241b3a;border-color:var(--vh-footer-lilac)}
+.on-dark .btn.primary:hover,.bridge .btn.primary:hover,.hero-band .btn.primary:hover,.band-navy .btn.primary:hover,.buyband .btn.primary:hover{
+  background:#d5cbee;border-color:#d5cbee}
+.on-dark .btn.ghost,.bridge .btn.ghost,.hero-band .btn.ghost,.band-navy .btn.ghost,.buyband .btn.ghost{
+  background:transparent;color:var(--vh-footer-lilac);border-color:rgba(197,184,232,.5)}
+.on-dark .btn.ghost:hover,.bridge .btn.ghost:hover,.hero-band .btn.ghost:hover,.band-navy .btn.ghost:hover,.buyband .btn.ghost:hover{
+  border-color:var(--vh-footer-lilac)}
+.on-dark .btn:not(.ghost),.bridge .btn:not(.ghost){background:var(--vh-footer-lilac);color:#241b3a;border-color:var(--vh-footer-lilac)}
+
+/* States. The audit found 7 hover rules and 0 :active or :disabled across 56
+   buttons — a control that does not answer the pointer reads as broken. */
+.btn:active{transform:translateY(1px)}
+.btn:disabled,.btn[aria-disabled="true"]{
+  background:#b8afc8;color:#f7f5fa;border-color:#b8afc8;cursor:not-allowed}
+.btn:disabled:hover,.btn[aria-disabled="true"]:hover{background:#b8afc8;border-color:#b8afc8}
+@media (prefers-reduced-motion:reduce){.btn:active{transform:none}}
+
+/* The hand-drawn pointer. Sits on the baseline of printed type, like a mark
+   added afterwards. */
+.btn .arr{
+  font-family:"Marksy","Marker Felt","Bradley Hand","Segoe Print",cursive;
+  font-style:normal;margin-left:6px;vertical-align:-1px}
