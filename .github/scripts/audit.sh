@@ -36,6 +36,31 @@ for p in $pages; do
   ' "$p" || err "invalid JSON-LD in $p"
 done
 
+# 2b. Rich-result required fields. Google Search Console rejected three product
+# pages for a missing "image"; the sweep that followed found 18 nodes without
+# one. A node that parses can still be invalid, so check the fields Google
+# actually requires rather than only that the JSON is well-formed.
+for p in $pages; do
+  node -e '
+    const fs=require("fs");const h=fs.readFileSync(process.argv[1],"utf8");
+    const REQ={Product:["name","image","offers"],
+               SoftwareApplication:["name","image"],
+               WebApplication:["name","image"]};
+    const re=/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g;
+    let m,bad=0;
+    while((m=re.exec(h))){
+      let d;try{d=JSON.parse(m[1])}catch(e){continue}
+      for(const n of (Array.isArray(d)?d:[d])){
+        if(!n||typeof n!=="object")continue;
+        const need=REQ[n["@type"]];if(!need)continue;
+        const missing=need.filter(k=>!(k in n));
+        if(missing.length){console.error(n["@type"]+" missing: "+missing.join(", "));bad=1}
+      }
+    }
+    process.exit(bad);
+  ' "$p" || err "structured data missing required fields in $p"
+done
+
 # 3. noindex pages must NOT appear in the sitemap
 for p in $(grep -rl 'content="noindex"' --include=index.html . | sed 's#^\./##'); do
   d="/$(dirname "$p")/"
