@@ -21,6 +21,10 @@ for p in $pages; do
   done
 done
 
+# 1b. Full head contract: self-canonicals, complete social cards, concise
+# titles/descriptions, uniqueness, and reciprocal hreflang declarations.
+node .github/scripts/audit-head.mjs || err "head metadata audit failed"
+
 # 2. Every JSON-LD block parses
 for p in $pages; do
   node -e '

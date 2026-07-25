@@ -10,13 +10,16 @@
   <meta property="og:type" content="article">
   <meta property="og:url" content="https://vahtian.com/learn/minimal-model-qualitative-text/">
   <meta property="og:image" content="https://vahtian.com/brand/cards/vahtian-card.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="A minimal model for qualitative text">
   <meta property="og:title" content="A minimal model for qualitative text">
   <meta property="og:description" content="A small, interpretable TF-IDF and linear model for coding interview text, and how EpiNet checks whether the result holds up rather than reporting a single accuracy number.">
   <meta property="og:site_name" content="Vahtian">
   <meta property="article:published_time" content="2026-07-10">
   <meta property="article:modified_time" content="2026-07-16">
   <meta property="article:author" content="Heidi Andersén">
-  <meta name="twitter:card" content="summary">
+  <meta name="twitter:card" content="summary_large_image">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -154,17 +157,17 @@ class MinimalQualModel(nn.Module):
   --split-strategy community --permutation-test 100 \
   --output-dir model_report</code></pre>
 
-<p>EpiNet fits its own classifier (an imbalance-aware random forest) on your data. The point is not the model — it is the evaluation discipline around it, and every check below applies to any score you plan to report.</p>
+<p>EpiNet fits its own classifier (an imbalance-aware random forest) on your data. What matters here is the evaluation discipline around it. Every check below applies to any score you plan to report.</p>
 <ol start="3">
   <li><strong>Read the outputs.</strong> A JSON file reports discrimination (AUROC, AUPRC, balanced accuracy, MCC, F1) and calibration (Brier score, calibration slope and intercept) with bootstrap intervals. A permutation-null test checks whether your score beats chance. The <code>model_card.md</code> summarises it in plain language and flags data-quality warnings. Contestability analysis reports how far each prediction sits from flipping, and which features drive that.</li>
-  <li><strong>Compare against baselines.</strong> Because EpiNet runs your features against representation baselines — attributes only, graph only, and a no-information floor — under one harness, you can see which layer of your data carries the signal, and whether there is any signal to carry. Community-aware splitting checks that the result is not driven by leakage between linked documents.</li>
+  <li><strong>Compare against baselines.</strong> EpiNet runs your features against representation baselines: attributes only, graph only, and a no-information floor. Under one harness, you can see which layer of your data carries the signal and whether there is any signal to carry. Community-aware splitting checks that the result is not driven by leakage between linked documents.</li>
 </ol>
 
 <div class="note personal"><p style="margin:0"><strong>What EpiNet does and does not do.</strong> It does not make your model better, and it does not decide that your themes are correct. It enforces a leakage-aware evaluation and writes a reproducible model card, so you can say whether the result holds up, and show your working. The interpretation stays yours.</p></div>
 
 <div class="cta">
   <p><strong>Test the result, not just the headline number.</strong></p>
-  <p>Your simple theme classifier hits 85%, and you cannot tell if that is real or an artifact of leakage and chance. That is not on you: standard tools hand you a single cross-validated score and hide whether it beats chance or is calibrated. EpiNet runs your data through community-aware splitting, a permutation null, calibration reported next to discrimination, and bootstrap intervals, then writes a model card you can publish — if your 85% does not survive those checks on the same data, the number was flattering you. It tells you, on the record, whether the result holds up. <code>pip install vahtian-epinet</code>.</p>
+  <p>Your simple theme classifier hits 85%, and you cannot tell whether leakage or chance helped it. Standard tools often hand you a single cross-validated score without showing whether it beats chance or is calibrated. EpiNet adds community-aware splitting, a permutation null, calibration beside discrimination, and bootstrap intervals. It then writes a model card you can publish. If the 85% does not survive those checks on the same data, the original score was flattering you. <code>pip install vahtian-epinet</code>.</p>
   <a class="btn" href="/epinet/">See EpiNet</a>
 </div>
 
