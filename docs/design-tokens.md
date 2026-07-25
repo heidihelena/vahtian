@@ -58,6 +58,50 @@ distinction.
 Most pages still carry an inline `:root{}` of core tokens that `body.vh-content`
 already overrides — dead but harmless. Removing them is safe **only** where the
 page uses no token that `body.vh-content` doesn't provide, and must be
-**spot-checked visually** page by page: CI (drift audit, pa11y, Lighthouse) does
-**not** catch a colour regression. Do it in small, rendered batches, not one
-global find-and-replace.
+**spot-checked visually** page by page. Do it in small, rendered batches, not
+one global find-and-replace.
+
+Since every page is scanned by pa11y, CI *does* now catch a colour change that
+drops text below WCAG AA contrast. It still does not catch a colour that is
+wrong but legible, which is most of what a bad sweep would produce, so the
+visual spot-check stands.
+
+## The epistemic-notes state markers (open decision, founder's call)
+
+`/learn/epistemic-notes/` is the one page exempted from the pa11y scan. Its four
+state markers set an Okabe-Ito colour as the text colour of a glyph:
+
+    <span style="color:#8B6FC9">&#9670;</span> Open
+    <span style="color:#E69F00">&#9650;</span> Working
+    <span style="color:#009E73">&#9679;</span> Evidence
+    <span style="color:#CC79A7">&#9632;</span> Ruled out
+
+Against the page background (`#f2effa`) they measure 3.55, 1.98, 3.01 and 2.70
+to one, where small text needs 4.5. So the page fails WCAG AA on eight elements.
+
+**Why this is not the colour-blindness problem it looks like.** Each glyph is a
+distinct shape and is immediately followed by its own word. A reader who cannot
+separate the hues still gets the state from the shape and the label, so the
+Okabe-Ito guarantee is not carrying any load here. Our own article is titled
+*colour-blind-safe **figure** palettes*: Okabe-Ito was chosen for fills in a
+chart, where colour is the only channel available. As the colour of small text
+it is simply too light, which is a different question with a different answer.
+
+**If you want the page to pass**, these hold the hue to within a third of a
+degree and clear 4.5:1:
+
+| marker | now | ratio | proposed | ratio |
+|---|---|---|---|---|
+| Open | `#8B6FC9` | 3.55 | `#7B5BC1` | 4.50 |
+| Working | `#E69F00` | 1.98 | `#916400` | 4.59 |
+| Evidence | `#009E73` | 3.01 | `#007D5B` | 4.53 |
+| Ruled out | `#CC79A7` | 2.70 | `#B34482` | 4.55 |
+
+Amber moves furthest, because `#E69F00` at 1.98:1 is the least legible of the
+four as text. If that darkening reads as muddy next to the figure palette the
+article teaches, the alternative is to drop colour from the glyphs and let shape
+and label do the work they are already doing.
+
+This is a palette decision, so it is recorded rather than applied. Whichever way
+it goes, remove the `a11y_exempt` entry in `.github/scripts/audit.sh` so the
+page rejoins the scan.
