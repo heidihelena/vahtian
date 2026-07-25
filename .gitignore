@@ -4,6 +4,9 @@
 !.claude/
 !.claude/skills/
 !.claude/skills/**
+# …and the copy-skill regression corpus the skills are gated against (CI runs it)
+!.claude/evals/
+!.claude/evals/**
 # screenshots are large and regenerable — don't commit them
 .claude/skills/run-vahtian/shots/
 node_modules

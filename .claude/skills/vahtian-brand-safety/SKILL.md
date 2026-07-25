@@ -78,6 +78,16 @@ Three rules that follow from it:
    a craft regression — flag it back to `vahtian-copy-editor` to consolidate
    into one statement with the benefit attached. Repetition adds no safety.
 
+## Editing this skill
+
+The forbidden-phrasings table is pinned by the regression corpus in
+`.claude/evals/copy/cases/` — run `node .claude/evals/run.mjs` before and after
+any edit here, and CI fails if a row that a real failure paid for disappears.
+Each forbidden row should have a `PASS` counterpart showing the approved way to
+make the same offer, so the rule cannot be argued away as costing a selling
+point. `AD_CLAIMS.md` still wins on any conflict; when it changes, update this
+skill and the affected cases together.
+
 ## Output format
 
 - **Verdict:** PASS / CHANGES REQUIRED.

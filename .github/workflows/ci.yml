@@ -26,6 +26,22 @@ jobs:
       - name: Run drift audit
         run: bash .github/scripts/audit.sh
 
+  # Hard gate: the copy-skill regression corpus. Asserts every rule that caught a
+  # real copy failure is still present in the skill that owns it, and that the
+  # deterministic detectors still fire on the failing copy without flagging the
+  # copy that shipped. Guards `vahtian-copy-editor` / `vahtian-brand-safety`
+  # against being tidied down to nothing. See .claude/evals/README.md.
+  copy-evals:
+    name: Copy-skill regression corpus
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Verify the corpus
+        run: node .claude/evals/run.mjs
+
   # Hard gate: SynthVahti statistics parity. Regenerates the golden values from
   # metafor (R), then asserts the browser pooling core (synthvahti/synth.mjs)
   # reproduces them within 1e-4, and runs the generated synthesis.R end-to-end.
