@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Using GenAI in qualitative analysis · Vahtian Learn</title>
+  <meta name="description" content="Why a chatbot invents quotes when you ask it for a thematic analysis, and how to use a model as a reading partner instead: one reviewed task at a time.">
+  <meta name="theme-color" content="#2D2440">
+  <link rel="canonical" href="https://vahtian.com/learn/genai-qualitative-analysis/">
+  <meta name="robots" content="index,follow">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://vahtian.com/learn/genai-qualitative-analysis/">
+  <meta property="og:title" content="Using GenAI in qualitative analysis without breaking your method">
+  <meta property="og:description" content="A chatbot has no memory of your dataset and no place to keep a code. Use it as a reading partner instead, one reviewed task at a time.">
+  <meta property="og:image" content="https://vahtian.com/brand/cards/vahtian-card.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Vahtian Learn — GenAI in qualitative analysis, with the researcher leading.">
+  <meta property="og:site_name" content="Vahtian">
+  <meta property="article:published_time" content="2026-07-25">
+  <meta property="article:modified_time" content="2026-07-25">
+  <meta property="article:author" content="Heidi Andersén">
+  <meta name="twitter:card" content="summary_large_image">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "Using GenAI in qualitative analysis without breaking your method",
+    "description": "Why a chatbot invents participant quotes when asked for a thematic analysis, and how to use a language model as a reading partner instead: one small task per prompt, every suggestion reviewed against the transcript, the interpretation left with the researcher.",
+    "url": "https://vahtian.com/learn/genai-qualitative-analysis/",
+    "datePublished": "2026-07-25",
+    "dateModified": "2026-07-25",
+    "inLanguage": "en",
+    "author": { "@type": "Person", "name": "Heidi Andersén", "honorificSuffix": "MD, PhD", "url": "https://vahtian.com/about/" },
+    "publisher": { "@id": "https://vahtian.com/#org" }
+  }
+  </script>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232D2440'/%3E%3Cg fill='none' stroke='%238B6FC9' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 9 H9 V23 H12'/%3E%3Cpath d='M20 9 H23 V23 H20'/%3E%3C/g%3E%3Cpath d='M16 10.3 L19.6 12 L19.6 15 L16 19.6 L12.4 15 L12.4 12 Z' fill='none' stroke='%23C5B8E8' stroke-width='1.8' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="../../brand/site-refresh.css">
+  <link rel="stylesheet" href="../../brand/learn-voc.css">
+  <link rel="stylesheet" href="../../brand/footer.css">
+</head>
+<body class="vh-content voc">
+<a class="skip-link" href="#main-content">Skip to main content</a>
+<div class="wrap">
+
+  <header class="voc-head">
+    <a class="brand" href="/" aria-label="Vahtian — home">
+      <svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#2D2440"/><g fill="none" stroke="#8B6FC9" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9 H9 V23 H12"/><path d="M20 9 H23 V23 H20"/></g><path d="M16 10.3 L19.6 12 L19.6 15 L16 19.6 L12.4 15 L12.4 12 Z" fill="none" stroke="#C5B8E8" stroke-width="1.8" stroke-linejoin="round"/></svg>
+      Vahtian
+    </a>
+    <nav class="nav" aria-label="Primary">
+      <a href="/kits/">Kits</a>
+      <a href="/download/">Tools</a>
+      <a href="/learn/" aria-current="page">Learn</a>
+      <a href="/blog/">Blog</a>
+      <a href="/about/">About</a>
+      <span class="util"><a class="ic" href="/search/" aria-label="Search vahtian.com"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.3" y2="16.3"/></svg></a></span>
+    </nav>
+  </header>
+
+  <nav class="voc-crumbs"><a href="/">vahtian.com</a> · <a href="/learn/">learn</a> · GenAI in qualitative analysis</nav>
+
+<main id="main-content">
+  <div class="voc-hero">
+    <p class="voc-kicker">Qualitative analysis</p>
+    <h1>Using GenAI in qualitative analysis without breaking your method</h1>
+    <p class="voc-subtitle">The model is a reading partner. You stay the analyst.</p>
+    <p class="voc-lede">You paste your interviews into a chatbot, ask for a thematic analysis, and six tidy themes come back, each with participant quotes underneath. It looks like a week of work done in a minute. Then you open a transcript to find one of the quotes. Nobody said it.</p>
+    <p class="voc-byline">By <a href="/about/">Heidi Andersén, MD, PhD</a> · Updated 25 July 2026 · <span class="rt">8 min read</span></p>
+  </div>
+
+  <section class="voc-sec alt">
+  <h2><span class="eyebrow">The problem</span>You did not code badly. You asked for the wrong thing.</h2>
+  <p>Many qualitative researchers have had this moment in the last two years, and it is part of why more than 400 of them, across more than thirty countries, signed an open letter rejecting generative AI in reflexive qualitative research. The themes came back as topic buckets. The quotes came back invented.</p>
+  <p>The chatbot was never built to do what you asked. Thematic analysis is roughly twenty small tasks in sequence: read everything, code a segment, hold that code in mind, meet a new idea in interview ten, go back and recode interview three. A chatbot has no memory of your dataset between prompts and no stable place to keep a code. Ask it to run the whole thing in one go and it does the only thing it can, which is to recognise the shape of a thematic-analysis report and write something with that shape. The fabricated quotes follow directly: a text predictor was asked to retrieve evidence it never stored.</p>
+  <p>That makes the failure structural. It also means the useful response is neither to swear off the tool nor to hand it the whole job.</p>
+  </section>
+
+  <section class="voc-sec">
+  <h2><span class="eyebrow">The shift</span>Interlocutor, not coder</h2>
+  <p>Coding was always a workaround for a human limit. You cannot hold twenty hours of interviews in your head at once, so you break the data into labelled pieces you can retrieve. A language model does not share that limit. It can hold the whole set in view and surface passages that speak to each other. Forcing it to imitate line-by-line human coding wastes the one thing it does well.</p>
+  <p>So the model works as a reading partner rather than a decider. It suggests candidate codes, groupings that might belong together, a contrasting reading you had not considered. You interrogate each suggestion against the transcript, keep what holds, drop what does not. The interpretation stays yours, because meaning in non-positivist work is made by a situated human.</p>
+  <p>Three moves make this work, whatever tool you use:</p>
+  <ul class="voc-check">
+    <li><strong>Divide the work.</strong> One small task per prompt, reviewed before the next. Never one prompt for the whole study.</li>
+    <li><strong>Review every suggestion against the data.</strong> A code counts only after you have accepted or edited it. The model's confidence is a self-report, not evidence.</li>
+    <li><strong>Keep themes as questions until you can sign them.</strong> "Could these codes describe how waiting reshapes daily life?" is a grouping. A theme exists when you can state it in one sentence, show what supports it, show what complicates it, and put your name on it.</li>
+  </ul>
+  <p>Do this and you are still doing qualitative research. Be honest about which kind: this structured, reviewed approach fits framework, matrix, template and codebook thematic analysis best. It supports reflexive work through your own reading and memos, and it does not turn reflexive analysis into a button.</p>
+  </section>
+
+  <section class="voc-sec alt">
+  <h2><span class="eyebrow">The tool</span>What QualiVahti Local does for you</h2>
+  <p><a href="/qualivahti-local/">QualiVahti Local</a> is an Obsidian vault plus open Python and R scripts that run this method on your own computer. The pipeline is one reviewable step at a time, and every step names its tool, so you can see exactly what the model touched.</p>
+  <ul>
+    <li><strong>Transcription.</strong> <code>faster-whisper</code> runs locally, <code>large-v3</code> by default, so audio never leaves the machine. Drop a recording into <code>01_Audio/</code> and a watcher script transcribes it. Finnish, Swedish and around a hundred other languages are auto-detected, or forced with <code>--language fi</code>.</li>
+    <li><strong>Code suggestions.</strong> A local model served by Ollama (<code>qwen3:14b</code> by default, <code>qwen3:4b</code> on an 8 GB laptop) suggests one to three first-cycle codes per excerpt, each with a rationale and its own marked uncertainty. Suggestions land in <code>suggested_&lt;id&gt;.csv</code>; your decisions live in a separate <code>reviewed_&lt;id&gt;.csv</code>, one <code>review_status</code> per row: <code>accepted</code>, <code>edited</code>, <code>rejected</code> or <code>unclear</code>. A code counts once you have marked it, and the model name and version id are written into every row.</li>
+    <li><strong>A second opinion.</strong> <code>build_vault_index.py</code> vectorises your notes with a local embedding model (<code>nomic-embed-text</code>); <code>chat_with_vault.py</code> then answers questions over the whole vault with cited, clickable sources, using a different model (<code>hermes3:8b</code>) from the one that suggested your codes. It reports contradictions first and never decides meaning. Every chat session is logged under <code>11_Audit_Trail/chat_sessions/</code>.</li>
+    <li><strong>The reviewer paragraph, written from your records.</strong> <code>Rscript _scripts/r/draft_ai_disclosure.R</code> reads your reviewed coding and drafts the AI-use disclosure into <code>09_Methods_Draft/</code>: your real accept, edit and reject counts, the coding model and version, the boundary sentence, and <code>[MISSING:]</code> tags for the facts only you can supply.</li>
+    <li><strong>A pre-flight check.</strong> <code>Rscript _scripts/r/preflight_check.R</code> reports, before you export, whether the analysis loop hangs together: every row reviewed, every theme signed and grounded in a real quote with what complicates it, a saturation verdict logged as a three-way call (saturated, not saturated, or not resolvable at this n).</li>
+  </ul>
+  <p>Everything is plain files you keep: Markdown notes, CSV coding, a <code>.canvas</code> evidence map where every node is a live note, and R tables and co-occurrence networks in <code>12_Exports/</code>. Each run appends one line to <code>11_Audit_Trail/audit_log.md</code> with the date, script, inputs, model and version, and outputs, so your AI use stays legible to a supervisor or journal. The only network address anywhere in the scripts is <code>localhost</code>, so the whole workflow runs with the internet switched off.</p>
+  <p>The scripts are open source under Apache-2.0 with a <a href="https://doi.org/10.5281/zenodo.21274892" rel="noopener nofollow">Zenodo DOI</a>, which lets a reviewer inspect exactly what the model was allowed to do. The R side installs straight from an R session:</p>
+  <pre class="voc-tpl">install.packages("qualivahti", repos = "https://heidihelena.r-universe.dev")</pre>
+  <p class="voc-softlink">QualiVahti Local will not do your analysis. It surfaces material, you make the meaning, and the audit trail records what you decided rather than whether it is true. That is the line the method literature draws, and it is what lets you explain your work to a committee. See it on the demo study, then your own: <a href="/qualivahti-local/">QualiVahti Local</a>.</p>
+  </section>
+
+  <section class="voc-sec">
+  <h2><span class="eyebrow">The criteria</span>How this maps to a congruence framework</h2>
+  <p>Nguyen-Trung and colleagues (2026) set out what methodologically congruent GenAI use looks like. QualiVahti is built to make each of their tenets the easy path.</p>
+  <ul>
+    <li><strong>A relational epistemology.</strong> The model offers candidate codes, groupings and a contrasting reading. It never names a theme or makes a decision. The second-opinion chat is an explicit dialogue partner, deliberately a different model from your coder, and the reflexivity memo has a section to declare that stance in your own words.</li>
+    <li><strong>Ethical, responsible and rigorous use.</strong> Everything runs on your machine, since the only network address in the scripts is <code>localhost</code>, so no research data leaves it. Pseudonymisation happens in the cleaning step and the key stays outside the vault. Every run is logged with its model and version, and one command drafts the AI-use disclosure reviewers ask for.</li>
+    <li><strong>The researcher leads, GenAI assists.</strong> The split is enforced in the files rather than the guidance: the model writes <code>suggested_*.csv</code>, you write <code>reviewed_*.csv</code>, and only rows you marked <code>accepted</code> or <code>edited</code> reach any table or figure. Scripts never overwrite a human-reviewed file.</li>
+    <li><strong>From mechanical extraction to abductive discovery.</strong> Theme suggestions arrive as questions. A theme exists only when you can state it, show what supports it, show what complicates it, and sign it. The chat lets you interrogate a pattern and check a quote against the source, and the negative-case and saturation templates keep the back-and-forth honest.</li>
+  </ul>
+  <p>Underneath all four sits the technical point: a chatbot has no memory of your dataset and cannot run twenty analytic steps in sequence. The vault sidesteps that by dividing the work into small, reviewed tasks with persistent files, so the model is only ever asked to do what it can do.</p>
+  <p>None of this makes a study congruent on its own. Congruence is the researcher's achievement, and no tool confers it. What the vault removes is the technical excuse: the reflexive memos, the audit trail, the human-first data contract and the disclosure paragraph are already in place, so what is left to supply is the interpretive work that was always yours.</p>
+  </section>
+
+  <section class="voc-sec alt">
+  <h2><span class="eyebrow">Try it today</span>A prompt that keeps the model in its place</h2>
+  <p>If you already work with a local model, this starting instruction keeps it in the interlocutor role. It mirrors the rules built into QualiVahti's own prompts.</p>
+  <div class="voc-artifact">
+    <span class="badge" aria-hidden="true">&#x2606;</span>
+    <p class="lab">System prompt · first-cycle coding</p>
+    <pre class="voc-tpl">You are helping me with first-cycle qualitative coding.
+You suggest; I decide.
+
+Work only from the excerpt and codebook I give you, nothing else.
+For each excerpt, offer one to three short candidate codes
+(1 to 4 words, close to the participant's own words).
+For each, quote the words that triggered it, and say plainly
+what makes you unsure or what I need to judge.
+
+Do not invent participant details or guess demographics.
+Do not name themes; a theme is a claim only I can make.
+If an excerpt contradicts an obvious pattern, say so.
+End by stating what needs my judgement.</pre>
+    <p>Give it one excerpt at a time, and review every suggestion against the transcript before you keep it.</p>
+  </div>
+  </section>
+
+  <h2><span class="eyebrow">Related guides</span>Read next</h2>
+  <nav class="voc-related">
+    <a href="/learn/ai-qualitative-coding-human-review/"><b>Local AI coding, with human review</b><span>The model suggests first-cycle codes; you review every one and record the decision.</span></a>
+    <a href="/learn/llms-in-qualitative-research/"><b>What LLMs can do, and where they stop</b><span>Where models help, five ways their output is over-trusted, and a workable division of labour.</span></a>
+    <a href="/learn/llm-qualitative-data-ethics/"><b>Before interview data enters an AI model</b><span>Consent, pseudonymisation, and what leaves your machine.</span></a>
+  </nav>
+
+  <h2><span class="eyebrow">Further reading</span>Sources worth your time</h2>
+  <ul class="voc-reading">
+    <li>Nguyen-Trung and colleagues (2026), <em>Towards a methodologically congruent framework for GenAI use in nonpositivist qualitative research</em>. <a href="https://doi.org/10.1080/13645579.2026.2703248" rel="noopener nofollow">International Journal of Social Research Methodology</a>.</li>
+    <li>Jowsey, Braun, Clarke, Lupton and Fine (2025), <em>We reject the use of generative artificial intelligence for reflexive qualitative research</em>. <a href="https://doi.org/10.1177/10778004251401851" rel="noopener nofollow">Qualitative Inquiry</a>.</li>
+  </ul>
+</main>
+
+<footer class="vh-footer">
+  <div class="vh-footer-shell">
+    <div class="vh-footer-main">
+      <div>
+        <p class="vh-footer-name">Vahtian</p>
+        <p class="vh-footer-tagline">Local-first tools for research decisions you can explain. Built in Finland by Heidi Andersén, MD, PhD.</p>
+      </div>
+      <nav class="vh-footer-links" aria-label="Footer">
+        <a href="/download/">Tools</a>
+        <a href="/kits/">Kits</a>
+        <a href="/learn/">Learn</a>
+        <a href="/blog/">Blog</a>
+        <a href="/about/">About</a>
+        <a href="/agents/">For agents</a>
+        <a href="/cite/">Cite</a>
+        <a href="/support/">Support</a>
+        <a href="/privacy/">Privacy</a>
+      </nav>
+    </div>
+    <p class="vh-footer-disclaimer">Vahtian keeps human judgment visible and research decisions open to review. It does not establish scientific truth.</p>
+    <div class="vh-footer-meta">
+      <span>© 2026 Vahtian</span>
+      <a href="/LICENSE">Apache-2.0 open core</a>
+      <a href="https://github.com/heidihelena/vahtian">GitHub <span aria-hidden="true">↗</span></a>
+      <a href="mailto:hello@vahtian.com">hello@vahtian.com</a>
+    </div>
+  </div>
+</footer>
+
+</div>
+</body>
+</html>
