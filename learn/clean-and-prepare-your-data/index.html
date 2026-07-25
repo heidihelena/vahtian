@@ -92,7 +92,7 @@
   </div>
 
   <h2><span class="eyebrow">The workflow</span>Ten steps, in order</h2>
-  <p>Cleaning goes wrong when it is done in whatever order the problems surface. This is the order that stops later steps from undoing earlier ones: settle what the data should be (steps 1 to 3), then find what it actually is (4 and 5), check it against the rules (6), resolve duplicates and merges before they multiply rows (7 and 8), then split the raw file from the analysis file, document the path, and de-identify before anything leaves your machine. Each step is one toggle. Steps 1 to 3 point to their own full guide; the rest are here in full.</p>
+  <p>Cleaning goes wrong when you follow problems in the order they surface. Start by settling what the data should be (steps 1 to 3). Then find what it is (4 and 5), check it against the rules (6), and resolve duplicates and merges before they multiply rows (7 and 8). Finally, split the raw file from the analysis file, document the path, and de-identify before anything leaves your machine. Each step is one toggle. Steps 1 to 3 point to their own full guide; the rest are here in full.</p>
 
   <div class="steps">
 
@@ -128,7 +128,7 @@
         <span class="st-count"><span class="chev" aria-hidden="true">›</span></span>
       </summary>
       <div class="stage-body">
-        <p>Every number is left-aligned text and no sum works. A Finnish, Swedish, or German locale wrote the file with decimal commas and semicolon separators, so <code>read_csv</code> saw "3,14" as a string, not a number. The fix is to read with the right separator and decimal mark, not to find-and-replace inside the file.</p>
+        <p>Every number is left-aligned text and no sum works. A Finnish, Swedish, or German locale wrote the file with decimal commas and semicolon separators, so <code>read_csv</code> saw "3,14" as a string. Read the file with the right separator and decimal mark; do not find-and-replace inside it.</p>
         <p class="step-guide"><a href="/learn/decimal-comma-csv/">Full guide: my numbers turned to text in the CSV</a></p>
       </div>
     </details>
@@ -140,7 +140,7 @@
         <span class="st-count"><span class="chev" aria-hidden="true">›</span></span>
       </summary>
       <div class="stage-body">
-        <p>Your model quietly drops a third of the rows and you cannot see why. Missingness is hiding in four costumes at once: a real blank, the string "Unknown", a numeric sentinel like 99 that means "not asked", and an actual <code>NA</code>. Text sentinels you can catch on import; numeric ones you cannot, because 99 is a valid value in some columns and a code for missing in others. Recode those one variable at a time, never in bulk.</p>
+        <p>Your model quietly drops a third of the rows and you cannot see why. Missingness is hiding in four forms: a real blank, the string "Unknown", a numeric sentinel like 99 that means "not asked", and an actual <code>NA</code>. You can catch text sentinels on import. Numeric ones need variable-by-variable handling because 99 may be a valid value in one column and a missing-value code in another. Never recode those in bulk.</p>
         <div class="voc-artifact">
           <p class="lab">R</p>
           <pre class="voc-tpl">library(dplyr)
