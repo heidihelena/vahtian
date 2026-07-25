@@ -90,6 +90,14 @@ header .brand .wordmark{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",
   padding:4px 0 4px 18px!important;
 }
 
+/* The note variants were silently dead: the rule above sets border-left with
+   !important, so every .note.personal, .note.warn and .note.key on the site
+   rendered the same violet. The colour is reinforcement — each variant already
+   opens with a bold lead that states the caveat in words — but reinforcement
+   that never renders is just dead intent. */
+.vh-content .note.personal,.vh-content .note.key{border-left-color:var(--vh-lilac)!important}
+.vh-content .note.warn{border-left-color:#C98A00!important}
+
 footer{
   background:var(--vh-navy)!important;
   box-shadow:0 0 0 100vmax var(--vh-navy);
