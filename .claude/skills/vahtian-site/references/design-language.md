@@ -69,8 +69,30 @@ grid gaps 12–14px. Content column `max-width:780px`.
     Marksy does a job here — pointing — rather than decorating one.
   - **One primary per surface** — a secondary action is always a ghost, never a
     second primary.
-- **Status tags**: monospace chips, lowercase (`free · live`, `early access`);
-  color pairs are fixed (`live`=violet, `free`=teal, `beta`=indigo, `soon`=muted).
+- **Status tags**: monospace chips, lowercase (`free · live`, `early access`).
+  **The fixed colour pairs below are not currently shippable as tag text and are
+  not what the site renders** — measured on `--bg` at 12px, which is normal text
+  and needs 4.5:1:
+
+  | Tag | Spec colour | Ratio | |
+  |---|---|---|---|
+  | `live` | `--violet` `#8B6FC9` | 3.84:1 | fails |
+  | `free` | `--teal` `#1E9E8A` | 3.17:1 | fails |
+  | `beta` | indigo `#5566B5` | 5.06:1 | passes |
+  | `soon` | `--muted` `#5b5570` | 6.72:1 | passes |
+
+  The homepage currently renders `live`, `free` and `beta` all at `--link`
+  (6.96:1) — accessible, but the state colour-coding is dead. Two ways out, and
+  it is a taste call, not a colour-picking one: darken each hue until it passes
+  (violet lands at `#7e5ec3`, teal at `#187e6e`, which sit close enough to
+  darkened indigo to blur the distinction), or keep one accessible text colour
+  and distinguish states with a light fill, the `--<accent>-fill` /
+  `--<accent>-text` pattern `reference-check` already uses. Until that is
+  decided, do not "restore" the table above — it would ship two contrast
+  failures.
+
+  Note the tag word itself (`free`, `beta`) carries the meaning, so 1.4.1 is
+  satisfied either way; 1.4.3 is what binds, because the chip is text.
 - **Product cards** (`.p`): mark + name + inline tag + one-sentence description;
   left accent spine in **the accent of the product's own mark**; whole card is
   the link (stretched from the name) with a static `→` affordance and underlined
