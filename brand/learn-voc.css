@@ -7,11 +7,18 @@
    Component classes are prefixed .voc- to avoid clashing with the generic
    .card / .note styling site-refresh.css applies to .vh-content.            */
 
+/* This sheet owns no colours, and must not declare any.
+   site-refresh.css sets every colour token on `body.vh-content`. A body-scoped
+   custom property beats a :root one for everything inside body, so a colour
+   re-declared here is inert — it looks like the palette and paints nothing.
+   This block held ten such declarations, including a --link:#6F52B8 that read as
+   a deliberate fork of the site's #5f479d and was never applied to a pixel
+   (verified by injecting #ff0000: zero elements painted). Only tokens
+   site-refresh does not define belong here.
+   Requires site-refresh.css, which every page loading this sheet loads first. */
 :root{
-  --navy:#2D2440; --violet:#8B6FC9; --lilac:#C5B8E8;
-  --ink:#1c1830; --muted:#5b5570; --bg:#faf9fc; --card:#fff; --line:#e7e3f0;
-  --link:#6F52B8; --paper2:#f2effa; --control:#b9afd0;
-  --font-mono:"Nudica Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  --paper2:var(--vh-paper);   /* lavender band + code background */
+  --control:#b9afd0;          /* checkbox border */
 }
 
 /* ── shell ── */
