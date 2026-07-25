@@ -825,12 +825,49 @@ indicates *"limited evidence in the dataset for personalization within the chose
 policy class rather than proof against any realizable form of personalization."*
 
 **Not adopted.** Their K-fold personalization test is not being reimplemented
-here. Reference code and data are published (Dryad,
-doi:[10.5061/dryad.bg79cnpp7](https://doi.org/10.5061/dryad.bg79cnpp7)); the
-efficiency proofs sit in supplementary section 3 and have **not** been read by
-this project. Per the Vahtian rule on fresh formal results — adopt the
-architecture, not the formal foundation — the paper enters this document as a
-**threat citation and a study design**, not as a dependency.
+here. Per the Vahtian rule on fresh formal results — adopt the architecture, not
+the formal foundation — the paper enters this document as a **threat citation and
+a study design**, not as a dependency.
+
+**Reproducibility of the cited paper, as checked 2026-07-26.** The Dryad record
+(doi:[10.5061/dryad.bg79cnpp7](https://doi.org/10.5061/dryad.bg79cnpp7),
+published 2026-06-30, 624 MB) resolves and holds the domain data, simulation data
+and results, and a README. Two qualifications worth recording because this
+document leans on the paper's null results:
+
+- the **analysis code archive itself is not in the Dryad deposit** — the README
+  points to a Zenodo link for `personalization_code.tar.gz`;
+- the **nefazodone depression dataset is access-restricted** (reviewer access via
+  OSF; researchers must request it from the trial's authors). That dataset is one
+  of the two *null* results — the ones most quotable in Vahtian's direction — and
+  it is therefore **not independently reproducible from the public deposit**.
+  Treat the depression null as reported-but-unverified; the MOOC null is on open
+  data. _(Marked `[VERIFY BEFORE CITING]` if either null is ever quoted in
+  outward-facing copy.)_
+
+**Assumption fragility — read before leaning on the result.** The supplementary
+was read at the level of assumptions, theorem statements, and the authors' own
+commentary; the ~20 lemmas were **not** checked line by line. Type I error
+control requires Assumptions 1–10; semiparametric efficiency additionally requires
+Assumption 11 (a low-regret policy learner). Two of those assumptions are, by the
+authors' own account, weakest in exactly the regime the test is used to
+adjudicate:
+
+- **Assumption 6 (fast best-arm learner)** is rescued by a *minimum gap* condition
+  — a δ > 0 margin between the best intervention and every other — which the
+  authors describe as assuming "there are not two or more best interventions with
+  identical average outcomes."
+- **Assumption 10 (unique optimal policy)** is acknowledged to fail when "many
+  individuals have zero treatment effect."
+
+Both of those describe the **near-null regime** — near-ties between options, or
+large zero-effect subgroups. That is precisely where a "no personalisation
+benefit" verdict would be issued. The proofs are not circular (Type I control is
+established *under* the assumptions), but the assumptions are least comfortable
+near the boundary being tested. **Consequence for this document:** the paper is
+sound support for the *conceptual* claim — heterogeneity is necessary but not
+sufficient — and should **not** be cited as evidence that any particular null
+result is secure.
 
 ---
 
