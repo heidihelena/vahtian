@@ -329,8 +329,18 @@ property-tested (`test_properties.py`, Ch. 1.2.2).
   against each yields a different `H` **from item counts alone**, for any λ < 1.
 - **A3.** `max` commutes with any monotone φ; the arithmetic mean commutes only
   with affine φ, i.e. only if the ratings are **interval-scaled**. The Ch. 1.2
-  input model declares them *categorical/ordinal*. This is standard measurement
-  theory, not a MethodVahti-specific claim.
+  input model declares them *categorical/ordinal*.
+
+  **Stated carefully (revised 2026-07-26).** An earlier draft of this section
+  called the point "standard measurement theory." That claim is stronger than
+  this project can currently source: a targeted search (2026-07-26) returned **no
+  citable measurement-theory or decision-analysis reference**, and the underlying
+  debate about permissible statistics on ordinal scales is more qualified than the
+  slogan suggests. The defensible formulation, which is all the argument needs:
+  *because the dimension ratings are ordinal, arithmetic aggregation requires
+  additional assumptions about category spacing and about compensation between
+  dimensions — and MethodVahti does not currently justify those assumptions.*
+  Sourcing a formal reference remains open (Ch. 8.5).
 
 Two independent routes give the same answer, which is unsurprising: `max` is a
 lattice operation and the mean is an arithmetic one, and the inputs are neither
@@ -451,6 +461,117 @@ was computed under.
 Both must be written **before** the Ch. 1.2.2 redesign fixes the cell definition,
 so the decision above is made deliberately rather than inherited from the legacy
 code.
+
+### 1.2.4 Decision record — the overall judgement is a least-favourable-domain classification  **[DECISION RECORD — owner, 2026-07-26]**
+
+**Decision.** Remove the numerical defensibility composite and the λ parameters
+from user-facing scoring. The overall judgement becomes a **least-favourable-domain
+ordinal classification** with documented downward escalation and a justified human
+override. The complete dimension profile is the primary output.
+
+This **supersedes** the framing in Ch. 1.2.3 in one respect: the researcher no
+longer chooses among admissible aggregators as a parameter. Their authority is
+preserved but relocated — from picking a rule to **overriding a stated rule in
+writing**. That is the stronger position, and it is how appraisal instruments
+already handle reviewer judgement.
+
+**The rule.**
+
+```
+overall = min(dimension_ratings)
+
+if multiple_material_concerns(dimension_ratings, context):
+    overall = downgrade(overall)
+
+if reviewer_override:
+    overall = reviewer_judgement
+    require_written_justification()
+```
+
+Note the escalation is **downward-only**. No favourable dimension raises the
+overall judgement; accumulated mid-level concerns may lower it below the worst
+single dimension. `multiple_material_concerns` is deliberately **left to
+judgement, not quantified** — every instrument surveyed leaves it qualitative, and
+quantifying it would be an invention MethodVahti must own and defend rather than a
+borrowed convention.
+
+**Recommended report form.**
+
+> **Overall defensibility: Limited**
+>
+> The overall judgement cannot be more favourable than the least defensible
+> dimension. The weakest dimension was **sampling adequacy**. Additional concerns
+> in analytic transparency supported no upward adjustment.
+>
+> This is an ordinal judgement derived from the dimension profile. **It is not a
+> numerical quality score.**
+
+followed by the full profile:
+
+| Dimension | Judgement |
+|---|---|
+| Research question | Strong |
+| Sampling | Limited |
+| Data collection | Adequate |
+| Analysis | Adequate |
+| Reflexivity | Strong |
+
+This preserves useful gradation **where it belongs — at the dimension level** —
+without pretending that the distances or trade-offs between dimensions are known.
+
+**Precedent, stated at the strength the evidence supports.** A targeted review of
+RoB 2, ROBINS-I, AMSTAR 2, GRADE-CERQual, QUADAS-2 and MMAT (2026-07-26) found
+that these instruments **either use least-favourable or critical-domain rules for
+an overall ordinal judgement, or advise against producing an overall summary score
+at all.** That formulation is deliberately narrower than "all six use a
+worst-domain floor," which would force instruments with materially different
+mechanisms into one mathematical rule. Specifically:
+
+- **RoB 2 / ROBINS-I** — a domain judgement is a *lower bound* on the overall
+  ("at least this severe"); the best category requires the best rating in every
+  domain; accumulated mid-level concerns may escalate downward. No rule permits a
+  favourable domain to raise the overall.
+- **AMSTAR 2** — explicitly forbids combining item ratings into a numeric score,
+  on the stated grounds that an overall score *"may disguise critical
+  weaknesses."* Its own rule is lexicographic on a designated critical subset.
+- **QUADAS-2** — carries an instrument-level prohibition on scoring, with a
+  conjunctive overall rule.
+- **MMAT** — supports **not calculating an overall score** and reporting the
+  individual criteria. *It does not establish a formal `min` rule*, and must not
+  be cited as though it does.
+- **GRADE-CERQual** — starts at a ceiling and downgrades per component with no
+  rate-up provision.
+
+**Known limits of this precedent — a reviewer's honest openings.**
+
+1. **Direction.** Every instrument surveyed operates on a *harm* construct
+   (higher = worse). None operates natively on a defensibility construct. The
+   transfer is by **symmetry, not direct analogy**. This is the strongest
+   available objection and is recorded here rather than hidden.
+2. **JBI and CASP were not established.** The two instruments closest to this
+   tool's domain returned nothing verifiable in the review. Open (Ch. 8.5).
+3. **Specification is not practice.** These instruments forbid summary scores and
+   the field computes them anyway. Do not restate a specification as a description
+   of what appraisers do.
+
+**Code decision (Ch. 1.2.2 redesign).** The four-site change is **not** `max → min`:
+
+- `_h_within` — remove the λ-based mean/max aggregation for defensibility.
+- `_h_between` — replace with the least-favourable ordinal judgement.
+- `_sparse_stress` — rewrite around sensitivity of the weakest-dimension
+  judgement, **or remove it** if it only makes sense for a continuous composite.
+- Report text — delete all "worst-case weight" language (currently generated from
+  the λ values) and state the non-compensatory classification rule instead.
+
+Keep the λ implementation **only** if it remains necessary for the original
+heterogeneity construct. It must **not** be shared with defensibility merely
+because both consume domain-shaped data.
+
+**Validation status — unchanged by this decision.** This correction improves
+internal coherence and alignment with appraisal conventions. It does **not**
+validate the judgements, the thresholds, the feature assignments, or any decision
+benefit of MethodVahti. The score remains **○ author hypothesis**; Ch. 8.6 still
+owns whether acting on it helps anyone, and remains not runnable.
 
 ### 1.3 Intended use, out-of-scope use, and known limitations
 
