@@ -18,20 +18,22 @@ non-zero, but only because sparse cells are inflated toward a floor — i.e. it 
 driven entirely by the data gap, not by any evidence, exactly as the tool's own
 interpretation string warns.
 
-This is a *reproducible demonstration of a specification mismatch*, not a bug
-report and not a redesign. It is the evidence behind the review's #1 critical
-finding — and, since the owner's 2026-07-19 decision (VALIDATION.md Ch. 1.2.1),
-the standing guard that the LEGACY per-`outcome` code still does NOT implement the
-now-agreed outcome-independent defensibility construct and must be redesigned
-(Ch. 1.2.2).
+Since v0.4.0 this is a *scope demonstration*, not a defect report. Under the
+construct separation (VALIDATION.md Ch. 1.2.5, D1/D3) the sampling-heterogeneity
+score legitimately REQUIRES per-record outcome data — that is its construct —
+while the outcome-free appraisal question that Table 3 poses is answered by the
+DEFENSIBILITY CLASSIFICATION (Ch. 1.2.4), which consumes dimension judgements
+and no outcome column at all. Part 2 below demonstrates that resolution on the
+same three Table-3 rows.
 
 RUN
 ---
     python construct_check.py
 
-Exit code is 0 on the *expected* mismatch (primary H == 0.0 on Table-3 shape)
-and 1 if the shipped behaviour has changed — so this doubles as a guard that the
-finding written into VALIDATION.md still holds against the shipped code.
+Exit code is 0 when BOTH constructs behave as specified: the sampling score
+returns H == 0.0 on outcome-free Table-3 shape (its scope boundary holds), and
+the defensibility classification produces an ordinal judgement from outcome-free
+appraisal input (the resolution is in place). Exit 1 if either has drifted.
 """
 
 from __future__ import annotations
@@ -39,6 +41,7 @@ from __future__ import annotations
 import sys
 
 from methodvahti.heterogeneity import sampling_heterogeneity_score
+from methodvahti.defensibility import classify_defensibility, NOT_ASSESSABLE
 
 
 # The seven design dimensions that Giltenane Table 3 supplies ~1:1 (README §1.A).
@@ -138,22 +141,47 @@ def run() -> int:
     print("  results exist). Under that construct, Table-3-style design coding IS")
     print("  scoreable in principle; no 'outcome' column is needed.")
     print()
-    print("  WHY THIS DEMO STILL MATTERS: the LEGACY code above still requires a")
-    print("  per-record 'outcome' and so returns H = 0.0 on Table-3 shape. It does")
-    print("  NOT yet implement the agreed construct. The redesign (Ch. 1.2.2) is")
-    print("  the next implementation phase; this script guards the finding until")
-    print("  then (its exit-code contract flips once the new score is in).")
+    print("  RESOLUTION (v0.4.0, Ch. 1.2.4/1.2.5): the outcome-free question is")
+    print("  answered by the defensibility CLASSIFICATION, not by a score. Part 2")
+    print("  appraises the same three rows (ILLUSTRATIVE hand judgements) and")
+    print("  classifies without any outcome column.")
     print("=" * 68)
+    print()
 
-    # Expected state = mismatch reproduced (primary H == 0.0). If the shipped
-    # code ever stops returning 0.0 here, the VALIDATION.md finding is stale.
-    if all_primary_zero:
-        print("  STATUS: legacy mismatch still present (primary H == 0.0);")
-        print("          outcome-independent redesign (Ch. 1.2.2) not yet landed.")
+    # PART 2 — the same rows, appraised (illustrative judgements, not data)
+    # and classified. No outcome column anywhere.
+    appraisals = [
+        {"study_design": "Strong", "sampling": "Adequate",
+         "analysis": "Adequate", "theoretical_framework": "Limited",
+         "trustworthiness": "Adequate"},
+        {"study_design": "Strong", "sampling": "Adequate",
+         "analysis": "Strong", "theoretical_framework": "Strong",
+         "trustworthiness": "Strong"},
+        {"study_design": "Adequate", "sampling": NOT_ASSESSABLE,
+         "analysis": "Adequate", "theoretical_framework": "Limited",
+         "trustworthiness": "Limited"},
+    ]
+    classification_ok = True
+    print("  PART 2 — defensibility classification on outcome-free appraisal")
+    print("  (judgements below are illustrative, not measured):")
+    for i, prof in enumerate(appraisals, 1):
+        c = classify_defensibility(prof)
+        print(f"    review {i}: overall = {c['overall']:<14s} "
+              f"weakest = {', '.join(c['weakest_dimensions']) or '—'}"
+              + ("  [incomplete]" if c["incomplete"] else ""))
+        if c["overall"] not in ("Strong", "Adequate", "Limited", NOT_ASSESSABLE):
+            classification_ok = False
+    print()
+
+    if all_primary_zero and classification_ok:
+        print("  STATUS: both constructs behave as specified —")
+        print("          sampling score: outcome-free input -> H == 0.0 (scope")
+        print("          boundary holds; use it only with outcome data);")
+        print("          defensibility: outcome-free appraisal -> ordinal")
+        print("          classification (the Ch. 1.2.1 gap is closed).")
         return 0
-    print("  STATUS: CHANGED — primary H is no longer 0.0 on Table-3 shape.")
-    print("          If the redesign (Ch. 1.2.2) landed, update this guard and")
-    print("          re-freeze VALIDATION.md Ch. 15 for the new score.")
+    print("  STATUS: DRIFT — one of the constructs no longer matches its spec.")
+    print("          Re-check VALIDATION.md Ch. 1.2.4/1.2.5 and Ch. 15.")
     return 1
 
 

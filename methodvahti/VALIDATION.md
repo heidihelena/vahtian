@@ -7,11 +7,13 @@ AI/LLM evaluation at the input boundary, human-in-the-loop validation,
 reproducibility, governance, and regulatory alignment — organised as measurable
 release gates.
 
-**Version lock.** This framework validates **`methodvahti` v0.3.0** (the version
-in `pyproject.toml`) with the default governance parameters and severity
-catalogue shipped in `methodvahti/heterogeneity.py` at that version. A validation
-result is only meaningful against a pinned code state; see Ch. 3.4 for the SemVer
-policy and Ch. 15 for the frozen spec.
+**Version lock.** This framework validates **`methodvahti` v0.4.0** (the version
+in `pyproject.toml`): the **defensibility classification** (`defensibility.py`,
+Ch. 1.2.4/1.2.5) and the **sampling-heterogeneity score** (`heterogeneity.py`,
+canonical name `sampling_heterogeneity_score`) with its default governance
+parameters and severity catalogue. v0.4.0 is a **MAJOR revision under the 0.x
+scheme** (Ch. 3.4): the meaning of outputs changed. No validation result carries
+across from v0.3.0 — none existed. See Ch. 15 for the frozen specs.
 
 **Status of this document.** Most of this framework is a **plan with measurable
 gates that have not yet been executed.** Two things are already real and are
@@ -1355,15 +1357,52 @@ interest** statement (0.4 — developers validating their own hypothesis) and th
 
 ---
 
-## Chapter 15. Version-locked specification (frozen for v0.3.0 — LEGACY)
+## Chapter 15. Version-locked specifications
 
-**This documents the LEGACY per-`outcome` implementation** (Ch. 1.2.2), pinned for
-traceability. It is the spec the shipped code currently runs and the existing
-tests cover. It is **superseded by the outcome-independent redesign** (Ch. 1.2);
-when that lands, this table is re-frozen for the new score as a MAJOR bump
-(Ch. 3.4). A validation result is tied to the frozen spec of whichever score it
-was run against; changing any row is at least a MAJOR bump and requires
-revalidation.
+### 15.0 Frozen specification — v0.4.0 (CURRENT)
+
+**Package / algorithm version:** `methodvahti` **0.4.0** (`pyproject.toml`).
+Frozen 2026-07-26. Any change to a row below is at least a MAJOR bump (Ch. 3.4).
+
+**Construct A — defensibility classification** (`defensibility.py`, Ch. 1.2.4/1.2.5)
+
+| Element | Frozen value |
+|---|---|
+| Ordinal scale | `Strong` · `Adequate` · `Limited` (three levels; no others) |
+| Data-state | `Not assessable` — reported, excluded from the rule, never ordinal |
+| Rule | least-favourable dimension rule + downward escalation + justified reviewer override |
+| Escalation | downward-only; written reasoning mandatory |
+| Override | any target; written justification mandatory; always on the record |
+| Critical concerns | explicit flags; `force_limited` requires written reasoning |
+| Output | ordinal labels + full profile + derivation audit string; **no numeric value of any kind** |
+| Boundary statement | "This is an ordinal judgement derived from the dimension profile. It is not a numerical quality score." |
+| Evidence grade | ○ author hypothesis |
+
+**Construct B — sampling heterogeneity** (`heterogeneity.py`; canonical
+`sampling_heterogeneity_score`, deprecated alias `qualitative_heterogeneity_score`
+until the next MAJOR). Harm-direction: higher = greater sampling difficulty.
+Sole numeric input to `optimise_n()` via `sampling_heterogeneity_input()`
+(Ch. 1.2.5, D1). Governance parameters, severity catalogue, and `optimise_n`
+coefficients are **unchanged from v0.3.0** — the legacy table below remains the
+authoritative numeric spec for this construct; only the name, the scope prose,
+and the boundary enforcement are new. Golden fixtures unchanged.
+
+**The boundary (absolute):**
+
+```
+sampling heterogeneity  → numeric               → optimise_n()
+defensibility profile   → ordinal classification → report and reviewer judgement
+```
+
+### 15.1 Frozen specification — v0.3.0 (LEGACY, retained for traceability)
+
+**This documents the v0.3.0 per-`outcome` implementation.** Under the v0.4.0
+construct separation it survives as the numeric spec of **sampling
+heterogeneity** (§15.0, Construct B) — the parameter values below are still the
+shipped values. The *defensibility* interpretation this spec once carried is
+superseded by the classification (Ch. 1.2.4); no numeric defensibility spec
+exists or will be re-frozen. A validation result is tied to the frozen spec of
+whichever construct it was run against.
 
 **Package / algorithm version:** `methodvahti` **0.3.0** (`pyproject.toml`);
 `qualitative_heterogeneity_score` and `optimise_n` as shipped at that version.
