@@ -1,41 +1,102 @@
-# MethodVahti — Qualitative Heterogeneity Scoring
+# MethodVahti — design defensibility & sampling heterogeneity
 
-Part of the [EpiNet](https://github.com/heidihelena/epinet) toolkit · [Vahtian](https://vahtian.com) · Apache-2.0 licence
+Part of the [EpiNet](https://github.com/heidihelena/epinet) toolkit · [Vahtian](https://vahtian.com) · Apache-2.0 licence · v0.4.0
 
-## What this module does
+## Two constructs, one absolute boundary
 
-`qualitative_heterogeneity_score()` estimates heterogeneity in qualitative
-research designs for use in sample size optimisation and methods reporting.
-
-It returns one **primary score** (hierarchical) and two **diagnostic scores**
-(marginal map, sparse interaction stress) — never a single number presented
-as ground truth.
-
-## Why three scores
-
-| Score | Purpose | Evidence basis |
-|---|---|---|
-| `hierarchical_heterogeneity_score` | Primary — feeds optimisation | ○ Author hypothesis |
-| `marginal_heterogeneity_map` | Descriptive diagnostic | ◆ Consensus |
-| `sparse_interaction_stress` | Sparsity visible, not hidden | ○ Author hypothesis |
-
-## Outcome severity weights
-
-**These are NOT observed rates.**
-They are severity amplification weights — how much a given outcome type
-amplifies the cell heterogeneity score relative to other outcomes.
+MethodVahti answers two different questions about a qualitative study design,
+and keeps them structurally apart (VALIDATION.md Ch. 1.2.5):
 
 ```
-1.0 = maximum governance concern
-0.0 = no amplification
+sampling heterogeneity  → numeric               → optimise_n()
+defensibility profile   → ordinal classification → report and reviewer judgement
 ```
 
-Default values are author hypotheses about expected severity.
-Research teams **should** audit and adjust with pilot data.
-Every change is recorded with timestamp, reason, and who made it.
+- **Sampling heterogeneity** — *how heterogeneous are the design cells, and how
+  many participants does that demand?* A numeric, harm-direction estimate
+  (higher = greater sampling difficulty) that feeds sample-size optimisation.
+- **Defensibility** — *how defensible are the design's methodological
+  decisions, judged before any results exist?* An **ordinal classification with
+  a full dimension profile. There is no overall number, on purpose.**
+
+Neither construct ever crosses into the other. The pipe between the sampling
+score and `optimise_n()` refuses defensibility input — even deliberately.
+
+## Defensibility classification
 
 ```python
-from methodvahti.heterogeneity import default_severity_catalogue
+from methodvahti import classify_defensibility, render_report
+
+result = classify_defensibility({
+    "research_question": "Strong",
+    "sampling":          "Adequate",
+    "data_collection":   "Adequate",
+    "analysis":          "Limited",
+    "reflexivity":       "Strong",
+})
+print(render_report(result))
+```
+
+```
+Overall defensibility: Limited
+
+The overall judgement cannot be more favourable than the least
+defensible dimension.
+The weakest dimension was: analysis.
+
+This is an ordinal judgement derived from the dimension profile.
+It is not a numerical quality score.
+...
+```
+
+The rule, in full: **least-favourable dimension rule + downward escalation +
+justified reviewer override.**
+
+- Frozen scale: `Strong` · `Adequate` · `Limited`. `"Not assessable"` is a
+  data-state — reported, never a rating.
+- Accumulated material concerns may push the overall *lower* (escalation,
+  written reasoning mandatory). Nothing pushes it higher.
+- The reviewer may override the classification — with a written justification
+  that is always carried into the report.
+- Fatal or critical concerns are explicit `Flag`s; a flag can force the overall
+  to `Limited`, with written reasoning.
+
+This mirrors how established appraisal instruments aggregate (RoB 2, ROBINS-I,
+AMSTAR 2, QUADAS-2, MMAT): least-favourable or critical-domain rules for an
+overall ordinal judgement, or no overall summary score at all — never a
+best-feature rule, never an average (VALIDATION.md Ch. 1.2.4).
+
+## Sampling heterogeneity → sample size
+
+```python
+from methodvahti import sampling_heterogeneity_score
+from methodvahti_pdf import optimise_n, sampling_heterogeneity_input
+
+result = sampling_heterogeneity_score(records,
+                                      dimensions=["design", "sampling"],
+                                      outcome="judge_human_disagreement")
+
+opt = optimise_n({
+    **sampling_heterogeneity_input(result),   # the one sanctioned crossing
+    "depth": "explanatory",
+    "specificity": 0.65,
+    "data_quality": 0.75,
+})
+print(opt["optimal_n"], opt["stability_range"])
+```
+
+`optimise_n` synthesises three sample-size models (linear saturation, network
+complexity, fuzzy-set QCA) with an information-power adjustment, and always
+returns all three plus a stability range — never a lone point estimate. The
+researcher confirms N; the tool proposes.
+
+The score's `max`/λ worst-case weighting is **conservative in this construct**
+(higher = harder to sample) and is confined to it (defensibility uses no λ and
+no numbers). Severity weights are amplification hypotheses, not observed rates
+— audit and adjust them with pilot data:
+
+```python
+from methodvahti import default_severity_catalogue
 
 catalogue = default_severity_catalogue()
 catalogue["judge_human_disagreement"].change(
@@ -45,137 +106,50 @@ catalogue["judge_human_disagreement"].change(
 )
 ```
 
-The audit log is included in the MethodVahti PDF report.
+Every change is audit-logged with timestamp, reason, and author, and the log is
+included in the PDF report. Governance parameters (λ, γ, `min_n`, `shrink`) are
+team decisions, not learned constants; defaults and evidence grades are frozen
+in VALIDATION.md Ch. 15.
 
-## Governance parameters
-
-All λ and γ values are **team decisions**, not learned constants:
-
-| Parameter | Meaning | Default | Evidence basis |
-|---|---|---|---|
-| `lambda_within` | Worst-case weight within dimension | 0.65 | ◌ Opinion range |
-| `lambda_between` | Worst-case weight across dimensions | 0.50 | ◌ Opinion range |
-| `gamma_sparsity` | Sparsity stress penalty | 0.20 | ◌ Opinion range |
-| `min_n` | Evidence floor per cell | 5 | ◇ Contested |
-| `shrink` | Bayesian shrinkage of sparse cells | True | ○ Author hypothesis |
-
-## Quick start
-
-```python
-from methodvahti.heterogeneity import (
-    qualitative_heterogeneity_score,
-    default_severity_catalogue,
-)
-
-result = qualitative_heterogeneity_score(
-    records,
-    dimensions=[
-        "study_design", "population", "setting", "language",
-        "data_collection", "analysis_method",
-        "theoretical_framework", "trustworthiness",
-    ],
-    outcome="judge_human_disagreement",
-    lambda_within=0.65,
-    lambda_between=0.50,
-    gamma_sparsity=0.20,
-    min_n=5,
-    shrink=True,
-)
-
-H = result.primary_score["value"]   # → feed into epinet_estimate()
-```
-
-## Feeding into sample size optimisation
-
-`H` flows into the optimisation + reporting layer (`methodvahti_pdf`), which
-synthesises **three** sample-size models — linear saturation, network
-complexity, fuzzy-set QCA — and adjusts for information power. The three
-estimates are always returned alongside the synthesis: the number is decision
-support, never a verdict.
-
-```python
-from methodvahti_pdf import optimise_n, build
-
-opt = optimise_n({
-    "heterogeneity": result.primary_score["value"],
-    "theme_prevalence": 0.30,
-    "depth": "explanatory",          # descriptive | explanatory | theoretical
-    "specificity": 0.65,
-    "theory_strength": 0.50,
-    "data_quality": 0.75,
-    "power": 0.80,
-    "mixed_methods": True,
-    "min_detectable_diff": 0.20,
-})
-opt["optimal_n"]   # synthesis;  opt["models"] holds all three;  opt["stable"]
-```
+> **Renamed in v0.4.0:** `qualitative_heterogeneity_score` is a deprecated
+> alias of `sampling_heterogeneity_score` and will be removed at the next
+> MAJOR release.
 
 ## The COREQ/SRQR PDF report
 
-`build()` renders a brand-styled, peer-review-ready PDF — study profile, the
-three-model comparison, fuzzy-set sensitivity, epistemic limitations, the full
-COREQ 32-item checklist, and a citation + audit record. **The researcher
-confirms N before the PDF is generated.**
-
-```python
-build({
-    "report_id": "MV-2026-001",
-    "study_title": "...",
-    "research_question": "...", "orientation": "IPA",
-    "optimisation": opt,             # or "optimisation_params": { ... }
-    "chosen_n": 18,                  # the researcher's decision
-    "chosen_rationale": "...",       # in their own words
-    "stopping_criterion": "...",
-    # ...see examples/methodvahti_pdf_example.py for the full schema
-}, "methodvahti-report-2026-001.pdf")
-```
-
-The PDF layer needs reportlab (the only dependency, kept out of the core):
-
-```bash
-pip install "methodvahti[pdf]"      # or: pip install "reportlab>=4"
-```
-
-The PDF embeds **Liberation Sans/Mono** (bundled as package data in
-`methodvahti/assets/fonts/`, SIL OFL, and shipped in the wheel) — the same
-system-stack approximation the brand's social-card generator uses — so the
-report carries its own fonts and needs nothing installed on the reader's machine.
-If the bundled fonts are ever absent it warns and falls back to the PDF base-14.
-
-## Interactive explorer
-
-A browser-only visualisation of these exact models lives at
-[vahtian.com/methodvahti/explore](https://vahtian.com/methodvahti/explore/)
-(`methodvahti/explore/index.html` in this repo). It ports `optimise_n` to
-JavaScript and lets researchers *see* how their design choices move N — a
-three-model comparison with a stability band, a sensitivity tornado, an
-N-vs-heterogeneity sweep, and a Monte-Carlo saturation curve. Self-contained,
-no external requests, nothing uploaded.
+`methodvahti_pdf.build()` renders the methods report (COREQ 32-item reference,
+severity audit log, all three sample-size models, the stability verdict). The
+free in-browser explorer (`optimise.mjs`) is ported 1:1 from the Python and CI
+holds them bit-identical — the explorer and the paid report cannot disagree.
 
 ## What this module does NOT do
 
-- Does not infer causality
-- Does not replace researcher judgment
-- Does not produce a single correct answer
-- Does not validate study quality
-- Primary score is an **author hypothesis** — not externally validated
+- It never says a sample is **adequate**, **sufficient**, or **validated** —
+  those words do not appear in any output.
+- The defensibility classification is **not a quality score** and cannot rank
+  studies against each other.
+- It does not infer causality and does not replace researcher judgement.
+- Both constructs are graded **○ author hypothesis** (VALIDATION.md Ch. 0.2):
+  Vahtian's own construction, not externally validated. The full validation
+  framework, including what has *not* been tested, is `VALIDATION.md`.
+- Agent guidance (how an AI assistant should and should not drive this tool)
+  is `SKILL.md`.
 
 ## Tests
 
 ```bash
-python -m pytest tests/ -v
-# heterogeneity: 29 offline tests
-# optimise_n:    deterministic tests, fully offline
-# build():       1 PDF smoke test (auto-skipped if reportlab is absent)
+python3 -m pytest tests/   # 90 tests: rule gates, construct separation,
+                           # boundary wiring, golden Python↔JS parity
+python3 construct_check.py # scope demonstration: both constructs on
+                           # outcome-free Table-3-shaped input
 ```
 
 ## Citation
 
 ```
-Vahtian. (2026). MethodVahti: Qualitative heterogeneity scoring
-for sample size optimisation. In: EpiNet toolkit.
-GitHub: heidihelena/epinet, branch: methodvahti-heterogeneity.
-Apache-2.0 licence.
+Vahtian. (2026). MethodVahti: design defensibility classification and
+sampling-heterogeneity estimation for qualitative study design.
+In: EpiNet toolkit. GitHub: heidihelena/epinet. Apache-2.0 licence.
 ```
 
 DOI will be assigned on Zenodo release.

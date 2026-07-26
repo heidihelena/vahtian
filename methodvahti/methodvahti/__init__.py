@@ -26,7 +26,7 @@ from .defensibility import (
     Override,
 )
 
-__version__ = "0.3.0"
+__version__ = "0.4.0"
 __all__ = [
     # sampling heterogeneity (numeric → optimise_n; Ch. 1.2.5 D1)
     "sampling_heterogeneity_score",

@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "methodvahti"
-version = "0.3.0"
+version = "0.4.0"
 description = "MethodVahti — qualitative heterogeneity scoring for sample size optimisation (EpiNet toolkit / Vahtian)"
 readme = "README.md"
 requires-python = ">=3.9"
