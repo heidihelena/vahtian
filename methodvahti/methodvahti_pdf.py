@@ -99,12 +99,44 @@ def _model_fuzzy_set_qca(base: int, H: float, S: float,
     return n
 
 
+def sampling_heterogeneity_input(result) -> dict:
+    """The one sanctioned crossing of the construct boundary (Ch. 1.2.5, D1).
+
+    Accepts a sampling-heterogeneity result (the dataclass or its dict form, or
+    a bare primary_score dict) and returns {"heterogeneity": value} for
+    optimise_n(). Anything defensibility-shaped is rejected: defensibility
+    never enters sample-size optimisation, directly or indirectly.
+    """
+    ps = getattr(result, "primary_score", None)
+    if ps is None and isinstance(result, dict):
+        ps = result.get("primary_score", result)
+    if not isinstance(ps, dict):
+        raise ValueError("sampling_heterogeneity_input: unrecognised input; "
+                         "expected a sampling-heterogeneity result")
+    construct = ps.get("construct")
+    if construct == "methodological defensibility" or "overall" in ps:
+        raise ValueError(
+            "sampling_heterogeneity_input: this is a defensibility "
+            "classification. Defensibility never enters sample-size "
+            "optimisation (VALIDATION.md Ch. 1.2.5, D1)."
+        )
+    if construct != "sampling heterogeneity":
+        raise ValueError(
+            "sampling_heterogeneity_input: result does not declare "
+            f"construct 'sampling heterogeneity' (got {construct!r})."
+        )
+    return {"heterogeneity": ps["value"]}
+
+
 def optimise_n(params: dict) -> dict:
     """
     Synthesise three sample-size models with an information-power adjustment.
 
     params (all 0.0–1.0 unless noted):
-        heterogeneity        required — typically result.primary_score["value"]
+        heterogeneity        required — the SAMPLING-heterogeneity value. Extract it
+                             explicitly with sampling_heterogeneity_input(result)
+                             (Ch. 1.2.5 D1). Defensibility never enters sample-size
+                             optimisation, directly or indirectly.
         theme_prevalence     how common the target theme is        (default 0.30)
         depth                "descriptive"|"explanatory"|"theoretical" (default "explanatory")
         specificity          narrow aim = high specificity         (default 0.50)
@@ -118,7 +150,20 @@ def optimise_n(params: dict) -> dict:
     information-power index, a stability range, and full provenance.
     The synthesis is ○ Author hypothesis — show all three models.
     """
-    H = _clamp01(params.get("heterogeneity", 0.0))
+    H_raw = params.get("heterogeneity", 0.0)
+    if isinstance(H_raw, str):
+        raise ValueError(
+            "optimise_n: heterogeneity must be the numeric sampling-heterogeneity "
+            f"value, got {H_raw!r}. Defensibility labels never convert to a "
+            "sample-size input — the boundary is absolute (VALIDATION.md Ch. 1.2.5)."
+        )
+    if isinstance(H_raw, dict) or hasattr(H_raw, "primary_score"):
+        raise ValueError(
+            "optimise_n: pass the numeric value, not a result object. Use "
+            "sampling_heterogeneity_input(result) to cross the boundary "
+            "explicitly (VALIDATION.md Ch. 1.2.5, D1)."
+        )
+    H = _clamp01(H_raw)
     p = _clamp01(params.get("theme_prevalence", 0.30))
     S = _clamp01(params.get("specificity", 0.50))
     T = _clamp01(params.get("theory_strength", 0.50))
@@ -179,7 +224,8 @@ def optimise_n(params: dict) -> dict:
             "power_factor": round(power_factor, 3),
         },
         "inputs": {
-            "heterogeneity": H, "theme_prevalence": p, "depth": depth,
+            "heterogeneity": H,
+            "heterogeneity_construct": "sampling heterogeneity", "theme_prevalence": p, "depth": depth,
             "specificity": S, "theory_strength": T, "data_quality": Q,
             "power": power, "mixed_methods": mixed,
             "min_detectable_diff": d,

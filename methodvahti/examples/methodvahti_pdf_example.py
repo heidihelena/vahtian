@@ -15,8 +15,11 @@ from methodvahti_pdf import optimise_n, build
 
 
 # 1 ── (optional) heterogeneity from coded pilot records ----------------------
-# If you have coded records, H comes from the score. Here we use a direct
-# estimate for brevity; see examples/methodvahti_heterogeneity_example.py.
+# If you have coded records, cross the construct boundary explicitly:
+#   opt = optimise_n({**sampling_heterogeneity_input(result), ...})
+# Here we use a direct estimate for brevity; see
+# examples/methodvahti_heterogeneity_example.py. Defensibility never enters
+# sample-size optimisation (VALIDATION.md Ch. 1.2.5, D1).
 H = 0.35
 
 # 2 ── optimise N across three models -----------------------------------------

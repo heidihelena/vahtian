@@ -643,8 +643,15 @@ The module header and the in-result interpretation text now state the construct
 defensibility or quality appraisal*. The boundary is test-enforced in both
 directions (`test_construct_separation.py`, `test_defensibility.py`): neither
 module imports the other, and λ vocabulary cannot appear in the defensibility
-source. Remaining for PR-C: wiring `optimise_n()` to consume the renamed
-construct explicitly.
+source. PR-C (2026-07-26) closed the wiring: `sampling_heterogeneity_input(result)` is
+the one sanctioned crossing of the boundary — it refuses defensibility
+classifications and any result that does not declare `construct: "sampling
+heterogeneity"`. `optimise_n()` itself rejects label strings and result objects
+with a message naming the boundary, and its provenance records
+`heterogeneity_construct`. The JS twin carries the boundary as documentation
+only (comment), keeping the Python↔JS parity bit-identical. D1 is now
+mechanically enforced end to end: the numeric path cannot be fed by
+defensibility even deliberately, except through an explicit, named refusal.
 
 ### 1.3 Intended use, out-of-scope use, and known limitations
 

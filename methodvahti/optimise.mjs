@@ -12,6 +12,11 @@
 //   linear saturation   — Guest et al. 2006; Hennink et al. 2017
 //   network complexity  — information power, Malterud et al. 2016
 //   fuzzy-set QCA       — configurational adequacy (Ragin)
+//
+// Construct boundary (VALIDATION.md Ch. 1.2.5, D1): H is the SAMPLING
+// heterogeneity value (higher = greater sampling difficulty). Defensibility is
+// an ordinal classification and never enters sample-size optimisation,
+// directly or indirectly — do not map Strong/Adequate/Limited to numbers.
 
 export const DEPTH_BASE = { descriptive: 9, explanatory: 16, theoretical: 24 };
 export const clamp01 = x => Math.max(0, Math.min(1, x));
