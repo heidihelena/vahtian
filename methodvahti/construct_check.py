@@ -5,7 +5,7 @@ Vahtian · part of the validation framework (see VALIDATION.md Ch. 1.2)
 
 WHAT THIS SCRIPT DEMONSTRATES
 -----------------------------
-The shipped ``qualitative_heterogeneity_score`` computes a single corpus-level
+The shipped ``sampling_heterogeneity_score`` computes a single corpus-level
 scalar from the *rate of a per-record ``outcome``* across design dimensions.
 The Cochrane Giltenane et al. (2025) "Table 3" corpus — the primary frame the
 open validation plan proposes to use — codes each review's *design
@@ -38,7 +38,7 @@ from __future__ import annotations
 
 import sys
 
-from methodvahti.heterogeneity import qualitative_heterogeneity_score
+from methodvahti.heterogeneity import sampling_heterogeneity_score
 
 
 # The seven design dimensions that Giltenane Table 3 supplies ~1:1 (README §1.A).
@@ -109,7 +109,7 @@ def run() -> int:
 
     all_primary_zero = True
     for outcome in OUTCOMES:
-        result = qualitative_heterogeneity_score(
+        result = sampling_heterogeneity_score(
             TABLE3_RECORDS,
             dimensions=TABLE3_DIMENSIONS,
             outcome=outcome,

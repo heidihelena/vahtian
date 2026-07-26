@@ -10,7 +10,7 @@ Writes a COREQ/SRQR-compatible PDF to the current directory.
 """
 
 from methodvahti.heterogeneity import (
-    qualitative_heterogeneity_score, default_severity_catalogue)
+    sampling_heterogeneity_score, default_severity_catalogue)
 from methodvahti_pdf import optimise_n, build
 
 

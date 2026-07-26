@@ -28,7 +28,7 @@ except ImportError:  # pragma: no cover - environment without hypothesis
     _HAS_HYPOTHESIS = False
 
 from methodvahti.heterogeneity import (
-    qualitative_heterogeneity_score,
+    sampling_heterogeneity_score,
     default_severity_catalogue,
 )
 
@@ -43,7 +43,7 @@ _OUTCOMES = [OUTCOME, "grey_zone", "criterion_disagreement", "judge_error"]
 
 
 def _primary(records, **kwargs):
-    return qualitative_heterogeneity_score(
+    return sampling_heterogeneity_score(
         records, dimensions=DIMS, outcome=OUTCOME, **kwargs
     ).primary_score["value"]
 
@@ -114,10 +114,10 @@ if _HAS_HYPOTHESIS:
             cat_hi = default_severity_catalogue()
             cat_lo[OUTCOME].change(lo, "test", "property: low weight")
             cat_hi[OUTCOME].change(hi, "test", "property: high weight")
-            h_lo = qualitative_heterogeneity_score(
+            h_lo = sampling_heterogeneity_score(
                 records, dimensions=DIMS, outcome=OUTCOME,
                 severity_catalogue=cat_lo).primary_score["value"]
-            h_hi = qualitative_heterogeneity_score(
+            h_hi = sampling_heterogeneity_score(
                 records, dimensions=DIMS, outcome=OUTCOME,
                 severity_catalogue=cat_hi).primary_score["value"]
             self.assertGreaterEqual(h_hi, h_lo - 1e-9)

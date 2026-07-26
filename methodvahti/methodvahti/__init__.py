@@ -9,10 +9,12 @@ from methodvahti.heterogeneity import (
 )
 """
 from .heterogeneity import (
-    qualitative_heterogeneity_score,
+    sampling_heterogeneity_score,
+    qualitative_heterogeneity_score,   # deprecated alias — removal at next MAJOR
     default_severity_catalogue,
     OutcomeSeverity,
     HeterogeneityResult,
+    SamplingHeterogeneityResult,
 )
 from .defensibility import (
     classify_defensibility,
@@ -27,7 +29,9 @@ from .defensibility import (
 __version__ = "0.3.0"
 __all__ = [
     # sampling heterogeneity (numeric → optimise_n; Ch. 1.2.5 D1)
-    "qualitative_heterogeneity_score",
+    "sampling_heterogeneity_score",
+    "SamplingHeterogeneityResult",
+    "qualitative_heterogeneity_score",  # deprecated
     "default_severity_catalogue",
     "OutcomeSeverity",
     "HeterogeneityResult",

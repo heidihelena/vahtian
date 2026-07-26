@@ -634,6 +634,18 @@ the data-state an ordinal position — exactly what D2 forbids. QUADAS-2 treats
 "unclear" as risk-conferring, so a reviewer may reasonably escalate; the tool does
 not do it for them.
 
+**Implementation status (PR-B, 2026-07-26).** The rename is live:
+`sampling_heterogeneity_score` is canonical; `qualitative_heterogeneity_score`
+survives as a deprecation-warning alias until the next MAJOR release (Ch. 3.4).
+The module header and the in-result interpretation text now state the construct
+("sampling heterogeneity"), the harm-direction polarity, and the scope line —
+*worst-case weighting is conservative for sampling difficulty; this is not a
+defensibility or quality appraisal*. The boundary is test-enforced in both
+directions (`test_construct_separation.py`, `test_defensibility.py`): neither
+module imports the other, and λ vocabulary cannot appear in the defensibility
+source. Remaining for PR-C: wiring `optimise_n()` to consume the renamed
+construct explicitly.
+
 ### 1.3 Intended use, out-of-scope use, and known limitations
 
 - **Intended.** Decision support for defensible methodological design and appraisal
