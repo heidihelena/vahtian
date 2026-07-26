@@ -866,9 +866,73 @@ not just a demo.
 
 ## Chapter 5. Statistical / analytical validation
 
-All **[SPECIFIED — NOT YET EXECUTED]**. Several items here depend on the
-outcome-independent score redesign (Ch. 1.2.2) being implemented before they can
-run against the primary corpus.
+All **[SPECIFIED — NOT YET EXECUTED]**.
+
+### 5.0 What v0.4.0 changed about this chapter  **[DECISION RECORD — 2026-07-26]**
+
+The construct separation (Ch. 1.2.4/1.2.5) splits this chapter's targets in two,
+and makes the primary study **simpler and more standard** than the composite ever
+allowed:
+
+- **Defensibility (primary validation target).** There is no numeric composite to
+  correlate with anything. The validand is a **frozen three-level ordinal
+  judgement per dimension** plus a deterministic overall rule. The primary
+  question becomes: *do independent, trained appraisers assign the same
+  dimension judgements?* — a plain inter-rater agreement study on an ordinal
+  scale, the same design every appraisal instrument uses for its own reliability
+  evidence. §5.2 carries the protocol. Convergent/criterion arms (§5.3) still
+  apply, but against the **dimension judgements and the overall class**, using
+  ordinal methods — never by re-deriving a number from the labels, which would
+  reintroduce the composite through the back door.
+- **Sampling heterogeneity (secondary target).** The numeric score keeps the
+  original convergent/criterion design (§5.3) against saturation outcomes
+  (Ch. 8.4, arm 4). Its λ/severity parameters stay exploratory.
+
+**Agreement on the overall classification is derived, not primary.** Because the
+overall is a deterministic function of the dimension judgements (plus documented
+escalation/override), overall agreement is driven by dimension agreement; report
+both, but power and thresholds are set at the **dimension level**. Escalations
+and overrides are *excluded* from the mechanical-agreement computation and
+reported separately with their written reasoning — they are judgement, and the
+protocol must not launder judgement into a reliability statistic.
+
+### 5.0.1 Pre-registered protocol skeleton — defensibility ordinal agreement
+
+To be frozen (OSF or equivalent) **before any coder touches the corpus**:
+
+1. **Corpus.** The Ch. 8.1 Cochrane Table-3 frame (31 reviews) for design-shaped
+   coding; the CC0 Bologna corpus (Ch. 8.1 B) as the low-friction pilot.
+2. **Coders.** ≥ 3 independent coders (Ch. 5.2 floor), trained on the codebook
+   and the frozen scale; a calibration round on ≤ 5 items **excluded from
+   analysis**; AI-drafted codes are a labelled tier and never count as a coder
+   (Ch. 4, SKILL.md invariant 6).
+3. **Statistic.** Per dimension: **linear-weighted Cohen's κ** (pairwise) and
+   **Krippendorff's α (ordinal)** across all coders, each with bootstrap CIs.
+   Linear weights, not quadratic: quadratic weights impose interval-like spacing
+   on a scale the framework explicitly refuses to treat as interval (Ch. 1.2.3).
+   Overall-class agreement reported with the same statistics, labelled *derived*.
+4. **Thresholds, three-way (house rule — gates need intervals).** Per dimension:
+   **acceptable** if the α CI lower bound ≥ 0.60; **unacceptable** if the CI
+   upper bound < 0.40; otherwise **not resolvable at this n — extend, do not
+   split the difference.** (0.60/0.40 follow the conventional
+   Landis–Koch and Krippendorff usage bands; they are conventions, not truths, and
+   are adopted as pre-registered bright lines precisely so the verdict is not
+   chosen after seeing the data.)
+5. **"Not assessable" handling, pre-stated.** Coder disagreement about whether a
+   dimension *is assessable* is itself an outcome: report the assessable/not
+   split per dimension, compute agreement on the ordinal labels only over items
+   all coders judged assessable, and report how often the data-state itself
+   disagreed. Dropping those items silently would overstate reliability.
+6. **Failure taxonomy per dimension** (Ch. 5.4): which dimensions fail
+   agreement, and whether failure tracks discipline, review type, or codebook
+   granularity — the COREQ-vs-SRQR sensitivity (Ch. 1.2.3) becomes an empirical
+   check here.
+7. **What this study can and cannot conclude, stated in the registration.**
+   Good agreement makes the *judgements reliable*; it does not make them
+   *valid*, does not move the ○ grade by itself, and says nothing about
+   decision benefit (Ch. 8.6). The registration text must say so.
+
+
 
 ### 5.1 Baselines and incremental validity
 
@@ -884,6 +948,9 @@ Two coders is a floor, not a design. Specify: **≥ 3 coders**; a named ordinal
 statistic (**weighted Cohen's κ**, **Krippendorff's α** with ordinal weights,
 and/or **ICC(2,k)**), each with CIs; a **pre-set agreement threshold**; a
 training/calibration protocol; and an **adjudication rule** beyond "consensus."
+For the defensibility construct this section is now the **primary validation
+study**, instantiated as the §5.0.1 protocol skeleton; ICC(2,k) applies to the
+sampling-heterogeneity side only (it assumes interval data).
 
 ### 5.3 Convergent / criterion validity — pre-registration, thresholds, power
 
