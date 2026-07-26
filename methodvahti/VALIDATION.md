@@ -454,9 +454,10 @@ Two property tests, no data required, alongside the nine already in
 
 Because A2 and A3 are correctness constraints rather than preferences, these two
 tests become **release gates** (Ch. 3.4) for the redesigned score — not diagnostics
-a future maintainer may reason their way past. A third test follows once the
-declared-rule mechanism exists: assert that the reported result names the rule it
-was computed under.
+a future maintainer may reason their way past. *(A third test proposed here for a
+"declared-rule mechanism" is withdrawn: Ch. 1.2.4 removed per-study rule selection.
+Its replacement: assert that any reviewer override carries a non-empty written
+justification.)*
 
 Both must be written **before** the Ch. 1.2.2 redesign fixes the cell definition,
 so the decision above is made deliberately rather than inherited from the legacy
