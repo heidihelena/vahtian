@@ -1,0 +1,433 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Research OS &amp; agent memory: prune the garden · Vahtian Learn</title>
+  <meta name="description" content="Why research vaults become graveyards, how the four main agent-memory designs fail, and how a pruning research garden keeps decisions human and on the record.">
+  <meta name="theme-color" content="#2D2440">
+  <link rel="canonical" href="https://vahtian.com/learn/research-os-agent-memory/">
+  <meta name="robots" content="index,follow">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://vahtian.com/learn/research-os-agent-memory/">
+  <meta property="og:title" content="Research OS &amp; agent memory: prune the garden">
+  <meta property="og:description" content="How the four main agent-memory designs work and leak, and how a pruning research garden keeps the human deciding what stays in the record.">
+  <meta property="og:image" content="https://vahtian.com/brand/cards/vahtian-card.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="A research OS, agent memory, and the pruning garden: agents propose, the human prunes, the trail records it.">
+  <meta property="og:site_name" content="Vahtian">
+  <meta name="twitter:card" content="summary_large_image">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "Build a research OS that stays alive: agent memory, and who prunes it",
+    "description": "Why research vaults become graveyards, how vector retrieval, auto-memory, knowledge graphs, and LLM-maintained wikis fail, and how a pruning research garden keeps decisions human and recorded.",
+    "url": "https://vahtian.com/learn/research-os-agent-memory/",
+    "datePublished": "2026-07-26",
+    "inLanguage": "en",
+    "author": { "@type": "Organization", "name": "Vahtian", "url": "https://vahtian.com/" },
+    "publisher": { "@id": "https://vahtian.com/#org" }
+  }
+  </script>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232D2440'/%3E%3Cg fill='none' stroke='%238B6FC9' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 9 H9 V23 H12'/%3E%3Cpath d='M20 9 H23 V23 H20'/%3E%3C/g%3E%3Cpath d='M16 10.3 L19.6 12 L19.6 15 L16 19.6 L12.4 15 L12.4 12 Z' fill='none' stroke='%23C5B8E8' stroke-width='1.8' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <style>
+
+    *{box-sizing:border-box}
+    body{margin:0;font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,ui-sans-serif,system-ui,sans-serif;
+         color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased}
+    a{color:var(--link)}
+    a:focus-visible{outline:3px solid var(--violet);outline-offset:2px}
+    .wrap{max-width:760px;margin:0 auto;padding:0 22px}
+    header{padding:26px 0 4px}
+    .crumbs{font-size:14px;color:var(--muted)}
+    .crumbs a{color:var(--muted);text-decoration:none}
+    .kicker{font:600 13px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--link);
+            text-transform:uppercase;letter-spacing:.08em;margin:34px 0 14px}
+    h1{font-size:clamp(27px,5.2vw,38px);line-height:1.14;letter-spacing:-.02em;margin:0 0 16px}
+    .lede{font-size:clamp(17px,2.4vw,19px);color:#3a3450;margin:0 0 6px}
+    h2{font-size:22px;margin:46px 0 6px;letter-spacing:-.01em}
+    h3{font-size:15px;margin:20px 0 4px;color:var(--navy);text-transform:uppercase;letter-spacing:.04em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+    p{margin:0 0 14px}
+    ol,ul{margin:0 0 14px;padding-left:24px}
+    li{margin:0 0 8px}
+    code{font:13.5px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;background:#f0edf7;padding:1px 5px;border-radius:5px}
+    .seq{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 20px;margin:22px 0}
+    .seq p{font-weight:650;margin:0 0 8px}
+    .seq ol{margin:0;padding-left:22px}
+    .seq li{margin:0 0 4px;font-size:14.5px}
+    .seq a{text-decoration:none}
+    .seq a:hover{text-decoration:underline}
+    .outcomes{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 20px;margin:22px 0}
+    .outcomes p{font-weight:650;margin:0 0 8px}
+    .outcomes ul{margin:0;padding-left:22px}
+    figure{margin:26px 0}
+    .fig-frame{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px}
+    figure svg{display:block;width:100%;height:auto}
+    figcaption{font-size:14px;color:var(--muted);margin:10px 0 0}
+    .note{margin:0 0 16px}
+    .note.key{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--lilac);border-radius:10px;padding:12px 16px}
+    .note .h{font-weight:700;color:var(--navy)}
+    .naught{color:#8a3a3a;font-weight:600}
+    .cta{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px 22px;margin:34px 0 0}
+    .cta .btnrow{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}
+    .btn{display:inline-block;padding:11px 18px;border-radius:9px;font-weight:600;text-decoration:none;font-size:15px;background:var(--navy);color:#fff}
+    .btn.alt{background:#fff;color:var(--navy);border:1px solid var(--line)}
+    footer{margin:56px 0 40px;padding-top:22px;border-top:1px solid var(--line);color:var(--muted);font-size:14px}
+    footer a{color:var(--muted)}
+
+    /* canonical Learn header (H3: rolled off the breadcrumb-only header) */
+    .voc-head{padding:24px 0 6px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
+    .voc-head .brand{display:flex;align-items:center;gap:11px;font-weight:700;font-size:18px;text-decoration:none;color:var(--ink)}
+    .voc-head .mark{width:32px;height:32px;flex:0 0 32px}
+    .voc-head nav.nav{display:flex;align-items:center;gap:16px;flex-wrap:wrap;font-size:14.5px}
+    .voc-head nav.nav a{color:var(--ink);text-decoration:none;font-weight:600}
+    .voc-head nav.nav a:hover,.voc-head nav.nav a[aria-current="page"]{color:var(--link)}
+    .voc-head nav.nav .util{display:flex;align-items:center;gap:13px;padding-left:15px;border-left:1px solid var(--line)}
+    .voc-head nav.nav .util .ic{display:flex;color:var(--muted)}
+    @media(max-width:680px){.voc-head nav.nav{gap:13px;font-size:13.5px}}
+  </style>
+  <link rel="stylesheet" href="../../brand/site-refresh.css">
+<link rel="stylesheet" href="../../brand/footer.css">
+</head>
+<body class="vh-content">
+<a class="skip-link" href="#main-content">Skip to main content</a>
+<div class="wrap">
+
+<header class="voc-head">
+    <a class="brand" href="/" aria-label="Vahtian — home">
+      <svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#2D2440"/><g fill="none" stroke="#8B6FC9" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9 H9 V23 H12"/><path d="M20 9 H23 V23 H20"/></g><path d="M16 10.3 L19.6 12 L19.6 15 L16 19.6 L12.4 15 L12.4 12 Z" fill="none" stroke="#C5B8E8" stroke-width="1.8" stroke-linejoin="round"/></svg>
+      Vahtian
+    </a>
+    <nav class="nav" aria-label="Primary">
+      <a href="/kits/">Kits</a>
+      <a href="/download/">Tools</a>
+      <a href="/learn/" aria-current="page">Learn</a>
+      <a href="/blog/">Blog</a>
+      <a href="/about/">About</a>
+      <span class="util"><a class="ic" href="/search/" aria-label="Search vahtian.com"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.3" y2="16.3"/></svg></a></span>
+    </nav>
+  </header>
+<main id="main-content">
+
+<p class="kicker">Learn · AI methods</p>
+<h1>Build a research OS that stays alive: agent memory, and who prunes it</h1>
+<p class="lede">The last decade's advice was to build a second brain: a vault of linked notes that thinks with you. The new advice is to hand that vault to an AI agent as its memory. This guide covers why research vaults die, how the four main agent-memory designs work and where each one leaks, and a way to run yours like a garden: the agent proposes, you prune, and the record shows who decided.</p>
+
+<div class="outcomes">
+  <p>After this guide you will be able to:</p>
+  <ul>
+    <li>Recognise the failure patterns that kill research vaults: collecting instead of knowing, orphan notes, maintenance that becomes a second job.</li>
+    <li>Name the four main ways agents keep memory (vector retrieval, auto-memory, knowledge graphs, LLM-maintained wikis) and the leak in each.</li>
+    <li>Run a pruning research garden: agents flag, a person retires with a reason, and the trail records both.</li>
+  </ul>
+</div>
+
+<div class="seq" aria-label="On this page">
+  <p>On this page</p>
+  <ol>
+    <li><a href="#graveyard">Why research vaults become graveyards</a></li>
+    <li><a href="#memory">Four ways to give an agent memory</a></li>
+    <li><a href="#forgetting">What forgetting research actually shows</a></li>
+    <li><a href="#garden">The pruning research garden</a></li>
+    <li><a href="#rules">Six rules to run one</a></li>
+    <li><a href="#notai">What this does not do</a></li>
+  </ol>
+</div>
+
+<h2 id="graveyard">Why research vaults become graveyards</h2>
+<p>Most research vaults do not fail loudly. They fail the way a garden fails: quietly, from neglect that looked like growth. The patterns repeat across the Obsidian and Zettelkasten communities so consistently that they have names.</p>
+<ul>
+  <li><strong>The collector's fallacy.</strong> Saving a paper feels like progress, but as Christian Tietze put it on zettelkasten.de, knowing <em>about</em> something is not the same as knowing it. Collecting gives an instant reward; working through a source can take longer than reading it. So the vault fills with PDFs no one has processed.</li>
+  <li><strong>Orphan notes.</strong> One PhD student on the Zettelkasten forum reported that after six months, roughly nine out of ten notes in the vault had never been linked to anything. A note with no links is a note the system can never surface again.</li>
+  <li><strong>The notes-to-manuscript gap.</strong> A thesis writer's field report on zettelkasten.de landed on an uncomfortable truth: atomic notes make a useful vault, but they do not make chapter sections. The writing was still theirs to do. Notes support an argument; they do not assemble one.</li>
+  <li><strong>Maintenance becomes a second job.</strong> Folder trees twelve levels deep, workflows with five plugins, sync conflicts between devices, a Zotero-to-Obsidian pipeline that breaks when a plugin updates. Time spent tending the system is billed against time spent thinking with it, and the critics' question is fair: at what point is the second brain an excuse for not using the first one?</li>
+</ul>
+<p>None of this means the method is broken. Other field reports describe theses finished on schedule precisely because the writer never started a chapter from zero. What separated those vaults from the graveyards was tending: a regular, deliberate practice of linking, revising, and discarding.</p>
+
+<h2 id="memory">Four ways to give an agent memory</h2>
+<p>A language model starts every conversation blank. Everything it "remembers" between sessions lives in some external store that is loaded back in, and there are four main designs for that store. Each solves a real problem, and each leaks somewhere that matters for research. If the terms below are new, the <a href="/learn/ai-concepts-for-researchers/">AI-concepts map</a> covers them from the ground up.</p>
+
+<figure>
+  <div class="fig-frame">
+    <svg viewBox="0 0 760 700" role="img" aria-label="Diagram of four agent-memory architectures as flows. Vector retrieval: your notes are chunked, embedded, and matched by similarity into the model's context; the leak is that similarity is not support and nothing is ever forgotten. Auto-memory: the model extracts facts from your chats into a hidden store injected into later chats; the leak is that memories are saved, rewritten, and dropped without you seeing it. Temporal knowledge graph: notes become entities and relations in a time-stamped graph that can answer with history; the leak is build cost and extraction errors becoming structure. LLM-maintained wiki: an agent writes, merges, and retires wiki pages from raw sources in a loop; the leak is that the agent holds the pruning shears and a wrong merge becomes durable.">
+      <style>
+        .bx{fill:#faf9fc;stroke:#8B6FC9;stroke-width:1.5;rx:9}
+        .bt{font:600 13.5px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;fill:#1c1830}
+        .lbl{font:700 15px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;fill:#2D2440}
+        .num{font:700 12px ui-monospace,SFMono-Regular,Menlo,monospace;fill:#5f479d}
+        .leak{font:600 13.5px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;fill:#432C7A}
+        .ar{stroke:#5b5570;stroke-width:1.6;fill:none;marker-end:url(#arw)}
+        .sep{stroke:#e7e3f0;stroke-width:1}
+      </style>
+      <defs>
+        <marker id="arw" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M0 0 L10 5 L0 10 z" fill="#5b5570"/>
+        </marker>
+      </defs>
+
+      <!-- Row 1: vector retrieval -->
+      <text class="num" x="20" y="34">1</text>
+      <text class="lbl" x="38" y="34">Vector retrieval (RAG)</text>
+      <rect class="bx" x="20" y="52" width="130" height="38" rx="9"/><text class="bt" x="85" y="76" text-anchor="middle">Your notes</text>
+      <path class="ar" d="M150 71 H184"/>
+      <rect class="bx" x="186" y="52" width="110" height="38" rx="9"/><text class="bt" x="241" y="76" text-anchor="middle">Chunks</text>
+      <path class="ar" d="M296 71 H330"/>
+      <rect class="bx" x="332" y="52" width="130" height="38" rx="9"/><text class="bt" x="397" y="76" text-anchor="middle">Embeddings</text>
+      <path class="ar" d="M462 71 H496"/>
+      <rect class="bx" x="498" y="52" width="242" height="38" rx="9"/><text class="bt" x="619" y="76" text-anchor="middle">"What sounds alike" &#8594; context</text>
+      <text class="leak" x="20" y="118">Leak: similarity is not support, and nothing is forgotten, so stale facts return as confidently as current ones.</text>
+      <line class="sep" x1="20" y1="140" x2="740" y2="140"/>
+
+      <!-- Row 2: auto-memory -->
+      <text class="num" x="20" y="176">2</text>
+      <text class="lbl" x="38" y="176">Auto-memory (chat assistants)</text>
+      <rect class="bx" x="20" y="194" width="130" height="38" rx="9"/><text class="bt" x="85" y="218" text-anchor="middle">Your chats</text>
+      <path class="ar" d="M150 213 H184"/>
+      <rect class="bx" x="186" y="194" width="190" height="38" rx="9"/><text class="bt" x="281" y="218" text-anchor="middle">Model extracts "facts"</text>
+      <path class="ar" d="M376 213 H410"/>
+      <rect class="bx" x="412" y="194" width="140" height="38" rx="9"/><text class="bt" x="482" y="218" text-anchor="middle">Hidden store</text>
+      <path class="ar" d="M552 213 H586"/>
+      <rect class="bx" x="588" y="194" width="152" height="38" rx="9"/><text class="bt" x="664" y="218" text-anchor="middle">Injected later</text>
+      <text class="leak" x="20" y="260">Leak: memories are saved, rewritten, and dropped without you seeing it. No provenance, no appeal.</text>
+      <line class="sep" x1="20" y1="282" x2="740" y2="282"/>
+
+      <!-- Row 3: temporal knowledge graph -->
+      <text class="num" x="20" y="318">3</text>
+      <text class="lbl" x="38" y="318">Temporal knowledge graph</text>
+      <rect class="bx" x="20" y="336" width="130" height="38" rx="9"/><text class="bt" x="85" y="360" text-anchor="middle">Your notes</text>
+      <path class="ar" d="M150 355 H184"/>
+      <rect class="bx" x="186" y="336" width="180" height="38" rx="9"/><text class="bt" x="276" y="360" text-anchor="middle">Entities + relations</text>
+      <path class="ar" d="M366 355 H400"/>
+      <rect class="bx" x="402" y="336" width="170" height="38" rx="9"/><text class="bt" x="487" y="360" text-anchor="middle">Time-stamped graph</text>
+      <path class="ar" d="M572 355 H606"/>
+      <rect class="bx" x="608" y="336" width="132" height="38" rx="9"/><text class="bt" x="674" y="360" text-anchor="middle">Answers + history</text>
+      <text class="leak" x="20" y="402">Leak: costly to build, and an extraction error becomes structure, attributed to the system rather than a person.</text>
+      <line class="sep" x1="20" y1="424" x2="740" y2="424"/>
+
+      <!-- Row 4: LLM-maintained wiki -->
+      <text class="num" x="20" y="460">4</text>
+      <text class="lbl" x="38" y="460">LLM-maintained wiki</text>
+      <rect class="bx" x="20" y="478" width="140" height="38" rx="9"/><text class="bt" x="90" y="502" text-anchor="middle">Raw sources</text>
+      <path class="ar" d="M160 497 H194"/>
+      <rect class="bx" x="196" y="478" width="210" height="38" rx="9"/><text class="bt" x="301" y="502" text-anchor="middle">Agent writes wiki pages</text>
+      <path class="ar" d="M406 497 H440"/>
+      <rect class="bx" x="442" y="478" width="298" height="52" rx="9"/>
+      <text class="bt" x="591" y="500" text-anchor="middle">Agent lints, merges, retires</text>
+      <text class="bt" x="591" y="518" text-anchor="middle" style="fill:#5b5570;font-weight:500">orphans · stale claims · contradictions</text>
+      <path class="ar" d="M591 530 V554 H301 V524"/>
+      <text class="bt" x="446" y="572" text-anchor="middle" style="fill:#5b5570;font-weight:500">the loop runs without a human in it</text>
+      <text class="leak" x="20" y="612">Leak: the agent holds the pruning shears. A hallucinated merge becomes durable memory,</text>
+      <text class="leak" x="20" y="632">and every later page builds on it.</text>
+      <text class="bt" x="20" y="674" style="fill:#5b5570;font-weight:500">Each design solves a real problem. None records a human decision about what the memory may claim.</text>
+    </svg>
+  </div>
+  <figcaption>The four main agent-memory designs as flows, with the leak that matters for research marked under each. The common gap: in all four, the system decides what the memory ends up claiming, and no accountable person does.</figcaption>
+</figure>
+
+<h3>1 · Vector retrieval (RAG)</h3>
+<p>Your notes are split into chunks, each chunk is turned into an embedding (a list of numbers standing in for its meaning), and when you ask a question the system retrieves the chunks that sound most alike and hands them to the model. It is cheap, it scales, and it is the default. But similarity is not support: retrieval finds whatever resembles the question, whether or not it bears on the claim. Nothing is ever forgotten, so a superseded finding is retrieved as confidently as the correction that replaced it. Piling retrieved text into the model's context has its own cost, too: a 2025 study by Chroma across 18 models found accuracy degrading well before context limits, and fastest when the distractors were semantically similar, which is what a vault full of near-duplicate research notes provides.</p>
+
+<h3>2 · Auto-memory</h3>
+<p>Chat assistants like ChatGPT quietly write down "facts" about you as you talk and inject them into later conversations. Zero effort, and useful for preferences. The leak is that the curation is invisible: you do not see what was saved, what was rewritten, or what was silently dropped. Through 2025, users reported lost and garbled memories, and the vendor moved to auto-managing the store: memory that manages itself, out of sight. For a research record, a memory with no provenance and no appeal is not a record at all.</p>
+
+<h3>3 · Temporal knowledge graphs</h3>
+<p>Systems like Zep's Graphiti (described in arXiv 2501.13956) extract entities and relationships into a graph where every fact carries timestamps, and a superseded fact is <em>invalidated rather than deleted</em>, so the graph can answer "what did we believe in January?" This deserves honest credit: it is the closest existing design to an audit trail, and the invalidate-don't-delete principle is right. The costs are real, though. Building the graph takes a model call per chunk (Microsoft's early GraphRAG indexing bills ran to tens of thousands of dollars on large corpora before cheaper variants arrived), an extraction error becomes a structural error, and the change history attributes every decision to the system. No person decided anything, and the trail cannot say otherwise.</p>
+
+<h3>4 · LLM-maintained wikis</h3>
+<p>The newest pattern, sketched by Andrej Karpathy in 2026 and developed into a working research stack in Decoding AI's <a href="https://www.decodingai.com/p/llm-wiki-agent-memory" rel="noopener">"Your second brain is a graveyard. Make it agent memory"</a>: keep immutable raw sources in one folder, let an agent write and interlink markdown wiki pages from them, and give it a schema telling it how to merge, update, and retire knowledge. A lint pass sweeps for orphan pages, stale claims, and contradictions. This is the most researcher-shaped design yet: plain files you can open, diff, and version. The graveyard diagnosis is right, too. But look at who does the tending. The merging, correcting, and retiring is handled by the agent itself. A hallucinated synthesis, written into a wiki page, is durable: every later page builds on it. RAG's errors die with the query; a wiki's errors compound. And when a claim is retired, nothing records who decided it should be, because no one did.</p>
+
+<h2 id="forgetting">What forgetting research actually shows</h2>
+<p>You might expect the fix to be automatic forgetting: give the memory a decay curve and let old notes fade. That has been tried. MemoryBank (arXiv 2305.10250) applies the Ebbinghaus forgetting curve from human memory research: memories strengthen when recalled and decay when ignored. Letta's "sleep-time compute" line has agents consolidate and clean their memory during idle time, an explicit analogy to dreaming.</p>
+<p>A 2025 evaluation of Ebbinghaus-style pruning in LLM agents reported the trade-off plainly: memory stayed small, retrieval stayed fast, <em>and task performance dropped</em>. Time turns out to be the wrong signal. Age does not predict whether a note still matters; a three-year-old note holding your study's inclusion criteria is load-bearing, while last week's half-thought is compost. What predicts mattering is whether the note is used, linked, and still supported by its source, and that is a judgment someone has to make.</p>
+
+<h2 id="garden">The pruning research garden</h2>
+<p>The gardening metaphor is older than the AI wave. Mark Bernstein wrote "Hypertext Gardens" in 1998; Mike Caulfield's 2015 talk "The Garden and the Stream" set gardens (spatial, tended, revisitable) against the chronological feed; Andy Matuschak's evergreen notes are "written and organized to evolve over time"; and Joel Hooks named the failure mode when he called his site a digital garden: left untended, everything returns to entropy, and the weeds take over.</p>
+<p>The 2026 agent-memory wave takes that tradition seriously and then automates the gardener away. The lint-and-retire loop in an LLM-maintained wiki <em>is</em> pruning, aimed at the right weeds. The open question it leaves is the one that matters for research: <strong>who holds the shears?</strong></p>
+<p>A <strong>pruning research garden</strong> is a research vault run as agent memory with the shears handed back:</p>
+<ol>
+  <li><strong>Every claim carries its source.</strong> A note that asserts something names what it rests on. A note with no source is a seedling: fine to keep, too weak to build on.</li>
+  <li><strong>Agents do the sweep.</strong> Orphan notes, stale claims, contradictions between pages, citations that may not say what the note says they say: this is the kind of tireless, mechanical scanning agents are good at. Their output is a pile of proposals.</li>
+  <li><strong>A person decides.</strong> Keep, revise, or retire, with a reason. The agent surfaces that two notes contradict each other; you decide which one your project stands on.</li>
+  <li><strong>Retirement is recorded, not deleted.</strong> A pruned note moves to the trail with who retired it, when, and why: the same invalidate-don't-delete principle the temporal graphs got right, with a human name attached to the decision.</li>
+</ol>
+
+<figure>
+  <div class="fig-frame">
+    <svg viewBox="0 0 760 520" role="img" aria-label="Two-panel diagram comparing a self-tending memory with a pruning research garden. Top panel: in a self-tending memory, the agent writes, merges, and retires in a closed loop around the memory store; the caption notes there is no record of who decided and a wrong merge becomes what the system knows. Bottom panel: in a pruning research garden, an agent sweep flags orphans, stale claims, contradictions, and unsupported citations; the flags become proposals; a human decides to keep, revise, or retire each with a reason; the trail records who, when, and why; and the garden is updated. The human decision step is highlighted as the gate.">
+      <style>
+        .p-bx{fill:#faf9fc;stroke:#8B6FC9;stroke-width:1.5}
+        .p-hu{fill:#fff8ec;stroke:#C98A00;stroke-width:1.8}
+        .p-tr{fill:#f0faf8;stroke:#1E9E8A;stroke-width:1.5}
+        .p-bt{font:600 13.5px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;fill:#1c1830}
+        .p-sub{font:500 12px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;fill:#5b5570}
+        .p-lbl{font:700 15px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;fill:#2D2440}
+        .p-leak{font:600 13.5px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;fill:#432C7A}
+        .p-ok{font:600 13.5px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;fill:#08544A}
+        .p-ar{stroke:#5b5570;stroke-width:1.6;fill:none;marker-end:url(#arw2)}
+      </style>
+      <defs>
+        <marker id="arw2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M0 0 L10 5 L0 10 z" fill="#5b5570"/>
+        </marker>
+      </defs>
+
+      <!-- Panel A: self-tending -->
+      <text class="p-lbl" x="20" y="32">A · Self-tending memory</text>
+      <rect class="p-bx" x="60" y="56" width="150" height="40" rx="9"/><text class="p-bt" x="135" y="81" text-anchor="middle">Agent writes</text>
+      <path class="p-ar" d="M210 76 H264"/>
+      <rect class="p-bx" x="266" y="56" width="150" height="40" rx="9"/><text class="p-bt" x="341" y="81" text-anchor="middle">Agent merges</text>
+      <path class="p-ar" d="M416 76 H470"/>
+      <rect class="p-bx" x="472" y="56" width="150" height="40" rx="9"/><text class="p-bt" x="547" y="81" text-anchor="middle">Agent retires</text>
+      <path class="p-ar" d="M547 96 V126 H135 V98"/>
+      <text class="p-sub" x="341" y="146" text-anchor="middle">the loop closes on itself: no gate, no signature</text>
+      <text class="p-leak" x="20" y="182">No record of who decided. A wrong merge simply becomes what the system knows.</text>
+
+      <line x1="20" y1="210" x2="740" y2="210" stroke="#e7e3f0" stroke-width="1"/>
+
+      <!-- Panel B: pruning garden -->
+      <text class="p-lbl" x="20" y="244">B · Pruning research garden</text>
+      <rect class="p-bx" x="20" y="268" width="252" height="56" rx="9"/>
+      <text class="p-bt" x="146" y="290" text-anchor="middle">Agent sweep flags:</text>
+      <text class="p-sub" x="146" y="308" text-anchor="middle">orphans · stale claims · contradictions</text>
+      <path class="p-ar" d="M272 296 H300"/>
+      <rect class="p-bx" x="302" y="276" width="104" height="40" rx="9"/><text class="p-bt" x="354" y="301" text-anchor="middle">Proposals</text>
+      <path class="p-ar" d="M406 296 H450"/>
+      <rect class="p-hu" x="452" y="264" width="288" height="64" rx="9"/>
+      <text class="p-bt" x="596" y="288" text-anchor="middle">A person decides</text>
+      <text class="p-sub" x="596" y="308" text-anchor="middle">keep · revise · retire, with a reason</text>
+      <path class="p-ar" d="M596 328 V362"/>
+      <rect class="p-tr" x="452" y="364" width="288" height="56" rx="9"/>
+      <text class="p-bt" x="596" y="386" text-anchor="middle">Trail records the decision</text>
+      <text class="p-sub" x="596" y="404" text-anchor="middle">who · when · why · retired, not deleted</text>
+      <path class="p-ar" d="M452 392 H184 V330"/>
+      <rect class="p-bx" x="104" y="364" width="248" height="56" rx="9" fill="#f6f3fc"/>
+      <text class="p-bt" x="228" y="386" text-anchor="middle">Garden updated</text>
+      <text class="p-sub" x="228" y="404" text-anchor="middle">next sweep starts from a cleaner state</text>
+      <text class="p-ok" x="20" y="462">The gate is the point: the agent proposes, a person disposes, and the trail records it.</text>
+      <text class="p-sub" x="20" y="492">Same lint, same sweep, same tireless agent. One added step turns silent curation into an auditable decision.</text>
+    </svg>
+  </div>
+  <figcaption>The same maintenance loop, with and without a human gate. Panel A is how self-tending memories work: writes, merges, and retirements happen inside the system. Panel B adds one step: a person decides, with a reason, and the trail records it.</figcaption>
+</figure>
+
+<p>This matters more in research than anywhere else because the vault feeds the record you will be asked to defend. Citation accuracy studies in biomedicine have repeatedly found trouble at the claim-source join: one PLOS ONE analysis (Mogull, 2017) estimated that about one in seven quotations of prior work misstate the source, most of those errors major, meaning the source fails to substantiate, or even contradicts, the claim it is cited for. A memory system that silently merges and rewrites claims will add errors like these to your record. And systematic-review practice already draws the line this article draws: screening tools may rank and flag, but inclusion decisions are made by named humans, recorded per record, with reasons. Your vault should meet the standard your methods section will be held to. That is also why <a href="/learn/document-ai-assisted-analysis/">documenting AI-assisted analysis</a> and keeping a <a href="/learn/research-changelog/">research changelog</a> pair naturally with a garden like this.</p>
+
+<h2 id="rules">Six rules to run one</h2>
+<p>You can run a pruning research garden today, in an ordinary <a href="/learn/obsidian-for-researchers/">Obsidian vault</a>, with or without an agent. The rules are the system:</p>
+<ol>
+  <li><strong>Plain files, one claim per note, source attached.</strong> Markdown your agent can read is markdown you can read. Keep raw sources immutable and separate from your own synthesis; nothing, human or agent, edits a source.</li>
+  <li><strong>Scope the garden to a project.</strong> A whole-life vault of thousands of notes is where every design above strains; even the wiki pattern's authors say so. A project-sized garden stays readable end to end, by you and by the agent.</li>
+  <li><strong>Let agents sweep, never settle.</strong> Point the agent at the weeds: orphan notes, claims with no source, contradictions, citations that may not support their sentence. Everything it produces is a proposal. Nothing it produces is a verdict.</li>
+  <li><strong>Prune by use and support, not by age.</strong> The forgetting-curve result is your warning: old is not the same as dead. Retire a note because it is unsupported, superseded, or contradicted, never merely because it is old.</li>
+  <li><strong>Retire with a reason, never silently delete.</strong> Move pruned notes to a dated trail with a line on why. Your future self, your co-authors, and any reviewer can then see not just what the garden claims, but what it stopped claiming, and who decided that.</li>
+  <li><strong>Date your decisions.</strong> A weekly pruning pass beats a heroic quarterly cleanup. Each pass appends to the trail, and the trail, rather than a disappearing chat log, becomes the memory of the project's judgment. The four-state method in <a href="/learn/epistemic-notes/">epistemic notes</a> gives you the vocabulary for what "keep, revise, retire" means evidentially.</li>
+</ol>
+
+<figure>
+  <div class="fig-frame">
+    <svg viewBox="0 0 760 210" role="img" aria-label="Lifecycle of a note in a pruning research garden, in four stages. Captured: a stray thought or saved PDF, not yet trustworthy. Planted: a claim with its source attached. Tended: linked and used, checked in sweeps. Pruned: retired with a reason and kept in the trail. A dashed rejected branch labeled 'silently deleted' is marked as lost history.">
+      <style>
+        .l-bx{fill:#faf9fc;stroke:#8B6FC9;stroke-width:1.5}
+        .l-tr{fill:#f0faf8;stroke:#1E9E8A;stroke-width:1.5}
+        .l-bt{font:700 14px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;fill:#1c1830}
+        .l-sub{font:500 12px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;fill:#5b5570}
+        .l-no{font:600 13px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;fill:#432C7A}
+        .l-ar{stroke:#5b5570;stroke-width:1.6;fill:none;marker-end:url(#arw3)}
+      </style>
+      <defs>
+        <marker id="arw3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M0 0 L10 5 L0 10 z" fill="#5b5570"/>
+        </marker>
+      </defs>
+      <rect class="l-bx" x="20" y="40" width="160" height="60" rx="9"/>
+      <text class="l-bt" x="100" y="64" text-anchor="middle">Captured</text>
+      <text class="l-sub" x="100" y="84" text-anchor="middle">a stray thought, a PDF</text>
+      <path class="l-ar" d="M180 70 H212"/>
+      <rect class="l-bx" x="214" y="40" width="160" height="60" rx="9"/>
+      <text class="l-bt" x="294" y="64" text-anchor="middle">Planted</text>
+      <text class="l-sub" x="294" y="84" text-anchor="middle">claim + source attached</text>
+      <path class="l-ar" d="M374 70 H406"/>
+      <rect class="l-bx" x="408" y="40" width="160" height="60" rx="9"/>
+      <text class="l-bt" x="488" y="64" text-anchor="middle">Tended</text>
+      <text class="l-sub" x="488" y="84" text-anchor="middle">linked, used, swept</text>
+      <path class="l-ar" d="M568 70 H600"/>
+      <rect class="l-tr" x="602" y="40" width="138" height="60" rx="9"/>
+      <text class="l-bt" x="671" y="64" text-anchor="middle">Pruned</text>
+      <text class="l-sub" x="671" y="84" text-anchor="middle">retired, with a reason</text>
+      <path d="M488 100 V138 H560" stroke="#5b5570" stroke-width="1.4" stroke-dasharray="5 4" fill="none"/>
+      <text class="l-no" x="572" y="143">silently deleted = lost history</text>
+      <text class="l-sub" x="20" y="188">A note can live its whole life in stage two, but every move after "captured" is a decision someone made, on the record.</text>
+    </svg>
+  </div>
+  <figcaption>A note's life in the garden. Even pruning is growth: a retired claim with a recorded reason is knowledge about the project. A silent deletion is just a hole.</figcaption>
+</figure>
+
+<h2 id="notai">What this does not do</h2>
+<p class="naught">A pruning research garden does not make your notes true, and the agents sweeping it do not verify facts. A sweep can flag that a citation may not support its sentence; whether it does is a judgment a person makes by reading both. The garden's promise is narrower and more durable: what it claims is sourced, what it stopped claiming is recorded, and every consequential change has a name and a reason attached. None of that certifies a manuscript; it gives you a record you can stand behind when someone asks how you know.</p>
+
+<div class="note key"><p style="margin:0"><span class="h">The one line to keep.</span> Agent memory changes <em>how much tending is possible</em>, not <em>who the gardener is</em>. Let the agents sweep every week, keep the shears in your own hand, and make the trail the thing that remembers why.</p></div>
+
+<div class="cta">
+  <p><strong>Start from a garden that already has the beds laid out.</strong></p>
+  <p>Vahtian's research vaults are project-scoped Obsidian workspaces built on this division of labour: claims carry sources, decisions are logged with dates and reasons, and the audit trail is built into the vault. StudyVahti Vault structures an observational study from question to reporting; QualiVahti Local is the local qualitative workflow: transcription, human-reviewed coding, codebook, evidence maps, and the trail.</p>
+  <div class="btnrow">
+    <a class="btn" href="/studyvahti-vault/">StudyVahti Vault · €49</a>
+    <a class="btn alt" href="/qualivahti-local/">QualiVahti Local · €49</a>
+  </div>
+</div>
+
+<h2>Related guides</h2>
+<p>New to the underlying ideas? The <a href="/learn/ai-concepts-for-researchers/">AI-concepts map</a> explains RAG, GraphRAG, and agents from scratch, and <a href="/learn/local-models-agents-orchestration/">local models, agents &amp; orchestration</a> covers running the machinery privately. For the vault itself, start with <a href="/learn/obsidian-for-researchers/">Obsidian for researchers</a> and the <a href="/learn/obsidian-plugins-for-researchers/">plugin shortlist</a>, connect your references with <a href="/learn/zotero/">Zotero</a>, and grade what your notes actually establish with <a href="/learn/epistemic-notes/">epistemic notes</a>. More guides are on the <a href="/learn/">Learn page</a>.</p>
+
+<!-- email capture: plain POST to Brevo, no external requests -->
+<div style="background:#fff;border:1px solid #e7e3f0;border-left:4px solid #8B6FC9;border-radius:12px;padding:20px 22px;margin:40px 0 8px;font:16px/1.6 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,ui-sans-serif,system-ui,sans-serif;color:#1c1830">
+  <p style="margin:0 0 4px;font-weight:700;font-size:18px">One honest letter a month</p>
+  <p style="margin:0 0 14px;color:#5b5570;font-size:15px">One research problem, what I tried, what worked, and where it still falls short. Unsubscribe in one click.</p>
+  <form method="POST" action="https://f9b96982.sibforms.com/serve/MUIFAMcTOLX67j69y_fzMLe4ExNUbUCqqmy_bIaYkLFiPRMwrMs5C7CoRKAd-BTNKCFvmeQ2dXjkJT25KHTQAdWqZjaJlMb4M27tl_lyfeSuFFuVnxtTG6dppAXFca1MbKYdgm2iZThi0eSMTmWL97T5YDF65mJrY9hC7OyAP3nkjikq4pf1EgLxTWRJbTj02ncxQ03h3uyrLk8NdQ==">
+    <div style="display:flex;flex-wrap:wrap;gap:10px">
+      <label for="EMAIL" style="position:absolute;left:-9999px">Email address</label>
+      <input type="email" id="EMAIL" name="EMAIL" required placeholder="you@university.fi" style="flex:1 1 220px;padding:11px 14px;border:1px solid #c9c2dd;border-radius:8px;font-size:15px;color:#1c1830;background:#faf9fc">
+      <button type="submit" style="padding:11px 20px;border:0;border-radius:8px;background:#2D2440;color:#fff;font-weight:650;font-size:15px;cursor:pointer">Subscribe</button>
+    </div>
+    <label style="display:block;margin:10px 0 0;font-size:13.5px;color:#5b5570"><input type="checkbox" name="MARKETING_CONSENT" value="1" required style="margin-right:6px">I agree to receive the monthly letter; my address is processed by <a href="https://www.brevo.com/en/legal/privacypolicy/" rel="noopener nofollow" style="color:#5f479d">Brevo</a> for delivery only.</label>
+    <input type="text" name="email_address_check" value="" style="position:absolute;left:-9999px" tabindex="-1" autocomplete="off" aria-hidden="true">
+    <input type="hidden" name="locale" value="en">
+  </form>
+  <p style="margin:10px 0 0;font-size:13px;color:#5b5570">Double opt-in: nothing arrives until you confirm by email. No tracking pixels, never shared. <a href="/privacy/" style="color:#5f479d">Privacy</a></p>
+</main>
+</div>
+
+<footer class="vh-footer">
+  <div class="vh-footer-shell">
+    <div class="vh-footer-main">
+      <div>
+        <p class="vh-footer-name">Vahtian</p>
+        <p class="vh-footer-tagline">Local-first tools for research decisions you can explain. Built in Finland by Heidi Andersén, MD, PhD.</p>
+      </div>
+      <nav class="vh-footer-links" aria-label="Footer">
+        <a href="/download/">Tools</a>
+        <a href="/kits/">Kits</a>
+        <a href="/learn/">Learn</a>
+        <a href="/blog/">Blog</a>
+        <a href="/about/">About</a>
+        <a href="/agents/">For agents</a>
+        <a href="/cite/">Cite</a>
+        <a href="/support/">Support</a>
+        <a href="/privacy/">Privacy</a>
+      </nav>
+    </div>
+    <p class="vh-footer-disclaimer">Vahtian keeps human judgment visible and research decisions open to review. It does not establish scientific truth.</p>
+    <div class="vh-footer-meta">
+      <span>© 2026 Vahtian</span>
+      <a href="/LICENSE">Apache-2.0 open core</a>
+      <a href="https://github.com/heidihelena/vahtian">GitHub <span aria-hidden="true">↗</span></a>
+      <a href="mailto:hello@vahtian.com">hello@vahtian.com</a>
+    </div>
+  </div>
+</footer>
+
+</div>
+</body>
+</html>
