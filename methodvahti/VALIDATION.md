@@ -574,6 +574,66 @@ validate the judgements, the thresholds, the feature assignments, or any decisio
 benefit of MethodVahti. The score remains **○ author hypothesis**; Ch. 8.6 still
 owns whether acting on it helps anyone, and remains not runnable.
 
+### 1.2.5 Decision record — construct separation, frozen scale, and the architectural boundary  **[DECISION RECORD — owner, 2026-07-26]**
+
+**D1 — sampling heterogeneity is the sole numeric input to `optimise_n()`.** The
+legacy heterogeneity construct is kept, renamed **sampling heterogeneity**, and
+restricted to sample-size optimisation. Harm-direction polarity is preserved
+(higher = greater sampling difficulty), which is the setting where worst-case
+(`max`) weighting is genuinely conservative — the polarity inversion of Finding 2
+never existed inside this construct. `max` and the λ parameters survive **only**
+here. **Defensibility must never enter sample-size optimisation, directly or
+indirectly.**
+
+**D2 — the defensibility scale is frozen at three ordinal levels:**
+
+```
+Strong · Adequate · Limited
+```
+
+- **"Not assessable" is a data-state, not a fourth ordinal rating.** It appears in
+  the profile and is reported; it does not occupy a position on the scale.
+- **"Not defensible" is deliberately absent.** A bottom category below Limited
+  would imply a validated stopping threshold that MethodVahti does not currently
+  possess. Fatal or critical concerns are reported separately as **explicit
+  flags**, and a flag can force the overall classification to Limited **with
+  written reasoning**.
+
+**D3 — the legacy construct is kept, renamed, and restricted.** It is not
+retired. Its implementation, terminology, report renderer, and tests are **not
+reused** for defensibility — the two constructs share nothing merely because both
+consume domain-shaped data.
+
+**The architectural boundary is absolute:**
+
+```
+sampling heterogeneity  → numeric               → optimise_n()
+defensibility profile   → ordinal classification → report and reviewer judgement
+```
+
+**Public contract language.** The defensibility classifier is specified as:
+
+```
+least-favourable dimension rule
++ downward escalation
++ justified reviewer override
+```
+
+— never as "min plus downgrade". The implementation may order labels internally;
+the public contract remains a rule-based classification. Numeric vocabulary in
+the public surface is a defect.
+
+**One recorded interpretation (framework author, for owner review).** D2 does not
+specify how "Not assessable" interacts with the least-favourable rule. Implemented
+as: not-assessable dimensions are **excluded from the rule** and reported
+prominently as incompleteness; if *no* dimension is assessable the overall is
+"Not assessable"; heavy incompleteness is a legitimate ground for downward
+escalation **with reasoning**, at the reviewer's judgement. A mechanical cap
+(e.g. "any not-assessable ⇒ at most Adequate") was rejected because it would give
+the data-state an ordinal position — exactly what D2 forbids. QUADAS-2 treats
+"unclear" as risk-conferring, so a reviewer may reasonably escalate; the tool does
+not do it for them.
+
 ### 1.3 Intended use, out-of-scope use, and known limitations
 
 - **Intended.** Decision support for defensible methodological design and appraisal
