@@ -602,7 +602,7 @@ def build(report: dict, out_path: str) -> str:
         ("Report ID", rid),
         ("Generated (UTC)", today),
         ("Citation", citation),
-        ("Method core", "qualitative_heterogeneity_score() · Apache-2.0"),
+        ("Method core", "sampling_heterogeneity_score() · Apache-2.0"),
     ], value_style=MONO))
     sev = r.get("severity_audit_log")
     if sev:

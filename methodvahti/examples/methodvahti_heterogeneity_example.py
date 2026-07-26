@@ -8,7 +8,7 @@ severity weights after pilot inter-rater exercise (n=12 records).
 """
 
 from methodvahti.heterogeneity import (
-    qualitative_heterogeneity_score,
+    sampling_heterogeneity_score,
     default_severity_catalogue,
 )
 import json
@@ -52,7 +52,7 @@ example_records = [
 
 # ── 3. Run ────────────────────────────────────────────────────────────────────
 
-result = qualitative_heterogeneity_score(
+result = sampling_heterogeneity_score(
     example_records,
     dimensions=[
         "study_design", "population", "setting", "language",

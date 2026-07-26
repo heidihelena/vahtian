@@ -1,6 +1,19 @@
 """
-MethodVahti — qualitative_heterogeneity_score
+MethodVahti — sampling_heterogeneity_score  (construct: SAMPLING HETEROGENEITY)
 Vahtian · v0.3.0
+
+CONSTRUCT SCOPE (VALIDATION.md Ch. 1.2.5, D1/D3 — owner, 2026-07-26):
+    This module measures SAMPLING HETEROGENEITY: how heterogeneous a planned
+    study's design cells are, for sample-size optimisation. Polarity is
+    harm-direction — HIGHER = GREATER SAMPLING DIFFICULTY — which is why
+    worst-case (max) weighting is the conservative choice here, and why the
+    λ parameters are legitimate in this construct and confined to it.
+    This score is the sole numeric input to optimise_n().
+
+    It is NOT a defensibility measure, NOT a quality score, and it must never
+    be presented as an appraisal of how defensible a design is. Defensibility
+    is a separate ordinal classification (defensibility.py) and never enters
+    sample-size optimisation, directly or indirectly.
 
 IMPORTANT CLARIFICATION — OUTCOME_SEVERITY weights:
     These are NOT observed disagreement rates.
@@ -366,7 +379,7 @@ def _serialise_severity(catalogue: dict[str, OutcomeSeverity]) -> dict[str, dict
 
 # ── Main function ─────────────────────────────────────────────────────────────
 
-def qualitative_heterogeneity_score(
+def sampling_heterogeneity_score(
     records:          list[dict],
     dimensions:       list[str],
     outcome:          str,
@@ -423,6 +436,7 @@ def qualitative_heterogeneity_score(
     )
 
     primary_score = {
+        "construct":      "sampling heterogeneity",
         "name":           "hierarchical_heterogeneity_score",
         "value":          h_hier,
         "lambda_within":  lambda_within,
@@ -435,8 +449,11 @@ def qualitative_heterogeneity_score(
         "interpretation": (
             f"H estimated within each of {len(dimensions)} dimensions, "
             f"then aggregated across dimensions. "
-            f"λ_within={lambda_within} (worst-case cell weight within dimension). "
-            f"λ_between={lambda_between} (worst-case dimension weight). "
+            f"λ_within={lambda_within} (worst-case cell weight within dimension; "
+            f"conservative for sampling difficulty, where higher = harder to sample). "
+            f"λ_between={lambda_between} (worst-case dimension weight, same rationale). "
+            f"This is a sampling-heterogeneity estimate, not a defensibility "
+            f"or quality appraisal. "
             f"Severity weight for '{outcome}': {severity.weight} — "
             f"amplification factor, NOT an observed rate."
         ),
@@ -608,3 +625,21 @@ if __name__ == "__main__":
     with open("/home/claude/heterogeneity_result.json", "w") as f:
         json.dump(out, f, indent=2)
     print(f"\n  Saved → /home/claude/heterogeneity_result.json")
+
+
+# ── Deprecated alias (removal at the next MAJOR release; Ch. 1.2.5 D1) ───────
+
+def qualitative_heterogeneity_score(*args, **kwargs):
+    """Deprecated name. The construct is sampling heterogeneity; call
+    sampling_heterogeneity_score(). Behaviour is identical."""
+    import warnings
+    warnings.warn(
+        "qualitative_heterogeneity_score is deprecated: the construct is "
+        "sampling heterogeneity (VALIDATION.md Ch. 1.2.5, D1). Call "
+        "sampling_heterogeneity_score(); removal at the next MAJOR release.",
+        DeprecationWarning, stacklevel=2,
+    )
+    return sampling_heterogeneity_score(*args, **kwargs)
+
+
+SamplingHeterogeneityResult = HeterogeneityResult

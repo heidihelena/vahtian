@@ -5,7 +5,7 @@ All tests run fully offline. No network, no files.
 Coverage:
 - OutcomeSeverity: default, change, audit log, sensitivity check
 - _entropy: edge cases
-- qualitative_heterogeneity_score: smoke, governance, severity audit
+- sampling_heterogeneity_score: smoke, governance, severity audit
 - aggregate properties: primary <= stress (not always, but stress >= primary)
 - empty records
 - single-dimension edge case
@@ -14,7 +14,7 @@ Coverage:
 import math
 import unittest
 from methodvahti.heterogeneity import (
-    qualitative_heterogeneity_score,
+    sampling_heterogeneity_score,
     default_severity_catalogue,
     OutcomeSeverity,
     HeterogeneityResult,
@@ -110,7 +110,7 @@ class TestQualitativeHeterogeneityScore(unittest.TestCase):
 
     def _run(self, n=30, **kwargs):
         records = _records(n)
-        return qualitative_heterogeneity_score(
+        return sampling_heterogeneity_score(
             records, dimensions=DIMS, outcome=OUTCOME, **kwargs)
 
     def test_returns_heterogeneity_result(self):
@@ -134,14 +134,14 @@ class TestQualitativeHeterogeneityScore(unittest.TestCase):
         self.assertEqual(result.n_total, 30)
 
     def test_empty_records(self):
-        result = qualitative_heterogeneity_score(
+        result = sampling_heterogeneity_score(
             [], dimensions=DIMS, outcome=OUTCOME)
         self.assertEqual(result.primary_score["value"], 0.0)
         self.assertEqual(result.n_total, 0)
 
     def test_single_dimension(self):
         records = _records(20)
-        result = qualitative_heterogeneity_score(
+        result = sampling_heterogeneity_score(
             records, dimensions=["study_design"], outcome=OUTCOME)
         self.assertGreaterEqual(result.primary_score["value"], 0.0)
 
@@ -189,7 +189,7 @@ class TestQualitativeHeterogeneityScore(unittest.TestCase):
     def test_severity_audit_log_in_result(self):
         cat = default_severity_catalogue()
         cat[OUTCOME].change(0.75, "team", "Pilot.")
-        result = qualitative_heterogeneity_score(
+        result = sampling_heterogeneity_score(
             _records(), dimensions=DIMS, outcome=OUTCOME,
             severity_catalogue=cat)
         log = result.severity_catalogue[OUTCOME]["audit_log"]
@@ -199,7 +199,7 @@ class TestQualitativeHeterogeneityScore(unittest.TestCase):
     def test_severity_changed_flag(self):
         cat = default_severity_catalogue()
         cat[OUTCOME].change(0.75, "team", "Pilot.")
-        result = qualitative_heterogeneity_score(
+        result = sampling_heterogeneity_score(
             _records(), dimensions=DIMS, outcome=OUTCOME,
             severity_catalogue=cat)
         self.assertTrue(result.severity_catalogue[OUTCOME]["changed"])
@@ -211,9 +211,9 @@ class TestQualitativeHeterogeneityScore(unittest.TestCase):
     def test_lower_lambda_within_lowers_score(self):
         """Lower λ_within shifts weight from worst cell to mean → lower H."""
         records = _records(60)
-        r_high = qualitative_heterogeneity_score(
+        r_high = sampling_heterogeneity_score(
             records, dimensions=DIMS, outcome=OUTCOME, lambda_within=0.90)
-        r_low  = qualitative_heterogeneity_score(
+        r_low  = sampling_heterogeneity_score(
             records, dimensions=DIMS, outcome=OUTCOME, lambda_within=0.10)
         self.assertGreaterEqual(
             r_high.primary_score["value"],
@@ -226,10 +226,10 @@ class TestQualitativeHeterogeneityScore(unittest.TestCase):
         cat_low  = default_severity_catalogue()
         cat_high[OUTCOME].change(1.00, "test", "max")
         cat_low[OUTCOME].change(0.10, "test", "min")
-        r_high = qualitative_heterogeneity_score(
+        r_high = sampling_heterogeneity_score(
             records, dimensions=DIMS, outcome=OUTCOME,
             severity_catalogue=cat_high)
-        r_low  = qualitative_heterogeneity_score(
+        r_low  = sampling_heterogeneity_score(
             records, dimensions=DIMS, outcome=OUTCOME,
             severity_catalogue=cat_low)
         self.assertGreaterEqual(
@@ -239,9 +239,9 @@ class TestQualitativeHeterogeneityScore(unittest.TestCase):
     def test_shrink_true_vs_false(self):
         """Shrinkage should not raise errors; both paths run."""
         records = _records(15)  # small — many flagged cells
-        r_shrink   = qualitative_heterogeneity_score(
+        r_shrink   = sampling_heterogeneity_score(
             records, dimensions=DIMS, outcome=OUTCOME, shrink=True)
-        r_noshrink = qualitative_heterogeneity_score(
+        r_noshrink = sampling_heterogeneity_score(
             records, dimensions=DIMS, outcome=OUTCOME, shrink=False)
         self.assertIsInstance(r_shrink.primary_score["value"], float)
         self.assertIsInstance(r_noshrink.primary_score["value"], float)
