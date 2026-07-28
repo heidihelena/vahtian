@@ -269,6 +269,12 @@
       var t=buf.trim();
       if(!t) { buf=""; continue; }
       if(ABBR.test(t)) continue;               // the dot was an abbreviation, keep going
+      // A period between digits is a decimal point, not a full stop. Without
+      // this, "p = 0.05" splits the sentence in two: every anchor after it is
+      // wrong, and a hedge stack straddling the split goes unseen. A real
+      // sentence boundary keeps its following space inside buf, a decimal has
+      // none, so the untrimmed buffer tells them apart.
+      if(/\d\.$/.test(buf) && i<raw.length-1 && /^\d/.test(raw[i+1])) continue;
       if(!/[.!?]$/.test(t) && i<raw.length-1) continue;
       out.push(t); buf="";
     }
@@ -306,6 +312,15 @@
   // citation turns a properly sourced sentence into a finding, which is the worst
   // thing this tool can do.
   var CITE=/\[\d+(?:[,;-]\s*\d+)*\]|\([^()]*\b(?:1[89]\d{2}|20\d{2})[a-z]?\b[^()]*\)|\bet al\b|10\.\d{4,9}\/\S+|\bdoi:/i;
+  // The citation markers in a sentence, normalised, for telling a new claim
+  // from a restatement. A bare "et al" carries no source identity, so it is
+  // dropped: only a marker naming a year or a number distinguishes two claims.
+  function cites(s){
+    var m=String(s||"").match(new RegExp(CITE.source,"gi"));
+    if(!m) return [];
+    return m.map(function(x){return x.toLowerCase().replace(/\s+/g," ").trim();})
+            .filter(function(x){return x!=="et al";});
+  }
   var STOPW={the:1,and:1,for:1,that:1,this:1,with:1,from:1,were:1,was:1,are:1,is:1,be:1,been:1,
              have:1,has:1,had:1,not:1,but:1,which:1,their:1,they:1,its:1,our:1,also:1,than:1,
              more:1,most:1,such:1,into:1,between:1,among:1,these:1,those:1,when:1,while:1,
@@ -378,6 +393,10 @@
   var VOCAB=/\b(?:delv(?:e|es|ed|ing)|leverage(?:s|d|ing)?|harness(?:es|ed|ing)?|empower(?:s|ed|ing)?|streamline(?:s|d)?|seamless(?:ly)?|robustly|cutting-edge|game-?changer|revolutioni[sz](?:e|es|ed|ing)|transformative|unleash(?:es|ed)?|multifaceted|meticulous(?:ly)?|paramount|showcas(?:e|es|ed|ing)|underscor(?:e|es|ed|ing)|noteworthy|tapestry|realm|intricate(?:ly)?|intricacies|commendable|groundbreaking|renowned|garner(?:s|ed|ing)?|surpass(?:es|ed|ing)?|excels|comprehending|grappling|adept|unveil(?:s|ed)?|landscape of|testament to|in today(?:'|’)?s)\b/i;
   var HEDGE=/\b(?:may|might|could|possibly|potentially|perhaps|suggests?|appears?|seems?|relatively|somewhat|arguably|presumably|tends? to|it is possible that)\b/i;
   function GLOBAL(re){ return new RegExp(re.source,"gi"); }
+  // "May 2020" and "May 15" are dates, not hedges. Recruitment windows put
+  // three of them in one Methods sentence, which read as a stacked hedge.
+  // Capital M only: the month is capitalised, the modal verb almost never is.
+  function noMonths(s){ return String(s).replace(/\bMay(?=\s+\d)/g,"###"); }
 
   // --- when a universal is not an unsupported claim ------------------------
   // A universal quantifier is a syntactic form. Whether it is an overreach
@@ -386,13 +405,21 @@
   //
   // 1. A stipulated definition is universal by construction and cannot be cited
   //    to anything. "Let S be any solver that…", "C1: every adequate account…"
-  var DEFINE=/\b(?:let\s+\w+\s+(?:be|denote)|we\s+(?:define|call|denote|write|say|take)\b|is\s+defined\s+as|are\s+defined\s+as|counts?\s+as\b|is\s+equivalent\s+(?:to|if)|are\s+equivalent\s+(?:to|if)|by\s+(?:definition|construction|stipulation)|denotes?\b|refers?\s+to\b|(?:criteri(?:on|a)|condition|axiom|premise|property|assumption)\s+\(?[A-Z]?\d)\b|^\s*\(?[A-Z]\d\)?\s*[.:)]/;
+  //    Case-insensitive: definitions open sentences ("We define…", "Let S be…"),
+  //    and a flag that only matches them mid-sentence misses most of them.
+  var DEFINE=/\b(?:let\s+\w+\s+(?:be|denote)|we\s+(?:define|call|denote|write|say|take)\b|is\s+defined\s+as|are\s+defined\s+as|counts?\s+as\b|is\s+equivalent\s+(?:to|if)|are\s+equivalent\s+(?:to|if)|by\s+(?:definition|construction|stipulation)|denotes?\b|refers?\s+to\b|(?:criteri(?:on|a)|condition|axiom|premise|property|assumption)\s+\(?[A-Z]?\d)\b|^\s*\(?[A-Z]\d\)?\s*[.:)]/i;
   // 2. The bound is already in the sentence, so asking for one is asking twice.
   var BOUNDED=/\b(?:given\s+(?:the|these|those|our|its|such)\s+\w+|under\s+(?:the|these|those|our|such)\s+(?:assumptions?|conditions?|premises|constraints?|definitions?)|by\s+(?:construction|definition|assumption|hypothesis)|as\s+(?:defined|stipulated|specified|described|constructed)\s+(?:above|below|here|earlier)|within\s+(?:this|our|the)\s+(?:model|framework|account|dataset|sample|cohort|corpus|analysis)|in\s+(?:this|our)\s+(?:model|framework|account|sample|cohort|dataset|study|analysis|corpus)|in\s+(?:Figure|Fig\.?|Table|Box|Appendix|Section|Panel)\s*\d)/i;
   // 3. A hypothesis being named rather than asserted is the thing under test.
   var NAMED_POSITION=/\b(?:hypothes[ie]s|account|explanation|view|position|thesis|claim|argument|proposal|reading|theory|objection|interpretation)\b[^.;:]{0,48}?\b(?:holds|says|states|predicts|implies|maintains|asserts|entails|requires|would\s+\w+)\b|\b(?:on|under|according\s+to)\s+(?:this|that|the)\s+(?:view|account|hypothesis|reading|proposal|model|theory|interpretation)\b/i;
   // 4. A declaration about tools used is not an empirical claim about the world.
+  //    This covers AI-tool disclosure and, in the same spirit, the boilerplate
+  //    Methods statement of how the study's own analysis was carried out: "All
+  //    analyses were run in R", "All tests were two-sided". The universal
+  //    ranges over the study's own procedure, which is bounded by the study, not
+  //    a claim about the world that a reviewer would ask a citation for.
   var DISCLOSURE=/\b(?:generative\s+AI|large\s+language\s+models?|language\s+models?|AI\s+(?:tools?|assistance|systems?|use)|ChatGPT|Copilot|GPT-\d)\b/i;
+  var PROCEDURE=/\b(?:all|every|each)\s+(?:statistical\s+|primary\s+|sensitivity\s+|secondary\s+)?(?:analys[ie]s|models?|tests?|comparisons?|estimates?|calculations?|computations?|regressions?|p[\s-]?values?|procedures?)\s+(?:were|was|are|is)\b/i;
 
   // Headings that open a zone where universals and hedges are the content, not
   // a weakness: a falsification section states what would refute the account,
@@ -433,8 +460,9 @@
     // Intensifiers go through the rule's own function so the exemptions hold:
     // "clearly visible" is not counted, "Clearly, we need X" is.
     intensifiers(text,{section:"other"}).forEach(function(w){ bump(w.toLowerCase()); });
+    var dated=noMonths(text);
     [VOCAB,HEDGE].forEach(function(re){
-      m=text.match(GLOBAL(re))||[];
+      m=dated.match(GLOBAL(re))||[];
       for(i=0;i<m.length;i++) bump(m[i].toLowerCase().replace(/\s+/g," "));
     });
     var out=[];
@@ -510,6 +538,14 @@
 
     { id:"restatement", group:"Structural", name:"Restatement in place of development",
       pair:function(a,b){
+        // A sentence that cites a source the one before it did not is a new
+        // evidenced claim, not a rephrasing. A review section lists findings on
+        // one frame — "X was associated with symptoms (Ref A). Y was associated
+        // with symptoms (Ref B)." — and the shared frame reads as restatement
+        // until the citations are read. A restatement rephrases; it does not
+        // bring a new reference.
+        var cb=cites(b);
+        if(cb.length){ var ca=cites(a); for(var q=0;q<cb.length;q++) if(ca.indexOf(cb[q])<0) return false; }
         var A={},B={},i;
         words(a).forEach(function(w){ if(!STOPW[w]) A[stem(w)]=1; });
         words(b).forEach(function(w){ if(!STOPW[w]) B[stem(w)]=1; });
@@ -562,12 +598,12 @@
       // the writer read that line twelve times.
       zoneOff:["falsification"],
       test:function(s,ctx){
-        var m=s.match(GLOBAL(HEDGE));
+        var m=noMonths(s).match(GLOBAL(HEDGE));
         var limit=(ctx.section==="discussion")?4:3;
         return !!m && m.length>=limit;
       },
       shows:function(s){
-        return (s.match(GLOBAL(HEDGE))||[]).join(", ").toLowerCase();
+        return (noMonths(s).match(GLOBAL(HEDGE))||[]).join(", ").toLowerCase();
       },
       why:"Three or more hedges in one sentence. Each is defensible; together they make the claim impossible to disagree with, which also makes it impossible to use.",
       fix:"Keep the one hedge the evidence requires and drop the rest. The threshold is already higher in a Discussion.",
@@ -590,10 +626,14 @@
         if(CITE.test(s)) return false;
         // A universal is a syntactic form; whether it overreaches is a question
         // about the sentence's role. These four roles make it legitimate.
-        if(DEFINE.test(s)||BOUNDED.test(s)||NAMED_POSITION.test(s)||DISCLOSURE.test(s)) return false;
+        if(DEFINE.test(s)||BOUNDED.test(s)||NAMED_POSITION.test(s)||DISCLOSURE.test(s)||PROCEDURE.test(s)) return false;
+        // "never-smoker", "ever-smokers": a smoking-status category, not the
+        // universal "never". Strip it before the test, the way epidemiology
+        // reads it. Respiratory and cardiovascular prose is full of them.
+        var bare=s.replace(/\b(?:never|ever)[\s-]smokers?\b/gi," ");
         // "all of them", "every one of those": the universal points back at
         // something already named, so it is bounded, not a claim about the world.
-        var bare=s.replace(/\b(?:all|every|each|none|neither)\s+(?:one\s+)?of\s+(?:them|those|these|this|us|it|the\s+\w+)/gi," ");
+        bare=bare.replace(/\b(?:all|every|each|none|neither)\s+(?:one\s+)?of\s+(?:them|those|these|this|us|it|the\s+\w+)/gi," ");
         return /\b(?:all|every|always|never|none of|no one|everyone|universally|in all cases|without exception)\b/i.test(bare)
                && !/\b(?:not all|almost all|nearly all)\b/i.test(bare);
       },

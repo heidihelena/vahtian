@@ -90,7 +90,7 @@ const sandbox = {
 };
 vm.createContext(sandbox);
 vm.runInContext(src.replace(/\}\)\(\);\s*$/,
-  "__out={findDois,findExtras,classify,fetchRef,unent,cleanDoi,uncheckedEntries,contextFor,arxivDoi};})();"),
+  "__out={findDois,findExtras,classify,fetchRef,unent,cleanDoi,uncheckedEntries,contextFor,arxivDoi,mdRef};})();"),
   sandbox, { filename: page });
 const T = sandbox.__out;
 
@@ -195,6 +195,69 @@ console.log("\n8. absent from both registries");
     check("verdict nr", row.verdict === "nr", row.verdict);
     check("names both registries", row.flags.some((f) => /Crossref or DataCite/.test(f.label)), JSON.stringify(row.flags.map((f) => f.label)));
   });
+}
+
+console.log("\n9. an arXiv-only entry between two DOI entries is not swallowed");
+{
+  // Reported 2026-07-28: findExtras used a ±600-char window to suppress an
+  // arXiv ID sitting beside its own published DOI. In a compact list the window
+  // reached into the neighbouring entries, so an arXiv-only reference between
+  // two DOI references was suppressed — never checked, and never listed back as
+  // unchecked either, because it does carry an identifier. Invisible. The
+  // suppression is now scoped to the same entry, not a character window.
+  const blank =
+"1. Zhou F, et al. Clinical course. Lancet. 2020;395:1054. doi:10.1016/S0140-6736(20)30566-3\n\n" +
+"2. Vaswani A, et al. Attention is all you need. arXiv:1706.03762. 2017.\n\n" +
+"3. Guan WJ, et al. Clinical characteristics. N Engl J Med. 2020;382:1708. doi:10.1056/NEJMoa2002032";
+  check("blank-line list: arXiv entry checked", T.findExtras(blank, T.findDois(blank)).length === 1,
+    JSON.stringify(T.findExtras(blank, T.findDois(blank)).map((e) => e.raw)));
+  const numbered =
+"1. Zhou F, et al. Clinical course. Lancet. 2020;395:1054. doi:10.1016/S0140-6736(20)30566-3\n" +
+"2. Vaswani A, et al. Attention is all you need. arXiv:1706.03762. 2017.\n" +
+"3. Guan WJ, et al. Clinical characteristics. N Engl J Med. 2020;382:1708. doi:10.1056/NEJMoa2002032";
+  check("numbered single-block list: arXiv entry checked", T.findExtras(numbered, T.findDois(numbered)).length === 1,
+    JSON.stringify(T.findExtras(numbered, T.findDois(numbered)).map((e) => e.raw)));
+}
+
+console.log("\n10. an identifier-less institutional reference is listed back");
+{
+  // A numbered entry whose author is an organisation ("World Health
+  // Organization.") never parses as surname-plus-initials, so it slipped past
+  // looksLikeReference and a run silently omitted it — coverage it never had.
+  const text =
+"1. Zhou F, et al. Clinical course. Lancet. 2020;395:1054. doi:10.1016/S0140-6736(20)30566-3\n\n" +
+"2. World Health Organization. Global tuberculosis report 2023. Geneva: World Health Organization; 2023.\n\n" +
+"3. Guan WJ, et al. Clinical characteristics. N Engl J Med. 2020;382:1708. doi:10.1056/NEJMoa2002032";
+  check("WHO report listed as unchecked", T.uncheckedEntries(text).length === 1, JSON.stringify(T.uncheckedEntries(text)));
+}
+
+console.log("\n11. markdown asterisks are trimmed off a DOI");
+{
+  const d = T.findDois("See **doi:10.1056/NEJMoa2002032** for details. 2020.");
+  check("trailing ** trimmed", d.length === 1 && d[0].raw === "10.1056/NEJMoa2002032",
+    JSON.stringify(d.map((x) => x.raw)));
+}
+
+console.log("\n12. an arXiv e-print is not sent to Unpaywall");
+{
+  // Unpaywall indexes Crossref DOIs, not DataCite's, so an arXiv DOI always
+  // came back "access unknown" on a paper whose full text is public. The run
+  // now skips the request and hands out the arxiv.org link.
+  calls.length = 0;
+  const r = await T.fetchRef("10.48550/arXiv.1606.06565", true, "arxiv");
+  check("no Unpaywall call for arXiv", !calls.some((u) => /unpaywall/.test(u)), JSON.stringify(calls.filter((u) => /unpaywall/.test(u))));
+  const ex = T.findExtras("Amodei D, Olah C. Concrete problems in AI safety. arXiv:1606.06565. 2016.", []);
+  ex[0].cite = "Amodei D, Olah C. Concrete problems in AI safety. arXiv:1606.06565. 2016.";
+  const row = T.classify(ex[0], r.cr, r.up);
+  check("access shown as open (arXiv)", row.access && row.access.state === "oa" && /arxiv\.org/.test(row.access.url || ""),
+    JSON.stringify(row.access));
+}
+
+console.log("\n13. the markdown report names the registry that answered");
+{
+  const md = T.mdRef({ doi: "10.48550/arXiv.1606.06565", cite: "x", verdict: "ok", access: null,
+    record: { title: "T", author: "A", authors: 1, journal: "", year: "2016", type: "", source: "DataCite" }, flags: [] });
+  check("mdRef says DataCite, not Crossref", /In DataCite:/.test(md) && !/In Crossref:/.test(md), md.replace(/\n/g, " | "));
 }
 
 console.log(fail ? `\n${fail} FAILED\n` : "\nall passed\n");

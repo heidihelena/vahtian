@@ -57,6 +57,7 @@ const SECTIONS = {
   "disc_method.txt": "discussion",
   "disc_ineq.txt": "discussion",
   "clean-methods.txt": "methods",
+  "methods-numbers.txt": "methods",
   "article-learn.txt": "other",
   "roles.txt": "other",
   "antithesis-true.txt": "discussion",
@@ -74,6 +75,11 @@ const BUDGET = {
   "disc_method.txt": 1,
   "disc_ineq.txt": 2,
   "clean-methods.txt": 0,
+  // Decimals must not split a sentence (a p-value is not a full stop) and month
+  // names must not read as the modal "may": a Methods paragraph full of both
+  // has to stay silent. Budget zero guards the 2026-07-28 splitting and
+  // date-hedge fixes.
+  "methods-numbers.txt": 0,
   "article-learn.txt": { groups: ["Structural", "Language"], max: 6 },
   // Every sentence in roles.txt is a universal, a hedge stack, or a denial that
   // is legitimate in its role. Nothing here may fire.

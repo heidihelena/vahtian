@@ -284,7 +284,9 @@
   // an encoded one is reported as unresolvable when it is perfectly good. The
   // API URL re-encodes on the way out, so this is a round trip, not a loss.
   function cleanDoi(raw){
-    var d=raw.replace(/[).,;:'"\]]+$/,"");
+    // Asterisks and backticks ride along when the list is pasted out of
+    // Markdown ("**doi:10.1056/NEJMoa2002032**"); no real DOI ends in either.
+    var d=raw.replace(/[).,;:'"\]*`]+$/,"");
     // balance a trailing ) only if unmatched (DOIs like ...(20)30566-3 keep theirs)
     return decodeDoi(d);
   }
@@ -333,22 +335,61 @@
   // suffix is dropped: 2401.12345v3 and 2401.12345 are one record.
   function arxivDoi(id){ return "10.48550/arXiv."+String(id).replace(/v\d+$/,""); }
 
+  // Entry ranges over the raw text, mirroring splitEntries: blank-line blocks
+  // when the paste has several, else numbered runs, else one line per entry.
+  // "The same entry" has to mean the same thing here as it does when the
+  // unchecked entries are listed back, or a reference falls between the two.
+  function entryRanges(text){
+    var re=/\n\s*\n/g, cuts=[], last=0, m, i;
+    while((m=re.exec(text))){ cuts.push([last,m.index]); last=m.index+m[0].length; }
+    cuts.push([last,text.length]);
+    var blocks=cuts.filter(function(b){ return text.slice(b[0],b[1]).trim(); });
+    if(blocks.length>1) return blocks;
+    var lines=text.split("\n"), lr=[], off=0, marked=0;
+    for(i=0;i<lines.length;i++){ lr.push([off,off+lines[i].length]); off+=lines[i].length+1; }
+    for(i=0;i<lines.length;i++) if(NUMBERED.test(lines[i])) marked++;
+    if(marked>1){                        // numbered list, entries may wrap
+      var out=[], cur=null;
+      for(i=0;i<lines.length;i++){
+        if(NUMBERED.test(lines[i])){ if(cur) out.push(cur); cur=[lr[i][0],lr[i][1]]; }
+        else if(cur) cur[1]=lr[i][1];
+        else cur=[lr[i][0],lr[i][1]];
+      }
+      if(cur) out.push(cur);
+      return out;
+    }
+    return lr;
+  }
+
   function findExtras(text, dois){
     var out=[], seen={}, m;
-    // Only look inside entries that carry no DOI. An arXiv ID sitting beside a
-    // published DOI is the preprint of a paper already being checked, and
-    // checking it twice would report the same reference as two.
+    // Only skip an arXiv ID or ISBN when a DOI sits in the SAME entry: that is
+    // the preprint line of a paper already being checked, and checking it twice
+    // would report one reference as two. The old test used a ±600-character
+    // window, which in a compact list reached into the neighbouring entries and
+    // swallowed arXiv-only references whole — not checked, and (because they
+    // carry an identifier) not listed back as unchecked either. Invisible.
     var spans=[];
     for(var i=0;i<dois.length;i++) spans.push([dois[i].start,dois[i].end]);
-    function nearDoi(at){
+    var entries=entryRanges(text);
+    function entryAt(at){
+      for(var j=0;j<entries.length;j++){
+        if(at>=entries[j][0] && at<entries[j][1]) return entries[j];
+      }
+      return [0,text.length];
+    }
+    function doiInSameEntry(at){
+      var b=entryAt(at);
       for(var j=0;j<spans.length;j++){
-        var s=Math.max(0,spans[j][0]-600), e=spans[j][1]+600;
-        if(at>=s && at<=e) return true;
+        if(spans[j][0]<b[1] && spans[j][1]>b[0]) return true;
       }
       return false;
     }
     function add(kind,id,raw,at){
-      var key=kind+":"+String(id).toLowerCase();
+      // Dedup per entry, not per document: "arXiv:1706.03762" and its URL form
+      // inside one entry are one identifier, but the same ID cited in two
+      // entries is a duplicate the run should mark, exactly as it does a DOI.
+      var key=kind+":"+String(id).toLowerCase()+"@"+entryAt(at)[0];
       if(seen[key]) return; seen[key]=1;
       out.push({kind:kind, id:id, raw:raw,
                 lower:(kind==="arxiv"?arxivDoi(id):id).toLowerCase(),
@@ -356,13 +397,13 @@
     }
     [ARXIV_RE,ARXIV_URL].forEach(function(re){
       re.lastIndex=0;
-      while((m=re.exec(text))){ if(!nearDoi(m.index)) add("arxiv",m[1],"arXiv:"+m[1],m.index); }
+      while((m=re.exec(text))){ if(!doiInSameEntry(m.index)) add("arxiv",m[1],"arXiv:"+m[1],m.index); }
     });
     ISBN_RE.lastIndex=0;
     while((m=ISBN_RE.exec(text))){
       var d=isbnDigits(m[1]);
       if(d.length!==10 && d.length!==13) continue;
-      if(!nearDoi(m.index)) add("isbn",d,"ISBN "+d,m.index);
+      if(!doiInSameEntry(m.index)) add("isbn",d,"ISBN "+d,m.index);
     }
     return out;
   }
@@ -414,7 +455,15 @@
   // fail both tests, so pasting a whole manuscript doesn't fill the page with
   // "unchecked" sentences.
   function looksLikeReference(s){
-    return CITED_RE.test(String(s).replace(NUMBERED,"")) &&
+    var body=String(s).replace(NUMBERED,"");
+    // A surname-and-initials opening, or a numbered entry whose author never
+    // parses as one: "2. World Health Organization. Global tuberculosis report
+    // 2023." is a reference too, and a run that silently drops it claims
+    // coverage it never had. The numbered marker is required for the loose
+    // form so a manuscript's prose paragraphs still fail the test.
+    var opens=CITED_RE.test(body) ||
+              (NUMBERED.test(String(s)) && /^[A-ZÀ-Þ]/.test(body));
+    return opens &&
            /\b(1[5-9]\d{2}|20\d{2})\b/.test(s) &&
            s.replace(/[^A-Za-z]/g,"").length>=30;
   }
@@ -768,6 +817,13 @@
   // Unpaywall has nothing to say about an ISBN.
   function fetchRef(key, wantOa, kind){
     if(kind==="isbn") return fetchIsbn(key).then(function(r){ return {cr:r, up:null}; });
+    if(kind==="arxiv"){
+      // Unpaywall indexes Crossref DOIs, not DataCite's, so asking it about an
+      // arXiv DOI is a guaranteed miss — reported as "access unknown" on a
+      // paper whose full text is public by construction. Skip the request and
+      // let the classifier hand out the arxiv.org link instead.
+      return fetchDoi(key).then(function(r){ return {cr:r, up:wantOa?{status:"arxiv"}:null}; });
+    }
     return Promise.all([
       fetchDoi(key),
       wantOa ? fetchAccess(key) : Promise.resolve(null)
@@ -805,9 +861,12 @@
       return out;
     }
 
+    // Name the registry that was actually asked: an ISBN never went anywhere
+    // near Crossref.
+    var reg = ref.kind==="isbn" ? "OpenLibrary" : "Crossref";
     if(!res || res.status==="neterror"){
       out.verdict="nr";
-      out.flags.push({cls:"fl-violet",label:"not checked",text:"Couldn't reach Crossref (offline or blocked). Resolution wasn't checked."});
+      out.flags.push({cls:"fl-violet",label:"not checked",text:"Couldn't reach "+reg+" (offline or blocked). Resolution wasn't checked."});
       return out;
     }
     if(res.status==="notfound"){
@@ -823,7 +882,7 @@
     }
     if(res.status==="error"){
       out.verdict="nr";
-      out.flags.push({cls:"fl-violet",label:"not checked",text:"Crossref returned an error ("+esc(String(res.code||"?"))+"). Resolution wasn't checked."});
+      out.flags.push({cls:"fl-violet",label:"not checked",text:reg+" returned an error ("+esc(String(res.code||"?"))+"). Resolution wasn't checked."});
       return out;
     }
 
@@ -839,7 +898,11 @@
     out.record={title:title,author:author,authors:authors.length,
                 journal:journals[0]||"",year:year,type:type,source:res.source||"Crossref"};
     // Access status is orthogonal: attach it, but it never moves the verdict.
-    out.access=accessInfo(oaRes);
+    // An arXiv e-print is open by construction; its access line links the
+    // abstract page instead of asking Unpaywall a question it cannot answer.
+    out.access=(oaRes && oaRes.status==="arxiv")
+      ? {state:"oa", src:"arXiv", url:"https://arxiv.org/abs/"+ref.id, isPmc:false}
+      : accessInfo(oaRes);
 
     var notices=noticeList(msg);
     var retracted=notices.indexOf("retraction")>=0 || /^\s*retracted[:\-—\s]/i.test(title);
@@ -994,9 +1057,9 @@
   function accessRow(a){
     if(!a) return "";
     if(a.state==="oa"){
-      var body="Reported open access by Unpaywall.";
+      var body=a.src==="arXiv" ? "An arXiv e-print, openly readable on arxiv.org." : "Reported open access by Unpaywall.";
       if(a.url){
-        body+=' '+(a.isPmc?"PubMed Central single-hop link":"Best open-access link")+
+        body+=' '+(a.isPmc?"PubMed Central single-hop link":(a.src==="arXiv"?"Abstract and full text":"Best open-access link"))+
               ': <a href="'+esc(a.url)+'" rel="noopener" target="_blank">'+esc(a.url)+'</a>';
       }
       return '<div class="acc"><span class="abadge acc-oa">open access</span><span class="acc-body">'+body+'</span></div>';
@@ -1034,12 +1097,12 @@
   // The entries the run never touched, handed back one by one. Listing them
   // is the whole point: a summary that counts only DOIs looks like coverage.
   function nodoiGroup(list){
-    var h='<div class="vgroup"><div class="vhead"><h2>No DOI, not checked</h2>'+
+    var h='<div class="vgroup"><div class="vhead"><h2>No identifier, not checked</h2>'+
           '<span class="n">'+list.length+' · nothing to look up</span></div>'+
-          '<p class="note" style="font-size:14px;margin:0 0 12px">These read like references but carry no DOI, so the tool never checked them. It cannot look a reference up by title. Check these by hand, or add the DOI and run it again.</p>';
+          '<p class="note" style="font-size:14px;margin:0 0 12px">These read like references but carry no DOI, arXiv ID or ISBN, so the tool never checked them. It cannot look a reference up by title. Check these by hand, or add the identifier and run it again.</p>';
     for(var i=0;i<list.length;i++){
       var t=list[i].length>240 ? list[i].slice(0,240).replace(/\s+\S*$/,"")+"…" : list[i];
-      h+='<div class="ref nr"><div class="ref-top"><span class="verdict v-nr">no DOI</span></div>'+
+      h+='<div class="ref nr"><div class="ref-top"><span class="verdict v-nr">no identifier</span></div>'+
          '<p class="ref-cite">'+esc(t)+'</p></div>';
     }
     return h+'</div>';
@@ -1078,7 +1141,7 @@
     var L=[];
     L.push("### "+r.doi);          // the section heading already gives the verdict
     L.push("");
-    if(r.record){ L.push("In Crossref: "+mdRecord(r.record)); L.push(""); }
+    if(r.record){ L.push("In "+(r.record.source||"Crossref")+": "+mdRecord(r.record)); L.push(""); }
     if(r.cite){ L.push("Your citation: "+r.cite); L.push(""); }
     var acc=mdAccess(r.access);
     if(acc){ L.push("Access: "+acc); L.push(""); }
@@ -1092,14 +1155,14 @@
     var g={ok:[],no:[],nr:[]}, i;
     for(i=0;i<rows.length;i++) g[rows[i].verdict].push(rows[i]);
     var L=["# Reference check",""];
-    L.push("Checked "+new Date().toISOString().slice(0,10)+" against Crossref"+
+    L.push("Checked "+new Date().toISOString().slice(0,10)+" against Crossref, DataCite and OpenLibrary"+
            (wantOa?", with open-access status from Unpaywall":"")+".");
     L.push("");
-    L.push("- DOIs checked: "+rows.length);
+    L.push("- Identifiers checked: "+rows.length);
     L.push("- Checks out: "+g.ok.length);
     L.push("- Does not check out: "+g.no.length);
     L.push("- Not resolvable: "+g.nr.length);
-    if(nodoi.length) L.push("- References with no DOI, not checked: "+nodoi.length);
+    if(nodoi.length) L.push("- References with no identifier, not checked: "+nodoi.length);
     L.push("");
     var order=["no","nr","ok"];
     for(var o=0;o<order.length;o++){
@@ -1109,9 +1172,9 @@
       for(i=0;i<list.length;i++) L.push(mdRef(list[i]));
     }
     if(nodoi.length){
-      L.push("## No DOI, not checked ("+nodoi.length+")");
+      L.push("## No identifier, not checked ("+nodoi.length+")");
       L.push("");
-      L.push("These read like references but carry no DOI, so they were never checked. They remain to be checked by hand.");
+      L.push("These read like references but carry no DOI, arXiv ID or ISBN, so they were never checked. They remain to be checked by hand.");
       L.push("");
       for(i=0;i<nodoi.length;i++) L.push("- "+nodoi[i]);
       L.push("");
@@ -1119,10 +1182,10 @@
     L.push("---");
     L.push("");
     L.push("Generated by the Vahtian reference check (https://vahtian.com/reference-check/).");
-    L.push("It checks that a reference resolves and matches its Crossref record. It does not check");
-    L.push("whether the cited source supports the sentence citing it, and a reference without a DOI");
-    L.push("was not checked at all. Crossref's retraction metadata is incomplete, so no notice is");
-    L.push("not evidence of none.");
+    L.push("It checks that a reference resolves and matches its registry record (Crossref, DataCite,");
+    L.push("or OpenLibrary). It does not check whether the cited source supports the sentence citing");
+    L.push("it, and a reference without a DOI, arXiv ID or ISBN was not checked at all. Crossref's");
+    L.push("retraction metadata is incomplete, so no notice is not evidence of none.");
     return L.join("\n");
   }
 
@@ -1173,11 +1236,11 @@
     var groups={ok:[],no:[],nr:[]};
     for(var i=0;i<rows.length;i++) groups[rows[i].verdict].push(rows[i]);
     var h='';
-    h+='<div class="summary"><span class="stotal">'+rows.length+' DOI'+(rows.length===1?'':'s')+' checked</span>';
+    h+='<div class="summary"><span class="stotal">'+rows.length+' identifier'+(rows.length===1?'':'s')+' checked</span>';
     if(groups.ok.length) h+='<span class="scount sc-ok">checks out · '+groups.ok.length+'</span>';
     if(groups.no.length) h+='<span class="scount sc-no">does not check out · '+groups.no.length+'</span>';
     if(groups.nr.length) h+='<span class="scount sc-nr">not resolvable · '+groups.nr.length+'</span>';
-    if(nodoi.length) h+='<span class="scount sc-nr">no DOI, not checked · '+nodoi.length+'</span>';
+    if(nodoi.length) h+='<span class="scount sc-nr">no identifier, not checked · '+nodoi.length+'</span>';
     h+='</div>';
 
     var order=["no","nr","ok"]; // problems first, calm confirmations last
@@ -1195,7 +1258,8 @@
   }
 
   function progress(done,total){
-    $("out").innerHTML='<div class="progress">Checking DOI '+done+' of '+total+' against Crossref…'+
+    if(!total) return;
+    $("out").innerHTML='<div class="progress">Checking identifier '+done+' of '+total+' against the registries…'+
       '<div class="bar"><i style="width:'+Math.round(done/total*100)+'%"></i></div></div>';
   }
 
@@ -1225,7 +1289,6 @@
     var wantOa=$("oa").checked;
 
     $("run").disabled=true;
-    progress(0,dois.length);
 
     // fetch only well-formed, first-occurrence DOIs; reuse the response for dupes
     var toFetch=[], fetchIndex={};
@@ -1236,6 +1299,10 @@
         toFetch.push({key:(d.kind==="arxiv"?arxivDoi(d.id):(d.kind==="isbn"?d.id:d.lower)), kind:d.kind||"doi"});
       }
     });
+    // The bar counts what will actually be fetched: duplicates and malformed
+    // identifiers never go out, and a denominator that includes them makes the
+    // bar jump scales mid-run.
+    progress(0,toFetch.length);
 
     pool(toFetch,function(t){return fetchRef(t.key,wantOa,t.kind);},progress).then(function(responses){
       var rows=dois.map(function(d){
