@@ -160,3 +160,64 @@ that, and it's required (see DISCLOSURE.md).
 - Never imply the figures certify a result or make it publication-*ready*; they are formatted for print, nothing more.
 - UTM tags optional (`?utm_source=zotero-forum`); links stay cookieless.
 - One honest post per community, then engage — don't blast.
+
+---
+---
+
+# Reference check — 2026-07-28 · AWAITING FOUNDER APPROVAL
+
+> **Status: draft only. Nothing posted.** Brand-safety: PASS (this pass).
+> Say "go" to post, or edit first. Announces what is live now (author list,
+> journal, coverage of DOI-less entries). The Markdown export is still in an
+> open PR and is deliberately not mentioned.
+
+## 1. LinkedIn (primary, as requested)
+
+> Reference lists get repaired by a language model now, and the damage has a shape:
+> the first author survives, and a name in the middle quietly becomes someone else.
+> The first author is the one everybody eyeballs.
+>
+> The first version of this check compared the first author only, and never looked
+> at the journal at all. Both are fixed.
+>
+> Paste a reference list into the free reference check on vahtian.com. Every DOI is
+> resolved against Crossref, then compared with what you actually wrote:
+>
+> - the title
+> - the full author list, not the first name alone
+> - the journal, abbreviated or in full, so "N Engl J Med" matches "The New England Journal of Medicine"
+> - the year
+>
+> It also reads the surnames out of your citation and tests each one against the
+> record's whole author list, so a name the paper does not carry anywhere is flagged
+> wherever it sits.
+>
+> It now says what it could not check, too. A reference without a DOI cannot be
+> resolved, so it is listed back to you, unchecked, and counted on its own. A total
+> that silently counts only the DOI-bearing entries claims coverage the run never had.
+>
+> What it will not tell you: whether the cited paper supports the sentence citing it.
+> That needs the full text and a human reading it. This checks that a reference points
+> at the paper it claims to point at, and shows you which field disagrees when one does.
+>
+> Free, in your browser, nothing uploaded, no account. DOI lookups go to Crossref, and
+> to Unpaywall for open-access status.
+>
+> Disclosure: I built it. Clinician (MD, PhD), so not a neutral party.
+>
+> https://vahtian.com/reference-check/
+
+## 2. Short blurb (<=300 chars, for replies and bios)
+
+> Free reference check, in your browser: paste a list, every DOI is resolved against
+> Crossref and the title, authors, journal and year compared with what you wrote. A
+> name the paper does not carry is flagged. No-DOI entries are listed unchecked.
+> https://vahtian.com/reference-check/
+
+### Posting notes (reference check)
+- Lead with the **problem** (repaired lists lose names in the middle), not the field list.
+- Keep the caveat in running copy: it checks that a reference resolves and matches its record, **not** that the source supports the claim.
+- Never say it finds every bad reference, and never call a list clean: a reference with no DOI is listed, not checked, and Crossref's retraction metadata is incomplete.
+- Disclosure line is mandatory (developer, clinician MD, PhD).
+- Do not mention the Markdown export until #305 is merged and live.
+- One honest post, then engage in the comments.
