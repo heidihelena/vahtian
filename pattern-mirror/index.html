@@ -190,10 +190,12 @@
       <li><b>Structural</b>: the antithesis family ("not just X, but Y" and its relatives), restatement in place of development, parallelism overload, artificial comprehensiveness, signposting, formatting in place of argument, and a repeated paragraph template.</li>
       <li><b>Language</b>: vocabulary that could sell any product, empty intensifiers, generic abstraction, and stacked hedges.</li>
       <li><b>Evidence</b>: a claim handed to unnamed studies, a universal generalisation with nothing behind it, and a paragraph carrying no numeral, proper noun, or citation.</li>
+      <li><b>Expect findings on good writing.</b> The rules were calibrated against a doctoral thesis written and defended before generative models existed, by a multilingual clinician whose prose from those years is scored around 60% "AI" by detectors. About 2500 words of it came back with three findings: one worth acting on, and two carrying their own case for leaving the sentence alone. Three further findings turned out to be faults in the rules, and the rules changed. That is one run on one thesis, not a measured error rate, and there is no benchmark here to quote. The story is in <a href="/learn/writing-discipline-ai-patterns/">Writing discipline when detectors judge your prose</a>.</li>
+      <li><b>Built for manuscript prose.</b> The Evidence group assumes the citation conventions of a paper. Run an essay, a blog post, or a grant narrative through it and those rules will fire far more often, because ordinary prose carries claims without a citation in every sentence. That is the tool being out of its range, not your writing being weak.</li>
       <li><b>Not style, and not voice.</b> Sentence rhythm, sentence length, repeated openings, and nominalisation density are left alone on purpose. Penalising them makes everyone's prose converge, and they track writing in a second or third language more than they track quality. The tools that score those are the ones that flag a careful multilingual writer at 61%.</li>
     </ul>
     <p style="font-size:14.5px;color:#322c47;margin:16px 0 0">Each finding gives you the anchor, the sentence, why the pattern weakens the writing, what to do instead, and the conditions under which it is right as written. Counts appear per group, with a rate per 100 words so a long Discussion is comparable with a short Abstract. The groups are never added together, because a single number about writing is a grade, and a grade about writing gets read as a grade about the writer.</p>
-    <div class="cant"><b>What it can't do.</b> It cannot tell whether a person or a machine wrote the text, and no output may be used to accuse anyone. It reads shapes in sentences, not meaning: a flagged sentence may be exactly right, which is why every finding carries the case for keeping it. Clearing every item is not the goal. A draft with no findings is not a good paper, and a draft with twenty is not a bad one.</div>
+    <div class="cant"><b>What it can't do.</b> It cannot tell whether a person or a machine wrote the text, and no output may be used to accuse anyone. It reads shapes in sentences, not meaning: a flagged sentence may be exactly right, which is why every finding carries the case for keeping it. Good writing produces findings too, and no error rate has been measured for this. Clearing every item is not the goal. A draft with no findings is not a good paper, and a draft with twenty is not a bad one.</div>
     <p style="font-size:14.5px;color:#322c47;margin:16px 0 0">Checking whether the sources support the sentences instead? That is <a href="/citevahti/">CiteVahti</a>. Checking that the reference list resolves? That is the <a href="/reference-check/">reference check</a>.</p>
   </section>
 </main>
@@ -441,8 +443,11 @@
     { id:"generalisation", group:"Evidence", name:"Universal generalisation",
       test:function(s){
         if(CITE.test(s)) return false;
-        return /\b(?:all|every|always|never|none of|no one|everyone|universally|in all cases|without exception)\b/i.test(s)
-               && !/\b(?:not all|almost all|nearly all)\b/i.test(s);
+        // "all of them", "every one of those": the universal points back at
+        // something already named, so it is bounded, not a claim about the world.
+        var bare=s.replace(/\b(?:all|every|each|none|neither)\s+(?:one\s+)?of\s+(?:them|those|these|this|us|it|the\s+\w+)/gi," ");
+        return /\b(?:all|every|always|never|none of|no one|everyone|universally|in all cases|without exception)\b/i.test(bare)
+               && !/\b(?:not all|almost all|nearly all)\b/i.test(bare);
       },
       why:"A universal claim with no citation in the sentence. One counterexample defeats it, and reviewers look for one.",
       fix:"Bound the claim to what you measured, or cite the work that supports it.",
