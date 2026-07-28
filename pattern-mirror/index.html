@@ -3,6 +3,11 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- connect-src 'none': this tool runs entirely in the browser and makes no
+       network request. The CSP turns the privacy promise into something the
+       browser enforces, not something the copy asks you to trust. -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'none'; base-uri 'none'; form-action 'none'" />
+  <meta name="referrer" content="no-referrer" />
   <title>Pattern Mirror, patterns in your academic writing · Vahtian</title>
   <meta name="description" content="Paste a section and get a copy-pastable list of documented patterns that weaken scientific prose, in document order, with the sentence and what to do. No score.">
   <meta name="theme-color" content="#2D2440">

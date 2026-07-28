@@ -3,6 +3,12 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- connect-src is pinned to the four registries this tool queries and
+       nothing else: Crossref and DataCite for the record, OpenLibrary for a
+       book, Unpaywall for access status. A wrong or injected identifier cannot
+       reach any other host. Keep this list in step with the fetch() targets. -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src https://api.crossref.org https://api.datacite.org https://openlibrary.org https://api.unpaywall.org; base-uri 'none'; form-action 'none'" />
+  <meta name="referrer" content="no-referrer" />
   <title>Check your references before submission · Vahtian</title>
   <meta name="description" content="Paste your reference list. DOIs, arXiv IDs and ISBNs are checked against Crossref, DataCite and OpenLibrary for title, authors, journal and year.">
   <meta name="theme-color" content="#2D2440">

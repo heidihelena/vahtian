@@ -6,3 +6,15 @@
   Link: </llms.txt>; rel="describedby"; type="text/plain"
   Link: </sitemap.xml>; rel="sitemap"
   Link: </.well-known/agent-skills/index.json>; rel="describedby"; type="application/json"
+  # Security response headers. These are the protections a per-page
+  # <meta http-equiv> cannot set: clickjacking (frame-ancestors is ignored in
+  # meta), MIME sniffing, referrer leakage, feature access, and HSTS. The
+  # per-page Content-Security-Policy stays in each page's <head>, because its
+  # connect-src differs per tool (reference-check reaches four registries;
+  # pattern-mirror reaches nothing).
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Cross-Origin-Opener-Policy: same-origin
+  Permissions-Policy: accelerometer=(), autoplay=(), camera=(), display-capture=(), encrypted-media=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), midi=(), payment=(), usb=(), interest-cohort=(), browsing-topics=()
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
