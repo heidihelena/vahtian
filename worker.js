@@ -33,6 +33,11 @@ export default {
 
       const headers = new Headers();
       headers.set("content-type", "text/markdown; charset=utf-8");
+      // This response is built fresh, so it does not inherit the _headers
+      // security rules the asset response carries. It is served to agents, not
+      // rendered, so most of them do not apply — but nosniff is cheap and right
+      // for a text/markdown body.
+      headers.set("x-content-type-options", "nosniff");
       headers.set("x-markdown-tokens", String(estimateTokens(md)));
       headers.set("vary", "Accept");
       // Preserve the agent-discovery Link header if the asset set one.
