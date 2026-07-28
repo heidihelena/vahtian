@@ -1,0 +1,85 @@
+Writing discipline when detectors judge your prose
+
+My doctoral thesis was written before ChatGPT existed. Detectors score it around 60% AI.
+
+Nothing in it was machine-written. It was written in my third language, carefully, over several years, by someone who had learned to write academic English the way most of us learn it: by reading a great deal of it and imitating what worked.
+
+By Heidi Andersén, MD, PhD · 28 July 2026 · 8 min read
+
+What changed The literature's vocabulary moved in two years
+
+Kobak and colleagues counted word frequencies across 15 million PubMed abstracts from 2010 to 2024 and looked for words that appeared far more often than the previous years predicted, borrowing the method used to estimate excess mortality ( Science Advances , 2025).
+
+The word delves appeared in 102 abstracts in 2022. In 2024 it appeared in 5152. Underscores went from 1426 abstracts to 20755, which is roughly one in every seventy abstracts published that year. Intricate , meticulously , showcasing , garnered : all of them multiplied. Their estimate is that at least 13.5% of 2024 abstracts were processed with a language model, and in some journals and countries the figure reaches 40%.
+
+Two things follow, and they pull in opposite directions. The first is that a real signal exists: scientific prose reads differently than it did in 2021, and the shift is measurable at the scale of the whole literature. The second is that a signal in fifteen million abstracts tells you nothing whatever about the paragraph in front of you.
+
+The problem Detectors punish the writing they should protect
+
+Detectors mostly measure perplexity, which is a formal way of saying: how predictable are these word choices. Machine text is predictable because prediction is what produced it. The trouble is what else is predictable.
+
+Writing in a second or third language is predictable. You reach for the construction you are confident is correct rather than the one you would have preferred. You reuse the phrasing you learned from the papers in your field. You avoid the idiom you are not certain of. Every one of those is a sensible decision by a careful writer, and every one of them lowers perplexity.
+
+Liang and colleagues put seven detectors to work on 91 TOEFL essays by non-native writers and 88 essays by American eighth-graders. The essays by the American children were classified correctly almost every time. More than half of the TOEFL essays were called machine-written, at an average false-positive rate of 61.3% ( Patterns , 2023). Three years on this is still producing misconduct hearings in UK universities, disproportionately against international students ( HEPI , 2026).
+
+So my 60% is the expected result of running a Finnish clinician's English through an instrument that treats fluent caution as evidence of a machine.
+
+The wrong response You cannot write your way past a detector
+
+The obvious reaction is to learn what the detectors dislike and avoid it. Vary your sentence length. Insert an irregularity. Break the parallel structure you were taught to build.
+
+Do not do this, for three reasons. It does not reliably work, because the tools change and nobody publishes what they now weight. It makes your writing worse, because sentence rhythm was never the problem and deliberately roughening it costs clarity. And it accepts the premise, which is the real damage: that your job as an author is to produce prose that satisfies a classifier rather than a reader.
+
+There is no tool, including mine, that can promise your writing will not be flagged. Anyone selling that is selling something they cannot deliver.
+
+The right response Discipline, because it is the same thing that makes a paper good
+
+What distinguishes a well-made scientific paragraph from a generated one is specificity that only the author could supply . The measurement you took. The number. The named cohort. The reason this analysis and not the other one. The thing that went wrong. A model cannot produce those, because it was not there.
+
+That is convenient, because it means the discipline that protects you is the discipline that would have improved the paper anyway. It costs nothing to adopt and it is defensible on its own terms, which is more than can be said for writing to fool a classifier.
+
+1 Put a number, a name, or a citation in every paragraph. A paragraph with nothing checkable in it is a paragraph nobody can argue with, which sounds like a strength and is not.
+
+2 Cite inside the sentence that makes the claim. "Studies show" with the citation three sentences later is a claim resting on nothing at the point where the reader meets it.
+
+3 One hedge, not four. "It could be argued that X might possibly improve Y, although this may depend on context" cannot be disagreed with, and therefore cannot be used.
+
+4 Say the claim once. A sentence that restates the previous one in fresh words raises the word count and leaves the argument where it was. Cut one, and use the space for the next step.
+
+5 Distrust the elegant contrast. "This is not merely a technical improvement, but a fundamental shift" compresses two claims into a rhetorical shape and supports neither. Pick the one you mean, and give the evidence.
+
+None of these is new advice. What is new is that the cost of ignoring them has gone up, because the patterns they describe are exactly the ones a reviewer now reads as machine-made.
+
+The tool A mirror, not a verdict
+
+I built Pattern Mirror for the part of this that can be automated. Paste a section and you get a list of sentences worth looking at again, in the order you wrote them, each with the pattern, the reason it weakens the writing, and the case for leaving it exactly as it is. It runs in your browser and nothing is uploaded.
+
+What it deliberately does not do matters more than what it does.
+
+There is no score. Not a percentage, not a total, not a grade. A single number about writing gets read as a number about the writer, and it is the shape of output that institutions turn into thresholds.
+
+It does not check style or voice. Sentence rhythm, sentence length, repeated openings, nominalisation density: all excluded on purpose. Those are the features that track a writer's first language rather than the quality of their argument, and penalising them makes everyone's prose converge on the same beige.
+
+It cannot tell whether a person or a machine wrote anything , and no result from it may be used to accuse anyone of anything. It reads shapes in sentences, not authorship.
+
+The rules were calibrated against my own thesis, the one that scores 60%. About 2500 words of it produced three findings: one worth acting on, and two that carried their own case for leaving the sentence alone. Three further findings turned out to be faults in my rules, including one that reported a sentence carrying two citations as a claim with none, and those rules changed. Good writing produces findings too. That is one run on one thesis, not a measured error rate, and I am not going to pretend otherwise.
+
+If it happens anyway What to have ready
+
+Being accused is an evidence problem, and better sentences cannot solve it. The evidence is easier to keep than to reconstruct.
+
+Version history. Draft in something that keeps it. A document with three hundred revisions across four months is the single most persuasive artefact you can produce, and it costs nothing to have.
+
+Your notes and dead ends. The paragraph you cut, the analysis that failed, the supervisor comment you argued with. Nobody fabricates these.
+
+A written record of any AI use. If you used a model to check grammar, say so, in the form your journal or institution asks for. The AI Disclosure Kit has the templates and a use log.
+
+The false-positive evidence. The Liang paper above, and the fact that the detector vendors themselves publish no validated accuracy for individual documents. An accusation resting on a detector score is resting on an instrument with a 61.3% false-positive rate on writing like yours, and that sentence belongs in your reply.
+
+The point Write so that only you could have written it
+
+The summary is uncomfortable: a real change happened in the literature, the instruments built to detect it are unfit to judge an individual, and the people paying for that mismatch are disproportionately those writing in a language not their own.
+
+You cannot fix the instruments. You can write prose so full of the particular that its authorship is obvious to any reader who is reading. That is what good scientific writing was always supposed to be.
+
+Free, in your browser, nothing uploaded: Pattern Mirror lists the patterns in a section of your writing. Checking references rather than prose? Use the reference check . Disclosure: I developed these tools.
