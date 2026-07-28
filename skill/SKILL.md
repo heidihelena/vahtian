@@ -56,7 +56,7 @@ opinion — that is all.
 | Screen (blinded) | MatchVahti | rate each paper × each claim; your rating stays **sealed** until the human commits |
 | Reconcile | ReviewVahti | load each reviewer's ballot → per-claim Cohen's κ, PABAK, AC1 / Krippendorff's α |
 | Retrieve | FullVahti / `vahtian_fulltext.py` | fetch open-access full text for flagged items |
-| **Reference check** | [reference check](https://vahtian.com/reference-check/) / Crossref API | resolve every DOI, compare title, author list, journal, and year with the citation text, flag names the record does not carry, list the DOI-less entries as unchecked |
+| **Reference check** | [reference check](https://vahtian.com/reference-check/) / Crossref API | resolve every DOI, compare title, author list, journal, and year with the citation text, flag names the record does not carry, list the DOI-less entries as unchecked; the browser tool exports the run as Markdown |
 | Check | CiteVahti | assess each claim against its source; decision-gated, undoable Zotero write-back; hash-chained audit |
 
 ## Expected artifacts per stage

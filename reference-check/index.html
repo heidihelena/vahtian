@@ -89,6 +89,10 @@
     button.ghost{background:#fff;color:var(--ink);border:1px solid #b7add0}
     button:disabled{opacity:.55;cursor:not-allowed}
     .priv{font-size:12.5px;color:var(--muted);margin:12px 0 0;max-width:70ch}
+    /* export */
+    .exp{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:22px 0 0}
+    .exp button{padding:9px 14px;font-size:14px}
+    .expmsg{font-size:13px;color:var(--muted)}
     /* progress */
     .progress{margin-top:20px;font-size:14px;color:var(--muted)}
     .bar{height:6px;background:#eae5f4;border-radius:99px;overflow:hidden;margin-top:8px}
@@ -199,6 +203,12 @@
     <p class="priv">DOI queries go to Crossref for the record, and — while the box above is ticked — to Unpaywall for access status. Nothing else leaves the browser, nothing is stored, no account, no telemetry.</p>
   </div>
 
+  <div class="exp" id="exp" hidden>
+    <button id="copy" class="ghost" type="button">Copy report</button>
+    <button id="dl" class="ghost" type="button">Download .md</button>
+    <span class="expmsg" id="expmsg" role="status" aria-live="polite"></span>
+  </div>
+
   <div id="out" role="region" aria-live="polite" aria-label="Reference check results"></div>
 
   <section class="info">
@@ -208,6 +218,7 @@
       <li><b>Does the record match your citation?</b> Four fields are compared with the citation text around the DOI: the <b>title</b>, the <b>author list</b> (in order, with "et al." expected), the <b>journal</b>, and the <b>year</b>. Journal names are matched abbreviated or in full, so "N Engl J Med" and "The New England Journal of Medicine" both count. Each field that doesn't line up is flagged on its own, so you can see which one is off.</li>
       <li><b>Does your citation name someone who isn't on the paper?</b> The surnames in your citation are read back and checked against the record's whole author list. A name the record doesn't carry anywhere is flagged wherever it sits. This is where a re-typed or machine-repaired list usually goes wrong: the first author survives, and a name in the middle quietly does not.</li>
       <li><b>What it couldn't check.</b> Entries that read like references but carry no DOI are listed back to you, unchecked, and counted separately from the ones that were. The tool can't look a reference up by title, so those stay yours.</li>
+      <li><b>Take the result with you.</b> Copy the run as Markdown, or download it as a <span class="doi">.md</span> file: every reference, what the record said, which fields didn't line up, and what wasn't checked. It pastes into a manuscript file or an email to a co-author, and it carries its own limits, because a file travels away from the page that explains it.</li>
       <li><b>Retractions and corrections</b>: flagged from Crossref update metadata, naming Crossref as the source.</li>
       <li><b>Preprint DOIs</b>: labelled <span class="doi">preprint</span>, so you can check for a published version. A preprint is not a problem.</li>
       <li><b>Malformed DOIs and duplicates</b>: a DOI that isn't well-formed, or the same DOI cited twice.</li>
@@ -845,6 +856,123 @@
     return h+'</div>';
   }
 
+  // --- the report -------------------------------------------------------
+  // A run that only lives on screen has to be re-read to be acted on. The
+  // report is Markdown: it pastes into a manuscript file, an issue, or an
+  // email to a co-author, and it carries its own caveats, because an exported
+  // file travels away from the page that explains it.
+  function unesc(s){
+    return String(s).replace(/&lt;/g,"<").replace(/&gt;/g,">")
+                    .replace(/&quot;/g,'"').replace(/&#39;/g,"'").replace(/&amp;/g,"&");
+  }
+  function mdRecord(rec){
+    if(!rec) return "";
+    var bits=[];
+    if(rec.title) bits.push("**"+rec.title+"**");
+    if(rec.journal) bits.push(rec.journal);
+    if(rec.author){
+      var others=rec.authors-1;
+      bits.push(rec.author+(others>0?" and "+others+" other"+(others>1?"s":""):""));
+    }
+    if(rec.year) bits.push(rec.year);
+    return bits.join(" · ");
+  }
+  function mdAccess(a){
+    if(!a) return "";
+    if(a.state==="oa") return "open access"+(a.url?": "+a.url:"");
+    if(a.state==="paywall") return "no open-access copy found";
+    if(a.state==="unknown") return "access unknown";
+    if(a.state==="unchecked") return "access not checked";
+    return "";
+  }
+  function mdRef(r){
+    var L=[];
+    L.push("### "+r.doi);          // the section heading already gives the verdict
+    L.push("");
+    if(r.record){ L.push("In Crossref: "+mdRecord(r.record)); L.push(""); }
+    if(r.cite){ L.push("Your citation: "+r.cite); L.push(""); }
+    var acc=mdAccess(r.access);
+    if(acc){ L.push("Access: "+acc); L.push(""); }
+    for(var i=0;i<r.flags.length;i++){
+      L.push("- **"+r.flags[i].label+"**: "+unesc(r.flags[i].text));
+    }
+    if(r.flags.length) L.push("");
+    return L.join("\n");
+  }
+  function buildReport(rows,nodoi,wantOa){
+    var g={ok:[],no:[],nr:[]}, i;
+    for(i=0;i<rows.length;i++) g[rows[i].verdict].push(rows[i]);
+    var L=["# Reference check",""];
+    L.push("Checked "+new Date().toISOString().slice(0,10)+" against Crossref"+
+           (wantOa?", with open-access status from Unpaywall":"")+".");
+    L.push("");
+    L.push("- DOIs checked: "+rows.length);
+    L.push("- Checks out: "+g.ok.length);
+    L.push("- Does not check out: "+g.no.length);
+    L.push("- Not resolvable: "+g.nr.length);
+    if(nodoi.length) L.push("- References with no DOI, not checked: "+nodoi.length);
+    L.push("");
+    var order=["no","nr","ok"];
+    for(var o=0;o<order.length;o++){
+      var list=g[order[o]]; if(!list.length) continue;
+      L.push("## "+VMETA[order[o]].title+" ("+list.length+")");
+      L.push("");
+      for(i=0;i<list.length;i++) L.push(mdRef(list[i]));
+    }
+    if(nodoi.length){
+      L.push("## No DOI, not checked ("+nodoi.length+")");
+      L.push("");
+      L.push("These read like references but carry no DOI, so they were never checked. They remain to be checked by hand.");
+      L.push("");
+      for(i=0;i<nodoi.length;i++) L.push("- "+nodoi[i]);
+      L.push("");
+    }
+    L.push("---");
+    L.push("");
+    L.push("Generated by the Vahtian reference check (https://vahtian.com/reference-check/).");
+    L.push("It checks that a reference resolves and matches its Crossref record. It does not check");
+    L.push("whether the cited source supports the sentence citing it, and a reference without a DOI");
+    L.push("was not checked at all. Crossref's retraction metadata is incomplete, so no notice is");
+    L.push("not evidence of none.");
+    return L.join("\n");
+  }
+
+  var REPORT="";
+  function exportRow(md){
+    REPORT=md;
+    $("exp").hidden=false;
+    $("expmsg").textContent="";
+  }
+  function say(m){ $("expmsg").textContent=m; }
+  function copyReport(){
+    if(!REPORT) return;
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(REPORT).then(function(){say("Copied as Markdown.");},fallbackCopy);
+    } else fallbackCopy();
+  }
+  function fallbackCopy(){
+    // Clipboard API needs a secure context; a file:// copy of this page hasn't
+    // got one, and the page should still work when opened from disk.
+    var ta=document.createElement("textarea");
+    ta.value=REPORT; ta.setAttribute("readonly","");
+    ta.style.position="absolute"; ta.style.left="-9999px";
+    document.body.appendChild(ta); ta.select();
+    var ok=false; try{ ok=document.execCommand("copy"); }catch(e){}
+    document.body.removeChild(ta);
+    say(ok?"Copied as Markdown.":"Couldn't copy. Use Download .md instead.");
+  }
+  function downloadReport(){
+    if(!REPORT) return;
+    var name="reference-check-"+new Date().toISOString().slice(0,10)+".md";
+    var blob=new Blob([REPORT],{type:"text/markdown;charset=utf-8"});
+    var url=URL.createObjectURL(blob);
+    var a=document.createElement("a");
+    a.href=url; a.download=name;
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(function(){URL.revokeObjectURL(url);},1000);
+    say("Saved "+name);
+  }
+
   function bridge(){
     return '<div class="bridge"><h2>Does the source support the sentence?</h2>'+
       '<p>This checked that your references resolve and match their records. <b>CiteVahti checks whether each source supports the sentence that cites it</b>: claim-to-source, with Zotero and an exportable trail.</p>'+
@@ -890,6 +1018,7 @@
       var none='<div class="note"><b>No DOIs found in that text.</b> This tool checks references that carry a DOI (like <span class="doi">10.1016/S0140-6736(20)30566-3</span>). Paste a reference list or the reference section of a manuscript, then check again.</div>';
       if(nodoi.length) none+=nodoiGroup(nodoi);
       $("out").innerHTML=none;
+      $("exp").hidden=true; REPORT="";
       $("out").scrollIntoView({behavior:reduced()?'auto':'smooth',block:'nearest'});
       return;
     }
@@ -918,6 +1047,7 @@
         return classify(d, combo?combo.cr:null, combo?combo.up:null);
       });
       render(rows,nodoi);
+      exportRow(buildReport(rows,nodoi,wantOa));
       $("run").disabled=false;
       $("out").scrollIntoView({behavior:reduced()?'auto':'smooth',block:'nearest'});
     });
@@ -938,7 +1068,11 @@
 
   $("run").addEventListener("click",run);
   $("ex").addEventListener("click",function(){ $("refs").value=EXAMPLE; run(); });
-  $("clr").addEventListener("click",function(){ $("refs").value=""; $("out").innerHTML=""; $("refs").focus(); });
+  $("clr").addEventListener("click",function(){
+    $("refs").value=""; $("out").innerHTML=""; $("exp").hidden=true; REPORT=""; $("refs").focus();
+  });
+  $("copy").addEventListener("click",copyReport);
+  $("dl").addEventListener("click",downloadReport);
 })();
 </script>
 </body>
