@@ -1,0 +1,675 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pattern Mirror, patterns in your academic writing · Vahtian</title>
+  <meta name="description" content="Paste a section and get a copy-pastable list of documented patterns that weaken scientific prose, in document order, with the sentence and what to do. No score.">
+  <meta name="theme-color" content="#2D2440">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="canonical" href="https://vahtian.com/pattern-mirror/">
+  <meta name="robots" content="index,follow">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://vahtian.com/pattern-mirror/">
+  <meta property="og:title" content="Pattern Mirror, patterns in your academic writing">
+  <meta property="og:description" content="A list of sentences to look at again, in document order. Not a score, not an AI detector, and never grounds for an accusation.">
+  <meta property="og:image" content="https://vahtian.com/brand/cards/citevahti-card.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Pattern Mirror, a Vahtian writing tool.">
+  <meta property="og:site_name" content="Vahtian">
+  <meta name="twitter:card" content="summary_large_image">
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Pattern Mirror",
+  "image": "https://vahtian.com/brand/cards/citevahti-card.png",
+  "alternateName": "Academic writing pattern check, formulaic writing patterns",
+  "applicationCategory": "HealthApplication",
+  "operatingSystem": "Any (web browser)",
+  "browserRequirements": "Requires JavaScript. Runs client-side.",
+  "url": "https://vahtian.com/pattern-mirror/",
+  "description": "Paste a section of a manuscript. Runs entirely in your browser: splits the text into paragraphs and sentences, then applies deterministic detectors for documented patterns that weaken scientific prose, in three groups. Structural: the antithesis family, restatement in place of development, parallelism overload, artificial comprehensiveness, signposting, formatting in place of argument, repeated paragraph template. Language: banned vocabulary, empty intensifiers, generic abstraction, hedge stacking. Evidence: a claim attributed to unnamed studies, a universal generalisation, and a paragraph with no numeral, proper noun, or citation. Results are a list in document order: the anchor, the sentence, why the pattern weakens the writing, what to do instead, and the conditions under which the pattern is correct as written. There is no score, no total, and no percentage. Counts per group are reported with a rate per 100 words so a long section is comparable with a short one; the groups are never summed. Style and voice patterns such as sentence rhythm, sentence length, and repeated openings are deliberately excluded, because penalising them homogenises prose and because they correlate with writing in a second or third language. It cannot tell whether text was written by a person or a machine, and no result may be used to accuse anyone of anything.",
+  "isPartOf": {
+    "@type": "WebSite",
+    "name": "Vahtian",
+    "url": "https://vahtian.com/"
+  },
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "EUR"
+  }
+}
+  </script>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232D2440'/%3E%3Cg fill='none' stroke='%238B6FC9' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 9 H9 V23 H12'/%3E%3Cpath d='M20 9 H23 V23 H20'/%3E%3C/g%3E%3Ccircle cx='13.9' cy='16' r='1.7' fill='%23C5B8E8'/%3E%3Ccircle cx='18.1' cy='16' r='1.7' fill='%23C5B8E8'/%3E%3C/svg%3E">
+  <style>
+    :root{--amber:#8B6FC9;--rose:#2D2440;
+          --amber-fill:#F2EFFA;--amber-text:#2D2440;
+          --violet-fill:#ECE3FF;--violet-text:#432C7A;}
+    *{box-sizing:border-box}
+    body{margin:0;font:500 16px/1.6 "Nudica",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,ui-sans-serif,system-ui,sans-serif;
+         color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased}
+    a{color:var(--link)}
+    .doi,code{font:13px/1.5 "Nudica Mono",ui-monospace,SFMono-Regular,Menlo,monospace}
+    code{background:#f1eef9;padding:1px 5px;border-radius:5px}
+    .wrap{max-width:820px;margin:0 auto;padding:0 22px}
+    a:focus-visible,button:focus-visible,textarea:focus-visible,select:focus-visible{outline:3px solid var(--violet);outline-offset:2px}
+    /* header / nav */
+    header{padding:22px 0 6px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:18px}
+    .mark{width:30px;height:30px;flex:0 0 30px}
+    nav.nav{display:flex;align-items:center;gap:16px;flex-wrap:wrap;font-size:14.5px}
+    nav.nav a{color:var(--ink);text-decoration:none;font-weight:600}
+    nav.nav a:hover{color:var(--link)}
+    nav.nav .util{display:flex;align-items:center;gap:13px;padding-left:15px;border-left:1px solid var(--line)}
+    nav.nav .util .ic{display:flex;color:var(--muted)}
+    nav.nav .util .ic:hover{color:var(--link)}
+    @media(max-width:680px){nav.nav{gap:13px;font-size:13.5px}}
+    /* hero */
+    main{padding-top:8px}
+    .page-kicker{font:700 12px/1.2 "Nudica Mono",ui-monospace,monospace;text-transform:uppercase;color:#6f52b8;margin:30px 0 10px}
+    h1{font-size:clamp(30px,5vw,42px);line-height:1.08;margin:0 0 12px}
+    .sub{font-size:clamp(17px,2.2vw,19px);color:#3a3450;margin:0 0 12px;max-width:62ch}
+    .bound{font-size:14.5px;color:var(--muted);max-width:68ch;margin:0 0 22px}
+    /* tool */
+    .tool{background:transparent;border:0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);border-radius:0;padding:22px 0}
+    label.tl{display:block;font-weight:650;font-size:13.5px;margin:0 0 6px}
+    textarea{width:100%;min-height:200px;padding:12px 13px;border:1px solid #b7add0;border-radius:10px;
+             font:14.5px/1.7 "Nudica Mono",ui-monospace,SFMono-Regular,Menlo,monospace;background:#fff;color:var(--ink);resize:vertical}
+    .row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:12px}
+    select{font:inherit;font-size:14.5px;padding:9px 11px;border:1px solid #b7add0;border-radius:9px;background:#fff;color:var(--ink)}
+    .seclabel{font-size:13.5px;color:var(--muted)}
+    button{font:inherit;font-weight:650;border:0;border-radius:9px;padding:11px 17px;background:var(--navy);color:#fff;cursor:pointer;font-size:15px}
+    button.ghost{background:#fff;color:var(--ink);border:1px solid #b7add0}
+    button.sm{padding:9px 14px;font-size:14px}
+    .priv{font-size:12.5px;color:var(--muted);margin:12px 0 0;max-width:70ch}
+    /* export */
+    .exp{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:22px 0 0}
+    .exp[hidden]{display:none}
+    .expmsg{font-size:13px;color:var(--muted)}
+    /* counts */
+    #out{margin-top:24px}
+    .counts{display:flex;flex-wrap:wrap;align-items:center;gap:9px;margin:0 0 6px}
+    .ctotal{font-weight:700;font-size:15.5px;margin-right:4px}
+    .cchip{font:600 12px/1.4 "Nudica Mono",ui-monospace,monospace;padding:6px 10px;border-radius:999px;
+           border:1px solid var(--violet);background:var(--violet-fill);color:var(--violet-text)}
+    .cnote{font-size:13px;color:var(--muted);margin:0 0 20px;max-width:70ch}
+    /* findings */
+    .find{background:transparent;border:0;border-left:3px solid var(--amber);border-bottom:1px solid var(--line);
+          border-radius:0;padding:14px 0 16px 18px;margin:0}
+    .find-top{display:flex;flex-wrap:wrap;align-items:center;gap:9px;margin:0 0 9px}
+    .anchor{font:650 12px/1 "Nudica Mono",ui-monospace,monospace;padding:5px 9px;border-radius:6px;
+            background:var(--violet-fill);color:var(--violet-text);border:1px solid var(--violet);white-space:nowrap}
+    .pname{font-weight:700;font-size:15px}
+    .group{font:600 11px/1 "Nudica Mono",ui-monospace,monospace;color:var(--muted);text-transform:uppercase}
+    blockquote.sent{margin:0 0 10px;padding:0 0 0 14px;border-left:2px solid #cdc2e6;color:#2f2748;font-size:14.5px;line-height:1.6}
+    .why{font-size:14px;color:#322c47;margin:0 0 6px}
+    .fine{font-size:13.5px;color:var(--muted);margin:0 0 6px}
+    .case{font:12px/1.4 "Nudica Mono",ui-monospace,monospace;color:var(--muted)}
+    .none{font-size:15px;color:#322c47;border-left:3px solid var(--violet);padding-left:16px}
+    /* info */
+    section.info{border-top:1px solid var(--line);margin-top:40px;padding-top:28px}
+    section.info h2{font-size:20px;margin:0 0 12px}
+    ul.checks{list-style:none;padding:0;margin:0;display:grid;gap:10px}
+    ul.checks li{padding-left:22px;position:relative;color:#322c47;font-size:14.5px}
+    ul.checks li::before{content:"";position:absolute;left:0;top:.55em;width:8px;height:8px;border-radius:50%;background:var(--violet)}
+    ul.checks b{color:var(--ink)}
+    .cant{background:transparent;border:0;border-left:3px solid var(--amber);border-radius:0;padding:5px 0 5px 20px;
+          color:#3a3450;font-size:14px;margin-top:22px;max-width:70ch}
+    .bridge{background:var(--navy);box-shadow:0 0 0 100vmax var(--navy);clip-path:inset(0 -100vmax);border-radius:0;padding:30px 0;margin:34px 0 0}
+    .bridge h2{color:#fff;font-size:clamp(18px,3vw,22px);margin:0 0 8px}
+    .bridge p{color:#d9d3ea;font-size:14.5px;line-height:1.6;margin:0 0 16px;max-width:64ch}
+    .bridge p b{color:#fff}
+    .btn{display:inline-block;padding:12px 18px;border-radius:9px;font-weight:650;text-decoration:none;font-size:15px;background:#C5B8E8;color:#241b3a}
+    footer{margin-top:0}
+    @media(max-width:520px){.find-top{gap:7px}}
+  </style>
+  <link rel="stylesheet" href="../brand/site-refresh.css">
+  <link rel="stylesheet" href="../brand/footer.css">
+</head>
+<body class="vh-content">
+<a class="skip-link" href="#main-content">Skip to main content</a>
+<div class="wrap">
+  <header>
+    <div class="brand">
+      <a href="/" aria-label="Vahtian — home" style="display:flex"><svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#2D2440"/><g fill="none" stroke="#8B6FC9" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9 H9 V23 H12"/><path d="M20 9 H23 V23 H20"/></g><path d="M16 10.3 L19.6 12 L19.6 15 L16 19.6 L12.4 15 L12.4 12 Z" fill="none" stroke="#C5B8E8" stroke-width="1.8" stroke-linejoin="round"/></svg></a>
+      <span>Vahtian</span>
+    </div>
+    <nav class="nav" aria-label="Primary">
+      <a href="/kits/">Kits</a>
+      <a href="/download/">Tools</a>
+      <a href="/learn/">Learn</a>
+      <a href="/blog/">Blog</a>
+      <a href="/about/">About</a>
+      <span class="util">
+        <a class="ic" href="/search/" aria-label="Search vahtian.com"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.3" y2="16.3"/></svg></a>
+      </span>
+    </nav>
+  </header>
+
+<main id="main-content">
+  <p class="page-kicker">A mirror, not a verdict</p>
+  <h1>See the patterns in your own writing.</h1>
+  <p class="sub">Paste a section. You get a list of sentences worth looking at again, in the order you wrote them, each with the reason and the case for leaving it alone.</p>
+  <p class="bound">There is no score. This is a writing tool, not an AI detector: it cannot tell whether text was written by a person or a machine, and nothing it produces may be used to accuse anyone of anything. Runs in your browser, nothing is uploaded, nothing is stored.</p>
+
+  <div class="tool">
+    <label class="tl" for="text">Your text, one section at a time</label>
+    <textarea id="text" placeholder="Paste a paragraph, a section, or a draft. Keep paragraphs separated by a blank line so the anchors match your document."></textarea>
+    <div class="row">
+      <button id="run" type="button">Show patterns</button>
+      <button id="ex" class="ghost" type="button">Load example</button>
+      <button id="clr" class="ghost" type="button">Clear</button>
+      <span class="seclabel"><label for="sec">Section</label></span>
+      <select id="sec">
+        <option value="other">Not specified</option>
+        <option value="abstract">Abstract</option>
+        <option value="introduction">Introduction</option>
+        <option value="methods">Methods</option>
+        <option value="results">Results</option>
+        <option value="discussion">Discussion</option>
+      </select>
+    </div>
+    <p class="priv">Telling the tool which section this is turns off the rules that do not apply there. Hedging belongs in a Discussion; a nominal, procedural sentence belongs in Methods. Nothing leaves the browser either way: no request, no account, no telemetry, no storage.</p>
+  </div>
+
+  <div class="exp" id="exp" hidden>
+    <button id="copy" class="ghost sm" type="button">Copy list</button>
+    <button id="dl" class="ghost sm" type="button">Download .md</button>
+    <span class="expmsg" id="expmsg" role="status" aria-live="polite"></span>
+  </div>
+
+  <div id="out" role="region" aria-live="polite" aria-label="Patterns found"></div>
+
+  <section class="info">
+    <h2>What this looks for</h2>
+    <ul class="checks">
+      <li><b>Structural</b>: the antithesis family ("not just X, but Y" and its relatives), restatement in place of development, parallelism overload, artificial comprehensiveness, signposting, formatting in place of argument, and a repeated paragraph template.</li>
+      <li><b>Language</b>: vocabulary that could sell any product, empty intensifiers, generic abstraction, and stacked hedges.</li>
+      <li><b>Evidence</b>: a claim handed to unnamed studies, a universal generalisation with nothing behind it, and a paragraph carrying no numeral, proper noun, or citation.</li>
+      <li><b>Expect findings on good writing.</b> The rules were calibrated against a doctoral thesis written and defended before generative models existed, by a multilingual clinician whose prose from those years is scored around 60% "AI" by detectors. About 2500 words of it came back with three findings: one worth acting on, and two carrying their own case for leaving the sentence alone. Three further findings turned out to be faults in the rules, and the rules changed. That is one run on one thesis, not a measured error rate, and there is no benchmark here to quote. The story is in <a href="/learn/writing-discipline-ai-patterns/">Writing discipline when detectors judge your prose</a>.</li>
+      <li><b>Built for manuscript prose.</b> The Evidence group assumes the citation conventions of a paper. Run an essay, a blog post, or a grant narrative through it and those rules will fire far more often, because ordinary prose carries claims without a citation in every sentence. That is the tool being out of its range, not your writing being weak.</li>
+      <li><b>Not style, and not voice.</b> Sentence rhythm, sentence length, repeated openings, and nominalisation density are left alone on purpose. Penalising them makes everyone's prose converge, and they track writing in a second or third language more than they track quality. The tools that score those are the ones that flag a careful multilingual writer at 61%.</li>
+    </ul>
+    <p style="font-size:14.5px;color:#322c47;margin:16px 0 0">Each finding gives you the anchor, the sentence, why the pattern weakens the writing, what to do instead, and the conditions under which it is right as written. Counts appear per group, with a rate per 100 words so a long Discussion is comparable with a short Abstract. The groups are never added together, because a single number about writing is a grade, and a grade about writing gets read as a grade about the writer.</p>
+    <div class="cant"><b>What it can't do.</b> It cannot tell whether a person or a machine wrote the text, and no output may be used to accuse anyone. It reads shapes in sentences, not meaning: a flagged sentence may be exactly right, which is why every finding carries the case for keeping it. Good writing produces findings too, and no error rate has been measured for this. Clearing every item is not the goal. A draft with no findings is not a good paper, and a draft with twenty is not a bad one.</div>
+    <p style="font-size:14.5px;color:#322c47;margin:16px 0 0">Checking whether the sources support the sentences instead? That is <a href="/citevahti/">CiteVahti</a>. Checking that the reference list resolves? That is the <a href="/reference-check/">reference check</a>.</p>
+  </section>
+</main>
+
+<footer class="vh-footer">
+  <div class="vh-footer-shell">
+    <div class="vh-footer-main">
+      <div>
+        <p class="vh-footer-name">Vahtian</p>
+        <p class="vh-footer-tagline">Local-first tools for research decisions you can explain. Built in Finland by Heidi Andersén, MD, PhD.</p>
+      </div>
+      <nav class="vh-footer-links" aria-label="Footer">
+        <a href="/download/">Tools</a>
+        <a href="/kits/">Kits</a>
+        <a href="/learn/">Learn</a>
+        <a href="/blog/">Blog</a>
+        <a href="/about/">About</a>
+        <a href="/agents/">For agents</a>
+        <a href="/cite/">Cite</a>
+        <a href="/support/">Support</a>
+        <a href="/privacy/">Privacy</a>
+      </nav>
+    </div>
+    <p class="vh-footer-disclaimer">Vahtian keeps human judgment visible and research decisions open to review. It does not establish scientific truth.</p>
+    <div class="vh-footer-meta">
+      <span>© 2026 Vahtian</span>
+      <a href="/LICENSE">Apache-2.0 open core</a>
+      <a href="https://github.com/heidihelena/vahtian">GitHub <span aria-hidden="true">↗</span></a>
+      <a href="mailto:hello@vahtian.com">hello@vahtian.com</a>
+    </div>
+  </div>
+</footer>
+</div>
+
+<script>
+"use strict";
+(function(){
+  var $=function(id){return document.getElementById(id);};
+  function esc(s){return String(s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];});}
+  function unesc(s){return String(s).replace(/&lt;/g,"<").replace(/&gt;/g,">").replace(/&quot;/g,'"').replace(/&#39;/g,"'").replace(/&amp;/g,"&");}
+
+  // --- splitting ---------------------------------------------------------
+  // Anchors are paragraph and sentence numbers because that is what a writer
+  // can find in their own document. Character offsets are not findable.
+  function paragraphs(text){
+    return String(text||"").split(/\n\s*\n/).map(function(p){return p.replace(/\s+/g," ").trim();}).filter(Boolean);
+  }
+  // Abbreviations that must not end a sentence. Deliberately short: a missed
+  // split costs one wrong anchor, an over-eager one costs a wrong finding.
+  var ABBR=/\b(?:e\.g|i\.e|cf|vs|et al|approx|Fig|Tab|Dr|Prof|St|No|ca|viz|resp)\.$/i;
+  // No lookbehind anywhere in this file on purpose: a regex the browser cannot
+  // parse throws at load and takes the whole page with it, silently.
+  function sentences(para){
+    var raw=para.match(/[^.!?]+[.!?]*\s*/g)||[];
+    var out=[], buf="";
+    for(var i=0;i<raw.length;i++){
+      buf+=raw[i];
+      var t=buf.trim();
+      if(!t) { buf=""; continue; }
+      if(ABBR.test(t)) continue;               // the dot was an abbreviation, keep going
+      if(!/[.!?]$/.test(t) && i<raw.length-1) continue;
+      out.push(t); buf="";
+    }
+    if(buf.trim()) out.push(buf.trim());
+    return out.filter(Boolean);
+  }
+  // A capitalised word anywhere but the start of a sentence: a named thing.
+  function hasProperNoun(sents){
+    for(var i=0;i<sents.length;i++){
+      var toks=sents[i].split(/\s+/);
+      for(var j=1;j<toks.length;j++){
+        if(/^[A-Z\u00C0-\u00DE][A-Za-z\u00C0-\u017F'\u2019-]{2,}/.test(toks[j])) return true;
+      }
+    }
+    return false;
+  }
+  // Crude suffix stripping so "agreement" and "agree" count as the same idea.
+  // Good enough to notice a sentence restating the one before it.
+  function stem(w){
+    return w.replace(/(?:ations?|ments?|ances?|ences?|ings?|ised|ized|ing|ies|ed|es|s|ly)$/,"");
+  }
+  function wordCount(text){
+    var m=String(text||"").match(/[A-Za-zÀ-ÿ0-9][A-Za-zÀ-ÿ0-9'’-]*/g);
+    return m?m.length:0;
+  }
+  function words(s){
+    var m=String(s||"").toLowerCase().match(/[a-zà-ÿ][a-zà-ÿ'’-]{2,}/g);
+    return m||[];
+  }
+
+  // A citation is present in this sentence in any of the common shapes.
+  // A citation marker in any shape a reference style actually uses. Deliberately
+  // forgiving: parentheses carrying a year cover "(Smith, 2020)", "(GINA, 2021;
+  // Scadding, 1959)" and "(Ege et al., 2007; Illi et al., 2012)" alike. Missing a
+  // citation turns a properly sourced sentence into a finding, which is the worst
+  // thing this tool can do.
+  var CITE=/\[\d+(?:[,;-]\s*\d+)*\]|\([^()]*\b(?:1[89]\d{2}|20\d{2})[a-z]?\b[^()]*\)|\bet al\b|10\.\d{4,9}\/\S+|\bdoi:/i;
+  var STOPW={the:1,and:1,for:1,that:1,this:1,with:1,from:1,were:1,was:1,are:1,is:1,be:1,been:1,
+             have:1,has:1,had:1,not:1,but:1,which:1,their:1,they:1,its:1,our:1,also:1,than:1,
+             more:1,most:1,such:1,into:1,between:1,among:1,these:1,those:1,when:1,while:1,
+             can:1,may:1,will:1,would:1,should:1,could:1,there:1,here:1};
+
+  // Intensifiers, minus the ones that are defined vocabulary rather than emphasis:
+  // "very severe" is GOLD stage 4, "very low" is a GRADE certainty rating, "very
+  // preterm" is a birth category. Those are terms, and a term is not a flourish.
+  var GRADED=/^(?:severe|mild|moderate|low|high|early|late|preterm|premature|short|long)$/i;
+  var STATWORD=/^(?:different|differed|higher|lower|greater|increased|decreased|reduced|associated|correlated|elevated|worse|better|more|less|fewer)$/i;
+  function intensifiers(s,ctx){
+    var re=(ctx.section==="results"||ctx.section==="methods")
+      ? /\b(very|really|extremely|incredibly|truly|simply|actually|quite|highly)\s+(\S+)/gi
+      : /\b(very|really|extremely|incredibly|truly|simply|actually|quite|highly|significantly)\s+(\S+)/gi;
+    var out=[], m;
+    while((m=re.exec(s))){
+      var word=m[1].toLowerCase(), next=m[2].replace(/[^A-Za-z]/g,"");
+      if(word==="very" && GRADED.test(next)) continue;
+      // "significantly different", "significantly higher": statistical usage, which
+      // belongs in a Discussion as much as in Results. Only the bare emphatic
+      // "significantly" is a flourish.
+      if(word==="significantly" && STATWORD.test(next)) continue;
+      out.push(m[1]);
+    }
+    return out;
+  }
+
+  // --- the rules ---------------------------------------------------------
+  // Each rule is deterministic and says what it saw. `fine` is the case for
+  // leaving the sentence alone, and it ships with every finding because the
+  // list is read away from this page. `off` lists sections where the rule
+  // does not apply.
+  var RULES=[
+    { id:"antithesis", group:"Structural", name:"Antithesis",
+      re:/\b(?:not (?:just|only|merely|simply)\b[^.;:]{2,80}?\bbut\b|it(?:'|’)?s not about\b[^.;:]{2,60}?\bit(?:'|’)?s about\b|is not\b[^.;:]{2,60}?\bit is\b)/i,
+      why:"Two claims compressed into a contrast, with neither one supported. The shape supplies the emphasis that evidence should be supplying.",
+      fix:"Say which claim you mean and give the evidence for it. If both matter, they are two sentences.",
+      fine:"the contrast is the argument and the evidence for it follows immediately",
+      "case":"antithesis-literal-reversal, antithesis-family-phd-essay" },
+
+    { id:"signposting", group:"Structural", name:"Signposting",
+      re:/\b(?:it is (?:important|worth) (?:to note|noting|to mention)|as (?:mentioned|noted|discussed) (?:above|earlier|previously)|in this (?:section|paper|chapter),? (?:we|I) (?:will|shall)|first and foremost|last but not least|it should be noted that)\b/i,
+      why:"The sentence announces what is coming instead of saying it. The reader is told to pay attention rather than given the reason to.",
+      fix:"Delete the announcement and keep the content. Usually the sentence survives the cut unchanged.",
+      fine:"this is a long methods section and the reader needs the map",
+      "case":"filler-intensifier-actually" },
+
+    { id:"comprehensiveness", group:"Structural", name:"Artificial comprehensiveness",
+      test:function(s){
+        var n=0;
+        if(/\bboth\b[^.;:]{2,60}\band\b/i.test(s)) n++;
+        if(/\bfrom\b[^.;:]{2,50}\bto\b/i.test(s)) n++;
+        if(/\bwhether\b[^.;:]{2,50}\bor\b/i.test(s)) n++;
+        if(/\bnot only\b/i.test(s)) n++;
+        if(/\b(?:ranging from|as well as|in addition to)\b/i.test(s)) n++;
+        return n>=2;
+      },
+      why:"The sentence covers every dimension so that nothing can be called missing. Breadth stands in for a point.",
+      fix:"Keep the dimension that carries your argument and cut the rest.",
+      fine:"this sentence is a scoping statement whose job is to state the range",
+      "case":"future-researcher-will-not-be" },
+
+    { id:"parallelism", group:"Structural", name:"Parallelism overload",
+      test:function(s){
+        var m=s.match(/\b(while|whether|through|by|with|for)\b/gi);
+        if(!m||m.length<3) return false;
+        var first=m[0].toLowerCase(), same=0;
+        for(var i=0;i<m.length;i++) if(m[i].toLowerCase()===first) same++;
+        return same>=3;
+      },
+      why:"Three or more clauses built on the same frame inside one sentence. The rhythm carries the sentence while the reader loses the thread.",
+      fix:"Split it. Three parallel clauses are usually two or three sentences.",
+      fine:"the parallel form is the meaning, as in a deliberate enumeration",
+      "case":"" },
+
+    { id:"restatement", group:"Structural", name:"Restatement in place of development",
+      pair:function(a,b){
+        var A={},B={},i;
+        words(a).forEach(function(w){ if(!STOPW[w]) A[stem(w)]=1; });
+        words(b).forEach(function(w){ if(!STOPW[w]) B[stem(w)]=1; });
+        var ka=Object.keys(A), kb=Object.keys(B);
+        if(ka.length<4||kb.length<4) return false;
+        var hit=0; for(i=0;i<kb.length;i++) if(A[kb[i]]) hit++;
+        // Two conditions, not one. High overlap alone flags a sentence that
+        // specifies the one before it, which is development, not restatement:
+        // the second sentence has to add little of its own as well.
+        var overlap=hit/Math.min(ka.length,kb.length);
+        var novelty=(kb.length-hit)/kb.length;
+        return overlap>=0.7 && novelty<=0.4;
+      },
+      why:"This sentence restates the one before it in new words. The word count rises, the argument does not.",
+      fix:"Keep the sharper of the two and use the space for the next step in the argument.",
+      fine:"this is a deliberate summary closing a long section",
+      "case":"made-of-claims-not-documents" },
+
+    { id:"banned-vocabulary", group:"Language", name:"Vocabulary that sells",
+      // The list is not taste. Every word on it is one that (a) has a plainer
+      // alternative and (b) was measured rising sharply in biomedical abstracts
+      // between 2022 and 2024 by Kobak et al., Science Advances 2025, over 15
+      // million PubMed abstracts. "delves" went from 102 abstracts to 5152, a
+      // 48-fold rise; "underscores" from 1426 to 20755. See
+      // .claude/evals/pattern-mirror/README.md for the counts and the threshold.
+      re:/\b(?:delv(?:e|es|ed|ing)|leverage(?:s|d|ing)?|harness(?:es|ed|ing)?|empower(?:s|ed|ing)?|streamline(?:s|d)?|seamless(?:ly)?|robustly|cutting-edge|game-?changer|revolutioni[sz](?:e|es|ed|ing)|transformative|unleash(?:es|ed)?|multifaceted|meticulous(?:ly)?|paramount|showcas(?:e|es|ed|ing)|underscor(?:e|es|ed|ing)|noteworthy|tapestry|realm|intricate(?:ly)?|intricacies|commendable|groundbreaking|renowned|garner(?:s|ed|ing)?|surpass(?:es|ed|ing)?|excels|comprehending|grappling|adept|unveil(?:s|ed)?|landscape of|testament to|in today(?:'|’)?s)\b/i,
+      why:"A word with a plainer alternative, and one that has become markedly more common in biomedical abstracts since 2022. It reads as filler, and reviewers who notice it start discounting the sentences around it.",
+      fix:"Use the plain verb, or delete. \"Leverage\" is \"use\", \"underscores\" is \"shows\", \"delves into\" is \"examines\".",
+      fine:"you are quoting someone else's wording",
+      "case":"banned-vocabulary-hype" },
+
+    { id:"intensifier", group:"Language", name:"Empty intensifier",
+      test:function(s,ctx){ return intensifiers(s,ctx).length>0; },
+      shows:function(s,ctx){ return intensifiers(s,ctx).join(", ").toLowerCase(); },
+      why:"An intensifier adds emphasis without adding information. In scientific prose it usually marks the place where a number belongs.",
+      fix:"Delete it, or replace it with the magnitude. \"Highly effective\" becomes the effect size.",
+      fine:"the word carries its statistical sense, which is why it is not flagged in Methods or Results",
+      "case":"filler-intensifier-actually" },
+
+    { id:"generic-abstraction", group:"Language", name:"Generic abstraction",
+      re:/\b(?:a wide range of|a variety of|various factors|numerous studies|a multitude of|different aspects|key considerations|a growing body of|in the context of|plays? a (?:key|crucial|vital|significant) role)\b/i,
+      why:"A phrase that names a category instead of a thing. The reader cannot picture, count, or check it.",
+      fix:"Name the factors, the studies, or the aspects. If you cannot name them, the claim is not ready.",
+      fine:"this is an introduction framing a field before it narrows",
+      "case":"" },
+
+    { id:"hedge-stacking", group:"Language", name:"Stacked hedges",
+      test:function(s,ctx){
+        var m=s.match(/\b(?:may|might|could|possibly|potentially|perhaps|suggests?|appears?|seems?|relatively|somewhat|arguably|presumably|tends? to|it is possible that)\b/gi);
+        var limit=(ctx.section==="discussion")?4:3;
+        return !!m && m.length>=limit;
+      },
+      shows:function(s){
+        return (s.match(/\b(?:may|might|could|possibly|potentially|perhaps|suggests?|appears?|seems?|relatively|somewhat|arguably|presumably|tends? to|it is possible that)\b/gi)||[]).join(", ").toLowerCase();
+      },
+      why:"Three or more hedges in one sentence. Each is defensible; together they make the claim impossible to disagree with, which also makes it impossible to use.",
+      fix:"Keep the one hedge the evidence requires and drop the rest. The threshold is already higher in a Discussion.",
+      fine:"this is a limitations paragraph, where the hedging is the content",
+      "case":"" },
+
+    { id:"unattributed-claim", group:"Evidence", name:"Claim given to unnamed studies",
+      test:function(s){
+        if(CITE.test(s)) return false;
+        return /\b(?:studies (?:show|suggest|have shown|indicate)|research (?:shows|suggests|has shown)|it (?:is|has been) (?:well )?(?:known|established|documented|accepted|shown)|evidence suggests|many (?:researchers|authors|studies)|increasingly|a growing body of evidence)\b/i.test(s);
+      },
+      why:"The sentence attributes a claim to a body of work and names none of it, with no citation in the sentence.",
+      fix:"Cite the studies, name them, or cut the claim.",
+      fine:"a citation at the end of the paragraph covers this sentence, since the check looks only inside it",
+      "case":"doi-resolves-to-wrong-paper" },
+
+    { id:"generalisation", group:"Evidence", name:"Universal generalisation",
+      test:function(s){
+        if(CITE.test(s)) return false;
+        // "all of them", "every one of those": the universal points back at
+        // something already named, so it is bounded, not a claim about the world.
+        var bare=s.replace(/\b(?:all|every|each|none|neither)\s+(?:one\s+)?of\s+(?:them|those|these|this|us|it|the\s+\w+)/gi," ");
+        return /\b(?:all|every|always|never|none of|no one|everyone|universally|in all cases|without exception)\b/i.test(bare)
+               && !/\b(?:not all|almost all|nearly all)\b/i.test(bare);
+      },
+      why:"A universal claim with no citation in the sentence. One counterexample defeats it, and reviewers look for one.",
+      fix:"Bound the claim to what you measured, or cite the work that supports it.",
+      fine:"the universal is about your own dataset and the bound is stated nearby",
+      "case":"" },
+
+    { id:"no-anchor", group:"Evidence", name:"Paragraph with nothing concrete",
+      para:function(p,sents,ctx){
+        if(ctx.section==="abstract") return false;
+        if(sents.length<3) return false;
+        if(CITE.test(p)) return false;
+        if(/\d/.test(p)) return false;
+        return !hasProperNoun(sents);
+      },
+      why:"A paragraph of three or more sentences with no number, no named thing, and no citation. Nothing in it can be checked.",
+      fix:"Add the measurement, the name, or the citation that the paragraph is actually about.",
+      fine:"this is a framing paragraph holding off on specifics on purpose",
+      "case":"" }
+  ];
+
+  var GROUPS=["Structural","Language","Evidence"];
+
+  // --- running -----------------------------------------------------------
+  function analyse(text, section){
+    var ctx={section:section};
+    var paras=paragraphs(text);
+    var found=[], total=wordCount(text);
+    for(var p=0;p<paras.length;p++){
+      var sents=sentences(paras[p]);
+      for(var r=0;r<RULES.length;r++){
+        var rule=RULES[r];
+        if(rule.para){
+          if(rule.para(paras[p],sents,ctx)) found.push(hit(rule,p+1,0,paras[p]));
+          continue;
+        }
+        if(rule.pair){
+          for(var i=1;i<sents.length;i++){
+            if(rule.pair(sents[i-1],sents[i])) found.push(hit(rule,p+1,i+1,sents[i]));
+          }
+          continue;
+        }
+        for(var s=0;s<sents.length;s++){
+          var sent=sents[s], shown="";
+          if(rule.re){
+            var m=sent.match(rule.re);
+            if(!m) continue;
+            shown=m[0].replace(/\s+/g," ").trim();
+            if(shown.length>52) shown=shown.slice(0,52).replace(/\s+\S*$/,"")+"…";
+          } else {
+            if(!rule.test(sent,ctx)) continue;
+            shown=rule.shows?rule.shows(sent,ctx):"";
+          }
+          found.push(hit(rule,p+1,s+1,sent,shown));
+        }
+      }
+    }
+    // document order: paragraph, then sentence, then the order rules are declared
+    found.sort(function(a,b){ return a.p-b.p || a.s-b.s || a.order-b.order; });
+    return {items:found, words:total, paras:paras.length};
+  }
+  function hit(rule,p,s,sentence,shown){
+    var order=0; for(var i=0;i<RULES.length;i++) if(RULES[i].id===rule.id){order=i;break;}
+    return {id:rule.id, group:rule.group, name:rule.name, p:p, s:s, order:order,
+            sentence:sentence, shown:shown||"", why:rule.why, fix:rule.fix,
+            fine:rule.fine, kase:rule["case"]};
+  }
+  // "May be right as written if X." X is always a clause, and a trailing stop
+  // is stripped so the sentence never ends in two of them.
+  function fineLine(f){ return f.fine ? f.fine.replace(/\.\s*$/,"") : ""; }
+
+  // --- render ------------------------------------------------------------
+  function anchorLabel(f){ return f.s ? "P"+f.p+" S"+f.s : "P"+f.p; }
+
+  function counts(res){
+    var by={}, i;
+    for(i=0;i<GROUPS.length;i++) by[GROUPS[i]]=0;
+    for(i=0;i<res.items.length;i++) by[res.items[i].group]++;
+    return by;
+  }
+  function rate(n,words){
+    if(!words) return "0";
+    var r=n/words*100;
+    // A findings count that rounds to 0.0 reads as "none", so anything that small
+    // says so in words instead.
+    if(r<0.1) return "<0.1";
+    return (r<10?r.toFixed(1):Math.round(r).toString());
+  }
+
+  function render(res){
+    var out=$("out");
+    if(!res.items.length){
+      out.innerHTML='<div class="none"><b>No patterns found in this text.</b> That is not a verdict on the writing. '+
+        'It means none of the documented patterns matched, which is a smaller claim than it looks.</div>';
+      return;
+    }
+    var by=counts(res), h='';
+    h+='<div class="counts"><span class="ctotal">'+res.items.length+' item'+(res.items.length===1?'':'s')+
+       ' in '+res.words+' words</span>';
+    for(var g=0;g<GROUPS.length;g++){
+      var n=by[GROUPS[g]]; if(!n) continue;
+      h+='<span class="cchip">'+GROUPS[g].toLowerCase()+' · '+n+' · '+rate(n,res.words)+' per 100 words</span>';
+    }
+    h+='</div>';
+    h+='<p class="cnote">In the order you wrote them. Each item is a question about a sentence, not a defect. '+
+       'The groups are counted separately and never added up.</p>';
+    for(var i=0;i<res.items.length;i++){
+      var f=res.items[i];
+      h+='<div class="find">'+
+         '<div class="find-top"><span class="anchor">'+anchorLabel(f)+'</span>'+
+         '<span class="pname">'+esc(f.name)+'</span><span class="group">'+esc(f.group)+'</span></div>'+
+         '<blockquote class="sent">'+esc(clip(f.sentence))+'</blockquote>'+
+         (f.shown?'<p class="case">found: '+esc(f.shown)+'</p>':'')+
+         '<p class="why">'+esc(f.why)+' <b>'+esc(f.fix)+'</b></p>'+
+         (f.fine?'<p class="fine">May be right as written if '+esc(fineLine(f))+'.</p>':'')+
+         (f.kase?'<p class="case">case: '+esc(f.kase)+'</p>':'')+
+         '</div>';
+    }
+    out.innerHTML=h;
+  }
+  function clip(s){
+    s=String(s||"");
+    return s.length>320 ? s.slice(0,320).replace(/\s+\S*$/,"")+"…" : s;
+  }
+
+  // --- the list you take away --------------------------------------------
+  // Markdown task list: it pastes live into Obsidian, GitHub and Notion, and
+  // degrades to readable text everywhere else. Every item carries its own
+  // caveat, because the list is read away from the page that explains it.
+  function buildList(res, section){
+    var L=["# Pattern list",""];
+    L.push((section==="other"?"Section not specified":section.charAt(0).toUpperCase()+section.slice(1))+
+           ", "+res.words+" words. "+res.items.length+" item"+(res.items.length===1?"":"s")+", in document order.");
+    L.push("Each item is a question about a sentence, not a defect. Clearing every item is not the goal.");
+    L.push("");
+    var by=counts(res);
+    for(var g=0;g<GROUPS.length;g++){
+      var n=by[GROUPS[g]]; if(!n) continue;
+      L.push("- "+GROUPS[g]+": "+n+" ("+rate(n,res.words)+" per 100 words)");
+    }
+    L.push("");
+    for(var i=0;i<res.items.length;i++){
+      var f=res.items[i];
+      L.push("- [ ] **"+anchorLabel(f)+" · "+f.name+"**");
+      L.push("");
+      L.push("  > "+clip(f.sentence).replace(/\n/g," "));
+      L.push("");
+      if(f.shown) L.push("  found: "+f.shown);
+      L.push("  "+f.why+" "+f.fix);
+      if(f.fine) L.push("  *May be right as written if "+fineLine(f)+".*");
+      if(f.kase) L.push("  case: "+f.kase);
+      L.push("");
+    }
+    L.push("---");
+    L.push("");
+    L.push("Generated by Pattern Mirror (https://vahtian.com/pattern-mirror/).");
+    L.push("It finds documented patterns that can weaken scientific prose. It cannot tell whether");
+    L.push("text was written by a person or a machine, and no item in this list may be used to");
+    L.push("accuse anyone of anything. Style and voice patterns are deliberately not checked.");
+    return L.join("\n");
+  }
+
+  var LIST="";
+  function say(m){ $("expmsg").textContent=m; }
+  function copyList(){
+    if(!LIST) return;
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(LIST).then(function(){say("Copied as Markdown.");},fallbackCopy);
+    } else fallbackCopy();
+  }
+  function fallbackCopy(){
+    var ta=document.createElement("textarea");
+    ta.value=LIST; ta.setAttribute("readonly","");
+    ta.style.position="absolute"; ta.style.left="-9999px";
+    document.body.appendChild(ta); ta.select();
+    var ok=false; try{ ok=document.execCommand("copy"); }catch(e){}
+    document.body.removeChild(ta);
+    say(ok?"Copied as Markdown.":"Couldn't copy. Use Download .md instead.");
+  }
+  function downloadList(){
+    if(!LIST) return;
+    var name="pattern-list-"+new Date().toISOString().slice(0,10)+".md";
+    var blob=new Blob([LIST],{type:"text/markdown;charset=utf-8"});
+    var url=URL.createObjectURL(blob);
+    var a=document.createElement("a");
+    a.href=url; a.download=name;
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(function(){URL.revokeObjectURL(url);},1000);
+    say("Saved "+name);
+  }
+
+  function reduced(){return matchMedia('(prefers-reduced-motion: reduce)').matches;}
+
+  function run(){
+    var text=$("text").value||"";
+    if(wordCount(text)<20){
+      $("out").innerHTML='<div class="none"><b>Paste a little more.</b> Under twenty words there is nothing to look at. '+
+        'A paragraph or a whole section works best, with blank lines between paragraphs so the anchors match your document.</div>';
+      $("exp").hidden=true; LIST="";
+      return;
+    }
+    var section=$("sec").value;
+    var res=analyse(text,section);
+    render(res);
+    LIST=res.items.length?buildList(res,section):"";
+    $("exp").hidden=!LIST;
+    $("expmsg").textContent="";
+    $("out").scrollIntoView({behavior:reduced()?'auto':'smooth',block:'nearest'});
+  }
+
+  var EXAMPLE=
+"It is important to note that this is not merely a technical improvement, but a fundamental shift in how the field approaches measurement. Studies show that agreement between reviewers improves when structured forms are used. This finding underscores the pivotal role that instrument design plays in the research process.\n\n"+
+"The literature covers a wide range of approaches, from simple checklists to multifaceted frameworks, whether applied in clinical or laboratory settings, and both in training and in practice. All reviewers benefit from structure. It could be argued that structure might possibly improve agreement, although this may perhaps depend on context.\n\n"+
+"Structure improves agreement between reviewers. Reviewers agree with one another more often when structure is present. This is a very important consideration for anyone designing a review process.";
+
+  $("run").addEventListener("click",run);
+  $("ex").addEventListener("click",function(){ $("text").value=EXAMPLE; run(); });
+  $("clr").addEventListener("click",function(){
+    $("text").value=""; $("out").innerHTML=""; $("exp").hidden=true; LIST=""; $("text").focus();
+  });
+  $("copy").addEventListener("click",copyList);
+  $("dl").addEventListener("click",downloadList);
+})();
+</script>
+</body>
+</html>
