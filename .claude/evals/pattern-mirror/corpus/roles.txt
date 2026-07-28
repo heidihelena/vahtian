@@ -1,0 +1,13 @@
+Let S be any solver that satisfies the three conditions below. C1: every adequate account must specify what the solver represents. We define a role as any function that some component must discharge, and by definition every role is discharged by exactly one component.
+
+Four are necessary: given the premises, a solver lacking them cannot solve the problem at all. Every solver in this model therefore exhibits them. As specified above, all four are individually required and jointly sufficient (Section 2).
+
+The Constraint explanation holds that every failure arises from a missing representation. On this view, all solvers that fail do so for the same reason. The Capacity account predicts instead that every failure is a resource limit, which is the claim this paper adjudicates.
+
+How this account could be wrong
+
+Every adequate solver exhibits all six roles. If a solver were found that solved the problem while lacking one, the account would be false. It might possibly be that some solvers could perhaps avoid the sixth role entirely, and that would refute the claim outright.
+
+No generative AI system was used at any stage of the analysis. Every use of a language model in this work is listed in Table 4. All AI assistance is disclosed there in full.
+
+The world is not fully observed. This is the operative uncertainty. Partial information is the normal case for the solver described in Section 3.

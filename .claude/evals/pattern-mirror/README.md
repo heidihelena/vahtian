@@ -204,6 +204,55 @@ sat in the rules unnoticed until the author read the Learn article and named the
 Neither change moves the thesis: the corpus produced the same four findings before
 and after. Cost to the article: five sentences rewritten and five words cut.
 
+## Syntactic form is not epistemic status
+
+Reported 2026-07-28, from a run on a philosophy paper: 18 of 24 findings were
+universal generalisations, and 14 of those were wrong. One rule dominating a
+report that heavily is itself the signal.
+
+All 14 fell into four roles, and in each the universal is legitimate:
+
+| Role | Example | Why the rule was wrong |
+|---|---|---|
+| A stipulated definition | the paper's own C1/C2/C3 criteria | Universal by construction. There is nothing to cite it to. |
+| A claim carrying its own bound | "Four are necessary: given the premises, a solver lacking them cannot solve the problem at all." | The bound the checker asked for was already in the sentence. |
+| A hypothesis named, not asserted | the "Constraint" explanation, one of three the paper adjudicates | The claim is under test, not being made. |
+| A falsification condition | five hits inside "How this account could be wrong" | Universals are the point: they are offered for refutation. |
+
+Plus one AI-disclosure declaration, which is a statement about tools and not an
+empirical claim about the world.
+
+The fix reads role rather than shape. `DEFINE`, `BOUNDED`, `NAMED_POSITION` and
+`DISCLOSURE` suppress the rule sentence by sentence. Headings open zones: a
+paragraph of twelve words or fewer that does not end in a full stop and matches
+the falsification vocabulary stands down the universal, hedge-stacking and
+no-anchor rules for every paragraph under it, until the next heading. Hedge
+stacking already carried "this is a limitations paragraph" as its `fine` line;
+when the heading says so, the writer should not have to read that line twelve
+times.
+
+`corpus/roles.txt` is that report, reconstructed from the sentences quoted in it
+— **not the paper itself, which is not in this repo.** Budget zero.
+
+### And one detector bug, from the same report
+
+The split-antithesis rule fired on:
+
+> The world is not fully observed. **This is** the operative uncertainty.
+
+Statement then label, not denial then replacement. The rule matched any "This
+is" after any sentence containing a negation, without checking that the two
+halves concerned the same thing. `DENY` now requires a determiner after the
+negation, so the denial denies a *thing*: "not **a** defensive posture", "not
+**a** writing problem". Bare-noun antitheses ("is not rhythm. It is
+specificity") are missed as a result. That is the trade, and this detector fails
+toward silence.
+
+`corpus/antithesis-true.txt` is the mirror of `roles.txt`: two real split
+antitheses with a floor of two, so a future tightening that silences the rule
+fails the run. A corpus of negative controls can only catch over-firing; the
+floor is what catches a rule going quiet.
+
 ## Running it
 
 ```bash

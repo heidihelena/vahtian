@@ -31,7 +31,7 @@
   "operatingSystem": "Any (web browser)",
   "browserRequirements": "Requires JavaScript. Runs client-side.",
   "url": "https://vahtian.com/pattern-mirror/",
-  "description": "Paste a section of a manuscript. Runs entirely in your browser: splits the text into paragraphs and sentences, then applies deterministic detectors for documented patterns that weaken scientific prose, in three groups. Structural: the antithesis family both within a sentence and split across two sentences, restatement in place of development, parallelism overload, artificial comprehensiveness, signposting, formatting in place of argument, repeated paragraph template. Language: banned vocabulary, empty intensifiers including the authenticity adverbs, generic abstraction, hedge stacking. Evidence: a claim attributed to unnamed studies, a universal generalisation, and a paragraph with no numeral, proper noun, or citation. Separately from the findings it counts repeats across the whole text: every marker the rules recognise, plus em dashes, with a rate per 100 words, because repetition is what a reader notices and no single instance shows it. Those counts are not findings, carry no anchor, and mark nothing as wrong. Results are a list in document order: the anchor, the sentence, why the pattern weakens the writing, what to do instead, and the conditions under which the pattern is correct as written. There is no score, no total, and no percentage. Counts per group are reported with a rate per 100 words so a long section is comparable with a short one; the groups are never summed. Style and voice patterns such as sentence rhythm, sentence length, and repeated openings are deliberately excluded, because penalising them homogenises prose and because they correlate with writing in a second or third language. It cannot tell whether text was written by a person or a machine, and no result may be used to accuse anyone of anything.",
+  "description": "Paste a section of a manuscript. Runs entirely in your browser: splits the text into paragraphs and sentences, then applies deterministic detectors for documented patterns that weaken scientific prose, in three groups. Structural: the antithesis family both within a sentence and split across two sentences, restatement in place of development, parallelism overload, artificial comprehensiveness, signposting, formatting in place of argument, repeated paragraph template. Language: banned vocabulary, empty intensifiers including the authenticity adverbs, generic abstraction, hedge stacking. Evidence: a claim attributed to unnamed studies, a universal generalisation, and a paragraph with no numeral, proper noun, or citation. The Evidence rules read the sentence's role and not only its shape: a stipulated definition, a claim that states its own bound, a hypothesis being named rather than asserted, and a declaration about tools used are all left alone, and a heading such as Limitations or How this account could be wrong stands the universal and hedging rules down for the paragraphs beneath it. Separately from the findings it counts repeats across the whole text: every marker the rules recognise, plus em dashes, with a rate per 100 words, because repetition is what a reader notices and no single instance shows it. Those counts are not findings, carry no anchor, and mark nothing as wrong. Results are a list in document order: the anchor, the sentence, why the pattern weakens the writing, what to do instead, and the conditions under which the pattern is correct as written. There is no score, no total, and no percentage. Counts per group are reported with a rate per 100 words so a long section is comparable with a short one; the groups are never summed. Style and voice patterns such as sentence rhythm, sentence length, and repeated openings are deliberately excluded, because penalising them homogenises prose and because they correlate with writing in a second or third language. It cannot tell whether text was written by a person or a machine, and no result may be used to accuse anyone of anything.",
   "isPartOf": {
     "@type": "WebSite",
     "name": "Vahtian",
@@ -203,6 +203,7 @@
       <li><b>Evidence</b>: a claim handed to unnamed studies, a universal generalisation with nothing behind it, and a paragraph carrying no numeral, proper noun, or citation.</li>
       <li><b>Repeats, counted across the whole text.</b> Every word the rules already treat as worth a second look, plus em dashes, tallied with a rate per 100 words. One use is a choice; the same word eight times is a habit, and the habit is what a reader meets before the argument does. These are counts and never findings: no anchor, no fault, nothing to clear. The em dash line is there because punctuation density is worth seeing, not because it is a tell — no rule flags punctuation.</li>
       <li><b>Expect findings on good writing.</b> The rules were calibrated against a doctoral thesis written and defended before generative models existed, by a multilingual clinician whose prose from those years is scored around 60% "AI" by detectors. About 2500 words of it came back with four findings: one worth acting on, and three carrying their own case for leaving the sentence alone. Four more turned out to be faults in the rules, and the rules changed. That is one run on one thesis, not a measured error rate, and there is no benchmark here to quote. The story is in <a href="/learn/writing-discipline-ai-patterns/">Writing discipline when detectors judge your prose</a>.</li>
+      <li><b>Role before shape.</b> A universal quantifier is a syntactic form, and whether it overreaches depends on what the sentence is doing. Four roles make it legitimate and none of them fire: a stipulated definition, which is universal by construction and cannot be cited to anything; a claim carrying its own bound ("given the premises", "within this model"); a hypothesis being named rather than asserted, which is the thing under test; and a declaration about tools used. Put a heading like <i>Limitations</i> or <i>How this account could be wrong</i> above a paragraph and the universal and hedging rules stand down for everything under it, because that is a section where hedges and universals are the content.</li>
       <li><b>Built for manuscript prose.</b> The Evidence group assumes the citation conventions of a paper. Run an essay, a blog post, or a grant narrative through it and those rules will fire far more often, because ordinary prose carries claims without a citation in every sentence. That is the tool being out of its range, not your writing being weak.</li>
       <li><b>Not style, and not voice.</b> Sentence rhythm, sentence length, repeated openings, and nominalisation density are left alone on purpose. Penalising them makes everyone's prose converge, and they track writing in a second or third language more than they track quality. The tools that score those are the ones that flag a careful multilingual writer at 61%.</li>
     </ul>
@@ -351,7 +352,15 @@
   // are needed, so this is a pair rule.
   // A: a copular denial. Negated verbs in general are not enough — "it does not
   // work, because…" is an argument, not a figure.
-  var DENY=/\b(?:is|are|was|were|(?:'|’)s|(?:'|’)re)\s+(?:not|never|no)\b|\b(?:isn|aren|wasn|weren)(?:'|’)t\b/i;
+  // The denial has to deny a *thing*, which is why a determiner is required.
+  // Without it the rule matched "The world is not fully observed." followed by
+  // "This is the operative uncertainty." — statement then label, where the
+  // second sentence names the first rather than replacing what it denied. The
+  // figure needs a nominal in the slot: "not **a** defensive posture", "not
+  // **a** writing problem". Bare-noun antitheses ("is not rhythm. It is
+  // specificity") are missed as a result, and that is the trade: this detector
+  // fails toward silence.
+  var DENY=/\b(?:is|are|was|were|(?:'|’)s|(?:'|’)re)\s+(?:not|never)\s+(?:just\s+|only\s+|merely\s+|simply\s+|quite\s+)?(?:a|an|the|one|another|his|her|its|their|our|your|my|this|that|these|those)\b|\b(?:isn|aren|wasn|weren)(?:'|’)t\s+(?:just\s+|only\s+|merely\s+|simply\s+)?(?:a|an|the|one|another|its|their|our|your|my|this|that|these|those)\b/i;
   // B: a counter-assertion pointing back at what was just denied.
   var COUNTER=/^(?:rather\b|instead\b|it(?:(?:'|’)s|\s+(?:is|was))\b|they(?:(?:'|’)re|\s+(?:are|were))\b|that\s+(?:is|was)\b|this\s+(?:is|was)\b|these\s+(?:are|were)\b|what\s+\S+\s+(?:is|does|matters)\b)/i;
   // A denial continued is not a counter-assertion, and neither is a hedge or a
@@ -369,6 +378,44 @@
   var VOCAB=/\b(?:delv(?:e|es|ed|ing)|leverage(?:s|d|ing)?|harness(?:es|ed|ing)?|empower(?:s|ed|ing)?|streamline(?:s|d)?|seamless(?:ly)?|robustly|cutting-edge|game-?changer|revolutioni[sz](?:e|es|ed|ing)|transformative|unleash(?:es|ed)?|multifaceted|meticulous(?:ly)?|paramount|showcas(?:e|es|ed|ing)|underscor(?:e|es|ed|ing)|noteworthy|tapestry|realm|intricate(?:ly)?|intricacies|commendable|groundbreaking|renowned|garner(?:s|ed|ing)?|surpass(?:es|ed|ing)?|excels|comprehending|grappling|adept|unveil(?:s|ed)?|landscape of|testament to|in today(?:'|’)?s)\b/i;
   var HEDGE=/\b(?:may|might|could|possibly|potentially|perhaps|suggests?|appears?|seems?|relatively|somewhat|arguably|presumably|tends? to|it is possible that)\b/i;
   function GLOBAL(re){ return new RegExp(re.source,"gi"); }
+
+  // --- when a universal is not an unsupported claim ------------------------
+  // A universal quantifier is a syntactic form. Whether it is an overreach
+  // depends on the sentence's role, and four roles make it legitimate. Each of
+  // these came from a real report on a real paper.
+  //
+  // 1. A stipulated definition is universal by construction and cannot be cited
+  //    to anything. "Let S be any solver that…", "C1: every adequate account…"
+  var DEFINE=/\b(?:let\s+\w+\s+(?:be|denote)|we\s+(?:define|call|denote|write|say|take)\b|is\s+defined\s+as|are\s+defined\s+as|counts?\s+as\b|is\s+equivalent\s+(?:to|if)|are\s+equivalent\s+(?:to|if)|by\s+(?:definition|construction|stipulation)|denotes?\b|refers?\s+to\b|(?:criteri(?:on|a)|condition|axiom|premise|property|assumption)\s+\(?[A-Z]?\d)\b|^\s*\(?[A-Z]\d\)?\s*[.:)]/;
+  // 2. The bound is already in the sentence, so asking for one is asking twice.
+  var BOUNDED=/\b(?:given\s+(?:the|these|those|our|its|such)\s+\w+|under\s+(?:the|these|those|our|such)\s+(?:assumptions?|conditions?|premises|constraints?|definitions?)|by\s+(?:construction|definition|assumption|hypothesis)|as\s+(?:defined|stipulated|specified|described|constructed)\s+(?:above|below|here|earlier)|within\s+(?:this|our|the)\s+(?:model|framework|account|dataset|sample|cohort|corpus|analysis)|in\s+(?:this|our)\s+(?:model|framework|account|sample|cohort|dataset|study|analysis|corpus)|in\s+(?:Figure|Fig\.?|Table|Box|Appendix|Section|Panel)\s*\d)/i;
+  // 3. A hypothesis being named rather than asserted is the thing under test.
+  var NAMED_POSITION=/\b(?:hypothes[ie]s|account|explanation|view|position|thesis|claim|argument|proposal|reading|theory|objection|interpretation)\b[^.;:]{0,48}?\b(?:holds|says|states|predicts|implies|maintains|asserts|entails|requires|would\s+\w+)\b|\b(?:on|under|according\s+to)\s+(?:this|that|the)\s+(?:view|account|hypothesis|reading|proposal|model|theory|interpretation)\b/i;
+  // 4. A declaration about tools used is not an empirical claim about the world.
+  var DISCLOSURE=/\b(?:generative\s+AI|large\s+language\s+models?|language\s+models?|AI\s+(?:tools?|assistance|systems?|use)|ChatGPT|Copilot|GPT-\d)\b/i;
+
+  // Headings that open a zone where universals and hedges are the content, not
+  // a weakness: a falsification section states what would refute the account,
+  // and every claim in it is offered up rather than defended.
+  var FALSIFY_HEAD=/\b(?:limitations?|falsif\w+|refut\w+|could\s+be\s+wrong|might\s+be\s+wrong|weaknesses|threats\s+to\s+validity|caveats?|objections?|counter-?arguments?|what\s+would\s+(?:refute|falsify)|scope\s+conditions?)\b/i;
+  var OTHER_HEAD=/\b(?:introduction|background|methods?|materials|results?|discussion|conclusions?|references|acknowledge?ments?|appendix|abstract|summary|findings|analysis|related\s+work)\b/i;
+  // A heading is short, and it is not a sentence. Both tests, because "One
+  // limitation is that the cohort was small." is prose and must not open a zone.
+  function isHeading(p){
+    var w=p.split(/\s+/).length;
+    return w<=12 && !/[.!?]\s*$/.test(p);
+  }
+  function zones(paras){
+    var z=[], cur="";
+    for(var i=0;i<paras.length;i++){
+      if(isHeading(paras[i])){
+        if(FALSIFY_HEAD.test(paras[i])) cur="falsification";
+        else if(OTHER_HEAD.test(paras[i])) cur="";
+      }
+      z.push(cur);
+    }
+    return z;
+  }
 
   // --- repeated markers ---------------------------------------------------
   // Counted across the whole text rather than sentence by sentence, because
@@ -510,6 +557,10 @@
       "case":"" },
 
     { id:"hedge-stacking", group:"Language", name:"Stacked hedges",
+      // Its own `fine` line already said a limitations paragraph is the case for
+      // leaving hedges alone. When the heading says so, the tool should not make
+      // the writer read that line twelve times.
+      zoneOff:["falsification"],
       test:function(s,ctx){
         var m=s.match(GLOBAL(HEDGE));
         var limit=(ctx.section==="discussion")?4:3;
@@ -534,8 +585,12 @@
       "case":"doi-resolves-to-wrong-paper" },
 
     { id:"generalisation", group:"Evidence", name:"Universal generalisation",
+      zoneOff:["falsification"],
       test:function(s){
         if(CITE.test(s)) return false;
+        // A universal is a syntactic form; whether it overreaches is a question
+        // about the sentence's role. These four roles make it legitimate.
+        if(DEFINE.test(s)||BOUNDED.test(s)||NAMED_POSITION.test(s)||DISCLOSURE.test(s)) return false;
         // "all of them", "every one of those": the universal points back at
         // something already named, so it is bounded, not a claim about the world.
         var bare=s.replace(/\b(?:all|every|each|none|neither)\s+(?:one\s+)?of\s+(?:them|those|these|this|us|it|the\s+\w+)/gi," ");
@@ -548,6 +603,10 @@
       "case":"" },
 
     { id:"no-anchor", group:"Evidence", name:"Paragraph with nothing concrete",
+      // A falsification section states the conditions under which the account
+      // fails. It is abstract by design, and asking it for a measurement is
+      // asking it to be a different section.
+      zoneOff:["falsification"],
       para:function(p,sents,ctx){
         if(ctx.section==="abstract") return false;
         if(sents.length<3) return false;
@@ -567,12 +626,15 @@
   function analyse(text, section){
     var ctx={section:section};
     var paras=paragraphs(text);
+    var zone=zones(paras);
     var found=[], total=wordCount(text);
     for(var p=0;p<paras.length;p++){
       var sents=sentences(paras[p]);
+      ctx.zone=zone[p];
       for(var r=0;r<RULES.length;r++){
         var rule=RULES[r];
         if(rule.off && rule.off.indexOf(ctx.section)>=0) continue;
+        if(rule.zoneOff && ctx.zone && rule.zoneOff.indexOf(ctx.zone)>=0) continue;
         if(rule.para){
           if(rule.para(paras[p],sents,ctx)) found.push(hit(rule,p+1,0,paras[p]));
           continue;
