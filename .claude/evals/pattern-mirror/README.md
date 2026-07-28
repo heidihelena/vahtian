@@ -27,22 +27,45 @@ author. Written and defended before ChatGPT was released.
 | `disc_method.txt` | 6.1 Methodology | 647 |
 | `disc_ineq.txt` | 6.6 Observed inequalities | 540 |
 | `clean-methods.txt` | synthetic clean methods prose, citations and numerals | 101 |
+| `article-learn.txt` | the Learn article, extracted from its own page | 1480 |
 
 Section labels matter: the tool suppresses rules that do not apply to a section,
-so each file must be run with the label in the table above.
+so each file must be run with the label in the table above. `run.mjs` holds the
+labels; do not run these files by hand without them.
 
 ## What the run found (2026-07-28)
 
-Three findings in 2517 words of thesis prose:
+Four findings in 2517 words of thesis prose:
 
 | Anchor | Rule | Reading |
 |---|---|---|
 | 6.6 P4 S7 | empty intensifier | "**Quite clearly**, we need new strategies…" A real find. |
 | 6.1 P3 S3 | universal generalisation | "All individuals were born after the wars." True by the rule; the caveat covers it (the universal is about the author's own cohort). Awaiting the author's ruling. |
 | 6.6 P2 S1 | parallelism overload | Three points enumerated with a repeated frame. A deliberate enumeration, which the caveat names. Awaiting the author's ruling. |
+| 1 P3 | paragraph with nothing concrete | The aims paragraph: no number, no named thing, no citation. The caveat covers it ("a framing paragraph holding off on specifics on purpose"). Awaiting the author's ruling. |
+
+**This count was wrong until `run.mjs` existed.** Both pages said three findings,
+because the fourth was missed when the corpus was tallied by hand. That is the
+argument for the runner in one line, and both pages now say four.
 
 `clean-methods.txt` returns nothing. Deliberately formulaic prose (the page's own
 example, 127 words) returns 13 findings.
+
+### The Learn article, as a second kind of control
+
+The thesis asks *does a rule stay quiet on good prose*. The article asks *does the
+tool catch what it claims to catch, in prose written to a deadline by the person
+who wrote the rules*. It is held to Structural and Language only: it is an essay,
+and `/pattern-mirror/` says outright that the Evidence group over-fires on essays,
+so its 18 Evidence findings are the tool being out of its range and are recorded
+rather than budgeted.
+
+Six Structural and Language findings remain, and all six are the article quoting
+something on purpose: three name the measured words themselves ("delves",
+"underscores", "intricate"), two quote bad sentences the article is holding up as
+bad, and one is the disclaimer whose job is to state a range ("whether a person or
+a machine wrote anything"). Each is covered by its rule's own `fine` line. If a
+seventh appears, the article has drifted or a rule has.
 
 **This is one run on one thesis. It is not a measured error rate**, and no number
 derived from it belongs in copy: `AD_CLAIMS.md` rules out accuracy and percentage
@@ -124,17 +147,56 @@ manuscript.
    alone cannot separate development from restatement, so the second sentence must
    now add little of its own as well.
 
+## Two patterns the corpus could not catch, and a reader could
+
+The thesis is pre-2022 prose, so it is a negative control: it proves a rule does not
+fire where it should not. It cannot prove a rule fires where it should. Two patterns
+sat in the rules unnoticed until the author read the Learn article and named them.
+
+1. **The antithesis family was only checked inside one sentence.** Its commoner form
+   is split across two: one sentence denies, the next supplies the replacement.
+   "That is not a defensive posture. It is what good scientific writing was always
+   supposed to be." The regex required both halves before a full stop, so every such
+   pair in the article passed. `antithesis-split` is a pair rule, off in Results and
+   Methods, where "The difference was not significant. It was 0.3 (95% CI…)" is a
+   negative finding and its number.
+
+   This is the likeliest explanation for the antithesis detector meeting a chapter
+   said to hold about twenty and reporting none.
+
+2. **The authenticity adverbs were not intensifiers.** "Genuinely", "honestly",
+   "clearly", "obviously", "undeniably", "certainly": each asserts that the writer
+   means it, which a manuscript already assumes. Added to the intensifier rule, not
+   to the vocabulary rule, because that list is bound to Kobak's measured
+   frequencies and these words are not in it. Craft rules need a reason; only the
+   vocabulary rule needs a citation.
+
+   `clearly` carries an exemption of the same shape as the GRADED one: "clearly
+   visible", "clearly defined" describe how a thing was seen or drawn, which is
+   information. "Clearly, we need X" is emphasis.
+
+Neither change moves the thesis: the corpus produced the same four findings before
+and after. Cost to the article: five sentences rewritten and five words cut.
+
 ## Running it
 
 ```bash
-# from the repo root, with the page served or via the harness
-node .claude/skills/run-vahtian/driver.mjs /pattern-mirror
+node .claude/evals/pattern-mirror/run.mjs           # corpus, summary table
+node .claude/evals/pattern-mirror/run.mjs --full    # every finding, with its sentence
+node .claude/evals/pattern-mirror/run.mjs FILE:section
 ```
 
-There is no automated runner for this corpus yet. Until there is, re-run it by hand
-after any rule change and record what moved. A rule edit that adds a finding here
-needs a reason written down; a rule edit that removes the "Quite clearly" finding
-has broken something.
+`run.mjs` loads the rules out of `/pattern-mirror/index.html` itself and calls
+`analyse()`. There is no second copy of the rules to drift, and a page that stops
+parsing fails the run. Exit code 1 if a file goes over the budget recorded in the
+script.
+
+Re-run after any rule change and record what moved. A rule edit that adds a finding
+here needs a reason written down; a rule edit that removes the "Quite clearly"
+finding has broken something.
+
+To refresh `corpus/article-learn.txt` after editing the article, re-extract its
+`<main>` text — the file is a copy, and a stale copy passes while the page is broken.
 
 ## Adding to it
 

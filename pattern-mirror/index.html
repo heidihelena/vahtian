@@ -31,7 +31,7 @@
   "operatingSystem": "Any (web browser)",
   "browserRequirements": "Requires JavaScript. Runs client-side.",
   "url": "https://vahtian.com/pattern-mirror/",
-  "description": "Paste a section of a manuscript. Runs entirely in your browser: splits the text into paragraphs and sentences, then applies deterministic detectors for documented patterns that weaken scientific prose, in three groups. Structural: the antithesis family, restatement in place of development, parallelism overload, artificial comprehensiveness, signposting, formatting in place of argument, repeated paragraph template. Language: banned vocabulary, empty intensifiers, generic abstraction, hedge stacking. Evidence: a claim attributed to unnamed studies, a universal generalisation, and a paragraph with no numeral, proper noun, or citation. Results are a list in document order: the anchor, the sentence, why the pattern weakens the writing, what to do instead, and the conditions under which the pattern is correct as written. There is no score, no total, and no percentage. Counts per group are reported with a rate per 100 words so a long section is comparable with a short one; the groups are never summed. Style and voice patterns such as sentence rhythm, sentence length, and repeated openings are deliberately excluded, because penalising them homogenises prose and because they correlate with writing in a second or third language. It cannot tell whether text was written by a person or a machine, and no result may be used to accuse anyone of anything.",
+  "description": "Paste a section of a manuscript. Runs entirely in your browser: splits the text into paragraphs and sentences, then applies deterministic detectors for documented patterns that weaken scientific prose, in three groups. Structural: the antithesis family both within a sentence and split across two sentences, restatement in place of development, parallelism overload, artificial comprehensiveness, signposting, formatting in place of argument, repeated paragraph template. Language: banned vocabulary, empty intensifiers including the authenticity adverbs, generic abstraction, hedge stacking. Evidence: a claim attributed to unnamed studies, a universal generalisation, and a paragraph with no numeral, proper noun, or citation. Results are a list in document order: the anchor, the sentence, why the pattern weakens the writing, what to do instead, and the conditions under which the pattern is correct as written. There is no score, no total, and no percentage. Counts per group are reported with a rate per 100 words so a long section is comparable with a short one; the groups are never summed. Style and voice patterns such as sentence rhythm, sentence length, and repeated openings are deliberately excluded, because penalising them homogenises prose and because they correlate with writing in a second or third language. It cannot tell whether text was written by a person or a machine, and no result may be used to accuse anyone of anything.",
   "isPartOf": {
     "@type": "WebSite",
     "name": "Vahtian",
@@ -187,10 +187,10 @@
   <section class="info">
     <h2>What this looks for</h2>
     <ul class="checks">
-      <li><b>Structural</b>: the antithesis family ("not just X, but Y" and its relatives), restatement in place of development, parallelism overload, artificial comprehensiveness, signposting, formatting in place of argument, and a repeated paragraph template.</li>
+      <li><b>Structural</b>: the antithesis family, both inside one sentence ("not just X, but Y") and split across two, where one sentence denies and the next supplies the replacement; restatement in place of development, parallelism overload, artificial comprehensiveness, signposting, formatting in place of argument, and a repeated paragraph template.</li>
       <li><b>Language</b>: vocabulary that could sell any product, empty intensifiers, generic abstraction, and stacked hedges.</li>
       <li><b>Evidence</b>: a claim handed to unnamed studies, a universal generalisation with nothing behind it, and a paragraph carrying no numeral, proper noun, or citation.</li>
-      <li><b>Expect findings on good writing.</b> The rules were calibrated against a doctoral thesis written and defended before generative models existed, by a multilingual clinician whose prose from those years is scored around 60% "AI" by detectors. About 2500 words of it came back with three findings: one worth acting on, and two carrying their own case for leaving the sentence alone. Three further findings turned out to be faults in the rules, and the rules changed. That is one run on one thesis, not a measured error rate, and there is no benchmark here to quote. The story is in <a href="/learn/writing-discipline-ai-patterns/">Writing discipline when detectors judge your prose</a>.</li>
+      <li><b>Expect findings on good writing.</b> The rules were calibrated against a doctoral thesis written and defended before generative models existed, by a multilingual clinician whose prose from those years is scored around 60% "AI" by detectors. About 2500 words of it came back with four findings: one worth acting on, and three carrying their own case for leaving the sentence alone. Four more turned out to be faults in the rules, and the rules changed. That is one run on one thesis, not a measured error rate, and there is no benchmark here to quote. The story is in <a href="/learn/writing-discipline-ai-patterns/">Writing discipline when detectors judge your prose</a>.</li>
       <li><b>Built for manuscript prose.</b> The Evidence group assumes the citation conventions of a paper. Run an essay, a blog post, or a grant narrative through it and those rules will fire far more often, because ordinary prose carries claims without a citation in every sentence. That is the tool being out of its range, not your writing being weak.</li>
       <li><b>Not style, and not voice.</b> Sentence rhythm, sentence length, repeated openings, and nominalisation density are left alone on purpose. Penalising them makes everyone's prose converge, and they track writing in a second or third language more than they track quality. The tools that score those are the ones that flag a careful multilingual writer at 61%.</li>
     </ul>
@@ -303,14 +303,23 @@
   // preterm" is a birth category. Those are terms, and a term is not a flourish.
   var GRADED=/^(?:severe|mild|moderate|low|high|early|late|preterm|premature|short|long)$/i;
   var STATWORD=/^(?:different|differed|higher|lower|greater|increased|decreased|reduced|associated|correlated|elevated|worse|better|more|less|fewer)$/i;
+  // "Clearly visible", "clearly defined": adverb of manner, describing how a
+  // thing was seen or drawn. That is information. "Clearly, we need X" is
+  // emphasis, and it is the second one this rule is after.
+  var MANNER=/^(?:defined|visible|demarcated|documented|distinguishable|separated|stated|labell?ed|marked|delineated|identifiable|audible|legible|described|specified|reported)$/i;
+  // The authenticity adverbs — genuinely, honestly, truly — assert that the
+  // writer means it. In a manuscript that is already assumed, so the word
+  // carries nothing, and it is one of the commonest tells in generated prose.
+  var EMPH="very|really|extremely|incredibly|truly|simply|actually|quite|highly|genuinely|honestly|clearly|obviously|undeniably|certainly|definitely|absolutely|remarkably|profoundly|vastly";
   function intensifiers(s,ctx){
     var re=(ctx.section==="results"||ctx.section==="methods")
-      ? /\b(very|really|extremely|incredibly|truly|simply|actually|quite|highly)\s+(\S+)/gi
-      : /\b(very|really|extremely|incredibly|truly|simply|actually|quite|highly|significantly)\s+(\S+)/gi;
+      ? new RegExp("\\b("+EMPH+")\\s+(\\S+)","gi")
+      : new RegExp("\\b("+EMPH+"|significantly)\\s+(\\S+)","gi");
     var out=[], m;
     while((m=re.exec(s))){
       var word=m[1].toLowerCase(), next=m[2].replace(/[^A-Za-z]/g,"");
       if(word==="very" && GRADED.test(next)) continue;
+      if(word==="clearly" && MANNER.test(next)) continue;
       // "significantly different", "significantly higher": statistical usage, which
       // belongs in a Discussion as much as in Results. Only the bare emphatic
       // "significantly" is a flourish.
@@ -319,6 +328,20 @@
     }
     return out;
   }
+
+  // --- the antithesis family, across a sentence boundary -------------------
+  // The in-sentence form ("not just X, but Y") is the one everybody quotes.
+  // The commoner form denies in one sentence and asserts in the next: "That is
+  // not a defensive posture. It is what good writing always was." Both halves
+  // are needed, so this is a pair rule.
+  // A: a copular denial. Negated verbs in general are not enough — "it does not
+  // work, because…" is an argument, not a figure.
+  var DENY=/\b(?:is|are|was|were|(?:'|’)s|(?:'|’)re)\s+(?:not|never|no)\b|\b(?:isn|aren|wasn|weren)(?:'|’)t\b/i;
+  // B: a counter-assertion pointing back at what was just denied.
+  var COUNTER=/^(?:rather\b|instead\b|it(?:(?:'|’)s|\s+(?:is|was))\b|they(?:(?:'|’)re|\s+(?:are|were))\b|that\s+(?:is|was)\b|this\s+(?:is|was)\b|these\s+(?:are|were)\b|what\s+\S+\s+(?:is|does|matters)\b)/i;
+  // A denial continued is not a counter-assertion, and neither is a hedge or a
+  // signpost: "It is possible that…", "It is important to note…".
+  var NOTCOUNTER=/^\S+\s+(?:is|was|are|were)\s+(?:not|never|no)\b|^it\s+(?:is|was)\s+(?:possible|likely|probable|plausible|conceivable|unclear|unknown|important|worth|notable|therefore|also|often|this)\b/i;
 
   // --- the rules ---------------------------------------------------------
   // Each rule is deterministic and says what it saw. `fine` is the case for
@@ -331,6 +354,23 @@
       why:"Two claims compressed into a contrast, with neither one supported. The shape supplies the emphasis that evidence should be supplying.",
       fix:"Say which claim you mean and give the evidence for it. If both matter, they are two sentences.",
       fine:"the contrast is the argument and the evidence for it follows immediately",
+      "case":"antithesis-literal-reversal, antithesis-family-phd-essay" },
+
+    { id:"antithesis-split", group:"Structural", name:"Antithesis across two sentences",
+      // Off in Results and Methods: "The difference was not significant. It was
+      // 0.3 (95% CI −0.1 to 0.7)." is a negative finding and its number, which
+      // is the one place this shape is doing honest work.
+      off:["results","methods"],
+      pair:function(a,b){
+        if(!DENY.test(a)) return false;
+        if(!COUNTER.test(b)) return false;
+        if(NOTCOUNTER.test(b)) return false;
+        var m=b.match(COUNTER);
+        return m?m[0].trim():true;
+      },
+      why:"The sentence before this one denies something and this one supplies the replacement. Split over two sentences the figure is harder to see, but it is the same one: the contrast carries the emphasis, and neither half is evidenced.",
+      fix:"If the denial is doing work, keep it and give the evidence. If it is only there to set up the second sentence, delete it — the assertion is usually stronger standing alone.",
+      fine:"the thing being denied is a real position in your field that a reader would otherwise assume",
       "case":"antithesis-literal-reversal, antithesis-family-phd-essay" },
 
     { id:"signposting", group:"Structural", name:"Signposting",
@@ -479,13 +519,16 @@
       var sents=sentences(paras[p]);
       for(var r=0;r<RULES.length;r++){
         var rule=RULES[r];
+        if(rule.off && rule.off.indexOf(ctx.section)>=0) continue;
         if(rule.para){
           if(rule.para(paras[p],sents,ctx)) found.push(hit(rule,p+1,0,paras[p]));
           continue;
         }
         if(rule.pair){
           for(var i=1;i<sents.length;i++){
-            if(rule.pair(sents[i-1],sents[i])) found.push(hit(rule,p+1,i+1,sents[i]));
+            // A pair rule may return a string, which is what it matched on.
+            var pr=rule.pair(sents[i-1],sents[i]);
+            if(pr) found.push(hit(rule,p+1,i+1,sents[i],typeof pr==="string"?pr:""));
           }
           continue;
         }
