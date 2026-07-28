@@ -42,6 +42,23 @@ jobs:
       - name: Verify the corpus
         run: node .claude/evals/run.mjs
 
+  # Hard gate: the two browser tools whose logic is worth more than its looks.
+  # Both runners load the rules out of the shipped page rather than keeping a
+  # copy, so a page that stops parsing fails here, and every case in them is a
+  # bug someone reported against real work. See the README beside each.
+  tool-logic:
+    name: Tool logic (reference check, pattern mirror)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Reference check, against recorded registry responses
+        run: node .claude/evals/reference-check/run.mjs
+      - name: Pattern Mirror, against the calibration corpus
+        run: node .claude/evals/pattern-mirror/run.mjs
+
   # Hard gate: SynthVahti statistics parity. Regenerates the golden values from
   # metafor (R), then asserts the browser pooling core (synthvahti/synth.mjs)
   # reproduces them within 1e-4, and runs the generated synthesis.R end-to-end.
