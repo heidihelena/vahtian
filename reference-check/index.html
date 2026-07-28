@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Check your references before submission · Vahtian</title>
-  <meta name="description" content="Paste your reference list and check each DOI against Crossref for mismatches, retractions, corrections, preprints, and duplicates. In your browser.">
+  <meta name="description" content="Paste your reference list. Each DOI is checked against Crossref, and the title, author list, journal, and year compared with your citation. In your browser.">
   <meta name="theme-color" content="#2D2440">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
@@ -31,7 +31,7 @@
   "operatingSystem": "Any (web browser)",
   "browserRequirements": "Requires JavaScript. Runs client-side.",
   "url": "https://vahtian.com/reference-check/",
-  "description": "Paste a reference list or manuscript. Runs in your browser: extracts DOIs, checks each against Crossref, matches the title, first author, and year against your citation text, and flags retractions and corrections (naming Crossref as the source), preprint DOIs, malformed DOIs, and duplicates. It also checks each resolved DOI against Unpaywall for open-access status and surfaces the best single-hop full-text link (a PubMed Central link where one exists). Access status is shown beside the verdict and never changes it. Verdicts are three-way per reference: checks out, does not check out, or not resolvable. It checks that references resolve and match their records; it does not check whether the claims citing them are true.",
+  "description": "Paste a reference list or manuscript. Runs in your browser: extracts DOIs, checks each against Crossref, and compares four fields of the record with the citation text around the DOI. Title: word overlap. Author list: the record's authors in order, tolerating the 'et al.' truncation every style uses, flagging an author skipped while a later one is named. Journal: the container title matched abbreviated or in full, so 'N Engl J Med' matches 'The New England Journal of Medicine'. Year: the issued year. It also flags retractions and corrections (naming Crossref as the source), preprint DOIs, malformed DOIs, and duplicates, and checks each resolved DOI against Unpaywall for open-access status, surfacing the best single-hop full-text link (a PubMed Central link where one exists). Access status is shown beside the verdict and never changes it. Verdicts are three-way per reference: checks out, does not check out, or not resolvable. A field that does not line up is flagged beside the verdict, not inside it, because a wrong journal name is a different problem from a wrong DOI. Field comparison is text matching against the Crossref record, so it points at what to check rather than settling it. It checks that references resolve and match their records; it does not check whether the claims citing them are true.",
   "isPartOf": {
     "@type": "WebSite",
     "name": "Vahtian",
@@ -185,7 +185,7 @@
   <p class="page-kicker">The traditional time to check the references</p>
   <h1>Check your references before the portal does.</h1>
   <p class="sub">This is naturally when we discover that one DOI opens the wrong paper, another appears twice, and the preprint may have grown into a publication.</p>
-  <p class="bound">Paste the list. The tool checks whether each DOI resolves and matches its Crossref record. It cannot tell whether the source supports your claim. Nothing is stored; DOI queries go to Crossref, and to Unpaywall for open-access status.</p>
+  <p class="bound">Paste the list. The tool checks whether each DOI resolves, then compares the title, authors, journal, and year with what you wrote. It cannot tell whether the source supports your claim. Nothing is stored; DOI queries go to Crossref, and to Unpaywall for open-access status.</p>
 
   <div class="tool">
     <label class="tl" for="refs">Your reference list or manuscript text</label>
@@ -205,14 +205,14 @@
     <h2>What this checks</h2>
     <ul class="checks">
       <li><b>Does the DOI resolve?</b> Each DOI is looked up in <a href="https://www.crossref.org/" rel="noopener">Crossref</a>. Found, or not found.</li>
-      <li><b>Does the record match your citation?</b> The Crossref title, first author, and year are compared against the citation text around the DOI.</li>
+      <li><b>Does the record match your citation?</b> Four fields are compared with the citation text around the DOI: the <b>title</b>, the <b>author list</b> (in order, with "et al." expected), the <b>journal</b>, and the <b>year</b>. Journal names are matched abbreviated or in full, so "N Engl J Med" and "The New England Journal of Medicine" both count. Each field that doesn't line up is flagged on its own, so you can see which one is off.</li>
       <li><b>Retractions and corrections</b>: flagged from Crossref update metadata, naming Crossref as the source.</li>
       <li><b>Preprint DOIs</b>: labelled <span class="doi">preprint</span>, so you can check for a published version. A preprint is not a problem.</li>
       <li><b>Malformed DOIs and duplicates</b>: a DOI that isn't well-formed, or the same DOI cited twice.</li>
       <li><b>Open access or paywall?</b> Each resolved DOI is checked against <a href="https://unpaywall.org/" rel="noopener">Unpaywall</a> for a free full-text copy. When one exists, the tool shows the best single-hop link — a PubMed Central link where Unpaywall lists one — so you can prefer it over a DOI that may stall behind a redirect. Access status sits beside the verdict and never changes it: a paywalled paper is not a failure.</li>
     </ul>
-    <p style="font-size:14.5px;color:#322c47;margin:16px 0 0">Every reference gets one of three verdicts: <b>checks out</b> (resolves and matches), <b>does not check out</b> (resolves but the record disagrees, or is flagged), or <b>not resolvable</b> (Crossref returned nothing, so there is nothing to compare). A missing record is never counted as a failure.</p>
-    <div class="cant"><b>What it can't do.</b> A resolved, matching DOI means the reference points at the paper it claims to: it does not mean the paper supports the sentence that cites it, and it does not mean the paper is correct. Checking whether a source actually supports a claim is the CiteVahti audit.</div>
+    <p style="font-size:14.5px;color:#322c47;margin:16px 0 0">Every reference gets one of three verdicts: <b>checks out</b> (resolves and matches), <b>does not check out</b> (resolves but the record disagrees, or is flagged), or <b>not resolvable</b> (Crossref returned nothing, so there is nothing to compare). A missing record is never counted as a failure. The verdict answers one question: does this DOI point at the paper you cited? A journal, author, or year that doesn't line up is flagged beside the verdict rather than inside it, because a typo in the reference is a different problem from a wrong DOI.</p>
+    <div class="cant"><b>What it can't do.</b> A reference without a DOI is never seen, so the counts describe the DOIs found in your text, not your whole list. A resolved, matching DOI means the reference points at the paper it claims to: it does not mean the paper supports the sentence that cites it, and it does not mean the paper is correct. Field comparison is text matching against the Crossref record, so it tells you where to look, not what the answer is. Checking whether a source actually supports a claim is the CiteVahti audit.</div>
     <p style="font-size:14.5px;color:#322c47;margin:16px 0 0">Checking the wording of a paragraph instead of the reference list? Try the <a href="/citevahti/quick-check/">Citation Integrity Quick Check</a>.</p>
   </section>
 </main>
@@ -314,7 +314,14 @@
   // --- fuzzy matching ---------------------------------------------------
   var STOP={the:1,a:1,an:1,of:1,and:1,or:1,in:1,on:1,for:1,to:1,with:1,without:1,
             by:1,from:1,at:1,as:1,is:1,are:1,be:1,"":1};
-  function norm(s){return String(s||"").toLowerCase().replace(/[‐-―]/g,"-").replace(/[^a-z0-9\s-]/g," ").replace(/\s+/g," ").trim();}
+  // Fold diacritics before stripping: Crossref keeps them ("Rodríguez-Abreu"),
+  // reference lists often don't, and an unfolded á would split the surname in
+  // two and read as a mismatch.
+  function fold(s){
+    s=String(s||"");
+    return s.normalize ? s.normalize("NFD").replace(/[\u0300-\u036f]/g,"") : s;
+  }
+  function norm(s){return fold(s).toLowerCase().replace(/[‐-―]/g,"-").replace(/[^a-z0-9\s-]/g," ").replace(/\s+/g," ").trim();}
   function words(s){return norm(s).split(" ").filter(function(w){return w.length>2 && !STOP[w];});}
 
   // recall of the record's title words inside the citation text
@@ -323,6 +330,64 @@
     var set={}; words(cite).forEach(function(w){set[w]=1;});
     var hit=0; for(var i=0;i<tw.length;i++){ if(set[tw[i]]) hit++; }
     return hit/tw.length;
+  }
+
+  // Whole-word search in normalised text, from an offset. Surnames are short
+  // enough that a substring test lies: "He" sits inside "the", "Li" inside
+  // "clinical".
+  function findWord(hay, needle, from){
+    if(!needle) return -1;
+    var re=new RegExp("\\b"+needle.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")+"\\b","g");
+    re.lastIndex=from||0;
+    var m=re.exec(hay);
+    return m?m.index:-1;
+  }
+
+  // Journal names are abbreviated in most reference styles ("N Engl J Med" for
+  // "The New England Journal of Medicine"), so compare word by word and let
+  // either side be the truncated one. A run of one-letter agreements proves
+  // nothing, so a match must carry some real characters.
+  var JSTOP={the:1,of:1,and:1,a:1,an:1,"":1};
+  function jtokens(s){
+    return norm(s).split(/[\s-]+/).filter(function(w){return w && !JSTOP[w];});
+  }
+  function prefixHit(a,b){ return a.length<=b.length ? b.indexOf(a)===0 : a.indexOf(b)===0; }
+  function journalHit(names, cite){
+    var ct=jtokens(cite);
+    for(var n=0;n<names.length;n++){
+      var jt=jtokens(names[n]);
+      if(!jt.length) continue;
+      for(var s=0;s+jt.length<=ct.length;s++){
+        var ok=true, chars=0, longest=0;
+        for(var k=0;k<jt.length;k++){
+          if(!prefixHit(ct[s+k],jt[k])){ ok=false; break; }
+          var m=Math.min(ct[s+k].length,jt[k].length);
+          chars+=m; if(m>longest) longest=m;
+        }
+        if(ok && chars>=3 && longest>=3) return true;
+      }
+    }
+    return false;
+  }
+
+  // Walk the record's authors in order and see how far the citation follows.
+  // Every style truncates the list ("et al."), so a short list is expected;
+  // an author skipped while a later one is named is not. Surnames under three
+  // letters are left out of that second test; they collide with ordinary words.
+  function authorScan(authors, cite){
+    var c=norm(cite), pos=0, i=0, matched=0;
+    for(;i<authors.length;i++){
+      var fam=norm(authors[i]);
+      var at=findWord(c,fam,pos);
+      if(at<0) break;
+      matched++; pos=at+fam.length;
+    }
+    var gap=null;
+    for(var j=i;j<authors.length;j++){
+      var later=norm(authors[j]);
+      if(later.length>=3 && findWord(c,later,0)>=0){ gap=authors[j]; break; }
+    }
+    return {matched:matched, total:authors.length, gap:gap, etal:/\bet\s+al\b/.test(c)};
   }
 
   function crossrefUrl(doi){
@@ -365,10 +430,18 @@
     return {state:"paywall"};
   }
 
-  function firstAuthor(msg){
-    var a=(msg.author||[])[0];
-    if(!a) return null;
-    return a.family||a.name||null;
+  function authorList(msg){
+    return (msg.author||[]).map(function(a){return a.family||a.name||"";})
+                           .filter(function(x){return !!x;});
+  }
+  // Crossref carries both the full journal title and, usually, its ISO
+  // abbreviation. Keep both: a citation may use either.
+  function journalNames(msg){
+    var full=(msg["container-title"]||[])[0]||"", abbr=(msg["short-container-title"]||[])[0]||"";
+    var out=[];
+    if(full) out.push(full);
+    if(abbr && norm(abbr)!==norm(full)) out.push(abbr);
+    return out;
   }
   function pubYear(msg){
     var parts=((msg.issued||{})["date-parts"]||[])[0]||
@@ -474,11 +547,14 @@
     // resolved
     var msg=res.msg||{};
     var title=(msg.title||[])[0]||"";
-    var author=firstAuthor(msg);
+    var authors=authorList(msg);
+    var author=authors[0]||null;
+    var journals=journalNames(msg);
     var year=pubYear(msg);
     var type=msg.type||"";
     var subtype=msg.subtype||"";
-    out.record={title:title,author:author,year:year,type:type};
+    out.record={title:title,author:author,authors:authors.length,
+                journal:journals[0]||"",year:year,type:type};
     // Access status is orthogonal: attach it, but it never moves the verdict.
     out.access=accessInfo(oaRes);
 
@@ -500,28 +576,67 @@
     }
 
     // matching against the citation text
-    var haveText = out.cite && out.cite.replace(DOI_RE,"").replace(/https?:\/\/\S+/g,"").replace(/[^a-z]/gi,"").length>=12;
-    var recall = haveText ? titleRecall(title,out.cite) : null;
-    var authorHit = haveText && author ? out.cite.toLowerCase().indexOf(norm(author))>=0 : false;
-    var yearHit = haveText && year ? out.cite.indexOf(year)>=0 : false;
+    // Compare against the citation with the DOI and any URL taken out. The
+    // identifier is not evidence about the reference: "10.1136/bmj.n71" would
+    // hand a Lancet citation the journal BMJ, and a medRxiv DOI carries a date.
+    var bare = String(out.cite||"").replace(DOI_RE," ").replace(/https?:\/\/\S+/g," ");
+    var haveText = bare.replace(/[^a-z]/gi,"").length>=12;
+    var ncite = haveText ? norm(bare) : "";
+    var recall = haveText ? titleRecall(title,bare) : null;
+    var authorHit = haveText && author ? findWord(ncite,norm(author),0)>=0 : false;
+    var yearHit = haveText && year ? bare.indexOf(year)>=0 : false;
     var titleMatch = recall!==null && recall>=0.65;
     var weakMatch = recall!==null && recall>=0.4;
 
     // baseline verdict from resolution + matching
     if(!haveText){
       out.verdict="ok";
-      out.flags.push({cls:"fl-violet",label:"resolved, not matched",text:"The DOI resolves, but there's no citation text next to it to compare the title against. Paste the full reference to match author, title, and year."});
+      out.flags.push({cls:"fl-violet",label:"resolved, not matched",text:"The DOI resolves, but there's no citation text next to it to compare the record against. Paste the full reference to match the title, authors, journal, and year."});
     } else if(titleMatch || (authorHit && yearHit)){
       out.verdict="ok";
     } else if(weakMatch){
       out.verdict="ok";
-      out.flags.push({cls:"fl-amber",label:"partial match",text:"The record and your citation overlap but don't fully line up. Worth a glance that the DOI belongs to this reference."});
+      out.flags.push({cls:"fl-amber",label:"partial match",compare:1,text:"The record and your citation overlap but don't fully line up. Worth a glance that the DOI belongs to this reference."});
     } else {
       out.verdict="no";
-      out.flags.push({cls:"fl-rose",label:"record disagrees",text:"The Crossref record for this DOI doesn't match the citation text around it. This can mean a wrong or swapped DOI. Compare the titles below."});
+      out.flags.push({cls:"fl-rose",label:"record disagrees",compare:1,text:"The Crossref record for this DOI doesn't match the citation text around it. This can mean a wrong or swapped DOI. Compare the record with your citation below."});
+    }
+
+    // Field-by-field notes, but only where the DOI already points at the right
+    // paper. Where the record disagrees wholesale, a list of per-field misses
+    // is noise on top of the finding.
+    if(out.verdict==="ok" && haveText){
+      fieldFlags(out,{
+        author:author, authorHit:authorHit,
+        scan:authors.length?authorScan(authors,bare):null,
+        journals:journals, journalHit:journals.length?journalHit(journals,bare):null,
+        year:year, yearHit:yearHit
+      });
     }
 
     return applyNotices(out,nx);
+  }
+
+  // A wrong journal or a dropped co-author is a reference-list error, not a
+  // wrong DOI. Each field gets its own flag so it is clear which one is off;
+  // none of them moves the verdict.
+  function fieldFlags(out,f){
+    if(f.author && !f.authorHit){
+      out.flags.push({cls:"fl-amber",label:"first author",compare:1,text:
+        "The record's first author ("+esc(f.author)+") isn't in your citation. Check the spelling, or whether this DOI belongs to a different paper by the same group."});
+    } else if(f.scan && f.scan.gap){
+      out.flags.push({cls:"fl-amber",label:"author list",compare:1,text:
+        "Your citation follows the record for the first "+f.scan.matched+" of "+f.scan.total+
+        " authors, then names "+esc(f.scan.gap)+", whom the record lists further down. Compare the list."});
+    }
+    if(f.journalHit===false){
+      out.flags.push({cls:"fl-amber",label:"journal",compare:1,text:
+        "The record's journal ("+esc(f.journals[0])+") isn't in your citation, in full or abbreviated. Check the journal name, and check that this isn't a second version of the paper."});
+    }
+    if(f.year && !f.yearHit){
+      out.flags.push({cls:"fl-amber",label:"year",compare:1,text:
+        "The record's year ("+esc(f.year)+") isn't in your citation. Online-first and print years often differ, so check which one your style asks for."});
+    }
   }
 
   // Retraction and correction notices can override the match verdict toward
@@ -553,15 +668,27 @@
 
   function recordLine(rec){
     if(!rec) return "";
-    var bits=[];
-    if(rec.title) bits.push("<b>"+esc(rec.title)+"</b>");
     var tail=[];
-    if(rec.author) tail.push(esc(rec.author));
+    if(rec.journal) tail.push(esc(rec.journal));
+    if(rec.author){
+      var others=rec.authors-1;
+      tail.push(esc(rec.author)+(others>0?" and "+others+" other"+(others>1?"s":""):""));
+    }
     if(rec.year) tail.push(esc(rec.year));
-    var s='<p class="ref-rec">'+(bits.join("")||"<i>record has no title</i>");
-    if(tail.length) s+=" · "+tail.join(", ");
-    s+="</p>";
-    return s;
+    var s='<p class="ref-rec">In Crossref: '+(rec.title?"<b>"+esc(rec.title)+"</b>":"<i>record has no title</i>");
+    if(tail.length) s+=" · "+tail.join(" · ");
+    return s+"</p>";
+  }
+
+  // Show the citation text back whenever something needs comparing, so the two
+  // sides sit next to each other instead of only the record.
+  function citeLine(r){
+    if(!r.cite) return "";
+    var compare=false;
+    for(var i=0;i<r.flags.length;i++){ if(r.flags[i].compare){compare=true;break;} }
+    if(!compare) return "";
+    var t=r.cite.length>240 ? r.cite.slice(0,240).replace(/\s+\S*$/,"")+"…" : r.cite;
+    return '<p class="ref-cite">Your citation: '+esc(t)+'</p>';
   }
 
   // Access status line (Unpaywall). Sits beside the verdict; never part of it.
@@ -591,6 +718,7 @@
     var h='<div class="ref '+vm.cls+'">';
     h+='<div class="ref-top"><span class="verdict '+vm.vcls+'">'+vm.label+'</span><span class="doi">'+esc(r.doi)+'</span></div>';
     h+=recordLine(r.record);
+    h+=citeLine(r);
     h+=accessRow(r.access);
     if(r.flags.length){
       h+='<div class="flags">';
@@ -684,7 +812,8 @@
 "3. Miller A, Reandelar MJ, Fasciglione K, et al. Correlation between universal BCG vaccination policy and reduced morbidity and mortality for COVID-19. medRxiv. 2020. https://doi.org/10.1101/2020.03.24.20042937\n\n"+
 "4. Guan WJ, Ni ZY, Hu Y, et al. Clinical characteristics of coronavirus disease 2019 in China. N Engl J Med. 2020;382:1708-1720. doi:10.1056/NEJMoa2002032\n\n"+
 "5. Registry analysis, cited again in the discussion. doi:10.1016/S0140-6736(20)31180-6\n\n"+
-"6. Author U. A reference with a broken identifier. J Example. 2021. doi:10.99/not-a-real-doi";
+"6. Author U. A reference with a broken identifier. J Example. 2021. doi:10.99/not-a-real-doi\n\n"+
+"7. Zhou P, Yang XL, Shi ZL, et al. A pneumonia outbreak associated with a new coronavirus of probable bat origin. Lancet. 2020;579:270-273. doi:10.1038/s41586-020-2012-7";
 
   $("run").addEventListener("click",run);
   $("ex").addEventListener("click",function(){ $("refs").value=EXAMPLE; run(); });
