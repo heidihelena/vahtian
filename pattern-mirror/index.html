@@ -387,9 +387,15 @@
       "case":"made-of-claims-not-documents" },
 
     { id:"banned-vocabulary", group:"Language", name:"Vocabulary that sells",
-      re:/\b(?:delve|leverage(?:s|d|ing)?|harness(?:es|ed|ing)?|empower(?:s|ed|ing)?|streamline(?:s|d)?|seamless(?:ly)?|robustly|cutting-edge|game-?changer|revolutioni[sz]e[sd]?|transformative|unleash(?:es|ed)?|multifaceted|meticulous(?:ly)?|paramount|showcase[sd]?|underscore[sd]?|noteworthy|tapestry|realm|landscape of|testament to|in today(?:'|’)?s)\b/i,
-      why:"Words that could sell any product. In a paper they read as filler, and reviewers who see them start discounting the sentences around them.",
-      fix:"Use the plain verb, or delete. \"Leverage\" is \"use\". \"Underscores\" is \"shows\".",
+      // The list is not taste. Every word on it is one that (a) has a plainer
+      // alternative and (b) was measured rising sharply in biomedical abstracts
+      // between 2022 and 2024 by Kobak et al., Science Advances 2025, over 15
+      // million PubMed abstracts. "delves" went from 102 abstracts to 5152, a
+      // 48-fold rise; "underscores" from 1426 to 20755. See
+      // .claude/evals/pattern-mirror/README.md for the counts and the threshold.
+      re:/\b(?:delv(?:e|es|ed|ing)|leverage(?:s|d|ing)?|harness(?:es|ed|ing)?|empower(?:s|ed|ing)?|streamline(?:s|d)?|seamless(?:ly)?|robustly|cutting-edge|game-?changer|revolutioni[sz](?:e|es|ed|ing)|transformative|unleash(?:es|ed)?|multifaceted|meticulous(?:ly)?|paramount|showcas(?:e|es|ed|ing)|underscor(?:e|es|ed|ing)|noteworthy|tapestry|realm|intricate(?:ly)?|intricacies|commendable|groundbreaking|renowned|garner(?:s|ed|ing)?|surpass(?:es|ed|ing)?|excels|comprehending|grappling|adept|unveil(?:s|ed)?|landscape of|testament to|in today(?:'|’)?s)\b/i,
+      why:"A word with a plainer alternative, and one that has become markedly more common in biomedical abstracts since 2022. It reads as filler, and reviewers who notice it start discounting the sentences around it.",
+      fix:"Use the plain verb, or delete. \"Leverage\" is \"use\", \"underscores\" is \"shows\", \"delves into\" is \"examines\".",
       fine:"you are quoting someone else's wording",
       "case":"banned-vocabulary-hype" },
 

@@ -1,0 +1,5 @@
+We recruited 412 patients with stage III non-small-cell lung cancer at Tampere University Hospital between January 2019 and March 2022. Eligibility required histological confirmation and an ECOG performance status of 0 to 2. Patients receiving concurrent chemoradiotherapy were excluded, as were those with a second active malignancy.
+
+Two reviewers extracted each variable independently using a piloted form. Disagreements were resolved by discussion with a third reviewer, and inter-rater agreement was quantified with Cohen's kappa (Landis and Koch, 1977). Agreement was 0.81 for stage and 0.64 for treatment intent.
+
+Median overall survival was 23.4 months (95% CI 20.1 to 27.2). Survival differed by PD-L1 expression, though the confidence intervals overlapped for the two lower strata. We did not adjust for smoking history, which was missing for 38 patients.
