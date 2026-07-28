@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Check your references before submission · Vahtian</title>
-  <meta name="description" content="Paste your reference list. Each DOI is checked against Crossref for title, authors, journal and year, and references without a DOI are listed as unchecked.">
+  <meta name="description" content="Paste your reference list. DOIs, arXiv IDs and ISBNs are checked against Crossref, DataCite and OpenLibrary for title, authors, journal and year.">
   <meta name="theme-color" content="#2D2440">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
@@ -31,7 +31,7 @@
   "operatingSystem": "Any (web browser)",
   "browserRequirements": "Requires JavaScript. Runs client-side.",
   "url": "https://vahtian.com/reference-check/",
-  "description": "Paste a reference list or manuscript. Runs in your browser: extracts DOIs, checks each against Crossref, and compares four fields of the record with the citation text around the DOI. Title: word overlap. Author list: the record's authors in order, tolerating the 'et al.' truncation every style uses, flagging an author skipped while a later one is named. Journal: the container title matched abbreviated or in full, so 'N Engl J Med' matches 'The New England Journal of Medicine'. Year: the issued year. Separately, the surnames the citation names are read back and checked against the record's whole author list, so a name the record does not carry is flagged wherever it sits, including the middle of a list where a re-typed or machine-repaired reference usually goes wrong. Entries that read like references but carry no DOI cannot be checked at all and are listed back unchecked, counted separately, because a summary that counts only DOIs reads as coverage the run never had. It also flags retractions and corrections (naming Crossref as the source), preprint DOIs, malformed DOIs, and duplicates, and checks each resolved DOI against Unpaywall for open-access status, surfacing the best single-hop full-text link (a PubMed Central link where one exists). Access status is shown beside the verdict and never changes it. Verdicts are three-way per reference: checks out, does not check out, or not resolvable. A field that does not line up is flagged beside the verdict, not inside it, because a wrong journal name is a different problem from a wrong DOI. Field comparison is text matching against the Crossref record, so it points at what to check rather than settling it. It checks that references resolve and match their records; it does not check whether the claims citing them are true.",
+  "description": "Paste a reference list or manuscript. Runs in your browser: extracts DOIs, arXiv IDs and ISBNs, resolves each against Crossref, falling back to DataCite where Crossref has no entry (preprints, datasets, software, and arXiv's own DOIs) and to OpenLibrary for an ISBN, and compares four fields of the record with the citation text around the identifier. Identifiers are percent-decoded and registry metadata is HTML-unescaped before anything is compared, so an encoded legacy DOI resolves and a journal title containing an ampersand does not read as a mismatch. Title: word overlap. Author list: the record's authors in order, tolerating the 'et al.' truncation every style uses, flagging an author skipped while a later one is named. Journal: the container title matched abbreviated or in full, so 'N Engl J Med' matches 'The New England Journal of Medicine'. Year: the issued year. Separately, the surnames the citation names are read back and checked against the record's whole author list, so a name the record does not carry is flagged wherever it sits, including the middle of a list where a re-typed or machine-repaired reference usually goes wrong. Entries that read like references but carry no resolvable identifier cannot be checked at all and are listed back unchecked, counted separately, because a summary that counts only what it managed to check reads as coverage the run never had. It also flags retractions and corrections (naming Crossref as the source), preprint DOIs, malformed DOIs, and duplicates, and checks each resolved DOI against Unpaywall for open-access status, surfacing the best single-hop full-text link (a PubMed Central link where one exists). Access status is shown beside the verdict and never changes it. Verdicts are three-way per reference: checks out, does not check out, or not resolvable. A field that does not line up is flagged beside the verdict, not inside it, because a wrong journal name is a different problem from a wrong DOI. Field comparison is text matching against the registry record, so it points at what to check rather than settling it. It checks that references resolve and match their records; it does not check whether the claims citing them are true.",
   "isPartOf": {
     "@type": "WebSite",
     "name": "Vahtian",
@@ -190,18 +190,18 @@
   <p class="page-kicker">The traditional time to check the references</p>
   <h1>Check your references before the portal does.</h1>
   <p class="sub">This is naturally when we discover that one DOI opens the wrong paper, another appears twice, and the preprint may have grown into a publication.</p>
-  <p class="bound">Paste the list. The tool checks whether each DOI resolves, compares the title, authors, journal, and year with what you wrote, and lists back the references it could not check. It cannot tell whether the source supports your claim. Nothing is stored; DOI queries go to Crossref, and to Unpaywall for open-access status.</p>
+  <p class="bound">Paste the list. The tool checks whether each identifier resolves, compares the title, authors, journal, and year with what you wrote, and lists back the references it could not check. It cannot tell whether the source supports your claim. Nothing is stored; queries go to Crossref, DataCite and OpenLibrary for the record, and to Unpaywall for open-access status.</p>
 
   <div class="tool">
     <label class="tl" for="refs">Your reference list or manuscript text</label>
-    <textarea id="refs" placeholder="Paste your reference list, or a whole manuscript. The tool finds DOIs like 10.1016/S0140-6736(20)30566-3 and checks each one."></textarea>
+    <textarea id="refs" placeholder="Paste your reference list, or a whole manuscript. The tool finds DOIs like 10.1016/S0140-6736(20)30566-3, arXiv IDs and ISBNs, and checks each one."></textarea>
     <div class="actions">
       <button id="run" type="button">Check references</button>
       <button id="ex" class="ghost" type="button">Load example</button>
       <button id="clr" class="ghost" type="button">Clear</button>
     </div>
     <label class="optline" for="oa"><input type="checkbox" id="oa" checked> Also check open-access status (queries Unpaywall)</label>
-    <p class="priv">DOI queries go to Crossref for the record, and — while the box above is ticked — to Unpaywall for access status. Nothing else leaves the browser, nothing is stored, no account, no telemetry.</p>
+    <p class="priv">Queries go to Crossref for the record, to DataCite when Crossref has no entry (preprints, datasets, arXiv), to OpenLibrary for an ISBN, and — while the box above is ticked — to Unpaywall for access status. Nothing else leaves the browser, nothing is stored, no account, no telemetry.</p>
   </div>
 
   <div class="exp" id="exp" hidden>
@@ -215,18 +215,18 @@
   <section class="info">
     <h2>What this checks</h2>
     <ul class="checks">
-      <li><b>Does the DOI resolve?</b> Each DOI is looked up in <a href="https://www.crossref.org/" rel="noopener">Crossref</a>. Found, or not found.</li>
+      <li><b>Does the identifier resolve?</b> Each DOI is looked up in <a href="https://www.crossref.org/" rel="noopener">Crossref</a>, and in <a href="https://datacite.org/" rel="noopener">DataCite</a> when Crossref has no entry — preprints, datasets and software register there, and an arXiv ID resolves through its own DataCite DOI. An ISBN is looked up in <a href="https://openlibrary.org/" rel="noopener">OpenLibrary</a>. Found, or not found.</li>
       <li><b>Does the record match your citation?</b> Four fields are compared with the citation text around the DOI: the <b>title</b>, the <b>author list</b> (in order, with "et al." expected), the <b>journal</b>, and the <b>year</b>. Journal names are matched abbreviated or in full, so "N Engl J Med" and "The New England Journal of Medicine" both count. Each field that doesn't line up is flagged on its own, so you can see which one is off.</li>
       <li><b>Does your citation name someone who isn't on the paper?</b> The surnames in your citation are read back and checked against the record's whole author list. A name the record doesn't carry anywhere is flagged wherever it sits. This is where a re-typed or machine-repaired list usually goes wrong: the first author survives, and a name in the middle quietly does not.</li>
-      <li><b>What it couldn't check.</b> Entries that read like references but carry no DOI are listed back to you, unchecked, and counted separately from the ones that were. The tool can't look a reference up by title, so those stay yours.</li>
+      <li><b>What it couldn't check.</b> Entries that read like references but carry no DOI, arXiv ID or ISBN are listed back to you, unchecked, and counted separately from the ones that were. The tool can't look a reference up by title, so those stay yours.</li>
       <li><b>Take the result with you.</b> Copy the run as Markdown, or download it as a <span class="doi">.md</span> file: every reference, what the record said, which fields didn't line up, and what wasn't checked. It pastes into a manuscript file or an email to a co-author, and it carries its own limits, because a file travels away from the page that explains it.</li>
       <li><b>Retractions and corrections</b>: flagged from Crossref update metadata, naming Crossref as the source.</li>
       <li><b>Preprint DOIs</b>: labelled <span class="doi">preprint</span>, so you can check for a published version. A preprint is not a problem.</li>
       <li><b>Malformed DOIs and duplicates</b>: a DOI that isn't well-formed, or the same DOI cited twice.</li>
       <li><b>Open access or paywall?</b> Each resolved DOI is checked against <a href="https://unpaywall.org/" rel="noopener">Unpaywall</a> for a free full-text copy. When one exists, the tool shows the best single-hop link — a PubMed Central link where Unpaywall lists one — so you can prefer it over a DOI that may stall behind a redirect. Access status sits beside the verdict and never changes it: a paywalled paper is not a failure.</li>
     </ul>
-    <p style="font-size:14.5px;color:#322c47;margin:16px 0 0">Every reference gets one of three verdicts: <b>checks out</b> (resolves and matches), <b>does not check out</b> (resolves but the record disagrees, or is flagged), or <b>not resolvable</b> (Crossref returned nothing, so there is nothing to compare). A missing record is never counted as a failure. The verdict answers one question: does this DOI point at the paper you cited? A journal, author, or year that doesn't line up is flagged beside the verdict rather than inside it, because a typo in the reference is a different problem from a wrong DOI.</p>
-    <div class="cant"><b>What it can't do.</b> A reference without a DOI is listed but never checked: the tool can't look one up by title. A resolved, matching DOI means the reference points at the paper it claims to: it does not mean the paper supports the sentence that cites it, and it does not mean the paper is correct. Field comparison is text matching against the Crossref record, so it tells you where to look, not what the answer is. Checking whether a source actually supports a claim is the CiteVahti audit.</div>
+    <p style="font-size:14.5px;color:#322c47;margin:16px 0 0">Every reference gets one of three verdicts: <b>checks out</b> (resolves and matches), <b>does not check out</b> (resolves but the record disagrees, or is flagged), or <b>not resolvable</b> (no registry returned a record, so there is nothing to compare). A missing record is never counted as a failure. The verdict answers one question: does this DOI point at the paper you cited? A journal, author, or year that doesn't line up is flagged beside the verdict rather than inside it, because a typo in the reference is a different problem from a wrong DOI.</p>
+    <div class="cant"><b>What it can't do.</b> A reference carrying no DOI, arXiv ID or ISBN is listed but never checked: the tool can't look one up by title. A book absent from OpenLibrary is not evidence of a wrong ISBN — coverage there is patchy, and the report says so rather than counting it against you. A resolved, matching DOI means the reference points at the paper it claims to: it does not mean the paper supports the sentence that cites it, and it does not mean the paper is correct. Field comparison is text matching against the registry record, so it tells you where to look, not what the answer is. Checking whether a source actually supports a claim is the CiteVahti audit.</div>
     <p style="font-size:14.5px;color:#322c47;margin:16px 0 0">Checking the wording of a paragraph instead of the reference list? Try the <a href="/citevahti/quick-check/">Citation Integrity Quick Check</a>.</p>
   </section>
 </main>
@@ -269,17 +269,30 @@
 
   // --- DOI extraction ---------------------------------------------------
   // Strict form for a resolvable DOI: 10.<4-9 digits>/<suffix>.
-  var DOI_RE=/10\.\d{4,9}\/[^\s"'<>]+/g;
+  // Angle brackets are allowed only inside a balanced <…> run with no spaces,
+  // which is the legacy AMS/society form (10.1175/1520-0469(1963)020<0130:…>2.0.CO;2).
+  // Excluding them outright truncated exactly the DOIs humans most often mangle.
+  var DOI_RE=/10\.\d{4,9}\/(?:[^\s"'<>]|<[^\s<>]*>)+/g;
   // Loose form to catch things that look like a DOI but are malformed
   // (prefix too short, or empty suffix), e.g. "10.99/x" or "10.1234/".
   var DOI_LOOSE=/\b10\.\d{1,9}(?:\/[^\s"'<>]*)?/g;
   var PREPRINT_PREFIX=["10.1101","10.31234","10.31235","10.31219","10.2139","10.20944","10.21203","10.31730","10.31222","10.31223","10.26434","10.32942","10.33774","10.31219"];
 
-  // Trim trailing punctuation that commonly rides along after a DOI in prose.
+  // Trim trailing punctuation that commonly rides along after a DOI in prose,
+  // then percent-decode. A DOI copied out of a URL bar arrives encoded
+  // (…020%3C0130:DNF%3E2.0.CO;2), and the registry holds the decoded form, so
+  // an encoded one is reported as unresolvable when it is perfectly good. The
+  // API URL re-encodes on the way out, so this is a round trip, not a loss.
   function cleanDoi(raw){
     var d=raw.replace(/[).,;:'"\]]+$/,"");
     // balance a trailing ) only if unmatched (DOIs like ...(20)30566-3 keep theirs)
-    return d;
+    return decodeDoi(d);
+  }
+  function decodeDoi(d){
+    if(d.indexOf("%")<0) return d;
+    // A bare % that is not an escape makes decodeURIComponent throw. A DOI we
+    // cannot decode is still a DOI: hand back what we were given.
+    try{ return decodeURIComponent(d); }catch(e){ return d; }
   }
 
   function findDois(text){
@@ -304,6 +317,54 @@
     }
     found.sort(function(a,b){return a.start-b.start;});
     return found;
+  }
+
+  // --- identifiers that are not DOIs -------------------------------------
+  // A DOI-only checker reports a preprint-heavy reference list as mostly
+  // unchecked, which reads as "unverifiable" when it means "not looked up".
+  // arXiv entries carry a DOI in all but name (10.48550/arXiv.<id>, registered
+  // with DataCite rather than Crossref) and books carry an ISBN. Both resolve.
+  var ARXIV_RE=/\barxiv[:\s]\s*((?:\d{4}\.\d{4,5}|[a-z-]+(?:\.[A-Z]{2})?\/\d{7})(?:v\d+)?)/ig;
+  var ARXIV_URL=/arxiv\.org\/(?:abs|pdf)\/((?:\d{4}\.\d{4,5}|[a-z-]+(?:\.[A-Z]{2})?\/\d{7})(?:v\d+)?)/ig;
+  var ISBN_RE=/\bISBN(?:-1[03])?[:\s]\s*((?:97[89][\s-]?)?(?:\d[\s-]?){9}[\dXx])\b/ig;
+
+  function isbnDigits(s){ return String(s).replace(/[\s-]/g,"").toUpperCase(); }
+  // arXiv's own DOI, which is what DataCite is registered against. The version
+  // suffix is dropped: 2401.12345v3 and 2401.12345 are one record.
+  function arxivDoi(id){ return "10.48550/arXiv."+String(id).replace(/v\d+$/,""); }
+
+  function findExtras(text, dois){
+    var out=[], seen={}, m;
+    // Only look inside entries that carry no DOI. An arXiv ID sitting beside a
+    // published DOI is the preprint of a paper already being checked, and
+    // checking it twice would report the same reference as two.
+    var spans=[];
+    for(var i=0;i<dois.length;i++) spans.push([dois[i].start,dois[i].end]);
+    function nearDoi(at){
+      for(var j=0;j<spans.length;j++){
+        var s=Math.max(0,spans[j][0]-600), e=spans[j][1]+600;
+        if(at>=s && at<=e) return true;
+      }
+      return false;
+    }
+    function add(kind,id,raw,at){
+      var key=kind+":"+String(id).toLowerCase();
+      if(seen[key]) return; seen[key]=1;
+      out.push({kind:kind, id:id, raw:raw,
+                lower:(kind==="arxiv"?arxivDoi(id):id).toLowerCase(),
+                start:at, end:at+raw.length, malformed:false});
+    }
+    [ARXIV_RE,ARXIV_URL].forEach(function(re){
+      re.lastIndex=0;
+      while((m=re.exec(text))){ if(!nearDoi(m.index)) add("arxiv",m[1],"arXiv:"+m[1],m.index); }
+    });
+    ISBN_RE.lastIndex=0;
+    while((m=ISBN_RE.exec(text))){
+      var d=isbnDigits(m[1]);
+      if(d.length!==10 && d.length!==13) continue;
+      if(!nearDoi(m.index)) add("isbn",d,"ISBN "+d,m.index);
+    }
+    return out;
   }
 
   // The citation text around a DOI: the paragraph (blank-line delimited) or,
@@ -359,7 +420,12 @@
   }
   function uncheckedEntries(text){
     return splitEntries(text).filter(function(e){
-      return !HAS_DOI.test(e) && looksLikeReference(e);
+      if(HAS_DOI.test(e)) return false;
+      // An entry carrying an arXiv ID or an ISBN is checked now, so listing it
+      // here as beyond reach would understate the run.
+      ARXIV_RE.lastIndex=ARXIV_URL.lastIndex=ISBN_RE.lastIndex=0;
+      if(ARXIV_RE.test(e)||ARXIV_URL.test(e)||ISBN_RE.test(e)) return false;
+      return looksLikeReference(e);
     });
   }
 
@@ -372,6 +438,35 @@
   function fold(s){
     s=String(s||"");
     return s.normalize ? s.normalize("NFD").replace(/[\u0300-\u036f]/g,"") : s;
+  }
+
+  // Registry metadata is markup, not text. Crossref stores "Trends in Ecology
+  // &amp; Evolution" and JATS tags inside titles (<i>, <sub>, <scp>). Compared
+  // raw, "&amp;" normalises to the word "amp" and every journal with an
+  // ampersand is reported as a mismatch against a correct citation \u2014 the
+  // costliest false positive there is, because it sends the author hunting for
+  // a defect that does not exist. Decode first, then compare.
+  var ENT={amp:"&",lt:"<",gt:">",quot:'"',apos:"'",nbsp:" ",shy:"",
+           ndash:"\u2013",mdash:"\u2014",hellip:"\u2026",times:"\u00d7",deg:"\u00b0",plusmn:"\u00b1",micro:"\u00b5",
+           rsquo:"\u2019",lsquo:"\u2018",ldquo:"\u201c",rdquo:"\u201d",prime:"\u2032",Prime:"\u2033",
+           alpha:"\u03b1",beta:"\u03b2",gamma:"\u03b3",delta:"\u03b4",kappa:"\u03ba",lambda:"\u03bb",mu:"\u03bc",sigma:"\u03c3",
+           le:"\u2264",ge:"\u2265",ne:"\u2260",minus:"\u2212",frac12:"\u00bd"};
+  function unent(s){
+    s=String(s||"");
+    if(s.indexOf("&")>=0){
+      s=s.replace(/&#x([0-9a-f]{1,6});/gi,function(m,h){ return cp(parseInt(h,16),m); })
+         .replace(/&#(\d{1,7});/g,function(m,d){ return cp(parseInt(d,10),m); })
+         .replace(/&([A-Za-z][A-Za-z0-9]{1,9});/g,function(m,n){
+           return ENT.hasOwnProperty(n) ? ENT[n] : (ENT.hasOwnProperty(n.toLowerCase()) ? ENT[n.toLowerCase()] : m);
+         });
+    }
+    // JATS markup rides along in Crossref titles and container titles.
+    if(s.indexOf("<")>=0) s=s.replace(/<\/?[A-Za-z][^>]*>/g," ");
+    return s.replace(/\s+/g," ").trim();
+  }
+  function cp(n,orig){
+    if(!isFinite(n)||n<32||n>0x10FFFF) return orig;
+    try{ return String.fromCodePoint(n); }catch(e){ return orig; }
   }
   function norm(s){return fold(s).toLowerCase().replace(/[‐-―]/g,"-").replace(/[^a-z0-9\s-]/g," ").replace(/\s+/g," ").trim();}
   function words(s){return norm(s).split(" ").filter(function(w){return w.length>2 && !STOP[w];});}
@@ -491,6 +586,59 @@
   function crossrefUrl(doi){
     return "https://api.crossref.org/works/"+encodeURIComponent(doi)+"?mailto=hello@vahtian.com";
   }
+  function dataciteUrl(doi){
+    return "https://api.datacite.org/dois/"+encodeURIComponent(doi);
+  }
+  function openLibraryUrl(isbn){
+    return "https://openlibrary.org/api/books?bibkeys=ISBN:"+encodeURIComponent(isbn)+"&format=json&jscmd=data";
+  }
+
+  // Neither registry uses Crossref's schema. Map both onto it, so one record
+  // shape flows through one classifier and the matching logic never learns
+  // where the record came from.
+  function fromDataCite(d){
+    var a=(d&&d.attributes)||{};
+    var titles=(a.titles||[]).map(function(x){return unent(x&&x.title);}).filter(Boolean);
+    var year=a.publicationYear||null;
+    if(!year){
+      var iss=(a.dates||[]).filter(function(x){return String(x.dateType||"")==="Issued";})[0];
+      var mm=iss&&String(iss.date||"").match(/\d{4}/);
+      if(mm) year=mm[0];
+    }
+    var creators=(a.creators||[]).map(function(c){
+      if(c.familyName) return {family:unent(c.familyName)};
+      // DataCite frequently carries only "Family, Given" in `name`.
+      var n=unent(c.name||""), comma=n.indexOf(",");
+      return {family: comma>0 ? n.slice(0,comma).trim() : n};
+    }).filter(function(c){return !!c.family;});
+    var pub=a.publisher;
+    if(pub && typeof pub==="object") pub=pub.name||"";
+    var container=((a.container||{}).title)||pub||"";
+    var general=String((a.types||{}).resourceTypeGeneral||"").toLowerCase();
+    var isPre = general==="preprint" || /arxiv/i.test(String(pub||""));
+    return {title:titles, author:creators,
+            "container-title":container?[unent(container)]:[],
+            issued:{"date-parts":[[year?Number(year):null]]},
+            type: isPre?"posted-content":(general||""),
+            subtype: isPre?"preprint":""};
+  }
+  function fromOpenLibrary(b){
+    var authors=(b.authors||[]).map(function(a){
+      // OpenLibrary gives display order, "Ian Goodfellow". The surname is what
+      // the matcher compares, and it is the last word.
+      var n=unent(a&&a.name||"").replace(/\s*\(.*\)$/,"").trim();
+      var parts=n.split(/\s+/);
+      return {family: parts.length?parts[parts.length-1]:""};
+    }).filter(function(a){return !!a.family;});
+    var ym=String(b.publish_date||"").match(/\d{4}/);
+    var pubs=(b.publishers||[]).map(function(p){return unent(p&&p.name);}).filter(Boolean);
+    return {title: b.title?[unent(b.title)+(b.subtitle?": "+unent(b.subtitle):"")]:[],
+            author:authors,
+            "container-title": pubs.length?[pubs[0]]:[],
+            issued:{"date-parts":[[ym?Number(ym[0]):null]]},
+            type:"book", subtype:""};
+  }
+
   function unpaywallUrl(doi){
     // Unpaywall takes the DOI in the path; keep the slashes, encode the rest.
     return "https://api.unpaywall.org/v2/"+encodeURIComponent(doi).replace(/%2F/gi,"/")+"?email=hello@vahtian.com";
@@ -529,13 +677,13 @@
   }
 
   function authorList(msg){
-    return (msg.author||[]).map(function(a){return a.family||a.name||"";})
+    return (msg.author||[]).map(function(a){return unent(a.family||a.name||"");})
                            .filter(function(x){return !!x;});
   }
   // Crossref carries both the full journal title and, usually, its ISO
   // abbreviation. Keep both: a citation may use either.
   function journalNames(msg){
-    var full=(msg["container-title"]||[])[0]||"", abbr=(msg["short-container-title"]||[])[0]||"";
+    var full=unent((msg["container-title"]||[])[0]||""), abbr=unent((msg["short-container-title"]||[])[0]||"");
     var out=[];
     if(full) out.push(full);
     if(abbr && norm(abbr)!==norm(full)) out.push(abbr);
@@ -560,17 +708,44 @@
   }
 
   // --- fetch with timeout + small concurrency pool ----------------------
-  function fetchDoi(doi){
+  function getJson(url){
     var ctrl=new AbortController();
     var to=setTimeout(function(){ctrl.abort();},15000);
-    return fetch(crossrefUrl(doi),{signal:ctrl.signal,headers:{"Accept":"application/json"}})
+    return fetch(url,{signal:ctrl.signal,headers:{"Accept":"application/json"}})
       .then(function(r){
         clearTimeout(to);
         if(r.status===404) return {status:"notfound"};
         if(!r.ok) return {status:"error",code:r.status};
-        return r.json().then(function(j){return {status:"ok",msg:j.message};});
+        return r.json().then(function(j){return {status:"ok",json:j};});
       })
       .catch(function(){ clearTimeout(to); return {status:"neterror"}; });
+  }
+
+  // Crossref first, DataCite second. A DOI missing from Crossref is not
+  // necessarily a bad DOI: preprints, datasets and software register with
+  // DataCite, and arXiv's own DOIs live there. Reporting those as unresolvable
+  // is a false negative on the largest single class of modern citation.
+  function fetchDoi(doi){
+    return getJson(crossrefUrl(doi)).then(function(r){
+      if(r.status==="ok") return {status:"ok",msg:r.json.message,source:"Crossref"};
+      if(r.status!=="notfound") return r;
+      return getJson(dataciteUrl(doi)).then(function(d){
+        if(d.status==="ok" && d.json && d.json.data)
+          return {status:"ok",msg:fromDataCite(d.json.data),source:"DataCite"};
+        // Absent from both registries. Report Crossref's answer, which is the
+        // one the wording downstream is written for.
+        return {status:"notfound",bothRegistries:true};
+      });
+    });
+  }
+  function fetchIsbn(isbn){
+    return getJson(openLibraryUrl(isbn)).then(function(r){
+      if(r.status!=="ok") return r.status==="notfound" ? {status:"notfound"} : r;
+      var rec=r.json&&r.json["ISBN:"+isbn];
+      // OpenLibrary answers 200 with {} for an ISBN it does not hold.
+      if(!rec) return {status:"notfound"};
+      return {status:"ok",msg:fromOpenLibrary(rec),source:"OpenLibrary"};
+    });
   }
 
   function fetchAccess(doi){
@@ -588,10 +763,14 @@
 
   // One DOI → Crossref record (always) + Unpaywall access (when wanted), in
   // parallel. Returns {cr, up}; up is null when access checking is off.
-  function fetchRef(doi, wantOa){
+  // `key` is the DOI for a DOI or an arXiv entry (arXiv resolves through its own
+  // DOI) and the ISBN digits for a book. Access checking only applies to DOIs;
+  // Unpaywall has nothing to say about an ISBN.
+  function fetchRef(key, wantOa, kind){
+    if(kind==="isbn") return fetchIsbn(key).then(function(r){ return {cr:r, up:null}; });
     return Promise.all([
-      fetchDoi(doi),
-      wantOa ? fetchAccess(doi) : Promise.resolve(null)
+      fetchDoi(key),
+      wantOa ? fetchAccess(key) : Promise.resolve(null)
     ]).then(function(a){ return {cr:a[0], up:a[1]}; });
   }
 
@@ -633,7 +812,13 @@
     }
     if(res.status==="notfound"){
       out.verdict="nr";
-      out.flags.push({cls:"fl-violet",label:"not in Crossref",text:"Crossref returned no record for this DOI. It may be a DataCite DOI (dataset, software), a very new registration, or a wrong DOI. Not counted as a failure."});
+      if(ref.kind==="isbn"){
+        out.flags.push({cls:"fl-violet",label:"not in OpenLibrary",text:"OpenLibrary has no record for this ISBN. Many books are simply absent from it, so this is not evidence the ISBN is wrong. Not counted as a failure."});
+      } else if(res.bothRegistries){
+        out.flags.push({cls:"fl-violet",label:"not in Crossref or DataCite",text:"Neither registry returned a record for this identifier. It may be a very new registration, or wrong. Not counted as a failure."});
+      } else {
+        out.flags.push({cls:"fl-violet",label:"not in Crossref",text:"Crossref returned no record for this DOI. It may be a very new registration or a wrong DOI. Not counted as a failure."});
+      }
       return out;
     }
     if(res.status==="error"){
@@ -644,7 +829,7 @@
 
     // resolved
     var msg=res.msg||{};
-    var title=(msg.title||[])[0]||"";
+    var title=unent((msg.title||[])[0]||"");
     var authors=authorList(msg);
     var author=authors[0]||null;
     var journals=journalNames(msg);
@@ -652,7 +837,7 @@
     var type=msg.type||"";
     var subtype=msg.subtype||"";
     out.record={title:title,author:author,authors:authors.length,
-                journal:journals[0]||"",year:year,type:type};
+                journal:journals[0]||"",year:year,type:type,source:res.source||"Crossref"};
     // Access status is orthogonal: attach it, but it never moves the verdict.
     out.access=accessInfo(oaRes);
 
@@ -699,7 +884,7 @@
       out.flags.push({cls:"fl-amber",label:"partial match",compare:1,text:"The record and your citation overlap but don't fully line up. Worth a glance that the DOI belongs to this reference."});
     } else {
       out.verdict="no";
-      out.flags.push({cls:"fl-rose",label:"record disagrees",compare:1,text:"The Crossref record for this DOI doesn't match the citation text around it. This can mean a wrong or swapped DOI. Compare the record with your citation below."});
+      out.flags.push({cls:"fl-rose",label:"record disagrees",compare:1,text:"The registry record for this identifier doesn't match the citation text around it. This can mean a wrong or swapped DOI. Compare the record with your citation below."});
     }
 
     // Field-by-field notes, but only where the DOI already points at the right
@@ -786,7 +971,10 @@
       tail.push(esc(rec.author)+(others>0?" and "+others+" other"+(others>1?"s":""):""));
     }
     if(rec.year) tail.push(esc(rec.year));
-    var s='<p class="ref-rec">In Crossref: '+(rec.title?"<b>"+esc(rec.title)+"</b>":"<i>record has no title</i>");
+    // Name the registry that answered. Three can now, and which one it was is
+    // part of reading the result: DataCite holding a preprint means something
+    // different from Crossref holding a journal article.
+    var s='<p class="ref-rec">In '+esc(rec.source||"Crossref")+': '+(rec.title?"<b>"+esc(rec.title)+"</b>":"<i>record has no title</i>");
     if(tail.length) s+=" · "+tail.join(" · ");
     return s+"</p>";
   }
@@ -1014,9 +1202,13 @@
   function run(){
     var text=$("refs").value||"";
     var dois=findDois(text);
+    // arXiv IDs and ISBNs resolve too, so they join the run rather than being
+    // handed back as unchecked. Sorted together, the report stays in the order
+    // the references were written.
+    dois=dois.concat(findExtras(text,dois)).sort(function(a,b){return a.start-b.start;});
     var nodoi=uncheckedEntries(text);
     if(!dois.length){
-      var none='<div class="note"><b>No DOIs found in that text.</b> This tool checks references that carry a DOI (like <span class="doi">10.1016/S0140-6736(20)30566-3</span>). Paste a reference list or the reference section of a manuscript, then check again.</div>';
+      var none='<div class="note"><b>No identifiers found in that text.</b> This tool checks references carrying a DOI (like <span class="doi">10.1016/S0140-6736(20)30566-3</span>), an arXiv ID, or an ISBN. Paste a reference list or the reference section of a manuscript, then check again.</div>';
       if(nodoi.length) none+=nodoiGroup(nodoi);
       $("out").innerHTML=none;
       $("exp").hidden=true; REPORT="";
@@ -1039,10 +1231,13 @@
     var toFetch=[], fetchIndex={};
     dois.forEach(function(d){
       if(d.malformed) return;
-      if(!(d.lower in fetchIndex)){ fetchIndex[d.lower]=toFetch.length; toFetch.push(d.lower); }
+      if(!(d.lower in fetchIndex)){
+        fetchIndex[d.lower]=toFetch.length;
+        toFetch.push({key:(d.kind==="arxiv"?arxivDoi(d.id):(d.kind==="isbn"?d.id:d.lower)), kind:d.kind||"doi"});
+      }
     });
 
-    pool(toFetch,function(doi){return fetchRef(doi,wantOa);},progress).then(function(responses){
+    pool(toFetch,function(t){return fetchRef(t.key,wantOa,t.kind);},progress).then(function(responses){
       var rows=dois.map(function(d){
         var combo=d.malformed?null:responses[fetchIndex[d.lower]];
         return classify(d, combo?combo.cr:null, combo?combo.up:null);
