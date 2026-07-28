@@ -124,7 +124,33 @@ surged after ChatGPT" is an authorship claim with the label filed off, which is 
 thing this tool refuses to make. The numbers live here, in the documentation, as the
 provenance of a rule.
 
-## Em dashes are not flagged, on purpose
+## Em dashes are counted and not flagged
+
+**Revised 2026-07-28 on the author's instruction: "Sometime you repeat too many
+times, therefore the ai tells and words like actually should be counted. Em dashes
+as well."** The section below still holds for *flagging* — no rule touches
+punctuation, and none should. What changed is that counting and flagging are now
+two different things.
+
+Repetition is the part the per-sentence rules could not see. Each instance of
+"actually" is one weak word; four of them in a page is the thing a reader actually
+notices, and no finding anchored to one sentence shows it. So every marker the
+rules recognise is tallied across the whole text with a rate per 100 words, in a
+panel that carries no anchors and marks nothing wrong. Em dashes are in that panel
+because a density is worth seeing.
+
+The line that has to hold: a count is not an accusation, and the panel says so on
+the page. If the em dash count ever acquires a threshold, a colour for "too many",
+or a sentence implying what a high number means, it has become the thing this tool
+refuses to be.
+
+The count exposed a bug in the rule it reused. `intensifiers()` required whitespace
+directly after the word, so "Actually, the reviewers agreed" and "Clearly, we need
+X" never matched — the commonest empty use of both, and the exact example this
+README uses to justify the `clearly` exemption. Optional punctuation now sits
+between the word and the next one. The thesis corpus is unchanged by the fix.
+
+## The original decision, which still governs flagging
 
 Wikipedia's *Signs of AI writing* calls em dash overkill "probably the most infamous
 tell". Vahtian's own house style avoids them (`AD_CLAIMS.md`, Punctuation). Neither is a

@@ -126,6 +126,11 @@ for (const f of files) {
     }
     if (full && !res.items.length) console.log(`\n  ${f.name}: nothing`);
   }
+  if (full && res.reps?.length) {
+    console.log(
+      `\n  ${f.name} repeats: ` + res.reps.map((r) => `${r.label} ×${r.n}`).join(", ")
+    );
+  }
 }
 
 console.log("\n| file | section | words | counted | all | budget |");
