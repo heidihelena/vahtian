@@ -58,6 +58,8 @@ const SECTIONS = {
   "disc_ineq.txt": "discussion",
   "clean-methods.txt": "methods",
   "article-learn.txt": "other",
+  "roles.txt": "other",
+  "antithesis-true.txt": "discussion",
 };
 
 // What the corpus is allowed to produce. A change that pushes a file past its
@@ -73,6 +75,11 @@ const BUDGET = {
   "disc_ineq.txt": 2,
   "clean-methods.txt": 0,
   "article-learn.txt": { groups: ["Structural", "Language"], max: 6 },
+  // Every sentence in roles.txt is a universal, a hedge stack, or a denial that
+  // is legitimate in its role. Nothing here may fire.
+  "roles.txt": 0,
+  // The mirror of roles.txt: two real split antitheses that must keep firing.
+  "antithesis-true.txt": { groups: ["Structural"], max: 2, min: 2 },
 };
 
 const { analyse } = loadRules();
@@ -106,8 +113,12 @@ for (const f of files) {
   const scoped = b && typeof b === "object" ? b.groups : null;
   const counted = scoped ? res.items.filter((i) => scoped.includes(i.group)) : res.items;
   const max = b === null || b === undefined ? null : typeof b === "object" ? b.max : b;
+  const min = b && typeof b === "object" ? b.min ?? 0 : 0;
   const n = counted.length;
-  const over = max !== null && n > max;
+  // Both directions. A budget catches a rule that started over-firing; a floor
+  // catches one that went silent, which is the failure a corpus of negative
+  // controls can never see.
+  const over = max !== null && (n > max || n < min);
   if (over) failed++;
   rows.push({
     name: f.name,
@@ -115,7 +126,7 @@ for (const f of files) {
     words: res.words,
     n,
     all: res.items.length,
-    budget: max === null ? "—" : scoped ? `${max} (${scoped.join("+")})` : String(max),
+    budget: max === null ? "—" : (min ? `${min}–${max}` : String(max)) + (scoped ? ` (${scoped.join("+")})` : ""),
     over,
   });
   if (full || over) {
@@ -125,6 +136,11 @@ for (const f of files) {
       console.log(`    ${it.sentence.slice(0, 160)}${it.sentence.length > 160 ? "…" : ""}`);
     }
     if (full && !res.items.length) console.log(`\n  ${f.name}: nothing`);
+  }
+  if (full && res.reps?.length) {
+    console.log(
+      `\n  ${f.name} repeats: ` + res.reps.map((r) => `${r.label} ×${r.n}`).join(", ")
+    );
   }
 }
 

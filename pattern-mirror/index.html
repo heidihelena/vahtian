@@ -31,7 +31,7 @@
   "operatingSystem": "Any (web browser)",
   "browserRequirements": "Requires JavaScript. Runs client-side.",
   "url": "https://vahtian.com/pattern-mirror/",
-  "description": "Paste a section of a manuscript. Runs entirely in your browser: splits the text into paragraphs and sentences, then applies deterministic detectors for documented patterns that weaken scientific prose, in three groups. Structural: the antithesis family both within a sentence and split across two sentences, restatement in place of development, parallelism overload, artificial comprehensiveness, signposting, formatting in place of argument, repeated paragraph template. Language: banned vocabulary, empty intensifiers including the authenticity adverbs, generic abstraction, hedge stacking. Evidence: a claim attributed to unnamed studies, a universal generalisation, and a paragraph with no numeral, proper noun, or citation. Results are a list in document order: the anchor, the sentence, why the pattern weakens the writing, what to do instead, and the conditions under which the pattern is correct as written. There is no score, no total, and no percentage. Counts per group are reported with a rate per 100 words so a long section is comparable with a short one; the groups are never summed. Style and voice patterns such as sentence rhythm, sentence length, and repeated openings are deliberately excluded, because penalising them homogenises prose and because they correlate with writing in a second or third language. It cannot tell whether text was written by a person or a machine, and no result may be used to accuse anyone of anything.",
+  "description": "Paste a section of a manuscript. Runs entirely in your browser: splits the text into paragraphs and sentences, then applies deterministic detectors for documented patterns that weaken scientific prose, in three groups. Structural: the antithesis family both within a sentence and split across two sentences, restatement in place of development, parallelism overload, artificial comprehensiveness, signposting, formatting in place of argument, repeated paragraph template. Language: banned vocabulary, empty intensifiers including the authenticity adverbs, generic abstraction, hedge stacking. Evidence: a claim attributed to unnamed studies, a universal generalisation, and a paragraph with no numeral, proper noun, or citation. The Evidence rules read the sentence's role and not only its shape: a stipulated definition, a claim that states its own bound, a hypothesis being named rather than asserted, and a declaration about tools used are all left alone, and a heading such as Limitations or How this account could be wrong stands the universal and hedging rules down for the paragraphs beneath it. Separately from the findings it counts repeats across the whole text: every marker the rules recognise, plus em dashes, with a rate per 100 words, because repetition is what a reader notices and no single instance shows it. Those counts are not findings, carry no anchor, and mark nothing as wrong. Results are a list in document order: the anchor, the sentence, why the pattern weakens the writing, what to do instead, and the conditions under which the pattern is correct as written. There is no score, no total, and no percentage. Counts per group are reported with a rate per 100 words so a long section is comparable with a short one; the groups are never summed. Style and voice patterns such as sentence rhythm, sentence length, and repeated openings are deliberately excluded, because penalising them homogenises prose and because they correlate with writing in a second or third language. It cannot tell whether text was written by a person or a machine, and no result may be used to accuse anyone of anything.",
   "isPartOf": {
     "@type": "WebSite",
     "name": "Vahtian",
@@ -97,6 +97,17 @@
     .cchip{font:600 12px/1.4 "Nudica Mono",ui-monospace,monospace;padding:6px 10px;border-radius:999px;
            border:1px solid var(--violet);background:var(--violet-fill);color:var(--violet-text)}
     .cnote{font-size:13px;color:var(--muted);margin:0 0 20px;max-width:70ch}
+    /* repeated markers */
+    .reps{border:1px solid var(--line);border-radius:11px;padding:15px 16px;margin:0 0 24px;background:#faf9fd}
+    .repshead{font-weight:700;font-size:14px;margin:0 0 10px}
+    .repslist{display:flex;flex-wrap:wrap;gap:8px}
+    /* nowrap: an em dash is a line-break opportunity, so a chip labelled with
+       one tears itself in half without this. */
+    .repchip{font:600 12px/1.4 "Nudica Mono",ui-monospace,monospace;padding:6px 10px;border-radius:999px;
+             border:1px solid #cfc4e6;background:#fff;color:var(--ink);white-space:nowrap;flex:0 0 auto}
+    .repchip b{font-weight:800}
+    .repchip.punct{border-color:var(--amber);background:var(--amber-fill)}
+    .repsnote{font-size:12.5px;color:var(--muted);margin:11px 0 0;max-width:72ch}
     /* findings */
     .find{background:transparent;border:0;border-left:3px solid var(--amber);border-bottom:1px solid var(--line);
           border-radius:0;padding:14px 0 16px 18px;margin:0}
@@ -190,7 +201,9 @@
       <li><b>Structural</b>: the antithesis family, both inside one sentence ("not just X, but Y") and split across two, where one sentence denies and the next supplies the replacement; restatement in place of development, parallelism overload, artificial comprehensiveness, signposting, formatting in place of argument, and a repeated paragraph template.</li>
       <li><b>Language</b>: vocabulary that could sell any product, empty intensifiers, generic abstraction, and stacked hedges.</li>
       <li><b>Evidence</b>: a claim handed to unnamed studies, a universal generalisation with nothing behind it, and a paragraph carrying no numeral, proper noun, or citation.</li>
+      <li><b>Repeats, counted across the whole text.</b> Every word the rules already treat as worth a second look, plus em dashes, tallied with a rate per 100 words. One use is a choice; the same word eight times is a habit, and the habit is what a reader meets before the argument does. These are counts and never findings: no anchor, no fault, nothing to clear. The em dash line is there because punctuation density is worth seeing, not because it is a tell — no rule flags punctuation.</li>
       <li><b>Expect findings on good writing.</b> The rules were calibrated against a doctoral thesis written and defended before generative models existed, by a multilingual clinician whose prose from those years is scored around 60% "AI" by detectors. About 2500 words of it came back with four findings: one worth acting on, and three carrying their own case for leaving the sentence alone. Four more turned out to be faults in the rules, and the rules changed. That is one run on one thesis, not a measured error rate, and there is no benchmark here to quote. The story is in <a href="/learn/writing-discipline-ai-patterns/">Writing discipline when detectors judge your prose</a>.</li>
+      <li><b>Role before shape.</b> A universal quantifier is a syntactic form, and whether it overreaches depends on what the sentence is doing. Four roles make it legitimate and none of them fire: a stipulated definition, which is universal by construction and cannot be cited to anything; a claim carrying its own bound ("given the premises", "within this model"); a hypothesis being named rather than asserted, which is the thing under test; and a declaration about tools used. Put a heading like <i>Limitations</i> or <i>How this account could be wrong</i> above a paragraph and the universal and hedging rules stand down for everything under it, because that is a section where hedges and universals are the content.</li>
       <li><b>Built for manuscript prose.</b> The Evidence group assumes the citation conventions of a paper. Run an essay, a blog post, or a grant narrative through it and those rules will fire far more often, because ordinary prose carries claims without a citation in every sentence. That is the tool being out of its range, not your writing being weak.</li>
       <li><b>Not style, and not voice.</b> Sentence rhythm, sentence length, repeated openings, and nominalisation density are left alone on purpose. Penalising them makes everyone's prose converge, and they track writing in a second or third language more than they track quality. The tools that score those are the ones that flag a careful multilingual writer at 61%.</li>
     </ul>
@@ -312,9 +325,12 @@
   // carries nothing, and it is one of the commonest tells in generated prose.
   var EMPH="very|really|extremely|incredibly|truly|simply|actually|quite|highly|genuinely|honestly|clearly|obviously|undeniably|certainly|definitely|absolutely|remarkably|profoundly|vastly";
   function intensifiers(s,ctx){
+    // The comma matters: "Actually, the reviewers agreed" and "Clearly, we need
+    // X" are the commonest empty uses of both words, and a bare \s+ misses every
+    // one of them. The next word is still captured, so the exemptions hold.
     var re=(ctx.section==="results"||ctx.section==="methods")
-      ? new RegExp("\\b("+EMPH+")\\s+(\\S+)","gi")
-      : new RegExp("\\b("+EMPH+"|significantly)\\s+(\\S+)","gi");
+      ? new RegExp("\\b("+EMPH+")\\b[,;:]?\\s+(\\S+)","gi")
+      : new RegExp("\\b("+EMPH+"|significantly)\\b[,;:]?\\s+(\\S+)","gi");
     var out=[], m;
     while((m=re.exec(s))){
       var word=m[1].toLowerCase(), next=m[2].replace(/[^A-Za-z]/g,"");
@@ -336,7 +352,15 @@
   // are needed, so this is a pair rule.
   // A: a copular denial. Negated verbs in general are not enough — "it does not
   // work, because…" is an argument, not a figure.
-  var DENY=/\b(?:is|are|was|were|(?:'|’)s|(?:'|’)re)\s+(?:not|never|no)\b|\b(?:isn|aren|wasn|weren)(?:'|’)t\b/i;
+  // The denial has to deny a *thing*, which is why a determiner is required.
+  // Without it the rule matched "The world is not fully observed." followed by
+  // "This is the operative uncertainty." — statement then label, where the
+  // second sentence names the first rather than replacing what it denied. The
+  // figure needs a nominal in the slot: "not **a** defensive posture", "not
+  // **a** writing problem". Bare-noun antitheses ("is not rhythm. It is
+  // specificity") are missed as a result, and that is the trade: this detector
+  // fails toward silence.
+  var DENY=/\b(?:is|are|was|were|(?:'|’)s|(?:'|’)re)\s+(?:not|never)\s+(?:just\s+|only\s+|merely\s+|simply\s+|quite\s+)?(?:a|an|the|one|another|his|her|its|their|our|your|my|this|that|these|those)\b|\b(?:isn|aren|wasn|weren)(?:'|’)t\s+(?:just\s+|only\s+|merely\s+|simply\s+)?(?:a|an|the|one|another|its|their|our|your|my|this|that|these|those)\b/i;
   // B: a counter-assertion pointing back at what was just denied.
   var COUNTER=/^(?:rather\b|instead\b|it(?:(?:'|’)s|\s+(?:is|was))\b|they(?:(?:'|’)re|\s+(?:are|were))\b|that\s+(?:is|was)\b|this\s+(?:is|was)\b|these\s+(?:are|were)\b|what\s+\S+\s+(?:is|does|matters)\b)/i;
   // A denial continued is not a counter-assertion, and neither is a hedge or a
@@ -348,6 +372,82 @@
   // leaving the sentence alone, and it ships with every finding because the
   // list is read away from this page. `off` lists sections where the rule
   // does not apply.
+  // Hoisted because the repeat counter and the rules must read the same list.
+  // Two copies would drift, and a count that disagrees with the findings above
+  // it is worse than no count.
+  var VOCAB=/\b(?:delv(?:e|es|ed|ing)|leverage(?:s|d|ing)?|harness(?:es|ed|ing)?|empower(?:s|ed|ing)?|streamline(?:s|d)?|seamless(?:ly)?|robustly|cutting-edge|game-?changer|revolutioni[sz](?:e|es|ed|ing)|transformative|unleash(?:es|ed)?|multifaceted|meticulous(?:ly)?|paramount|showcas(?:e|es|ed|ing)|underscor(?:e|es|ed|ing)|noteworthy|tapestry|realm|intricate(?:ly)?|intricacies|commendable|groundbreaking|renowned|garner(?:s|ed|ing)?|surpass(?:es|ed|ing)?|excels|comprehending|grappling|adept|unveil(?:s|ed)?|landscape of|testament to|in today(?:'|’)?s)\b/i;
+  var HEDGE=/\b(?:may|might|could|possibly|potentially|perhaps|suggests?|appears?|seems?|relatively|somewhat|arguably|presumably|tends? to|it is possible that)\b/i;
+  function GLOBAL(re){ return new RegExp(re.source,"gi"); }
+
+  // --- when a universal is not an unsupported claim ------------------------
+  // A universal quantifier is a syntactic form. Whether it is an overreach
+  // depends on the sentence's role, and four roles make it legitimate. Each of
+  // these came from a real report on a real paper.
+  //
+  // 1. A stipulated definition is universal by construction and cannot be cited
+  //    to anything. "Let S be any solver that…", "C1: every adequate account…"
+  var DEFINE=/\b(?:let\s+\w+\s+(?:be|denote)|we\s+(?:define|call|denote|write|say|take)\b|is\s+defined\s+as|are\s+defined\s+as|counts?\s+as\b|is\s+equivalent\s+(?:to|if)|are\s+equivalent\s+(?:to|if)|by\s+(?:definition|construction|stipulation)|denotes?\b|refers?\s+to\b|(?:criteri(?:on|a)|condition|axiom|premise|property|assumption)\s+\(?[A-Z]?\d)\b|^\s*\(?[A-Z]\d\)?\s*[.:)]/;
+  // 2. The bound is already in the sentence, so asking for one is asking twice.
+  var BOUNDED=/\b(?:given\s+(?:the|these|those|our|its|such)\s+\w+|under\s+(?:the|these|those|our|such)\s+(?:assumptions?|conditions?|premises|constraints?|definitions?)|by\s+(?:construction|definition|assumption|hypothesis)|as\s+(?:defined|stipulated|specified|described|constructed)\s+(?:above|below|here|earlier)|within\s+(?:this|our|the)\s+(?:model|framework|account|dataset|sample|cohort|corpus|analysis)|in\s+(?:this|our)\s+(?:model|framework|account|sample|cohort|dataset|study|analysis|corpus)|in\s+(?:Figure|Fig\.?|Table|Box|Appendix|Section|Panel)\s*\d)/i;
+  // 3. A hypothesis being named rather than asserted is the thing under test.
+  var NAMED_POSITION=/\b(?:hypothes[ie]s|account|explanation|view|position|thesis|claim|argument|proposal|reading|theory|objection|interpretation)\b[^.;:]{0,48}?\b(?:holds|says|states|predicts|implies|maintains|asserts|entails|requires|would\s+\w+)\b|\b(?:on|under|according\s+to)\s+(?:this|that|the)\s+(?:view|account|hypothesis|reading|proposal|model|theory|interpretation)\b/i;
+  // 4. A declaration about tools used is not an empirical claim about the world.
+  var DISCLOSURE=/\b(?:generative\s+AI|large\s+language\s+models?|language\s+models?|AI\s+(?:tools?|assistance|systems?|use)|ChatGPT|Copilot|GPT-\d)\b/i;
+
+  // Headings that open a zone where universals and hedges are the content, not
+  // a weakness: a falsification section states what would refute the account,
+  // and every claim in it is offered up rather than defended.
+  var FALSIFY_HEAD=/\b(?:limitations?|falsif\w+|refut\w+|could\s+be\s+wrong|might\s+be\s+wrong|weaknesses|threats\s+to\s+validity|caveats?|objections?|counter-?arguments?|what\s+would\s+(?:refute|falsify)|scope\s+conditions?)\b/i;
+  var OTHER_HEAD=/\b(?:introduction|background|methods?|materials|results?|discussion|conclusions?|references|acknowledge?ments?|appendix|abstract|summary|findings|analysis|related\s+work)\b/i;
+  // A heading is short, and it is not a sentence. Both tests, because "One
+  // limitation is that the cohort was small." is prose and must not open a zone.
+  function isHeading(p){
+    var w=p.split(/\s+/).length;
+    return w<=12 && !/[.!?]\s*$/.test(p);
+  }
+  function zones(paras){
+    var z=[], cur="";
+    for(var i=0;i<paras.length;i++){
+      if(isHeading(paras[i])){
+        if(FALSIFY_HEAD.test(paras[i])) cur="falsification";
+        else if(OTHER_HEAD.test(paras[i])) cur="";
+      }
+      z.push(cur);
+    }
+    return z;
+  }
+
+  // --- repeated markers ---------------------------------------------------
+  // Counted across the whole text rather than sentence by sentence, because
+  // repetition is what a reader notices and no single instance shows it. A word
+  // used once is a choice; the same word eight times is a habit.
+  //
+  // This is a count and never a finding. Nothing here is anchored, nothing is
+  // marked wrong, and the em dash line is a density rather than a tell — the
+  // rules still do not flag punctuation, for the reason written down in
+  // .claude/evals/pattern-mirror/README.md.
+  var REPEAT_MIN=3;
+  function repeats(text,total){
+    var tally={}, i, m;
+    function bump(k){ tally[k]=(tally[k]||0)+1; }
+    // Intensifiers go through the rule's own function so the exemptions hold:
+    // "clearly visible" is not counted, "Clearly, we need X" is.
+    intensifiers(text,{section:"other"}).forEach(function(w){ bump(w.toLowerCase()); });
+    [VOCAB,HEDGE].forEach(function(re){
+      m=text.match(GLOBAL(re))||[];
+      for(i=0;i<m.length;i++) bump(m[i].toLowerCase().replace(/\s+/g," "));
+    });
+    var out=[];
+    for(var k in tally) if(tally[k]>=REPEAT_MIN) out.push({label:k, n:tally[k]});
+    // Punctuation is counted at any number, because one em dash in a paragraph
+    // and fourteen in a chapter are the same question asked at two scales.
+    var dash=(text.match(/—/g)||[]).length;
+    if(dash) out.push({label:"em dash (—)", n:dash, mark:true});
+    out.sort(function(a,b){ return b.n-a.n || (a.label<b.label?-1:1); });
+    for(i=0;i<out.length;i++) out[i].rate=rate(out[i].n,total);
+    return out;
+  }
+
   var RULES=[
     { id:"antithesis", group:"Structural", name:"Antithesis",
       re:/\b(?:not (?:just|only|merely|simply)\b[^.;:]{2,80}?\bbut\b|it(?:'|’)?s not about\b[^.;:]{2,60}?\bit(?:'|’)?s about\b|is not\b[^.;:]{2,60}?\bit is\b)/i,
@@ -435,7 +535,7 @@
       // million PubMed abstracts. "delves" went from 102 abstracts to 5152, a
       // 48-fold rise; "underscores" from 1426 to 20755. See
       // .claude/evals/pattern-mirror/README.md for the counts and the threshold.
-      re:/\b(?:delv(?:e|es|ed|ing)|leverage(?:s|d|ing)?|harness(?:es|ed|ing)?|empower(?:s|ed|ing)?|streamline(?:s|d)?|seamless(?:ly)?|robustly|cutting-edge|game-?changer|revolutioni[sz](?:e|es|ed|ing)|transformative|unleash(?:es|ed)?|multifaceted|meticulous(?:ly)?|paramount|showcas(?:e|es|ed|ing)|underscor(?:e|es|ed|ing)|noteworthy|tapestry|realm|intricate(?:ly)?|intricacies|commendable|groundbreaking|renowned|garner(?:s|ed|ing)?|surpass(?:es|ed|ing)?|excels|comprehending|grappling|adept|unveil(?:s|ed)?|landscape of|testament to|in today(?:'|’)?s)\b/i,
+      re:VOCAB,
       why:"A word with a plainer alternative, and one that has become markedly more common in biomedical abstracts since 2022. It reads as filler, and reviewers who notice it start discounting the sentences around it.",
       fix:"Use the plain verb, or delete. \"Leverage\" is \"use\", \"underscores\" is \"shows\", \"delves into\" is \"examines\".",
       fine:"you are quoting someone else's wording",
@@ -457,13 +557,17 @@
       "case":"" },
 
     { id:"hedge-stacking", group:"Language", name:"Stacked hedges",
+      // Its own `fine` line already said a limitations paragraph is the case for
+      // leaving hedges alone. When the heading says so, the tool should not make
+      // the writer read that line twelve times.
+      zoneOff:["falsification"],
       test:function(s,ctx){
-        var m=s.match(/\b(?:may|might|could|possibly|potentially|perhaps|suggests?|appears?|seems?|relatively|somewhat|arguably|presumably|tends? to|it is possible that)\b/gi);
+        var m=s.match(GLOBAL(HEDGE));
         var limit=(ctx.section==="discussion")?4:3;
         return !!m && m.length>=limit;
       },
       shows:function(s){
-        return (s.match(/\b(?:may|might|could|possibly|potentially|perhaps|suggests?|appears?|seems?|relatively|somewhat|arguably|presumably|tends? to|it is possible that)\b/gi)||[]).join(", ").toLowerCase();
+        return (s.match(GLOBAL(HEDGE))||[]).join(", ").toLowerCase();
       },
       why:"Three or more hedges in one sentence. Each is defensible; together they make the claim impossible to disagree with, which also makes it impossible to use.",
       fix:"Keep the one hedge the evidence requires and drop the rest. The threshold is already higher in a Discussion.",
@@ -481,8 +585,12 @@
       "case":"doi-resolves-to-wrong-paper" },
 
     { id:"generalisation", group:"Evidence", name:"Universal generalisation",
+      zoneOff:["falsification"],
       test:function(s){
         if(CITE.test(s)) return false;
+        // A universal is a syntactic form; whether it overreaches is a question
+        // about the sentence's role. These four roles make it legitimate.
+        if(DEFINE.test(s)||BOUNDED.test(s)||NAMED_POSITION.test(s)||DISCLOSURE.test(s)) return false;
         // "all of them", "every one of those": the universal points back at
         // something already named, so it is bounded, not a claim about the world.
         var bare=s.replace(/\b(?:all|every|each|none|neither)\s+(?:one\s+)?of\s+(?:them|those|these|this|us|it|the\s+\w+)/gi," ");
@@ -495,6 +603,10 @@
       "case":"" },
 
     { id:"no-anchor", group:"Evidence", name:"Paragraph with nothing concrete",
+      // A falsification section states the conditions under which the account
+      // fails. It is abstract by design, and asking it for a measurement is
+      // asking it to be a different section.
+      zoneOff:["falsification"],
       para:function(p,sents,ctx){
         if(ctx.section==="abstract") return false;
         if(sents.length<3) return false;
@@ -514,12 +626,15 @@
   function analyse(text, section){
     var ctx={section:section};
     var paras=paragraphs(text);
+    var zone=zones(paras);
     var found=[], total=wordCount(text);
     for(var p=0;p<paras.length;p++){
       var sents=sentences(paras[p]);
+      ctx.zone=zone[p];
       for(var r=0;r<RULES.length;r++){
         var rule=RULES[r];
         if(rule.off && rule.off.indexOf(ctx.section)>=0) continue;
+        if(rule.zoneOff && ctx.zone && rule.zoneOff.indexOf(ctx.zone)>=0) continue;
         if(rule.para){
           if(rule.para(paras[p],sents,ctx)) found.push(hit(rule,p+1,0,paras[p]));
           continue;
@@ -549,7 +664,7 @@
     }
     // document order: paragraph, then sentence, then the order rules are declared
     found.sort(function(a,b){ return a.p-b.p || a.s-b.s || a.order-b.order; });
-    return {items:found, words:total, paras:paras.length};
+    return {items:found, words:total, paras:paras.length, reps:repeats(text,total)};
   }
   function hit(rule,p,s,sentence,shown){
     var order=0; for(var i=0;i<RULES.length;i++) if(RULES[i].id===rule.id){order=i;break;}
@@ -579,11 +694,24 @@
     return (r<10?r.toFixed(1):Math.round(r).toString());
   }
 
+  function repsBlock(res){
+    if(!res.reps||!res.reps.length) return '';
+    var h='<div class="reps"><p class="repshead">Repeated across the whole text</p><div class="repslist">';
+    for(var i=0;i<res.reps.length;i++){
+      var r=res.reps[i];
+      h+='<span class="repchip'+(r.mark?' punct':'')+'">'+esc(r.label)+' <b>×'+r.n+'</b> · '+r.rate+' per 100 words</span>';
+    }
+    h+='</div><p class="repsnote">A count, not a list of faults. One use is a choice; the same word eight times is a habit, '+
+       'and the habit is what a reader meets before the argument does. Em dashes are counted here and never flagged as a finding: '+
+       'punctuation is voice, and this is a density for you to look at, not a tell.</p></div>';
+    return h;
+  }
+
   function render(res){
     var out=$("out");
     if(!res.items.length){
       out.innerHTML='<div class="none"><b>No patterns found in this text.</b> That is not a verdict on the writing. '+
-        'It means none of the documented patterns matched, which is a smaller claim than it looks.</div>';
+        'It means none of the documented patterns matched, which is a smaller claim than it looks.</div>'+repsBlock(res);
       return;
     }
     var by=counts(res), h='';
@@ -596,6 +724,7 @@
     h+='</div>';
     h+='<p class="cnote">In the order you wrote them. Each item is a question about a sentence, not a defect. '+
        'The groups are counted separately and never added up.</p>';
+    h+=repsBlock(res);
     for(var i=0;i<res.items.length;i++){
       var f=res.items[i];
       h+='<div class="find">'+
@@ -631,6 +760,18 @@
       L.push("- "+GROUPS[g]+": "+n+" ("+rate(n,res.words)+" per 100 words)");
     }
     L.push("");
+    if(res.reps&&res.reps.length){
+      L.push("## Repeated across the whole text");
+      L.push("");
+      for(var q=0;q<res.reps.length;q++){
+        var rp=res.reps[q];
+        L.push("- "+rp.label+" ×"+rp.n+" ("+rp.rate+" per 100 words)");
+      }
+      L.push("");
+      L.push("A count, not a list of faults. One use is a choice; the same word eight times is a habit.");
+      L.push("Em dashes are counted and never flagged: punctuation is voice, and this is a density, not a tell.");
+      L.push("");
+    }
     for(var i=0;i<res.items.length;i++){
       var f=res.items[i];
       L.push("- [ ] **"+anchorLabel(f)+" · "+f.name+"**");

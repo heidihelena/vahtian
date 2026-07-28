@@ -124,7 +124,33 @@ surged after ChatGPT" is an authorship claim with the label filed off, which is 
 thing this tool refuses to make. The numbers live here, in the documentation, as the
 provenance of a rule.
 
-## Em dashes are not flagged, on purpose
+## Em dashes are counted and not flagged
+
+**Revised 2026-07-28 on the author's instruction: "Sometime you repeat too many
+times, therefore the ai tells and words like actually should be counted. Em dashes
+as well."** The section below still holds for *flagging* — no rule touches
+punctuation, and none should. What changed is that counting and flagging are now
+two different things.
+
+Repetition is the part the per-sentence rules could not see. Each instance of
+"actually" is one weak word; four of them in a page is the thing a reader actually
+notices, and no finding anchored to one sentence shows it. So every marker the
+rules recognise is tallied across the whole text with a rate per 100 words, in a
+panel that carries no anchors and marks nothing wrong. Em dashes are in that panel
+because a density is worth seeing.
+
+The line that has to hold: a count is not an accusation, and the panel says so on
+the page. If the em dash count ever acquires a threshold, a colour for "too many",
+or a sentence implying what a high number means, it has become the thing this tool
+refuses to be.
+
+The count exposed a bug in the rule it reused. `intensifiers()` required whitespace
+directly after the word, so "Actually, the reviewers agreed" and "Clearly, we need
+X" never matched — the commonest empty use of both, and the exact example this
+README uses to justify the `clearly` exemption. Optional punctuation now sits
+between the word and the next one. The thesis corpus is unchanged by the fix.
+
+## The original decision, which still governs flagging
 
 Wikipedia's *Signs of AI writing* calls em dash overkill "probably the most infamous
 tell". Vahtian's own house style avoids them (`AD_CLAIMS.md`, Punctuation). Neither is a
@@ -177,6 +203,55 @@ sat in the rules unnoticed until the author read the Learn article and named the
 
 Neither change moves the thesis: the corpus produced the same four findings before
 and after. Cost to the article: five sentences rewritten and five words cut.
+
+## Syntactic form is not epistemic status
+
+Reported 2026-07-28, from a run on a philosophy paper: 18 of 24 findings were
+universal generalisations, and 14 of those were wrong. One rule dominating a
+report that heavily is itself the signal.
+
+All 14 fell into four roles, and in each the universal is legitimate:
+
+| Role | Example | Why the rule was wrong |
+|---|---|---|
+| A stipulated definition | the paper's own C1/C2/C3 criteria | Universal by construction. There is nothing to cite it to. |
+| A claim carrying its own bound | "Four are necessary: given the premises, a solver lacking them cannot solve the problem at all." | The bound the checker asked for was already in the sentence. |
+| A hypothesis named, not asserted | the "Constraint" explanation, one of three the paper adjudicates | The claim is under test, not being made. |
+| A falsification condition | five hits inside "How this account could be wrong" | Universals are the point: they are offered for refutation. |
+
+Plus one AI-disclosure declaration, which is a statement about tools and not an
+empirical claim about the world.
+
+The fix reads role rather than shape. `DEFINE`, `BOUNDED`, `NAMED_POSITION` and
+`DISCLOSURE` suppress the rule sentence by sentence. Headings open zones: a
+paragraph of twelve words or fewer that does not end in a full stop and matches
+the falsification vocabulary stands down the universal, hedge-stacking and
+no-anchor rules for every paragraph under it, until the next heading. Hedge
+stacking already carried "this is a limitations paragraph" as its `fine` line;
+when the heading says so, the writer should not have to read that line twelve
+times.
+
+`corpus/roles.txt` is that report, reconstructed from the sentences quoted in it
+— **not the paper itself, which is not in this repo.** Budget zero.
+
+### And one detector bug, from the same report
+
+The split-antithesis rule fired on:
+
+> The world is not fully observed. **This is** the operative uncertainty.
+
+Statement then label, not denial then replacement. The rule matched any "This
+is" after any sentence containing a negation, without checking that the two
+halves concerned the same thing. `DENY` now requires a determiner after the
+negation, so the denial denies a *thing*: "not **a** defensive posture", "not
+**a** writing problem". Bare-noun antitheses ("is not rhythm. It is
+specificity") are missed as a result. That is the trade, and this detector fails
+toward silence.
+
+`corpus/antithesis-true.txt` is the mirror of `roles.txt`: two real split
+antitheses with a floor of two, so a future tightening that silences the rule
+fails the run. A corpus of negative controls can only catch over-firing; the
+floor is what catches a rule going quiet.
 
 ## Running it
 
