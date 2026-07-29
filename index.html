@@ -162,8 +162,11 @@
     .workflow-tool img{display:block;width:34px;height:34px;transform:rotate(-1.5deg)}
     .workflow-tool:nth-child(2) img{transform:rotate(2deg)}
     .workflow-tool:nth-child(3) img{transform:rotate(-.5deg)}
-    .workflow-tool span{min-width:0;text-decoration:underline;text-decoration-color:transparent;text-underline-offset:3px}
-    .workflow-tool:hover span{text-decoration-color:var(--violet)}
+    .workflow-tool span{min-width:0}
+    .workflow-tool b{text-decoration:underline;text-decoration-color:transparent;text-underline-offset:3px}
+    a.workflow-tool:hover b{text-decoration-color:var(--violet)}
+    .workflow-tool small{display:block;margin-top:1px;font:500 11px/1.35 var(--font-mono);color:var(--muted)}
+    .workflow-tool.duo small a{color:var(--link);font-weight:600;text-underline-offset:2px}
     @media(prefers-reduced-motion:reduce){.workflow-tool img{transform:none}}
     @media(max-width:680px){
       .research-workflow{padding-top:10px}
@@ -257,7 +260,7 @@
     #kits .kit:nth-child(3) .rank{transform:rotate(-2deg)}
     #kits .kit .kbody{display:flex;flex-direction:column;align-items:flex-start;gap:9px;min-width:0}
     .see-rest{display:flex;justify-content:center;margin:6px 0 0}
-    .see-rest a{font:600 76px/1 "Marksy","Marker Felt","Bradley Hand","Segoe Print",cursive;color:var(--link);
+    .see-rest a{font:600 34px/1 "Marksy","Marker Felt","Bradley Hand","Segoe Print",cursive;color:var(--link);
       text-decoration:none;display:inline-block;transition:transform .15s ease}
     .see-rest a:hover{transform:translateX(8px)}
     @media(prefers-reduced-motion:reduce){.see-rest a:hover{transform:none}#kits .kit .rank{transform:none}}
@@ -310,7 +313,7 @@
     <h1>Research you can explain and defend.</h1>
     <p class="lede">Local-first tools for researchers: check claims, test assumptions, and document the decisions behind your work.</p>
     <div class="cta">
-      <a class="btn primary" href="/qualivahti-local/">Explore QualiVahti Local</a>
+      <a class="btn primary" href="/qualivahti-local/">Explore QualiVahti Local · €49</a>
       <a class="btn ghost" href="/download/">Download the tools</a>
     </div>
    </div><!-- /hero-copy -->
@@ -332,37 +335,37 @@
           <span class="workflow-step" aria-hidden="true">1</span>
           <h3>Plan</h3>
           <div class="workflow-tools">
-            <a class="workflow-tool" href="/studyvahti/"><img src="brand/marks/studyvahti.svg" alt="" width="34" height="34"><span>StudyVahti</span></a>
-            <a class="workflow-tool" href="/methodvahti/"><img src="brand/marks/methodvahti.svg" alt="" width="34" height="34"><span>MethodVahti</span></a>
-            <a class="workflow-tool" href="/dictvahti/"><img src="brand/marks/dictvahti.svg" alt="" width="34" height="34"><span>DictVahti</span></a>
+            <a class="workflow-tool" href="/studyvahti/"><img src="brand/marks/studyvahti.svg" alt="" width="34" height="34"><span><b>StudyVahti</b><small>protocol checklist</small></span></a>
+            <a class="workflow-tool" href="/methodvahti/"><img src="brand/marks/methodvahti.svg" alt="" width="34" height="34"><span><b>MethodVahti</b><small>sampling &amp; stopping</small></span></a>
+            <a class="workflow-tool" href="/dictvahti/"><img src="brand/marks/dictvahti.svg" alt="" width="34" height="34"><span><b>DictVahti</b><small>data dictionary audit</small></span></a>
           </div>
         </li>
         <li class="workflow-stage">
           <span class="workflow-step" aria-hidden="true">2</span>
           <h3>Analyse</h3>
           <div class="workflow-tools">
-            <a class="workflow-tool" href="/qualivahti-local/"><img src="brand/marks/qualivahti-local.svg" alt="" width="34" height="34"><span>QualiVahti Local</span></a>
-            <a class="workflow-tool" href="https://github.com/heidihelena/assesslite"><img src="brand/marks/assesslite.svg" alt="" width="34" height="34"><span>AssessLite</span></a>
-            <a class="workflow-tool" href="/synthvahti/"><img src="brand/marks/synthvahti.svg" alt="" width="34" height="34"><span>SynthVahti</span></a>
+            <a class="workflow-tool" href="/qualivahti-local/"><img src="brand/marks/qualivahti-local.svg" alt="" width="34" height="34"><span><b>QualiVahti Local</b><small>qualitative workspace</small></span></a>
+            <a class="workflow-tool" href="https://github.com/heidihelena/assesslite"><img src="brand/marks/assesslite.svg" alt="" width="34" height="34"><span><b>AssessLite</b><small>robustness checks</small></span></a>
+            <a class="workflow-tool" href="/synthvahti/"><img src="brand/marks/synthvahti.svg" alt="" width="34" height="34"><span><b>SynthVahti</b><small>agreement synthesis</small></span></a>
           </div>
         </li>
         <li class="workflow-stage">
           <span class="workflow-step" aria-hidden="true">3</span>
           <h3>Check &amp; write</h3>
           <div class="workflow-tools">
-            <a class="workflow-tool" href="/reference-check/"><img src="brand/marks/reference-check.svg" alt="" width="34" height="34"><span>Reference check</span></a>
-            <a class="workflow-tool" href="/matchvahti-lite/"><img src="brand/marks/matchvahti-lite.svg" alt="" width="34" height="34"><span>MatchVahti-Lite</span></a>
-            <a class="workflow-tool" href="/fullvahti/"><img src="brand/marks/fullvahti.svg" alt="" width="34" height="34"><span>FullVahti</span></a>
-            <a class="workflow-tool" href="/citevahti/"><img src="brand/marks/citevahti.svg" alt="" width="34" height="34"><span>CiteVahti</span></a>
+            <a class="workflow-tool" href="/matchvahti-lite/"><img src="brand/marks/matchvahti-lite.svg" alt="" width="34" height="34"><span><b>MatchVahti-Lite</b><small>cite from PubMed</small></span></a>
+            <a class="workflow-tool" href="/fullvahti/"><img src="brand/marks/fullvahti.svg" alt="" width="34" height="34"><span><b>FullVahti</b><small>open-access PDFs</small></span></a>
+            <a class="workflow-tool" href="/citevahti/"><img src="brand/marks/citevahti.svg" alt="" width="34" height="34"><span><b>CiteVahti</b><small>claim–source check</small></span></a>
+            <div class="workflow-tool duo"><img src="brand/marks/reference-check.svg" alt="" width="34" height="34"><span><b>Last-minute checks</b><small><a href="/reference-check/">Reference check</a> · <a href="/pattern-mirror/">Pattern mirror</a></small></span></div>
           </div>
         </li>
         <li class="workflow-stage">
           <span class="workflow-step" aria-hidden="true">4</span>
           <h3>Review</h3>
           <div class="workflow-tools">
-            <a class="workflow-tool" href="/reviewvahti/"><img src="brand/marks/reviewvahti.svg" alt="" width="34" height="34"><span>ReviewVahti</span></a>
-            <a class="workflow-tool" href="/extractvahti/"><img src="brand/marks/extractvahti.svg" alt="" width="34" height="34"><span>ExtractVahti</span></a>
-            <a class="workflow-tool" href="/guidelinevahti/"><img src="brand/marks/guidelinevahti.svg" alt="" width="34" height="34"><span>GuidelineVahti</span></a>
+            <a class="workflow-tool" href="/reviewvahti/"><img src="brand/marks/reviewvahti.svg" alt="" width="34" height="34"><span><b>ReviewVahti</b><small>screening reliability</small></span></a>
+            <a class="workflow-tool" href="/extractvahti/"><img src="brand/marks/extractvahti.svg" alt="" width="34" height="34"><span><b>ExtractVahti</b><small>extraction &amp; risk of bias</small></span></a>
+            <a class="workflow-tool" href="/guidelinevahti/"><img src="brand/marks/guidelinevahti.svg" alt="" width="34" height="34"><span><b>GuidelineVahti</b><small>panel consensus</small></span></a>
           </div>
         </li>
       </ol>
@@ -424,7 +427,7 @@
         </div>
       </div>
     </div>
-    <div class="see-rest"><a href="/kits/" aria-label="See all kits">→</a></div>
+    <div class="see-rest"><a href="/kits/">See all kits <span aria-hidden="true">→</span></a></div>
   </section>
 
 
@@ -519,12 +522,12 @@
   <p class="letter-title marksy">Founder’s field notes</p>
   <p>One research problem, what I tried, what worked, and where it still falls short.</p>
   <form method="POST" action="https://f9b96982.sibforms.com/serve/MUIFAMcTOLX67j69y_fzMLe4ExNUbUCqqmy_bIaYkLFiPRMwrMs5C7CoRKAd-BTNKCFvmeQ2dXjkJT25KHTQAdWqZjaJlMb4M27tl_lyfeSuFFuVnxtTG6dppAXFca1MbKYdgm2iZThi0eSMTmWL97T5YDF65mJrY9hC7OyAP3nkjikq4pf1EgLxTWRJbTj02ncxQ03h3uyrLk8NdQ==">
+    <label style="display:block;margin:0 0 10px;font-size:13.5px;color:#5b5570"><input type="checkbox" name="MARKETING_CONSENT" value="1" required style="margin-right:6px;accent-color:var(--violet)">I agree to receive the monthly letter; my address is processed by <a href="https://www.brevo.com/en/legal/privacypolicy/" rel="noopener nofollow" style="color:#5f479d">Brevo</a> for delivery only.</label>
     <div style="display:flex;flex-wrap:wrap;gap:10px">
       <label for="EMAIL" style="position:absolute;left:-9999px">Email address</label>
       <input type="email" id="EMAIL" name="EMAIL" required placeholder="you@university.fi" style="flex:1 1 220px;padding:11px 14px;border:1px solid #8f849f;border-radius:8px;font-size:15px;color:#1c1830;background:#faf9fc">
-      <button type="submit" style="padding:11px 20px;border:0;border-radius:8px;background:#2D2440;color:#fff;font-weight:650;font-size:15px;cursor:pointer">Subscribe</button>
+      <button type="submit" class="btn primary" style="border:0;cursor:pointer">Subscribe</button>
     </div>
-    <label style="display:block;margin:10px 0 0;font-size:13.5px;color:#5b5570"><input type="checkbox" name="MARKETING_CONSENT" value="1" required style="margin-right:6px">I agree to receive the monthly letter; my address is processed by <a href="https://www.brevo.com/en/legal/privacypolicy/" rel="noopener nofollow" style="color:#5f479d">Brevo</a> for delivery only.</label>
     <input type="text" name="email_address_check" value="" style="position:absolute;left:-9999px" tabindex="-1" autocomplete="off" aria-hidden="true">
     <input type="hidden" name="locale" value="en">
   </form>
