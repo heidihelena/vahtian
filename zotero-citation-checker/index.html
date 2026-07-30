@@ -157,6 +157,7 @@
       <div class="cta" id="downloads" hidden>
         <button class="btn ghost" id="dl-md" type="button">Download report (Markdown)</button>
         <button class="btn ghost" id="dl-csv" type="button">Download findings (CSV)</button>
+        <button class="btn ghost" id="dl-ris" type="button">Recover references (RIS)</button>
       </div>
       <div id="results"></div>
       <p class="privacyline">The report records what these checks observed in the document's Zotero field data; it does not rule out problems they cannot reach. It does not compare records against the publication record. Your file stayed on your machine.</p>
@@ -173,6 +174,7 @@
       <li><b>Flattened citation.</b> Plain text where a live field should be, including citations that lost their link in Google Docs export or under Track Changes.</li>
       <li><b>Numbering gaps.</b> Citation numbers that never appear in the text of a numerically cited manuscript.</li>
       <li><b>Location map.</b> Every finding comes with its part, paragraph, footnote and table location, so you can find the problem in a 250-page thesis.</li>
+      <li><b>Reference recovery.</b> Each live citation field still carries the reference's full bibliographic data, even when the item sits in a co-author's library. One click exports it all as RIS for import into your own Zotero, so you can reconnect the citations instead of retyping the references.</li>
     </ul>
     <p style="margin-top:14px">The checker reads the document only. It changes nothing: every finding comes with the Zotero and Word steps to repair it yourself.</p>
   </section>
@@ -195,6 +197,10 @@
       <details>
         <summary>Old citations come back after refresh</summary>
         <p>Often a duplicate item: you deleted one citation but the same work is still cited through a second Zotero item elsewhere. The duplicate-publication check shows every location where each work is cited, so you can see which fields to remove or merge.</p>
+      </details>
+      <details>
+        <summary>Recover references from someone else's document</summary>
+        <p>Editing a co-author's manuscript is where links break: the citations point at their Zotero library, so on your machine a refresh cannot resolve them, and one wrong move flattens them for good. The recovery flow: drop the .docx here, click <b>Recover references (RIS)</b>, and import that file into Zotero (File &gt; Import). Now the works exist in your library, and the report's location map shows you exactly which citations to re-insert where. Only live citation fields carry recoverable data; fields already flattened to plain text or with damaged data hold nothing to export, and the report lists those separately.</p>
       </details>
       <details>
         <summary>How do I check all citations in a thesis before submission?</summary>
@@ -245,6 +251,7 @@
   import { extractDocx } from './docx-extract.js';
   import { runChecks } from './checks.js';
   import { buildMarkdown, buildCsv, locationText } from './report.js';
+  import { collectWorks, buildRis } from './ris.js';
 
   const drop = document.getElementById('drop');
   const input = document.getElementById('file');
@@ -337,6 +344,15 @@
   document.getElementById('dl-csv').addEventListener('click', () => {
     if (!lastResult) return;
     download('citation-integrity-findings.csv', 'text/csv', buildCsv(lastResult));
+  });
+  document.getElementById('dl-ris').addEventListener('click', () => {
+    if (!lastExtracted) return;
+    const works = collectWorks(lastExtracted.citations);
+    if (!works.length) {
+      alert('No recoverable references: every citation field in this document is either broken or already flattened to plain text, so no bibliographic data is left to export.');
+      return;
+    }
+    download('recovered-references.ris', 'application/x-research-info-systems', buildRis(works));
   });
 
   async function handle(file) {
