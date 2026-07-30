@@ -99,6 +99,9 @@
     .drop p{margin:0 0 6px;font-weight:600;font-size:16px}
     .drop .sub{font-weight:400;font-size:13.5px;color:var(--muted)}
     .drop input{display:none}
+    .cta{display:flex;flex-wrap:wrap;gap:12px;margin:0 0 16px}
+    .btn{display:inline-block;padding:11px 18px;border-radius:9px;font-weight:600;text-decoration:none;font-size:15px;cursor:pointer}
+    .btn.ghost{border:1px solid var(--line);color:var(--ink);background:var(--card);font:inherit;font-weight:600}
     .drop.lib{margin-top:12px;padding:18px 22px;border-style:dotted;border-color:var(--line)}
     .drop.lib p{font-size:14.5px}
     #libstatus{color:var(--teal-text);font-weight:600}
@@ -151,6 +154,10 @@
     <section style="border-top:none;padding-top:20px;margin-top:6px">
       <h2>Citation Integrity Report</h2>
       <div class="summaryline" id="summary"></div>
+      <div class="cta" id="downloads" hidden>
+        <button class="btn ghost" id="dl-md" type="button">Download report (Markdown)</button>
+        <button class="btn ghost" id="dl-csv" type="button">Download findings (CSV)</button>
+      </div>
       <div id="results"></div>
       <p class="privacyline">This report records what the checker observed in the document's Zotero field data. It has no live connection to your Zotero library (the optional export is read locally, like the manuscript), does not compare records against the publication record, and does not rule out problems these checks cannot reach. The document was processed locally and was not uploaded.</p>
     </section>
@@ -237,6 +244,7 @@
 <script type="module">
   import { extractDocx } from './docx-extract.js';
   import { runChecks } from './checks.js';
+  import { buildMarkdown, buildCsv, locationText } from './report.js';
 
   const drop = document.getElementById('drop');
   const input = document.getElementById('file');
@@ -257,21 +265,15 @@
     'unmatchable-item': 'Items the checker could not match',
   };
 
-  function locText(l) {
-    if (!l) return '';
-    const bits = [l.part];
-    if (l.footnoteId != null) bits.push(`footnote ${l.footnoteId}`);
-    if (l.paragraph >= 0) bits.push(`paragraph ${l.paragraph + 1}`);
-    if (l.inTable) bits.push('in a table');
-    if (l.context) bits.push(`“${l.context}”`);
-    return bits.join(' · ');
-  }
-
   let lastExtracted = null;
+  let lastResult = null;
+  let lastFilename = 'manuscript.docx';
   let library = null;
 
   function render(extracted) {
     const { findings, summary } = runChecks(extracted, { library });
+    lastResult = { findings, summary };
+    document.getElementById('downloads').hidden = false;
     const flags = findings.filter((f) => f.level === 'flag').length;
     const notes = findings.length - flags;
     summaryEl.textContent =
@@ -312,7 +314,7 @@
         for (const l of locs) {
           const s = document.createElement('span');
           s.className = 'loc';
-          s.textContent = locText(l);
+          s.textContent = locationText(l);
           card.appendChild(s);
         }
         resultsEl.appendChild(card);
@@ -320,8 +322,26 @@
     }
   }
 
+  function download(name, mime, text) {
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([text], { type: mime }));
+    a.download = name;
+    a.click();
+    URL.revokeObjectURL(a.href);
+  }
+  document.getElementById('dl-md').addEventListener('click', () => {
+    if (!lastResult) return;
+    download('citation-integrity-report.md', 'text/markdown',
+      buildMarkdown({ ...lastResult, filename: lastFilename, date: new Date().toISOString().slice(0, 10) }));
+  });
+  document.getElementById('dl-csv').addEventListener('click', () => {
+    if (!lastResult) return;
+    download('citation-integrity-findings.csv', 'text/csv', buildCsv(lastResult));
+  });
+
   async function handle(file) {
     if (!file) return;
+    lastFilename = file.name || lastFilename;
     try {
       const bytes = new Uint8Array(await file.arrayBuffer());
       lastExtracted = await extractDocx(bytes);
