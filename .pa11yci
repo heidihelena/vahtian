@@ -66,6 +66,7 @@
     "http://127.0.0.1:8080/reviewvahti/",
     "http://127.0.0.1:8080/cite/",
     "http://127.0.0.1:8080/privacy/",
+    "http://127.0.0.1:8080/accessibility/",
     "http://127.0.0.1:8080/kits/",
     "http://127.0.0.1:8080/auditlite/",
     "http://127.0.0.1:8080/citevahti/privacy/",
