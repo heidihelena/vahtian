@@ -142,7 +142,7 @@
   <label class="drop" id="drop">
     <input type="file" id="file" accept=".docx">
     <p>Drop your .docx here, or click to choose it</p>
-    <p class="sub">Word documents written with the Zotero plugin. Processed locally; nothing is sent anywhere.</p>
+    <p class="sub">A .docx written with the Zotero plugin. Writing in Google Docs? File &gt; Download &gt; Microsoft Word (.docx) first. Processed locally; nothing is sent anywhere.</p>
   </label>
   <label class="drop lib" id="libdrop">
     <input type="file" id="libfile" accept=".json">
@@ -159,7 +159,7 @@
         <button class="btn ghost" id="dl-csv" type="button">Download findings (CSV)</button>
       </div>
       <div id="results"></div>
-      <p class="privacyline">This report records what the checker observed in the document's Zotero field data. It has no live connection to your Zotero library (the optional export is read locally, like the manuscript), does not compare records against the publication record, and does not rule out problems these checks cannot reach. The document was processed locally and was not uploaded.</p>
+      <p class="privacyline">The report records what these checks observed in the document's Zotero field data; it does not rule out problems they cannot reach. It does not compare records against the publication record. Your file stayed on your machine.</p>
     </section>
   </div>
 
@@ -204,9 +204,9 @@
   </section>
 
   <section>
-    <h2>How it works, honestly</h2>
+    <h2>How it works</h2>
     <p>A Word document stores each Zotero citation as a field with the reference's data inside it. The checker reads those fields directly, in your browser, and cross-checks them against each other and against the reference list in the same document. It is rule-based: no AI reads your manuscript, and the document never leaves your machine.</p>
-    <p><b>What it cannot do from the browser:</b> it has no live connection to your Zotero library. If you add an exported copy (CSL JSON, read locally like the manuscript), it can also check that every cited work still exists in the library; without the export, that question stays open. It does not compare records against Crossref or PubMed. Those checks run in <a href="/fullvahti/">FullVahti</a>, the free Zotero plugin, which can also check your references for retractions and metadata mismatches from inside Zotero itself. And whether each cited source actually supports the claim it is attached to is a different question again; that one is <a href="/citevahti/">CiteVahti</a>'s.</p>
+    <p><b>What it cannot do from the browser:</b> it has no live connection to your Zotero library. If you add an exported copy (CSL JSON, read locally like the manuscript), it can also check that every cited work still exists in the library. It does not compare records against Crossref or PubMed. Those checks run in <a href="/fullvahti/">FullVahti</a>, the free Zotero plugin, which can also check your references for retractions and metadata mismatches from inside Zotero itself. Whether each cited source supports the claim it is attached to is <a href="/citevahti/">CiteVahti</a>'s question.</p>
   </section>
 
 </main>
