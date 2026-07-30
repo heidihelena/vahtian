@@ -60,6 +60,7 @@
     "http://127.0.0.1:8080/studyvahti/",
     "http://127.0.0.1:8080/about/",
     "http://127.0.0.1:8080/fullvahti/",
+    "http://127.0.0.1:8080/zotero-citation-checker/",
     "http://127.0.0.1:8080/synthvahti/",
     "http://127.0.0.1:8080/extractvahti/",
     "http://127.0.0.1:8080/reviewvahti/",

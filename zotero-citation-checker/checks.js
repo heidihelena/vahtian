@@ -129,23 +129,28 @@ export function runChecks(extracted) {
     const entriesNorm = bibliography.entries.map(normText);
     const entryMatched = new Array(entriesNorm.length).fill(false);
 
-    const findEntry = (item) => {
-      const title = normText(item.itemData?.title);
-      const author = normText(firstAuthorFamily(item.itemData));
-      const year = itemYear(item.itemData);
-      for (let i = 0; i < entriesNorm.length; i++) {
-        const e = entriesNorm[i];
-        if (title && e.includes(title)) return i;
-        if (author && year && e.includes(author) && e.includes(year)) return i;
-      }
-      return -1;
-    };
+    // Pass 1: title match (the reliable signal). Pass 2, only for items whose
+    // field data has no title at all: first author + year, and only against
+    // entries no titled work claimed. A titled work never falls back, because
+    // author+year alone cannot tell two same-author-same-year papers apart.
+    const matchedAt = new Map();
+    for (const [key, w] of works) {
+      const title = normText(w.sample.itemData?.title);
+      if (!title) continue;
+      const at = entriesNorm.findIndex((e) => e.includes(title));
+      if (at >= 0) { matchedAt.set(key, at); entryMatched[at] = true; }
+    }
+    for (const [key, w] of works) {
+      if (matchedAt.has(key) || normText(w.sample.itemData?.title)) continue;
+      const author = normText(firstAuthorFamily(w.sample.itemData));
+      const year = itemYear(w.sample.itemData);
+      if (!author || !year) continue;
+      const at = entriesNorm.findIndex((e, i) => !entryMatched[i] && e.includes(author) && e.includes(year));
+      if (at >= 0) { matchedAt.set(key, at); entryMatched[at] = true; }
+    }
 
-    for (const [, w] of works) {
-      const at = findEntry(w.sample);
-      if (at >= 0) {
-        entryMatched[at] = true;
-      } else {
+    for (const [key, w] of works) {
+      if (!matchedAt.has(key)) {
         missingFromBib++;
         findings.push({
           kind: 'missing-bibliography-entry',
