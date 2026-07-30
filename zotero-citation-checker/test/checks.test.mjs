@@ -151,6 +151,43 @@ test('flattened suspects pass through; google-docs link is a flag', () => {
   assert.equal(findings.find((f) => f.kind === 'google-docs-flattened').level, 'flag');
 });
 
+test('orphan: cited work absent from library export is flagged', () => {
+  const { findings, summary } = runChecks(base({
+    citations: [cit({ title: 'Gone From Library', doi: '10.4/gone' })],
+    bibliography: bib(['1. Smith A. Gone From Library. 2020.']),
+  }), { library: [{ id: 'x1', title: 'Some Other Item', DOI: '10.4/other' }] });
+  const o = findings.find((f) => f.kind === 'orphan-citation');
+  assert.ok(o);
+  assert.equal(o.level, 'flag');
+  assert.match(o.message, /Gone From Library/);
+  assert.equal(summary.libraryChecked, true);
+});
+
+test('orphan: DOI match is case-insensitive and prefix-tolerant', () => {
+  const { findings } = runChecks(base({
+    citations: [cit({ doi: '10.4/InLib' })],
+    bibliography: bib(['1. Smith A. Test Paper. 2020.']),
+  }), { library: [{ id: 'x1', title: 'Different Title In Library', DOI: 'https://doi.org/10.4/inlib' }] });
+  assert.ok(!findings.some((f) => f.kind === 'orphan-citation'));
+});
+
+test('orphan: title match works when the cited item has no DOI', () => {
+  const { findings } = runChecks(base({
+    citations: [cit({ title: 'Chapter Without DOI', doi: null })],
+    bibliography: bib(['1. Smith A. Chapter Without DOI. 2020.']),
+  }), { library: [{ id: 'x1', title: 'Chapter without DOI' }] });
+  assert.ok(!findings.some((f) => f.kind === 'orphan-citation'));
+});
+
+test('no library given: no orphan findings, summary says unchecked', () => {
+  const { findings, summary } = runChecks(base({
+    citations: [cit()],
+    bibliography: bib(['1. Smith A. Test Paper. 2020.']),
+  }));
+  assert.ok(!findings.some((f) => f.kind === 'orphan-citation'));
+  assert.equal(summary.libraryChecked, false);
+});
+
 test('summary counts add up', () => {
   const { summary } = runChecks(base({
     citations: [

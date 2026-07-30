@@ -7,10 +7,14 @@
  * 'note' (worth a human look). Nothing here certifies the absence of
  * citation problems.
  *
- * runChecks(extracted) -> {
+ * runChecks(extracted, opts?) -> {
  *   findings: [{ kind, level, message, location?, citations?, entry? }],
  *   summary:  { citationsChecked, uniqueWorks, worksWithFlags, counts }
  * }
+ *
+ * opts.library: optional CSL-JSON array (Zotero: File > Export Library,
+ * format CSL JSON). When present, each cited work is also looked up in it
+ * (DOI first, else normalized title) and orphans are flagged.
  */
 
 // ------------------------------------------------------- normalization ----
@@ -57,9 +61,10 @@ function itemIdentity(item) {
 
 // ------------------------------------------------------------- checks ----
 
-export function runChecks(extracted) {
+export function runChecks(extracted, opts = {}) {
   const findings = [];
   const { citations, bibliography, flattenedSuspects } = extracted;
+  const library = Array.isArray(opts.library) ? opts.library : null;
 
   // Broken fields first: they carry no usable metadata.
   let broken = 0;
@@ -111,6 +116,34 @@ export function runChecks(extracted) {
         message: `"${w.sample.itemData?.title ?? 'Untitled work'}" is cited through ${w.items.size} different Zotero items, so it can appear more than once in the bibliography. Merge the duplicates in Zotero (select both, right-click, Merge Items), then refresh the document.`,
         citations: w.citations.map((c) => c.location),
       });
+    }
+  }
+
+  // Library matching (optional): is each cited work present in the exported
+  // Zotero library? DOI first, else normalized title.
+  let orphans = 0;
+  if (library) {
+    const byDoi = new Set();
+    const byTitle = new Set();
+    for (const it of library) {
+      const d = normDoi(it?.DOI);
+      if (d) byDoi.add(d);
+      const t = normText(it?.title);
+      if (t) byTitle.add(t);
+    }
+    for (const [, w] of works) {
+      const doi = normDoi(w.sample.itemData?.DOI);
+      const title = normText(w.sample.itemData?.title);
+      const inLibrary = (doi && byDoi.has(doi)) || (title && byTitle.has(title));
+      if (!inLibrary) {
+        orphans++;
+        findings.push({
+          kind: 'orphan-citation',
+          level: 'flag',
+          message: `"${w.sample.itemData?.title ?? 'Untitled work'}" is cited in the manuscript but no matching item was found in the exported library (looked up by DOI, then title). The item may have been deleted or renamed in Zotero, or the citation came from someone else's library; refresh will then fail or re-create it.`,
+          citations: w.citations.map((c) => c.location),
+        });
+      }
     }
   }
 
@@ -217,7 +250,7 @@ export function runChecks(extracted) {
   const counts = {};
   for (const f of findings) counts[f.kind] = (counts[f.kind] || 0) + 1;
 
-  const worksWithFlags = duplicateWorks + missingFromBib;
+  const worksWithFlags = duplicateWorks + missingFromBib + orphans;
   return {
     findings,
     summary: {
@@ -226,6 +259,7 @@ export function runChecks(extracted) {
       worksWithFlags,
       brokenFields: broken,
       uncitedEntries,
+      libraryChecked: !!library,
       counts,
     },
   };
