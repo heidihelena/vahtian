@@ -100,3 +100,5 @@ The server checks reproducibility and records who did what; it does not judge
 evidence or establish truth.
 
 `vahti` (Finnish) = sentinel / guard. Human-first. AI-second. Auditable. Apache-2.0.
+
+<!-- mcp-name: io.github.heidihelena/vahtian -->

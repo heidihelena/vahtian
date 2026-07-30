@@ -1,0 +1,21 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.heidihelena/vahtian",
+  "title": "Vahtian",
+  "description": "Reproducibility core over MCP: freeze a corpus with content hashes, check it later for drift, and keep a hash-chained append-only audit ledger. Local stdio server, stdlib-only core; corpora and ledgers stay on the user's machine. The server checks reproducibility and records who did what; it does not judge evidence or establish truth.",
+  "repository": {
+    "url": "https://github.com/heidihelena/vahtian",
+    "source": "github"
+  },
+  "version": "0.2.0",
+  "packages": [
+    {
+      "registryType": "pypi",
+      "identifier": "vahtian",
+      "version": "0.2.0",
+      "transport": {
+        "type": "stdio"
+      }
+    }
+  ]
+}
