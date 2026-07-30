@@ -81,12 +81,35 @@ test('reference-list entry matching no citation is uncited (note level)', () => 
   assert.equal(summary.uncitedEntries, 1);
 });
 
-test('entry matching by author+year passes even when title differs in the entry', () => {
+test('title match is case- and diacritic-insensitive', () => {
   const { findings } = runChecks(base({
-    citations: [cit({ title: 'Long Title That The Style Abbreviated Away', doi: null, year: 2021 })],
-    bibliography: bib(['1. Smith A. Long title that the style abbreviated away. 2021;12:1-9.']),
+    citations: [cit({ title: 'Long Title That The Style Changed The Case Of', doi: null, year: 2021 })],
+    bibliography: bib(['1. Smith A. Long title that the style changed the case of. 2021;12:1-9.']),
   }));
   assert.ok(!findings.some((f) => f.kind === 'missing-bibliography-entry'));
+});
+
+test('untitled item with DOI falls back to author+year against unclaimed entries', () => {
+  const noTitle = cit({ doi: '10.7/untitled', year: 2022 });
+  noTitle.items[0].itemData.title = undefined;
+  const { findings } = runChecks(base({
+    citations: [noTitle],
+    bibliography: bib(['1. Smith A. Some Entry Text. 2022.']),
+  }));
+  assert.ok(!findings.some((f) => f.kind === 'missing-bibliography-entry'));
+});
+
+test('same author and year, different work: missing entry is still flagged', () => {
+  const { findings } = runChecks(base({
+    citations: [
+      cit({ id: 1, key: 'K1', doi: '10.1/a', title: 'Alpha Paper' }),
+      cit({ id: 2, key: 'K2', doi: '10.9/z', title: 'Vanished Work', label: '[2]' }),
+    ],
+    bibliography: bib(['1. Smith A. Alpha Paper. 2020.']),
+  }));
+  const miss = findings.find((f) => f.kind === 'missing-bibliography-entry');
+  assert.ok(miss, 'Vanished Work must not be swallowed by an author+year match on the Alpha entry');
+  assert.match(miss.message, /Vanished Work/);
 });
 
 test('citations without any bibliography field yield a single note', () => {
