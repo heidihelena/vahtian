@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Accessibility, what we test and how to report a barrier · Vahtian</title>
+  <meta name="description" content="How vahtian.com approaches accessibility: WCAG 2.2 AA as the working target, automated checks on every change, and how to report a barrier.">
+  <meta name="theme-color" content="#2D2440">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="canonical" href="https://vahtian.com/accessibility/">
+  <meta name="robots" content="index,follow">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://vahtian.com/accessibility/">
+  <meta property="og:title" content="Accessibility, what we test and how to report a barrier · Vahtian">
+  <meta property="og:description" content="WCAG 2.2 AA as the working target, automated checks on every change, and how to report a barrier. How vahtian.com approaches accessibility.">
+  <meta property="og:image" content="https://vahtian.com/brand/cards/vahtian-share-card.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Vahtian.com — Your future reviewer has questions. Good. Show your work.">
+  <meta property="og:site_name" content="Vahtian">
+  <meta name="twitter:card" content="summary_large_image">
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"WebPage",
+    "name":"Accessibility — Vahtian",
+    "url":"https://vahtian.com/accessibility/",
+    "description":"How vahtian.com approaches accessibility: WCAG 2.2 AA as the working target, automated checks on every change, and how to report a barrier.",
+    "isPartOf":{"@type":"WebSite","name":"Vahtian","url":"https://vahtian.com/"},
+    "publisher":{"@type":"Organization","name":"Vahtian","url":"https://vahtian.com/"}
+  }
+  </script>
+  <style>
+
+    *{box-sizing:border-box}
+    body{margin:0;font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,ui-sans-serif,system-ui,sans-serif;color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased}
+    a{color:var(--link)}
+    .wrap{max-width:760px;margin:0 auto;padding:0 22px}
+    header{padding:26px 0 6px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+    .brand{font-weight:700;font-size:18px}
+    .up{font-size:13px;color:var(--muted);text-decoration:none}
+    h1{font-size:clamp(28px,5vw,38px);line-height:1.15;letter-spacing:-.02em;margin:26px 0 6px}
+    .upd{color:var(--muted);font-size:14px;margin:0 0 22px}
+    h2{font-size:19px;margin:30px 0 10px}
+    .note{color:#3a3450;font-size:15px}
+    ul{padding-left:20px}
+    li{margin:6px 0}
+    footer{padding:30px 0 50px;color:var(--muted);font-size:13px;border-top:1px solid var(--line);margin-top:36px}
+    footer a{color:var(--muted)}
+
+    /* site nav */
+    nav.nav{display:flex;align-items:center;gap:16px;flex-wrap:wrap;font-size:14.5px}
+    nav.nav a{color:#1c1830;text-decoration:none;font-weight:600}
+    nav.nav a:hover{color:#5f479d}
+    nav.nav .util{display:flex;align-items:center;gap:13px;padding-left:15px;border-left:1px solid #e7e3f0}
+    nav.nav .util .ic{display:flex;color:#514a68}
+    nav.nav .util .ic:hover{color:#5f479d}
+    @media(max-width:680px){nav.nav{gap:13px;font-size:13.5px}}
+  </style>
+  <link rel="stylesheet" href="../brand/site-refresh.css">
+<link rel="stylesheet" href="../brand/footer.css">
+</head>
+<body class="vh-content">
+<a class="skip-link" href="#main-content">Skip to main content</a>
+<div class="wrap">
+  <header>
+    <a class="brand" href="/" style="text-decoration:none;color:inherit">Vahtian</a>
+    <nav class="nav" aria-label="Primary">
+      <a href="/kits/">Kits</a>
+      <a href="/download/">Tools</a>
+      <a href="/learn/">Learn</a>
+      <a href="/blog/">Blog</a>
+      <a href="/about/">About</a>
+      <span class="util">
+        <a class="ic" href="/search/" aria-label="Search vahtian.com"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.3" y2="16.3"/></svg></a>
+      </span>
+    </nav>
+  </header>
+<main id="main-content">
+
+  <p class="page-kicker">Accessibility, plainly</p>
+  <h1>What we test for, and what to tell us about.</h1>
+  <p class="upd">Last updated 30 July 2026.</p>
+
+  <p class="note"><b>The short version.</b> vahtian.com is built to the Web Content
+  Accessibility Guidelines (WCAG) 2.2, level AA. Automated accessibility checks run on
+  every change before it ships. Automated checks do not catch everything, so if something
+  on this site blocks you, <a href="#report">tell us</a> and we will fix it or explain
+  why we cannot.</p>
+
+  <h2>Our target</h2>
+  <p>The working standard for this site is <b>WCAG 2.2 level AA</b>, the level referenced
+  by the European accessibility standard EN 301 549. We publish this statement voluntarily,
+  because a site about making research decisions inspectable should hold its own work to
+  the same rule: state the standard, show the checks, keep a record.</p>
+
+  <h2>What the site does</h2>
+  <ul>
+    <li><b>Keyboard first.</b> Every page carries a skip-to-content link, interactive
+      controls are reachable and operable by keyboard, and focus stays visible.</li>
+    <li><b>Motion respects your settings.</b> Animations — including the homepage
+      lighthouse illustration — are paused or never started when your system asks for
+      reduced motion (WCAG 2.2, SC 2.3.3).</li>
+    <li><b>Screen-reader hygiene.</b> Semantic HTML with one heading per page at the top
+      level, labelled landmarks, accessible names on icon-only controls, and decorative
+      graphics hidden from assistive technology.</li>
+    <li><b>No third parties.</b> The site makes no external requests — no CDN scripts,
+      no tracking, no font servers — so no third-party script or outage can take the
+      page down with it.</li>
+    <li><b>Readable at any size.</b> Responsive layout with relative units; text reflows
+      rather than clipping when you zoom.</li>
+  </ul>
+
+  <h2>How we test</h2>
+  <p>Two checks run in continuous integration on every change:</p>
+  <ul>
+    <li><b>pa11y-ci</b> tests the public pages against WCAG 2.2 AA. A failure blocks the
+      change from shipping.</li>
+    <li><b>Lighthouse</b> tracks accessibility, performance, and SEO budgets over time.</li>
+  </ul>
+  <p>We also review pages by hand — keyboard walk-throughs and reduced-motion checks —
+  when they change. What we have <b>not</b> done yet is a full independent manual audit
+  with assistive-technology users. Automated tools find only part of what real users hit,
+  so we do not claim full conformance; we claim a target, a test suite, and a way to
+  reach us when the suite misses something.</p>
+
+  <h2>Known limitations</h2>
+  <ul>
+    <li>The interactive demos and in-browser tools are more complex than the content
+      pages and are the most likely place for gaps. Reports about them get priority.</li>
+    <li>Some figures in Learn articles carry brief alternative text rather than full
+      data equivalents.</li>
+    <li>Downloadable documents (kits, templates) are separate files and may not be fully
+      tagged for assistive technology.</li>
+  </ul>
+
+  <h2>Scope</h2>
+  <p>This statement covers the website <b>vahtian.com</b>, including the pages, demos, and
+  in-browser tools served here. The downloadable applications are separate software; we
+  apply the same principles there, and accessibility issues in them can be reported the
+  same way, or on <a href="https://github.com/heidihelena/vahtian/issues">GitHub</a>.</p>
+
+  <h2 id="report">Report a barrier</h2>
+  <p>If any part of this site is hard or impossible for you to use, email
+  <a href="mailto:hello@vahtian.com">hello@vahtian.com</a> with "Accessibility" in the
+  subject line, or open an issue on
+  <a href="https://github.com/heidihelena/vahtian/issues">GitHub</a>. Say what you were
+  trying to do, on which page, and with what browser or assistive technology if you know
+  it. A barrier that blocks a task goes to the front of the queue.</p>
+
+  <h2>Changes</h2>
+  <p>When the site's accessibility posture changes — a new test, a fixed limitation, a
+  new known issue — we will update this page and the date above.</p>
+</main>
+
+  <footer class="vh-footer">
+  <div class="vh-footer-shell">
+    <div class="vh-footer-main">
+      <div>
+        <p class="vh-footer-name">Vahtian</p>
+        <p class="vh-footer-tagline">Local-first tools for research decisions you can explain. Built in Finland by Heidi Andersén, MD, PhD.</p>
+      </div>
+      <nav class="vh-footer-links" aria-label="Footer">
+        <a href="/download/">Tools</a>
+        <a href="/kits/">Kits</a>
+        <a href="/learn/">Learn</a>
+        <a href="/blog/">Blog</a>
+        <a href="/about/">About</a>
+        <a href="/agents/">For agents</a>
+        <a href="/cite/">Cite</a>
+        <a href="/support/">Support</a>
+        <a href="/privacy/">Privacy</a>
+        <a href="/accessibility/">Accessibility</a>
+      </nav>
+    </div>
+    <p class="vh-footer-disclaimer">Vahtian keeps human judgment visible and research decisions open to review. It does not establish scientific truth.</p>
+    <div class="vh-footer-meta">
+      <span>© 2026 Vahtian</span>
+      <a href="/LICENSE">Apache-2.0 open core</a>
+      <a href="https://github.com/heidihelena/vahtian">GitHub <span aria-hidden="true">↗</span></a>
+      <a href="mailto:hello@vahtian.com">hello@vahtian.com</a>
+    </div>
+  </div>
+</footer>
+</div>
+</body>
+</html>
