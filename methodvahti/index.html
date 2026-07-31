@@ -222,7 +222,7 @@
       <dl>
         <dt>You get</dt><dd>A planned N as a <em>range</em> from three models, a saturation expectation, and the methods paragraph for your protocol.</dd>
         <dt>It asks</dt><dd>Your orientation, how varied the sample is, target analytic depth, and any pilot signal.</dd>
-        <dt>Our stance</dt><dd>A defensible range with the reasoning, not a single magic number.</dd>
+        <dt>Our stance</dt><dd>A defensible range with the reasoning shown.</dd>
       </dl>
       <div class="pcta">
         <a class="btn primary" href="/methodvahti/explore/">Open the planning explorer →</a>
@@ -233,7 +233,7 @@
 
   <section class="method-section" id="deliverable">
     <h2>What you leave with</h2>
-    <p class="section-intro">Not a score to paste into a paper. A methods argument you can edit, question, and take responsibility for.</p>
+    <p class="section-intro">A methods argument you can edit, question, and take responsibility for.</p>
     <div class="deliverables">
       <div class="deliverable"><h3>A reasoned range</h3><p>Three models shown together, with the assumptions and sensitivity visible.</p></div>
       <div class="deliverable"><h3>Methods wording</h3><p>Draft text for a protocol, ethics application, manuscript, or reviewer response.</p></div>
@@ -273,16 +273,29 @@
 
   <section class="method-section method-offer" id="access">
     <p class="method-price">€49 · one payment</p>
-    <h2>Take the full decision record with you</h2>
-    <p class="section-intro">The Sample Defence Pack is for the point where exploring is no longer enough and the reasoning has to survive a protocol, manuscript, or reviewer.</p>
+    <h2>The Sample Defence Pack: what is in the box</h2>
+    <p class="section-intro">One zip, eight files, for the point where exploring is no longer enough and the reasoning has to survive a protocol, manuscript, or reviewer. Everything opens on your machine.</p>
     <ul>
-      <li><strong>Sample Defence Builder:</strong> a six-step local HTML tool.</li>
-      <li><strong>Adequacy log:</strong> recruitment, coverage, stopping decisions, and planned-versus-achieved reconciliation.</li>
-      <li><strong>Methods and response templates:</strong> editable Markdown, a worked example, and a concise terminology guide.</li>
-      <li><strong>No subscription:</strong> download it, keep it, and work offline.</li>
+      <li><strong><code>sample-defence-builder.html</code>:</strong> the main tool. Six steps in your browser: study and methodology, sampling logic, adequacy and stopping rationale, coverage matrix, recruitment and stopping log, then review and export. The export is your methods wording and a reviewer defence sheet, in Markdown you can edit; your study saves as a plain file you can reopen and version.</li>
+      <li><strong><code>ai-use-audit.html</code>:</strong> records what role AI was allowed at each stage of the study and what it actually did, so your disclosure matches your practice.</li>
+      <li><strong><code>adequacy-log.xlsx</code>:</strong> recruitment, coverage, stopping decisions, and planned-versus-achieved reconciliation.</li>
+      <li><strong><code>methods-and-defence-templates.md</code>:</strong> editable wording for the protocol sampling section, adequacy branches by tradition, a reviewer-response variant, the six-question reviewer defence sheet, and the design defensibility profile (new in v1.1).</li>
+      <li><strong>Three PDFs:</strong> a quickstart, a worked example carried end to end, and a terminology guide that maps your analytic tradition to the adequacy and stopping concepts compatible with it.</li>
     </ul>
     <a class="btn primary" href="https://buy.polar.sh/polar_cl_IT34p8blgA7TYMD174LHb7WLqyV89dhU8Bpa82qLpWq" rel="noopener">Get the Sample Defence Pack · €49</a>
     <p style="margin:14px 0 0;color:var(--method-muted);font-size:13px">It never states that saturation was reached for you. Fourteen-day refund if the pack does not give you a clearer sampling section.</p>
+  </section>
+
+  <section class="method-section" id="technical">
+    <h2>Technical details</h2>
+    <p class="section-intro">The exact facts, for the researcher, the IT review, or the AI agent evaluating the pack.</p>
+    <ul>
+      <li><strong>Format:</strong> two self-contained HTML tools that open in any modern browser, one Markdown template file, one .xlsx log, three PDFs, and LICENSE.txt. Nothing to install.</li>
+      <li><strong>Network:</strong> zero network calls in both tools, counted: no fetch, no XMLHttpRequest, no external URLs. Study details never leave the browser.</li>
+      <li><strong>Data:</strong> the builder saves your study as a plain-text <code>.mvstudy.json</code> you can back up and version; exports are Markdown and plain text.</li>
+      <li><strong>Delivery and licence:</strong> zip download through Polar checkout. One personal licence, 1.x updates free, no account, no subscription, no telemetry.</li>
+      <li><strong>Open method:</strong> the sampling models and the defensibility classification are open source in the <a href="https://github.com/heidihelena/vahtian/tree/main/methodvahti">methodvahti module</a>; <a href="https://github.com/heidihelena/vahtian/blob/main/methodvahti/VALIDATION.md">VALIDATION.md</a> states what is and is not yet validated.</li>
+    </ul>
   </section>
 
   <section class="method-section">
@@ -298,9 +311,10 @@
   </section>
 
   <section class="method-section" id="learn">
-    <h2>Read the method, not a product FAQ</h2>
+    <h2>Read the method</h2>
     <p class="section-intro">The fuller explanations belong in Learn, where they can be read and cited without sitting inside a sales page.</p>
     <div class="method-link-list">
+      <a href="/learn/defend-qualitative-sample-size/"><b>How do I justify my qualitative sample size?</b><span>The question this page exists to answer, walked through in full.</span></a>
       <a href="/learn/code-vs-meaning-saturation/"><b>Code and meaning saturation</b><span>Two different claims about when qualitative data may be enough.</span></a>
       <a href="/learn/three-questions-qualitative-rigour/"><b>Three questions of rigour</b><span>What counts as knowledge, who interprets, and how the claim is made credible.</span></a>
       <a href="/learn/ai-qualitative-coding-human-review/"><b>AI coding with human review</b><span>What a model may suggest and what remains an analytic decision.</span></a>
@@ -348,7 +362,7 @@ var SITS = {
     voice: "“I’m writing the protocol and need an N I can defend.”",
     get: "A planned N as a <em>range</em> from three models, a saturation expectation, and the methods paragraph for your protocol.",
     asks: "Your orientation, how varied the sample is, target analytic depth, and any pilot signal.",
-    stance: "A defensible range with the reasoning, not a single magic number.",
+    stance: "A defensible range with the reasoning shown.",
     primary: { label: "Open the planning explorer →", href: "/methodvahti/explore/" },
     alt: { label: "See the Sample Defence Pack →", href: PACK }
   },
@@ -362,7 +376,7 @@ var SITS = {
   },
   reviewer: {
     voice: "“A reviewer said my sample is too small.”",
-    get: "A structured, evidence-graded rebuttal addressing the specific objection, grounded in the saturation / information-power literature, ready for your response letter.",
+    get: "The six-question defence sheet and a reviewer-response template to answer the specific objection, grounded in the saturation and information-power literature.",
     asks: "The reviewer’s exact comment, your design, and your N.",
     stance: "Grounded in the methods literature, and it flags any point you genuinely should concede.",
     primary: { label: "See the Sample Defence Pack →", href: PACK },
@@ -378,9 +392,9 @@ var SITS = {
   },
   wording: {
     voice: "“I need COREQ/SRQR methods text I can submit.”",
-    get: "Submission-ready methods wording mapped to COREQ (32 items) and SRQR, with every claim’s epistemic status marked.",
+    get: "Sampling and adequacy wording for ethics, protocol, or manuscript, drafted from your own recorded decisions: the sampling items COREQ and SRQR ask about.",
     asks: "Your design details and which document: ethics, protocol, or manuscript.",
-    stance: "Wording you can stand behind, with an evidence-graded audit trail attached.",
+    stance: "Wording you can stand behind, because every sentence traces to a decision you recorded.",
     primary: { label: "See the Sample Defence Pack →", href: PACK },
     alt: { label: "Try the explorer →", href: "/methodvahti/explore/" }
   }
