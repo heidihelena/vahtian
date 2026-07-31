@@ -182,12 +182,12 @@
 <main id="main-content" class="wrap">
   <section class="band">
     <h2 class="script">Follow one interview all the way through</h2>
-    <p class="lead">The vault is organized around the work, not around AI. Start with audio. End with an interpretation that has a name, a date, and a route back to the material.</p>
+    <p class="lead">The vault is organized by analysis stage. Start with audio. End with an interpretation that has a name, a date, and a route back to the material.</p>
     <div class="workflow">
       <div class="stage"><span class="n">01-03</span><h3>Transcribe and clean</h3><p>Whisper drafts locally. You correct speakers, names, terms, and keep a cleaning record.</p></div>
       <div class="stage"><span class="n">04</span><h3>Review every code</h3><p>A local model proposes. You accept, edit, reject, or leave unclear, with a reason beside the row.</p></div>
       <div class="stage"><span class="n">05-07</span><h3>Build interpretation</h3><p>Stabilize the codebook, memo while reading, define candidate themes, and actively look for negative cases.</p></div>
-      <div class="stage"><span class="n">08-10</span><h3>Map and write</h3><p>Generate evidence maps, matrices, and draft scaffolds. The scripts draw structure; you write meaning.</p></div>
+      <div class="stage"><span class="n">08-10</span><h3>Map and write</h3><p>Generate evidence maps, matrices, and draft scaffolds that mark where your interpretation goes.</p></div>
       <div class="stage"><span class="n">11</span><h3>Keep the trail</h3><p>Model and software versions, script runs, review decisions, and theme signatures stay visible.</p></div>
     </div>
   </section>
@@ -198,13 +198,13 @@
         <h2>The real product is the review decision</h2>
         <p class="lead">QualiVahti does not promote a model suggestion into a finding. The researcher has to make the move.</p>
         <blockquote class="quote">“My life runs in three-month circles, from scan to scan... You live conditionally. Everything gets a little asterisk on it.”</blockquote>
-        <p>The fabricated demo keeps the raw suggestions next to the review record, including edits, rejections, unresolved rows, and the reasons behind them.</p>
+        <p>The demo study keeps the raw suggestions next to the review record, including edits, rejections, unresolved rows, and the reasons behind them.</p>
       </div>
       <div class="review" aria-label="Example coding decisions">
         <div class="review-row"><span class="status">Edited</span><p><strong>scan-cycle-life</strong> becomes <strong>living-scan-to-scan</strong><small>Clearer label for the cyclic time experience.</small></p></div>
         <div class="review-row"><span class="status">Accepted</span><p><strong>conditional-living</strong><small>Participant's own logic; the label fits as written.</small></p></div>
         <div class="review-row"><span class="status">Rejected</span><p><strong>planning-hesitation</strong><small>Already carried by conditional-living in this excerpt.</small></p></div>
-        <div class="boundary-note"><strong>No score for “true”</strong>A model's confidence is a self-report. The review note is the method.</div>
+        <div class="boundary-note"><strong>No score for “true”</strong>A model's confidence is a self-report, so the vault records your reason instead.</div>
       </div>
     </div>
   </section>
@@ -235,9 +235,9 @@
 
   <section>
     <h2>Inside the vault</h2>
-    <p class="lead">You receive the working structure, not a blank template collection.</p>
+    <p class="lead">The folders arrive in working order, scripts and templates included.</p>
     <div class="files">
-      <div class="file"><code>00_Start_Here/</code><p>A calmer first open, study dashboard, script guides, citation language, and a map of the workflow.</p></div>
+      <div class="file"><code>00_Start_Here/</code><p>Study dashboard, script guides, citation language, and a map of the workflow.</p></div>
       <div class="file"><code>01_Audio/ - 07_Themes/</code><p>The full path from recording through review, codebook, memos, negative cases, and signed themes.</p></div>
       <div class="file"><code>08_Graph_View/ - 12_Exports/</code><p>Evidence canvases, methods and results scaffolds, audit records, matrices, tables, and network outputs.</p></div>
       <div class="file"><code>_templates/</code><p>Codebook, coding, memo, reflexivity, saturation, theme, methods, results, and Canvas templates.</p></div>
@@ -265,12 +265,52 @@
   </section>
 
   <section>
+    <h2>Technical details</h2>
+    <p class="lead">The exact formats, scripts, and dependencies, for the researcher, the IT review, or the AI agent evaluating the kit.</p>
+    <div class="files">
+      <div class="file"><code>format</code><p>An Obsidian vault: plain Markdown files plus Canvas boards. Any text editor opens them. No proprietary project database, no export lock-in.</p></div>
+      <div class="file"><code>delivery</code><p>Zip download through Polar checkout. Version 1.1, 156 buyer files. One personal licence; 1.x updates included.</p></div>
+      <div class="file"><code>scripts</code><p>12 Python and 9 R scripts, plain readable files: Whisper transcription, transcript cleaning, code suggestion, co-occurrence networks, evidence canvases, participant and theme matrices, frequency and results tables, an AI-disclosure draft, and a preflight check that reports whether review rows, theme signatures, and audit records are in place.</p></div>
+      <div class="file"><code>dependencies</code><p>Python: <code>faster-whisper</code> and <code>requests</code>, nothing else. R: dplyr, tidyr, readr, ggplot2, igraph, ggraph. Local models run through Ollama's localhost API.</p></div>
+      <div class="file"><code>graph RAG</code><p><code>build_vault_graph.py</code> maps the links between your notes; <code>chat_with_vault.py</code> answers questions over that map and cites the notes it read.</p></div>
+      <div class="file"><code>prompts</code><p>8 local-model prompt files, editable Markdown: first-cycle codes, codebook comparison, theme clusters, negative cases, second-opinion chat, transcription quality check, methods and results drafting.</p></div>
+      <div class="file"><code>citation</code><p>The analysis scripts are published openly on Zenodo, DOI <a href="https://doi.org/10.5281/zenodo.21274892">10.5281/zenodo.21274892</a>, so your methods section can cite the exact code that ran.</p></div>
+    </div>
+  </section>
+
+  <section>
     <h2>Where QualiVahti stops</h2>
     <div class="files">
       <div class="file"><strong>It does not find or certify themes.</strong><p>You interpret, define, challenge, and sign the themes you report.</p></div>
       <div class="file"><strong>It does not certify saturation.</strong><p>Sampling and saturation remain dated research judgments.</p></div>
       <div class="file"><strong>Local does not mean risk-free.</strong><p>Your ethics approval, data-management plan, pseudonymization, and computer security still govern the work.</p></div>
       <div class="file"><strong>It does not guarantee correctness or publication.</strong><p>The workspace makes the path inspectable. It does not make the scientific claim for you.</p></div>
+    </div>
+  </section>
+
+  <section class="band">
+    <h2>The method is documented in the open</h2>
+    <p class="lead">QualiVahti runs the workflow these free guides teach. Read them before you decide.</p>
+    <div class="split">
+      <div>
+        <h3>Do the analysis</h3>
+        <div class="flat-list">
+          <div class="flat-item"><a href="/learn/transcribe-interviews-locally/">Transcribe research interviews locally with Whisper</a></div>
+          <div class="flat-item"><a href="/learn/ai-qualitative-coding-human-review/">Local-AI qualitative coding, with human review</a></div>
+          <div class="flat-item"><a href="/learn/build-qualitative-codebook-obsidian/">Build a qualitative codebook in Obsidian</a></div>
+          <div class="flat-item"><a href="/learn/codes-to-themes/">I have coded my data. How do I find the themes?</a></div>
+          <div class="flat-item"><a href="/learn/obsidian-canvas-evidence-map/">Build an evidence map on Obsidian Canvas</a></div>
+        </div>
+      </div>
+      <div>
+        <h3>Defend the analysis</h3>
+        <div class="flat-list">
+          <div class="flat-item"><a href="/learn/defend-qualitative-sample-size/">How do I justify my qualitative sample size?</a></div>
+          <div class="flat-item"><a href="/learn/code-vs-meaning-saturation/">Code saturation and meaning saturation</a></div>
+          <div class="flat-item"><a href="/learn/three-questions-qualitative-rigour/">The three questions behind qualitative rigour</a></div>
+          <div class="flat-item"><a href="/learn/llm-qualitative-data-ethics/">Interview data in AI: the ethics checks first</a></div>
+        </div>
+      </div>
     </div>
   </section>
 
