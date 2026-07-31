@@ -1,0 +1,636 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pre-Submission Check, run your manuscript like code · Vahtian</title>
+  <meta name="description" content="A free manuscript pre-submission check that runs in your browser: ethics, funding, COI and data statements, STROBE/CONSORT/PRISMA item walk, references and claim wording. Nothing uploads.">
+  <meta name="theme-color" content="#2D2440">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="canonical" href="https://vahtian.com/pre-submission-check/">
+  <meta name="robots" content="index,follow">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://vahtian.com/pre-submission-check/">
+  <meta property="og:title" content="Pre-Submission Check · Vahtian">
+  <meta property="og:description" content="Treat your manuscript like code: a chain of pre-submission checks run in order, in your browser. Statements, reporting-guideline items, references, claim wording. It flags gaps for you to judge; it does not certify readiness.">
+  <meta property="og:image" content="https://vahtian.com/brand/cards/vahtian-share-card.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Vahtian.com — Your future reviewer has questions. Good. Show your work.">
+  <meta property="og:site_name" content="Vahtian">
+  <meta name="twitter:card" content="summary_large_image">
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Pre-Submission Check",
+  "image": "https://vahtian.com/brand/cards/vahtian-share-card.png",
+  "applicationCategory": "Research software",
+  "operatingSystem": "Any (web browser)",
+  "url": "https://vahtian.com/pre-submission-check/",
+  "description": "Browser-side pre-submission check chain for research manuscripts: statement-presence scan (ethics, consent, funding, competing interests, data availability, registration, AI disclosure), a STROBE/CONSORT/PRISMA item-by-item walk, and links to reference and claim-wording checks. It flags gaps for a human to judge; it does not certify publication readiness. Nothing is uploaded.",
+  "isPartOf": {
+    "@type": "WebSite",
+    "name": "Vahtian",
+    "url": "https://vahtian.com/"
+  },
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "EUR"
+  }
+}
+  </script>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232D2440'/%3E%3Cg fill='none' stroke='%238B6FC9' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 9 H9 V23 H12'/%3E%3Cpath d='M20 9 H23 V23 H20'/%3E%3C/g%3E%3Cpath d='M12.5 16.2 L15 18.7 L19.7 13.5' fill='none' stroke='%23C5B8E8' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <style>
+    :root{--navy:#2D2440;--violet:#8B6FC9;--lilac:#C5B8E8;--amber:#C98A00;--teal:#1E9E8A;--rose:#C24D7E;
+          --ink:#1c1830;--muted:#5b5570;--bg:#faf9fc;--card:#fff;--line:#e7e3f0;--link:#5f479d;
+          --amber-fill:#FFF2D8;--amber-text:#5A4300;--teal-fill:#D8F4ED;--teal-text:#08544A;--rose-fill:#FBE4EE;--rose-text:#7A1F47}
+    *{box-sizing:border-box}
+    body{margin:0;font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,ui-sans-serif,system-ui,sans-serif;
+         color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased}
+    a{color:var(--link)}
+    code{font:13px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;background:#f1eef9;padding:1px 5px;border-radius:5px}
+    .wrap{max-width:840px;margin:0 auto;padding:0 22px}
+    a:focus-visible,button:focus-visible,textarea:focus-visible,select:focus-visible{outline:3px solid var(--violet);outline-offset:2px}
+    header{padding:24px 0 4px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:18px}
+    .mark{width:30px;height:30px;flex:0 0 30px}
+    h1{font-size:clamp(26px,4.6vw,36px);line-height:1.12;letter-spacing:-.02em;margin:22px 0 8px}
+    .sub{font-size:clamp(16px,2.2vw,18px);color:#3a3450;margin:0 0 10px;max-width:62ch}
+    .bound{font-size:14px;color:var(--muted);max-width:66ch;margin:0 0 22px}
+    h2{font-size:21px;margin:0 0 10px;letter-spacing:-.01em}
+    /* chain */
+    ol.chain{list-style:none;counter-reset:step;margin:0 0 30px;padding:0;display:grid;gap:10px}
+    ol.chain li{counter-increment:step;background:var(--card);border:1px solid var(--line);border-radius:11px;
+                padding:13px 15px 13px 52px;position:relative;font-size:14.5px;color:#322c47}
+    ol.chain li::before{content:counter(step);position:absolute;left:15px;top:13px;width:26px;height:26px;border-radius:50%;
+                background:var(--navy);color:#fff;font:700 13px/26px ui-monospace,monospace;text-align:center}
+    ol.chain li b{color:var(--ink)}
+    ol.chain li .where{display:block;font-size:13px;color:var(--muted);margin-top:2px}
+    /* tool blocks */
+    .tool{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;box-shadow:0 10px 26px rgba(45,36,64,.06);margin:0 0 14px}
+    label.tl{display:block;font-weight:600;font-size:13px;margin:0 0 6px}
+    textarea{width:100%;min-height:170px;padding:12px 13px;border:1px solid var(--line);border-radius:10px;
+             font:15px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:#fff;color:var(--ink);resize:vertical}
+    .actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
+    button{font:inherit;font-weight:600;border:0;border-radius:9px;padding:11px 17px;background:var(--navy);color:#fff;cursor:pointer;font-size:15px}
+    button.ghost{background:#fff;color:var(--ink);border:1px solid var(--line)}
+    .priv{font-size:12.5px;color:var(--muted);margin:11px 0 0}
+    /* scan results */
+    .verdict{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start;padding:11px 0;border-top:1px solid var(--line)}
+    .verdict:first-child{border-top:0}
+    .tag{font:600 12px/1.4 ui-monospace,monospace;padding:5px 9px;border-radius:6px;white-space:nowrap;border:1px solid}
+    .tag.found{background:var(--teal-fill);border-color:var(--teal);color:var(--teal-text)}
+    .tag.missing{background:var(--rose-fill);border-color:var(--rose);color:var(--rose-text)}
+    .tag.human{background:var(--amber-fill);border-color:var(--amber);color:var(--amber-text)}
+    .vbody{font-size:14px;color:#322c47}
+    .vbody .q{display:block;font-size:13px;color:var(--muted);border-left:3px solid var(--line);padding-left:9px;margin-top:5px;font-style:italic}
+    .note{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--amber);border-radius:10px;padding:13px 15px;color:#3a3450;font-size:14px;margin-top:14px}
+    /* guideline walk */
+    .gpick{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 14px}
+    .gpick button[aria-pressed="true"]{background:var(--violet)}
+    .gmeta{font-size:13.5px;color:var(--muted);margin:0 0 12px}
+    .gitem{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:start;padding:10px 0;border-top:1px solid var(--line)}
+    .gnum{font:600 12px/1.6 ui-monospace,monospace;color:#432C7A;background:#F1EEF9;border-radius:6px;padding:3px 7px;white-space:nowrap}
+    .gtext{font-size:14px;color:#322c47;padding-top:2px}
+    .gbtns{display:flex;gap:5px}
+    .gbtns button{padding:6px 9px;font-size:12.5px;border-radius:7px;background:#fff;color:var(--ink);border:1px solid var(--line)}
+    .gbtns button[aria-pressed="true"].b-done{background:var(--teal-fill);border-color:var(--teal);color:var(--teal-text)}
+    .gbtns button[aria-pressed="true"].b-gap{background:var(--rose-fill);border-color:var(--rose);color:var(--rose-text)}
+    .gbtns button[aria-pressed="true"].b-na{background:var(--amber-fill);border-color:var(--amber);color:var(--amber-text)}
+    .gprog{font:600 13px/1 ui-monospace,monospace;padding:7px 11px;border-radius:999px;background:#F1EEF9;border:1px solid var(--line);color:#432C7A;display:inline-block;margin:12px 0 0}
+    /* external steps */
+    .ext{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:start;padding:12px 0;border-top:1px solid var(--line)}
+    .ext:first-of-type{border-top:0}
+    .ext input[type=checkbox]{width:19px;height:19px;margin-top:2px;accent-color:var(--violet)}
+    .ext .ebody{font-size:14.5px;color:#322c47}
+    .ext .ebody a{font-weight:600}
+    /* report */
+    pre.report{background:#1f1936;color:#e8e3f6;border-radius:11px;padding:16px;font:13px/1.55 ui-monospace,SFMono-Regular,Menlo,monospace;overflow-x:auto;white-space:pre-wrap;word-break:break-word}
+    /* bridge */
+    .bridge{background:var(--navy);border-radius:12px;padding:20px 22px;margin:26px 0 4px}
+    .bridge h2{color:#fff;font-size:clamp(18px,3vw,22px);margin:0 0 8px}
+    .bridge p{color:#d9d3ea;font-size:14.5px;line-height:1.6;margin:0 0 16px;max-width:64ch}
+    section.step{border-top:1px solid var(--line);margin-top:34px;padding-top:26px}
+    .stepkicker{font:600 12px/1 ui-monospace,monospace;text-transform:uppercase;letter-spacing:.08em;color:#432C7A;background:#F1EEF9;border:1px solid var(--line);border-radius:999px;padding:6px 11px;display:inline-block;margin:0 0 10px}
+    footer{padding:28px 0 50px;color:var(--muted);font-size:13px;border-top:1px solid var(--line);margin-top:34px;line-height:1.7}
+    footer a{color:var(--muted)}
+    @media(max-width:560px){.gitem{grid-template-columns:auto 1fr}.gbtns{grid-column:1/-1;justify-content:flex-end}}
+    /* site nav */
+    nav.nav{display:flex;align-items:center;gap:16px;flex-wrap:wrap;font-size:14.5px}
+    nav.nav a{color:#1c1830;text-decoration:none;font-weight:600}
+    nav.nav a:hover{color:#5f479d}
+    nav.nav .util{display:flex;align-items:center;gap:13px;padding-left:15px;border-left:1px solid #e7e3f0}
+    nav.nav .util .ic{display:flex;color:#514a68}
+    nav.nav .util .ic:hover{color:#5f479d}
+    @media(max-width:680px){nav.nav{gap:13px;font-size:13.5px}}
+  </style>
+  <link rel="stylesheet" href="../brand/site-refresh.css">
+<link rel="stylesheet" href="../brand/footer.css">
+</head>
+<body>
+<a class="skip-link" href="#main-content">Skip to main content</a>
+<div class="wrap">
+  <header>
+    <div class="brand">
+      <a href="/" aria-label="Vahtian — home" style="display:flex"><svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#2D2440"/><g fill="none" stroke="#8B6FC9" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9 H9 V23 H12"/><path d="M20 9 H23 V23 H20"/></g><path d="M12.5 16.2 L15 18.7 L19.7 13.5" fill="none" stroke="#C5B8E8" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      <span>Pre-Submission Check</span>
+    </div>
+    <nav class="nav" aria-label="Primary">
+      <a href="/kits/">Kits</a>
+      <a href="/download/">Tools</a>
+      <a href="/learn/">Learn</a>
+      <a href="/blog/">Blog</a>
+      <a href="/about/">About</a>
+      <span class="util">
+        <a class="ic" href="/search/" aria-label="Search vahtian.com"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.3" y2="16.3"/></svg></a>
+      </span>
+    </nav>
+  </header>
+
+<main id="main-content">
+  <h1>Pre-Submission Check</h1>
+  <p class="sub">Treat your manuscript like code: run the checks in order, fix the gaps, keep the report.</p>
+  <p class="bound">Every check on this page runs in your browser; <b>nothing is uploaded</b>. A machine can see
+    whether a statement is present or a reference resolves. Whether each is adequate, and whether the manuscript
+    is ready, is your judgment. A clean run is not a clearance.</p>
+
+  <h2 id="chain">The check chain</h2>
+  <ol class="chain" aria-describedby="chain">
+    <li><b>Statements &amp; structure scan</b>: ethics, consent, funding, competing interests, data availability, registration, AI disclosure; section headings.<span class="where">Runs on this page, step 1 below.</span></li>
+    <li><b>Reporting-guideline walk</b>: STROBE, CONSORT or PRISMA, item by item, marked addressed / gap / not applicable.<span class="where">Runs on this page, step 2 below.</span></li>
+    <li><b>Reference check</b>: DOIs against Crossref and DataCite for mismatches, retractions, duplicates.<span class="where"><a href="/reference-check/">Reference check</a> (free, in the browser).</span></li>
+    <li><b>Claim-wording check</b>: uncited claims, overclaiming, vague evidence language.<span class="where"><a href="/citevahti/quick-check/">Citation quick check</a> · <a href="/pattern-mirror/">Pattern mirror</a> (free, in the browser).</span></li>
+    <li><b>Claim–source support</b>: does each cited source support the exact claim it is attached to?<span class="where"><a href="/citevahti/">CiteVahti</a>, a free local audit. Human first, AI second.</span></li>
+    <li><b>Report</b>: what was checked, what is open, what a machine could not resolve. The sign-off line is yours.<span class="where">Builds as you go, step 6 below.</span></li>
+  </ol>
+
+  <section class="step" id="scan">
+    <span class="stepkicker">STEP 1 · runs here</span>
+    <h2>Statements &amp; structure scan</h2>
+    <div class="tool">
+      <label class="tl" for="ms">Paste your manuscript text (or just the sections after the abstract)</label>
+      <textarea id="ms" placeholder="Paste your manuscript text…"></textarea>
+      <div class="actions">
+        <button id="run" type="button">Run scan</button>
+        <button id="ex" class="ghost" type="button">Load example</button>
+        <button id="clr" class="ghost" type="button">Clear</button>
+      </div>
+      <p class="priv">No account · no upload · nothing leaves your browser.</p>
+    </div>
+    <div id="scanout" role="region" aria-live="polite" aria-label="Scan results"></div>
+    <div class="note"><b>What "found" means.</b> The scan matches wording, nothing more. "Found" means a sentence
+      looks like the statement: read it and judge whether it says what your journal requires. "Not found" means
+      the usual wording is absent; yours may be phrased differently, or it may be missing. Requirements vary by
+      journal, so check the author instructions of your target journal.</div>
+  </section>
+
+  <section class="step" id="guideline">
+    <span class="stepkicker">STEP 2 · runs here</span>
+    <h2>Reporting-guideline walk</h2>
+    <p class="gmeta">Pick the guideline that matches your study design, then mark each item. Progress is saved in
+      your browser only. Item labels are abbreviated; the official checklist is the authority:
+      <a href="https://www.strobe-statement.org/checklists/" rel="noopener">STROBE</a> ·
+      <a href="https://www.equator-network.org/reporting-guidelines/consort/" rel="noopener">CONSORT</a> ·
+      <a href="https://www.prisma-statement.org/prisma-2020-statement" rel="noopener">PRISMA 2020</a>.
+      Unsure which applies? The <a href="https://www.equator-network.org/" rel="noopener">EQUATOR Network</a> lists
+      guidelines by study type.</p>
+    <div class="gpick" role="group" aria-label="Choose a reporting guideline">
+      <button type="button" data-g="strobe" aria-pressed="false">STROBE · observational</button>
+      <button type="button" data-g="consort" aria-pressed="false">CONSORT · randomised trial</button>
+      <button type="button" data-g="prisma" aria-pressed="false">PRISMA 2020 · systematic review</button>
+    </div>
+    <div id="gout"></div>
+  </section>
+
+  <section class="step" id="external">
+    <span class="stepkicker">STEPS 3–5 · run the tools, mark them here</span>
+    <h2>References and claims</h2>
+    <p class="gmeta">These checks have their own free tools. Run each, then mark it done here so your report
+      records it. The marks are self-reported; the report says so.</p>
+    <div class="tool" id="extlist">
+      <div class="ext"><input type="checkbox" id="ext-ref"><div class="ebody"><label for="ext-ref"><b>Reference check run.</b></label> <a href="/reference-check/">Check the reference list</a>: DOIs, retractions, duplicates, mismatched titles. Paste, run, fix what it flags.</div></div>
+      <div class="ext"><input type="checkbox" id="ext-wording"><div class="ebody"><label for="ext-wording"><b>Claim-wording check run.</b></label> <a href="/citevahti/quick-check/">Citation quick check</a> for uncited claims and overclaiming; <a href="/pattern-mirror/">Pattern mirror</a> for writing patterns that weaken prose.</div></div>
+      <div class="ext"><input type="checkbox" id="ext-support"><div class="ebody"><label for="ext-support"><b>Claim–source support checked.</b></label> <a href="/citevahti/">CiteVahti</a> audits whether each cited source supports the exact claim: you rate first, AI second, with an exportable trail. Wording heuristics cannot do this check.</div></div>
+    </div>
+  </section>
+
+  <section class="step" id="report">
+    <span class="stepkicker">STEP 6 · your report</span>
+    <h2>Report</h2>
+    <p class="gmeta">Assembled from what you ran above. Three states throughout: <b>found/addressed</b>,
+      <b>gap</b>, <b>needs your judgment</b>. The last line is yours to sign; the tool has no opinion on
+      readiness.</p>
+    <div class="actions" style="margin:0 0 12px">
+      <button id="mkreport" type="button">Build report</button>
+      <button id="cpreport" class="ghost" type="button" disabled>Copy as Markdown</button>
+    </div>
+    <div id="reportout" role="region" aria-live="polite" aria-label="Report"></div>
+  </section>
+
+  <div class="bridge">
+    <h2>Working with an AI agent?</h2>
+    <p>This page exposes the statements scan to in-browser agents via WebMCP. The agents page documents every
+      Vahtian tool for machine use; the chain runs the same either way.</p>
+    <div class="actions">
+      <a class="btn primary" href="/agents/">How agents can use Vahtian tools <i class="arr">→</i></a>
+      <a class="btn ghost" href="/kits/">Templates and worked examples in the kits</a>
+    </div>
+  </div>
+</main>
+
+  <footer class="vh-footer">
+  <div class="vh-footer-shell">
+    <div class="vh-footer-main">
+      <div>
+        <p class="vh-footer-name">Vahtian</p>
+        <p class="vh-footer-tagline">Local-first tools for research decisions you can explain. Built in Finland by Heidi Andersén, MD, PhD.</p>
+      </div>
+      <nav class="vh-footer-links" aria-label="Footer">
+        <a href="/download/">Tools</a>
+        <a href="/kits/">Kits</a>
+        <a href="/learn/">Learn</a>
+        <a href="/blog/">Blog</a>
+        <a href="/about/">About</a>
+        <a href="/agents/">For agents</a>
+        <a href="/cite/">Cite</a>
+        <a href="/support/">Support</a>
+        <a href="/privacy/">Privacy</a>
+        <a href="/accessibility/">Accessibility</a>
+      </nav>
+    </div>
+    <p class="vh-footer-disclaimer">Vahtian keeps human judgment visible and research decisions open to review. It does not establish scientific truth.</p>
+    <div class="vh-footer-meta">
+      <span>© 2026 Vahtian</span>
+      <a href="/LICENSE">Apache-2.0 open core</a>
+      <a href="https://github.com/heidihelena/vahtian">GitHub <span aria-hidden="true">↗</span></a>
+      <a href="mailto:hello@vahtian.com">hello@vahtian.com</a>
+    </div>
+  </div>
+</footer>
+</div>
+
+<script>
+"use strict";
+(function(){
+  var $=function(id){return document.getElementById(id);};
+  function esc(s){return String(s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];});}
+  var reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---------- Step 1: statements & structure scan ---------- */
+
+  // Each detector: key, label, applicability ('core' = expected in most papers,
+  // 'ifapp' = only some study types need it — absence is a question, not a gap).
+  var STMT=[
+    {key:"ethics", label:"Ethics approval", app:"core",
+     re:/\b(ethics? (committee|approval|review|board)|ethical (approval|review|clearance)|institutional review board|IRB\b|research ethics (committee|board)|REC\b|exempt(ed)? from (ethical|ethics) review)/i,
+     miss:"No ethics-approval wording found. Human-subject and animal studies need one; if your study is exempt, say so and by whose decision."},
+    {key:"consent", label:"Informed consent", app:"ifapp",
+     re:/\b(informed consent|written consent|verbal consent|consent was (obtained|waived)|waiver of consent|parental (consent|permission)|assent)\b/i,
+     miss:"No consent wording found. Needed for most human-participant research; a waiver is also a statement."},
+    {key:"funding", label:"Funding statement", app:"core",
+     re:/\b(fund(ed|ing)( was| were)?( provided| received| supported)?|grant (no|number|#)|financial support|supported by .{0,60}(grant|foundation|council|academy|institute)|received no (specific |external )?fund|no fund(ing)? (was )?received)/i,
+     miss:"No funding wording found. \"This research received no specific funding\" is also a funding statement; most journals require one either way."},
+    {key:"coi", label:"Competing interests", app:"core",
+     re:/\b(conflicts? of interest|competing interests?|nothing to disclose|no (relevant )?(financial )?(conflicts?|disclosures)|declare(s|d)? no|disclosure statement)\b/i,
+     miss:"No competing-interests wording found. A \"none to declare\" line counts; its absence is what desk editors notice."},
+    {key:"data", label:"Data availability", app:"core",
+     re:/\b(data (are|is|will be)? ?availab|data availability|available (from the corresponding author|upon? (reasonable )?request)|deposited (in|at)|publicly available (in|at)|data sharing|code (is|are) available)/i,
+     miss:"No data-availability wording found. Many journals now require the statement even when the answer is \"not available\", with the reason."},
+    {key:"reg", label:"Registration", app:"ifapp",
+     re:/\b(clinicaltrials\.gov|NCT\d{7,8}|PROSPERO|CRD42\d+|ISRCTN\d+|EudraCT|trial regist|(pre.?)?regist(ered|ration) (at|in|with|number))/i,
+     miss:"No registration wording found. Required for clinical trials and expected for systematic reviews (PROSPERO); not applicable to many other designs. Your call."},
+    {key:"ai", label:"AI-use disclosure", app:"ifapp",
+     re:/\b(large language model|LLM|ChatGPT|generative AI|GPT-\d|artificial intelligence.{0,40}(writing|drafting|editing)|AI.{0,20}(assisted|tool|was used)|no (generative )?AI (tools? )?(was|were) used)\b/i,
+     miss:"No AI-use wording found. If AI tools touched the text or analysis, most publishers now require the disclosure; if none were used, no statement is usually needed."}
+  ];
+  var STRUCT=[
+    {key:"abstract", label:"Abstract", re:/^\s*(structured )?abstract\b|\babstract\s*[:\n]/im},
+    {key:"intro", label:"Introduction / Background", re:/^\s*(1\.?\s*)?(introduction|background)\b/im},
+    {key:"methods", label:"Methods", re:/^\s*(\d\.?\s*)?(materials? and )?methods\b|^\s*(\d\.?\s*)?methodology\b/im},
+    {key:"results", label:"Results", re:/^\s*(\d\.?\s*)?(results|findings)\b/im},
+    {key:"discussion", label:"Discussion", re:/^\s*(\d\.?\s*)?discussion\b/im},
+    {key:"limitations", label:"Limitations mentioned", re:/\blimitations?\b/i}
+  ];
+
+  function sentenceAround(text, idx){
+    var start=text.lastIndexOf(".", idx); start=start<0?0:start+1;
+    var end=text.indexOf(".", idx); end=end<0?Math.min(text.length,idx+180):end+1;
+    var s=text.slice(start,end).replace(/\s+/g," ").trim();
+    return s.length>220 ? s.slice(0,217)+"…" : s;
+  }
+
+  function scan(text){
+    var out={statements:[], structure:[], chars:text.length, words:(text.trim().match(/\S+/g)||[]).length};
+    for(var i=0;i<STMT.length;i++){
+      var d=STMT[i], m=d.re.exec(text);
+      out.statements.push({key:d.key,label:d.label,app:d.app,found:!!m,
+        excerpt:m?sentenceAround(text,m.index):null, miss:d.miss});
+    }
+    for(var j=0;j<STRUCT.length;j++){
+      var s=STRUCT[j];
+      out.structure.push({key:s.key,label:s.label,found:s.re.test(text)});
+    }
+    return out;
+  }
+
+  var lastScan=null;
+
+  function renderScan(res){
+    var el=$("scanout");
+    if(!res || (!res.words)){ el.innerHTML='<div class="note">Paste your manuscript text, then run the scan.</div>'; lastScan=null; return; }
+    lastScan=res;
+    var html='<div class="tool"><h3 style="margin:0 0 4px;font-size:16px">Statements</h3>';
+    for(var i=0;i<res.statements.length;i++){
+      var s=res.statements[i];
+      if(s.found){
+        html+='<div class="verdict"><span class="tag found">found · read it</span><span class="vbody"><b>'+esc(s.label)+
+              '.</b> A sentence matches. Read it and check it says what your target journal requires.'+
+              '<span class="q">“'+esc(s.excerpt)+'”</span></span></div>';
+      } else if(s.app==="ifapp"){
+        html+='<div class="verdict"><span class="tag human">not found · your call</span><span class="vbody"><b>'+esc(s.label)+
+              '.</b> '+esc(s.miss)+'</span></div>';
+      } else {
+        html+='<div class="verdict"><span class="tag missing">not found</span><span class="vbody"><b>'+esc(s.label)+
+              '.</b> '+esc(s.miss)+'</span></div>';
+      }
+    }
+    html+='</div><div class="tool"><h3 style="margin:0 0 4px;font-size:16px">Structure</h3>';
+    for(var j=0;j<res.structure.length;j++){
+      var t=res.structure[j];
+      html+='<div class="verdict"><span class="tag '+(t.found?'found':'human')+'">'+(t.found?'found':'not seen')+
+            '</span><span class="vbody"><b>'+esc(t.label)+'.</b> '+
+            (t.found?'Heading or mention detected.':'Not detected. Fine if your journal uses another structure; worth a look if not.')+
+            '</span></div>';
+    }
+    html+='<div class="verdict"><span class="tag found">info</span><span class="vbody"><b>Length.</b> '+
+          res.words.toLocaleString()+' words pasted. Compare against the journal’s word limit yourself; limits vary too much to judge here.</span></div>';
+    html+='</div>';
+    el.innerHTML=html;
+  }
+
+  var EXAMPLE="Introduction\nLung cancer remains the leading cause of cancer death in Europe. We examined survival in a retrospective cohort.\n\nMethods\nWe included 412 patients treated between 2015 and 2022. The study was approved by the Regional Ethics Committee (decision 124/2023). Statistical analyses used R 4.3.\n\nResults\nMedian survival was 18.4 months (95% CI 15.2-21.8).\n\nDiscussion\nOur findings align with registry data. Limitations include the single-centre design.\n\nThe authors declare no conflicts of interest. Data are available from the corresponding author upon reasonable request.";
+
+  $("run").addEventListener("click",function(){ renderScan(scan($("ms").value||"")); $("scanout").scrollIntoView({behavior:reduced?'auto':'smooth',block:'nearest'}); });
+  $("ex").addEventListener("click",function(){ $("ms").value=EXAMPLE; renderScan(scan(EXAMPLE)); });
+  $("clr").addEventListener("click",function(){ $("ms").value=""; $("scanout").innerHTML=""; lastScan=null; $("ms").focus(); });
+
+  /* ---------- Step 2: guideline walk ---------- */
+
+  var GUIDES={
+    strobe:{name:"STROBE", long:"STROBE, observational studies (cohort, case-control, cross-sectional)",
+      url:"https://www.strobe-statement.org/checklists/",
+      items:[
+        ["1","Title & abstract: design named in title; informative, balanced abstract"],
+        ["2","Background / rationale for the investigation"],
+        ["3","Objectives: specific aims and any prespecified hypotheses"],
+        ["4","Study design: key elements presented early"],
+        ["5","Setting: locations, dates, recruitment, exposure, follow-up"],
+        ["6","Participants: eligibility, sources, selection; matching if used"],
+        ["7","Variables: outcomes, exposures, predictors, confounders, effect modifiers"],
+        ["8","Data sources / measurement for each variable of interest"],
+        ["9","Bias: efforts to address potential sources"],
+        ["10","Study size: how it was arrived at"],
+        ["11","Quantitative variables: how handled; groupings and why"],
+        ["12","Statistical methods: confounding, subgroups, missing data, sensitivity analyses"],
+        ["13","Participants (results): numbers at each stage; consider a flow diagram"],
+        ["14","Descriptive data: characteristics, missing data per variable, follow-up time"],
+        ["15","Outcome data: numbers of outcome events or summary measures"],
+        ["16","Main results: unadjusted and adjusted estimates with precision; which confounders"],
+        ["17","Other analyses: subgroups, interactions, sensitivity"],
+        ["18","Key results summarised with reference to objectives"],
+        ["19","Limitations: sources of bias and imprecision; direction and magnitude"],
+        ["20","Interpretation: cautious, considering objectives, limitations, other evidence"],
+        ["21","Generalisability: external validity"],
+        ["22","Funding: source and role of funders"]
+      ]},
+    consort:{name:"CONSORT", long:"CONSORT 2010, randomised controlled trials",
+      url:"https://www.equator-network.org/reporting-guidelines/consort/",
+      items:[
+        ["1","Title & abstract: identified as randomised; structured abstract"],
+        ["2","Background and objectives"],
+        ["3","Trial design: description, allocation ratio, any changes after start"],
+        ["4","Participants: eligibility criteria; settings and locations"],
+        ["5","Interventions: enough detail to replicate, incl. how and when"],
+        ["6","Outcomes: prespecified primary and secondary; any changes"],
+        ["7","Sample size: determination; interim analyses and stopping rules"],
+        ["8","Randomisation: sequence generation method and type"],
+        ["9","Allocation concealment mechanism"],
+        ["10","Implementation: who generated, enrolled, assigned"],
+        ["11","Blinding: who was blinded; similarity of interventions"],
+        ["12","Statistical methods: primary/secondary outcomes; additional analyses"],
+        ["13","Participant flow: numbers, losses, exclusions (diagram strongly recommended)"],
+        ["14","Recruitment: dates of recruitment and follow-up; why the trial ended"],
+        ["15","Baseline data: table of characteristics per group"],
+        ["16","Numbers analysed: per group; whether by original assignment"],
+        ["17","Outcomes & estimation: effect size and precision per outcome; absolute and relative for binary"],
+        ["18","Ancillary analyses: subgroup and adjusted; prespecified vs exploratory"],
+        ["19","Harms: all important harms or unintended effects per group"],
+        ["20","Limitations: bias, imprecision, multiplicity if relevant"],
+        ["21","Generalisability of the findings"],
+        ["22","Interpretation: consistent with results, balancing benefits and harms"],
+        ["23","Registration: number and registry name"],
+        ["24","Protocol: where the full protocol can be accessed"],
+        ["25","Funding: sources and role of funders"]
+      ]},
+    prisma:{name:"PRISMA 2020", long:"PRISMA 2020, systematic reviews (and meta-analyses)",
+      url:"https://www.prisma-statement.org/prisma-2020-statement",
+      items:[
+        ["1","Title: identified as a systematic review"],
+        ["2","Abstract: per the PRISMA 2020 abstract checklist"],
+        ["3","Rationale in the context of existing knowledge"],
+        ["4","Objectives: explicit question(s) the review addresses"],
+        ["5","Eligibility criteria and how studies were grouped"],
+        ["6","Information sources: databases, registers, other sources; dates searched"],
+        ["7","Search strategy: full strategies for all sources, incl. filters and limits"],
+        ["8","Selection process: how many reviewers, independence, automation tools"],
+        ["9","Data collection process: reviewers, independence, automation"],
+        ["10","Data items: all outcomes and other variables sought"],
+        ["11","Risk-of-bias assessment: method, tool, reviewers"],
+        ["12","Effect measures used for each outcome"],
+        ["13","Synthesis methods: eligibility, preparation, display, meta-analysis model, heterogeneity, sensitivity"],
+        ["14","Reporting-bias assessment (missing results)"],
+        ["15","Certainty assessment (e.g. GRADE)"],
+        ["16","Study selection: numbers with a flow diagram; near-miss exclusions cited"],
+        ["17","Study characteristics: each included study cited and described"],
+        ["18","Risk of bias in included studies"],
+        ["19","Results of individual studies: summary statistics and effect estimates"],
+        ["20","Results of syntheses: heterogeneity, sensitivity, certainty per synthesis"],
+        ["21","Reporting biases: results of the assessment"],
+        ["22","Certainty of evidence per outcome"],
+        ["23","Discussion: interpretation, limitations of evidence and of methods, implications"],
+        ["24","Registration & protocol: registry number, protocol access, amendments"],
+        ["25","Support: funding and sponsors' role"],
+        ["26","Competing interests of review authors"],
+        ["27","Availability of data, code and other materials"]
+      ]}
+  };
+
+  var LS="vh-psc-v1";
+  function loadState(){ try{ return JSON.parse(localStorage.getItem(LS)||"{}"); }catch(e){ return {}; } }
+  function saveState(st){ try{ localStorage.setItem(LS, JSON.stringify(st)); }catch(e){/* private mode — state just won't persist */} }
+  var state=loadState();
+  state.marks=state.marks||{};       // marks[guide][itemNum] = 'done'|'gap'|'na'
+  state.ext=state.ext||{};           // ext[id] = true
+  state.guide=state.guide||null;
+
+  function markCount(g){
+    var m=state.marks[g]||{}, c={done:0,gap:0,na:0};
+    for(var k in m) if(m.hasOwnProperty(k) && c.hasOwnProperty(m[k])) c[m[k]]++;
+    return c;
+  }
+
+  function renderGuide(){
+    var g=state.guide, el=$("gout");
+    var btns=document.querySelectorAll(".gpick button");
+    for(var b=0;b<btns.length;b++) btns[b].setAttribute("aria-pressed", String(btns[b].getAttribute("data-g")===g));
+    if(!g){ el.innerHTML=""; return; }
+    var G=GUIDES[g], marks=state.marks[g]||{};
+    var html='<div class="tool"><p class="gmeta" style="margin:0 0 4px"><b>'+esc(G.long)+'</b> · '+G.items.length+
+             ' items · <a href="'+G.url+'" rel="noopener">official checklist</a></p>';
+    for(var i=0;i<G.items.length;i++){
+      var num=G.items[i][0], label=G.items[i][1], cur=marks[num]||"";
+      html+='<div class="gitem"><span class="gnum">'+esc(num)+'</span><span class="gtext">'+esc(label)+'</span>'+
+        '<span class="gbtns" role="group" aria-label="Item '+esc(num)+'">'+
+        '<button type="button" class="b-done" data-i="'+esc(num)+'" data-v="done" aria-pressed="'+(cur==="done")+'">Addressed</button>'+
+        '<button type="button" class="b-gap" data-i="'+esc(num)+'" data-v="gap" aria-pressed="'+(cur==="gap")+'">Gap</button>'+
+        '<button type="button" class="b-na" data-i="'+esc(num)+'" data-v="na" aria-pressed="'+(cur==="na")+'">N/A</button>'+
+        '</span></div>';
+    }
+    var c=markCount(g);
+    html+='<span class="gprog">addressed '+c.done+' · gaps '+c.gap+' · n/a '+c.na+' · unmarked '+
+          (G.items.length-c.done-c.gap-c.na)+'</span></div>';
+    el.innerHTML=html;
+    el.querySelectorAll(".gbtns button").forEach(function(btn){
+      btn.addEventListener("click",function(){
+        var num=btn.getAttribute("data-i"), v=btn.getAttribute("data-v");
+        state.marks[g]=state.marks[g]||{};
+        if(state.marks[g][num]===v) delete state.marks[g][num]; else state.marks[g][num]=v;
+        saveState(state); renderGuide();
+      });
+    });
+  }
+
+  document.querySelectorAll(".gpick button").forEach(function(btn){
+    btn.addEventListener("click",function(){
+      var g=btn.getAttribute("data-g");
+      state.guide = (state.guide===g) ? null : g;
+      saveState(state); renderGuide();
+    });
+  });
+
+  /* ---------- Steps 3–5: external marks ---------- */
+  ["ext-ref","ext-wording","ext-support"].forEach(function(id){
+    var cb=$(id);
+    cb.checked=!!state.ext[id];
+    cb.addEventListener("change",function(){ state.ext[id]=cb.checked; saveState(state); });
+  });
+
+  /* ---------- Step 6: report ---------- */
+
+  function buildReport(){
+    var L=[];
+    L.push("# Pre-submission check report");
+    L.push("");
+    L.push("Generated by vahtian.com/pre-submission-check/. All checks ran in the author's browser; nothing was uploaded.");
+    L.push("Three states are used: found/addressed · gap · needs human judgment. Machine matches wording only; adequacy was judged by the author.");
+    L.push("");
+    L.push("## 1. Statements & structure scan");
+    if(lastScan){
+      lastScan.statements.forEach(function(s){
+        var st = s.found ? "found, author to confirm adequacy" : (s.app==="ifapp" ? "not found, applicability is the author's call" : "GAP, not found");
+        L.push("- "+s.label+": "+st);
+      });
+      lastScan.structure.forEach(function(t){
+        L.push("- "+t.label+": "+(t.found?"detected":"not detected"));
+      });
+      L.push("- Words pasted: "+lastScan.words);
+    } else {
+      L.push("- Not run.");
+    }
+    L.push("");
+    L.push("## 2. Reporting-guideline walk");
+    if(state.guide){
+      var G=GUIDES[state.guide], marks=state.marks[state.guide]||{}, c=markCount(state.guide);
+      L.push("Guideline: "+G.long+" ("+G.url+")");
+      L.push("Addressed "+c.done+" · gaps "+c.gap+" · n/a "+c.na+" · unmarked "+(G.items.length-c.done-c.gap-c.na)+" of "+G.items.length);
+      var gaps=G.items.filter(function(it){return marks[it[0]]==="gap";});
+      if(gaps.length){ L.push("Open gaps:"); gaps.forEach(function(it){ L.push("  - Item "+it[0]+": "+it[1]); }); }
+      var un=G.items.filter(function(it){return !marks[it[0]];});
+      if(un.length) L.push("Unmarked items remain; the walk is not finished.");
+    } else {
+      L.push("Not run.");
+    }
+    L.push("");
+    L.push("## 3–5. References and claims (self-reported)");
+    L.push("- Reference check (vahtian.com/reference-check/): "+(state.ext["ext-ref"]?"run, per author":"not marked as run"));
+    L.push("- Claim-wording check (quick check + pattern mirror): "+(state.ext["ext-wording"]?"run, per author":"not marked as run"));
+    L.push("- Claim–source support (CiteVahti audit): "+(state.ext["ext-support"]?"checked, per author":"not marked as run"));
+    L.push("");
+    L.push("## Sign-off");
+    L.push("This report records what was checked and what remains. It is not a certification of readiness; that judgment, and this signature, are the author's.");
+    L.push("");
+    L.push("Signed: ______________________  Date: ____________");
+    return L.join("\n");
+  }
+
+  var lastReport="";
+  $("mkreport").addEventListener("click",function(){
+    lastReport=buildReport();
+    $("reportout").innerHTML='<pre class="report">'+esc(lastReport)+'</pre>';
+    $("cpreport").disabled=false;
+    $("reportout").scrollIntoView({behavior:reduced?'auto':'smooth',block:'nearest'});
+  });
+  $("cpreport").addEventListener("click",function(){
+    if(!lastReport) return;
+    (navigator.clipboard&&navigator.clipboard.writeText?navigator.clipboard.writeText(lastReport):Promise.reject())
+      .then(function(){ $("cpreport").textContent="Copied ✓"; setTimeout(function(){ $("cpreport").textContent="Copy as Markdown"; },1600); })
+      .catch(function(){
+        var r=document.createRange(); r.selectNodeContents($("reportout").firstChild); var sel=getSelection();
+        sel.removeAllRanges(); sel.addRange(r);
+      });
+  });
+
+  /* ---------- WebMCP progressive enhancement ---------- */
+  (function(){
+    var mc=navigator.modelContext;
+    if(!mc) return;
+    var tool={
+      name:"pre_submission_statements_scan",
+      description:"Scan manuscript text for the presence of pre-submission statements (ethics approval, informed consent, funding, competing interests, data availability, registration, AI-use disclosure) and basic structure headings. Wording-presence heuristics run locally in the browser; presence is not adequacy, absence may be a wording difference, and nothing is uploaded. The result is input for a human decision, not a readiness verdict.",
+      inputSchema:{
+        type:"object",
+        properties:{ text:{ type:"string", description:"The manuscript text to scan." } },
+        required:["text"]
+      },
+      execute:function(params){
+        var text=(params&&params.text)||"";
+        var res=scan(text);
+        var ms=$("ms"); if(ms){ ms.value=text; }
+        renderScan(res);
+        var summary={
+          words:res.words,
+          statements:res.statements.map(function(s){
+            return { statement:s.label,
+                     status:s.found?"found, human must confirm adequacy":(s.app==="ifapp"?"not found, applicability is a human call":"not found, likely gap"),
+                     excerpt:s.excerpt||undefined };
+          }),
+          structure:res.structure.map(function(t){ return { section:t.label, detected:t.found }; }),
+          note:"Wording-presence heuristics only. Presence is not adequacy; absence may be a phrasing difference. This is not a readiness verdict. Nothing was uploaded."
+        };
+        return { content:[{ type:"text", text: JSON.stringify(summary,null,2) }] };
+      }
+    };
+    try{
+      if(typeof mc.registerTool==="function") mc.registerTool(tool);
+      else if(typeof mc.provideContext==="function") mc.provideContext({ tools:[tool] });
+    }catch(e){ /* experimental API — never break the page */ }
+  })();
+
+  renderGuide();
+})();
+</script>
+</body>
+</html>
