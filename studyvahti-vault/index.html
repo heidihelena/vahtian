@@ -170,7 +170,7 @@
 <main id="main-content" class="wrap">
   <section class="band">
     <h2 class="script">Follow one estimate all the way through</h2>
-    <p class="lead">The vault is organized around the study, not around AI. Each number in the draft should still have a route back through the output, decision, plan, variable, and question that produced it.</p>
+    <p class="lead">The vault is organized by study stage. Each number in the draft should still have a route back through the output, decision, plan, variable, and question that produced it.</p>
     <div class="workflow">
       <div class="stage"><span class="n">01-02</span><h3>Define the question and variables</h3><p>Pin the population, exposure, outcome, time horizon, roles, definitions, and allowed values.</p></div>
       <div class="stage"><span class="n">03-04</span><h3>Point to the data and name the estimand</h3><p>Keep row-level data outside the vault. Record its fingerprint, then declare the quantity, model, and adjustment set.</p></div>
@@ -186,7 +186,7 @@
         <h2>A useful check can say “not checkable”</h2>
         <p class="lead">StudyVahti does not turn missing documentation into a green tick. Each check returns <strong>ok</strong>, <strong>flag</strong>, or <strong>not checkable</strong>.</p>
         <p class="status-line">A flag points to a concrete mismatch. Not checkable means the notes needed to judge it do not exist yet. Neither status decides whether the science is good.</p>
-        <p>The fabricated demo reaches 16 ok after the question, dictionary, estimand, plan, decisions, data fingerprint, outputs, and claims have been reconciled.</p>
+        <p>The demo study reaches 16 ok after the question, dictionary, estimand, plan, decisions, data fingerprint, outputs, and claims have been reconciled.</p>
       </div>
       <div class="checks" aria-label="Example StudyVahti checks">
         <div class="check"><span class="status">OK</span><p><strong>Question alignment</strong><small>Exposure and outcome match the dictionary roles.</small></p></div>
@@ -239,9 +239,9 @@
 
   <section class="band">
     <h2>Inside the vault</h2>
-    <p class="lead">You receive the working structure, scripts, and a complete fabricated study, not a blank set of templates.</p>
+    <p class="lead">The folders arrive in working order: structure, scripts, and a complete fabricated study.</p>
     <div class="files">
-      <div class="file"><code>00_Start_Here/</code><p>A calmer first open, study dashboards, demo tour, script guides, glossary, and explicit limits.</p></div>
+      <div class="file"><code>00_Start_Here/</code><p>Study dashboards, demo tour, script guides, glossary, and explicit limits.</p></div>
       <div class="file"><code>01_Protocol/ - 07_Sensitivity_Analyses/</code><p>The path from research question and variable dictionary through estimand, plan, decisions, deviations, and sensitivity analyses.</p></div>
       <div class="file"><code>08_Outputs/ - 11_Exports/</code><p>Output records, linked claims, STROBE coverage, methods and results scaffolds, check report, audit trail, and exports.</p></div>
       <div class="file"><code>_templates/</code><p>Question, protocol, variable, data pointer, estimand, DAG, plan, decision, deviation, sensitivity, claim, reporting, and memo templates.</p></div>
@@ -268,6 +268,20 @@
     </div>
   </section>
 
+  <section>
+    <h2>Technical details</h2>
+    <p class="lead">The exact formats, scripts, and dependencies, for the researcher, the IT review, or the AI agent evaluating the vault.</p>
+    <div class="files">
+      <div class="file"><code>format</code><p>An Obsidian vault of plain Markdown files. Row-level data never enters it: the Data Room holds a path and a SHA-256 fingerprint. Any text editor opens the record.</p></div>
+      <div class="file"><code>delivery</code><p>Zip download through Polar checkout. Version 1.1, 176 files. One personal licence; 1.x updates included.</p></div>
+      <div class="file"><code>checks</code><p>16 deterministic checks, each returning ok, flag, or not checkable: question alignment, estimand-first, lock integrity, DAG adjustment, cohort reconciliation, data fingerprint, claim-to-output, causal language, and more. <code>_scripts/DEFENSIBILITY.md</code> in the box documents every check and the roadmap.</p></div>
+      <div class="file"><code>scripts</code><p>9 Python and 7 R scripts plus the <code>studyvahti.py</code> command-line entry point for locking and checking. <code>fit_model.R</code> fits the declared risk ratio, odds ratio, hazard ratio, or mean difference with sensitivity variants, including multiple imputation pooled by Rubin's rules. Script runs append to a hash-chained audit trail you can check.</p></div>
+      <div class="file"><code>dependencies</code><p>Python: <code>requests</code> and <code>auditlite</code>, nothing else. R: dplyr, tidyr, readr, ggplot2. The optional local assistant talks to Ollama on localhost.</p></div>
+      <div class="file"><code>prompts</code><p>5 local-model prompt files, editable Markdown: draft methods from vault notes, check dictionary against plan, propose sensitivity analyses, STROBE gap check, second-opinion chat.</p></div>
+      <div class="file"><code>agent-ready</code><p>The vault ships a Claude Code skill (<code>.claude/skills/studyvahti/</code>): a buyer's AI agent reads it and works inside the vault under the same rules, drafting from notes and running checks while the consequential decisions stay recorded as yours.</p></div>
+    </div>
+  </section>
+
   <section class="band">
     <h2>Where StudyVahti stops</h2>
     <div class="files">
@@ -275,6 +289,31 @@
       <div class="file"><strong>It does not replace a statistician.</strong><p>The included engine covers common models. Complex designs and consequential analyses still need appropriate expertise.</p></div>
       <div class="file"><strong>Local does not mean risk-free.</strong><p>Your ethics approval, data-management plan, paths, backups, and operating-system sync settings still govern the work.</p></div>
       <div class="file"><strong>It does not guarantee correctness or publication.</strong><p>The workspace makes the path inspectable. It does not make the scientific claim for you.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>The method is free to read</h2>
+    <p class="lead">The vault runs on working habits these free guides teach: dictionary first, clean data, a changelog, citable code. Read them before you decide.</p>
+    <div class="split">
+      <div>
+        <h3>Prepare the data</h3>
+        <div class="flat-list">
+          <div class="flat-item"><a href="/learn/data-dictionary-that-validates/">Build a data dictionary that catches errors</a></div>
+          <div class="flat-item"><a href="/learn/clean-and-prepare-your-data/">Clean and prepare your data, R and Python</a></div>
+          <div class="flat-item"><a href="/learn/decimal-comma-csv/">My numbers turned to text when I opened the CSV</a></div>
+          <div class="flat-item"><a href="/learn/survey-export-two-header-rows/">Survey export has two header rows and won't load</a></div>
+        </div>
+      </div>
+      <div>
+        <h3>Defend the analysis</h3>
+        <div class="flat-list">
+          <div class="flat-item"><a href="/learn/read-your-own-statistics/">What do my results actually say?</a></div>
+          <div class="flat-item"><a href="/learn/research-changelog/">Every research project needs a CHANGELOG</a></div>
+          <div class="flat-item"><a href="/learn/cite-your-analysis-code/">Make your analysis code citable</a></div>
+          <div class="flat-item"><a href="/learn/figures-too-low-resolution/">Figures too low-resolution for the journal</a></div>
+        </div>
+      </div>
     </div>
   </section>
 
