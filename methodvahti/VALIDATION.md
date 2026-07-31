@@ -518,9 +518,25 @@ followed by the full profile:
 | Data collection | Adequate |
 | Analysis | Adequate |
 | Reflexivity | Strong |
+| Theorizing traceability | Adequate |
 
 This preserves useful gradation **where it belongs — at the dimension level** —
 without pretending that the distances or trade-offs between dimensions are known.
+
+**Dimension added — theorizing traceability  [DECISION RECORD — owner, 2026-07-31].**
+The owner ruled to add a sixth dimension: *is the path from a surprising
+observation to the theoretical claim documented?* (surprise recorded, defeated
+explanation named, conjecture dated, analytic move and its data identified,
+rejected alternatives on record). Grounding: Köhler, Lê & Smith (2026),
+*J. Applied Behavioral Science*, DOI 10.1177/00218863261429182 — the discovery
+process goes unreported partly because no record of it exists by writing time
+(pp. 25–26). Scope guards, explicit in the ruling: the dimension rates
+**documentation, never the theory itself** ("I am not the judge or oracle" —
+owner, 2026-07-31); the label set stays the frozen Strong / Adequate / Limited
+(D2 unchanged); the rule stays least-favourable with written override; and no
+tool or model produces the record it rates — the researcher writes it. The
+classification module is dimension-agnostic, so no code change; this record and
+the report-form example are the canonical registration of the dimension set.
 
 **Precedent, stated at the strength the evidence supports.** A targeted review of
 RoB 2, ROBINS-I, AMSTAR 2, GRADE-CERQual, QUADAS-2 and MMAT (2026-07-26) found
