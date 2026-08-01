@@ -54,7 +54,8 @@
           --teal-fill:#EDF7F5;--teal-text:#08544A;
           --amber-fill:#FAF3E6;--amber-text:#5A4300;
           --rose-fill:#FCEEF4;--rose-text:#7A1F47;
-          --violet-fill:#ECE3FF;--violet-text:#432C7A;}
+          --violet-fill:#ECE3FF;--violet-text:#432C7A;
+          --bridge:#5B4795;}
     *{box-sizing:border-box}
     body{margin:0;font:500 16px/1.6 "Nudica",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,ui-sans-serif,system-ui,sans-serif;
          color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased}
@@ -82,10 +83,15 @@
     .page-kicker{font:700 12px/1.2 "Nudica Mono",ui-monospace,monospace;text-transform:uppercase;letter-spacing:.08em;color:#6f52b8;margin:0 0 10px}
     /* the chain: hairline rows, numbered in mono. No cards. */
     ol.chain{list-style:none;counter-reset:step;margin:0 0 34px;padding:0}
-    ol.chain li{counter-increment:step;position:relative;padding:13px 0 13px 40px;border-bottom:1px solid var(--line);font-size:14.5px;color:#322c47}
+    ol.chain li{counter-increment:step;position:relative;padding:13px 0 13px 46px;border-bottom:1px solid var(--line);font-size:14.5px;color:#322c47}
     ol.chain li:first-child{border-top:1px solid var(--line)}
-    ol.chain li::before{content:counter(step);position:absolute;left:0;top:13px;
-                font:650 12px/1.6 "Nudica Mono",ui-monospace,monospace;color:var(--muted)}
+    /* Hand-drawn numerals, as the homepage workflow steps and .voc-steps draw them:
+       Marksy, violet, slight alternating tilt. */
+    ol.chain li::before{content:counter(step);position:absolute;left:0;top:9px;display:block;width:34px;text-align:center;
+                font:600 29px/1.2 "Marksy","Marker Felt","Bradley Hand","Segoe Print",cursive;color:var(--link)}
+    ol.chain li:nth-child(odd)::before{transform:rotate(-4deg)}
+    ol.chain li:nth-child(even)::before{transform:rotate(3deg)}
+    @media(prefers-reduced-motion:reduce){ol.chain li::before{transform:none}}
     ol.chain li b{color:var(--ink);font-weight:650}
     ol.chain li .where{display:block;font-size:13.5px;color:var(--muted);margin-top:2px}
     /* tool block: rules, not a floating card */
@@ -116,12 +122,20 @@
     .vbody{font-size:14px;color:#322c47;line-height:1.55}
     .vbody b{color:var(--ink);font-weight:650}
     .vbody .q{display:block;font-size:13px;color:var(--muted);margin-top:5px;line-height:1.5}
-    .cant{background:transparent;border:0;border-left:3px solid var(--amber-line);border-radius:0;padding:5px 0 5px 20px;color:#3a3450;font-size:14px;margin-top:22px;max-width:70ch}
+    /* Hand-drawn box, shaped after .voc-artifact in brand/learn-voc.css (not linked
+       here): card ground, 1.5px hand-drawn border, 12px radius, mono eyebrow. */
+    .dbox{background:var(--card);border:1.5px dotted var(--violet);border-radius:12px;
+          padding:20px 22px;margin:22px 0 0;max-width:70ch;color:#3a3450;font-size:14.5px;line-height:1.6}
+    .dbox .lab{font:700 11px/1 "Nudica Mono",ui-monospace,monospace;color:var(--link);
+               text-transform:uppercase;letter-spacing:.08em;margin:0 0 8px}
+    .dbox p{margin:0}
     /* reporting guideline */
     .gpick{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 18px}
     .gpick button{background:#fff;color:var(--ink);border:1px solid #b7add0}
     .gpick button[aria-pressed="true"]{background:var(--navy);color:#fff;border-color:var(--navy)}
     .gmeta{font-size:13.5px;color:var(--muted);margin:0 0 14px;max-width:70ch}
+    .tmpl{font-size:13.5px;color:#322c47;margin:0 0 16px;max-width:70ch;padding:10px 0 12px 16px;border-left:3px solid var(--teal)}
+    .tmpl a{font-weight:650}
     .gitem{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:start;padding:11px 0;border-bottom:1px solid var(--line)}
     .gnum{font:650 12px/1.6 "Nudica Mono",ui-monospace,monospace;color:var(--muted);white-space:nowrap;min-width:2.2em}
     .gtext{font-size:14px;color:#322c47;line-height:1.55}
@@ -147,11 +161,16 @@
     .signoff{font-size:14px;color:var(--muted);max-width:70ch;margin:20px 0 0}
     .expmsg{font-size:13px;color:var(--muted)}
     /* bridge: the page's one dark surface, full-bleed like reference-check */
-    .bridge{background:var(--navy);box-shadow:0 0 0 100vmax var(--navy);clip-path:inset(0 -100vmax);border-radius:0;padding:30px 0;margin:40px 0 0}
+    .bridge{background:var(--bridge);box-shadow:0 0 0 100vmax var(--bridge);clip-path:inset(0 -100vmax);
+            border-radius:0;padding:30px 0;margin:40px 0 0}
     .bridge h2{color:#fff;font-size:clamp(18px,3vw,22px);margin:0 0 8px}
     .bridge p{color:#d9d3ea;font-size:14.5px;line-height:1.6;margin:0 0 16px;max-width:64ch}
     section.step{border-top:1px solid var(--line);margin-top:38px;padding-top:28px}
-    footer{margin-top:0}
+    /* The bridge also carries .band so footer.css's existing rule
+       (main:has(>.band:last-child)+.vh-footer) drops the footer margin; without it
+       the footer's 48px shows as a page-coloured stripe between two dark bands.
+       .band's own styles live in product-page.css, which this page does not link. */
+    main{padding-bottom:0}
     @media(max-width:560px){.gitem{grid-template-columns:auto 1fr}.gbtns{grid-column:1/-1;justify-content:flex-start}
       .row{grid-template-columns:1fr;gap:8px}.row .verdict{justify-self:start}}
   </style>
@@ -188,7 +207,7 @@
   <h2 id="chain">The check chain</h2>
   <ol class="chain" aria-describedby="chain">
     <li><b>Statements and structure</b>: ethics, consent, funding, competing interests, data availability, registration, AI disclosure; section headings.<span class="where">Runs on this page, step 1 below.</span></li>
-    <li><b>Reporting guideline</b>: STROBE, CONSORT or PRISMA, item by item.<span class="where">Runs on this page, step 2 below.</span></li>
+    <li><b>Reporting guideline</b>: STROBE, CONSORT or PRISMA, item by item, next to the group's own fillable checklist.<span class="where">Runs on this page, step 2 below.</span></li>
     <li><b>Reference check</b>: DOIs against Crossref and DataCite for mismatches, retractions, duplicates.<span class="where"><a href="/reference-check/">Reference check</a> (free, in the browser).</span></li>
     <li><b>Claim-wording check</b>: uncited claims, overclaiming, vague evidence language.<span class="where"><a href="/citevahti/quick-check/">Citation quick check</a> · <a href="/pattern-mirror/">Pattern mirror</a> (free, in the browser).</span></li>
     <li><b>Claim–source support</b>: does each cited source support the exact claim it is attached to?<span class="where"><a href="/citevahti/">CiteVahti</a>, a free local audit. Human first, AI second.</span></li>
@@ -209,22 +228,22 @@
       <p class="priv">No account · no upload · nothing leaves your browser.</p>
     </div>
     <div id="scanout" role="region" aria-live="polite" aria-label="Scan results"></div>
-    <div class="cant"><b>What "found" means.</b> The scan matches wording, nothing more. "Found" means a sentence
-      looks like the statement: read it and judge whether it says what your journal requires. "Not found" means
-      the usual wording is absent; yours may be phrased differently, or it may be missing. Requirements vary by
-      journal, so check the author instructions of your target journal.</div>
+    <div class="dbox">
+      <p class="lab">How to read this</p>
+      <p><b>Found</b> means a sentence looks like the statement. Read it and judge whether it says what your
+        journal asks for. <b>Not found</b> means the usual wording is absent; yours may be phrased differently,
+        or it may be missing. The scan matches wording, nothing more, and requirements vary by journal, so the
+        author instructions decide.</p>
+    </div>
   </section>
 
   <section class="step" id="guideline">
     <p class="page-kicker">Step 2 · runs here</p>
     <h2>Reporting guideline</h2>
     <p class="gmeta">Pick the guideline matching your design, then mark each item. Marks are saved in your
-      browser only. Labels are abbreviated; the official checklist is the authority:
-      <a href="https://www.strobe-statement.org/checklists/" rel="noopener">STROBE</a> ·
-      <a href="https://www.equator-network.org/reporting-guidelines/consort/" rel="noopener">CONSORT</a> ·
-      <a href="https://www.prisma-statement.org/prisma-2020-statement" rel="noopener">PRISMA 2020</a>.
-      Unsure which applies? The <a href="https://www.equator-network.org/" rel="noopener">EQUATOR Network</a> lists
-      guidelines by study type.</p>
+      browser only, and the labels here are abbreviated, so the fillable checklist each guideline group publishes
+      is the authority; the link appears once you pick one. Unsure which applies? The
+      <a href="https://www.equator-network.org/" rel="noopener">EQUATOR Network</a> lists guidelines by study type.</p>
     <div class="gpick" role="group" aria-label="Choose a reporting guideline">
       <button type="button" data-g="strobe" aria-pressed="false">STROBE · observational</button>
       <button type="button" data-g="consort" aria-pressed="false">CONSORT · randomised trial</button>
@@ -257,7 +276,7 @@
     <div id="reportout" role="region" aria-live="polite" aria-label="What to fix"></div>
   </section>
 
-  <div class="bridge">
+  <div class="bridge band">
     <h2>Working with an AI agent?</h2>
     <p>This page exposes the statements scan to in-browser agents via WebMCP. The agents page documents every
       Vahtian tool for machine use; the chain runs the same either way.</p>
@@ -409,6 +428,8 @@
   var GUIDES={
     strobe:{name:"STROBE", long:"STROBE, observational studies (cohort, case-control, cross-sectional)",
       url:"https://www.strobe-statement.org/checklists/",
+      template:"https://www.strobe-statement.org/download/strobe-checklist-cohort-case-control-and-cross-sectional-studies-combined-doc",
+      templateName:"STROBE combined checklist (.doc, strobe-statement.org)",
       items:[
         ["1","Title & abstract: design named in title; informative, balanced abstract"],
         ["2","Background / rationale for the investigation"],
@@ -433,37 +454,58 @@
         ["21","Generalisability: external validity"],
         ["22","Funding: source and role of funders"]
       ]},
-    consort:{name:"CONSORT", long:"CONSORT 2010, randomised controlled trials",
-      url:"https://www.equator-network.org/reporting-guidelines/consort/",
+    consort:{name:"CONSORT 2025", long:"CONSORT 2025, randomised trials",
+      url:"https://www.consort-spirit.org/checklists/",
+      template:"https://www.consort-spirit.org/_files/ugd/b628c8_6fa59b2c6db04efb9a9d0bc967a9fcf7.docx?dn=CONSORT%20%202025%20editable%20checklist.docx",
+      templateName:"CONSORT 2025 editable checklist (.docx, consort-spirit.org)",
       items:[
-        ["1","Title & abstract: identified as randomised; structured abstract"],
-        ["2","Background and objectives"],
-        ["3","Trial design: description, allocation ratio, any changes after start"],
-        ["4","Participants: eligibility criteria; settings and locations"],
-        ["5","Interventions: enough detail to replicate, incl. how and when"],
-        ["6","Outcomes: prespecified primary and secondary; any changes"],
-        ["7","Sample size: determination; interim analyses and stopping rules"],
-        ["8","Randomisation: sequence generation method and type"],
-        ["9","Allocation concealment mechanism"],
-        ["10","Implementation: who generated, enrolled, assigned"],
-        ["11","Blinding: who was blinded; similarity of interventions"],
-        ["12","Statistical methods: primary/secondary outcomes; additional analyses"],
-        ["13","Participant flow: numbers, losses, exclusions (diagram strongly recommended)"],
-        ["14","Recruitment: dates of recruitment and follow-up; why the trial ended"],
-        ["15","Baseline data: table of characteristics per group"],
-        ["16","Numbers analysed: per group; whether by original assignment"],
-        ["17","Outcomes & estimation: effect size and precision per outcome; absolute and relative for binary"],
-        ["18","Ancillary analyses: subgroup and adjusted; prespecified vs exploratory"],
-        ["19","Harms: all important harms or unintended effects per group"],
-        ["20","Limitations: bias, imprecision, multiplicity if relevant"],
-        ["21","Generalisability of the findings"],
-        ["22","Interpretation: consistent with results, balancing benefits and harms"],
-        ["23","Registration: number and registry name"],
-        ["24","Protocol: where the full protocol can be accessed"],
-        ["25","Funding: sources and role of funders"]
+        ["1a","Title and structured abstract: Identification as a randomised trial"],
+        ["1b","Structured summary of the trial design, methods, results, and conclusions"],
+        ["2","Trial registration: Name of trial registry, identifying number (with URL) and date of registration"],
+        ["3","Protocol and statistical analysis plan: Where the trial protocol and statistical analysis plan can be accessed"],
+        ["4","Data sharing: Where and how the individual de-identified participant data (including data dictionary), statistical code and"],
+        ["5a","Funding and conflicts of interest: Sources of funding and other support (e.g., supply of drugs), and role of funders in the design, conduct,"],
+        ["5b","Financial and other conflicts of interest of the manuscript authors"],
+        ["6","Background and rationale: Scientific background and rationale"],
+        ["7","Objectives: Specific objectives related to benefits and harms"],
+        ["8","Patient and public involvement: Details of patient or public involvement in the design, conduct and reporting of the trial"],
+        ["9","Trial design: Description of trial design including type of trial (e.g., parallel group, crossover), allocation ratio, and"],
+        ["10","Changes to trial protocol: Important changes to the trial after it commenced including any outcomes or analyses that were not"],
+        ["11","Trial setting: Settings (e.g., community, hospital) and locations (e.g., countries, sites) where the trial was conducted"],
+        ["12a","Eligibility criteria: Eligibility criteria for participants"],
+        ["12b","If applicable, eligibility criteria for sites and for individuals delivering the interventions (e.g.,"],
+        ["13","Intervention and comparator: Intervention and comparator with sufficient details to allow replication. If relevant, where additional"],
+        ["14","Outcomes: Pre-specified primary and secondary outcomes, including the specific measurement variable (e.g., systolic"],
+        ["15","Harms: How harms were defined and assessed (e.g., systematically, non-systematically)"],
+        ["16a","Sample size: How sample size was determined, including all assumptions supporting the sample size calculation"],
+        ["16b","Explanation of any interim analyses and stopping guidelines"],
+        ["17a","Sequence generation: Who generated the random allocation sequence and the method used"],
+        ["17b","Type of randomisation and details of any restriction (e.g., stratification, blocking and block size)"],
+        ["18","Allocation concealment mechanism: Mechanism used to implement the random allocation sequence (e.g., central computer/telephone; sequentially"],
+        ["19","Implementation: Whether the personnel who enrolled and those who assigned participants to the interventions had access to the"],
+        ["20a","Blinding: Who was blinded after assignment to interventions (e.g., participants, care providers, outcome assessors,"],
+        ["20b","If blinded, how blinding was achieved and description of the similarity of interventions"],
+        ["21a","Statistical methods: Statistical methods used to compare groups for primary and secondary outcomes, including harms"],
+        ["21b","Definition of who is included in each analysis (e.g., all randomised participants), and in which group"],
+        ["21c","How missing data were handled in the analysis"],
+        ["21d","Methods for any additional analyses (e.g., subgroup and sensitivity analyses), distinguishing prespecified"],
+        ["22a","Participant flow, including flow diagram: For each group, the numbers of participants who were randomly assigned, received intended intervention, and"],
+        ["22b","For each group, losses and exclusions after randomisation, together with reasons"],
+        ["23a","Recruitment: Dates defining the periods of recruitment and follow-up for outcomes of benefits and harms"],
+        ["23b","If relevant, why the trial ended or was stopped"],
+        ["24a","Intervention and comparator delivery: Intervention and comparator as they were actually administered (e.g., where appropriate, who delivered the"],
+        ["24b","Concomitant care received during the trial for each group"],
+        ["25","Baseline data: A table showing baseline demographic and clinical characteristics for each group"],
+        ["26","Numbers analysed, outcomes and estimation: For each primary and secondary outcome, by group: the number of participants included in the analysis the"],
+        ["27","Harms: All harms or unintended events in each group"],
+        ["28","Ancillary analyses: Any other analyses performed, including subgroup and sensitivity analyses, distinguishing pre-specified from"],
+        ["29","Interpretation: Interpretation consistent with results, balancing benefits and harms, and considering other relevant evidence"],
+        ["30","Limitations: Trial limitations, addressing sources of potential bias, imprecision, generalisability, and, if relevant,"]
       ]},
     prisma:{name:"PRISMA 2020", long:"PRISMA 2020, systematic reviews (and meta-analyses)",
-      url:"https://www.prisma-statement.org/prisma-2020-statement",
+      url:"https://www.prisma-statement.org/prisma-2020-checklist",
+      template:"https://www.prisma-statement.org/s/PRISMA_2020_checklist-k3f4.docx",
+      templateName:"PRISMA 2020 checklist (.docx, prisma-statement.org)",
       items:[
         ["1","Title: identified as a systematic review"],
         ["2","Abstract: per the PRISMA 2020 abstract checklist"],
@@ -515,8 +557,10 @@
     for(var b=0;b<btns.length;b++) btns[b].setAttribute("aria-pressed", String(btns[b].getAttribute("data-g")===g));
     if(!g){ el.innerHTML=""; return; }
     var G=GUIDES[g], marks=state.marks[g]||{};
-    var html='<div class="tool"><p class="gmeta" style="margin:0 0 4px"><b>'+esc(G.long)+'</b> · '+G.items.length+
-             ' items · <a href="'+G.url+'" rel="noopener">official checklist</a></p>';
+    var html='<div class="tool"><p class="gmeta" style="margin:0 0 10px"><b>'+esc(G.long)+'</b> · '+G.items.length+' items</p>'+
+             '<p class="tmpl">Fill the official one as you go: <a href="'+G.template+'" rel="noopener">'+esc(G.templateName)+'</a>'+
+             ' · <a href="'+G.url+'" rel="noopener">all versions</a>. Published by the guideline group, not by Vahtian, '+
+             'and it is the version journals ask for.</p>';
     for(var i=0;i<G.items.length;i++){
       var num=G.items[i][0], label=G.items[i][1], cur=marks[num]||"";
       html+='<div class="gitem"><span class="gnum">'+esc(num)+'</span><span class="gtext">'+esc(label)+'</span>'+
