@@ -396,11 +396,15 @@
      miss:"No AI-use wording found. If AI tools touched the text or analysis, most publishers now require the disclosure; if none were used, no statement is usually needed."}
   ];
   var STRUCT=[
-    {key:"abstract", label:"Abstract", re:/^\s*(structured )?abstract\b|\babstract\s*[:\n]/im},
-    {key:"intro", label:"Introduction / Background", re:/^\s*(1\.?\s*)?(introduction|background)\b/im},
-    {key:"methods", label:"Methods", re:/^\s*(\d\.?\s*)?(materials? and )?methods\b|^\s*(\d\.?\s*)?methodology\b/im},
-    {key:"results", label:"Results", re:/^\s*(\d\.?\s*)?(results|findings)\b/im},
-    {key:"discussion", label:"Discussion", re:/^\s*(\d\.?\s*)?discussion\b/im},
+    /* HEAD allows the decoration a heading arrives with: Markdown hashes, bold or
+       italic markers, a blockquote caret, a bullet, and a section number. Without
+       it "## Discussion" read as no Discussion section, which told authors pasting
+       a Markdown draft that sections they plainly had were missing. */
+    {key:"abstract", label:"Abstract", re:/^[\s#*_>+-]*(structured )?abstract\b|\babstract\s*[:\n]/im},
+    {key:"intro", label:"Introduction / Background", re:/^[\s#*_>+-]*(\d\.?\s*)?(introduction|background)\b/im},
+    {key:"methods", label:"Methods", re:/^[\s#*_>+-]*(\d\.?\s*)?(materials? and )?methods\b|^[\s#*_>+-]*(\d\.?\s*)?methodology\b/im},
+    {key:"results", label:"Results", re:/^[\s#*_>+-]*(\d\.?\s*)?(results|findings)\b/im},
+    {key:"discussion", label:"Discussion", re:/^[\s#*_>+-]*(\d\.?\s*)?discussion\b/im},
     {key:"limitations", label:"Limitations mentioned", re:/\blimitations?\b/i}
   ];
 
