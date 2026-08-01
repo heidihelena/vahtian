@@ -39,6 +39,26 @@ Editing `vahtian-copy-editor` or `vahtian-brand-safety` is gated. The corpus in
 so an edit that drops a rule a real regression paid for fails CI. Add a case
 whenever a new copy problem is caught: `.claude/evals/README.md`.
 
+## Content review — learn articles and blog posts (Heidi gate, since 2026-08-01)
+
+- **Heidi approves every content page on the rendered preview, before merge.**
+  Merge deploys to production, so merging is never the way to see the page.
+  Every push to a PR branch builds a full preview site (Cloudflare Workers
+  Builds); put the direct article preview URL in the PR body and in the queue
+  row: `https://<branch-alias>-vahtian.heidi-andersen.workers.dev/<path>/`.
+  Push the branch early so the preview exists while the article is written.
+- **Never merge mid-correction.** Corrections land on the branch (same preview
+  URL updates); Heidi approves the final rendered state, then merge.
+- **Heidi-supplied text is canonical source material.** Her wording ships; the
+  agent adds structure, links, and formatting around it. Any change to her
+  wording is a flagged suggestion, never a silent rewrite. (#345/#346 lesson:
+  an agent replaced her content and the live page briefly carried wrong facts.)
+- **Articles queue as markdown drafts in the Vahtian_OS vault** —
+  `30-revenue/learn-queue/` (flow + template there, dashboard
+  `30-revenue/Learn-Queue.md`). Heidi edits the draft note in Obsidian and tags
+  it `#accepted-for-learn`; only then is the HTML page built, from her text,
+  wording as-is.
+
 ## Hard floor (even when no skill fires)
 
 - No trackers, analytics, CDN fonts, or external requests on the site.
