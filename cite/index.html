@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>How to cite Vahtian's research-integrity tools</title>
-  <meta name="description" content="How to cite Vahtian&#x27;s research-integrity tools (CiteVahti, StudyVahti, ReviewVahti, and the rest) in your methods and references: APA and BibTeX.">
+  <meta name="description" content="How to cite Vahtian&#x27;s research-integrity tools in your methods and references: APA, BibTeX, and the archival Zenodo DOI for the version you ran.">
   <meta name="theme-color" content="#2D2440">
   <link rel="canonical" href="https://vahtian.com/cite/">
   <meta name="robots" content="index,follow">
@@ -97,19 +97,33 @@
 
   <p class="lede" style="font-size:15px;color:var(--muted)">Author:
     <a href="https://orcid.org/0000-0001-5923-5865">Heidi Helena Andersén
-    <span aria-hidden="true">iD</span></a> (ORCID 0000-0001-5923-5865). Citations use stable page
-    URLs; archival Zenodo DOIs may be added later.</p>
+    <span aria-hidden="true">iD</span></a> (ORCID 0000-0001-5923-5865). The tools are archived on
+    Zenodo, so a citation can carry a DOI rather than only a page URL.</p>
 
   <section>
     <h2>Recommended format</h2>
     <p>Software citation — author, year, tool, version, publisher, and a persistent link:</p>
     <p class="apa">Andersén, H. H. (2026). <i>&lt;Tool&gt;</i> (Version &lt;x.y&gt;) [Computer software]. Vahtian. https://vahtian.com/&lt;tool&gt;/</p>
-    <p style="color:var(--muted);font-size:14.5px;margin:8px 0 0">Once a Zenodo DOI exists, replace the URL with <code>https://doi.org/10.5281/zenodo.XXXXX</code> — a DOI is archival and versioned, which reviewers prefer over a plain URL.</p>
+    <p style="color:var(--muted);font-size:14.5px;margin:8px 0 0">A DOI is archival and versioned, so reviewers prefer it over a plain URL. Two exist, and they point at different things:</p>
+    <table>
+      <thead><tr><th>DOI</th><th>What it resolves to</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><a href="https://doi.org/10.5281/zenodo.21700192"><code>10.5281/zenodo.21700192</code></a></td>
+          <td><b>v0.2.0</b>, released 2026-07-30. One frozen snapshot. Cite this when it matters that the code you ran can be recovered.</td>
+        </tr>
+        <tr>
+          <td><a href="https://doi.org/10.5281/zenodo.21339127"><code>10.5281/zenodo.21339127</code></a></td>
+          <td><b>All versions.</b> Always resolves to the newest release. Cite this when you mean the project rather than one release.</td>
+        </tr>
+      </tbody>
+    </table>
+    <p style="color:var(--muted);font-size:13.5px;margin:6px 0 0">For a methods section, cite the version: the all-versions DOI moves under your reader. The difference is worked through in <a href="/learn/cite-your-analysis-code/">how to make your analysis code citable</a>.</p>
   </section>
 
   <section>
     <h2>Per-tool citations</h2>
-    <p style="color:var(--muted);font-size:14.5px;margin:0 0 10px">Replace year/version as appropriate. URLs are stable; DOIs to follow.</p>
+    <p style="color:var(--muted);font-size:14.5px;margin:0 0 10px">Replace year and version as appropriate. The page URLs are stable. There is no separate DOI per tool: the tools are archived together, so add the version DOI above when you want a permanent identifier, and keep the tool named so a reader knows which one you used.</p>
     <table>
       <thead><tr><th>Tool</th><th>Citation</th></tr></thead>
       <tbody>
@@ -129,21 +143,28 @@
 
   <section>
     <h2>BibTeX</h2>
-    <p>Template — change <code>title</code>, <code>url</code>, and (when available) <code>doi</code>:</p>
+    <p>Template. Change <code>title</code> and <code>url</code> to the tool you used:</p>
     <pre>@software{vahtian_citevahti_2026,
   author    = {Andersén, Heidi Helena},
   title     = {CiteVahti},
   year      = {2026},
+  version   = {v0.2.0},
   publisher = {Vahtian},
+  doi       = {10.5281/zenodo.21700192},
   url       = {https://vahtian.com/citevahti/},
   note      = {Computer software, ORCID 0000-0001-5923-5865}
 }</pre>
+    <p style="color:var(--muted);font-size:13.5px;margin:6px 0 0">Citing the project rather than a release? Drop <code>version</code> and use the all-versions DOI <code>10.5281/zenodo.21339127</code>.</p>
   </section>
 
   <section>
     <h2>Citing Vahtian generally</h2>
-    <p class="apa">Andersén, H. H. (2026). <i>Vahtian: human-first, auditable research-integrity tools</i> [Computer software]. https://vahtian.com/</p>
-    <p style="color:var(--muted);font-size:14.5px;margin:8px 0 0">GitHub also offers “Cite this repository” from the <code>CITATION.cff</code> in the <a href="https://github.com/heidihelena/vahtian">source repo</a>.</p>
+    <p>The archived release, which is the one to use in a methods section:</p>
+    <p class="apa">Andersén, H. H. (2026). <i>Vahtian: human-first, auditable research-integrity tools</i> (Version v0.2.0) [Computer software]. Zenodo. https://doi.org/10.5281/zenodo.21700192</p>
+    <h3>All versions</h3>
+    <p class="apa">Andersén, H. H. (2026). <i>Vahtian: human-first, auditable research-integrity tools</i> [Computer software]. Zenodo. https://doi.org/10.5281/zenodo.21339127</p>
+    <p style="color:var(--muted);font-size:14.5px;margin:14px 0 0">GitHub also offers “Cite this repository” from the <code>CITATION.cff</code> in the <a href="https://github.com/heidihelena/vahtian">source repo</a>, which carries the all-versions DOI.</p>
+    <p style="color:var(--muted);font-size:14.5px;margin:8px 0 0">A star on that repo is not a citation and says nothing about the work, but it does help other researchers find the tools.</p>
   </section>
 </main>
 
