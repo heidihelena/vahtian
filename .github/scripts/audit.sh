@@ -128,5 +128,93 @@ for loc in $(grep -oE '<loc>[^<]+</loc>' sitemap.xml | sed 's#</\{0,1\}loc>##g')
   grep -q "127.0.0.1:8080${path}\"" .pa11yci || err "page not scanned by pa11y: $path"
 done
 
+# 10. Release metadata must agree across CITATION.cff, /cite/, and the newest tag.
+# Three fields have to be bumped at every release — `version`, `date-released`,
+# and the version DOI under `identifiers` — and each of them is repeated on
+# /cite/ in three places (the recommended-format table, the BibTeX block, the
+# "Citing Vahtian generally" section). Nothing gated them. Both files stay valid
+# on their own when they disagree, so the first missed bump would have shipped a
+# citation pointing at the wrong frozen snapshot, silently, with no way for a
+# reader to tell. The top-level `doi` is the concept DOI (all versions) and must
+# NOT move between releases — it is checked for stability, not for bumping.
+cff=CITATION.cff
+cite=cite/index.html
+
+# scalar at column 0, quotes optional
+cff_get(){ sed -n "s/^$1:[[:space:]]*[\"']\{0,1\}\([^\"']*\)[\"']\{0,1\}[[:space:]]*\$/\1/p" "$cff" | head -1; }
+
+cff_version=$(cff_get version)
+cff_date=$(cff_get date-released)
+cff_concept_doi=$(cff_get doi)
+# The version DOI lives in the indented `identifiers:` block, not at column 0.
+cff_version_doi=$(awk '/^identifiers:/{f=1;next} f&&/^[^[:space:]]/{f=0} f' "$cff" \
+  | sed -n 's/.*value:[[:space:]]*"\{0,1\}\([^"]*\)"\{0,1\}[[:space:]]*$/\1/p' | head -1)
+
+[ -n "$cff_version" ]     || err "CITATION.cff has no version — /cite/ cannot be gated against it"
+[ -n "$cff_date" ]        || err "CITATION.cff has no date-released"
+[ -n "$cff_concept_doi" ] || err "CITATION.cff has no top-level doi (the concept DOI)"
+[ -n "$cff_version_doi" ] || err "CITATION.cff has no identifiers: doi entry (the version DOI)"
+
+case "$cff_date" in
+  [0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]) ;;
+  "") ;;
+  *) err "CITATION.cff date-released is not ISO YYYY-MM-DD: $cff_date" ;;
+esac
+
+# A release that reuses the concept DOI as its version DOI means the version DOI
+# was never bumped — the exact drift this section exists to catch.
+if [ -n "$cff_version_doi" ] && [ "$cff_version_doi" = "$cff_concept_doi" ]; then
+  err "CITATION.cff version DOI equals the concept DOI ($cff_concept_doi) — the version DOI was not bumped"
+fi
+
+# 10a. Everything CITATION.cff declares has to appear on /cite/.
+[ -z "$cff_version_doi" ]   || grep -qF "$cff_version_doi" "$cite"   || err "version DOI $cff_version_doi (CITATION.cff) missing from $cite"
+[ -z "$cff_concept_doi" ]   || grep -qF "$cff_concept_doi" "$cite"   || err "concept DOI $cff_concept_doi (CITATION.cff) missing from $cite"
+[ -z "$cff_version" ]       || grep -qF "$cff_version" "$cite"       || err "version $cff_version (CITATION.cff) missing from $cite"
+[ -z "$cff_date" ]          || grep -qF "$cff_date" "$cite"          || err "release date $cff_date (CITATION.cff) missing from $cite"
+
+# 10b. And nothing else may appear on /cite/. Presence alone would pass while a
+# stale copy sat in the BibTeX block, so the two DOIs and the one version string
+# are exclusive: any other value on the page is a leftover from a past release.
+# (The `zenodo.XXXXX` placeholder in the "no DOI yet" note is not numeric and so
+# is not matched. If /cite/ ever legitimately names a second release, this check
+# is the thing to update.)
+for d in $(grep -oE '10\.5281/zenodo\.[0-9]+' "$cite" | sort -u); do
+  case "$d" in
+    "$cff_version_doi"|"$cff_concept_doi") ;;
+    *) err "stale Zenodo DOI $d in $cite — CITATION.cff declares ${cff_version_doi:-<none>} (version) and ${cff_concept_doi:-<none>} (concept)" ;;
+  esac
+done
+for v in $(grep -oE 'v[0-9]+\.[0-9]+(\.[0-9]+)?' "$cite" | sort -u); do
+  [ "$v" = "$cff_version" ] || err "stale version $v in $cite — CITATION.cff declares $cff_version"
+done
+
+# 10c. CITATION.cff must describe the newest release, not the one before it.
+# Tags are absent from shallow checkouts and fresh forks; that is a missing
+# signal, not drift, so it skips rather than fails.
+newest_tag=$(git tag --list 'v*' --sort=-v:refname 2>/dev/null | head -1)
+if [ -z "$newest_tag" ]; then
+  echo "note: no v* tags in this checkout — skipping CITATION.cff/tag comparison"
+elif [ -n "$cff_version" ] && [ "$cff_version" != "$newest_tag" ]; then
+  err "CITATION.cff version ($cff_version) is not the newest v* tag ($newest_tag)"
+fi
+
+# 10d. Optional: do the DOIs actually resolve? Checked against the handle system
+# rather than Zenodo — Zenodo's WAF answers plain curl with 403, so a Zenodo
+# probe would report every DOI as broken. responseCode 1 means registered.
+# Advisory only: a network blip must not fail the gate, so this never sets fail.
+if command -v curl >/dev/null 2>&1; then
+  for d in "$cff_version_doi" "$cff_concept_doi"; do
+    [ -n "$d" ] || continue
+    resp=$(curl -sS --max-time 10 "https://doi.org/api/handles/$d" 2>/dev/null) || continue
+    [ -n "$resp" ] || continue
+    case "$resp" in
+      *'"responseCode":1,'*) ;;
+      *'"responseCode"'*) echo "::warning::DOI $d is not registered with the handle system (CITATION.cff)" ;;
+      *) ;;  # unparseable answer — treat as an unreachable network, not as drift
+    esac
+  done
+fi
+
 if [ $fail -ne 0 ]; then echo "DRIFT AUDIT FAILED"; exit 1; fi
 echo "drift audit: clean ✓"

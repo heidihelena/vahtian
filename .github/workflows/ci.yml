@@ -20,6 +20,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          # The release-metadata check compares CITATION.cff against the newest
+          # v* tag. The default shallow checkout carries no tags, so the check
+          # would skip itself in CI and only ever run locally. `fetch-tags: true`
+          # is not enough on its own: at fetch-depth 1 the tagged commits are
+          # outside the fetched history, and the run still logged "no v* tags".
+          # Full history is ~12 MiB here, so take it and have the check run.
+          fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
           node-version: 20
