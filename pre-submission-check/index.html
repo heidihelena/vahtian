@@ -134,7 +134,7 @@
     .gpick button{background:#fff;color:var(--ink);border:1px solid #b7add0}
     .gpick button[aria-pressed="true"]{background:var(--navy);color:#fff;border-color:var(--navy)}
     .gmeta{font-size:13.5px;color:var(--muted);margin:0 0 14px;max-width:70ch}
-    .tmpl{font-size:13.5px;color:#322c47;margin:0 0 16px;max-width:70ch;padding:10px 0 12px 16px;border-left:3px solid var(--teal)}
+    .tmpl{font-size:13.5px;color:#322c47;margin:0 0 16px;max-width:70ch}
     .tmpl a{font-weight:650}
     .gitem{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:start;padding:11px 0;border-bottom:1px solid var(--line)}
     .gnum{font:650 12px/1.6 "Nudica Mono",ui-monospace,monospace;color:var(--muted);white-space:nowrap;min-width:2.2em}
@@ -558,9 +558,8 @@
     if(!g){ el.innerHTML=""; return; }
     var G=GUIDES[g], marks=state.marks[g]||{};
     var html='<div class="tool"><p class="gmeta" style="margin:0 0 10px"><b>'+esc(G.long)+'</b> · '+G.items.length+' items</p>'+
-             '<p class="tmpl">Fill the official one as you go: <a href="'+G.template+'" rel="noopener">'+esc(G.templateName)+'</a>'+
-             ' · <a href="'+G.url+'" rel="noopener">all versions</a>. Published by the guideline group, not by Vahtian, '+
-             'and it is the version journals ask for.</p>';
+             '<p class="tmpl">Fill the official checklist as you go: <a href="'+G.template+'" rel="noopener">'+esc(G.templateName)+'</a>'+
+             ' · <a href="'+G.url+'" rel="noopener">all versions</a>. Published by the guideline group, not by Vahtian.</p>';
     for(var i=0;i<G.items.length;i++){
       var num=G.items[i][0], label=G.items[i][1], cur=marks[num]||"";
       html+='<div class="gitem"><span class="gnum">'+esc(num)+'</span><span class="gtext">'+esc(label)+'</span>'+
