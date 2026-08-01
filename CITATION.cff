@@ -12,6 +12,8 @@ authors:
     given-names: Heidi Helena
     orcid: "https://orcid.org/0000-0001-5923-5865"
 year: 2026
+version: v0.2.0
+date-released: "2026-07-30"
 url: "https://vahtian.com/"
 repository-code: "https://github.com/heidihelena/vahtian"
 license: Apache-2.0
@@ -22,3 +24,7 @@ keywords:
   - evidence synthesis
   - local-first
 doi: "10.5281/zenodo.21339127"
+identifiers:
+  - type: doi
+    value: "10.5281/zenodo.21700192"
+    description: "Archived snapshot of v0.2.0"
