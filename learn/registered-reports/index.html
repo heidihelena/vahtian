@@ -109,14 +109,14 @@
   <li>the statistical analysis plan.</li>
 </ul>
 <p>Peer reviewers evaluate whether the question is important and whether the methods are rigorous. There are no results to read, so there is nothing else to judge on.</p>
-<p>If the study passes review, the journal gives an <strong>in-principle acceptance</strong>. At that point the journal has committed to publishing the paper, provided that:</p>
+<p>If the study passes Stage 1 review, the journal grants an <strong>in-principle acceptance</strong>. At that point, the journal commits to publishing the paper provided that:</p>
 <ul>
-  <li>you follow the approved protocol,</li>
-  <li>you collect the data as planned,</li>
-  <li>you report the results honestly.</li>
+  <li>the study is conducted in accordance with the approved protocol,</li>
+  <li>any deviations from the protocol are transparently disclosed and justified, and</li>
+  <li>the final manuscript satisfies the journal's pre-specified quality checks.</li>
 </ul>
 
-<div class="note"><p style="margin:0"><strong>The commitment is conditional.</strong> The Center for Open Science describes in-principle acceptance as the journal virtually guaranteeing publication if the study is conducted in accordance with the approved protocol. The three conditions above are the whole of it, and a departure from the protocol that is not disclosed and explained falls outside them. What the journal has given up is the right to reject you for the direction of your results.</p></div>
+<div class="note"><p style="margin:0"><strong>The commitment is conditional.</strong> The Center for Open Science describes in-principle acceptance as a virtual guarantee of publication if the approved protocol is followed. The journal has not waived its assessment of scientific quality or adherence to the protocol. What it has waived is the ability to reject the paper because the results are negative, null, or otherwise unexpected.</p></div>
 
 <h2>Stage 2, after the study</h2>
 <p>Reviewers check whether you followed the protocol and whether the conclusions match the evidence. They do not judge the paper on whether the results are positive, statistically significant, or exciting.</p>
@@ -130,7 +130,6 @@
   <li><strong>Selective reporting.</strong> The outcomes were named at Stage 1, so an outcome that goes missing at Stage 2 is visible as missing.</li>
 </ul>
 <p>A fifth effect gets less attention, and for most authors it is the one that pays: <strong>design criticism arrives while the design can still change.</strong> The reviewer who would have written "underpowered for this comparison" in a rejection letter writes it while you can still fix the sampling.</p>
-<p>Nothing here is a new virtue in reviewers. It is the same review, applied at a different moment. It does not make a study true. It makes the record of what you intended checkable against what you did.</p>
 
 <h2>Is it the right format for your study?</h2>
 <p>It fits confirmatory work: a stated hypothesis, a design chosen to test it, and data not yet collected. It fits badly where the work is genuinely exploratory, and forcing exploratory work into a confirmatory frame is its own distortion. Some journals also offer the format for meta-analysis or for secondary analysis of existing data, where the constraint becomes committing to the analysis before you look.</p>
@@ -167,7 +166,7 @@
     <tr><td>Anything else</td><td>Search by study type at <a href="https://www.equator-network.org/" rel="noopener">EQUATOR Network</a></td></tr>
   </tbody>
 </table>
-<p>Filing a Stage 1 protocol against CONSORT produces a document full of items you cannot answer yet, and it reads to an editor as though you have misunderstood the format.</p>
+<p>For a randomised trial, a Stage 1 submission should be prepared as a protocol, using the journal's Registered Report template and the relevant protocol guideline, such as SPIRIT. CONSORT is intended for the completed trial report and includes results-stage information that does not yet exist.</p>
 
 <h2>How to use a checklist</h2>
 <p>Most advice stops at "complete the checklist for your study type". Five rules matter more than which checklist you picked:</p>
@@ -179,10 +178,14 @@
   <li><strong>Give the location.</strong> Journals ask where each item is reported, by page or section. If you cannot point at a place, the item is not reported yet, whatever the tick says.</li>
 </ol>
 
-<h2>Where a tool helps, and where it does not</h2>
-<p><strong>Before data collection</strong>, the part of Stage 1 that is hardest to defend is usually the sample size justification. A conventional power calculation answers one question: at this n, how often would an effect of this size be detected? It does not tell you whether attrition will quietly change the estimand you set out to measure, whether the estimator stays calibrated under the missingness you expect, or whether the estimates that do reach significance are exaggerated.</p>
-<p><a href="/recoverlite/">RecoverLite</a> tests those by simulation. You declare the target estimand, the data strategy, the measurement and missingness models, and the planned analysis. It generates data across a crossed grid of null and target effects, each under your declared assumptions and under a pessimistic perturbation of them, applies the planned analysis to every simulated dataset, and turns the result into a PASS, RISK or FAIL verdict under a versioned threshold profile. The verdict is recomputed under a stricter and a more lenient profile, and one that flips between profiles is itself a finding: that is what a design sitting on a line looks like when it is reported honestly. It runs offline, as an R package from <a href="https://heidihelena.r-universe.dev/recoverlite" rel="noopener">r-universe</a> or a Python package from <a href="https://pypi.org/project/recoverlite/" rel="noopener">PyPI</a>, and it is a prototype implementation of a working-draft protocol rather than a settled method.</p>
-<p>A PASS there is evidence about the instrument, not about the world. It does not test the assumptions you declared, and it says nothing about people. That distinction is worked through at <a href="https://www.forskai.com/design-evidence-vs-validity" rel="noopener">forskai.com</a>, which publishes a <a href="https://www.forskai.com/recoverability-checklist" rel="noopener">pre-data checklist</a> for this moment and offers a reviewed design service for people who would rather have a design stress-tested than self-test it.</p>
+<h2>Where tools help, and where they stop</h2>
+<p>Stage 1 review asks a harder question than whether the proposed sample size reaches 80% power. It asks whether the study, as designed, can support the claim it intends to make.</p>
+<p>A conventional power calculation tests one part of that problem. It does not show whether the estimand survives attrition, whether the planned estimator remains calibrated under plausible missingness, whether the measurement process distorts the target, or whether apparently successful estimates become systematically exaggerated.</p>
+<p><a href="/recoverlite/">RecoverLite</a> tests the design as a system.</p>
+<p>You specify the estimand, data-generating assumptions, measurement model, missingness process, recruitment and attrition pattern, and planned analysis. RecoverLite then simulates the full study under the target scenario, the null, and declared perturbations of the assumptions. The planned analysis is applied to every simulated dataset.</p>
+<p>The output is not a prediction that the study will succeed. It is evidence about whether the proposed design can recover its intended target under the conditions tested. Results are evaluated against versioned decision criteria and reported as PASS, RISK, or FAIL. Sensitivity to stricter and more permissive thresholds is shown explicitly. A verdict that changes across profiles identifies a design close to a decision boundary.</p>
+<p>RecoverLite is available as <a href="https://heidihelena.r-universe.dev/recoverlite" rel="noopener">R</a> and <a href="https://pypi.org/project/recoverlite/" rel="noopener">Python</a> packages and runs locally.</p>
+<p>My services at <a href="https://www.forskai.com/" rel="noopener">forskai.com</a> extend this beyond a software run. The <a href="https://www.forskai.com/recoverability-checklist" rel="noopener">reviewed design service</a> examines the alignment between the research question, estimand, sampling process, measurement, missingness, analysis, decision thresholds, and intended claim. The purpose is to identify where the study may fail before recruitment or data collection makes those failures expensive.</p>
 <p><strong>After the study</strong>, the <a href="/pre-submission-check/">Pre-Submission Check</a> runs the second checkpoint in the browser: the statement scan, the reporting-guideline item walk, and links out to the reference check, which resolves identifiers against Crossref, DataCite and OpenLibrary, and to the claim-wording and claim-to-source steps. It flags what is open for you to judge. It does not decide whether the manuscript is ready, because that is not a thing a machine can settle.</p>
 
 <h2>If you work with an AI agent</h2>
@@ -197,9 +200,9 @@ my attestation to the editor. Do not give me a readiness verdict.</code></pre>
 <p>The skill is written so that an agent reports the steps it cannot run rather than approximating them, which is the failure mode worth guarding against: an agent that quietly re-implements a check and reports the guess as a tool result. More on agent use at <a href="/agents/">Vahtian for agents</a>.</p>
 
 <div class="cta">
-  <p><strong>You do not need our tools for any of this.</strong> The format, the checklists, and the EQUATOR guidelines are all free and published by other people.</p>
-  <p>If you are writing a Stage 1 submission and the sample size justification is the part you are least sure about, test the design before you have to defend it.</p>
-  <a class="btn" href="/recoverlite/">See RecoverLite, the recovery test for planned designs</a>
+  <p>The reporting guidelines tell you what to include in a protocol or manuscript. They do not tell you whether your study design is likely to answer the research question.</p>
+  <p>That is the gap <a href="/recoverlite/">RecoverLite</a> and <a href="https://www.forskai.com/" rel="noopener">Forskai</a> are designed to fill. Before you commit participants, funding, and months of work, stress-test the study design. Simulate realistic scenarios, evaluate the planned analysis, and identify weaknesses while they are still inexpensive to correct.</p>
+  <a class="btn" href="/recoverlite/">Stress-test a planned design</a>
 </div>
 
 <h2>Related guides</h2>
