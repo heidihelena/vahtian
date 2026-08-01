@@ -20,6 +20,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          # The release-metadata check compares CITATION.cff against the newest
+          # v* tag. The default shallow checkout carries no tags, so the check
+          # would skip itself in CI and only ever run locally.
+          fetch-tags: true
       - uses: actions/setup-node@v4
         with:
           node-version: 20
