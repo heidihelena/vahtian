@@ -53,8 +53,11 @@ whenever a new copy problem is caught: `.claude/evals/README.md`.
   agent adds structure, links, and formatting around it. Any change to her
   wording is a flagged suggestion, never a silent rewrite. (#345/#346 lesson:
   an agent replaced her content and the live page briefly carried wrong facts.)
-- The review queue lives in the Vahtian_OS vault: `30-revenue/Learn-Queue.md`
-  (statuses `drafting` → `in-review [G]` → `approved` → `live`).
+- **Articles queue as markdown drafts in the Vahtian_OS vault** —
+  `30-revenue/learn-queue/` (flow + template there, dashboard
+  `30-revenue/Learn-Queue.md`). Heidi edits the draft note in Obsidian and tags
+  it `#accepted-for-learn`; only then is the HTML page built, from her text,
+  wording as-is.
 
 ## Hard floor (even when no skill fires)
 
