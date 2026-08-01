@@ -27,6 +27,14 @@ The agent does the heavy lifting; the human keeps every judgement.
   whether an agent may run it, and requires the agent to report the browser steps as **not run** rather
   than approximating them.
 
+## The vocabulary underneath them
+
+[`VOCABULARY.md`](VOCABULARY.md) names the **objects** the skills rate: support, resolution,
+presence, recoverability, a copy gate. It exists because rules kept being written against words
+while the thing they governed stayed reachable, and because `PASS` turned out to mean three
+different things in this repo. `node .claude/evals/vocabulary.mjs` checks the skills against it and
+gates CI.
+
 ## Install
 
 - **Claude Code / Superpowers-style skills:** copy `SKILL.md` into your skills directory (or point your

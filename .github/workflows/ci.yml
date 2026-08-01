@@ -39,8 +39,10 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-      - name: Verify the corpus
+      - name: Check the corpus
         run: node .claude/evals/run.mjs
+      - name: Check the skills against the vocabulary
+        run: node .claude/evals/vocabulary.mjs
 
   # Hard gate: the two browser tools whose logic is worth more than its looks.
   # Both runners load the rules out of the shipped page rather than keeping a
