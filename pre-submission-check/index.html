@@ -141,6 +141,7 @@
     .gitem{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:start;padding:11px 0;border-bottom:1px solid var(--line)}
     .gnum{font:650 12px/1.6 "Nudica Mono",ui-monospace,monospace;color:var(--muted);white-space:nowrap;min-width:2.2em}
     .gtext{font-size:14px;color:#322c47;line-height:1.55}
+    .ghint{display:block;font:650 11px/1.4 "Nudica Mono",ui-monospace,monospace;color:var(--muted);margin-top:4px}
     .gbtns{display:flex;gap:5px}
     .gbtns button{padding:6px 10px;font:650 12px/1.4 "Nudica Mono",ui-monospace,monospace;border-radius:6px;background:#fff;color:var(--muted);border:1px solid var(--line)}
     .gbtns button[aria-pressed="true"].b-done{background:var(--teal-fill);border-color:var(--teal);color:var(--teal-text)}
@@ -253,6 +254,7 @@
       <button type="button" data-g="consort" aria-pressed="false">CONSORT · randomised trial</button>
       <button type="button" data-g="prisma" aria-pressed="false">PRISMA 2020 · systematic review</button>
     </div>
+    <div id="gsuggest"></div>
     <div id="gout"></div>
   </section>
 
@@ -381,10 +383,10 @@
      re:/\b(fund(ed|ing)( was| were)?( provided| received| supported)?|grant (no|number|#)|financial support|supported by .{0,60}(grant|foundation|council|academy|institute)|received no (specific |external )?fund|no fund(ing)? (was )?received)/i,
      miss:"No funding wording found. \"This research received no specific funding\" is also a funding statement; most journals require one either way."},
     {key:"coi", label:"Competing interests", app:"core",
-     re:/\b(conflicts? of interest|competing interests?|nothing to disclose|no (relevant )?(financial )?(conflicts?|disclosures)|declare(s|d)? no|disclosure statement)\b/i,
+     re:/\b(conflicts? of interest|competing interests?|nothing to disclose|no (relevant )?(financial )?(conflicts?|disclosures)|declarations? of (competing |conflicting )?interest|declare[sd]?\s+(no|any|the following|that they|receiving|having)|disclosure statement|outside the submitted work|personal fees|consultanc(y|ies) fees|honoraria|advisory board|speakers?[' ]?s? bureau)/i,
      miss:"No competing-interests wording found. A \"none to declare\" line counts; its absence is what desk editors notice."},
     {key:"data", label:"Data availability", app:"core",
-     re:/\b(data (are|is|will be)? ?availab|data availability|available (from the corresponding author|upon? (reasonable )?request)|deposited (in|at)|publicly available (in|at)|data sharing|code (is|are) available)/i,
+     re:/\b(data (are|is|will be)? ?availab|data availability|available (from the corresponding author|upon? (reasonable )?request)|deposited (in|at)|publicly available|data sharing|code (is|are) available|data (cannot|can ?not|may not|are not|is not|will not)\b[^.]{0,40}\b(shared|share|available|released)|restrictions? apply|not publicly available|de-?identified (data|dataset)|underlying data)/i,
      miss:"No data-availability wording found. Many journals now require the statement even when the answer is \"not available\", with the reason."},
     {key:"reg", label:"Registration", app:"ifapp",
      re:/\b(clinicaltrials\.gov|NCT\d{7,8}|PROSPERO|CRD42\d+|ISRCTN\d+|EudraCT|trial regist|(pre.?)?regist(ered|ration) (at|in|with|number))/i,
@@ -460,9 +462,9 @@
 
   var EXAMPLE="Introduction\nLung cancer remains the leading cause of cancer death in Europe. We examined survival in a retrospective cohort.\n\nMethods\nWe included 412 patients treated between 2015 and 2022. The study was approved by the Regional Ethics Committee (decision 124/2023). Statistical analyses used R 4.3.\n\nResults\nMedian survival was 18.4 months (95% CI 15.2-21.8).\n\nDiscussion\nOur findings align with registry data. Limitations include the single-centre design.\n\nThe authors declare no conflicts of interest. Data are available from the corresponding author upon reasonable request.";
 
-  $("run").addEventListener("click",function(){ renderScan(scan($("ms").value||"")); $("scanout").scrollIntoView({behavior:reduced?'auto':'smooth',block:'nearest'}); });
-  $("ex").addEventListener("click",function(){ $("ms").value=EXAMPLE; renderScan(scan(EXAMPLE)); });
-  $("clr").addEventListener("click",function(){ $("ms").value=""; $("scanout").innerHTML=""; lastScan=null; $("ms").focus(); });
+  $("run").addEventListener("click",function(){ renderScan(scan($("ms").value||"")); renderSuggestion(); renderGuide(); $("scanout").scrollIntoView({behavior:reduced?'auto':'smooth',block:'nearest'}); });
+  $("ex").addEventListener("click",function(){ $("ms").value=EXAMPLE; renderScan(scan(EXAMPLE)); renderSuggestion(); renderGuide(); });
+  $("clr").addEventListener("click",function(){ $("ms").value=""; $("scanout").innerHTML=""; lastScan=null; renderSuggestion(); renderGuide(); $("ms").focus(); });
 
   /* ---------- Step 2: reporting guideline ---------- */
 
@@ -592,6 +594,56 @@
     return c;
   }
 
+  /* The scan can suggest which guideline fits, and can say what it saw next to the
+     few items that map onto a statement it checks. It does not mark items: marking
+     one addressed is a judgement about whether the paper reports it adequately,
+     which wording presence cannot support. Suggest and inform; the author marks. */
+  var DESIGN=[
+    {g:"prisma", re:/\b(systematic review|meta-?analys[ie]s|PROSPERO|CRD42\d+|search strateg|screening|records identified|PRISMA)\b/i,
+     why:"systematic review wording"},
+    {g:"consort", re:/\b(randomi[sz]ed|randomi[sz]ation|randomly (assigned|allocated)|allocation concealment|placebo|double.?blind|trial arm|NCT\d{7,8}|ISRCTN\d+|intention.to.treat)\b/i,
+     why:"randomised trial wording"},
+    {g:"strobe", re:/\b(cohort|case.?control|cross.?sectional|registry|retrospective|prospective observational|observational study|follow.?up of)\b/i,
+     why:"observational study wording"}
+  ];
+  function suggestGuideline(text){
+    if(!text) return null;
+    for(var i=0;i<DESIGN.length;i++){
+      var m=DESIGN[i].re.exec(text);
+      if(m) return {g:DESIGN[i].g, why:DESIGN[i].why, hit:m[0]};
+    }
+    return null;
+  }
+
+  // Items that correspond 1:1 to a statement the scan reads.
+  var ITEM_HINT={
+    strobe:{"22":"funding"},
+    consort:{"2":"reg","4":"data","5a":"funding","5b":"coi"},
+    prisma:{"24":"reg","25":"funding","26":"coi","27":"data"}
+  };
+  function statementSeen(key){
+    if(!lastScan) return null;
+    for(var i=0;i<lastScan.statements.length;i++){
+      if(lastScan.statements[i].key===key) return lastScan.statements[i].found;
+    }
+    return null;
+  }
+
+  function renderSuggestion(){
+    var el=$("gsuggest");
+    if(!el) return;
+    if(state.guide || !lastScan){ el.innerHTML=""; return; }
+    var sg=suggestGuideline($("ms").value||"");
+    if(!sg){ el.innerHTML=""; return; }
+    el.innerHTML='<p class="gmeta">The scan saw '+esc(sg.why)+', matching \u201C'+esc(sg.hit)+'\u201D. '+
+      'That is a suggestion from wording alone; pick whichever guideline matches your design.</p>'+
+      '<div class="actions"><button type="button" id="gtake" class="ghost">Use '+esc(GUIDES[sg.g].name)+'</button></div>';
+    $("gtake").addEventListener("click",function(){
+      state.guide=sg.g; saveState(state); renderSuggestion(); renderGuide();
+      $("gout").scrollIntoView({behavior:reduced?'auto':'smooth',block:'nearest'});
+    });
+  }
+
   function renderGuide(){
     var g=state.guide, el=$("gout");
     var btns=document.querySelectorAll(".gpick button");
@@ -603,7 +655,10 @@
              ' · <a href="'+G.url+'" rel="noopener">all versions</a>. Published by the guideline group, not by Vahtian.</p>';
     for(var i=0;i<G.items.length;i++){
       var num=G.items[i][0], label=G.items[i][1], cur=marks[num]||"";
-      html+='<div class="gitem"><span class="gnum">'+esc(num)+'</span><span class="gtext">'+esc(label)+'</span>'+
+      var hintKey=(ITEM_HINT[g]||{})[num], seen=hintKey?statementSeen(hintKey):null, hint='';
+      if(seen===true) hint='<span class="ghint">scan found wording for this</span>';
+      else if(seen===false) hint='<span class="ghint">scan found no wording for this</span>';
+      html+='<div class="gitem"><span class="gnum">'+esc(num)+'</span><span class="gtext">'+esc(label)+hint+'</span>'+
         '<span class="gbtns" role="group" aria-label="Item '+esc(num)+'">'+
         '<button type="button" class="b-done" data-i="'+esc(num)+'" data-v="done" aria-pressed="'+(cur==="done")+'">Addressed</button>'+
         '<button type="button" class="b-gap" data-i="'+esc(num)+'" data-v="gap" aria-pressed="'+(cur==="gap")+'">Gap</button>'+
@@ -628,7 +683,7 @@
     btn.addEventListener("click",function(){
       var g=btn.getAttribute("data-g");
       state.guide = (state.guide===g) ? null : g;
-      saveState(state); renderGuide();
+      saveState(state); renderSuggestion(); renderGuide();
     });
   });
 
