@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Pre-Submission Check, run your manuscript like code · Vahtian</title>
-  <meta name="description" content="A free pre-submission check in your browser: ethics, funding, COI and data statements, STROBE/CONSORT/PRISMA walk, references, claim wording. Nothing uploads.">
+  <meta name="description" content="A free pre-submission check in your browser: ethics, funding, COI and data statements, STROBE/CONSORT/PRISMA items, references, claim wording. Nothing uploads.">
   <meta name="theme-color" content="#2D2440">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
@@ -29,7 +29,7 @@
   "applicationCategory": "Research software",
   "operatingSystem": "Any (web browser)",
   "url": "https://vahtian.com/pre-submission-check/",
-  "description": "Browser-side pre-submission check chain for research manuscripts: statement-presence scan (ethics, consent, funding, competing interests, data availability, registration, AI disclosure), a STROBE/CONSORT/PRISMA item-by-item walk, and links to reference and claim-wording checks. It flags gaps for a human to judge; it does not certify publication readiness. Nothing is uploaded.",
+  "description": "Browser-side pre-submission check chain for research manuscripts: statement-presence scan (ethics, consent, funding, competing interests, data availability, registration, AI disclosure), a STROBE/CONSORT/PRISMA item list, and links to reference and claim-wording checks. It flags gaps for a human to judge; it does not certify publication readiness. Nothing is uploaded.",
   "isPartOf": {
     "@type": "WebSite",
     "name": "Vahtian",
@@ -44,14 +44,17 @@
   </script>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232D2440'/%3E%3Cg fill='none' stroke='%238B6FC9' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 9 H9 V23 H12'/%3E%3Cpath d='M20 9 H23 V23 H20'/%3E%3C/g%3E%3Cpath d='M12.5 16.2 L15 18.7 L19.7 13.5' fill='none' stroke='%23C5B8E8' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
   <style>
-    /* Tokens follow the reference-check archetype: no yellow, no pink. The
-       accent slots are re-pointed at the violet family so a state reads as a
-       state, not as a second brand colour. */
-    :root{--amber:#8B6FC9;--rose:#2D2440;
-          --amber-fill:#F2EFFA;--amber-text:#2D2440;
-          --teal-fill:#F2EFFA;--teal-text:#2D2440;
-          --violet-fill:#ECE3FF;--violet-text:#432C7A;
-          --rose-fill:#E7E1F0;--rose-text:#1C1830;}
+    /* The product accents stay live, per the design language: teal, amber and
+       rose carry the three states rather than being collapsed to violet.
+       --amber-line darkens the brand gold only where it draws a boundary:
+       #C98A00 measures 2.81 against the page ground and a UI boundary needs
+       3:1 (WCAG 1.4.11); #B07900 measures 3.59. Chip text sits above 8:1 on
+       every tint. */
+    :root{--amber:#C98A00;--amber-line:#B07900;--rose:#C24D7E;
+          --teal-fill:#EDF7F5;--teal-text:#08544A;
+          --amber-fill:#FAF3E6;--amber-text:#5A4300;
+          --rose-fill:#FCEEF4;--rose-text:#7A1F47;
+          --violet-fill:#ECE3FF;--violet-text:#432C7A;}
     *{box-sizing:border-box}
     body{margin:0;font:500 16px/1.6 "Nudica",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,ui-sans-serif,system-ui,sans-serif;
          color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased}
@@ -105,16 +108,16 @@
          display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:start}
     .row.ok{border-left-color:var(--teal)}
     .row.no{border-left-color:var(--rose)}
-    .row.nr{border-left-color:var(--violet)}
+    .row.nr{border-left-color:var(--amber-line)}
     .verdict{font:650 12px/1.4 "Nudica Mono",ui-monospace,monospace;padding:5px 9px;border-radius:6px;white-space:nowrap}
     .v-ok{background:var(--teal-fill);color:var(--teal-text);border:1px solid var(--teal)}
     .v-no{background:var(--rose-fill);color:var(--rose-text);border:1px solid var(--rose)}
-    .v-nr{background:var(--violet-fill);color:var(--violet-text);border:1px solid var(--violet)}
+    .v-nr{background:var(--amber-fill);color:var(--amber-text);border:1px solid var(--amber-line)}
     .vbody{font-size:14px;color:#322c47;line-height:1.55}
     .vbody b{color:var(--ink);font-weight:650}
     .vbody .q{display:block;font-size:13px;color:var(--muted);margin-top:5px;line-height:1.5}
-    .cant{background:transparent;border:0;border-left:3px solid var(--amber);border-radius:0;padding:5px 0 5px 20px;color:#3a3450;font-size:14px;margin-top:22px;max-width:70ch}
-    /* guideline walk */
+    .cant{background:transparent;border:0;border-left:3px solid var(--amber-line);border-radius:0;padding:5px 0 5px 20px;color:#3a3450;font-size:14px;margin-top:22px;max-width:70ch}
+    /* reporting guideline */
     .gpick{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 18px}
     .gpick button{background:#fff;color:var(--ink);border:1px solid #b7add0}
     .gpick button[aria-pressed="true"]{background:var(--navy);color:#fff;border-color:var(--navy)}
@@ -126,7 +129,7 @@
     .gbtns button{padding:6px 10px;font:650 12px/1.4 "Nudica Mono",ui-monospace,monospace;border-radius:6px;background:#fff;color:var(--muted);border:1px solid var(--line)}
     .gbtns button[aria-pressed="true"].b-done{background:var(--teal-fill);border-color:var(--teal);color:var(--teal-text)}
     .gbtns button[aria-pressed="true"].b-gap{background:var(--rose-fill);border-color:var(--rose);color:var(--rose-text)}
-    .gbtns button[aria-pressed="true"].b-na{background:var(--violet-fill);border-color:var(--violet);color:var(--violet-text)}
+    .gbtns button[aria-pressed="true"].b-na{background:var(--amber-fill);border-color:var(--amber-line);color:var(--amber-text)}
     .gprog{font:650 12px/1 "Nudica Mono",ui-monospace,monospace;color:var(--muted);display:inline-block;margin:16px 0 0}
     /* external steps */
     .ext{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:start;padding:13px 0;border-bottom:1px solid var(--line)}
@@ -134,9 +137,15 @@
     .ext input[type=checkbox]{width:17px;height:17px;margin-top:3px;accent-color:var(--violet);cursor:pointer}
     .ext .ebody{font-size:14.5px;color:#322c47;line-height:1.55}
     .ext .ebody b{color:var(--ink);font-weight:650}
-    /* report */
-    pre.report{background:#faf9fd;color:#322c47;border:1px solid var(--line);border-radius:11px;padding:15px 16px;margin:0;
-               font:13px/1.6 "Nudica Mono",ui-monospace,SFMono-Regular,Menlo,monospace;overflow-x:auto;white-space:pre-wrap;word-break:break-word}
+    /* report: same rows and chips as the scan, plus the shipped count chips */
+    .summary{display:flex;flex-wrap:wrap;align-items:center;gap:9px;margin:0 0 18px}
+    .stotal{font-weight:700;font-size:15.5px;margin-right:4px}
+    .scount{font:650 12px/1 "Nudica Mono",ui-monospace,monospace;padding:6px 10px;border-radius:999px;border:1px solid var(--line)}
+    .sc-ok{background:var(--teal-fill);color:var(--teal-text);border-color:var(--teal)}
+    .sc-no{background:var(--rose-fill);color:var(--rose-text);border-color:var(--rose)}
+    .sc-nr{background:var(--amber-fill);color:var(--amber-text);border-color:var(--amber-line)}
+    .signoff{font-size:14px;color:var(--muted);max-width:70ch;margin:20px 0 0}
+    .expmsg{font-size:13px;color:var(--muted)}
     /* bridge: the page's one dark surface, full-bleed like reference-check */
     .bridge{background:var(--navy);box-shadow:0 0 0 100vmax var(--navy);clip-path:inset(0 -100vmax);border-radius:0;padding:30px 0;margin:40px 0 0}
     .bridge h2{color:#fff;font-size:clamp(18px,3vw,22px);margin:0 0 8px}
@@ -178,17 +187,17 @@
 
   <h2 id="chain">The check chain</h2>
   <ol class="chain" aria-describedby="chain">
-    <li><b>Statements &amp; structure scan</b>: ethics, consent, funding, competing interests, data availability, registration, AI disclosure; section headings.<span class="where">Runs on this page, step 1 below.</span></li>
-    <li><b>Reporting-guideline walk</b>: STROBE, CONSORT or PRISMA, item by item, marked addressed / gap / not applicable.<span class="where">Runs on this page, step 2 below.</span></li>
+    <li><b>Statements and structure</b>: ethics, consent, funding, competing interests, data availability, registration, AI disclosure; section headings.<span class="where">Runs on this page, step 1 below.</span></li>
+    <li><b>Reporting guideline</b>: STROBE, CONSORT or PRISMA, item by item.<span class="where">Runs on this page, step 2 below.</span></li>
     <li><b>Reference check</b>: DOIs against Crossref and DataCite for mismatches, retractions, duplicates.<span class="where"><a href="/reference-check/">Reference check</a> (free, in the browser).</span></li>
     <li><b>Claim-wording check</b>: uncited claims, overclaiming, vague evidence language.<span class="where"><a href="/citevahti/quick-check/">Citation quick check</a> · <a href="/pattern-mirror/">Pattern mirror</a> (free, in the browser).</span></li>
     <li><b>Claim–source support</b>: does each cited source support the exact claim it is attached to?<span class="where"><a href="/citevahti/">CiteVahti</a>, a free local audit. Human first, AI second.</span></li>
-    <li><b>Report</b>: what was checked, what is open, what a machine could not resolve. The sign-off line is yours.<span class="where">Builds as you go, step 6 below.</span></li>
+    <li><b>What to fix</b>: the gaps still open and the calls that are yours.<span class="where">Builds as you go, step 6 below.</span></li>
   </ol>
 
   <section class="step" id="scan">
     <p class="page-kicker">Step 1 · runs here</p>
-    <h2>Statements &amp; structure scan</h2>
+    <h2>Statements and structure</h2>
     <div class="tool">
       <label class="tl" for="ms">Paste your manuscript text (or just the sections after the abstract)</label>
       <textarea id="ms" placeholder="Paste your manuscript text…"></textarea>
@@ -208,9 +217,9 @@
 
   <section class="step" id="guideline">
     <p class="page-kicker">Step 2 · runs here</p>
-    <h2>Reporting-guideline walk</h2>
-    <p class="gmeta">Pick the guideline that matches your study design, then mark each item. Progress is saved in
-      your browser only. Item labels are abbreviated; the official checklist is the authority:
+    <h2>Reporting guideline</h2>
+    <p class="gmeta">Pick the guideline matching your design, then mark each item. Marks are saved in your
+      browser only. Labels are abbreviated; the official checklist is the authority:
       <a href="https://www.strobe-statement.org/checklists/" rel="noopener">STROBE</a> ·
       <a href="https://www.equator-network.org/reporting-guidelines/consort/" rel="noopener">CONSORT</a> ·
       <a href="https://www.prisma-statement.org/prisma-2020-statement" rel="noopener">PRISMA 2020</a>.
@@ -237,16 +246,15 @@
   </section>
 
   <section class="step" id="report">
-    <p class="page-kicker">Step 6 · your report</p>
-    <h2>Report</h2>
-    <p class="gmeta">Assembled from what you ran above. Three states throughout: <b>found/addressed</b>,
-      <b>gap</b>, <b>needs your judgment</b>. The last line is yours to sign; the tool has no opinion on
-      readiness.</p>
+    <p class="page-kicker">Step 6 · what to fix</p>
+    <h2>What to fix</h2>
+    <p class="gmeta">Only what still needs work: gaps to close, and calls that are yours to make. Anything the
+      checks cleared is counted, not listed. Copy it as Markdown for a supervisor mail or a repo note.</p>
     <div class="actions" style="margin:0 0 12px">
-      <button id="mkreport" type="button">Build report</button>
+      <button id="mkreport" type="button">List what to fix</button>
       <button id="cpreport" class="ghost" type="button" disabled>Copy as Markdown</button>
     </div>
-    <div id="reportout" role="region" aria-live="polite" aria-label="Report"></div>
+    <div id="reportout" role="region" aria-live="polite" aria-label="What to fix"></div>
   </section>
 
   <div class="bridge">
@@ -396,7 +404,7 @@
   $("ex").addEventListener("click",function(){ $("ms").value=EXAMPLE; renderScan(scan(EXAMPLE)); });
   $("clr").addEventListener("click",function(){ $("ms").value=""; $("scanout").innerHTML=""; lastScan=null; $("ms").focus(); });
 
-  /* ---------- Step 2: guideline walk ---------- */
+  /* ---------- Step 2: reporting guideline ---------- */
 
   var GUIDES={
     strobe:{name:"STROBE", long:"STROBE, observational studies (cohort, case-control, cross-sectional)",
@@ -550,55 +558,122 @@
   /* ---------- Step 6: report ---------- */
 
   function buildReport(){
-    var L=[];
-    L.push("# Pre-submission check report");
-    L.push("");
-    L.push("Generated by vahtian.com/pre-submission-check/. All checks ran in the author's browser; nothing was uploaded.");
-    L.push("Three states are used: found/addressed · gap · needs human judgment. Machine matches wording only; adequacy was judged by the author.");
-    L.push("");
-    L.push("## 1. Statements & structure scan");
+    var L=["# Pre-submission check: what to fix",""],
+        fix=[], decide=[], cleared=0;
+
     if(lastScan){
-      lastScan.statements.forEach(function(s){
-        var st = s.found ? "found, author to confirm adequacy" : (s.app==="ifapp" ? "not found, applicability is the author's call" : "GAP, not found");
-        L.push("- "+s.label+": "+st);
+      lastScan.statements.forEach(function(st){
+        if(st.found) cleared++;
+        else if(st.app==='ifapp') decide.push(st.label+": not found; whether it applies is the author's call");
+        else fix.push(st.label+": not found, and most journals expect it");
       });
       lastScan.structure.forEach(function(t){
-        L.push("- "+t.label+": "+(t.found?"detected":"not detected"));
+        if(t.found) cleared++; else decide.push(t.label+": not detected; fine under another structure");
       });
-      L.push("- Words pasted: "+lastScan.words);
+      decide.push("Word count: "+lastScan.words+" words pasted, to compare against the journal limit");
     } else {
-      L.push("- Not run.");
+      decide.push("Statements and structure: not run");
     }
-    L.push("");
-    L.push("## 2. Reporting-guideline walk");
+
     if(state.guide){
-      var G=GUIDES[state.guide], marks=state.marks[state.guide]||{}, c=markCount(state.guide);
+      var G=GUIDES[state.guide], marks=state.marks[state.guide]||{}, c=markCount(state.guide),
+          unmarked=G.items.length-c.done-c.gap-c.na;
+      cleared+=c.done+c.na;
       L.push("Guideline: "+G.long+" ("+G.url+")");
-      L.push("Addressed "+c.done+" · gaps "+c.gap+" · n/a "+c.na+" · unmarked "+(G.items.length-c.done-c.gap-c.na)+" of "+G.items.length);
-      var gaps=G.items.filter(function(it){return marks[it[0]]==="gap";});
-      if(gaps.length){ L.push("Open gaps:"); gaps.forEach(function(it){ L.push("  - Item "+it[0]+": "+it[1]); }); }
-      var un=G.items.filter(function(it){return !marks[it[0]];});
-      if(un.length) L.push("Unmarked items remain; the walk is not finished.");
+      L.push("");
+      G.items.forEach(function(it){ if(marks[it[0]]==='gap') fix.push(G.name+" item "+it[0]+": "+it[1]); });
+      if(unmarked) decide.push(G.name+": "+unmarked+" of "+G.items.length+" items unmarked");
     } else {
-      L.push("Not run.");
+      decide.push("Reporting guideline: none picked");
     }
+
+    [['ext-ref',"Reference check: run it at vahtian.com/reference-check/"],
+     ['ext-wording',"Claim-wording check: run the quick check and pattern mirror"],
+     ['ext-support',"Claim–source support: run the CiteVahti audit"]
+    ].forEach(function(e){ if(state.ext[e[0]]) cleared++; else decide.push(e[1]); });
+
+    L.push("## Close these ("+fix.length+")");
+    if(fix.length) fix.forEach(function(f){ L.push("- [ ] "+f); }); else L.push("- none flagged");
     L.push("");
-    L.push("## 3–5. References and claims (self-reported)");
-    L.push("- Reference check (vahtian.com/reference-check/): "+(state.ext["ext-ref"]?"run, per author":"not marked as run"));
-    L.push("- Claim-wording check (quick check + pattern mirror): "+(state.ext["ext-wording"]?"run, per author":"not marked as run"));
-    L.push("- Claim–source support (CiteVahti audit): "+(state.ext["ext-support"]?"checked, per author":"not marked as run"));
+    L.push("## Your call ("+decide.length+")");
+    if(decide.length) decide.forEach(function(d){ L.push("- [ ] "+d); }); else L.push("- none open");
     L.push("");
-    L.push("## Sign-off");
-    L.push("This report records what was checked and what remains. It is not a certification of readiness; that judgment, and this signature, are the author's.");
-    L.push("");
-    L.push("Signed: ______________________  Date: ____________");
+    L.push("Cleared by these checks: "+cleared+". All checks ran in the author's browser; nothing was uploaded.");
+    L.push("These are the checks a machine can run. Adequacy, and whether to submit, stay with the author.");
     return L.join("\n");
+  }
+
+  // The report reuses the scan's rows and chips rather than inventing a view:
+  // one visual vocabulary for a state, wherever that state is shown.
+  function row(kind, chip, body){
+    return '<div class="row '+kind+'"><span class="verdict v-'+kind+'">'+esc(chip)+
+           '</span><span class="vbody">'+body+'</span></div>';
+  }
+
+  function renderReport(){
+    var fix=[], decide=[], cleared=0;
+
+    if(lastScan){
+      lastScan.statements.forEach(function(st){
+        if(st.found){ cleared++; }
+        else if(st.app==='ifapp'){ decide.push([st.label, 'Not found. Whether it applies to this study is your call.']); }
+        else { fix.push([st.label, 'Not found, and most journals expect it.']); }
+      });
+      lastScan.structure.forEach(function(t){
+        if(t.found) cleared++;
+        else decide.push([t.label, 'Not detected. Fine under another structure, so your call.']);
+      });
+      decide.push(['Word count', lastScan.words.toLocaleString()+' words pasted. Compare against your journal limit.']);
+    } else {
+      decide.push(['Statements and structure', 'Step 1 was not run.']);
+    }
+
+    if(state.guide){
+      var G=GUIDES[state.guide], marks=state.marks[state.guide]||{}, c=markCount(state.guide),
+          unmarked=G.items.length-c.done-c.gap-c.na;
+      cleared+=c.done+c.na;
+      G.items.forEach(function(it){
+        if(marks[it[0]]==='gap') fix.push([G.name+' item '+it[0], it[1]]);
+      });
+      if(unmarked) decide.push([G.name, unmarked+' of '+G.items.length+' items carry no mark yet.']);
+    } else {
+      decide.push(['Reporting guideline', 'None picked in step 2.']);
+    }
+
+    [['ext-ref','Reference check','Run it at vahtian.com/reference-check/, then mark it here.'],
+     ['ext-wording','Claim-wording check','Run the quick check and pattern mirror, then mark it here.'],
+     ['ext-support','Claim–source support','Run the CiteVahti audit, then mark it here.']
+    ].forEach(function(e){
+      if(state.ext[e[0]]) cleared++; else decide.push([e[1], e[2]]);
+    });
+
+    var html='<div class="summary"><span class="stotal">What to fix</span>'+
+             '<span class="scount sc-no">to fix '+fix.length+'</span>'+
+             '<span class="scount sc-nr">your call '+decide.length+'</span>'+
+             '<span class="scount sc-ok">cleared '+cleared+'</span></div>';
+
+    if(fix.length){
+      html+='<div class="vgroup"><div class="vhead"><h3>Close these</h3><span class="n">'+fix.length+'</span></div>';
+      fix.forEach(function(f){ html+=row('no','fix','<b>'+esc(f[0])+'.</b> '+esc(f[1])); });
+      html+='</div>';
+    }
+    if(decide.length){
+      html+='<div class="vgroup"><div class="vhead"><h3>Your call</h3><span class="n">'+decide.length+'</span></div>';
+      decide.forEach(function(d){ html+=row('nr','decide','<b>'+esc(d[0])+'.</b> '+esc(d[1])); });
+      html+='</div>';
+    }
+    if(!fix.length && !decide.length){
+      html+='<div class="vgroup">'+row('ok','nothing flagged',
+            'These checks found nothing left open. They read wording and presence, not adequacy, so this is not a clearance.')+'</div>';
+    }
+    html+='<p class="signoff">These are the checks a machine can run. Adequacy, and whether to submit, stay yours.</p>';
+    return html;
   }
 
   var lastReport="";
   $("mkreport").addEventListener("click",function(){
     lastReport=buildReport();
-    $("reportout").innerHTML='<pre class="report">'+esc(lastReport)+'</pre>';
+    $("reportout").innerHTML=renderReport();
     $("cpreport").disabled=false;
     $("reportout").scrollIntoView({behavior:reduced?'auto':'smooth',block:'nearest'});
   });
@@ -606,10 +681,7 @@
     if(!lastReport) return;
     (navigator.clipboard&&navigator.clipboard.writeText?navigator.clipboard.writeText(lastReport):Promise.reject())
       .then(function(){ $("cpreport").textContent="Copied ✓"; setTimeout(function(){ $("cpreport").textContent="Copy as Markdown"; },1600); })
-      .catch(function(){
-        var r=document.createRange(); r.selectNodeContents($("reportout").firstChild); var sel=getSelection();
-        sel.removeAllRanges(); sel.addRange(r);
-      });
+      .catch(function(){ $("cpreport").textContent="Press Ctrl/Cmd+C"; });
   });
 
   /* ---------- WebMCP progressive enhancement ---------- */
