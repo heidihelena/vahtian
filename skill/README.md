@@ -19,6 +19,22 @@ skill teaches the agent the open evidence pipeline and the invariants that keep 
 
 The agent does the heavy lifting; the human keeps every judgement.
 
+## Two skills in this folder
+
+- **`SKILL.md`** (`vahtian-research-support`) — building a review: search, screen, reconcile, retrieve, check.
+- **`presubmission-check/SKILL.md`** (`presubmission-check`) — checking a manuscript that is about to be
+  submitted: statements, reporting-guideline items, references, claim wording. It states, per step,
+  whether an agent may run it, and requires the agent to report the browser steps as **not run** rather
+  than approximating them.
+
+## The vocabulary underneath them
+
+[`VOCABULARY.md`](VOCABULARY.md) names the **objects** the skills rate: support, resolution,
+presence, recoverability, a copy gate. It exists because rules kept being written against words
+while the thing they governed stayed reachable, and because `PASS` turned out to mean three
+different things in this repo. `node .claude/evals/vocabulary.mjs` checks the skills against it and
+gates CI.
+
 ## Install
 
 - **Claude Code / Superpowers-style skills:** copy `SKILL.md` into your skills directory (or point your
