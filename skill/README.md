@@ -19,6 +19,14 @@ skill teaches the agent the open evidence pipeline and the invariants that keep 
 
 The agent does the heavy lifting; the human keeps every judgement.
 
+## Two skills in this folder
+
+- **`SKILL.md`** (`vahtian-research-support`) — building a review: search, screen, reconcile, retrieve, check.
+- **`presubmission-check/SKILL.md`** (`presubmission-check`) — checking a manuscript that is about to be
+  submitted: statements, reporting-guideline items, references, claim wording. It states, per step,
+  whether an agent may run it, and requires the agent to report the browser steps as **not run** rather
+  than approximating them.
+
 ## Install
 
 - **Claude Code / Superpowers-style skills:** copy `SKILL.md` into your skills directory (or point your
