@@ -210,10 +210,12 @@
   <ol class="chain" aria-describedby="chain">
     <li><b>Statements and structure</b>: ethics, consent, funding, competing interests, data availability, registration, AI disclosure; section headings.<span class="where">Runs on this page, step 1 below.</span></li>
     <li><b>Reporting guideline</b>: STROBE, CONSORT or PRISMA, item by item, next to the group's own fillable checklist.<span class="where">Runs on this page, step 2 below.</span></li>
-    <li><b>Reference check</b>: DOIs against Crossref and DataCite for mismatches, retractions, duplicates.<span class="where"><a href="/reference-check/">Reference check</a> (free, in the browser).</span></li>
-    <li><b>Claim-wording check</b>: uncited claims, overclaiming, vague evidence language.<span class="where"><a href="/citevahti/quick-check/">Citation quick check</a> · <a href="/pattern-mirror/">Pattern mirror</a> (free, in the browser).</span></li>
-    <li><b>Claim–source support</b>: does each cited source support the exact claim it is attached to?<span class="where"><a href="/citevahti/">CiteVahti</a>, a free local audit. Human first, AI second.</span></li>
-    <li><b>What to fix</b>: the gaps still open and the calls that are yours.<span class="where">Builds as you go, step 6 below.</span></li>
+    <li><b>Citations in the document</b>: missing bibliography entries, duplicates, broken or flattened Zotero fields.<span class="where">Zotero Citation Checker, step 3 below.</span></li>
+    <li><b>The reference list</b>: DOIs against Crossref and DataCite for mismatches, retractions, duplicates.<span class="where">Reference check, step 4 below.</span></li>
+    <li><b>Claim wording</b>: uncited claims, overclaiming, vague evidence language.<span class="where">Citation quick check, step 5 below.</span></li>
+    <li><b>Writing patterns</b>: the sentences worth looking at again, in the order you wrote them.<span class="where">Pattern mirror, step 6 below.</span></li>
+    <li><b>Claim–source support</b>: does each cited source support the exact claim it is attached to?<span class="where">CiteVahti, step 7 below.</span></li>
+    <li><b>What to fix</b>: the gaps still open and the calls that are yours.<span class="where">Builds as you go, step 8 below.</span></li>
   </ol>
 
   <section class="step" id="scan">
@@ -254,20 +256,57 @@
     <div id="gout"></div>
   </section>
 
-  <section class="step" id="external">
-    <p class="page-kicker">Steps 3 to 5 · run the tools, mark them here</p>
-    <h2>References and claims</h2>
-    <p class="gmeta">These checks have their own free tools. Run each, then mark it done here so your report
-      records it. The marks are self-reported; the report says so.</p>
-    <div id="extlist">
-      <div class="ext"><input type="checkbox" id="ext-ref"><div class="ebody"><label for="ext-ref"><b>Reference check run.</b></label> <a href="/reference-check/">Check the reference list</a>: DOIs, retractions, duplicates, mismatched titles. Paste, run, fix what it flags.</div></div>
-      <div class="ext"><input type="checkbox" id="ext-wording"><div class="ebody"><label for="ext-wording"><b>Claim-wording check run.</b></label> <a href="/citevahti/quick-check/">Citation quick check</a> for uncited claims and overclaiming; <a href="/pattern-mirror/">Pattern mirror</a> for writing patterns that weaken prose.</div></div>
-      <div class="ext"><input type="checkbox" id="ext-support"><div class="ebody"><label for="ext-support"><b>Claim–source support checked.</b></label> <a href="/citevahti/">CiteVahti</a> audits whether each cited source supports the exact claim: you rate first, AI second, with an exportable trail. Wording heuristics cannot do this check.</div></div>
-    </div>
+  <section class="step" id="citations">
+    <p class="page-kicker">Step 3 · Zotero Citation Checker</p>
+    <h2>Citations in the document</h2>
+    <p class="gmeta">Before anything about the sources themselves: whether the citations in the file are intact.
+      Drop the Word manuscript into the <a href="/zotero-citation-checker/">Zotero Citation Checker</a> and it
+      reports citations with no bibliography entry, duplicates, and fields that are broken or flattened to plain
+      text. Runs in your browser.</p>
+    <div class="ext"><input type="checkbox" id="ext-zotero"><div class="ebody"><label for="ext-zotero"><b>Marked as run.</b></label> Self-reported, and the list at step 8 says so.</div></div>
+  </section>
+
+  <section class="step" id="references">
+    <p class="page-kicker">Step 4 · Reference check</p>
+    <h2>The reference list</h2>
+    <p class="gmeta">Paste the reference list into the <a href="/reference-check/">reference check</a>. It resolves
+      DOIs, arXiv IDs and ISBNs against Crossref, DataCite and OpenLibrary, and flags mismatched titles or
+      authors, duplicates, and retractions. A retracted source in your list is the one a reviewer will name.</p>
+    <div class="ext"><input type="checkbox" id="ext-ref"><div class="ebody"><label for="ext-ref"><b>Marked as run.</b></label> Self-reported, and the list at step 8 says so.</div></div>
+  </section>
+
+  <section class="step" id="wording">
+    <p class="page-kicker">Step 5 · Citation quick check</p>
+    <h2>Claim wording</h2>
+    <p class="gmeta">The <a href="/citevahti/quick-check/">citation quick check</a> reads a paragraph for
+      citation-risk wording: claims with no citation nearby, certainty language the source may not carry, vague
+      evidence phrasing, citation pile-ups. It flags where a human should look; it does not read the cited
+      papers or decide whether a claim is true.</p>
+    <div class="ext"><input type="checkbox" id="ext-wording"><div class="ebody"><label for="ext-wording"><b>Marked as run.</b></label> Self-reported, and the list at step 8 says so.</div></div>
+  </section>
+
+  <section class="step" id="patterns">
+    <p class="page-kicker">Step 6 · Pattern mirror</p>
+    <h2>Writing patterns</h2>
+    <p class="gmeta">Paste a section into <a href="/pattern-mirror/">Pattern mirror</a> and you get the sentences
+      worth looking at again, in the order you wrote them, each with the reason and the case for leaving it
+      alone. Documented patterns that weaken scientific prose, and no score: what to change is your decision,
+      sentence by sentence.</p>
+    <div class="ext"><input type="checkbox" id="ext-patterns"><div class="ebody"><label for="ext-patterns"><b>Marked as run.</b></label> Self-reported, and the list at step 8 says so.</div></div>
+  </section>
+
+  <section class="step" id="support">
+    <p class="page-kicker">Step 7 · CiteVahti</p>
+    <h2>Claim–source support</h2>
+    <p class="gmeta">The one check wording heuristics cannot do: whether each cited source actually supports the
+      exact claim it is attached to. <a href="/citevahti/">CiteVahti</a> runs it claim by claim, you rate first
+      and the AI second, with an auditable trail and an undoable Zotero write. Local, free, and the slowest step
+      here for a reason.</p>
+    <div class="ext"><input type="checkbox" id="ext-support"><div class="ebody"><label for="ext-support"><b>Marked as run.</b></label> Self-reported, and the list at step 8 says so.</div></div>
   </section>
 
   <section class="step" id="report">
-    <p class="page-kicker">Step 6 · what to fix</p>
+    <p class="page-kicker">Step 8 · what to fix</p>
     <h2>What to fix</h2>
     <p class="gmeta">Only what still needs work: gaps to close, and calls that are yours to make. Anything the
       checks cleared is counted, not listed. Copy it as Markdown for a supervisor mail or a repo note.</p>
@@ -594,7 +633,7 @@
   });
 
   /* ---------- Steps 3–5: external marks ---------- */
-  ["ext-ref","ext-wording","ext-support"].forEach(function(id){
+  ["ext-zotero","ext-ref","ext-wording","ext-patterns","ext-support"].forEach(function(id){
     var cb=$(id);
     cb.checked=!!state.ext[id];
     cb.addEventListener("change",function(){ state.ext[id]=cb.checked; saveState(state); });
@@ -632,8 +671,10 @@
       decide.push("Reporting guideline: none picked");
     }
 
-    [['ext-ref',"Reference check: run it at vahtian.com/reference-check/"],
-     ['ext-wording',"Claim-wording check: run the quick check and pattern mirror"],
+    [['ext-zotero',"Citations in the document: run vahtian.com/zotero-citation-checker/"],
+     ['ext-ref',"The reference list: run vahtian.com/reference-check/"],
+     ['ext-wording',"Claim wording: run vahtian.com/citevahti/quick-check/"],
+     ['ext-patterns',"Writing patterns: run vahtian.com/pattern-mirror/"],
      ['ext-support',"Claim–source support: run the CiteVahti audit"]
     ].forEach(function(e){ if(state.ext[e[0]]) cleared++; else decide.push(e[1]); });
 
@@ -685,9 +726,11 @@
       decide.push(['Reporting guideline', 'None picked in step 2.']);
     }
 
-    [['ext-ref','Reference check','Run it at vahtian.com/reference-check/, then mark it here.'],
-     ['ext-wording','Claim-wording check','Run the quick check and pattern mirror, then mark it here.'],
-     ['ext-support','Claim–source support','Run the CiteVahti audit, then mark it here.']
+    [['ext-zotero','Citations in the document','Run the Zotero Citation Checker at step 3, then mark it.'],
+     ['ext-ref','The reference list','Run the reference check at step 4, then mark it.'],
+     ['ext-wording','Claim wording','Run the citation quick check at step 5, then mark it.'],
+     ['ext-patterns','Writing patterns','Run Pattern mirror at step 6, then mark it.'],
+     ['ext-support','Claim–source support','Run the CiteVahti audit at step 7, then mark it.']
     ].forEach(function(e){
       if(state.ext[e[0]]) cleared++; else decide.push([e[1], e[2]]);
     });
