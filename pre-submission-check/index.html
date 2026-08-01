@@ -121,6 +121,9 @@
     .v-ok{background:var(--teal-fill);color:var(--teal-text);border:1px solid var(--teal)}
     .v-no{background:var(--rose-fill);color:var(--rose-text);border:1px solid var(--rose)}
     .v-nr{background:var(--amber-fill);color:var(--amber-text);border:1px solid var(--amber-line)}
+    /* "not run" is a step property, not a fourth finding state: muted and dashed,
+       outside the three-colour vocabulary on purpose. */
+    .v-x{background:transparent;color:var(--muted);border:1px dashed var(--muted)}
     .vbody{font-size:14px;color:#322c47;line-height:1.55}
     .vbody b{color:var(--ink);font-weight:650}
     .vbody .q{display:block;font-size:13px;color:var(--muted);margin-top:5px;line-height:1.5}
@@ -161,6 +164,7 @@
     .sc-ok{background:var(--teal-fill);color:var(--teal-text);border-color:var(--teal)}
     .sc-no{background:var(--rose-fill);color:var(--rose-text);border-color:var(--rose)}
     .sc-nr{background:var(--amber-fill);color:var(--amber-text);border-color:var(--amber-line)}
+    .sc-x{background:transparent;color:var(--muted);border:1px dashed var(--muted)}
     .signoff{font-size:14px;color:var(--muted);max-width:70ch;margin:20px 0 0}
     .expmsg{font-size:13px;color:var(--muted)}
     /* bridge: the page's one dark surface, full-bleed like reference-check */
@@ -310,8 +314,9 @@
   <section class="step" id="report">
     <p class="page-kicker">Step 8 · what to fix</p>
     <h2>What to fix</h2>
-    <p class="gmeta">Only what still needs work: gaps to close, and calls that are yours to make. Anything the
-      checks cleared is counted, not listed. Copy it as Markdown for a supervisor mail or a repo note.</p>
+    <p class="gmeta">Only what still needs work: gaps to close, calls that are yours to make, and the steps that
+      have not run. What the checks found present is named at the end, not scored. Copy it as Markdown for a
+      supervisor mail or a repo note.</p>
     <div class="actions" style="margin:0 0 12px">
       <button id="mkreport" type="button">List what to fix</button>
       <button id="cpreport" class="ghost" type="button" disabled>Copy as Markdown</button>
@@ -700,51 +705,91 @@
 
   /* ---------- Step 6: report ---------- */
 
-  function buildReport(){
-    var L=["# Pre-submission check: what to fix",""],
-        fix=[], decide=[], cleared=0;
+  // One collector feeding both presenters, so the Markdown and the HTML can
+  // never drift apart on what counts as what. Three lists and no total: a
+  // "cleared" sum would add scan findings, the author's own marks and
+  // self-reported runs into one number, and those are three different things.
+  var EXT_STEPS=[
+    ['ext-zotero','Citations in the document','vahtian.com/zotero-citation-checker/'],
+    ['ext-ref','The reference list','vahtian.com/reference-check/'],
+    ['ext-wording','Claim wording','vahtian.com/citevahti/quick-check/'],
+    ['ext-patterns','Writing patterns','vahtian.com/pattern-mirror/'],
+    ['ext-support','Claim–source support','vahtian.com/citevahti/']
+  ];
+
+  function collectReport(){
+    var r={fix:[],decide:[],notrun:[],foundStatements:[],foundSections:[],guide:null,ran:[]};
 
     if(lastScan){
       lastScan.statements.forEach(function(st){
-        if(st.found) cleared++;
-        else if(st.app==='ifapp') decide.push(st.label+": not found; whether it applies is the author's call");
-        else fix.push(st.label+": not found, and most journals expect it");
+        if(st.found) r.foundStatements.push(st.label);
+        else if(st.app==='ifapp') r.decide.push([st.label,'Not found. Whether it applies to this study is your call.']);
+        else r.fix.push([st.label,'Not found, and most journals expect it.']);
       });
       lastScan.structure.forEach(function(t){
-        if(t.found) cleared++; else decide.push(t.label+": not detected; fine under another structure");
+        if(t.found) r.foundSections.push(t.label);
+        else r.decide.push([t.label,'Not detected. Fine under another structure, so your call.']);
       });
-      decide.push("Word count: "+lastScan.words+" words pasted, to compare against the journal limit");
+      r.decide.push(['Word count',lastScan.words.toLocaleString()+' words pasted, counting everything in the paste. Journals count differently, so compare against your journal’s own definition.']);
     } else {
-      decide.push("Statements and structure: not run");
+      r.notrun.push(['Statements and structure','The scan at step 1 did not run.']);
     }
 
     if(state.guide){
       var G=GUIDES[state.guide], marks=state.marks[state.guide]||{}, c=markCount(state.guide),
           unmarked=G.items.length-c.done-c.gap-c.na;
-      cleared+=c.done+c.na;
-      L.push("Guideline: "+G.long+" ("+G.url+")");
-      L.push("");
-      G.items.forEach(function(it){ if(marks[it[0]]==='gap') fix.push(G.name+" item "+it[0]+": "+it[1]); });
-      if(unmarked) decide.push(G.name+": "+unmarked+" of "+G.items.length+" items unmarked");
+      r.guide={name:G.name,long:G.long,url:G.url,done:c.done,na:c.na};
+      G.items.forEach(function(it){ if(marks[it[0]]==='gap') r.fix.push([G.name+' item '+it[0],it[1]]); });
+      if(unmarked) r.decide.push([G.name,unmarked+' of '+G.items.length+' items carry no mark yet.']);
     } else {
-      decide.push("Reporting guideline: none picked");
+      r.notrun.push(['Reporting guideline','None picked in step 2.']);
     }
 
-    [['ext-zotero',"Citations in the document: run vahtian.com/zotero-citation-checker/"],
-     ['ext-ref',"The reference list: run vahtian.com/reference-check/"],
-     ['ext-wording',"Claim wording: run vahtian.com/citevahti/quick-check/"],
-     ['ext-patterns',"Writing patterns: run vahtian.com/pattern-mirror/"],
-     ['ext-support',"Claim–source support: run the CiteVahti audit"]
-    ].forEach(function(e){ if(state.ext[e[0]]) cleared++; else decide.push(e[1]); });
+    EXT_STEPS.forEach(function(e){
+      if(state.ext[e[0]]) r.ran.push(e[1]);
+      else r.notrun.push([e[1],'Run '+e[2]+', then mark it.']);
+    });
 
-    L.push("## Close these ("+fix.length+")");
-    if(fix.length) fix.forEach(function(f){ L.push("- [ ] "+f); }); else L.push("- none flagged");
+    return r;
+  }
+
+  // Closing lines shared by both presenters: what ran is named, never totalled,
+  // and each kind of thing is attributed to whoever actually did it.
+  function closingLines(r){
+    var out=[];
+    if(r.foundStatements.length)
+      out.push('Found present by the scan: '+r.foundStatements.join(', ')+'. Found means a sentence looks like the statement; read each one.');
+    if(r.foundSections.length)
+      out.push('Sections seen: '+r.foundSections.join(', ')+'.');
+    if(r.guide)
+      out.push('Marked by you in '+r.guide.name+': '+r.guide.done+' done, '+r.guide.na+' not applicable. Those marks are yours, not the page’s.');
+    if(r.ran.length)
+      out.push('Marked as run by you: '+r.ran.join(', ')+'. Their findings live in their own reports and are not counted here.');
+    if(r.notrun.length)
+      out.push('A step under “Not run” did not happen. It is not a step that passed.');
+    if(lastScan||state.guide||r.ran.length)
+      out.push('Everything above ran in your browser; nothing was uploaded.');
+    out.push('These are the checks a machine can run. Adequacy, and whether to submit, stay with the author.');
+    return out;
+  }
+
+  function buildReport(){
+    var r=collectReport(), L=["# Pre-submission check: what to fix",""];
+    if(r.guide){ L.push("Guideline: "+r.guide.long+" ("+r.guide.url+")"); L.push(""); }
+
+    L.push("## Close these ("+r.fix.length+")");
+    if(r.fix.length) r.fix.forEach(function(f){ L.push("- [ ] "+f[0]+": "+f[1]); });
+    else L.push("- none flagged. Nothing found is not nothing there.");
     L.push("");
-    L.push("## Your call ("+decide.length+")");
-    if(decide.length) decide.forEach(function(d){ L.push("- [ ] "+d); }); else L.push("- none open");
+    L.push("## Your call ("+r.decide.length+")");
+    if(r.decide.length) r.decide.forEach(function(d){ L.push("- [ ] "+d[0]+": "+d[1]); });
+    else L.push("- none open");
     L.push("");
-    L.push("Cleared by these checks: "+cleared+". All checks ran in the author's browser; nothing was uploaded.");
-    L.push("These are the checks a machine can run. Adequacy, and whether to submit, stay with the author.");
+    L.push("## Not run ("+r.notrun.length+")");
+    if(r.notrun.length) r.notrun.forEach(function(n){ L.push("- [ ] "+n[0]+": "+n[1]); });
+    else L.push("- every step was run, or marked run by you");
+    L.push("");
+    closingLines(r).forEach(function(s){ L.push(s); });
     return L.join("\n");
   }
 
@@ -756,64 +801,33 @@
   }
 
   function renderReport(){
-    var fix=[], decide=[], cleared=0;
-
-    if(lastScan){
-      lastScan.statements.forEach(function(st){
-        if(st.found){ cleared++; }
-        else if(st.app==='ifapp'){ decide.push([st.label, 'Not found. Whether it applies to this study is your call.']); }
-        else { fix.push([st.label, 'Not found, and most journals expect it.']); }
-      });
-      lastScan.structure.forEach(function(t){
-        if(t.found) cleared++;
-        else decide.push([t.label, 'Not detected. Fine under another structure, so your call.']);
-      });
-      decide.push(['Word count', lastScan.words.toLocaleString()+' words pasted. Compare against your journal limit.']);
-    } else {
-      decide.push(['Statements and structure', 'Step 1 was not run.']);
-    }
-
-    if(state.guide){
-      var G=GUIDES[state.guide], marks=state.marks[state.guide]||{}, c=markCount(state.guide),
-          unmarked=G.items.length-c.done-c.gap-c.na;
-      cleared+=c.done+c.na;
-      G.items.forEach(function(it){
-        if(marks[it[0]]==='gap') fix.push([G.name+' item '+it[0], it[1]]);
-      });
-      if(unmarked) decide.push([G.name, unmarked+' of '+G.items.length+' items carry no mark yet.']);
-    } else {
-      decide.push(['Reporting guideline', 'None picked in step 2.']);
-    }
-
-    [['ext-zotero','Citations in the document','Run the Zotero Citation Checker at step 3, then mark it.'],
-     ['ext-ref','The reference list','Run the reference check at step 4, then mark it.'],
-     ['ext-wording','Claim wording','Run the citation quick check at step 5, then mark it.'],
-     ['ext-patterns','Writing patterns','Run Pattern mirror at step 6, then mark it.'],
-     ['ext-support','Claim–source support','Run the CiteVahti audit at step 7, then mark it.']
-    ].forEach(function(e){
-      if(state.ext[e[0]]) cleared++; else decide.push([e[1], e[2]]);
-    });
+    var r=collectReport();
 
     var html='<div class="summary"><span class="stotal">What to fix</span>'+
-             '<span class="scount sc-no">to fix '+fix.length+'</span>'+
-             '<span class="scount sc-nr">your call '+decide.length+'</span>'+
-             '<span class="scount sc-ok">cleared '+cleared+'</span></div>';
+             '<span class="scount sc-no">to fix '+r.fix.length+'</span>'+
+             '<span class="scount sc-nr">your call '+r.decide.length+'</span>'+
+             '<span class="scount sc-x">not run '+r.notrun.length+'</span></div>';
 
-    if(fix.length){
-      html+='<div class="vgroup"><div class="vhead"><h3>Close these</h3><span class="n">'+fix.length+'</span></div>';
-      fix.forEach(function(f){ html+=row('no','fix','<b>'+esc(f[0])+'.</b> '+esc(f[1])); });
+    if(r.fix.length){
+      html+='<div class="vgroup"><div class="vhead"><h3>Close these</h3><span class="n">'+r.fix.length+'</span></div>';
+      r.fix.forEach(function(f){ html+=row('no','fix','<b>'+esc(f[0])+'.</b> '+esc(f[1])); });
       html+='</div>';
     }
-    if(decide.length){
-      html+='<div class="vgroup"><div class="vhead"><h3>Your call</h3><span class="n">'+decide.length+'</span></div>';
-      decide.forEach(function(d){ html+=row('nr','decide','<b>'+esc(d[0])+'.</b> '+esc(d[1])); });
+    if(r.decide.length){
+      html+='<div class="vgroup"><div class="vhead"><h3>Your call</h3><span class="n">'+r.decide.length+'</span></div>';
+      r.decide.forEach(function(d){ html+=row('nr','decide','<b>'+esc(d[0])+'.</b> '+esc(d[1])); });
       html+='</div>';
     }
-    if(!fix.length && !decide.length){
+    if(!r.fix.length && !r.decide.length){
       html+='<div class="vgroup">'+row('ok','nothing flagged',
-            'These checks found nothing left open. They read wording and presence, not adequacy, so this is not a clearance.')+'</div>';
+            'These checks found nothing left open. They read wording and presence, not adequacy, and the steps under “Not run” have not looked, so this is not a clearance.')+'</div>';
     }
-    html+='<p class="signoff">These are the checks a machine can run. Adequacy, and whether to submit, stay yours.</p>';
+    if(r.notrun.length){
+      html+='<div class="vgroup"><div class="vhead"><h3>Not run</h3><span class="n">'+r.notrun.length+'</span></div>';
+      r.notrun.forEach(function(n){ html+=row('x','not run','<b>'+esc(n[0])+'.</b> '+esc(n[1])); });
+      html+='</div>';
+    }
+    html+='<p class="signoff">'+closingLines(r).map(esc).join('<br>')+'</p>';
     return html;
   }
 

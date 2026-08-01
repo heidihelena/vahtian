@@ -200,7 +200,8 @@ nothing in it is signed.
 ```
 # Pre-submission check: what to fix
 
-Run by: <model id + version, prompt_version 1>. Steps marked "not run" need the browser tools.
+Run by: <model id + version, prompt_version 1>. Steps marked "not run" need the browser tools or,
+for claim-to-source support, the author.
 
 ## Close these (N)
 - [ ] <a gap, and what would close it>
@@ -214,6 +215,9 @@ Run by: <model id + version, prompt_version 1>. Steps marked "not run" need the 
 - [ ] Citations in the document: browser step, vahtian.com/zotero-citation-checker/
 - [ ] Writing patterns: browser step, vahtian.com/pattern-mirror/
 - [ ] Claim to source support: human-first step, vahtian.com/citevahti/
+<a partly-run step's browser half belongs here too: if steps 1 or 5 were only your own reading, the
+ page's deterministic statements scan and the citation quick check did not run — list each as its own
+ line, or the reader will take your reading for the tool's>
 
 What the checks that ran found present: <name them, do not total them>.
 These are the checks that ran. Adequacy, and whether to submit, stay with the author.
