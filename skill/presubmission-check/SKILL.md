@@ -1,6 +1,6 @@
 ---
 name: presubmission-check
-description: Use when a finished manuscript is about to be submitted and the question is what to fix first: a pre-submission check, a submission-readiness pass, "what will get me desk rejected", reporting-guideline gaps (STROBE, CONSORT, PRISMA), a missing ethics or funding or competing-interests or data-availability statement, trial or PROSPERO registration, AI-use disclosure, a reference list that may contain retractions or mismatches, or claims whose wording outruns their sources. Triggers on pre-submission check, submission readiness, before I submit, desk rejection, reporting guideline, STROBE, CONSORT, PRISMA, EQUATOR, ethics statement, funding statement, competing interests, conflict of interest, data availability statement, trial registration, manuscript check. This skill owns the submission pass over a written manuscript. If the work is still being built rather than submitted (running the literature search, screening abstracts, dual review and agreement, assembling a systematic review), use `vahtian-research-support` instead; where both could apply, the deciding question is whether a manuscript already exists and is about to go out.
+description: Use when a finished manuscript is about to be submitted and the question is what to fix first: a pre-submission check, a submission-readiness pass, "what will get me desk rejected", reporting-guideline gaps (STROBE, CONSORT, PRISMA, COREQ), a missing ethics or funding or competing-interests or data-availability statement, trial or PROSPERO registration, AI-use disclosure, a reference list that may contain retractions or mismatches, or claims whose wording outruns their sources. Triggers on pre-submission check, submission readiness, before I submit, desk rejection, reporting guideline, STROBE, CONSORT, PRISMA, COREQ, qualitative reporting checklist, EQUATOR, ethics statement, funding statement, competing interests, conflict of interest, data availability statement, trial registration, manuscript check. This skill owns the submission pass over a written manuscript. If the work is still being built rather than submitted (running the literature search, screening abstracts, dual review and agreement, assembling a systematic review), use `vahtian-research-support` instead; where both could apply, the deciding question is whether a manuscript already exists and is about to go out.
 ---
 
 # Vahtian pre-submission check, for agents
@@ -90,7 +90,7 @@ link.** A named gap is a useful report. A silently substituted guess is a false 
 | # | Step | Can you run it? | If not, what you do |
 |---|---|---|---|
 | 1 | Statements and structure | **Partly.** You may read the manuscript and report which statements you can see. | Say it is your reading, not the tool's. Offer the page for the deterministic run. |
-| 2 | Reporting guideline (STROBE / CONSORT 2025 / PRISMA 2020) | **Partly.** You may identify the likely design and walk the items with the author. | You may not set marks. Fetch the official checklist for the author to fill. |
+| 2 | Reporting guideline (STROBE / CONSORT 2025 / PRISMA 2020 / COREQ) | **Partly.** You may identify the likely design and walk the items with the author. | You may not set marks. Fetch the official checklist for the author to fill. |
 | 3 | Citations in the document | **No.** Needs the `.docx` and a browser. | Report not run. Link <https://vahtian.com/zotero-citation-checker/> |
 | 4 | The reference list | **Yes.** Crossref, DataCite and OpenLibrary are open APIs. | If a register is unreachable, report the step partly run and name what is unknown. |
 | 5 | Claim wording | **Partly.** You may read for uncited claims and overclaiming. | Say it is your reading. Link <https://vahtian.com/citevahti/quick-check/> |
@@ -138,6 +138,8 @@ limit or claim your count is comparable to it.
    - STROBE, observational: <https://www.strobe-statement.org/checklists/>
    - CONSORT 2025, randomised trials: <https://www.consort-spirit.org/for-researchers>
    - PRISMA 2020, systematic reviews: <https://www.prisma-statement.org/prisma-2020-checklist>
+   - COREQ, qualitative interviews and focus groups:
+     <https://www.equator-network.org/reporting-guidelines/coreq/>
    - Unsure which applies: <https://www.equator-network.org/>
 3. Walk the items with the author if they want. For each item you may say what you saw in the
    manuscript. **You may not mark it.** The wording that separates the two:
@@ -145,12 +147,13 @@ limit or claim your count is comparable to it.
    - Not allowed: "Item 19: addressed."
 4. Use the current version. CONSORT 2010 was superseded by CONSORT 2025, which is a different item set.
 
-**The page offers three guidelines. Many designs need a different one, and sending a qualitative study to
-STROBE is worse than sending it nowhere.** Common cases:
+**The page offers four guidelines: STROBE, CONSORT, PRISMA and COREQ (qualitative interviews and focus
+groups). Many designs still need a different one, and sending a study to the wrong checklist is worse
+than sending it nowhere.** Common cases:
 
 | Design | Guideline |
 |---|---|
-| Qualitative, interviews or focus groups | COREQ; SRQR for other qualitative work |
+| Qualitative, other than interviews or focus groups | SRQR (COREQ's items are on the page) |
 | Case report | CARE |
 | Diagnostic accuracy | STARD |
 | Prediction model | TRIPOD |
@@ -159,8 +162,8 @@ STROBE is worse than sending it nowhere.** Common cases:
 | Economic evaluation | CHEERS |
 | Anything else | Search <https://www.equator-network.org/> by study type |
 
-Only STROBE, CONSORT and PRISMA have an item list on the page. For the rest, send the author to the
-guideline's own checklist and say plainly that the page does not carry its items.
+Only STROBE, CONSORT, PRISMA and COREQ have an item list on the page. For the rest, send the author to
+the guideline's own checklist and say plainly that the page does not carry its items.
 
 ## Step 4: the reference list
 

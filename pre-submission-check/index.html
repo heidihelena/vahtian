@@ -214,7 +214,7 @@
   <h2 id="chain">The check chain</h2>
   <ol class="chain" aria-describedby="chain">
     <li><b>Statements and structure</b>: ethics, consent, funding, competing interests, data availability, registration, AI disclosure; section headings.<span class="where">Runs on this page, step 1 below.</span></li>
-    <li><b>Reporting guideline</b>: STROBE, CONSORT or PRISMA, item by item, next to the group's own fillable checklist.<span class="where">Runs on this page, step 2 below.</span></li>
+    <li><b>Reporting guideline</b>: STROBE, CONSORT, PRISMA or COREQ, item by item, next to the group's own fillable checklist.<span class="where">Runs on this page, step 2 below.</span></li>
     <li><b>Citations in the document</b>: missing bibliography entries, duplicates, broken or flattened Zotero fields.<span class="where">Zotero Citation Checker, step 3 below.</span></li>
     <li><b>The reference list</b>: DOIs against Crossref and DataCite for mismatches, retractions, duplicates.<span class="where">Reference check, step 4 below.</span></li>
     <li><b>Claim wording</b>: uncited claims, overclaiming, vague evidence language.<span class="where">Citation quick check, step 5 below.</span></li>
@@ -257,6 +257,7 @@
       <button type="button" data-g="strobe" aria-pressed="false">STROBE · observational</button>
       <button type="button" data-g="consort" aria-pressed="false">CONSORT · randomised trial</button>
       <button type="button" data-g="prisma" aria-pressed="false">PRISMA 2020 · systematic review</button>
+      <button type="button" data-g="coreq" aria-pressed="false">COREQ · qualitative interviews / focus groups</button>
     </div>
     <div id="gsuggest"></div>
     <div id="gout"></div>
@@ -586,6 +587,44 @@
         ["25","Support: funding and sponsors' role"],
         ["26","Competing interests of review authors"],
         ["27","Availability of data, code and other materials"]
+      ]},
+    coreq:{name:"COREQ", long:"COREQ, qualitative interviews and focus groups (32 items, Tong 2007)",
+      url:"https://www.equator-network.org/reporting-guidelines/coreq/",
+      template:null,
+      templateName:"COREQ on the EQUATOR Network",
+      items:[
+        ["1","Interviewer/facilitator: who conducted the interview or focus group"],
+        ["2","Credentials of the researcher (e.g. PhD, MD)"],
+        ["3","Occupation of the researcher at the time of the study"],
+        ["4","Gender of the researcher"],
+        ["5","Experience and training of the researcher"],
+        ["6","Relationship established with participants before study commencement"],
+        ["7","Participant knowledge of the interviewer: goals, reasons for the research"],
+        ["8","Interviewer characteristics reported: assumptions, interests in the topic"],
+        ["9","Methodological orientation and theory underpinning the study"],
+        ["10","Sampling: how participants were selected (purposive, snowball, convenience)"],
+        ["11","Method of approach: how participants were approached (face-to-face, mail)"],
+        ["12","Sample size: how many participants"],
+        ["13","Non-participation: how many refused or dropped out, and why"],
+        ["14","Setting of data collection (home, clinic, workplace)"],
+        ["15","Presence of non-participants during data collection"],
+        ["16","Description of the sample: demographic data"],
+        ["17","Interview guide: questions and prompts provided; pilot tested"],
+        ["18","Repeat interviews: whether carried out, how many"],
+        ["19","Audio or visual recording of the data"],
+        ["20","Field notes: made during or after the interview or focus group"],
+        ["21","Duration of the interviews or focus groups"],
+        ["22","Data saturation: whether discussed"],
+        ["23","Transcripts returned to participants for comment or correction"],
+        ["24","Number of data coders"],
+        ["25","Description of the coding tree"],
+        ["26","Derivation of themes: identified in advance or derived from the data"],
+        ["27","Software used to manage the data"],
+        ["28","Participant checking: feedback from participants on the findings"],
+        ["29","Quotations presented to illustrate themes, identified (e.g. participant number)"],
+        ["30","Data and findings consistent"],
+        ["31","Clarity of major themes"],
+        ["32","Clarity of minor themes: diverse cases or minor themes discussed"]
       ]}
   };
 
@@ -612,6 +651,8 @@
      why:"systematic review wording"},
     {g:"consort", re:/\b(randomi[sz]ed|randomi[sz]ation|randomly (assigned|allocated)|allocation concealment|placebo|double.?blind|trial arm|NCT\d{7,8}|ISRCTN\d+|intention.to.treat)\b/i,
      why:"randomised trial wording"},
+    {g:"coreq", re:/\b(semi.?structured interviews?|focus groups?|thematic analys[ie]s|grounded theory|phenomenolog|qualitative (study|research|design|analys[ie]s|interview)|purposive sampling|data saturation|interview guide)\b/i,
+     why:"qualitative interview or focus-group wording"},
     {g:"strobe", re:/\b(cohort|case.?control|cross.?sectional|registry|retrospective|prospective observational|observational study|follow.?up of)\b/i,
      why:"observational study wording"}
   ];
@@ -660,8 +701,11 @@
     if(!g){ el.innerHTML=""; return; }
     var G=GUIDES[g], marks=state.marks[g]||{};
     var html='<div class="tool"><p class="gmeta" style="margin:0 0 10px"><b>'+esc(G.long)+'</b> · '+G.items.length+' items</p>'+
-             '<p class="tmpl">Fill the official checklist as you go: <a href="'+G.template+'" rel="noopener">'+esc(G.templateName)+'</a>'+
-             ' · <a href="'+G.url+'" rel="noopener">all versions</a>. Published by the guideline group, not by Vahtian.</p>';
+             (G.template
+               ? '<p class="tmpl">Fill the official checklist as you go: <a href="'+G.template+'" rel="noopener">'+esc(G.templateName)+'</a>'+
+                 ' · <a href="'+G.url+'" rel="noopener">all versions</a>. Published by the guideline group, not by Vahtian.</p>'
+               : '<p class="tmpl">The checklist is distributed via <a href="'+G.url+'" rel="noopener">'+esc(G.templateName)+'</a>.'+
+                 ' Published by the guideline group, not by Vahtian.</p>');
     for(var i=0;i<G.items.length;i++){
       var num=G.items[i][0], label=G.items[i][1], cur=marks[num]||"";
       var hintKey=(ITEM_HINT[g]||{})[num], seen=hintKey?statementSeen(hintKey):null, hint='';
