@@ -31,3 +31,11 @@
 /waves/live.html
   ! Permissions-Policy
   Permissions-Policy: accelerometer=(), autoplay=(), camera=(), display-capture=(), encrypted-media=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(self), midi=(), payment=(), usb=(), interest-cohort=(), browsing-topics=()
+# The screensaver piece listens the same way (mic asked on load because a
+# screensaver cannot be clicked; ?listen=0 disables; nothing recorded or sent).
+/waves/screensaver
+  ! Permissions-Policy
+  Permissions-Policy: accelerometer=(), autoplay=(), camera=(), display-capture=(), encrypted-media=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(self), midi=(), payment=(), usb=(), interest-cohort=(), browsing-topics=()
+/waves/screensaver.html
+  ! Permissions-Policy
+  Permissions-Policy: accelerometer=(), autoplay=(), camera=(), display-capture=(), encrypted-media=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(self), midi=(), payment=(), usb=(), interest-cohort=(), browsing-topics=()
