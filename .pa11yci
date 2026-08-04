@@ -11,6 +11,7 @@
   },
   "urls": [
     "http://127.0.0.1:8080/",
+    "http://127.0.0.1:8080/waves/",
     "http://127.0.0.1:8080/citevahti/",
     "http://127.0.0.1:8080/citevahti/quick-check/",
     "http://127.0.0.1:8080/learn/writing-discipline-ai-patterns/",
