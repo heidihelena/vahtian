@@ -18,3 +18,16 @@
   Cross-Origin-Opener-Policy: same-origin
   Permissions-Policy: accelerometer=(), autoplay=(), camera=(), display-capture=(), encrypted-media=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), midi=(), payment=(), usb=(), interest-cohort=(), browsing-topics=()
   Strict-Transport-Security: max-age=31536000; includeSubDomains
+
+# /waves/live listens to the room by design (mic permission requested on
+# click, audio stays in the analyser node — nothing recorded or sent).
+# The site-wide policy above locks microphone=() everywhere, which makes the
+# browser refuse getUserMedia without even prompting. Re-allow same-origin
+# mic on the live piece only; every other lock stays inherited.
+# Both URL forms: Cloudflare serves the extensionless path (auto-trailing-slash).
+/waves/live
+  ! Permissions-Policy
+  Permissions-Policy: accelerometer=(), autoplay=(), camera=(), display-capture=(), encrypted-media=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(self), midi=(), payment=(), usb=(), interest-cohort=(), browsing-topics=()
+/waves/live.html
+  ! Permissions-Policy
+  Permissions-Policy: accelerometer=(), autoplay=(), camera=(), display-capture=(), encrypted-media=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(self), midi=(), payment=(), usb=(), interest-cohort=(), browsing-topics=()
