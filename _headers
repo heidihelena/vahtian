@@ -39,3 +39,12 @@
 /waves/screensaver.html
   ! Permissions-Policy
   Permissions-Policy: accelerometer=(), autoplay=(), camera=(), display-capture=(), encrypted-media=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(self), midi=(), payment=(), usb=(), interest-cohort=(), browsing-topics=()
+
+# /rain/live reads the room the same way /waves/live does (mic on click,
+# audio stays in the analyser node, nothing recorded or sent).
+/rain/live
+  ! Permissions-Policy
+  Permissions-Policy: accelerometer=(), autoplay=(), camera=(), display-capture=(), encrypted-media=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(self), midi=(), payment=(), usb=(), interest-cohort=(), browsing-topics=()
+/rain/live.html
+  ! Permissions-Policy
+  Permissions-Policy: accelerometer=(), autoplay=(), camera=(), display-capture=(), encrypted-media=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(self), midi=(), payment=(), usb=(), interest-cohort=(), browsing-topics=()
