@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Digital rain, forty-eight notes descending</title>
+  <meta name="description" content="Forty-eight notes, C2 to B5, falling as luminous code. Each column of rain carries one note of the Palettecore pitch-colour helix. Three pieces, sound on.">
+  <meta name="theme-color" content="#2D2440">
+  <link rel="canonical" href="https://vahtian.com/rain/">
+  <meta name="robots" content="index,follow">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://vahtian.com/rain/">
+  <meta property="og:title" content="Digital rain, forty-eight notes descending">
+  <meta property="og:description" content="Forty-eight notes fall as luminous code, each column carrying one note of the Palettecore pitch-colour helix. The live version reads the room.">
+  <meta property="og:image" content="https://vahtian.com/brand/cards/rain-share-card.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Columns of falling glyphs on black, each column a different colour, from dark reds and greens at the bottom of the range to pale blues and roses at the top.">
+  <meta property="og:site_name" content="Vahtian">
+  <meta name="twitter:card" content="summary_large_image">
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"WebPage",
+    "url":"https://vahtian.com/rain/",
+    "name":"Digital rain, forty-eight notes descending",
+    "description":"Forty-eight notes, C2 to B5, falling as luminous code. Each column of rain carries one note of the Palettecore pitch-colour helix: hue is the pitch class, lightness the absolute pitch.",
+    "publisher":{
+      "@type":"Organization",
+      "name":"Vahtian",
+      "url":"https://vahtian.com/",
+      "email":"hello@vahtian.com"
+    }
+  }
+  </script>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232D2440'/%3E%3Cg fill='none' stroke='%238B6FC9' stroke-width='2.3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 9 H9 V23 H12'/%3E%3Cpath d='M20 9 H23 V23 H20'/%3E%3C/g%3E%3Cpath d='M16 10.3 L19.6 12 L19.6 15 L16 19.6 L12.4 15 L12.4 12 Z' fill='none' stroke='%23C5B8E8' stroke-width='1.8' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <link rel="preload" href="../brand/fonts/nudica-medium.woff2" as="font" type="font/woff2" crossorigin>
+  <style>
+    /* Nudica/Marksy @font-face live in brand/footer.css (shared by every page). */
+    *{box-sizing:border-box}
+    body{margin:0;font:500 16px/1.65 "Nudica",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+         color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased}
+    a{color:var(--link)}
+    .wrap{max-width:760px;margin:0 auto;padding:0 22px}
+    header{padding:26px 0 6px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
+    .brand{display:flex;align-items:center;gap:11px;font-weight:700;font-size:18px;text-decoration:none;color:var(--ink)}
+    .mark{width:32px;height:32px;flex:0 0 32px}
+    nav.nav{display:flex;align-items:center;gap:16px;flex-wrap:wrap;font-size:14.5px}
+    nav.nav a{color:var(--ink);text-decoration:none;font-weight:600}
+    nav.nav a:hover{color:var(--link)}
+    nav.nav .util{display:flex;align-items:center;gap:13px;padding-left:15px;border-left:1px solid var(--line)}
+    nav.nav .util .ic{display:flex;color:var(--muted)}
+    nav.nav .util .ic:hover{color:var(--link)}
+    @media(max-width:680px){nav.nav{gap:13px;font-size:13.5px}}
+    .hero{padding:46px 0 10px}
+    .kicker{font:600 13px/1 var(--font-mono);color:var(--link);
+            text-transform:uppercase;letter-spacing:.08em;margin:0 0 14px}
+    h1{font-size:clamp(28px,5.2vw,42px);line-height:1.12;letter-spacing:0;margin:0 0 16px}
+    .lede{font-size:clamp(17px,2.5vw,20px);color:#3a3450;margin:0;max-width:62ch}
+    section{padding:30px 0 6px;border-top:1px solid var(--line);margin-top:34px}
+    h2{font-size:24px;color:var(--navy);margin:0 0 14px;letter-spacing:0}
+    p{max-width:66ch;margin:0 0 14px}
+    /* the poem, on the piece's own ground */
+    .poem{background:#0b0817;border-radius:10px;padding:30px 30px 26px;margin:6px 0 0;
+      color:#d7d1e4;font-size:15.5px;line-height:1.8}
+    .poem p{margin:0 0 18px;max-width:56ch}
+    .poem p:last-child{margin:0}
+    .poem .note-run{color:#efeaf6}
+    .poem .turn{color:#b7b0c6;font-style:italic}
+    .pieces{list-style:none;margin:6px 0 0;padding:0;display:grid;gap:14px}
+    @media(min-width:660px){.pieces{grid-template-columns:1fr 1fr 1fr}}
+    .pieces li{background:#0b0817;border:1px solid var(--line);border-top:2px solid var(--violet);
+      border-radius:0 0 8px 8px;padding:16px 16px 14px}
+    .pieces a.piece{display:block;font-weight:600;font-size:16px;color:var(--lilac);text-decoration:none;margin:0 0 6px}
+    .pieces a.piece:hover{text-decoration:underline}
+    .pieces p{margin:0;color:#b7b0c6;font-size:14px;line-height:1.5}
+    .sound-note{color:var(--muted);font-size:14px;margin-top:14px}
+    .contact{margin-top:6px}
+    table.audit{border-collapse:collapse;width:100%;margin:6px 0 12px;font-size:14px}
+    table.audit th,table.audit td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line)}
+    table.audit th{color:var(--navy);font-weight:600}
+    table.audit td.num{font-family:var(--font-mono);font-size:13px}
+  </style>
+  <link rel="stylesheet" href="../brand/site-refresh.css">
+<link rel="stylesheet" href="../brand/footer.css">
+</head>
+<body class="vh-content">
+<a class="skip-link" href="#main-content">Skip to main content</a>
+<div class="wrap">
+  <header>
+    <a class="brand" href="/" aria-label="Vahtian — home">
+      <svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="#2D2440"/><g fill="none" stroke="#8B6FC9" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9 H9 V23 H12"/><path d="M20 9 H23 V23 H20"/></g><path d="M16 10.3 L19.6 12 L19.6 15 L16 19.6 L12.4 15 L12.4 12 Z" fill="none" stroke="#C5B8E8" stroke-width="1.8" stroke-linejoin="round"/></svg>
+      Vahtian
+    </a>
+  <nav class="nav" aria-label="Primary">
+      <a href="/kits/">Kits</a>
+      <a href="/download/">Tools</a>
+      <a href="/learn/">Learn</a>
+      <a href="/blog/">Blog</a>
+      <a href="/about/">About</a>
+      <span class="util">
+        <a class="ic" href="/search/" aria-label="Search vahtian.com"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.3" y2="16.3"/></svg></a>
+      </span>
+    </nav>
+  </header>
+
+<main id="main-content">
+  <div class="hero">
+    <p class="kicker">Palettecore</p>
+    <h1>Digital rain</h1>
+    <p class="lede">Forty-eight notes, C2 to B5, falling as luminous code. Each column of rain carries one note of the Palettecore pitch-colour helix: hue is the pitch class, lightness is the absolute pitch. C2 falls first, and the rain introduces all forty-eight in order before it runs free.</p>
+  </div>
+
+  <section>
+    <h2>The screen starts the rain</h2>
+    <div class="poem">
+      <p>The screen starts the rain.</p>
+      <p><span class="note-run">C2 falls first,<br>
+      then C♯2, D2, D♯2, E2.</span><br>
+      Each drop finds another pane of glass.</p>
+      <p><span class="note-run">F2, F♯2, G2, G♯2,<br>
+      A2, A♯2, B2.</span><br>
+      The first octave dissolves into static.</p>
+      <p class="turn">Higher now.</p>
+      <p><span class="note-run">C3 C♯3 D3 D♯3 E3,<br>
+      F3 F♯3 G3 G♯3,<br>
+      A3 A♯3 B3.</span><br>
+      Green symbols bloom and vanish,<br>
+      remembering nothing.</p>
+      <p class="turn">Rain keeps translating silence.</p>
+      <p><span class="note-run">C4, C♯4, D4, D♯4, E4.<br>
+      F4, F♯4, G4, G♯4.<br>
+      A4, A♯4, B4.</span><br>
+      Every note becomes a droplet.<br>
+      Every droplet becomes a pixel.</p>
+      <p class="turn">The sky scrolls again.</p>
+      <p><span class="note-run">C5 C♯5 D5 D♯5 E5,<br>
+      F5 F♯5 G5 G♯5,<br>
+      A5 A♯5 B5.</span></p>
+      <p>Forty-eight notes descend<br>
+      into luminous code,<br>
+      never repeating the same rain,<br>
+      yet always composing<br>
+      the same quiet song.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>Three pieces</h2>
+    <ul class="pieces">
+      <li>
+        <a class="piece" href="/rain/study.html">Digital rain</a>
+        <p>The full study: the rain with the colour-vision toggles and the audit of these exact colours reported on screen as you watch.</p>
+      </li>
+      <li>
+        <a class="piece" href="/rain/ambient.html">Ambient</a>
+        <p>The rain alone, fullscreen and edge to edge: background sound and colour for working. Click anywhere for sound.</p>
+      </li>
+      <li>
+        <a class="piece" href="/rain/live.html">Live</a>
+        <p>The screen reads the room. Microphone or a dropped audio file; every drop is born in the colour of the music at that moment, and loudness thickens the rain. Audio stays in the browser; nothing is recorded or sent anywhere.</p>
+      </li>
+    </ul>
+    <p class="sound-note">Sound on. The pieces open fullscreen and the interface fades when the pointer rests.</p>
+  </section>
+
+  <section>
+    <h2>What the audit says</h2>
+    <p>The mapping is a designed convention: Newton and Scriabin disagreed about the colour of C. So the colours are generated by the Palettecore engine and audited on the exact values the artwork displays, and the result is reported here.</p>
+    <p>Forty-eight chromatic notes over four octaves is a demanding resolution for a colour code, and the audit splits. In normal vision the colours clear the package's exploratory design floor, because lightness climbs with absolute pitch and does most of the separating work. Under every simulated dichromacy the code collapses.</p>
+    <table class="audit">
+      <caption class="sound-note" style="text-align:left;margin:0 0 10px">Minimum CIEDE2000 difference between adjacent notes, and how many of the 47 steps fall below the exploratory floor of 6.</caption>
+      <thead>
+        <tr><th scope="col">Vision</th><th scope="col">Smallest step</th><th scope="col">Steps below floor</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Normal</td><td class="num">7.1</td><td class="num">0 of 47</td></tr>
+        <tr><td>Protanopia (simulated)</td><td class="num">0.9</td><td class="num">23 of 47</td></tr>
+        <tr><td>Deuteranopia (simulated)</td><td class="num">1.1</td><td class="num">26 of 47</td></tr>
+        <tr><td>Tritanopia (simulated)</td><td class="num">1.8</td><td class="num">23 of 47</td></tr>
+      </tbody>
+    </table>
+    <p>This is art built on the mapping, and never an accessible encoding. The study piece carries the vision toggles, so the collapse can be watched. The ladder that does survive simulated dichromacy is the four-class one in <a href="/waves/">Waves to the shore</a>.</p>
+    <p class="contact">The rain suits the same rooms as the waves: hospitals, libraries, university spaces, digital art festivals, science museums, and music museums with sound-art programmes. Contact <a href="mailto:hello@vahtian.com">hello@vahtian.com</a>.</p>
+  </section>
+
+</main>
+
+  <footer class="vh-footer">
+  <div class="vh-footer-shell">
+    <div class="vh-footer-main">
+      <div>
+        <p class="vh-footer-name">Vahtian</p>
+        <p class="vh-footer-tagline">Local-first tools for research decisions you can explain. Built in Finland by Heidi Andersén, MD, PhD.</p>
+      </div>
+      <nav class="vh-footer-links" aria-label="Footer">
+        <a href="/download/">Tools</a>
+        <a href="/kits/">Kits</a>
+        <a href="/learn/">Learn</a>
+        <a href="/blog/">Blog</a>
+        <a href="/about/">About</a>
+        <a href="/agents/">For agents</a>
+        <a href="/cite/">Cite</a>
+        <a href="/support/">Support</a>
+        <a href="/privacy/">Privacy</a>
+        <a href="/accessibility/">Accessibility</a>
+      </nav>
+    </div>
+    <p class="vh-footer-disclaimer">Vahtian keeps human judgment visible and research decisions open to review. It does not establish scientific truth.</p>
+    <div class="vh-footer-meta">
+      <span>© 2026 Vahtian</span>
+      <a href="/LICENSE">Apache-2.0 open core</a>
+      <a href="https://github.com/heidihelena/vahtian">GitHub <span aria-hidden="true">↗</span></a>
+      <a href="mailto:hello@vahtian.com">hello@vahtian.com</a>
+    </div>
+  </div>
+</footer>
+</div>
+</body>
+</html>
